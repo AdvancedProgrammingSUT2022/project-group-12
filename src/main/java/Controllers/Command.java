@@ -1,10 +1,12 @@
 package Controllers;
 
+import Exceptions.InvalidCommand;
+
 import java.util.HashMap;
 
 public class Command {
-    private HashMap<String, String> options;
-    private String type;
+    private final HashMap<String, String> options;
+    private final String type;
 
     private Command(String type, HashMap<String, String> options) {
         this.options = options;
@@ -12,10 +14,18 @@ public class Command {
     }
 
     private static String removeWhiteSpaces(String str) {
-        return str;
+        str = str.trim();
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean space = false;
+        for (int i = 0; i < str.length(); ++i) {
+            boolean isSpace = Character.isWhitespace(str.charAt(i));
+            if (!space || !isSpace) stringBuilder.append(str.charAt(i));
+            space = isSpace;
+        }
+        return stringBuilder.toString();
     }
 
-    private static Command parseCommand(String input) {
+    public static Command parseCommand(String input) throws InvalidCommand {
         input = removeWhiteSpaces(input);
         int idx = input.indexOf('-');
         if (idx == -1) idx = input.length();
@@ -26,23 +36,22 @@ public class Command {
             String key;
             int idx2 = idx + 1;
             if (idx2 >= input.length()) {
-                // invalid command
+                throw new InvalidCommand();
             }
             if (input.charAt(idx2) == '-') {
                 idx2 = input.indexOf(' ', idx);
                 if (idx2 == -1) {
-                    // invalid command
+                    throw new InvalidCommand();
                 }
                 key = input.substring(idx + 2, idx2);
-                idx = idx2 + 1;
             } else {
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
                 if (input.charAt(idx2) != ' ') {
-                    // invalid command
+                    throw new InvalidCommand();
                 }
-                idx = idx2 + 1;
             }
+            idx = idx2 + 1;
             idx2 = input.indexOf('-', idx);
             if (idx2 == -1) idx2 = input.length();
             String value = input.substring(idx, idx2);
