@@ -19,9 +19,13 @@ public class Game {
         }
     }
 
-    public void fullTurn() {
+    private void fullTurn() {
         for (int i = this.users.size() - 1; i > -1; i--) {
             this.userTurn.add(this.users.get(i));
         }
+    }
+
+    private void nextTurn() {
+        this.userTurn.remove(this.userTurn.size() - 1);
     }
 }
