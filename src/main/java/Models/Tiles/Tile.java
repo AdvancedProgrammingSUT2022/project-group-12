@@ -13,6 +13,18 @@ public class Tile {
     protected NonCombatUnit nonCombatUnits;
     protected Terrain terrain;
     protected City city;
-    protected boolean isCapital;
     protected ArrayList<Resource> resources = new ArrayList<>();
+
+    public Tile(Terrain terrain, ArrayList<Resource> resources) {
+        this.terrain = terrain;
+        this.resources = resources;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Tile deepcopy() {
+        return null; // todo
+    }
 }
