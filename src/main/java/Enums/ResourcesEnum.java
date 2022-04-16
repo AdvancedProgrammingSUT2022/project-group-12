@@ -3,76 +3,83 @@ package Enums;
 import java.util.ArrayList;
 
 public enum ResourcesEnum {
-    banana(1, 0, 0, new ArrayList<>() {{
+    banana(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.cultivation),
 
-    cattle(1, 0, 0, new ArrayList<>() {{
+    cattle(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.pasture),
 
-    deer(1, 0, 0, new ArrayList<>() {{
+    deer(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.camp),
 
-    sheep(2, 0, 0, new ArrayList<>() {{
+    sheep(ResourceTypeEnum.bonus, 2, 0, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.pasture),
 
-    wheat(1, 0, 0, new ArrayList<>() {{
+    wheat(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.farm),
 
-    coal(0, 1, 0, new ArrayList<>() {{
+    coal(ResourceTypeEnum.strategic, 0, 1, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.mine),
 
-    horse(0, 1, 0, new ArrayList<>() {{
+    horse(ResourceTypeEnum.strategic, 0, 1, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.pasture),
 
-    iron(0, 1, 0, new ArrayList<>() {{
+    iron(ResourceTypeEnum.strategic, 0, 1, 0, new ArrayList<>() {{
     }}, ImprovementsEnum.mine),
 
-    cotton(0, 0, 2, new ArrayList<>() {{
+    cotton(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.cultivation),
 
-    dyes(0, 0, 2, new ArrayList<>() {{
+    dyes(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.cultivation),
 
-    fur(0, 0, 2, new ArrayList<>() {{
+    fur(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.camp),
 
-    gemstone(0, 0, 3, new ArrayList<>() {{
+    gemstone(ResourceTypeEnum.luxury, 0, 0, 3, new ArrayList<>() {{
     }}, ImprovementsEnum.mine),
 
-    gold(0, 0, 2, new ArrayList<>() {{
+    gold(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.mine),
 
-    incense(0, 0, 2, new ArrayList<>() {{
+    incense(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.cultivation),
 
-    ivory(0, 0, 2, new ArrayList<>() {{
+    ivory(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.camp),
 
-    marble(0, 0, 2, new ArrayList<>() {{
+    marble(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.stoneMine),
 
-    silk(0, 0, 2, new ArrayList<>() {{
+    silk(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.cultivation),
 
-    silver(0, 0, 2, new ArrayList<>() {{
+    silver(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.mine),
 
-    sugar(0, 0, 2, new ArrayList<>() {{
+    sugar(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
     }}, ImprovementsEnum.cultivation);
 
-
+    private final ResourceTypeEnum type;
     private final int foodCount;
     private final int productCount;
     private final int goldCount;
     private final ArrayList<TerrainsEnum> isOn;
     private final ImprovementsEnum improvementNeeded;
+    private final boolean isLuxury;
+    private final boolean isBonus;
+    private final boolean isStrategic;
 
-    ResourcesEnum(int foodCount, int productCount, int goldCount, ArrayList<TerrainsEnum> isOn, ImprovementsEnum improvementNeeded) {
+    ResourcesEnum(ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ArrayList<TerrainsEnum> isOn, ImprovementsEnum improvementNeeded) {
+        this.type = type;
         this.foodCount = foodCount;
         this.productCount = productCount;
         this.goldCount = goldCount;
         this.isOn = isOn;
         this.improvementNeeded = improvementNeeded;
+        this.isLuxury = type.equals(ResourceTypeEnum.luxury);
+        this.isStrategic = type.equals(ResourceTypeEnum.strategic);
+        this.isBonus = type.equals(ResourceTypeEnum.bonus);
     }
 
     public int getFoodCount() {
@@ -93,5 +100,17 @@ public enum ResourcesEnum {
 
     public ImprovementsEnum getImprovementNeeded() {
         return this.improvementNeeded;
+    }
+
+    public boolean isLuxury() {
+        return this.isLuxury;
+    }
+
+    public boolean isBonus() {
+        return this.isBonus;
+    }
+
+    public boolean isStrategic() {
+        return this.isStrategic;
     }
 }
