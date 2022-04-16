@@ -1,11 +1,15 @@
 package Controllers;
 
 public class GameMenuController {
-    public String battle() {
-        return "";
+    public void battle() {
+
     }
 
-    public String movement() {
-        return "";
+    public void movement() {
+
+    }
+
+    public void generateMap() {
+
     }
 }

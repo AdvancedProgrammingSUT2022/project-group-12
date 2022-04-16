@@ -19,6 +19,10 @@ public class Game {
         }
     }
 
+    private void generateMap() {
+
+    }
+
     private void fullTurn() {
         for (int i = this.users.size() - 1; i > -1; i--) {
             this.userTurn.add(this.users.get(i));
