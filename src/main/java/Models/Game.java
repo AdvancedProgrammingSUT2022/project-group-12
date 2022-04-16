@@ -9,19 +9,16 @@ import java.util.Vector;
 public class Game {
     private ArrayList<Civilization> civs;
     private final Vector<Civilization> civTurn;
-    private TileGrid tileGrid; // todo: replace with TileGrid
+    private final TileGrid tileGrid; // todo: replace with TileGrid
 
     public Game(ArrayList<User> users) {
         // todo: fix
-//        this.civs = users;
+        this.civs = new ArrayList<>();
+        this.tileGrid = TileGrid.GenerateRandom(10, 10, 999);
         this.civTurn = new Vector<>();
-        for (int i = users.size() - 1; i > -1; i--) {
-//            this.civTurn.add(users.get(i));
+        for (User user : users) {
+            civs.add(new Civilization(user));
         }
-    }
-
-    private void generateMap() {
-
     }
 
     private void fullTurn() {

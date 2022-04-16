@@ -7,9 +7,11 @@ public class TileGrid {
     private ArrayList<ArrayList<Tile>> tiles;
     private int height, width;
 
-    public TileGrid(int height, int width) {
-        this.height = height;
-        this.width = width;
+    private TileGrid() {}
+
+    public static TileGrid GenerateRandom(int height, int width, int seed) {
+        TileGrid tileGrid = new TileGrid();
+        return tileGrid;
     }
 
     public ArrayList<Tile> getNeighborsOf(Tile tile) {

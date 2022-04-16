@@ -8,8 +8,4 @@ public class GameMenuController {
     public void movement() {
 
     }
-
-    public void generateMap() {
-
-    }
 }
