@@ -1,6 +1,7 @@
 package Models.Terrains;
 
-import Models.Resources.Resource;
+import Enums.ResourcesEnum;
+import Enums.TerrainsEnum;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class Terrain {
     protected int goldCount;
     protected int combatModifier;
     protected int movementCost;
-    protected ArrayList<TerrainFeature> features = new ArrayList<>();
-    protected ArrayList<Resource> resources = new ArrayList<>();
+    protected ArrayList<TerrainsEnum> features = new ArrayList<>();
+    protected ArrayList<ResourcesEnum> resources = new ArrayList<>();
+
 }

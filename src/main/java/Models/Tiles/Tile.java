@@ -11,9 +11,8 @@ import java.util.ArrayList;
 public class Tile {
     protected ArrayList<CombatUnit> combatUnits = new ArrayList<>();
     protected ArrayList<NonCombatUnit> nonCombatUnits = new ArrayList<>();
-    protected Terrain terrain = new Terrain();
-    protected City city = new City();
+    protected Terrain terrain;
+    protected City city;
     protected boolean isCapital;
     protected ArrayList<Resource> resources = new ArrayList<>();
-
 }
