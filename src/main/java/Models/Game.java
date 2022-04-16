@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Game {
-    private ArrayList<Civilization> civs;
+    private final ArrayList<Civilization> civs;
     private final Vector<Civilization> civTurn;
     private final TileGrid tileGrid; // todo: replace with TileGrid
 
