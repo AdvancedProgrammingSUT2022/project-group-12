@@ -12,7 +12,25 @@ public class Terrain {
     protected int goldCount;
     protected int combatModifier;
     protected int movementCost;
-    protected ArrayList<TerrainsEnum> features = new ArrayList<>();
-    protected ArrayList<ResourcesEnum> resources = new ArrayList<>();
+    protected ArrayList<TerrainsEnum> features;
+    protected ArrayList<ResourcesEnum> resources;
+
+    public Terrain(String type) {
+        TerrainsEnum terrainType = TerrainsEnum.valueOf(type);
+        this.foodCount = terrainType.getFoodCount();
+        this.productsCount = terrainType.getProductsCount();
+        this.goldCount = terrainType.getGoldCount();
+        this.combatModifier = terrainType.getCombatModifier();
+        this.movementCost = terrainType.getMovementCost();
+        this.features = terrainType.getFeatures();
+        this.resources = terrainType.getResources();
+        for (TerrainsEnum features : this.features) {
+            this.foodCount += features.getFoodCount();
+            this.productsCount += features.getProductsCount();
+            this.goldCount += features.getGoldCount();
+            this.combatModifier += features.getCombatModifier();
+            this.movementCost += features.getMovementCost();
+        }
+    }
 
 }
