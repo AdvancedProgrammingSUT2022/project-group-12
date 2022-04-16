@@ -4,19 +4,17 @@ import java.util.ArrayList;
 
 public class User {
     private final String username;
-    private String password;
     private final String nickname;
-    private ArrayList<Game> gamesPlayed;
+    private String password;
     private int score;
-    private ArrayList<String> isInWarWith;
+    private ArrayList<Game> gamesPlayed;
 
     public User(String username, String password, String nickname) {
         this.username = username;
-        this.password = password;
         this.nickname = nickname;
+        this.password = password;
         this.gamesPlayed = new ArrayList<>();
         this.score = 0;
-        this.isInWarWith = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -49,14 +47,6 @@ public class User {
 
     public void removeGame(Game selectedGame) {
         this.gamesPlayed.remove(selectedGame);
-    }
-
-    public boolean isAlreadyInWarWith(String username) {
-        return this.isInWarWith.contains(username);
-    }
-
-    public void goToWarWith(String username) {
-        this.isInWarWith.add(username);
     }
 
     public void setScore(int newScore) {

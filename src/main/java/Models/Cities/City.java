@@ -13,4 +13,5 @@ public class City {
     private ArrayList<Resource> resources;
     private int hitPoint;
     private int combatStrength;
+    protected boolean isCapital;
 }

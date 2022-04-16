@@ -1,31 +1,32 @@
 package Models;
 
 import Models.Tiles.Tile;
+import Models.Tiles.TileGrid;
 
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class Game {
-    private final ArrayList<User> users;
-    private final Vector<User> userTurn;
-    private ArrayList<Tile> tilesMap;
+    private ArrayList<Civilization> civs;
+    private final Vector<Civilization> civTurn;
+    private TileGrid tileGrid; // todo: replace with TileGrid
 
     public Game(ArrayList<User> users) {
-        this.users = users;
-        this.tilesMap = new ArrayList<>();
-        this.userTurn = new Vector<>();
+        // todo: fix
+//        this.civs = users;
+        this.civTurn = new Vector<>();
         for (int i = users.size() - 1; i > -1; i--) {
-            this.userTurn.add(users.get(i));
+//            this.civTurn.add(users.get(i));
         }
     }
 
     private void fullTurn() {
-        for (int i = this.users.size() - 1; i > -1; i--) {
-            this.userTurn.add(this.users.get(i));
+        for (int i = this.civs.size() - 1; i > -1; i--) {
+            this.civTurn.add(this.civs.get(i));
         }
     }
 
     private void nextTurn() {
-        this.userTurn.remove(this.userTurn.size() - 1);
+        this.civTurn.remove(this.civTurn.size() - 1);
     }
 }
