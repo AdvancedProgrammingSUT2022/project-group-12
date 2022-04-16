@@ -24,4 +24,8 @@ public class LoginMenuController {
     public String exitMenu() {
         return "";
     }
+
+    public String playGame() {
+        return "";
+    }
 }

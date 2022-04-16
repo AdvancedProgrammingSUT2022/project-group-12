@@ -20,6 +20,10 @@ public class Game {
         }
     }
 
+    private void generateMap() {
+
+    }
+
     private void fullTurn() {
         for (int i = this.civs.size() - 1; i > -1; i--) {
             this.civTurn.add(this.civs.get(i));
