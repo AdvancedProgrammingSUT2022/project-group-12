@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Game {
     private final ArrayList<User> users;
-    private Vector<User> userTurn;
+    private final Vector<User> userTurn;
     private ArrayList<Tile> tilesMap;
 
     public Game(ArrayList<User> users) {

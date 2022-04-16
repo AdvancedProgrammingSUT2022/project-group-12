@@ -9,8 +9,8 @@ import Models.Units.NonCombatUnit;
 import java.util.ArrayList;
 
 public class Tile {
-    protected ArrayList<CombatUnit> combatUnits = new ArrayList<>();
-    protected ArrayList<NonCombatUnit> nonCombatUnits = new ArrayList<>();
+    protected CombatUnit combatUnits;
+    protected NonCombatUnit nonCombatUnits;
     protected Terrain terrain;
     protected City city;
     protected boolean isCapital;
