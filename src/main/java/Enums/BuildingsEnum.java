@@ -1,11 +1,14 @@
 package Enums;
 
+import Models.Civilization;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public enum BuildingsEnum {
+public enum BuildingsEnum{
     barrack(80, 1, new ArrayList<>() {{
         add(TechnologiesEnum.bronzeWorking);
-    }}),
+    }}, void note),
     granary(100, 1, new ArrayList<>() {{
         add(TechnologiesEnum.pottery);
     }}),
@@ -112,11 +115,14 @@ public enum BuildingsEnum {
     private final int maintenance;
     private final ArrayList<TechnologiesEnum> requiredTechs;
 
-    BuildingsEnum(int cost, int maintenance, ArrayList<TechnologiesEnum> requiredTechs) {
+    BuildingsEnum(int cost, int maintenance, ArrayList<TechnologiesEnum> requiredTechs, Method note) {
         this.cost = cost;
         this.maintenance = maintenance;
         this.requiredTechs = requiredTechs;
+        this.note=note;
     }
+
+    public void note;
 
     public int getCost() {
         return this.cost;

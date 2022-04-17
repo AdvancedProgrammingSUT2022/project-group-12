@@ -41,4 +41,8 @@ public class Civilization {
 
     public void addGold(){}
 
+    public void addHappiness(){}
+
+    public void addBeaker(){}
+
 }
