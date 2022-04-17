@@ -19,7 +19,7 @@ public class CivilizationController {
         return new ArrayList<>();
     }
 
-    public void happiness() {
+    public void setHappiness() {
 
     }
 

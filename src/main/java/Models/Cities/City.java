@@ -3,8 +3,6 @@ package Models.Cities;
 import Enums.BuildingsEnum;
 import Enums.ResourcesEnum;
 import Enums.TerrainsEnum;
-import Models.Buildings.Building;
-import Models.Resources.Resource;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 
@@ -15,7 +13,8 @@ public class City {
     private NonCombatUnit nonCombatUnit;
     private boolean alreadyHasACombatUnit;
     private boolean alreadyHasANonCombatUnit;
-    private int goldCount;
+    private int gold;
+    private int production;
     private ArrayList<ResourcesEnum> resources;
     private int hitPoint;
     private int combatStrength;
@@ -26,9 +25,10 @@ public class City {
     public City(TerrainsEnum terrain, boolean isCapital) {
         this.combatUnit = null;
         this.nonCombatUnit = null;
-        this.goldCount = terrain.getGoldCount();
+        this.gold = terrain.getGoldCount();
+        this.production = 1 + terrain.getProductsCount();
         this.resources = terrain.getResources();
-        this.hitPoint = 0;
+        this.hitPoint = 20;
         this.combatStrength = 0;
         this.isCapital = isCapital;
         this.unitCount = 0;
@@ -45,8 +45,8 @@ public class City {
         return this.nonCombatUnit;
     }
 
-    public int getGoldCount() {
-        return this.goldCount;
+    public int getGold() {
+        return this.gold;
     }
 
     public ArrayList<ResourcesEnum> getResources() {
@@ -83,8 +83,8 @@ public class City {
         this.alreadyHasANonCombatUnit = true;
     }
 
-    public void setGoldCount(int goldCount) {
-        this.goldCount = goldCount;
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public void setResources(ArrayList<ResourcesEnum> resources) {
@@ -99,8 +99,8 @@ public class City {
         this.combatStrength = combatStrength;
     }
 
-    public void setCapital(boolean capital) {
-        isCapital = capital;
+    public void setCapital(boolean isCapital) {
+        this.isCapital = isCapital;
     }
 
     public void setUnitCount(int unitCount) {

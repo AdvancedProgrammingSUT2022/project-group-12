@@ -28,4 +28,8 @@ public class Game {
     private void nextTurn() {
         this.civTurn.remove(this.civTurn.size() - 1);
     }
+
+    public TileGrid getTileGrid() {
+        return this.tileGrid;
+    }
 }
