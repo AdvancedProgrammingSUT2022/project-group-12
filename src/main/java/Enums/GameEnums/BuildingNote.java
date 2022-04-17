@@ -1,4 +1,4 @@
-package Enums;
+package Enums.GameEnums;
 
 import Models.Cities.City;
 import Models.Civilization;

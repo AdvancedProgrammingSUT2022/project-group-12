@@ -1,7 +1,7 @@
 package Controllers;
 
-import Enums.TechnologiesEnum;
-import Enums.UnitsEnum;
+import Enums.GameEnums.TechnologiesEnum;
+import Enums.GameEnums.UnitsEnum;
 import Models.Cities.City;
 
 import java.util.ArrayList;

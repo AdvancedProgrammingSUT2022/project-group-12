@@ -1,5 +1,6 @@
-package Enums;
+package Enums.GameEnums;
 
+import Enums.GameEnums.BuildingNote;
 import Models.Buildings.BuildingNotes;
 
 import java.util.ArrayList;

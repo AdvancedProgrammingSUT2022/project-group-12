@@ -1,4 +1,4 @@
-package Enums;
+package Enums.GameEnums;
 
 public enum UnitsEnum {
     archer(70, CombatTypeEnum.archery, 4, 6, 2, 2, null, TechnologiesEnum.archery),

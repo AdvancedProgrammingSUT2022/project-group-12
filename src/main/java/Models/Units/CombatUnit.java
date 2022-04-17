@@ -1,7 +1,7 @@
 package Models.Units;
 
-import Enums.ResourcesEnum;
-import Enums.TechnologiesEnum;
+import Enums.GameEnums.ResourcesEnum;
+import Enums.GameEnums.TechnologiesEnum;
 
 import java.util.ArrayList;
 

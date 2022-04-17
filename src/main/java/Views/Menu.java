@@ -5,6 +5,8 @@ import java.util.Scanner;
 public class Menu {
     protected Scanner scanner;
 
+    public static Menu currentMenu = new LoginMenu();
+
     public void run(Scanner newScanner) {
         this.scanner = newScanner;
         while (true) {

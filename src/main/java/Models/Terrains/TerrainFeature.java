@@ -1,6 +1,6 @@
 package Models.Terrains;
 
-import Enums.ResourcesEnum;
+import Enums.GameEnums.ResourcesEnum;
 
 import java.util.ArrayList;
 

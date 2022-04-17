@@ -1,4 +1,4 @@
-package Enums;
+package Enums.GameEnums;
 
 public enum ResourceTypeEnum {
     luxury,
