@@ -2,8 +2,8 @@ package Models;
 
 import java.util.HashMap;
 
-public class UserDatebase {
-    private HashMap<String, User> users = new HashMap<>();
+public class Database {
+    private final HashMap<String, User> users = new HashMap<>();
 
     public void addUser(User user) {
         users.put(user.getUsername(), user);
@@ -17,7 +17,7 @@ public class UserDatebase {
 
     }
 
-    public static UserDatebase deserialize() {
+    public static Database deserialize() {
         return null;
     }
 }
