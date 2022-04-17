@@ -37,12 +37,8 @@ public class Civilization {
     public void goToWarWith(String username) {
         this.isInWarWith.add(username);
     }
-    public void addProduction(){}
 
-    public void addGold(){}
+    public void setHappiness(int happiness) {this.happiness = happiness;}
 
-    public void addHappiness(){}
-
-    public void addBeaker(){}
-
+    public int getHappiness() {return happiness;}
 }

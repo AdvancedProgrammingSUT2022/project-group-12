@@ -14,12 +14,16 @@ public class City {
     private boolean alreadyHasACombatUnit;
     private boolean alreadyHasANonCombatUnit;
     private int gold;
-    private int production;
+    private double production;
+    private int food;
     private ArrayList<ResourcesEnum> resources;
     private int hitPoint;
-    private int combatStrength;
+    private double combatStrength;
     protected boolean isCapital;
     private int unitCount;
+    private int citizens;
+    private int beaker;
+    private int happiness;
     private ArrayList<BuildingsEnum> buildings;
 
     public City(TerrainsEnum terrain, boolean isCapital) {
@@ -32,6 +36,9 @@ public class City {
         this.combatStrength = 0;
         this.isCapital = isCapital;
         this.unitCount = 0;
+        this.citizens=0;
+        this.food=0;
+        this.happiness=0;
         this.buildings = new ArrayList<>();
         this.alreadyHasACombatUnit = false;
         this.alreadyHasANonCombatUnit = false;
@@ -57,9 +64,13 @@ public class City {
         return this.hitPoint;
     }
 
-    public int getCombatStrength() {
+    public double getCombatStrength() {
         return this.combatStrength;
     }
+
+    public int getCitizens() {return citizens;}
+
+    public int getBeaker() {return beaker;}
 
     public boolean isCapital() {
         return this.isCapital;
@@ -67,6 +78,17 @@ public class City {
 
     public int getUnitCount() {
         return this.unitCount;
+    }
+    public int getFood() {
+        return food;
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public double getProduction() {
+        return production;
     }
 
     public boolean hasBuilding(String buildingName) {
@@ -91,11 +113,19 @@ public class City {
         this.resources = resources;
     }
 
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public void setProduction(double production) {
+        this.production = production;
+    }
+
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
     }
 
-    public void setCombatStrength(int combatStrength) {
+    public void setCombatStrength(double combatStrength) {
         this.combatStrength = combatStrength;
     }
 
@@ -110,6 +140,9 @@ public class City {
     public void setBuildings(BuildingsEnum buildings) {
         this.buildings.add(buildings);
     }
+    public void setFood(int food) {this.food = food;}
+
+    public void setBeaker(int beaker) {this.beaker = beaker;}
 
     public boolean hasACombatUnit() {
         return this.alreadyHasACombatUnit;
@@ -118,4 +151,8 @@ public class City {
     public boolean hasANonCombatUnit() {
         return this.alreadyHasANonCombatUnit;
     }
+
+
+
+
 }
