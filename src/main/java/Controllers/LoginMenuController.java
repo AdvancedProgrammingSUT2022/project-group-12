@@ -1,31 +1,33 @@
 package Controllers;
 
+import Enums.Response;
+
 public class LoginMenuController {
-    public StringBuilder register() {
-        return new StringBuilder();
+    public Response register() {
+        return Response.OK;
     }
 
-    public StringBuilder login() {
-        return new StringBuilder();
+    public Response login() {
+        return Response.OK;
     }
 
-    public StringBuilder logout() {
-        return new StringBuilder();
+    public Response logout() {
+        return Response.OK;
     }
 
-    public StringBuilder startNewGame() {
-        return new StringBuilder();
+    public Response startNewGame() {
+        return Response.OK;
     }
 
-    public StringBuilder enterMenu() {
-        return new StringBuilder();
+    public Response enterMenu() {
+        return Response.OK;
     }
 
-    public StringBuilder exitMenu() {
-        return new StringBuilder();
+    public Response exitMenu() {
+        return Response.OK;
     }
 
-    public StringBuilder playGame() {
-        return new StringBuilder();
+    public Response playGame() {
+        return Response.OK;
     }
 }

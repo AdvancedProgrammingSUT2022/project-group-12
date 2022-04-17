@@ -1,7 +1,7 @@
 package Models.Tiles;
 
+import Enums.ResourcesEnum;
 import Models.Cities.City;
-import Models.Resources.Resource;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -13,9 +13,9 @@ public class Tile {
     protected NonCombatUnit nonCombatUnits;
     protected Terrain terrain;
     protected City city;
-    protected ArrayList<Resource> resources = new ArrayList<>();
+    protected ArrayList<ResourcesEnum> resources = new ArrayList<ResourcesEnum>();
 
-    public Tile(Terrain terrain, ArrayList<Resource> resources) {
+    public Tile(Terrain terrain, ArrayList<ResourcesEnum> resources) {
         this.terrain = terrain;
         this.resources = resources;
     }
