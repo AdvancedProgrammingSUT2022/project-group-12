@@ -1,15 +1,15 @@
 package Models.Terrains;
 
-import Models.Resources.Resource;
+import Enums.ResourcesEnum;
 
 import java.util.ArrayList;
 
 public class TerrainFeature {
     protected String feature;
-    protected Resource foods = new Resource();
-    protected Resource products = new Resource();
+    protected ResourcesEnum foods;
+    protected ResourcesEnum products;
     protected int goldCount;
     protected int combatModifier;
     protected int movementCost;
-    protected ArrayList<Resource> resources;
+    protected ArrayList<ResourcesEnum> resources;
 }
