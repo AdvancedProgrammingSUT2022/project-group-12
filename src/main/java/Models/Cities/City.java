@@ -1,8 +1,8 @@
 package Models.Cities;
 
-import Enums.BuildingsEnum;
-import Enums.ResourcesEnum;
-import Enums.TerrainsEnum;
+import Enums.GameEnums.BuildingsEnum;
+import Enums.GameEnums.ResourcesEnum;
+import Enums.GameEnums.TerrainsEnum;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 

@@ -1,6 +1,6 @@
 package Models;
 
-import Enums.TechnologiesEnum;
+import Enums.GameEnums.TechnologiesEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
