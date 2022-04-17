@@ -1,31 +1,31 @@
 package Controllers;
 
 public class LoginMenuController {
-    public String register() {
-        return "";
+    public StringBuilder register() {
+        return new StringBuilder();
     }
 
-    public String login() {
-        return "";
+    public StringBuilder login() {
+        return new StringBuilder();
     }
 
-    public String logout() {
-        return "";
+    public StringBuilder logout() {
+        return new StringBuilder();
     }
 
-    public String startNewGame() {
-        return "";
+    public StringBuilder startNewGame() {
+        return new StringBuilder();
     }
 
-    public String enterMenu() {
-        return "";
+    public StringBuilder enterMenu() {
+        return new StringBuilder();
     }
 
-    public String exitMenu() {
-        return "";
+    public StringBuilder exitMenu() {
+        return new StringBuilder();
     }
 
-    public String playGame() {
-        return "";
+    public StringBuilder playGame() {
+        return new StringBuilder();
     }
 }

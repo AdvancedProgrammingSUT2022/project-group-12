@@ -94,7 +94,7 @@ public enum TerrainsEnum {
         add(ResourcesEnum.sugar);
     }}),
     oasis(3, 0, 1, -33, 1, true, false, null, null),
-    river(0, 0, 1, 0, 9999, true, false, null, null);
+    river(0, 0, 1, 0, 999999, true, false, null, null);
 
     private final int foodCount;
     private final int productsCount;
@@ -154,5 +154,4 @@ public enum TerrainsEnum {
     public boolean isBlockingView() {
         return this.blocksView;
     }
-
 }
