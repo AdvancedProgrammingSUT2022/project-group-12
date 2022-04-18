@@ -24,7 +24,7 @@ public enum BuildingsEnum {
     }}, null, BuildingNote.WALLTERMILLS_NOTE.getNote()),
     armory(130, 3, new ArrayList<>() {{
         add(TechnologiesEnum.ironWorking);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.barrack);
     }}, BuildingNote.ARMORY_NOTE.getNote()),
     burialTomb(120, 0, new ArrayList<>() {{
@@ -44,12 +44,12 @@ public enum BuildingsEnum {
     }}, null, BuildingNote.STABLE_NOTE.getNote()),
     temple(120, 2, new ArrayList<>() {{
         add(TechnologiesEnum.philosophy);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.monument);
     }}, BuildingNote.TEMPLE_NOTE.getNote()),
     castle(200, 3, new ArrayList<>() {{
         add(TechnologiesEnum.chivalry);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.walls);
     }}, BuildingNote.CASTLE_NOTE.getNote()),
     forage(150, 2, new ArrayList<>() {{
@@ -69,7 +69,7 @@ public enum BuildingsEnum {
     }}, null, BuildingNote.MONASTERY_NOTE.getNote()),
     university(200, 3, new ArrayList<>() {{
         add(TechnologiesEnum.education);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.library);
     }}, BuildingNote.UNIVERSITY_NOTE.getNote()),
     workshop(100, 2, new ArrayList<>() {{
@@ -77,38 +77,39 @@ public enum BuildingsEnum {
     }}, null, BuildingNote.WORKSHOP_NOTE.getNote()),
     bank(200, 0, new ArrayList<>() {{
         add(TechnologiesEnum.banking);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.market);
     }}, BuildingNote.BANK.getNote()),
     militaryAcademy(350, 3, new ArrayList<>() {{
         add(TechnologiesEnum.militaryScience);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.barrack);
     }}, BuildingNote.MILITARY_ACADEMY_NOTE.getNote()),
     museum(350, 3, new ArrayList<>() {{
         add(TechnologiesEnum.archaeology);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.operaHouse);
     }}, BuildingNote.MUSEUM_NOTE.getNote()),
     operaHouse(220, 3, new ArrayList<>() {{
         add(TechnologiesEnum.acoustics);
-    }}, new ArrayList<>(){{
-        add(BuildingsEnum.temple); add(BuildingsEnum.burialTomb);
+    }}, new ArrayList<>() {{
+        add(BuildingsEnum.temple);
+        add(BuildingsEnum.burialTomb);
     }}, BuildingNote.OPERA_HOUSE_NOTE.getNote()),
 
     publicSchool(350, 3, new ArrayList<>() {{
         add(TechnologiesEnum.scientificTheory);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.university);
     }}, BuildingNote.PUBLIC_SCHOOL_NOTE.getNote()),
     satrapsCourt(220, 0, new ArrayList<>() {{
         add(TechnologiesEnum.banking);
-    }},new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.market);
     }}, BuildingNote.SATRAPSCOURT_NOTE.getNote()),
     theater(300, 5, new ArrayList<>() {{
         add(TechnologiesEnum.printingPress);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.colosseum);
     }}, BuildingNote.THEATER_NOTE.getNote()),
 
@@ -117,12 +118,12 @@ public enum BuildingsEnum {
     }}, null, BuildingNote.WINDMILL_NOTE.getNote()),
     arsenal(350, 3, new ArrayList<>() {{
         add(TechnologiesEnum.railroad);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.militaryAcademy);
     }}, BuildingNote.ARSENAL_NOTE.getNote()),
     broadcastTower(600, 3, new ArrayList<>() {{
         add(TechnologiesEnum.radio);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.museum);
     }}, BuildingNote.BROADCAST_TOWER_NOTE.getNote()),
     factory(300, 3, new ArrayList<>() {{
@@ -133,12 +134,12 @@ public enum BuildingsEnum {
     }}, null, BuildingNote.HOSPITAL_NOTE.getNote()),
     militaryBase(450, 4, new ArrayList<>() {{
         add(TechnologiesEnum.telegraph);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.castle);
     }}, BuildingNote.MILITARY_BASE_NOTE.getNote()),
     stockExchange(650, 0, new ArrayList<>() {{
         add(TechnologiesEnum.electricity);
-    }}, new ArrayList<>(){{
+    }}, new ArrayList<>() {{
         add(BuildingsEnum.bank);
     }}, BuildingNote.STOCK_EXCHANGE_NOTE.getNote());
 

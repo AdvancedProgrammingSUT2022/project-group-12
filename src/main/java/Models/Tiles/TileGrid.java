@@ -7,7 +7,8 @@ public class TileGrid {
     private ArrayList<ArrayList<Tile>> tiles;
     private int height, width;
 
-    private TileGrid() {}
+    private TileGrid() {
+    }
 
     public static TileGrid GenerateRandom(int height, int width, int seed) {
         TileGrid tileGrid = new TileGrid();

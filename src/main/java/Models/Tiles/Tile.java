@@ -24,7 +24,7 @@ public class Tile {
         this.city = city;
     }
 
-    public Tile deepcopy() {
+    public Tile deepCopy() {
         return null; // todo
     }
 }

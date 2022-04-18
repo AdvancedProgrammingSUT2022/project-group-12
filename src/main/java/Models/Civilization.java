@@ -38,7 +38,11 @@ public class Civilization {
         this.isInWarWith.add(username);
     }
 
-    public void setHappiness(int happiness) {this.happiness = happiness;}
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
 
-    public int getHappiness() {return happiness;}
+    public int getHappiness() {
+        return happiness;
+    }
 }

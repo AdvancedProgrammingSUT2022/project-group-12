@@ -36,9 +36,9 @@ public class City {
         this.combatStrength = 0;
         this.isCapital = isCapital;
         this.unitCount = 0;
-        this.citizens=0;
-        this.food=0;
-        this.happiness=0;
+        this.citizens = 0;
+        this.food = 0;
+        this.happiness = 0;
         this.buildings = new ArrayList<>();
         this.alreadyHasACombatUnit = false;
         this.alreadyHasANonCombatUnit = false;
@@ -68,9 +68,13 @@ public class City {
         return this.combatStrength;
     }
 
-    public int getCitizens() {return citizens;}
+    public int getCitizens() {
+        return citizens;
+    }
 
-    public int getBeaker() {return beaker;}
+    public int getBeaker() {
+        return beaker;
+    }
 
     public boolean isCapital() {
         return this.isCapital;
@@ -79,6 +83,7 @@ public class City {
     public int getUnitCount() {
         return this.unitCount;
     }
+
     public int getFood() {
         return food;
     }
@@ -140,9 +145,14 @@ public class City {
     public void setBuildings(BuildingsEnum buildings) {
         this.buildings.add(buildings);
     }
-    public void setFood(int food) {this.food = food;}
 
-    public void setBeaker(int beaker) {this.beaker = beaker;}
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public void setBeaker(int beaker) {
+        this.beaker = beaker;
+    }
 
     public boolean hasACombatUnit() {
         return this.alreadyHasACombatUnit;
@@ -151,8 +161,6 @@ public class City {
     public boolean hasANonCombatUnit() {
         return this.alreadyHasANonCombatUnit;
     }
-
-
 
 
 }

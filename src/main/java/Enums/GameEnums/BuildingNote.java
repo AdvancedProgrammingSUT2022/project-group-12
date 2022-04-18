@@ -3,23 +3,24 @@ package Enums.GameEnums;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Buildings.BuildingNotes;
+
 public enum BuildingNote {
     BARRACK_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-         //TODO : complete
+            //TODO : complete
         }
     }),
     GRANARY_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setFood(city.getFood()+2);
+            city.setFood(city.getFood() + 2);
         }
     }),
     LIBRARY_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-           city.setBeaker(city.getCitizens()/2+ city.getBeaker());
+            city.setBeaker(city.getCitizens() / 2 + city.getBeaker());
         }
     }),
     MONUMENT_NOTE(new BuildingNotes<City>() {
@@ -50,33 +51,33 @@ public enum BuildingNote {
     BURIAL_TOMP_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setHappiness(city.getHappiness()+2);
+            city.setHappiness(city.getHappiness() + 2);
             //TODO : complete
         }
     }),
     CIRCUS_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setHappiness(city.getHappiness()+3);
+            city.setHappiness(city.getHappiness() + 3);
             //TODO : complete
         }
     }),
     COLOSSEUM_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setHappiness(city.getHappiness()+4);
+            city.setHappiness(city.getHappiness() + 4);
         }
     }),
     COURTHOUSE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-             //TODO : complete
+            //TODO : complete
         }
     }),
     STABLE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-           //TODO : complete
+            //TODO : complete
         }
     }),
     TEMPLE_NOTE(new BuildingNotes<City>() {
@@ -88,14 +89,14 @@ public enum BuildingNote {
     CASTLE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setCombatStrength(city.getCombatStrength()+ 7.5);
+            city.setCombatStrength(city.getCombatStrength() + 7.5);
         }
     }),
     FORGE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
             //TODO : complete
-            city.setProduction(city.getProduction()+ (city.getProduction()*15.0/100.0));
+            city.setProduction(city.getProduction() + (city.getProduction() * 15.0 / 100.0));
         }
     }),
     GARDEN_NOTE(new BuildingNotes() {
@@ -107,7 +108,7 @@ public enum BuildingNote {
     MARKET_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setGold(city.getGold()+ city.getGold()/4);
+            city.setGold(city.getGold() + city.getGold() / 4);
         }
     }),
     MINT_NOTE(new BuildingNotes<City>() {
@@ -125,8 +126,8 @@ public enum BuildingNote {
     UNIVERSITY_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-         //TODO : complete
-            city.setBeaker(city.getBeaker()+ city.getBeaker()/2);
+            //TODO : complete
+            city.setBeaker(city.getBeaker() + city.getBeaker() / 2);
         }
     }),
     WORKSHOP_NOTE(new BuildingNotes() {
@@ -138,7 +139,7 @@ public enum BuildingNote {
     BANK(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setGold(city.getGold()+city.getGold()/2);
+            city.setGold(city.getGold() + city.getGold() / 2);
         }
     }),
     MILITARY_ACADEMY_NOTE(new BuildingNotes() {
@@ -162,32 +163,32 @@ public enum BuildingNote {
     PUBLIC_SCHOOL_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setBeaker(city.getBeaker()+city.getBeaker()/2);
+            city.setBeaker(city.getBeaker() + city.getBeaker() / 2);
         }
     }),
     SATRAPSCOURT_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setGold(city.getGold()+city.getGold()/4);
-            city.setHappiness(city.getHappiness()+2);
+            city.setGold(city.getGold() + city.getGold() / 4);
+            city.setHappiness(city.getHappiness() + 2);
         }
     }),
     THEATER_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setHappiness(city.getHappiness()+4);
+            city.setHappiness(city.getHappiness() + 4);
         }
     }),
     WINDMILL_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setProduction(city.getProduction()+ city.getProduction()*15.0/100.0);
+            city.setProduction(city.getProduction() + city.getProduction() * 15.0 / 100.0);
         }
     }),
     ARSENAL_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setProduction(city.getProduction()+city.getProduction()*20.0/100.0);
+            city.setProduction(city.getProduction() + city.getProduction() * 20.0 / 100.0);
         }
     }),
     BROADCAST_TOWER_NOTE(new BuildingNotes<City>() {
@@ -199,36 +200,36 @@ public enum BuildingNote {
     FACTORY_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setProduction(city.getProduction()+city.getProduction()/2);
+            city.setProduction(city.getProduction() + city.getProduction() / 2);
         }
     }),
     HOSPITAL_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setFood(city.getFood()-city.getFood()/2);
+            city.setFood(city.getFood() - city.getFood() / 2);
         }
     }),
     MILITARY_BASE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setCombatStrength(city.getCombatStrength()+12);
+            city.setCombatStrength(city.getCombatStrength() + 12);
         }
     }),
     STOCK_EXCHANGE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setGold(city.getGold()+city.getGold()/3);
+            city.setGold(city.getGold() + city.getGold() / 3);
         }
     });
 
 
-
-
-
     private final BuildingNotes note;
+
     BuildingNote(BuildingNotes note) {
         this.note = note;
     }
 
-    public BuildingNotes getNote() {return note;}
+    public BuildingNotes getNote() {
+        return note;
+    }
 }
