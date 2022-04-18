@@ -28,12 +28,14 @@ public class Civilization {
     private ArrayList<City> cities;
     private ArrayList<String> isInWarWith;
     private final CivilizationController controller;
+    private ArrayList<String> notification;
 
     public Civilization(User user) {
         this.name = user.getNickname();
         this.user = user;
         this.controller = new CivilizationController();
         this.cities = new ArrayList<>();
+        this.notification = new ArrayList<>();
     }
 
     public boolean isAlreadyInWarWith(String username) {
@@ -98,5 +100,17 @@ public class Civilization {
 
     public String getName() {
         return this.name;
+    }
+
+    public StringBuilder getNotifications() {
+        StringBuilder notificationList = new StringBuilder();
+        for (String message : this.notification) {
+            notificationList.append(message).append("\n");
+        }
+        return notificationList;
+    }
+
+    public void sendMessage(String message) {
+        this.notification.add(message);
     }
 }
