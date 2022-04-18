@@ -4,17 +4,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum InputRegex {
-    login("[\\s]*user[\\s]+login[\\s]+(?<part1>[-]+.[\\s]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]+(?<part3>[-]+[.[\\s]]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]*"),
-    register(""),
-    playGameWith(""),
-    info(""),
-    exit(""),
-    changePassword(""),
-    changeNickname(""),
-    logout(""),
-    currentMenu(""),
-    enterMenu("[\\s]*menu[\\s]+enter[\\s]+(?<selectedMenu>[.[\\S]]+)[\\s]*"),
-    exitMenu("");
+    LOGIN("[\\s]*user[\\s]+login[\\s]+(?<part1>[-]+.[\\s]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]+(?<part3>[-]+[.[\\s]]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]*"),
+    REGISTER(""),
+    PLAY_GAME_WITH(""),
+    INFO(""),
+    EXIT(""),
+    BACK(""),
+    CHANGE_PASS(""),
+    CHANGE_NICKNAME(""),
+    LOGOUT(""),
+    CURRENT_MENU(""),
+    ENTER_MENU("[\\s]*menu[\\s]+enter[\\s]+(?<selectedMenu>[.[\\S]]+)[\\s]*"),
+    EXIT_MENU("");
 
     private final String regex;
 

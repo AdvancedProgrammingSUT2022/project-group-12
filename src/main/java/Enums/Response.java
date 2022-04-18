@@ -1,7 +1,7 @@
 package Enums;
 
 public enum Response {
-    OK("ok");
+    OK("OK");
 
     private final String message;
 
