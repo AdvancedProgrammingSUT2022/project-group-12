@@ -1,22 +1,18 @@
 package Views;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Menu {
-    protected Scanner scanner;
-    public static ArrayList<Menu> currentMenu = new ArrayList<>(){{add(new LoginMenu());}};
+public abstract class Menu {
 
-    public void run(Scanner newScanner) {
-        this.scanner = newScanner;
+    public void run() {
+        Scanner scanner = MenuStack.getInstance().getScanner();
         while (true) {
-            if (checkInput(this.scanner.nextLine())) {
+            String line = scanner.nextLine().trim();
+            if (handleCommand(line)) {
                 break;
             }
         }
     }
 
-    protected boolean checkInput(String input) {
-        return false;
-    }
+    protected abstract boolean handleCommand(String input);
 }

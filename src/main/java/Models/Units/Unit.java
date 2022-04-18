@@ -3,7 +3,7 @@ package Models.Units;
 import Models.Cities.City;
 import Models.Civilization;
 
-public class Unit {
+public abstract class Unit {
     protected String name;
     protected Civilization civ;
     protected City assignedCity;
