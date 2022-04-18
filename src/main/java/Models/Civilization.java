@@ -17,6 +17,7 @@ public class Civilization {
     private int gold;
     private int beaker;
     private int happiness;
+    private int production;
     private ArrayList<TechnologiesEnum> technologies;
     private HashMap<CombatUnit, Integer> combatUnits;
     private HashMap<NonCombatUnit, Integer> nonCombatUnits;
@@ -37,4 +38,7 @@ public class Civilization {
         this.isInWarWith.add(username);
     }
 
+    public void setHappiness(int happiness) {this.happiness = happiness;}
+
+    public int getHappiness() {return happiness;}
 }
