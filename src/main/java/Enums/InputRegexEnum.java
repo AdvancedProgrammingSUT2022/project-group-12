@@ -3,7 +3,7 @@ package Enums;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum InputRegex {
+public enum InputRegexEnum {
     LOGIN("[\\s]*user[\\s]+login[\\s]+(?<part1>[-]+.[\\s]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]+(?<part3>[-]+[.[\\s]]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]*"),
     REGISTER(""),
     PLAY_GAME_WITH(""),
@@ -19,11 +19,11 @@ public enum InputRegex {
 
     private final String regex;
 
-    InputRegex(String input) {
+    InputRegexEnum(String input) {
         this.regex = input;
     }
 
-    public static Matcher inputMatcher(String input, InputRegex check) {
+    public static Matcher inputMatcher(String input, InputRegexEnum check) {
         Matcher matcher = Pattern.compile(check.regex).matcher(input);
         if (!matcher.find() || !matcher.group().equals(input)) {
             return null;

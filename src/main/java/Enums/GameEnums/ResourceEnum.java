@@ -2,77 +2,77 @@ package Enums.GameEnums;
 
 import java.util.ArrayList;
 
-public enum ResourcesEnum {
+public enum ResourceEnum {
     BANANA(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.CULTIVATION),
+    }}, ImprovementEnum.CULTIVATION),
 
     CATTLE(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.PASTURE),
+    }}, ImprovementEnum.PASTURE),
 
     DEER(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.CAMP),
+    }}, ImprovementEnum.CAMP),
 
     SHEEP(ResourceTypeEnum.BONUS, 2, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.PASTURE),
+    }}, ImprovementEnum.PASTURE),
 
     WHEAT(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.FARM),
+    }}, ImprovementEnum.FARM),
 
     COAL(ResourceTypeEnum.STRATEGIC, 0, 1, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.MINE),
+    }}, ImprovementEnum.MINE),
 
     HORSE(ResourceTypeEnum.STRATEGIC, 0, 1, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.PASTURE),
+    }}, ImprovementEnum.PASTURE),
 
     IRON(ResourceTypeEnum.STRATEGIC, 0, 1, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.MINE),
+    }}, ImprovementEnum.MINE),
 
     COTTON(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CULTIVATION),
+    }}, ImprovementEnum.CULTIVATION),
 
     DYES(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CULTIVATION),
+    }}, ImprovementEnum.CULTIVATION),
 
     FUR(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CAMP),
+    }}, ImprovementEnum.CAMP),
 
     GEMSTONE(ResourceTypeEnum.LUXURY, 0, 0, 3, new ArrayList<>() {{
-    }}, ImprovementsEnum.MINE),
+    }}, ImprovementEnum.MINE),
 
     GOLD(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.MINE),
+    }}, ImprovementEnum.MINE),
 
     INCENSE(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CULTIVATION),
+    }}, ImprovementEnum.CULTIVATION),
 
     IVORY(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CAMP),
+    }}, ImprovementEnum.CAMP),
 
     MARBLE(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.STONE_MINE),
+    }}, ImprovementEnum.STONE_MINE),
 
     SILK(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CULTIVATION),
+    }}, ImprovementEnum.CULTIVATION),
 
     SILVER(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.MINE),
+    }}, ImprovementEnum.MINE),
 
     SUGAR(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.CULTIVATION);
+    }}, ImprovementEnum.CULTIVATION);
 
     private final ResourceTypeEnum type;
     private final int foodCount;
     private final int productCount;
     private final int goldCount;
-    private final ArrayList<TerrainsEnum> canBeOn;
-    private final ImprovementsEnum improvementNeeded;
+    private final ArrayList<TerrainEnum> canBeOn;
+    private final ImprovementEnum improvementNeeded;
     private final boolean isLuxury;
     private final boolean isBonus;
     private final boolean isStrategic;
 
-    ResourcesEnum(ResourceTypeEnum type, int foodCount,
-                  int productCount, int goldCount, ArrayList<TerrainsEnum> canBeOn,
-                  ImprovementsEnum improvementNeeded) {
+    ResourceEnum(ResourceTypeEnum type, int foodCount,
+                 int productCount, int goldCount, ArrayList<TerrainEnum> canBeOn,
+                 ImprovementEnum improvementNeeded) {
         this.type = type;
         this.foodCount = foodCount;
         this.productCount = productCount;
@@ -96,11 +96,11 @@ public enum ResourcesEnum {
         return this.goldCount;
     }
 
-    public boolean isOn(TerrainsEnum terrain) {
+    public boolean isOn(TerrainEnum terrain) {
         return this.canBeOn.contains(terrain);
     }
 
-    public ImprovementsEnum getImprovementNeeded() {
+    public ImprovementEnum improvementNeeded() {
         return this.improvementNeeded;
     }
 

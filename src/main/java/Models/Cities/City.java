@@ -1,32 +1,34 @@
 package Models.Cities;
 
-import Enums.GameEnums.BuildingsEnum;
-import Enums.GameEnums.ResourcesEnum;
-import Enums.GameEnums.TerrainsEnum;
+import Enums.GameEnums.BuildingEnum;
+import Enums.GameEnums.ResourceEnum;
+import Enums.GameEnums.TerrainEnum;
+import Models.Civilization;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
 
 public class City {
+    private String isOwnedBy;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
-    private boolean alreadyHasACombatUnit;
-    private boolean alreadyHasANonCombatUnit;
+    private boolean hasACombatUnit;
+    private boolean hasANonCombatUnit;
     private int gold;
     private double production;
     private int food;
-    private ArrayList<ResourcesEnum> resources;
+    private ArrayList<ResourceEnum> resources;
     private int hitPoint;
     private double combatStrength;
     protected boolean isCapital;
     private int unitCount;
-    private int citizens;
+    private int citizensCount;
     private int beaker;
     private int happiness;
-    private ArrayList<BuildingsEnum> buildings;
+    private ArrayList<BuildingEnum> cityStructure;
 
-    public City(TerrainsEnum terrain, boolean isCapital) {
+    public City(Civilization civ, TerrainEnum terrain, boolean isCapital) {
         this.combatUnit = null;
         this.nonCombatUnit = null;
         this.gold = terrain.getGoldCount();
@@ -36,12 +38,13 @@ public class City {
         this.combatStrength = 0;
         this.isCapital = isCapital;
         this.unitCount = 0;
-        this.citizens = 0;
+        this.citizensCount = 0;
         this.food = 0;
         this.happiness = 0;
-        this.buildings = new ArrayList<>();
-        this.alreadyHasACombatUnit = false;
-        this.alreadyHasANonCombatUnit = false;
+        this.cityStructure = new ArrayList<>();
+        this.hasACombatUnit = false;
+        this.hasANonCombatUnit = false;
+        this.isOwnedBy = civ.getName();
     }
 
     public CombatUnit getCombatUnit() {
@@ -56,7 +59,7 @@ public class City {
         return this.gold;
     }
 
-    public ArrayList<ResourcesEnum> getResources() {
+    public ArrayList<ResourceEnum> getResources() {
         return this.resources;
     }
 
@@ -68,8 +71,8 @@ public class City {
         return this.combatStrength;
     }
 
-    public int getCitizens() {
-        return citizens;
+    public int getCitizensCount() {
+        return citizensCount;
     }
 
     public int getBeaker() {
@@ -97,24 +100,24 @@ public class City {
     }
 
     public boolean hasBuilding(String buildingName) {
-        return this.buildings.contains(BuildingsEnum.valueOf(buildingName));
+        return this.cityStructure.contains(BuildingEnum.valueOf(buildingName));
     }
 
     public void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
-        this.alreadyHasACombatUnit = true;
+        this.hasACombatUnit = true;
     }
 
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
-        this.alreadyHasANonCombatUnit = true;
+        this.hasANonCombatUnit = true;
     }
 
     public void setGold(int gold) {
         this.gold = gold;
     }
 
-    public void setResources(ArrayList<ResourcesEnum> resources) {
+    public void setResources(ArrayList<ResourceEnum> resources) {
         this.resources = resources;
     }
 
@@ -142,8 +145,8 @@ public class City {
         this.unitCount = unitCount;
     }
 
-    public void setBuildings(BuildingsEnum buildings) {
-        this.buildings.add(buildings);
+    public void setCityStructure(BuildingEnum cityStructure) {
+        this.cityStructure.add(cityStructure);
     }
 
     public void setFood(int food) {
@@ -155,11 +158,11 @@ public class City {
     }
 
     public boolean hasACombatUnit() {
-        return this.alreadyHasACombatUnit;
+        return this.hasACombatUnit;
     }
 
     public boolean hasANonCombatUnit() {
-        return this.alreadyHasANonCombatUnit;
+        return this.hasANonCombatUnit;
     }
 
 

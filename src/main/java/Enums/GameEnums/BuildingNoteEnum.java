@@ -1,10 +1,9 @@
 package Enums.GameEnums;
 
 import Models.Cities.City;
-import Models.Civilization;
 import Models.Buildings.BuildingNotes;
 
-public enum BuildingNote {
+public enum BuildingNoteEnum {
     BARRACK_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
@@ -20,7 +19,7 @@ public enum BuildingNote {
     LIBRARY_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            city.setBeaker(city.getCitizens() / 2 + city.getBeaker());
+            city.setBeaker(city.getCitizensCount() / 2 + city.getBeaker());
         }
     }),
     MONUMENT_NOTE(new BuildingNotes<City>() {
@@ -48,7 +47,7 @@ public enum BuildingNote {
             //TODO : complete
         }
     }),
-    BURIAL_TOMP_NOTE(new BuildingNotes<City>() {
+    BURIAL_TOMB_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
             city.setHappiness(city.getHappiness() + 2);
@@ -83,7 +82,6 @@ public enum BuildingNote {
     TEMPLE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            return;
         }
     }),
     CASTLE_NOTE(new BuildingNotes<City>() {
@@ -120,7 +118,6 @@ public enum BuildingNote {
     MONASTERY_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            return;
         }
     }),
     UNIVERSITY_NOTE(new BuildingNotes<City>() {
@@ -151,13 +148,11 @@ public enum BuildingNote {
     MUSEUM_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            return;
         }
     }),
     OPERA_HOUSE_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            return;
         }
     }),
     PUBLIC_SCHOOL_NOTE(new BuildingNotes<City>() {
@@ -166,7 +161,7 @@ public enum BuildingNote {
             city.setBeaker(city.getBeaker() + city.getBeaker() / 2);
         }
     }),
-    SATRAPSCOURT_NOTE(new BuildingNotes<City>() {
+    SATRAPS_COURT_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
             city.setGold(city.getGold() + city.getGold() / 4);
@@ -194,7 +189,6 @@ public enum BuildingNote {
     BROADCAST_TOWER_NOTE(new BuildingNotes<City>() {
         @Override
         public void note(City city) {
-            return;
         }
     }),
     FACTORY_NOTE(new BuildingNotes<City>() {
@@ -225,7 +219,7 @@ public enum BuildingNote {
 
     private final BuildingNotes note;
 
-    BuildingNote(BuildingNotes note) {
+    BuildingNoteEnum(BuildingNotes note) {
         this.note = note;
     }
 

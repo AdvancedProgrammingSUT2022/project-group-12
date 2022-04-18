@@ -1,13 +1,11 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.GameEnums.TechnologiesEnum;
-import Enums.GameEnums.UnitsEnum;
+import Enums.GameEnums.TechnologyEnum;
+import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.CombatUnit;
-import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,22 +14,26 @@ public class Civilization {
     // todo: complete
 
     private final User user;
+    private final String name;
     private int gold;
     private int beaker;
     private int happiness;
     private int production;
-    private ArrayList<TechnologiesEnum> technologies;
-    private HashMap<UnitsEnum, Integer> combatUnits;
-    private HashMap<UnitsEnum, Integer> nonCombatUnits;
+    private ArrayList<TechnologyEnum> technologies;
+    private HashMap<UnitEnum, Integer> combatUnits;
+    private HashMap<UnitEnum, Integer> nonCombatUnits;
     private ArrayList<Tile> tiles;
     private TileGrid revealedTileGrid;
     private City capital;
+    private ArrayList<City> cities;
     private ArrayList<String> isInWarWith;
     private final CivilizationController controller;
 
     public Civilization(User user) {
+        this.name = user.getNickname();
         this.user = user;
         this.controller = new CivilizationController();
+        this.cities = new ArrayList<>();
     }
 
     public boolean isAlreadyInWarWith(String username) {
@@ -62,15 +64,15 @@ public class Civilization {
         return this.production;
     }
 
-    public ArrayList<TechnologiesEnum> getTechnologies() {
+    public ArrayList<TechnologyEnum> getTechnologies() {
         return this.technologies;
     }
 
-    public HashMap<UnitsEnum, Integer> getCombatUnits() {
+    public HashMap<UnitEnum, Integer> getCombatUnits() {
         return this.combatUnits;
     }
 
-    public HashMap<UnitsEnum, Integer> getNonCombatUnits() {
+    public HashMap<UnitEnum, Integer> getNonCombatUnits() {
         return this.nonCombatUnits;
     }
 
@@ -92,5 +94,9 @@ public class Civilization {
 
     public CivilizationController getController() {
         return this.controller;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

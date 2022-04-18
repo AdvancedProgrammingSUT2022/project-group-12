@@ -1,11 +1,5 @@
 package Controllers;
 
-import Enums.GameEnums.TechnologiesEnum;
-import Enums.GameEnums.UnitsEnum;
-import Models.Cities.City;
-
-import java.util.ArrayList;
-
 public class CivilizationController {
     public StringBuilder exploreInfo() {
         return new StringBuilder();
@@ -27,7 +21,7 @@ public class CivilizationController {
 
     }
 
-    public void cheatSheet() {
+    public void applyCheatSheet() {
         
     }
 }

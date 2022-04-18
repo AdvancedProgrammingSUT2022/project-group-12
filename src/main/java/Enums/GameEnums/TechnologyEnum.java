@@ -2,7 +2,7 @@ package Enums.GameEnums;
 
 import java.util.ArrayList;
 
-public enum TechnologiesEnum {
+public enum TechnologyEnum {
     AGRICULTURE(20, null, new ArrayList<>() {{
         add(POTTERY);
         add(ANIMAL_HUSBANDRY);
@@ -273,10 +273,10 @@ public enum TechnologiesEnum {
     }}, null);
 
     private final int cost;
-    private final ArrayList<TechnologiesEnum> prerequisiteTechs;
-    private final ArrayList<TechnologiesEnum> leadsToTechs;
+    private final ArrayList<TechnologyEnum> prerequisiteTechs;
+    private final ArrayList<TechnologyEnum> leadsToTechs;
 
-    TechnologiesEnum(int cost, ArrayList<TechnologiesEnum> prerequisiteTechs, ArrayList<TechnologiesEnum> leadsToTechs) {
+    TechnologyEnum(int cost, ArrayList<TechnologyEnum> prerequisiteTechs, ArrayList<TechnologyEnum> leadsToTechs) {
         this.cost = cost;
         this.prerequisiteTechs = prerequisiteTechs;
         this.leadsToTechs = leadsToTechs;
@@ -286,8 +286,8 @@ public enum TechnologiesEnum {
         return this.cost;
     }
 
-    public boolean hasPrerequisiteTechs(ArrayList<TechnologiesEnum> techs) {
-        for (TechnologiesEnum list : this.prerequisiteTechs) {
+    public boolean hasPrerequisiteTechs(ArrayList<TechnologyEnum> techs) {
+        for (TechnologyEnum list : this.prerequisiteTechs) {
             if (!techs.contains(list)) {
                 return false;
             }
@@ -295,7 +295,7 @@ public enum TechnologiesEnum {
         return true;
     }
 
-    public ArrayList<TechnologiesEnum> leadsToTech() {
+    public ArrayList<TechnologyEnum> leadsToTech() {
         return this.leadsToTechs;
     }
 }

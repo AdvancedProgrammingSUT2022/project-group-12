@@ -1,8 +1,9 @@
 package Controllers;
 
-import Enums.Response;
+import Enums.CommandResponseEnum;
 import Models.Game;
 import Models.Tiles.TileGrid;
+import Models.Units.Unit;
 
 public class GameMenuController {
     private final Game game;
@@ -11,12 +12,12 @@ public class GameMenuController {
         this.game = newGame;
     }
 
-    public Response battle() {
-        return Response.OK;
+    public CommandResponseEnum battle(Unit Attacking, Unit defending) {
+        return CommandResponseEnum.OK;
     }
 
-    public Response movement() {
-        return Response.OK;
+    public CommandResponseEnum movement(Unit moving) {
+        return CommandResponseEnum.OK;
     }
 
     public TileGrid getGameTileGrid() {

@@ -1,11 +1,11 @@
 package Enums;
 
-public enum Response {
+public enum CommandResponseEnum {
     OK("OK");
 
     private final String message;
 
-    Response(String message) {
+    CommandResponseEnum(String message) {
         this.message = message;
     }
 
@@ -15,6 +15,6 @@ public enum Response {
     }
 
     public boolean isOK() {
-        return this == Response.OK;
+        return this == CommandResponseEnum.OK;
     }
 }
