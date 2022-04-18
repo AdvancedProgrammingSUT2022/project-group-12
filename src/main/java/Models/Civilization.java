@@ -1,6 +1,8 @@
 package Models;
 
+import Controllers.CivilizationController;
 import Enums.GameEnums.TechnologiesEnum;
+import Enums.GameEnums.UnitsEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -19,15 +21,17 @@ public class Civilization {
     private int happiness;
     private int production;
     private ArrayList<TechnologiesEnum> technologies;
-    private HashMap<CombatUnit, Integer> combatUnits;
-    private HashMap<NonCombatUnit, Integer> nonCombatUnits;
+    private HashMap<UnitsEnum, Integer> combatUnits;
+    private HashMap<UnitsEnum, Integer> nonCombatUnits;
     private ArrayList<Tile> tiles;
     private TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<String> isInWarWith;
+    private final CivilizationController controller;
 
     public Civilization(User user) {
         this.user = user;
+        this.controller = new CivilizationController();
     }
 
     public boolean isAlreadyInWarWith(String username) {
@@ -43,6 +47,50 @@ public class Civilization {
     }
 
     public int getHappiness() {
-        return happiness;
+        return this.happiness;
+    }
+
+    public int getGold() {
+        return this.gold;
+    }
+
+    public int getBeaker() {
+        return this.beaker;
+    }
+
+    public int getProduction() {
+        return this.production;
+    }
+
+    public ArrayList<TechnologiesEnum> getTechnologies() {
+        return this.technologies;
+    }
+
+    public HashMap<UnitsEnum, Integer> getCombatUnits() {
+        return this.combatUnits;
+    }
+
+    public HashMap<UnitsEnum, Integer> getNonCombatUnits() {
+        return this.nonCombatUnits;
+    }
+
+    public ArrayList<Tile> getTiles() {
+        return this.tiles;
+    }
+
+    public TileGrid getRevealedTileGrid() {
+        return this.revealedTileGrid;
+    }
+
+    public City getCapital() {
+        return this.capital;
+    }
+
+    public ArrayList<String> getIsInWarWith() {
+        return this.isInWarWith;
+    }
+
+    public CivilizationController getController() {
+        return this.controller;
     }
 }

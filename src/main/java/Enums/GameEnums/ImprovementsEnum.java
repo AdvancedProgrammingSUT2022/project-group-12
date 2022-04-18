@@ -3,105 +3,105 @@ package Enums.GameEnums;
 import java.util.ArrayList;
 
 public enum ImprovementsEnum {
-    camp(new ArrayList<>() {{
-        add(ResourcesEnum.ivory);
-        add(ResourcesEnum.fur);
-        add(ResourcesEnum.deer);
+    CAMP(new ArrayList<>() {{
+        add(ResourcesEnum.IVORY);
+        add(ResourcesEnum.FUR);
+        add(ResourcesEnum.DEER);
     }}, new ArrayList<>() {{
-        add(TechnologiesEnum.trapping);
+        add(TechnologiesEnum.TRAPPING);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.forest);
-        add(TerrainsEnum.tundra);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.hill);
+        add(TerrainsEnum.FOREST);
+        add(TerrainsEnum.TUNDRA);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.HILL);
     }}),
-    farm(new ArrayList<>() {{
-        add(ResourcesEnum.wheat);
+    FARM(new ArrayList<>() {{
+        add(ResourcesEnum.WHEAT);
     }}, new ArrayList<>() {{
-        add(TechnologiesEnum.agriculture);
+        add(TechnologiesEnum.AGRICULTURE);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.desert);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.DESERT);
     }}),
-    lumberMill(null, new ArrayList<>() {{
-        add(TechnologiesEnum.engineering);
+    LUMBER_MILL(null, new ArrayList<>() {{
+        add(TechnologiesEnum.ENGINEERING);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.forest);
+        add(TerrainsEnum.FOREST);
     }}),
-    mine(new ArrayList<>() {{
-        add(ResourcesEnum.iron);
-        add(ResourcesEnum.coal);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.gold);
-        add(ResourcesEnum.silver);
+    MINE(new ArrayList<>() {{
+        add(ResourcesEnum.IRON);
+        add(ResourcesEnum.COAL);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.GOLD);
+        add(ResourcesEnum.SILVER);
     }}, new ArrayList<>() {{
-        add(TechnologiesEnum.mining);
+        add(TechnologiesEnum.MINING);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.desert);
-        add(TerrainsEnum.tundra);
-        add(TerrainsEnum.snow);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.DESERT);
+        add(TerrainsEnum.TUNDRA);
+        add(TerrainsEnum.SNOW);
     }}),
-    pasture(new ArrayList<>() {{
-        add(ResourcesEnum.horse);
-        add(ResourcesEnum.cattle);
-        add(ResourcesEnum.sheep);
+    PASTURE(new ArrayList<>() {{
+        add(ResourcesEnum.HORSE);
+        add(ResourcesEnum.CATTLE);
+        add(ResourcesEnum.SHEEP);
     }}, new ArrayList<>() {{
-        add(TechnologiesEnum.animalHusbandry);
+        add(TechnologiesEnum.ANIMAL_HUSBANDRY);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.desert);
-        add(TerrainsEnum.tundra);
-        add(TerrainsEnum.hill);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.DESERT);
+        add(TerrainsEnum.TUNDRA);
+        add(TerrainsEnum.HILL);
     }}),
-    stoneMine(new ArrayList<>() {{
-        add(ResourcesEnum.marble);
+    STONE_MINE(new ArrayList<>() {{
+        add(ResourcesEnum.MARBLE);
     }}, new ArrayList<>() {{
         //TODO : carving stone ?
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.desert);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.tundra);
-        add(TerrainsEnum.hill);
+        add(TerrainsEnum.DESERT);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.TUNDRA);
+        add(TerrainsEnum.HILL);
     }}),
-    cultivation(new ArrayList<>() {{
-        add(ResourcesEnum.banana);
-        add(ResourcesEnum.cotton);
-        add(ResourcesEnum.dyes);
-        add(ResourcesEnum.incense);
-        add(ResourcesEnum.silk);
-        add(ResourcesEnum.sugar);
+    CULTIVATION(new ArrayList<>() {{
+        add(ResourcesEnum.BANANA);
+        add(ResourcesEnum.COTTON);
+        add(ResourcesEnum.DYES);
+        add(ResourcesEnum.INCENSE);
+        add(ResourcesEnum.SILK);
+        add(ResourcesEnum.SUGAR);
     }}, new ArrayList<>() {{
-        add(TechnologiesEnum.calendar);
+        add(TechnologiesEnum.CALENDAR);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.desert);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.forest);
-        add(TerrainsEnum.jungle);
-        add(TerrainsEnum.marsh);
-        add(TerrainsEnum.fallout);
+        add(TerrainsEnum.DESERT);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.FOREST);
+        add(TerrainsEnum.JUNGLE);
+        add(TerrainsEnum.MARSH);
+        add(TerrainsEnum.FALLOUT);
     }}),
-    tradingPost(null, new ArrayList<>() {{
-        add(TechnologiesEnum.trapping);
+    TRADING_POST(null, new ArrayList<>() {{
+        add(TechnologiesEnum.TRAPPING);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.desert);
-        add(TerrainsEnum.tundra);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.DESERT);
+        add(TerrainsEnum.TUNDRA);
     }}),
-    company(null, new ArrayList<>() {{
-        add(TechnologiesEnum.engineering);
+    COMPANY(null, new ArrayList<>() {{
+        add(TechnologiesEnum.ENGINEERING);
     }}, new ArrayList<>() {{
-        add(TerrainsEnum.desert);
-        add(TerrainsEnum.plain);
-        add(TerrainsEnum.grassland);
-        add(TerrainsEnum.tundra);
-        add(TerrainsEnum.snow);
+        add(TerrainsEnum.DESERT);
+        add(TerrainsEnum.PLAIN);
+        add(TerrainsEnum.GRASSLAND);
+        add(TerrainsEnum.TUNDRA);
+        add(TerrainsEnum.SNOW);
     }});
 
     private final ArrayList<ResourcesEnum> isRequiredBy;
@@ -114,15 +114,15 @@ public enum ImprovementsEnum {
         this.canBeBuiltOn = canBeBuiltOn;
     }
 
-    public ArrayList<ResourcesEnum> getIsRequiredBy() {
-        return this.isRequiredBy;
+    public boolean hasRequiredTechs(ArrayList<TechnologiesEnum> techs) {
+        for (TechnologiesEnum list : this.requiredTechs)
+            if (!techs.contains(list)) {
+                return false;
+            }
+        return true;
     }
 
-    public ArrayList<TechnologiesEnum> getRequiredTechs() {
-        return this.requiredTechs;
-    }
-
-    public ArrayList<TerrainsEnum> getCanBeBuiltOn() {
-        return this.canBeBuiltOn;
+    public boolean getCanBeBuiltOn(TerrainsEnum land) {
+        return this.canBeBuiltOn.contains(land);
     }
 }

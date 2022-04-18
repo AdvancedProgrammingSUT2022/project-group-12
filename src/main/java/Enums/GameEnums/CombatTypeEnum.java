@@ -1,12 +1,12 @@
 package Enums.GameEnums;
 
 public enum CombatTypeEnum {
-    archery,
-    mounted,
-    recon,
-    civilian,
-    melee,
-    siege,
-    gunpowder,
-    armored;
+    ARCHERY,
+    MOUNTED,
+    RECON,
+    CIVILIAN,
+    MELEE,
+    SIEGE,
+    GUNPOWDER,
+    ARMORED;
 }

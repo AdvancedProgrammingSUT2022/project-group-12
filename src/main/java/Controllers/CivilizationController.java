@@ -7,16 +7,16 @@ import Models.Cities.City;
 import java.util.ArrayList;
 
 public class CivilizationController {
-    public ArrayList<TechnologiesEnum> exploreInfo() {
-        return new ArrayList<>();
+    public StringBuilder exploreInfo() {
+        return new StringBuilder();
     }
 
-    public ArrayList<UnitsEnum> unitInfo() {
-        return new ArrayList<>();
+    public StringBuilder unitInfo() {
+        return new StringBuilder();
     }
 
-    public ArrayList<City> citiesInfo() {
-        return new ArrayList<>();
+    public StringBuilder citiesInfo() {
+        return new StringBuilder();
     }
 
     public void setHappiness() {

@@ -3,83 +3,85 @@ package Enums.GameEnums;
 import java.util.ArrayList;
 
 public enum ResourcesEnum {
-    banana(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.cultivation),
+    BANANA(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.CULTIVATION),
 
-    cattle(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.pasture),
+    CATTLE(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.PASTURE),
 
-    deer(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.camp),
+    DEER(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.CAMP),
 
-    sheep(ResourceTypeEnum.bonus, 2, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.pasture),
+    SHEEP(ResourceTypeEnum.BONUS, 2, 0, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.PASTURE),
 
-    wheat(ResourceTypeEnum.bonus, 1, 0, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.farm),
+    WHEAT(ResourceTypeEnum.BONUS, 1, 0, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.FARM),
 
-    coal(ResourceTypeEnum.strategic, 0, 1, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.mine),
+    COAL(ResourceTypeEnum.STRATEGIC, 0, 1, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.MINE),
 
-    horse(ResourceTypeEnum.strategic, 0, 1, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.pasture),
+    HORSE(ResourceTypeEnum.STRATEGIC, 0, 1, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.PASTURE),
 
-    iron(ResourceTypeEnum.strategic, 0, 1, 0, new ArrayList<>() {{
-    }}, ImprovementsEnum.mine),
+    IRON(ResourceTypeEnum.STRATEGIC, 0, 1, 0, new ArrayList<>() {{
+    }}, ImprovementsEnum.MINE),
 
-    cotton(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.cultivation),
+    COTTON(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CULTIVATION),
 
-    dyes(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.cultivation),
+    DYES(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CULTIVATION),
 
-    fur(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.camp),
+    FUR(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CAMP),
 
-    gemstone(ResourceTypeEnum.luxury, 0, 0, 3, new ArrayList<>() {{
-    }}, ImprovementsEnum.mine),
+    GEMSTONE(ResourceTypeEnum.LUXURY, 0, 0, 3, new ArrayList<>() {{
+    }}, ImprovementsEnum.MINE),
 
-    gold(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.mine),
+    GOLD(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.MINE),
 
-    incense(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.cultivation),
+    INCENSE(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CULTIVATION),
 
-    ivory(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.camp),
+    IVORY(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CAMP),
 
-    marble(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.stoneMine),
+    MARBLE(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.STONE_MINE),
 
-    silk(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.cultivation),
+    SILK(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CULTIVATION),
 
-    silver(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.mine),
+    SILVER(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.MINE),
 
-    sugar(ResourceTypeEnum.luxury, 0, 0, 2, new ArrayList<>() {{
-    }}, ImprovementsEnum.cultivation);
+    SUGAR(ResourceTypeEnum.LUXURY, 0, 0, 2, new ArrayList<>() {{
+    }}, ImprovementsEnum.CULTIVATION);
 
     private final ResourceTypeEnum type;
     private final int foodCount;
     private final int productCount;
     private final int goldCount;
-    private final ArrayList<TerrainsEnum> isOn;
+    private final ArrayList<TerrainsEnum> canBeOn;
     private final ImprovementsEnum improvementNeeded;
     private final boolean isLuxury;
     private final boolean isBonus;
     private final boolean isStrategic;
 
-    ResourcesEnum(ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ArrayList<TerrainsEnum> isOn, ImprovementsEnum improvementNeeded) {
+    ResourcesEnum(ResourceTypeEnum type, int foodCount,
+                  int productCount, int goldCount, ArrayList<TerrainsEnum> canBeOn,
+                  ImprovementsEnum improvementNeeded) {
         this.type = type;
         this.foodCount = foodCount;
         this.productCount = productCount;
         this.goldCount = goldCount;
-        this.isOn = isOn;
+        this.canBeOn = canBeOn;
         this.improvementNeeded = improvementNeeded;
-        this.isLuxury = type.equals(ResourceTypeEnum.luxury);
-        this.isStrategic = type.equals(ResourceTypeEnum.strategic);
-        this.isBonus = type.equals(ResourceTypeEnum.bonus);
+        this.isLuxury = type.equals(ResourceTypeEnum.LUXURY);
+        this.isStrategic = type.equals(ResourceTypeEnum.STRATEGIC);
+        this.isBonus = type.equals(ResourceTypeEnum.BONUS);
     }
 
     public int getFoodCount() {
@@ -94,8 +96,8 @@ public enum ResourcesEnum {
         return this.goldCount;
     }
 
-    public ArrayList<TerrainsEnum> getIsOn() {
-        return this.isOn;
+    public boolean isOn(TerrainsEnum terrain) {
+        return this.canBeOn.contains(terrain);
     }
 
     public ImprovementsEnum getImprovementNeeded() {

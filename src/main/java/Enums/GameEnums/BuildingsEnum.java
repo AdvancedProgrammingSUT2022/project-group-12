@@ -6,141 +6,141 @@ import Models.Buildings.BuildingNotes;
 import java.util.ArrayList;
 
 public enum BuildingsEnum {
-    barrack(80, 1, new ArrayList<>() {{
-        add(TechnologiesEnum.bronzeWorking);
+    BARRAK(80, 1, new ArrayList<>() {{
+        add(TechnologiesEnum.BRONZE_WORKING);
     }}, null, BuildingNote.BARRACK_NOTE.getNote()),
-    granary(100, 1, new ArrayList<>() {{
-        add(TechnologiesEnum.pottery);
+    GRANARY(100, 1, new ArrayList<>() {{
+        add(TechnologiesEnum.POTTERY);
     }}, null, BuildingNote.GRANARY_NOTE.getNote()),
-    library(80, 1, new ArrayList<>() {{
-        add(TechnologiesEnum.writing);
+    LIBRARY(80, 1, new ArrayList<>() {{
+        add(TechnologiesEnum.WRITING);
     }}, null, BuildingNote.LIBRARY_NOTE.getNote()),
-    monument(60, 1, null, null, BuildingNote.MONUMENT_NOTE.getNote()),
-    walls(100, 1, new ArrayList<>() {{
-        add(TechnologiesEnum.masonry);
+    MONUMENT(60, 1, null, null, BuildingNote.MONUMENT_NOTE.getNote()),
+    WALLS(100, 1, new ArrayList<>() {{
+        add(TechnologiesEnum.MASONRY);
     }}, null, BuildingNote.WALLS_NOTE.getNote()),
-    waterMill(120, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.theWheel);
+    WATER_MILL(120, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.THE_WHEEL);
     }}, null, BuildingNote.WALLTERMILLS_NOTE.getNote()),
-    armory(130, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.ironWorking);
+    ARMORY(130, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.IRON_WORKING);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.barrack);
+        add(BuildingsEnum.BARRAK);
     }}, BuildingNote.ARMORY_NOTE.getNote()),
-    burialTomb(120, 0, new ArrayList<>() {{
-        add(TechnologiesEnum.philosophy);
+    BURIAL_TOMB(120, 0, new ArrayList<>() {{
+        add(TechnologiesEnum.PHILOSOPHY);
     }}, null, BuildingNote.BURIAL_TOMP_NOTE.getNote()),
-    circus(150, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.horsebackRiding);
+    CIRCUS(150, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.HORSEBACK_RIDING);
     }}, null, BuildingNote.CIRCUS_NOTE.getNote()),
-    colosseum(150, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.construction);
+    COLOSSEUM(150, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.CONSTRUCTION);
     }}, null, BuildingNote.COLOSSEUM_NOTE.getNote()),
-    courthouse(200, 5, new ArrayList<>() {{
-        add(TechnologiesEnum.mathematics);
+    COURT_HOUSE(200, 5, new ArrayList<>() {{
+        add(TechnologiesEnum.MATHEMATICS);
     }}, null, BuildingNote.COURTHOUSE_NOTE.getNote()),
-    stable(100, 1, new ArrayList<>() {{
-        add(TechnologiesEnum.horsebackRiding);
+    STABLE(100, 1, new ArrayList<>() {{
+        add(TechnologiesEnum.HORSEBACK_RIDING);
     }}, null, BuildingNote.STABLE_NOTE.getNote()),
-    temple(120, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.philosophy);
+    TEMPLE(120, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.PHILOSOPHY);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.monument);
+        add(BuildingsEnum.MONUMENT);
     }}, BuildingNote.TEMPLE_NOTE.getNote()),
-    castle(200, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.chivalry);
+    CASTLE(200, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.CHIVALRY);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.walls);
+        add(BuildingsEnum.WALLS);
     }}, BuildingNote.CASTLE_NOTE.getNote()),
-    forage(150, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.metalCasting);
+    FORAGE(150, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.METAL_CASTING);
     }}, null, BuildingNote.FORGE_NOTE.getNote()),
-    garden(120, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.theology);
+    GARDEN(120, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.THEOLOGY);
     }}, null, BuildingNote.GARDEN_NOTE.getNote()),
-    market(120, 0, new ArrayList<>() {{
-        add(TechnologiesEnum.currency);
+    MARKET(120, 0, new ArrayList<>() {{
+        add(TechnologiesEnum.CURRENCY);
     }}, null, BuildingNote.MARKET_NOTE.getNote()),
-    mint(120, 0, new ArrayList<>() {{
-        add(TechnologiesEnum.currency);
+    MINT(120, 0, new ArrayList<>() {{
+        add(TechnologiesEnum.CURRENCY);
     }}, null, BuildingNote.MINT_NOTE.getNote()),
-    monastery(120, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.techno);
+    MONASTERY(120, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.TECHNO);
     }}, null, BuildingNote.MONASTERY_NOTE.getNote()),
-    university(200, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.education);
+    UNIVERSITY(200, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.EDUCATION);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.library);
+        add(BuildingsEnum.LIBRARY);
     }}, BuildingNote.UNIVERSITY_NOTE.getNote()),
-    workshop(100, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.metalCasting);
+    WORKSHOP(100, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.METAL_CASTING);
     }}, null, BuildingNote.WORKSHOP_NOTE.getNote()),
-    bank(200, 0, new ArrayList<>() {{
-        add(TechnologiesEnum.banking);
+    BANK(200, 0, new ArrayList<>() {{
+        add(TechnologiesEnum.BANKING);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.market);
+        add(BuildingsEnum.MARKET);
     }}, BuildingNote.BANK.getNote()),
-    militaryAcademy(350, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.militaryScience);
+    MILITARY_ACADEMY(350, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.MILITARY_SCIENCE);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.barrack);
+        add(BuildingsEnum.BARRAK);
     }}, BuildingNote.MILITARY_ACADEMY_NOTE.getNote()),
-    museum(350, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.archaeology);
+    MUSEUM(350, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.ARCHAEOLOGY);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.operaHouse);
+        add(BuildingsEnum.OPERA_HOUSE);
     }}, BuildingNote.MUSEUM_NOTE.getNote()),
-    operaHouse(220, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.acoustics);
+    OPERA_HOUSE(220, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.ACOUSTICS);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.temple);
-        add(BuildingsEnum.burialTomb);
+        add(BuildingsEnum.TEMPLE);
+        add(BuildingsEnum.BURIAL_TOMB);
     }}, BuildingNote.OPERA_HOUSE_NOTE.getNote()),
 
-    publicSchool(350, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.scientificTheory);
+    PUBLIC_SCHOOL(350, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.SCIENTIFIC_THEORY);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.university);
+        add(BuildingsEnum.UNIVERSITY);
     }}, BuildingNote.PUBLIC_SCHOOL_NOTE.getNote()),
-    satrapsCourt(220, 0, new ArrayList<>() {{
-        add(TechnologiesEnum.banking);
+    SATRAPS_COURT(220, 0, new ArrayList<>() {{
+        add(TechnologiesEnum.BANKING);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.market);
+        add(BuildingsEnum.MARKET);
     }}, BuildingNote.SATRAPSCOURT_NOTE.getNote()),
-    theater(300, 5, new ArrayList<>() {{
-        add(TechnologiesEnum.printingPress);
+    THEATER(300, 5, new ArrayList<>() {{
+        add(TechnologiesEnum.PRINTING_PRESS);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.colosseum);
+        add(BuildingsEnum.COLOSSEUM);
     }}, BuildingNote.THEATER_NOTE.getNote()),
 
-    windmill(180, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.economics);
+    WINDMILL(180, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.ECONOMICS);
     }}, null, BuildingNote.WINDMILL_NOTE.getNote()),
-    arsenal(350, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.railroad);
+    ARSENAL(350, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.RAILROAD);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.militaryAcademy);
+        add(BuildingsEnum.MILITARY_ACADEMY);
     }}, BuildingNote.ARSENAL_NOTE.getNote()),
-    broadcastTower(600, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.radio);
+    BROADCAST_TOWER(600, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.RADIO);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.museum);
+        add(BuildingsEnum.MUSEUM);
     }}, BuildingNote.BROADCAST_TOWER_NOTE.getNote()),
-    factory(300, 3, new ArrayList<>() {{
-        add(TechnologiesEnum.steamPower);
+    FACTORY(300, 3, new ArrayList<>() {{
+        add(TechnologiesEnum.STEAM_POWER);
     }}, null, BuildingNote.FACTORY_NOTE.getNote()),
-    hospital(400, 2, new ArrayList<>() {{
-        add(TechnologiesEnum.biology);
+    HOSPITAL(400, 2, new ArrayList<>() {{
+        add(TechnologiesEnum.BIOLOGY);
     }}, null, BuildingNote.HOSPITAL_NOTE.getNote()),
-    militaryBase(450, 4, new ArrayList<>() {{
-        add(TechnologiesEnum.telegraph);
+    MILITARY_BASE(450, 4, new ArrayList<>() {{
+        add(TechnologiesEnum.TELEGRAPH);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.castle);
+        add(BuildingsEnum.CASTLE);
     }}, BuildingNote.MILITARY_BASE_NOTE.getNote()),
-    stockExchange(650, 0, new ArrayList<>() {{
-        add(TechnologiesEnum.electricity);
+    STOCK_EXCHANGE(650, 0, new ArrayList<>() {{
+        add(TechnologiesEnum.ELECTRICITY);
     }}, new ArrayList<>() {{
-        add(BuildingsEnum.bank);
+        add(BuildingsEnum.BANK);
     }}, BuildingNote.STOCK_EXCHANGE_NOTE.getNote());
 
 
@@ -169,5 +169,14 @@ public enum BuildingsEnum {
 
     public ArrayList<TechnologiesEnum> getRequiredTechs() {
         return this.requiredTechs;
+    }
+
+    public boolean checkIfHasRequiredTechs(ArrayList<TechnologiesEnum> techList) {
+        for (TechnologiesEnum list : this.requiredTechs) {
+            if (!techList.contains(list)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

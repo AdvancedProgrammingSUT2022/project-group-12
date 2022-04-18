@@ -3,273 +3,273 @@ package Enums.GameEnums;
 import java.util.ArrayList;
 
 public enum TechnologiesEnum {
-    agriculture(20, null, new ArrayList<>() {{
-        add(pottery);
-        add(animalHusbandry);
-        add(archery);
-        add(mining);
+    AGRICULTURE(20, null, new ArrayList<>() {{
+        add(POTTERY);
+        add(ANIMAL_HUSBANDRY);
+        add(ARCHERY);
+        add(MINING);
     }}),
-    animalHusbandry(35, new ArrayList<>() {{
-        add(agriculture);
+    ANIMAL_HUSBANDRY(35, new ArrayList<>() {{
+        add(AGRICULTURE);
     }}, new ArrayList<>() {{
-        add(trapping);
-        add(theWheel);
+        add(TRAPPING);
+        add(THE_WHEEL);
     }}),
-    archery(35, new ArrayList<>() {{
-        add(agriculture);
+    ARCHERY(35, new ArrayList<>() {{
+        add(AGRICULTURE);
     }}, new ArrayList<>() {{
-        add(mathematics);
+        add(MATHEMATICS);
     }}),
-    bronzeWorking(55, new ArrayList<>() {{
-        add(mining);
+    BRONZE_WORKING(55, new ArrayList<>() {{
+        add(MINING);
     }}, new ArrayList<>() {{
-        add(ironWorking);
+        add(IRON_WORKING);
     }}),
-    calendar(70, new ArrayList<>() {{
-        add(pottery);
+    CALENDAR(70, new ArrayList<>() {{
+        add(POTTERY);
     }}, new ArrayList<>() {{
-        add(theology);
+        add(THEOLOGY);
     }}),
-    masonry(55, new ArrayList<>() {{
-        add(mining);
+    MASONRY(55, new ArrayList<>() {{
+        add(MINING);
     }}, new ArrayList<>() {{
-        add(construction);
+        add(CONSTRUCTION);
     }}),
-    mining(35, new ArrayList<>() {{
-        add(agriculture);
+    MINING(35, new ArrayList<>() {{
+        add(AGRICULTURE);
     }}, new ArrayList<>() {{
-        add(masonry);
-        add(bronzeWorking);
+        add(MASONRY);
+        add(BRONZE_WORKING);
     }}),
-    pottery(35, new ArrayList<>() {{
-        add(agriculture);
+    POTTERY(35, new ArrayList<>() {{
+        add(AGRICULTURE);
     }}, new ArrayList<>() {{
-        add(calendar);
-        add(writing);
+        add(CALENDAR);
+        add(WRITING);
     }}),
-    theWheel(55, new ArrayList<>() {{
-        add(animalHusbandry);
+    THE_WHEEL(55, new ArrayList<>() {{
+        add(ANIMAL_HUSBANDRY);
     }}, new ArrayList<>() {{
-        add(horsebackRiding);
-        add(mathematics);
+        add(HORSEBACK_RIDING);
+        add(MATHEMATICS);
     }}),
-    trapping(55, new ArrayList<>() {{
-        add(animalHusbandry);
+    TRAPPING(55, new ArrayList<>() {{
+        add(ANIMAL_HUSBANDRY);
     }}, new ArrayList<>() {{
-        add(civilService);
+        add(CIVIL_SERVICE);
     }}),
-    writing(55, new ArrayList<>() {{
-        add(pottery);
+    WRITING(55, new ArrayList<>() {{
+        add(POTTERY);
     }}, new ArrayList<>() {{
-        add(philosophy);
+        add(PHILOSOPHY);
     }}),
-    construction(100, new ArrayList<>() {{
-        add(masonry);
+    CONSTRUCTION(100, new ArrayList<>() {{
+        add(MASONRY);
     }}, new ArrayList<>() {{
-        add(engineering);
+        add(ENGINEERING);
     }}),
-    horsebackRiding(100, new ArrayList<>() {{
-        add(theWheel);
+    HORSEBACK_RIDING(100, new ArrayList<>() {{
+        add(THE_WHEEL);
     }}, new ArrayList<>() {{
-        add(chivalry);
+        add(CHIVALRY);
     }}),
-    ironWorking(150, new ArrayList<>() {{
-        add(bronzeWorking);
+    IRON_WORKING(150, new ArrayList<>() {{
+        add(BRONZE_WORKING);
     }}, new ArrayList<>() {{
-        add(metalCasting);
+        add(METAL_CASTING);
     }}),
-    mathematics(100, new ArrayList<>() {{
-        add(theWheel);
+    MATHEMATICS(100, new ArrayList<>() {{
+        add(THE_WHEEL);
     }}, new ArrayList<>() {{
-        add(currency);
-        add(engineering);
+        add(CURRENCY);
+        add(ENGINEERING);
     }}),
-    philosophy(100, new ArrayList<>() {{
-        add(writing);
+    PHILOSOPHY(100, new ArrayList<>() {{
+        add(WRITING);
     }}, new ArrayList<>() {{
-        add(theology);
-        add(civilService);
+        add(THEOLOGY);
+        add(CIVIL_SERVICE);
     }}),
-    chivalry(440, new ArrayList<>() {{
-        add(civilService);
-        add(horsebackRiding);
-        add(currency);
+    CHIVALRY(440, new ArrayList<>() {{
+        add(CIVIL_SERVICE);
+        add(HORSEBACK_RIDING);
+        add(CURRENCY);
     }}, new ArrayList<>() {{
-        add(banking);
+        add(BANKING);
     }}),
-    civilService(400, new ArrayList<>() {{
-        add(philosophy);
-        add(trapping);
+    CIVIL_SERVICE(400, new ArrayList<>() {{
+        add(PHILOSOPHY);
+        add(TRAPPING);
     }}, new ArrayList<>() {{
-        add(chivalry);
+        add(CHIVALRY);
     }}),
-    currency(250, new ArrayList<>() {{
-        add(mathematics);
+    CURRENCY(250, new ArrayList<>() {{
+        add(MATHEMATICS);
     }}, new ArrayList<>() {{
-        add(chivalry);
+        add(CHIVALRY);
     }}),
-    education(440, new ArrayList<>() {{
-        add(theology);
+    EDUCATION(440, new ArrayList<>() {{
+        add(THEOLOGY);
     }}, new ArrayList<>() {{
-        add(acoustics);
-        add(banking);
+        add(ACOUSTICS);
+        add(BANKING);
     }}),
-    engineering(250, new ArrayList<>() {{
-        add(mathematics);
-        add(construction);
+    ENGINEERING(250, new ArrayList<>() {{
+        add(MATHEMATICS);
+        add(CONSTRUCTION);
     }}, new ArrayList<>() {{
-        add(machinery);
-        add(physics);
+        add(MACHINERY);
+        add(PHYSICS);
     }}),
-    machinery(440, new ArrayList<>() {{
-        add(engineering);
+    MACHINERY(440, new ArrayList<>() {{
+        add(ENGINEERING);
     }}, new ArrayList<>() {{
-        add(printingPress);
+        add(PRINTING_PRESS);
     }}),
-    metalCasting(240, new ArrayList<>() {{
-        add(ironWorking);
+    METAL_CASTING(240, new ArrayList<>() {{
+        add(IRON_WORKING);
     }}, new ArrayList<>() {{
-        add(physics);
-        add(steel);
+        add(PHYSICS);
+        add(STEEL);
     }}),
-    physics(440, new ArrayList<>() {{
-        add(ironWorking);
+    PHYSICS(440, new ArrayList<>() {{
+        add(IRON_WORKING);
     }}, new ArrayList<>() {{
-        add(printingPress);
-        add(gunpowder);
+        add(PRINTING_PRESS);
+        add(GUNPOWDER);
     }}),
-    steel(440, new ArrayList<>() {{
-        add(metalCasting);
+    STEEL(440, new ArrayList<>() {{
+        add(METAL_CASTING);
     }}, new ArrayList<>() {{
-        add(gunpowder);
+        add(GUNPOWDER);
     }}),
-    techno(250, new ArrayList<>() {{
-        add(calendar);
-        add(philosophy);
+    TECHNO(250, new ArrayList<>() {{
+        add(CALENDAR);
+        add(PHILOSOPHY);
     }}, new ArrayList<>() {{
-        add(education);
+        add(EDUCATION);
     }}),
-    theology(250, new ArrayList<>() {{
-        add(calendar);
-        add(philosophy);
+    THEOLOGY(250, new ArrayList<>() {{
+        add(CALENDAR);
+        add(PHILOSOPHY);
     }}, new ArrayList<>() {{
-        add(education);
+        add(EDUCATION);
     }}),
-    acoustics(650, new ArrayList<>() {{
-        add(education);
+    ACOUSTICS(650, new ArrayList<>() {{
+        add(EDUCATION);
     }}, new ArrayList<>() {{
-        add(scientificTheory);
+        add(SCIENTIFIC_THEORY);
     }}),
-    archaeology(1300, new ArrayList<>() {{
-        add(acoustics);
+    ARCHAEOLOGY(1300, new ArrayList<>() {{
+        add(ACOUSTICS);
     }}, new ArrayList<>() {{
-        add(biology);
+        add(BIOLOGY);
     }}),
-    banking(650, new ArrayList<>() {{
-        add(education);
-        add(chivalry);
+    BANKING(650, new ArrayList<>() {{
+        add(EDUCATION);
+        add(CHIVALRY);
     }}, new ArrayList<>() {{
-        add(economics);
+        add(ECONOMICS);
     }}),
-    chemistry(900, new ArrayList<>() {{
-        add(gunpowder);
+    CHEMISTRY(900, new ArrayList<>() {{
+        add(GUNPOWDER);
     }}, new ArrayList<>() {{
-        add(militaryScience);
-        add(fertilizer);
+        add(MILITARY_SCIENCE);
+        add(FERTILIZER);
     }}),
-    economics(900, new ArrayList<>() {{
-        add(banking);
-        add(printingPress);
+    ECONOMICS(900, new ArrayList<>() {{
+        add(BANKING);
+        add(PRINTING_PRESS);
     }}, new ArrayList<>() {{
-        add(militaryScience);
+        add(MILITARY_SCIENCE);
     }}),
-    fertilizer(1300, new ArrayList<>() {{
-        add(chemistry);
+    FERTILIZER(1300, new ArrayList<>() {{
+        add(CHEMISTRY);
     }}, new ArrayList<>() {{
-        add(dynamite);
+        add(DYNAMITE);
     }}),
-    gunpowder(680, new ArrayList<>() {{
-        add(physics);
-        add(steel);
+    GUNPOWDER(680, new ArrayList<>() {{
+        add(PHYSICS);
+        add(STEEL);
     }}, new ArrayList<>() {{
-        add(chemistry);
-        add(metallurgy);
+        add(CHEMISTRY);
+        add(METALLURGY);
     }}),
-    metallurgy(900, new ArrayList<>() {{
-        add(gunpowder);
+    METALLURGY(900, new ArrayList<>() {{
+        add(GUNPOWDER);
     }}, new ArrayList<>() {{
-        add(rifling);
+        add(RIFLING);
     }}),
-    militaryScience(1300, new ArrayList<>() {{
-        add(economics);
-        add(chemistry);
+    MILITARY_SCIENCE(1300, new ArrayList<>() {{
+        add(ECONOMICS);
+        add(CHEMISTRY);
     }}, new ArrayList<>() {{
-        add(steamPower);
+        add(STEAM_POWER);
     }}),
-    printingPress(650, new ArrayList<>() {{
-        add(machinery);
-        add(physics);
+    PRINTING_PRESS(650, new ArrayList<>() {{
+        add(MACHINERY);
+        add(PHYSICS);
     }}, new ArrayList<>() {{
-        add(economics);
+        add(ECONOMICS);
     }}),
-    rifling(1425, new ArrayList<>() {{
-        add(metallurgy);
+    RIFLING(1425, new ArrayList<>() {{
+        add(METALLURGY);
     }}, new ArrayList<>() {{
-        add(dynamite);
+        add(DYNAMITE);
     }}),
-    scientificTheory(1300, new ArrayList<>() {{
-        add(acoustics);
+    SCIENTIFIC_THEORY(1300, new ArrayList<>() {{
+        add(ACOUSTICS);
     }}, new ArrayList<>() {{
-        add(biology);
-        add(steamPower);
+        add(BIOLOGY);
+        add(STEAM_POWER);
     }}),
-    biology(1680, new ArrayList<>() {{
-        add(archaeology);
-        add(scientificTheory);
+    BIOLOGY(1680, new ArrayList<>() {{
+        add(ARCHAEOLOGY);
+        add(SCIENTIFIC_THEORY);
     }}, new ArrayList<>() {{
-        add(electricity);
+        add(ELECTRICITY);
     }}),
-    combustion(2200, new ArrayList<>() {{
-        add(replaceableParts);
-        add(railroad);
-        add(dynamite);
+    COMBUSTION(2200, new ArrayList<>() {{
+        add(REPLACEABLE_PARTS);
+        add(RAILROAD);
+        add(DYNAMITE);
     }}, null),
-    dynamite(1900, new ArrayList<>() {{
-        add(fertilizer);
-        add(rifling);
+    DYNAMITE(1900, new ArrayList<>() {{
+        add(FERTILIZER);
+        add(RIFLING);
     }}, new ArrayList<>() {{
-        add(combustion);
+        add(COMBUSTION);
     }}),
-    electricity(1900, new ArrayList<>() {{
-        add(biology);
-        add(steamPower);
+    ELECTRICITY(1900, new ArrayList<>() {{
+        add(BIOLOGY);
+        add(STEAM_POWER);
     }}, new ArrayList<>() {{
-        add(telegraph);
-        add(radio);
+        add(TELEGRAPH);
+        add(RADIO);
     }}),
-    radio(2200, new ArrayList<>() {{
-        add(electricity);
+    RADIO(2200, new ArrayList<>() {{
+        add(ELECTRICITY);
     }}, null),
-    railroad(1900, new ArrayList<>() {{
-        add(steamPower);
+    RAILROAD(1900, new ArrayList<>() {{
+        add(STEAM_POWER);
     }}, new ArrayList<>() {{
-        add(combustion);
+        add(COMBUSTION);
     }}),
-    replaceableParts(1900, new ArrayList<>() {{
-        add(steamPower);
+    REPLACEABLE_PARTS(1900, new ArrayList<>() {{
+        add(STEAM_POWER);
     }}, new ArrayList<>() {{
-        add(combustion);
+        add(COMBUSTION);
     }}),
-    steamPower(1680, new ArrayList<>() {{
-        add(scientificTheory);
-        add(militaryScience);
+    STEAM_POWER(1680, new ArrayList<>() {{
+        add(SCIENTIFIC_THEORY);
+        add(MILITARY_SCIENCE);
     }}, new ArrayList<>() {{
-        add(electricity);
-        add(replaceableParts);
-        add(railroad);
+        add(ELECTRICITY);
+        add(REPLACEABLE_PARTS);
+        add(RAILROAD);
     }}),
-    telegraph(2200, new ArrayList<>() {{
-        add(electricity);
+    TELEGRAPH(2200, new ArrayList<>() {{
+        add(ELECTRICITY);
     }}, null);
 
     private final int cost;
@@ -286,11 +286,16 @@ public enum TechnologiesEnum {
         return this.cost;
     }
 
-    public ArrayList<TechnologiesEnum> getPrerequisiteTechs() {
-        return this.prerequisiteTechs;
+    public boolean hasPrerequisiteTechs(ArrayList<TechnologiesEnum> techs) {
+        for (TechnologiesEnum list : this.prerequisiteTechs) {
+            if (!techs.contains(list)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public ArrayList<TechnologiesEnum> getLeadsToTechs() {
+    public ArrayList<TechnologiesEnum> leadsToTech() {
         return this.leadsToTechs;
     }
 }

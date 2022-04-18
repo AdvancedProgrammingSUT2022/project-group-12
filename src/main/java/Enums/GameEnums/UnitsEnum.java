@@ -1,55 +1,55 @@
 package Enums.GameEnums;
 
 public enum UnitsEnum {
-    archer(70, CombatTypeEnum.archery, 4, 6, 2, 2, null, TechnologiesEnum.archery),
+    ARCHER(70, CombatTypeEnum.ARCHERY, 4, 6, 2, 2, null, TechnologiesEnum.ARCHERY),
 
-    chariotArcher(60, CombatTypeEnum.mounted, 3, 6, 2, 4, ResourcesEnum.horse, TechnologiesEnum.theWheel),
+    CHARIOT_ARCHER(60, CombatTypeEnum.MOUNTED, 3, 6, 2, 4, ResourcesEnum.HORSE, TechnologiesEnum.THE_WHEEL),
 
-    scout(25, CombatTypeEnum.recon, 4, 0, 0, 2, null, null),
+    SCOUT(25, CombatTypeEnum.RECON, 4, 0, 0, 2, null, null),
 
-    settler(89, CombatTypeEnum.civilian, 0, 0, 0, 2, null, null),
+    SETTLER(89, CombatTypeEnum.CIVILIAN, 0, 0, 0, 2, null, null),
 
-    spearman(50, CombatTypeEnum.melee, 6, 0, 0, 2, null, null),
+    SPEARMAN(50, CombatTypeEnum.MELEE, 6, 0, 0, 2, null, null),
 
-    warrior(40, CombatTypeEnum.melee, 6, 0, 0, 2, null, null),
+    WARRIOR(40, CombatTypeEnum.MELEE, 6, 0, 0, 2, null, null),
 
-    worker(70, CombatTypeEnum.civilian, 0, 0, 0, 2, null, null),
+    WORKER(70, CombatTypeEnum.CIVILIAN, 0, 0, 0, 2, null, null),
 
-    catapult(100, CombatTypeEnum.siege, 4, 14, 2, 2, ResourcesEnum.iron, TechnologiesEnum.mathematics),
+    CATAPULT(100, CombatTypeEnum.SIEGE, 4, 14, 2, 2, ResourcesEnum.IRON, TechnologiesEnum.MATHEMATICS),
 
-    horseman(80, CombatTypeEnum.mounted, 12, 0, 0, 4, ResourcesEnum.horse, TechnologiesEnum.horsebackRiding),
+    HORSEMAN(80, CombatTypeEnum.MOUNTED, 12, 0, 0, 4, ResourcesEnum.HORSE, TechnologiesEnum.HORSEBACK_RIDING),
 
-    swordsman(80, CombatTypeEnum.melee, 11, 0, 0, 2, ResourcesEnum.iron, TechnologiesEnum.ironWorking),
+    SWORDSMAN(80, CombatTypeEnum.MELEE, 11, 0, 0, 2, ResourcesEnum.IRON, TechnologiesEnum.IRON_WORKING),
 
-    crossbowman(120, CombatTypeEnum.archery, 6, 12, 2, 2, null, TechnologiesEnum.machinery),
+    CROSSBOWMAN(120, CombatTypeEnum.ARCHERY, 6, 12, 2, 2, null, TechnologiesEnum.MACHINERY),
 
-    knight(150, CombatTypeEnum.mounted, 18, 0, 0, 3, ResourcesEnum.horse, TechnologiesEnum.chivalry),
+    KNIGHT(150, CombatTypeEnum.MOUNTED, 18, 0, 0, 3, ResourcesEnum.HORSE, TechnologiesEnum.CHIVALRY),
 
-    longSwordsman(150, CombatTypeEnum.melee, 18, 0, 0, 3, ResourcesEnum.iron, TechnologiesEnum.steel),
+    LONG_SWORDSMAN(150, CombatTypeEnum.MELEE, 18, 0, 0, 3, ResourcesEnum.IRON, TechnologiesEnum.STEEL),
 
-    pikeMan(100, CombatTypeEnum.melee, 10, 0, 0, 2, null, TechnologiesEnum.civilService),
+    PIKE_MAN(100, CombatTypeEnum.MELEE, 10, 0, 0, 2, null, TechnologiesEnum.CIVIL_SERVICE),
 
-    trebuchet(170, CombatTypeEnum.siege, 6, 20, 2, 2, ResourcesEnum.iron, TechnologiesEnum.physics),
+    TREBUCHET(170, CombatTypeEnum.SIEGE, 6, 20, 2, 2, ResourcesEnum.IRON, TechnologiesEnum.PHYSICS),
 
-    canon(250, CombatTypeEnum.siege, 10, 26, 2, 2, null, TechnologiesEnum.chemistry),
+    CANON(250, CombatTypeEnum.SIEGE, 10, 26, 2, 2, null, TechnologiesEnum.CHEMISTRY),
 
-    cavalry(260, CombatTypeEnum.mounted, 25, 0, 0, 3, ResourcesEnum.horse, TechnologiesEnum.militaryScience),
+    CAVALRY(260, CombatTypeEnum.MOUNTED, 25, 0, 0, 3, ResourcesEnum.HORSE, TechnologiesEnum.MILITARY_SCIENCE),
 
-    lancer(220, CombatTypeEnum.mounted, 22, 0, 0, 4, ResourcesEnum.horse, TechnologiesEnum.metallurgy),
+    LANCER(220, CombatTypeEnum.MOUNTED, 22, 0, 0, 4, ResourcesEnum.HORSE, TechnologiesEnum.METALLURGY),
 
-    musketMan(120, CombatTypeEnum.gunpowder, 16, 0, 0, 2, null, TechnologiesEnum.gunpowder),
+    MUSKET_MAN(120, CombatTypeEnum.GUNPOWDER, 16, 0, 0, 2, null, TechnologiesEnum.GUNPOWDER),
 
-    rifleman(200, CombatTypeEnum.gunpowder, 25, 0, 0, 2, null, TechnologiesEnum.rifling),
+    RIFLEMAN(200, CombatTypeEnum.GUNPOWDER, 25, 0, 0, 2, null, TechnologiesEnum.RIFLING),
 
-    antiTankGun(300, CombatTypeEnum.gunpowder, 32, 0, 0, 2, null, TechnologiesEnum.replaceableParts),
+    ANTI_TANK_GUN(300, CombatTypeEnum.GUNPOWDER, 32, 0, 0, 2, null, TechnologiesEnum.REPLACEABLE_PARTS),
 
-    artillery(420, CombatTypeEnum.siege, 16, 32, 3, 2, null, TechnologiesEnum.dynamite),
+    ARTILLERY(420, CombatTypeEnum.SIEGE, 16, 32, 3, 2, null, TechnologiesEnum.DYNAMITE),
 
-    infantry(300, CombatTypeEnum.gunpowder, 36, 0, 0, 2, null, TechnologiesEnum.replaceableParts),
+    INFANTRY(300, CombatTypeEnum.GUNPOWDER, 36, 0, 0, 2, null, TechnologiesEnum.REPLACEABLE_PARTS),
 
-    panzer(450, CombatTypeEnum.armored, 60, 0, 0, 5, null, TechnologiesEnum.combustion),
+    PANZER(450, CombatTypeEnum.ARMORED, 60, 0, 0, 5, null, TechnologiesEnum.COMBUSTION),
 
-    tank(450, CombatTypeEnum.armored, 50, 0, 0, 4, null, TechnologiesEnum.combustion);
+    TANK(450, CombatTypeEnum.ARMORED, 50, 0, 0, 4, null, TechnologiesEnum.COMBUSTION);
 
     private final int cost;
     private final CombatTypeEnum combatType;

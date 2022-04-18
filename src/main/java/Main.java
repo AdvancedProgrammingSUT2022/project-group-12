@@ -6,8 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (Menu.currentMenu != null) {
-            Menu.currentMenu.run(scanner);
+        while (!Menu.currentMenu.isEmpty()) {
+            Menu.currentMenu.get(Menu.currentMenu.size() - 1).run(scanner);
         }
     }
 }

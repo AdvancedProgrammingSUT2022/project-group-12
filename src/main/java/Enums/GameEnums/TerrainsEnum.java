@@ -4,97 +4,97 @@ import java.util.ArrayList;
 
 public enum TerrainsEnum {
 
-    desert(0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(oasis);
-        add(plain);
+    DESERT(0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(OASIS);
+        add(PLAIN);
     }}, new ArrayList<>() {{
-        add(ResourcesEnum.iron);
-        add(ResourcesEnum.gold);
-        add(ResourcesEnum.silver);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.marble);
-        add(ResourcesEnum.cotton);
-        add(ResourcesEnum.incense);
-        add(ResourcesEnum.sheep);
+        add(ResourcesEnum.IRON);
+        add(ResourcesEnum.GOLD);
+        add(ResourcesEnum.SILVER);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.MARBLE);
+        add(ResourcesEnum.COTTON);
+        add(ResourcesEnum.INCENSE);
+        add(ResourcesEnum.SHEEP);
     }}),
-    grassland(2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(forest);
-        add(marsh);
+    GRASSLAND(2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(FOREST);
+        add(MARSH);
     }}, new ArrayList<>() {{
-        add(ResourcesEnum.iron);
-        add(ResourcesEnum.horse);
-        add(ResourcesEnum.coal);
-        add(ResourcesEnum.cattle);
-        add(ResourcesEnum.gold);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.marble);
-        add(ResourcesEnum.sheep);
+        add(ResourcesEnum.IRON);
+        add(ResourcesEnum.HORSE);
+        add(ResourcesEnum.COAL);
+        add(ResourcesEnum.CATTLE);
+        add(ResourcesEnum.GOLD);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.MARBLE);
+        add(ResourcesEnum.SHEEP);
     }}),
-    hill(0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
-        add(forest);
-        add(jungle);
+    HILL(0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
+        add(FOREST);
+        add(JUNGLE);
     }}, new ArrayList<>() {{
-        add(ResourcesEnum.iron);
-        add(ResourcesEnum.coal);
-        add(ResourcesEnum.deer);
-        add(ResourcesEnum.gold);
-        add(ResourcesEnum.silver);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.marble);
-        add(ResourcesEnum.sheep);
+        add(ResourcesEnum.IRON);
+        add(ResourcesEnum.COAL);
+        add(ResourcesEnum.DEER);
+        add(ResourcesEnum.GOLD);
+        add(ResourcesEnum.SILVER);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.MARBLE);
+        add(ResourcesEnum.SHEEP);
     }}),
-    mountain(0, 0, 0, 25, 0, false, true, null, null),
-    ocean(1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
-        add(ice);
+    MOUNTAIN(0, 0, 0, 25, 0, false, true, null, null),
+    OCEAN(1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
+        add(ICE);
     }}, null),
-    plain(1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(forest);
-        add(jungle);
+    PLAIN(1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(FOREST);
+        add(JUNGLE);
     }}, new ArrayList<>() {{
-        add(ResourcesEnum.iron);
-        add(ResourcesEnum.horse);
-        add(ResourcesEnum.coal);
-        add(ResourcesEnum.wheat);
-        add(ResourcesEnum.gold);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.marble);
-        add(ResourcesEnum.ivory);
-        add(ResourcesEnum.cotton);
-        add(ResourcesEnum.incense);
-        add(ResourcesEnum.sheep);
+        add(ResourcesEnum.IRON);
+        add(ResourcesEnum.HORSE);
+        add(ResourcesEnum.COAL);
+        add(ResourcesEnum.WHEAT);
+        add(ResourcesEnum.GOLD);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.MARBLE);
+        add(ResourcesEnum.IVORY);
+        add(ResourcesEnum.COTTON);
+        add(ResourcesEnum.INCENSE);
+        add(ResourcesEnum.SHEEP);
     }}),
-    snow(0, 0, 0, -33, 1, true, false, null, new ArrayList<>() {{
-        add(ResourcesEnum.iron);
+    SNOW(0, 0, 0, -33, 1, true, false, null, new ArrayList<>() {{
+        add(ResourcesEnum.IRON);
     }}),
-    tundra(1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(forest);
+    TUNDRA(1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(FOREST);
     }}, new ArrayList<>() {{
-        add(ResourcesEnum.iron);
-        add(ResourcesEnum.horse);
-        add(ResourcesEnum.deer);
-        add(ResourcesEnum.silver);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.marble);
-        add(ResourcesEnum.fur);
+        add(ResourcesEnum.IRON);
+        add(ResourcesEnum.HORSE);
+        add(ResourcesEnum.DEER);
+        add(ResourcesEnum.SILVER);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.MARBLE);
+        add(ResourcesEnum.FUR);
     }}),
-    fallout(-3, -3, -3, -33, 2, true, false, null, null),
-    forest(1, 1, 0, 25, 2, true, true, null, new ArrayList<>() {{
-        add(ResourcesEnum.deer);
-        add(ResourcesEnum.fur);
-        add(ResourcesEnum.dyes);
-        add(ResourcesEnum.silk);
+    FALLOUT(-3, -3, -3, -33, 2, true, false, null, null),
+    FOREST(1, 1, 0, 25, 2, true, true, null, new ArrayList<>() {{
+        add(ResourcesEnum.DEER);
+        add(ResourcesEnum.FUR);
+        add(ResourcesEnum.DYES);
+        add(ResourcesEnum.SILK);
     }}),
-    ice(0, 0, 0, 0, 0, false, false, null, null),
-    jungle(1, -1, 0, 25, 2, true, true, null, new ArrayList<>() {{
-        add(ResourcesEnum.banana);
-        add(ResourcesEnum.gemstone);
-        add(ResourcesEnum.dyes);
+    ICE(0, 0, 0, 0, 0, false, false, null, null),
+    JUNGLE(1, -1, 0, 25, 2, true, true, null, new ArrayList<>() {{
+        add(ResourcesEnum.BANANA);
+        add(ResourcesEnum.GEMSTONE);
+        add(ResourcesEnum.DYES);
     }}),
-    marsh(-1, 0, 0, -33, 2, true, false, null, new ArrayList<>() {{
-        add(ResourcesEnum.sugar);
+    MARSH(-1, 0, 0, -33, 2, true, false, null, new ArrayList<>() {{
+        add(ResourcesEnum.SUGAR);
     }}),
-    oasis(3, 0, 1, -33, 1, true, false, null, null),
-    river(0, 0, 1, 0, 999999, true, false, null, null);
+    OASIS(3, 0, 1, -33, 1, true, false, null, null),
+    RIVER(0, 0, 1, 0, 999999, true, false, null, null);
 
     private final int foodCount;
     private final int productsCount;
