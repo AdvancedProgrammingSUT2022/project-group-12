@@ -1,4 +1,5 @@
-import Views.Menu;
+import Views.LoginMenu;
+import Views.MenuStack;
 
 import java.util.Scanner;
 
@@ -6,8 +7,11 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (!Menu.currentMenu.isEmpty()) {
-            Menu.currentMenu.get(Menu.currentMenu.size() - 1).run(scanner);
+        MenuStack menuStack = MenuStack.getInstance();
+        menuStack.setScanner(scanner);
+        menuStack.pushMenu(new LoginMenu());
+        while (!menuStack.isEmpty()) {
+            menuStack.runTopMenu();
         }
     }
 }
