@@ -26,7 +26,8 @@ public class Civilization {
     private TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<City> cities;
-    private ArrayList<String> isInWarWith;
+    private ArrayList<Civilization> isInWarWith;
+    private ArrayList<Civilization> isTradingWith;
     private final CivilizationController controller;
     private ArrayList<String> notification;
 
@@ -42,8 +43,20 @@ public class Civilization {
         return this.isInWarWith.contains(username);
     }
 
-    public void goToWarWith(String username) {
-        this.isInWarWith.add(username);
+    public void goToWarWith(Civilization civilization) {
+        this.isInWarWith.add(civilization);
+    }
+
+    public void startBusinessRelationWith(Civilization civilization) {
+        this.isTradingWith.add(civilization);
+    }
+
+    public boolean isInWarWithNow(Civilization civilization) {
+        return this.isInWarWith.contains(civilization);
+    }
+
+    public boolean isTradingWithNow(Civilization civilization) {
+        return this.isInWarWith.contains(civilization);
     }
 
     public void setHappiness(int happiness) {
@@ -90,7 +103,7 @@ public class Civilization {
         return this.capital;
     }
 
-    public ArrayList<String> getIsInWarWith() {
+    public ArrayList<Civilization> getIsInWarWith() {
         return this.isInWarWith;
     }
 
