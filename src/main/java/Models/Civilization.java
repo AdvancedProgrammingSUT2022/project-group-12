@@ -113,4 +113,8 @@ public class Civilization {
     public void sendMessage(String message) {
         this.notification.add(message);
     }
+
+    public User civUser() {
+        return this.user;
+    }
 }
