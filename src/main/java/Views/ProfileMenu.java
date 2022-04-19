@@ -40,7 +40,7 @@ public class ProfileMenu extends Menu {
         else {
             String newNickname = command.getOption("nickname");
             response = ProfileMenuController.changeNickname(newNickname);
-            System.out.println(!response.isOK() ? response : "Password changed successfully");
+            System.out.println(!response.isOK() ? response : "Nickname changed successfully");
         }
     }
 }

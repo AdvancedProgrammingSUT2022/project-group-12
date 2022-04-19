@@ -28,7 +28,7 @@ public class GameMenu extends Menu {
             case "info cities" -> this.citiesInfo();
             case "info diplomacy" -> this.diplomacyInfo();
             case "info victory" -> this.victoryInfo();
-            case "info demographics" -> this.dempgraphicsInfo();
+            case "info demographics" -> this.demographicsInfo();
             case "info notifications" -> this.notifInfo();
             case "info military" -> this.militaryInfo();
             case "info economic" -> this.ecoInfo();
@@ -96,7 +96,7 @@ public class GameMenu extends Menu {
         switch (command.getType()) {
             case "right" -> this.moveMapRight(command);
             case "left" -> this.moveMapLeft(command);
-            case "up" -> this.moveMalUp(command);
+            case "up" -> this.moveMapUp(command);
             case "down" -> this.moveMapDown(command);
         }
     }
@@ -111,7 +111,7 @@ public class GameMenu extends Menu {
     private void moveMapDown(Command command) {
     }
 
-    private void moveMalUp(Command command) {
+    private void moveMapUp(Command command) {
     }
 
     private void moveMapLeft(Command command) {
@@ -216,7 +216,7 @@ public class GameMenu extends Menu {
     private void notifInfo() {
     }
 
-    private void dempgraphicsInfo() {
+    private void demographicsInfo() {
     }
 
     private void victoryInfo() {
