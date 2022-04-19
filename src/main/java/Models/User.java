@@ -8,6 +8,7 @@ public class User {
     private String password;
     private int score;
     private ArrayList<Game> gamesPlayed;
+    private Game runningGame;
 
     public User(String username, String password, String nickname) {
         this.username = username;
@@ -57,5 +58,13 @@ public class User {
 
     public void setScore(int newScore) {
         this.score += newScore;
+    }
+
+    public Game getRunningGame() {
+        return runningGame;
+    }
+
+    public void setRunningGame(Game runningGame) {
+        this.runningGame = runningGame;
     }
 }
