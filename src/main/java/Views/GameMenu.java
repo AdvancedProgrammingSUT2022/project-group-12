@@ -17,17 +17,17 @@ public class GameMenu extends Menu {
 
     private void info(Command command) {
         switch (command.getType()) {
-            case "research" -> this.researchInfo();
-            case "units" -> this.unitsInfo();
-            case "cities" -> this.citiesInfo();
-            case "diplomacy" -> this.diplomacyInfi();
-            case "victory" -> this.victoryInfo();
-            case "demographics" -> this.dempgraphicsInfo();
-            case "notifications" -> this.notifInfo();
-            case "military" -> this.militaryInfo();
-            case "economic" -> this.ecoInfo();
-            case "diplomatic" -> this.diplomaticInfo();
-            case "deals" -> this.dealsInfo();
+            case "info research" -> this.researchInfo();
+            case "info units" -> this.unitsInfo();
+            case "info cities" -> this.citiesInfo();
+            case "info diplomacy" -> this.diplomacyInfi();
+            case "info victory" -> this.victoryInfo();
+            case "info demographics" -> this.dempgraphicsInfo();
+            case "info notifications" -> this.notifInfo();
+            case "info military" -> this.militaryInfo();
+            case "info economic" -> this.ecoInfo();
+            case "info diplomatic" -> this.diplomaticInfo();
+            case "info deals" -> this.dealsInfo();
         }
     }
 
