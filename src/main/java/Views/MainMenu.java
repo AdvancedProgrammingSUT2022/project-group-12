@@ -1,9 +1,12 @@
 package Views;
 
 import Controllers.Command;
+import Controllers.GameController;
+import Controllers.GameMenuController;
 import Controllers.LoginMenuController;
 import Enums.CommandResponseEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,12 +22,15 @@ public class MainMenu extends Menu {
     }
 
     private void playGame(Command command) {
-        CommandResponseEnum response = command.validateOptions(List.of("username"));
-        if (!response.isOK()) System.out.println(response);
-        else {
-            String username = command.getOption("username");
-            System.out.println(!response.isOK() ? response : "user created successfully");
+        ArrayList<String> usernames = new ArrayList<>();
+        int num = 1;
+        String username;
+        while ((username = command.getOption("player" + num)) != null) {
+            usernames.add(username);
+            ++num;
         }
+        CommandResponseEnum response = GameController.startNewGame(usernames);
+        System.out.println(!response.isOK() ? response : "user created successfully");
         MenuStack.getInstance().pushMenu(new GameMenu());
     }
 }

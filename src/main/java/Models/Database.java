@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class Database {
     private HashMap<String, User> users = new HashMap<>();
+    private ArrayList<Game> games = new ArrayList<>();
     private static Database instance = null;
 
     private static void setInstance(Database instance) {
@@ -16,6 +17,10 @@ public class Database {
             setInstance(new Database());
         }
         return instance;
+    }
+
+    public void addGame(Game game) {
+        games.add(game);
     }
 
     public void addUser(User user) {
