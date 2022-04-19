@@ -164,6 +164,4 @@ public class City {
     public boolean hasANonCombatUnit() {
         return this.hasANonCombatUnit;
     }
-
-
 }

@@ -8,7 +8,8 @@ public class MenuStack {
     private final ArrayList<Menu> menus = new ArrayList<>();
     private Scanner scanner;
 
-    private MenuStack() {}
+    private MenuStack() {
+    }
 
     private static void setInstance(MenuStack instance) {
         MenuStack.instance = instance;
