@@ -32,5 +32,4 @@ public class Terrain {
             this.movementCost += features.getMovementCost();
         }
     }
-
 }

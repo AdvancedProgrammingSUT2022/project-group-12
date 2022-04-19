@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum InputRegexEnum {
-    LOGIN("[\\s]*user[\\s]+login[\\s]+(?<part1>[-]+.[\\s]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]+(?<part3>[-]+[.[\\s]]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]*"),
+    LOGIN("[\\s]*user[\\s]+login[\\s]+(?<part1>[-]{1,2}.[\\s]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]+(?<part3>[-]{1,2}[.[\\s]]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]*"),
     REGISTER(""),
     PLAY_GAME_WITH(""),
     INFO(""),
@@ -32,6 +32,7 @@ public enum InputRegexEnum {
     }
 
     private static Matcher returnOptions(Matcher givenMatcher) {
+
         return givenMatcher;
     }
 
