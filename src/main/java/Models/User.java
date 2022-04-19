@@ -15,6 +15,8 @@ public class User {
         this.password = password;
         this.gamesPlayed = new ArrayList<>();
         this.score = 0;
+        Database data = Database.getInstance();
+        data.addUserToList(this);
     }
 
     public String getUsername() {
@@ -23,6 +25,10 @@ public class User {
 
     public String getPassword() {
         return this.password;
+    }
+
+    public boolean passwordMatchCheck(String password) {
+        return this.password.equals(password);
     }
 
     public String getNickname() {

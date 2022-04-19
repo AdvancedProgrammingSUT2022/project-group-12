@@ -1,7 +1,7 @@
 package Enums;
 
 public enum CommandResponseEnum {
-    OK("OK");
+    OK("OK"), CommandMissingRequiredOption("Required option is missing");
 
     private final String message;
 
