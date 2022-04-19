@@ -11,7 +11,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
         menuStack.setScanner(scanner);
-        System.out.println(Command.parseCommand("username jief  jfi -u ali asghar --fjaiee aioefj"));
         menuStack.pushMenu(new LoginMenu());
         while (!menuStack.isEmpty()) {
             menuStack.runTopMenu();
