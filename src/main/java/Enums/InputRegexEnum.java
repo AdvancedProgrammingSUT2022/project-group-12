@@ -25,17 +25,17 @@ public enum InputRegexEnum {
         this.regex = input;
     }
 
-    private TreeMap<Integer, String> map = new TreeMap<>();
+    private static TreeMap<Integer, String> map = new TreeMap<>();
 
-    public void inputMatcher(String input, InputRegexEnum check) {
+    public static void inputMatcher(String input, InputRegexEnum check) {
         Matcher matcher = Pattern.compile(check.regex).matcher(input);
         if (!matcher.find() || !matcher.group().equals(input)) {
             returnOptions(new StringBuilder().append(input));
         }
     }
 
-    private TreeMap<Integer, String> returnOptions(StringBuilder input) {
-        if (regex.startsWith("play game")) {
+    private static TreeMap<Integer, String> returnOptions(StringBuilder input) {
+        if (input.toString().startsWith("play game")) {
             return playGameWithMatcher(input);
         }
         return null;
@@ -49,7 +49,7 @@ public enum InputRegexEnum {
         return givenMatcher;
     }
 
-    private TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
+    public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
         Matcher matcher = Pattern.compile(PLAY_GAME_WITH.regex).matcher(input.toString());
         if (matcher.find() && matcher.group().equals(input.toString())) {
             int index = input.indexOf(matcher.group("player"));
@@ -63,7 +63,7 @@ public enum InputRegexEnum {
         return map;
     }
 
-    private Matcher selectUsersMatcher(String input) {
+    private static Matcher selectUsersMatcher(String input) {
         Matcher matcher = Pattern.compile(PARSE_PLAY_GAME_WITH.regex).matcher(input);
         if (matcher.find() && matcher.group().equals(input)) {
             return matcher;

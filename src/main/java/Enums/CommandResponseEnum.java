@@ -1,7 +1,10 @@
 package Enums;
 
 public enum CommandResponseEnum {
-    OK("OK"), CommandMissingRequiredOption("Required option is missing"), USER_DOESNT_EXISTS("user doesn't exists");
+    OK("OK"),
+    INVALID_COMMAND("invalid command!!"),
+    CommandMissingRequiredOption("Required option is missing"),
+    USER_DOESNT_EXISTS("user doesn't exists");
 
     private final String message;
 
