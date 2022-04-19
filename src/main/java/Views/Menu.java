@@ -1,18 +1,22 @@
 package Views;
 
+import Controllers.Command;
+import Exceptions.InvalidCommand;
+
 import java.util.Scanner;
 
 public abstract class Menu {
 
     public void run() {
         Scanner scanner = MenuStack.getInstance().getScanner();
-        while (true) {
-            String line = scanner.nextLine().trim();
-            if (handleCommand(line)) {
-                break;
-            }
+        String line = scanner.nextLine().trim();
+        try {
+            Command command = Command.parseCommand(line);
+            handleCommand(command);
+        } catch (InvalidCommand e) {
+            e.printStackTrace();
         }
     }
 
-    protected abstract boolean handleCommand(String input);
+    protected abstract void handleCommand(Command command);
 }

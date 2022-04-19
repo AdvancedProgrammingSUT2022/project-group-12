@@ -3,11 +3,11 @@ package Controllers;
 import Enums.CommandResponseEnum;
 
 public class LoginMenuController {
-    public CommandResponseEnum register() {
+    public static CommandResponseEnum createUser(String username, String nickname, String password) {
         return CommandResponseEnum.OK;
     }
 
-    public CommandResponseEnum login() {
+    public static CommandResponseEnum loginUser(String username, String password) {
         return CommandResponseEnum.OK;
     }
 

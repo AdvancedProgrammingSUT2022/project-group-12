@@ -1,8 +1,10 @@
 package Controllers;
 
+import Enums.CommandResponseEnum;
 import Exceptions.InvalidCommand;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Command {
     private final HashMap<String, String> options;
@@ -30,7 +32,6 @@ public class Command {
         int idx = input.indexOf('-');
         if (idx == -1) idx = input.length();
         String cmd = input.substring(0, idx);
-        System.out.println("command: " + cmd);
         HashMap<String, String> options = new HashMap<>();
         while (idx < input.length()) {
             String key;
@@ -56,7 +57,6 @@ public class Command {
             if (idx2 == -1) idx2 = input.length();
             String value = input.substring(idx, idx2);
             idx = idx2;
-            System.out.println("key = " + key + " / value = " + value);
             options.put(key, value);
         }
         return new Command(cmd, options);
@@ -67,6 +67,16 @@ public class Command {
     }
 
     public String getOption(String key) {
-        return options.get(key);
+        return this.options.get(key);
+    }
+
+    public CommandResponseEnum validateOptions(List<String> requiredKeys) {
+        // todo: should validate more: unrecognized options, difference of dash and double dash, ...
+        for (String key : requiredKeys) {
+            if (this.getOption(key) == null) {
+                return CommandResponseEnum.CommandMissingRequiredOption; // todo: should contain the missing option's key
+            }
+        }
+        return CommandResponseEnum.OK;
     }
 }
