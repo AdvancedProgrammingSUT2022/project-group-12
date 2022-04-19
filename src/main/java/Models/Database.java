@@ -45,14 +45,14 @@ public class Database {
             FileWriter writer = new FileWriter("users.json");
             writer.write(new Gson().toJson(this.users));
             writer.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
             FileWriter writer = new FileWriter("games.json");
             writer.write(new Gson().toJson(this.games));
             writer.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -68,14 +68,16 @@ public class Database {
     public void deserialize() {
         try {
             String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
-            this.users = new Gson().fromJson(jsonFile,new TypeToken<HashMap<String,User>>(){}.getType());
-        } catch (IOException e){
+            this.users = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, User>>() {
+            }.getType());
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
             String jsonFile = new String(Files.readAllBytes(Paths.get("games.json")));
-            this.users = new Gson().fromJson(jsonFile,new TypeToken<HashMap<String,Game>>(){}.getType());
-        } catch (IOException e){
+            this.users = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, Game>>() {
+            }.getType());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
