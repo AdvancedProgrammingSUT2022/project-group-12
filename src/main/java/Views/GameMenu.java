@@ -6,12 +6,18 @@ public class GameMenu extends Menu {
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
+            case "show current menu" -> System.out.println("Game Menu");
+            case "menu exit" -> MenuStack.getInstance().popMenu();
+            default -> this.findCategory(command);
+        }
+    }
+
+    private void findCategory(Command command) {
+        switch (command.getCategory()) {
             case "info" -> this.info(command);
             case "select" -> this.select(command);
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
-            case "show current menu" -> System.out.println("Game Menu");
-            case "menu exit" -> MenuStack.getInstance().popMenu();
         }
     }
 
@@ -20,7 +26,7 @@ public class GameMenu extends Menu {
             case "info research" -> this.researchInfo();
             case "info units" -> this.unitsInfo();
             case "info cities" -> this.citiesInfo();
-            case "info diplomacy" -> this.diplomacyInfi();
+            case "info diplomacy" -> this.diplomacyInfo();
             case "info victory" -> this.victoryInfo();
             case "info demographics" -> this.dempgraphicsInfo();
             case "info notifications" -> this.notifInfo();
@@ -98,7 +104,7 @@ public class GameMenu extends Menu {
     private void showMap(Command command) {
         switch (command.getType()) {
             case "position" -> this.citiesInfo();
-            case "cityName" -> this.diplomacyInfi();
+            case "cityName" -> this.diplomacyInfo();
         }
     }
 
@@ -216,7 +222,7 @@ public class GameMenu extends Menu {
     private void victoryInfo() {
     }
 
-    private void diplomacyInfi() {
+    private void diplomacyInfo() {
     }
 
     private void unitsInfo() {
