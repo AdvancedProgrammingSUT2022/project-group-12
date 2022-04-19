@@ -66,6 +66,10 @@ public class Command {
         return type;
     }
 
+    public String getCategory() {
+        return this.getType().split(" ")[0];
+    }
+
     public String getOption(String key) {
         return this.options.get(key);
     }

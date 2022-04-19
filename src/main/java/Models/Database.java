@@ -1,10 +1,11 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Database {
-    private static Database instance = null;
     private HashMap<String, User> users = new HashMap<>();
+    private static Database instance = null;
 
     private static void setInstance(Database instance) {
         Database.instance = instance;
