@@ -45,7 +45,7 @@ public class ProfileMenuController {
             case "main" -> MenuStack.getInstance().pushMenu(new MainMenu());
             case "play game" -> MenuStack.getInstance().pushMenu(new GameMenu());
             case "profile" -> {
-                return "already in profile Menu";
+                return "already in profile menu";
             }
         }
         return "menu changed to " + newMenu + " successfully";

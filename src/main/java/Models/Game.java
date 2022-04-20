@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.GameController;
 import Models.Tiles.TileGrid;
 
 import java.util.ArrayList;
@@ -18,10 +19,11 @@ public class Game {
         }
         return instance;
     }
+
     private final ArrayList<Civilization> civs;
     private final Vector<Civilization> civTurn;
     private final TileGrid tileGrid;
-
+    public final GameController controller;
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
         this.tileGrid = TileGrid.GenerateRandom(10, 10, 999);
@@ -29,6 +31,7 @@ public class Game {
         for (User user : users) {
             civs.add(new Civilization(user));
         }
+        this.controller = new GameController(this);
     }
 
     private void fullTurn() {

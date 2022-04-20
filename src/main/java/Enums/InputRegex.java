@@ -47,7 +47,6 @@ public enum InputRegex {
         return null;
     }
 
-    private static TreeMap<Integer, String> map = new TreeMap<>();
 
     public static Matcher registerMatcher(String input) {
         String regex = REGISTER.selectedRegex;
@@ -114,6 +113,8 @@ public enum InputRegex {
         }
         return null;
     }
+
+    private static TreeMap<Integer, String> map = new TreeMap<>();
 
     public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
         Matcher matcher = Pattern.compile(PLAY_GAME_WITH.selectedRegex).matcher(input.toString());

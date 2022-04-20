@@ -1,3 +1,4 @@
+//TODO : decide to keep or don't
 package Controllers;
 
 import Enums.CommandResponse;
@@ -37,19 +38,19 @@ public class Command {
             String key;
             int idx2 = idx + 1;
             if (idx2 >= input.length()) {
-                throw new InvalidCommand();
+//                throw new InvalidCommand();
             }
             if (input.charAt(idx2) == '-') {
                 idx2 = input.indexOf(' ', idx);
                 if (idx2 == -1) {
-                    throw new InvalidCommand();
+//                    throw new InvalidCommand();
                 }
                 key = input.substring(idx + 2, idx2);
             } else {
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
                 if (input.charAt(idx2) != ' ') {
-                    throw new InvalidCommand();
+//                    throw new InvalidCommand();
                 }
             }
             idx = idx2 + 1;

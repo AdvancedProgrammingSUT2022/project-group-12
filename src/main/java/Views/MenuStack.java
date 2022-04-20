@@ -1,9 +1,17 @@
 package Views;
 
+import Controllers.*;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuStack {
+    public final ProfileMenuController profileController = new ProfileMenuController();
+    public final MainMenuController menuController = new MainMenuController();
+    public final LoginMenuController loginController = new LoginMenuController();
+    public final CivilizationController civController = new CivilizationController();
+
+
     private static MenuStack instance = null;
     private final ArrayList<Menu> menus = new ArrayList<>();
     private Scanner scanner;

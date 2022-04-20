@@ -1,39 +1,37 @@
 package Controllers;
 
 import Enums.CommandResponse;
+import Models.Civilization;
 import Models.Database;
 import Models.Game;
+import Models.Tiles.TileGrid;
+import Models.Units.Unit;
 import Models.User;
+import Views.*;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
 
 public class GameController {
-    private static boolean checkUsernameValidation(ArrayList<String> usernames) {
-        Database database = Database.getInstance();
-        for (String list : usernames) {
-            if (!database.checkForUsername(list)) {
-                return false;
-            }
-        }
-        return true;
+    private final Game game;
+    private Civilization player1;
+    private Civilization player2;
+
+    public GameController(Game newGame) {
+        this.game = newGame;
     }
 
-    public static CommandResponse startNewGame(ArrayList<String> usernames) {
-        ArrayList<User> users = new ArrayList<>();
-        if (!checkUsernameValidation(usernames)) {
-
-        }
-        Database database = Database.getInstance();
-        for (String username : usernames) {
-            User user = database.getUser(username);
-            users.add(user);
-        }
-        Game game = new Game(users);
-        database.addGame(game);
-        for (User user : users) {
-            user.addGame(game);
-            user.setRunningGame(game);
-        }
+    public CommandResponse battle(Civilization attacking, Civilization defending) {
         return CommandResponse.OK;
+    }
+
+    public CommandResponse movement(Unit moving) {
+        return CommandResponse.OK;
+    }
+
+    public TileGrid getGameTileGrid() {
+        return game.getTileGrid();
     }
 }
