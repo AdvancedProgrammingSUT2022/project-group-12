@@ -1,13 +1,13 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 
 public class ProfileMenuController {
-    public static CommandResponseEnum changePass(String oldPass, String newPass){
-        return CommandResponseEnum.OK;
+    public static CommandResponse changePass(String oldPass, String newPass){
+        return CommandResponse.OK;
     }
 
-    public static CommandResponseEnum changeNickname(String newNickname) {
-        return CommandResponseEnum.OK;
+    public static CommandResponse changeNickname(String newNickname) {
+        return CommandResponse.OK;
     }
 }
