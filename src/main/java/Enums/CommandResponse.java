@@ -1,6 +1,6 @@
 package Enums;
 
-public enum CommandResponseEnum {
+public enum CommandResponse {
     OK("OK"),
     INVALID_COMMAND("invalid command!!"),
     CommandMissingRequiredOption("Required option is missing"),
@@ -8,7 +8,7 @@ public enum CommandResponseEnum {
 
     private final String message;
 
-    CommandResponseEnum(String message) {
+    CommandResponse(String message) {
         this.message = message;
     }
 
@@ -18,6 +18,6 @@ public enum CommandResponseEnum {
     }
 
     public boolean isOK() {
-        return this == CommandResponseEnum.OK;
+        return this == CommandResponse.OK;
     }
 }

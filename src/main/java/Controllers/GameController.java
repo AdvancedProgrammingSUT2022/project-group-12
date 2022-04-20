@@ -1,7 +1,6 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
-import Models.Civilization;
+import Enums.CommandResponse;
 import Models.Database;
 import Models.Game;
 import Models.User;
@@ -19,10 +18,10 @@ public class GameController {
         return true;
     }
 
-    public static CommandResponseEnum startNewGame(ArrayList<String> usernames) {
+    public static CommandResponse startNewGame(ArrayList<String> usernames) {
         ArrayList<User> users = new ArrayList<>();
         if (!checkUsernameValidation(usernames)) {
-            return CommandResponseEnum.USER_DOESNT_EXISTS;
+            return CommandResponse.USER_DOESNT_EXISTS;
         }
         Database database = Database.getInstance();
         for (String username : usernames) {
@@ -35,6 +34,6 @@ public class GameController {
             user.addGame(game);
             user.setRunningGame(game);
         }
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
 }

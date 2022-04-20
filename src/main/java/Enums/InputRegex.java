@@ -4,7 +4,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum InputRegexEnum {
+public enum InputRegex {
     LOGIN("\\s*user login -+(?<part1>[.\\S]+) ([.\\S]+) -+(?<part2>[.\\S]+) ([.\\S]+)\\s*"),
     LOGIN_DEEPER_USER_FIRST("\\s*user login -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+)\\s*"),
     LOGIN_DEEPER_PASS_FIRST("\\s*user login -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+)\\s*"),
@@ -15,7 +15,7 @@ public enum InputRegexEnum {
     BACK("\\s*back|BACK|Back\\s*"),
     LOGOUT("\\s*logout|LOGOUT|Logout\\s*"),
     CURRENT_MENU("\\s*menu show-current\\s*"),
-    Enter_MENU("\\s*menu enter (?<selectedMenu>Login|Main|(Play Game)|Profile|login|main|(play game)|profile)\\s*"),
+    ENTER_MENU("\\s*menu enter (?<selectedMenu>Login|Main|(Play Game)|Profile|login|main|(play game)|profile)\\s*"),
     U("(U|u|user|username|u_name)"),
     P("(P|p|pass|password|p_word)"),
     N("(N|n|nickname|n_name)"),
@@ -29,16 +29,15 @@ public enum InputRegexEnum {
     PASS_NICK_USER("\\s*user create -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<nickname>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+)\\s*"),
     NICK_USER_PASS("\\s*user create -+[.\\S]+ (?<nickname>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+)\\s*"),
     NICK_PASS_USER("\\s*user create -+[.\\S]+ (?<nickname>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+)\\s*"),
-    ENTER_MENU("[\\s]*menu[\\s]+enter[\\s]+(?<selectedMenu>[.[\\S]]+)[\\s]*"),
     EXIT_MENU("\\s*menu exit\\s*");
 
     private final String selectedRegex;
 
-    InputRegexEnum(String input) {
+    InputRegex(String input) {
         this.selectedRegex = input;
     }
 
-    public static Matcher getMatcher(String input, InputRegexEnum inputRegex) {
+    public static Matcher getMatcher(String input, InputRegex inputRegex) {
         Matcher matcher = Pattern.compile(inputRegex.selectedRegex).matcher(input);
         if (matcher.find() && matcher.group().equals(input)) {
             return matcher;

@@ -1,13 +1,10 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 import Models.Civilization;
-import Models.Database;
 import Models.Game;
 import Models.Tiles.TileGrid;
 import Models.Units.Unit;
-
-import java.util.ArrayList;
 
 public class GameMenuController {
     private final Game game;
@@ -18,12 +15,12 @@ public class GameMenuController {
         this.game = newGame;
     }
 
-    public CommandResponseEnum battle(Civilization attacking, Civilization defending) {
-        return CommandResponseEnum.OK;
+    public CommandResponse battle(Civilization attacking, Civilization defending) {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum movement(Unit moving) {
-        return CommandResponseEnum.OK;
+    public CommandResponse movement(Unit moving) {
+        return CommandResponse.OK;
     }
 
     public TileGrid getGameTileGrid() {

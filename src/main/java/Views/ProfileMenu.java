@@ -1,46 +1,32 @@
 package Views;
 
 import Controllers.Command;
-import Controllers.ProfileMenuController;
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
+import Enums.InputRegex;
 
-import java.util.List;
+import java.util.regex.Matcher;
 
 public class ProfileMenu extends Menu {
     @Override
     protected void handleCommand(Command command) {
-        switch (command.getType()) {
-            case "profile change" -> profileChange(command);
-            case "show current menu" -> System.out.println("Profile Menu");
-            case "menu exit" -> MenuStack.getInstance().popMenu();
-        }
-    }
+        String input = command.getType();
+        Matcher matcher;
+        if ((matcher = InputRegex.getMatcher(input, InputRegex.CHANGE_NICKNAME)) != null) {
 
-    private void profileChange(Command command){
-        switch (command.getType()) {
-            case "profile change nickname" -> changeNickname(command);
-            case "profile change password" -> changePassword(command);
-        }
-    }
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.CHANGE_PASS)) != null) {
 
-    private void changePassword(Command command) {
-        CommandResponseEnum response = command.validateOptions(List.of("currentPass", "newPass"));
-        if (!response.isOK()) System.out.println(response);
-        else {
-            String currentPass = command.getOption("currentPass");
-            String newPass = command.getOption("newPass");
-            response = ProfileMenuController.changePass(currentPass,newPass);
-            System.out.println(!response.isOK() ? response : "Password changed successfully");
-        }
-    }
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.BACK)) != null) {
 
-    private void changeNickname(Command command) {
-        CommandResponseEnum response = command.validateOptions(List.of("nickname"));
-        if (!response.isOK()) System.out.println(response);
-        else {
-            String newNickname = command.getOption("nickname");
-            response = ProfileMenuController.changeNickname(newNickname);
-            System.out.println(!response.isOK() ? response : "Nickname changed successfully");
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.CURRENT_MENU)) != null) {
+
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.ENTER_MENU)) != null) {
+
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.LOGOUT)) != null) {
+
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.LOGOUT)) != null) {
+
+        } else {
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 }
