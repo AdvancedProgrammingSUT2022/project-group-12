@@ -78,7 +78,7 @@ public class Command {
         // todo: should validate more: unrecognized options, difference of dash and double dash, ...
         for (String key : requiredKeys) {
             if (this.getOption(key) == null) {
-                return CommandResponse.CommandMissingRequiredOption; // todo: should contain the missing option's key
+                return CommandResponse.COMMAND_MISSING_REQUIRED_OPTION; // todo: should contain the missing option's key
             }
         }
         return CommandResponse.OK;

@@ -21,7 +21,7 @@ public class GameController {
     public static CommandResponse startNewGame(ArrayList<String> usernames) {
         ArrayList<User> users = new ArrayList<>();
         if (!checkUsernameValidation(usernames)) {
-            return CommandResponse.USER_DOESNT_EXISTS;
+
         }
         Database database = Database.getInstance();
         for (String username : usernames) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class User {
     private final String username;
-    private final String nickname;
+    private String nickname;
     private String password;
     private int score;
     private ArrayList<Game> gamesPlayed;
@@ -46,6 +46,10 @@ public class User {
 
     public void changePassword(String newPass) {
         this.password = newPass;
+    }
+
+    public void changeNickname(String newNickname) {
+        this.nickname = newNickname;
     }
 
     public void addGame(Game newGame) {

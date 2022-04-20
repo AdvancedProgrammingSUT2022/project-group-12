@@ -47,4 +47,11 @@ public class MenuStack {
     public void runTopMenu() {
         this.getMenus().get(this.getMenus().size() - 1).run();
     }
+
+    public void logout() {
+        while (!this.getMenus().isEmpty()) {
+            this.getMenus().remove(this.getMenus().size() - 1);
+        }
+        this.getMenus().add(new LoginMenu());
+    }
 }

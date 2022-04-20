@@ -3,13 +3,23 @@ package Enums;
 public enum CommandResponse {
     OK("OK"),
     INVALID_COMMAND("invalid command!!"),
-    CommandMissingRequiredOption("Required option is missing"),
-    USER_DOESNT_EXISTS("user doesn't exists");
+    COMMAND_MISSING_REQUIRED_OPTION("Required option is missing"),
+    NICKNAME_ALREADY_EXISTS("user with nickname already exists"),
+    NICKNAME_CHANGED("user with nickname already exists"),
+    INVALID_PASSWORD("current password is invalid"),
+    REPEATING_PASSWORD("please enter a new password"),
+    PASSWORD_CHANGED("password changed successfully");
 
-    private final String message;
+
+    private String message;
 
     CommandResponse(String message) {
         this.message = message;
+    }
+
+    public CommandResponse nicknameExists(String nickname){
+        this.message = "user with nickname "+nickname+" already exists";
+        return null;
     }
 
     @Override
