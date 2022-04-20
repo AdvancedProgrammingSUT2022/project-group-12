@@ -5,7 +5,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum InputRegexEnum {
-    LOGIN("[\\s]*user[\\s]+login[\\s]+(?<part1>[-]{1,2}.[\\s]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]+(?<part3>[-]{1,2}[.[\\s]]+)[\\s]+(?<part2>[.[\\S]]+)[\\s]*"),
+    LOGIN("\\s*user login -+(?<part1>[.\\S]+) ([.\\S]+) -+(?<part2>[.\\S]+) ([.\\S]+)\\s*"),
+    LOGIN_DEEPER_USER_FIRST("\\s*user login -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+)\\s*"),
+    LOGIN_DEEPER_PASS_FIRST("\\s*user login -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+)\\s*"),
     REGISTER(""),
     PLAY_GAME_WITH("[\\s]*play game (?<player>(--player|-p)[0-9]+ [.\\S]+[\\s]*)+"),
     PARSE_PLAY_GAME_WITH("[\\s]*(--player|-p)(?<turn>[0-9]+) (?<username>[.\\S]+)[\\s]*"),
@@ -34,19 +36,44 @@ public enum InputRegexEnum {
         }
     }
 
-    private static TreeMap<Integer, String> returnOptions(StringBuilder input) {
+    private static void returnOptions(StringBuilder input) {
         if (input.toString().startsWith("play game")) {
-            return playGameWithMatcher(input);
+            playGameWithMatcher(input);
         }
-        return null;
     }
 
     private Matcher registerMatcher(Matcher givenMatcher) {
         return givenMatcher;
     }
 
-    private Matcher loginMatcher(Matcher givenMatcher) {
-        return givenMatcher;
+    private Matcher loginMatcher(StringBuilder input) {
+        Matcher matcher = Pattern.compile(LOGIN.regex).matcher(input.toString());
+        boolean canBeUsed = false;
+        if (matcher.find() && matcher.group().equals(input.toString())) {
+            if ((matcher.group("part1").equals("user") ||
+                    matcher.group("part1").equals("username") ||
+                    matcher.group("part1").equals("u")) &&
+                    (matcher.group("part2").equals("pass") ||
+                            matcher.group("part2").equals("password") ||
+                            matcher.group("part2").equals("p"))) {
+                matcher = Pattern.compile(LOGIN_DEEPER_USER_FIRST.regex).matcher(input.toString());
+                if (matcher.find() && matcher.group().equals(input.toString())) {
+                    canBeUsed = true;
+                }
+            } else if ((matcher.group("part2").equals("user") ||
+                    matcher.group("part2").equals("username") ||
+                    matcher.group("part2").equals("u")) &&
+                    (matcher.group("part1").equals("pass") ||
+                            matcher.group("part1").equals("password") ||
+                            matcher.group("part1").equals("p"))) {
+                matcher = Pattern.compile(LOGIN_DEEPER_PASS_FIRST.regex).matcher(input.toString());
+                canBeUsed = true;
+            }
+            if (canBeUsed) {
+                return matcher;
+            }
+        }
+        return null;
     }
 
     public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
