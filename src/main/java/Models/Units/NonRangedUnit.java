@@ -1,6 +1,13 @@
 package Models.Units;
 
+import Enums.GameEnums.UnitEnum;
+
 public class NonRangedUnit extends CombatUnit {
+
+    NonRangedUnit(UnitEnum type) {
+        super(type);
+    }
+
     private void horseman() {
 
     }

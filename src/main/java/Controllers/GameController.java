@@ -12,6 +12,7 @@ import Views.GameMenu;
 import Views.MenuStack;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GameController {
     private static boolean checkUsernameValidation(ArrayList<String> usernames) {
@@ -45,19 +46,23 @@ public class GameController {
     }
 
 
-    public static void RepairTile(Tile currentTile) {
+    public static String RepairTile(Tile currentTile) {
         //tode : complete
+        return "Tile repaired successfully";
     }
 
-    public static void RemoveRoute(Tile currentTile,ImprovementEnum improvementEnum) {
+    public static String RemoveRoute(Tile currentTile,ImprovementEnum improvementEnum) {
+       return  "route removed succesfully";
     }
 
-    public static void RemoveJungle(Tile currentTile) {
+    public static String RemoveJungle(Tile currentTile) {
+        return "Jungle removed succesfully";
     }
 
 
 
-    public static void BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
+    public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
+        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase()+" built succesfully";
     }
 
    
@@ -80,26 +85,33 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
-    public static void FoundCity(Tile currentTile) {
+    public static String FoundCity(Tile currentTile) {
+        return "city found successfully";
     }
 
 
-    public static void garrsionUnit(Tile currentTile, Civilization civilization) {
+    public static String garrsionUnit(Tile currentTile, Civilization civilization) {
+        return "unit garrsioned successfully";
     }
 
-    public static void fortifyUnit(Tile currentTile, Civilization civilization) {
+    public static String fortifyUnit(Tile currentTile, Civilization civilization) {
+    return "unit fortified successfully";
     }
 
-    public static void fortifyHealUnit(Tile currentTile, Civilization civilization) {
+    public static String fortifyHealUnit(Tile currentTile, Civilization civilization) {
+        return "unit fortified successfully";
     }
 
-    public static void AlertUnit(Tile currentTile, Civilization civilization) {
+    public static String AlertUnit(Tile currentTile, Civilization civilization) {
+      return "unit alerted successfully";
     }
 
-    public static void sleepNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static String sleepNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+        return "unit sleeped successfully";
     }
 
-    public static void sleepCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static String sleepCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+        return "unit sleeped successfully";
     }
 
     public static StringBuilder showCity(City city) {
@@ -109,39 +121,52 @@ public class GameController {
         return null;
     }
 
-    public static void showNonCombatInfo(Tile currentTile) {
+    public static StringBuilder showNonCombatInfo(Tile currentTile) {
+        return null;
     }
 
-    public static void showCombatInfo(Tile currentTile) {
+    public static StringBuilder showCombatInfo(Tile currentTile) {
+        return null;
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
+          return null;
     }
 
     public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
     public static StringBuilder showUnitsInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
     public static StringBuilder showDiplomacyInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
     public static StringBuilder showVictoryInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 
     public static StringBuilder showDemographicsInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 
     public static StringBuilder showNotifInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 
     public static StringBuilder showEcoInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 
     public static StringBuilder showDiplomaticInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 
     public static StringBuilder showDealsInfo(Tile currentTile, Civilization currentCivilization) {
+        return null;
     }
 }

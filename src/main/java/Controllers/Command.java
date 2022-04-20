@@ -89,8 +89,5 @@ public class Command {
         return CommandResponseEnum.OK;
     }
 
-    public boolean validateCommand(String type,String category,String subCategory,String subSubCategory){
-        if(type.trim().length() > (category+" "+subCategory+" "+ subSubCategory).length()) return false;
-        return true;
-    }
+
 }

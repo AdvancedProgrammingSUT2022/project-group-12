@@ -2,7 +2,7 @@ package Views;
 
 import Controllers.Command;
 import Controllers.GameController;
-import Enums.CommandResponse;
+import Enums.CommandResponseEnum;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class MainMenu extends Menu {
             usernames.add(username);
             ++num;
         }
-        CommandResponse response = GameController.startNewGame(usernames);
+        CommandResponseEnum response = GameController.startNewGame(usernames);
         System.out.println(!response.isOK() ? response : "user created successfully");
 
     }

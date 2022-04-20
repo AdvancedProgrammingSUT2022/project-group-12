@@ -2,7 +2,7 @@ package Views;
 
 import Controllers.Command;
 import Controllers.LoginMenuController;
-import Enums.CommandResponse;
+import Enums.CommandResponseEnum;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class LoginMenu extends Menu {
     }
 
     private void createUser(Command command) {
-        CommandResponse response = command.validateOptions(List.of("username", "nickname", "password"));
+        CommandResponseEnum response = command.validateOptions(List.of("username", "nickname", "password"));
         if (!response.isOK()) System.out.println(response);
         else {
             String username = command.getOption("username");
@@ -30,7 +30,7 @@ public class LoginMenu extends Menu {
     }
 
     private void loginUser(Command command) {
-        CommandResponse response = command.validateOptions(List.of("username", "password"));
+        CommandResponseEnum response = command.validateOptions(List.of("username", "password"));
         if (!response.isOK()) System.out.println(response);
         else {
             String username = command.getOption("username");

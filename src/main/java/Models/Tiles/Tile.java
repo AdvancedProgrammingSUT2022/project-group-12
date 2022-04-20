@@ -9,6 +9,7 @@ import Models.Units.NonCombatUnit;
 import java.util.ArrayList;
 
 public class Tile {
+    protected boolean isDamaged;
     protected CombatUnit combatUnit;
     protected NonCombatUnit nonCombatUnit;
     protected Terrain terrain;
@@ -21,6 +22,11 @@ public class Tile {
         this.resources = resources;
         this.city=null;
         this.combatUnit=null; this.nonCombatUnit=null;
+        this.isDamaged = false;
+    }
+
+    public boolean isDamaged() {
+        return isDamaged;
     }
 
     public City getCity() {return city;}

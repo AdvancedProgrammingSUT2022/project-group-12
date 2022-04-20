@@ -1,3 +1,4 @@
+import Enums.GameEnums.ImprovementEnum;
 import Views.GameMenu;
 import Views.LoginMenu;
 import Views.MenuStack;
