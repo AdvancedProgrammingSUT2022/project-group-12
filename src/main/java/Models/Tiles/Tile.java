@@ -9,8 +9,8 @@ import Models.Units.NonCombatUnit;
 import java.util.ArrayList;
 
 public class Tile {
-    protected CombatUnit combatUnits;
-    protected NonCombatUnit nonCombatUnits;
+    protected CombatUnit combatUnit;
+    protected NonCombatUnit nonCombatUnit;
     protected Terrain terrain;
     protected City city;
     protected ArrayList<ResourceEnum> resources;
@@ -19,10 +19,24 @@ public class Tile {
     public Tile(Terrain terrain, ArrayList<ResourceEnum> resources) {
         this.terrain = terrain;
         this.resources = resources;
+        this.city=null;
+        this.combatUnit=null; this.nonCombatUnit=null;
+    }
+
+    public City getCity() {return city;}
+
+    public NonCombatUnit getNonCombatUnit() {
+        return nonCombatUnit;
     }
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Terrain getTerrain() {return terrain; }
+
+    public CombatUnit getCombatUnit() {
+        return combatUnit;
     }
 
     public Tile deepCopy() {

@@ -69,6 +69,11 @@ public class Command {
     public String getCategory() {
         return this.getType().split(" ")[0];
     }
+    public String getSubCategory() {
+        return this.getType().split(" ")[1];
+    }
+
+    public String getSubSubCategory() {return this.getType().split(" ")[2];}
 
     public String getOption(String key) {
         return this.options.get(key);
@@ -82,5 +87,10 @@ public class Command {
             }
         }
         return CommandResponseEnum.OK;
+    }
+
+    public boolean validateCommand(String type,String category,String subCategory,String subSubCategory){
+        if(type.trim().length() > (category+" "+subCategory+" "+ subSubCategory).length()) return false;
+        return true;
     }
 }

@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class Civilization {
     // todo: complete
 
+    private Tile currentTile;
     private final User user;
     private final String name;
     private int gold;
@@ -113,6 +114,12 @@ public class Civilization {
 
     public String getName() {
         return this.name;
+    }
+
+    public Tile getCurrentTile() {return currentTile; }
+
+    public ArrayList<City> getCities() {
+        return cities;
     }
 
     public StringBuilder getNotifications() {

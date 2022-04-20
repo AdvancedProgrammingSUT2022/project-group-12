@@ -1,3 +1,4 @@
+import Views.GameMenu;
 import Views.LoginMenu;
 import Views.MenuStack;
 
@@ -11,7 +12,6 @@ public class Main {
         menuStack.setScanner(scanner);
         menuStack.pushMenu(new LoginMenu());
         while (!menuStack.isEmpty()) {
-
             menuStack.runTopMenu();
         }
     }

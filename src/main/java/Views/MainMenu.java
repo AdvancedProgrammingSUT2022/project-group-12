@@ -31,6 +31,6 @@ public class MainMenu extends Menu {
         }
         CommandResponseEnum response = GameController.startNewGame(usernames);
         System.out.println(!response.isOK() ? response : "user created successfully");
-        MenuStack.getInstance().pushMenu(new GameMenu());
+
     }
 }

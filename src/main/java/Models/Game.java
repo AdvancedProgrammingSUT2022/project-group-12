@@ -37,6 +37,10 @@ public class Game {
         }
     }
 
+    public Vector<Civilization> getCivTurn() {
+        return civTurn;
+    }
+
     private void nextTurn() {
         this.civTurn.remove(this.civTurn.size() - 1);
     }

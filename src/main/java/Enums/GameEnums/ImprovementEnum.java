@@ -1,8 +1,37 @@
 package Enums.GameEnums;
 
+import Models.Terrains.Terrain;
+
 import java.util.ArrayList;
 
 public enum ImprovementEnum {
+    ROAD(null,new ArrayList<>(){{
+      add(TechnologyEnum.THE_WHEEL);
+    }},new ArrayList<>(){{
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.JUNGLE);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.HILL);
+        add(TerrainEnum.MARSH);
+        add(TerrainEnum.FOREST);
+        add(TerrainEnum.RIVER);
+        add(TerrainEnum.SNOW);
+    }}), RailRoad(null,new ArrayList<>(){{
+        add(TechnologyEnum.RAILROAD);
+    }},new ArrayList<>(){{
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.JUNGLE);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.HILL);
+        add(TerrainEnum.MARSH);
+        add(TerrainEnum.FOREST);
+        add(TerrainEnum.RIVER);
+        add(TerrainEnum.SNOW);
+    }}),
     CAMP(new ArrayList<>() {{
         add(ResourceEnum.IVORY);
         add(ResourceEnum.FUR);
@@ -122,8 +151,24 @@ public enum ImprovementEnum {
         return true;
     }
 
-    public boolean canBeBuiltOn(TerrainEnum land) {
-        return this.canBeBuiltOn.contains(land);
+    public ArrayList<ResourceEnum> getIsRequiredBy() {
+        return isRequiredBy;
+    }
+
+    public ArrayList<TechnologyEnum> getRequiredTechs() {
+        return requiredTechs;
+    }
+
+    public ArrayList<TerrainEnum> getCanBeBuiltOn() {
+        return canBeBuiltOn;
+    }
+
+    public boolean canBeBuiltOn(ArrayList<TerrainEnum> lands) {
+        for (TerrainEnum terrainEnum:
+             lands) {
+            if(this.canBeBuiltOn.contains(terrainEnum)){return true;}
+        }
+        return false;
     }
 
     public ArrayList<ResourceEnum> isRequiredBy() {
