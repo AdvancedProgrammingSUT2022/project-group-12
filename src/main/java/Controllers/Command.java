@@ -1,6 +1,6 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 import Exceptions.InvalidCommand;
 
 import java.util.HashMap;
@@ -37,19 +37,19 @@ public class Command {
             String key;
             int idx2 = idx + 1;
             if (idx2 >= input.length()) {
-                throw new InvalidCommand();
+                throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
             }
             if (input.charAt(idx2) == '-') {
                 idx2 = input.indexOf(' ', idx);
                 if (idx2 == -1) {
-                    throw new InvalidCommand();
+                    throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
                 }
                 key = input.substring(idx + 2, idx2);
             } else {
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
                 if (input.charAt(idx2) != ' ') {
-                    throw new InvalidCommand();
+                    throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
                 }
             }
             idx = idx2 + 1;
@@ -79,14 +79,14 @@ public class Command {
         return this.options.get(key);
     }
 
-    public CommandResponseEnum validateOptions(List<String> requiredKeys) {
+    public CommandResponse validateOptions(List<String> requiredKeys) {
         // todo: should validate more: unrecognized options, difference of dash and double dash, ...
         for (String key : requiredKeys) {
             if (this.getOption(key) == null) {
-                return CommandResponseEnum.CommandMissingRequiredOption; // todo: should contain the missing option's key
+                return CommandResponse.CommandMissingRequiredOption; // todo: should contain the missing option's key
             }
         }
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
 
 

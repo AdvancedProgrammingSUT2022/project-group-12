@@ -1,6 +1,6 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Models.Cities.City;
 import Models.Civilization;
@@ -14,7 +14,6 @@ import Views.GameMenu;
 import Views.MenuStack;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class GameController {
     private static boolean checkUsernameValidation(ArrayList<String> usernames) {
@@ -27,10 +26,10 @@ public class GameController {
         return true;
     }
 
-    public static CommandResponseEnum startNewGame(ArrayList<String> usernames) {
+    public static CommandResponse startNewGame(ArrayList<String> usernames) {
         ArrayList<User> users = new ArrayList<>();
         if (!checkUsernameValidation(usernames)) {
-            return CommandResponseEnum.USER_DOESNT_EXISTS;
+            return CommandResponse.USER_DOESNT_EXISTS;
         }
         Database database = Database.getInstance();
         for (String username : usernames) {
@@ -44,7 +43,7 @@ public class GameController {
             user.setRunningGame(game);
         }
         MenuStack.getInstance().pushMenu(new GameMenu(game));
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
 
 
@@ -122,7 +121,7 @@ public class GameController {
     public static StringBuilder showCity(City city) {
     return null;
     }
-    public static CommandResponseEnum showCity(int parseInt, int parseInt1, Game game) {
+    public static CommandResponse showCity(int parseInt, int parseInt1, Game game) {
         return null;
     }
 

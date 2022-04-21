@@ -1,7 +1,7 @@
 package Views;
 
 import Controllers.Command;
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 import Enums.InputRegex;
 
 import java.util.regex.Matcher;
@@ -26,7 +26,7 @@ public class ProfileMenu extends Menu {
         } else if ((matcher = InputRegex.getMatcher(input, InputRegex.LOGOUT)) != null) {
 
         } else {
-            System.out.println(CommandResponseEnum.INVALID_COMMAND);
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 }

@@ -1,14 +1,12 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.Unit;
-
-import java.io.Serializable;
 
 public class GameMenuController {
     private final Game game;
@@ -55,7 +53,7 @@ public class GameMenuController {
 
 
 
-    private static CommandResponseEnum validateAttacking(Tile currentTile, Civilization civilization) {
+    private static CommandResponse validateAttacking(Tile currentTile, Civilization civilization) {
         //TODO : complete
         return null;
     }
@@ -68,21 +66,21 @@ public class GameMenuController {
         if(row > game.getTileGrid().getHeight() || row < 0 ||  col > game.getTileGrid().getWidth() || col < 0) return false;
         return true;
     }
-    public static CommandResponseEnum showMapOnPosition(int row, int col, Game game) {
+    public static CommandResponse showMapOnPosition(int row, int col, Game game) {
         if(isCorrectPosition(row, col,game)){
             //TODO : show map
-            return CommandResponseEnum.OK;
+            return CommandResponse.OK;
         }else {
-            return CommandResponseEnum.INVALID_POSITION;
+            return CommandResponse.INVALID_POSITION;
         }
     }
 
-    public CommandResponseEnum battle(Civilization attacking, Civilization defending) {
-        return CommandResponseEnum.OK;
+    public CommandResponse battle(Civilization attacking, Civilization defending) {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum movement(Unit moving) {
-        return CommandResponseEnum.OK;
+    public CommandResponse movement(Unit moving) {
+        return CommandResponse.OK;
     }
 
     public TileGrid getGameTileGrid() {

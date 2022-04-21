@@ -3,7 +3,7 @@ package Views;
 import Controllers.Command;
 import Controllers.GameController;
 import Controllers.GameMenuController;
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.UnitEnum;
@@ -12,7 +12,6 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 
-import java.awt.image.LookupOp;
 import java.util.List;
 
 public class GameMenu extends Menu {
@@ -121,7 +120,7 @@ public class GameMenu extends Menu {
                 case "left" -> this.moveMapByDirection(command,"left");
                 case "up" -> this.moveMapByDirection(command,"up");
                 case "down" -> this.moveMapByDirection(command,"down");
-                default -> System.out.println(CommandResponseEnum.INVALID_DIRECTION);
+                default -> System.out.println(CommandResponse.INVALID_DIRECTION);
             }
     }
     private void dealsInfo() {
@@ -195,19 +194,19 @@ public class GameMenu extends Menu {
                City city=getCityWithThisName(getCurrentCilization(),key);
                System.out.println(city == null ? "city doesn't exists with this name" : GameMenuController.showMapOnCity(city));
        }else {
-           System.out.println(CommandResponseEnum.CommandMissingRequiredOption);
+           System.out.println(CommandResponse.CommandMissingRequiredOption);
        }
     }
     private void showMapPosition(String key){
         String[] cordinates=key.split("\\s+");
-            CommandResponseEnum response=isCorrectPosition((cordinates[0]),(cordinates[1]),this.getGame());
+            CommandResponse response=isCorrectPosition((cordinates[0]),(cordinates[1]),this.getGame());
             int row=0,col=0;
             if(response.isOK()){row=Integer.parseInt(cordinates[0]); col=Integer.parseInt(cordinates[1]);}
             System.out.println(!response.isOK() ? response : GameMenuController.showMapOnPosition(row,col,this.getGame()));
     }
 
     private void moveMapByDirection(Command command,String direction) {
-        CommandResponseEnum response=validateCommandForMoveByDirection(command.getType().trim(),command.getCategory(),command.getSubCategory(),command.getSubSubCategory(),command,direction);
+        CommandResponse response=validateCommandForMoveByDirection(command.getType().trim(),command.getCategory(),command.getSubCategory(),command.getSubSubCategory(),command,direction);
             String key=command.getOption("amount");
                     switch (direction) {
                         case "down" -> System.out.println(response.isOK() ? GameMenuController.moveMapDown(Integer.parseInt(key)) : response);
@@ -217,9 +216,9 @@ public class GameMenu extends Menu {
 
                 }
             }
-    public CommandResponseEnum validateCommandForMoveByDirection(String type,String category,String subCategory,String subSubCategory,Command command,String direction){
-        if(type.trim().length() > (category+" "+subCategory+" "+ subSubCategory).length()) return CommandResponseEnum.INVALID_COMMAND;
-        CommandResponseEnum response;
+    public CommandResponse validateCommandForMoveByDirection(String type, String category, String subCategory, String subSubCategory, Command command, String direction){
+        if(type.trim().length() > (category+" "+subCategory+" "+ subSubCategory).length()) return CommandResponse.INVALID_COMMAND;
+        CommandResponse response;
         if((response=command.validateOptions(List.of("amount"))).isOK()){
             String amount=command.getOption("amount");
             response=isCorrectPosition(amount,this.getGame(),direction);
@@ -230,79 +229,79 @@ public class GameMenu extends Menu {
     private void unitDelete(Command command) {
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response;
+        CommandResponse response;
         switch (command.getOption("unit"))
         {
             case "non combat" : response=validateFornonCombatUnit(currentTile,currentCivilizaion);
                                 if(response.isOK())GameController.deletenonCombatUnit(currentCivilizaion,currentTile);  break;
             case "combat"     : response=validateForCombatUnit(currentTile,currentCivilizaion);
                                 if(response.isOK())GameController.deleteCombatUnit(currentCivilizaion,currentTile);     break;
-            default : response=CommandResponseEnum.CommandMissingRequiredOption;
+            default : response=CommandResponse.CommandMissingRequiredOption;
         }
         System.out.println(response.isOK() ? "unit deleted successfully" : response);
     }
-    private CommandResponseEnum validateFornonCombatUnit(Tile currentTile,Civilization civilization) {
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getType()== null)){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv()== civilization)){return CommandResponseEnum.WRONG_UNIT;}
-        return CommandResponseEnum.OK;
+    private CommandResponse validateFornonCombatUnit(Tile currentTile,Civilization civilization) {
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getType()== null)){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv()== civilization)){return CommandResponse.WRONG_UNIT;}
+        return CommandResponse.OK;
     }
-    private CommandResponseEnum validateForCombatUnit(Tile currentTile, Civilization civilizaion) {
-        if(!(civilizaion.getCurrentTile().getCombatUnit().getType()== null)){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilizaion.getCurrentTile().getCombatUnit().getCiv()== civilizaion)){return CommandResponseEnum.WRONG_UNIT;}
-        return CommandResponseEnum.OK;
+    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilizaion) {
+        if(!(civilizaion.getCurrentTile().getCombatUnit().getType()== null)){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilizaion.getCurrentTile().getCombatUnit().getCiv()== civilizaion)){return CommandResponse.WRONG_UNIT;}
+        return CommandResponse.OK;
     }
 
     private void unitWake(Command command) {
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response;
+        CommandResponse response;
         switch (command.getOption("unit"))
         {
             case "non combat" : response=validateFornonCombatUnit(currentTile,currentCivilizaion);
                 if(response.isOK())GameController.wakeUpNonCombatUnit(currentCivilizaion,currentTile);  break;
             case "combat"     : response=validateForCombatUnit(currentTile,currentCivilizaion);
                 if(response.isOK())GameController.wakeUpCombatUnit(currentCivilizaion,currentTile);     break;
-            default : response=CommandResponseEnum.CommandMissingRequiredOption;
+            default : response=CommandResponse.CommandMissingRequiredOption;
         }
             System.out.println(response.isOK() ? "unit waked up successfully" : response);
     }
 
     private void unitCancel(Command command) {
         if(!command.getSubSubCategory().equals("mission")){
-            System.out.println(CommandResponseEnum.INVALID_COMMAND); return;
+            System.out.println(CommandResponse.INVALID_COMMAND); return;
         }
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response;
+        CommandResponse response;
         switch (command.getOption("unit"))
         {
             case "non combat" : response=validateFornonCombatUnit(currentTile,currentCivilizaion);
                 if(response.isOK())GameController.CancelMissionNonCombatUnit(currentCivilizaion,currentTile);  break;
             case "combat"     : response=validateForCombatUnit(currentTile,currentCivilizaion);
                 if(response.isOK())GameController.CancelMissionCombatUnit(currentCivilizaion,currentTile);     break;
-            default : response=CommandResponseEnum.CommandMissingRequiredOption;
+            default : response=CommandResponse.CommandMissingRequiredOption;
         }
             System.out.println(response.isOK() ? "unit waked up successfully" : response);
     }
 
     private void unitFound(Command command) {
           if(!command.getSubSubCategory().equals("city")){
-              System.out.println(CommandResponseEnum.INVALID_COMMAND); return;
+              System.out.println(CommandResponse.INVALID_COMMAND); return;
           }
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response=validateTileForFoundingCity(currentTile,currentCivilizaion);
+        CommandResponse response=validateTileForFoundingCity(currentTile,currentCivilizaion);
         String message;
         if(response.isOK()) System.out.println(GameController.FoundCity(currentTile));
         else System.out.println(response);
     }
 
-    private CommandResponseEnum validateTileForFoundingCity(Tile currentTile, Civilization civilization) {
-        if(currentTile.getNonCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.SETTLER)) {return CommandResponseEnum.WRONG_UNIT;}
-        if(!isPossibleToBuildCity(currentTile)){return CommandResponseEnum.IMPOSSIBLE_CITY;}
-        return CommandResponseEnum.OK;
+    private CommandResponse validateTileForFoundingCity(Tile currentTile, Civilization civilization) {
+        if(currentTile.getNonCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
+        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.SETTLER)) {return CommandResponse.WRONG_UNIT;}
+        if(!isPossibleToBuildCity(currentTile)){return CommandResponse.IMPOSSIBLE_CITY;}
+        return CommandResponse.OK;
     }
 
     private boolean isPossibleToBuildCity(Tile currentTile) {
@@ -313,12 +312,12 @@ public class GameMenu extends Menu {
     private void unitAttack(Command command) {
         String key;
         if((key=command.getOption("position"))==null){
-            System.out.println(CommandResponseEnum.CommandMissingRequiredOption); return;
+            System.out.println(CommandResponse.CommandMissingRequiredOption); return;
         }
         String[] cordinates=key.split("\\s+");
             Civilization civilizaion= getCurrentCilization();
             Tile currentTile=getCurrentTile();
-            CommandResponseEnum response=isCorrectPosition((cordinates[0]),(cordinates[1]),this.getGame());
+            CommandResponse response=isCorrectPosition((cordinates[0]),(cordinates[1]),this.getGame());
             int row=0,col=0;
             if(response.isOK()){row=Integer.parseInt(cordinates[0]); col=Integer.parseInt(cordinates[1]);}
             System.out.println(response.isOK() ? GameController.AttackUnit(row,col,this.getGame(),currentTile,civilizaion) : response);
@@ -330,15 +329,15 @@ public class GameMenu extends Menu {
     private void unitGarrison(Command command) {
         Civilization civilization= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response=validateForGarrison(currentTile,civilization);
+        CommandResponse response=validateForGarrison(currentTile,civilization);
         if(response.isOK()) System.out.println(GameController.garrsionUnit(currentTile,civilization));
         else System.out.println(response);
     }
-    private CommandResponseEnum validateForGarrison(Tile currentTile, Civilization civilization) {
-        if(currentTile.getCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
-        if(!(civilization.getCurrentTile().getCity() == null)){return CommandResponseEnum.CITY_DOESNT_EXISTS;}
-        return CommandResponseEnum.OK;
+    private CommandResponse validateForGarrison(Tile currentTile, Civilization civilization) {
+        if(currentTile.getCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
+        if(!(civilization.getCurrentTile().getCity() == null)){return CommandResponse.CITY_DOESNT_EXISTS;}
+        return CommandResponse.OK;
 
     }
 
@@ -347,14 +346,14 @@ public class GameMenu extends Menu {
         Tile currentTile=getCurrentTile();
         try {
             if (command.getSubSubCategory().equals("heal")){
-                CommandResponseEnum response=validateForCombatUnit(currentTile,civilization);
+                CommandResponse response=validateForCombatUnit(currentTile,civilization);
                 if(response.isOK())GameController.fortifyHealUnit(currentTile,civilization);
                 else System.out.println(response);
             }else{
-                System.out.println(CommandResponseEnum.INVALID_COMMAND);
+                System.out.println(CommandResponse.INVALID_COMMAND);
             }
         }catch (Exception e){
-            CommandResponseEnum response=validateForCombatUnit(currentTile,civilization);
+            CommandResponse response=validateForCombatUnit(currentTile,civilization);
             if(response.isOK()) System.out.println(GameController.fortifyUnit(currentTile,civilization));
             else System.out.println(response);
         }
@@ -362,7 +361,7 @@ public class GameMenu extends Menu {
     private void unitAlert() {
         Civilization civilization= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response=validateForCombatUnit(currentTile,civilization);
+        CommandResponse response=validateForCombatUnit(currentTile,civilization);
         if(response.isOK()) System.out.println(GameController.AlertUnit(currentTile,civilization));
         else System.out.println(response);
     }
@@ -370,7 +369,7 @@ public class GameMenu extends Menu {
     private void unitSleep(Command command) {
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response;
+        CommandResponse response;
         try {
             switch (command.getSubSubCategory())
             {
@@ -378,11 +377,11 @@ public class GameMenu extends Menu {
                     if(response.isOK()) System.out.println(GameController.sleepNonCombatUnit(currentCivilizaion,currentTile));  break;
                 case "combat"     : response=validateForCombatUnit(currentTile,currentCivilizaion);
                     if(response.isOK()) System.out.println(GameController.sleepCombatUnit(currentCivilizaion,currentTile));     break;
-                default : response=CommandResponseEnum.CommandMissingRequiredOption;
+                default : response=CommandResponse.CommandMissingRequiredOption;
             }
             if(!response.isOK())System.out.println(response);
         }catch (Exception e){
-            System.out.println(CommandResponseEnum.INVALID_COMMAND);
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -394,59 +393,59 @@ public class GameMenu extends Menu {
             if((key=command.getOption("position")) !=null){
                 try {
                     String[] cordinates=key.split("\\s+");
-                    CommandResponseEnum response=validateTileForMovingUnit(currentTile,currentCivilization,cordinates[0],cordinates[1],"noncombat");
+                    CommandResponse response=validateTileForMovingUnit(currentTile,currentCivilization,cordinates[0],cordinates[1],"noncombat");
                     System.out.println(response.isOK() ? GameController.moveNonCombatUnit(Integer.parseInt(cordinates[0]),Integer.parseInt(cordinates[1]),currentTile,currentCivilization)
                                        : response);
                 }catch (Exception e){
-                    System.out.println(CommandResponseEnum.INVALID_POSITION);
+                    System.out.println(CommandResponse.INVALID_POSITION);
                 }
             }else {
-                System.out.println(CommandResponseEnum.CommandMissingRequiredOption);
+                System.out.println(CommandResponse.CommandMissingRequiredOption);
             }
         }else if(command.getSubSubCategory().equals("combat")){
             String key;
             if((key=command.getOption("position")) !=null){
                 try {
                     String[] cordinates=key.split("\\s+");
-                    CommandResponseEnum response=validateTileForMovingUnit(currentTile,currentCivilization,cordinates[0],cordinates[1],"combat");
+                    CommandResponse response=validateTileForMovingUnit(currentTile,currentCivilization,cordinates[0],cordinates[1],"combat");
                     System.out.println(response.isOK() ? GameController.moveCombatUnit(Integer.parseInt(cordinates[0]),Integer.parseInt(cordinates[1]),currentTile,currentCivilization)
                                        : response);
                 }catch (Exception e){
-                    System.out.println(CommandResponseEnum.INVALID_POSITION);
+                    System.out.println(CommandResponse.INVALID_POSITION);
                 }
             }else {
-                System.out.println(CommandResponseEnum.CommandMissingRequiredOption);
+                System.out.println(CommandResponse.CommandMissingRequiredOption);
             }
         }else {
-            System.out.println(CommandResponseEnum.INVALID_COMMAND);
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
-    private CommandResponseEnum validateTileForMovingUnit(Tile currentTile, Civilization civilization,String row_s,String col_s,String combat) {
-        CommandResponseEnum response=isCorrectPosition(row_s,col_s,this.getGame());
+    private CommandResponse validateTileForMovingUnit(Tile currentTile, Civilization civilization,String row_s,String col_s,String combat) {
+        CommandResponse response=isCorrectPosition(row_s,col_s,this.getGame());
         if(!response.isOK()){return response;}
         if(combat.equals("noncombat")){
-        if(currentTile.getNonCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
+        if(currentTile.getNonCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
         }else {
-            if(currentTile.getCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-            if(!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
+            if(currentTile.getCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+            if(!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
         }
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
 
     private void unitRepair(Command command) {
         Civilization currentCivilization= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response=validateTileForRepairing(currentTile,currentCivilization);
+        CommandResponse response=validateTileForRepairing(currentTile,currentCivilization);
         if(response.isOK())System.out.println(GameController.RepairTile(currentTile));
         else System.out.println(response);
     }
-    private CommandResponseEnum validateTileForRepairing(Tile currentTile, Civilization civilization) {
-        if(currentTile.getNonCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponseEnum.WRONG_UNIT;}
-        if(!isDamaged(currentTile)){return CommandResponseEnum.NOT_DAMAGED;}
-            return CommandResponseEnum.OK;
+    private CommandResponse validateTileForRepairing(Tile currentTile, Civilization civilization) {
+        if(currentTile.getNonCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
+        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponse.WRONG_UNIT;}
+        if(!isDamaged(currentTile)){return CommandResponse.NOT_DAMAGED;}
+            return CommandResponse.OK;
     }
     private boolean isDamaged(Tile currentTile) {
         if(currentTile.isDamaged()) return true;
@@ -456,16 +455,16 @@ public class GameMenu extends Menu {
     private void unitRemoveJungle() {
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response=validateTileForRemovingJungle(currentTile,currentCivilizaion);
+        CommandResponse response=validateTileForRemovingJungle(currentTile,currentCivilizaion);
         if(response.isOK())System.out.println(GameController.RemoveJungle(currentTile));
         else System.out.println(response);
     }
-    private CommandResponseEnum validateTileForRemovingJungle(Tile currentTile, Civilization civilization) {
-        if(currentTile.getNonCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponseEnum.WRONG_UNIT;}
-        if(!isJungleExists(currentTile)){return CommandResponseEnum.JUNGLE_DOESNT_EXISTS;}
-        return CommandResponseEnum.OK;
+    private CommandResponse validateTileForRemovingJungle(Tile currentTile, Civilization civilization) {
+        if(currentTile.getNonCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
+        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponse.WRONG_UNIT;}
+        if(!isJungleExists(currentTile)){return CommandResponse.JUNGLE_DOESNT_EXISTS;}
+        return CommandResponse.OK;
     }
     private boolean isJungleExists(Tile currentTile) {
         //TODO : complete
@@ -488,24 +487,24 @@ public class GameMenu extends Menu {
     private void unitRemoveRoute(){
         Civilization currentCivilizaion= getCurrentCilization();
         Tile currentTile=getCurrentTile();
-        CommandResponseEnum response=validateTileForRemovingRoute(currentTile,currentCivilizaion);
+        CommandResponse response=validateTileForRemovingRoute(currentTile,currentCivilizaion);
         if(response.isOK()){
            if(isExists(currentTile,ImprovementEnum.RailRoad)) System.out.println(GameController.RemoveRoute(currentTile,ImprovementEnum.RailRoad));
            if(isExists(currentTile,ImprovementEnum.ROAD)) System.out.println(GameController.RemoveRoute(currentTile,ImprovementEnum.ROAD));
         }else {System.out.println(response);}
     }
-    private CommandResponseEnum validateTileForRemovingRoute(Tile currentTile, Civilization civilization) {
-        if(currentTile.getNonCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponseEnum.WRONG_UNIT;}
-        if(!isExists(currentTile,ImprovementEnum.ROAD) && !isExists(currentTile,ImprovementEnum.RailRoad)){return CommandResponseEnum.ROUTE_DOESNT_EXISTS;}
-        return CommandResponseEnum.OK;
+    private CommandResponse validateTileForRemovingRoute(Tile currentTile, Civilization civilization) {
+        if(currentTile.getNonCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)){return CommandResponse.NOT_HAVING_UNIT;}
+        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponse.WRONG_UNIT;}
+        if(!isExists(currentTile,ImprovementEnum.ROAD) && !isExists(currentTile,ImprovementEnum.RailRoad)){return CommandResponse.ROUTE_DOESNT_EXISTS;}
+        return CommandResponse.OK;
     }
 
     private void unitBuildQuarry() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.STONE_MINE);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.STONE_MINE);
         if(response.isOK())System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.STONE_MINE));
         else System.out.println(response);
     }
@@ -513,7 +512,7 @@ public class GameMenu extends Menu {
     private void unitBuildPlantation() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.CULTIVATION);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.CULTIVATION);
         if(response.isOK()) System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.CULTIVATION));
         else System.out.println(response);
     }
@@ -521,7 +520,7 @@ public class GameMenu extends Menu {
     private void unitBuildCamp() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.CAMP);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.CAMP);
         if(response.isOK())System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.CAMP));
         else System.out.println(response);
     }
@@ -529,7 +528,7 @@ public class GameMenu extends Menu {
     private void unitBuildPasture() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.PASTURE);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.PASTURE);
         if(response.isOK()) System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.PASTURE));
         else System.out.println(response);
     }
@@ -537,7 +536,7 @@ public class GameMenu extends Menu {
     private void unitBuildLumberMill() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.LUMBER_MILL);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.LUMBER_MILL);
         if(response.isOK()) System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.LUMBER_MILL));
         else System.out.println(response);
     }
@@ -545,7 +544,7 @@ public class GameMenu extends Menu {
     private void unitBuildTradingPost() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.TRADING_POST);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.TRADING_POST);
         if(response.isOK()) System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.TRADING_POST));
         else System.out.println(response);
     }
@@ -553,14 +552,14 @@ public class GameMenu extends Menu {
     private void unitBuildMine() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.MINE);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.MINE);
         if(response.isOK()) System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.MINE));
         else System.out.println(response);
     }
     private void unitBuildFarm() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization =  getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.FARM);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.FARM);
         if(response.isOK()){
             GameController.BuildImprovment(currentTile,ImprovementEnum.FARM);
             System.out.println("farm built successfully");
@@ -572,7 +571,7 @@ public class GameMenu extends Menu {
     private void unitBuildRailRoad() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization = getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.RailRoad);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.RailRoad);
         if(response.isOK())System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.RailRoad));
         else System.out.println(response);
     }
@@ -580,17 +579,17 @@ public class GameMenu extends Menu {
     private void unitBuildRoad() {
         Tile currentTile=getCurrentTile();
         Civilization currentCivilization = getCurrentCilization();
-        CommandResponseEnum response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.ROAD);
+        CommandResponse response=isPossibleToBuild(currentTile,currentCivilization,ImprovementEnum.ROAD);
         if(response.isOK())System.out.println(GameController.BuildImprovment(currentTile,ImprovementEnum.ROAD));
         else System.out.println(response);
     }
-    private CommandResponseEnum isPossibleToBuild(Tile currentTile, Civilization currentCivilization,ImprovementEnum improvement) {
-        if(currentTile.getNonCombatUnit() == null){return CommandResponseEnum.UNIT_DOESNT_EXISTS;}
-        if(!(currentCivilization.getCurrentTile().getNonCombatUnit().getCiv() == currentCivilization)){return CommandResponseEnum.NOT_HAVING_UNIT;}
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponseEnum.WRONG_UNIT;}
-        if(isExists(currentTile,improvement)){return CommandResponseEnum.IMPROVMENT_EXISTS;}
-        if(isPossibleToBuildInThisTerrain(currentCivilization,improvement)){return CommandResponseEnum.YOU_HAVE_NOT_REQUIRED_OPTIONS;}
-        return CommandResponseEnum.OK;
+    private CommandResponse isPossibleToBuild(Tile currentTile, Civilization currentCivilization,ImprovementEnum improvement) {
+        if(currentTile.getNonCombatUnit() == null){return CommandResponse.UNIT_DOESNT_EXISTS;}
+        if(!(currentCivilization.getCurrentTile().getNonCombatUnit().getCiv() == currentCivilization)){return CommandResponse.NOT_HAVING_UNIT;}
+        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {return CommandResponse.WRONG_UNIT;}
+        if(isExists(currentTile,improvement)){return CommandResponse.IMPROVMENT_EXISTS;}
+        if(isPossibleToBuildInThisTerrain(currentCivilization,improvement)){return CommandResponse.YOU_HAVE_NOT_REQUIRED_OPTIONS;}
+        return CommandResponse.OK;
     }
     private void selectCity(Command command) {
             Tile currentTile=getCurrentTile();
@@ -602,10 +601,10 @@ public class GameMenu extends Menu {
                 else {System.out.println("city with this name doesn't exists");}
             }else if ((key=command.getOption("cityPositon")) != null) {
                 String[] cordinates=key.split("\\s+");
-                    CommandResponseEnum response=isCorrectPosition(cordinates[0],cordinates[1],this.getGame());
+                    CommandResponse response=isCorrectPosition(cordinates[0],cordinates[1],this.getGame());
                     System.out.println(!response.isOK() ? response : GameController.showCity(Integer.parseInt(cordinates[0]),Integer.parseInt(cordinates[1]),this.getGame()));
                  }else{
-                    System.out.println(CommandResponseEnum.INVALID_COMMAND);
+                    System.out.println(CommandResponse.INVALID_COMMAND);
                 }
     }
 
@@ -614,10 +613,10 @@ public class GameMenu extends Menu {
           switch (command.getSubSubCategory()) {
               case "combat"-> selectCombatUnit(command);
               case "noncombat"-> selectNonCombatUnit(command);
-              default -> System.out.println(CommandResponseEnum.INVALID_COMMAND);
+              default -> System.out.println(CommandResponse.INVALID_COMMAND);
           }
         }catch (Exception e){
-            System.out.println(CommandResponseEnum.INVALID_COMMAND);
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -627,13 +626,13 @@ public class GameMenu extends Menu {
             String key;
             if((key=command.getOption("position")) != null) {
                 String[] cordinates=key.split("\\s+");
-                CommandResponseEnum response = isCorrectPosition(cordinates[0],cordinates[1],this.getGame());
+                CommandResponse response = isCorrectPosition(cordinates[0],cordinates[1],this.getGame());
                 System.out.println(response.isOK() ? GameController.showNonCombatInfo(currentTile.getNonCombatUnit()) : response );
             }else{
-                System.out.println(CommandResponseEnum.CommandMissingRequiredOption);
+                System.out.println(CommandResponse.CommandMissingRequiredOption);
             }
         }catch (Exception e){
-            System.out.println(CommandResponseEnum.INVALID_COMMAND);
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -643,13 +642,13 @@ public class GameMenu extends Menu {
             String key;
             if((key=command.getOption("position")) != null) {
                 String[] cordinates=key.split("\\s+");
-                CommandResponseEnum response = isCorrectPosition(cordinates[0],cordinates[1],this.getGame());
+                CommandResponse response = isCorrectPosition(cordinates[0],cordinates[1],this.getGame());
                 System.out.println(response.isOK() ? GameController.showCombatInfo(currentTile.getCombatUnit()) : response );
             }else{
-                System.out.println(CommandResponseEnum.CommandMissingRequiredOption);
+                System.out.println(CommandResponse.CommandMissingRequiredOption);
             }
         }catch (Exception e){
-            System.out.println(CommandResponseEnum.INVALID_COMMAND);
+            System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -662,49 +661,49 @@ public class GameMenu extends Menu {
     }
 
 
-    private  CommandResponseEnum isCorrectPosition(String row_s, String col_s,Game game){
+    private  CommandResponse isCorrectPosition(String row_s, String col_s,Game game){
        try {
            int row = Integer.parseInt(row_s);
            int col = Integer.parseInt(col_s);
            if (row > game.getTileGrid().getHeight() || row < 0 || col > game.getTileGrid().getWidth() || col < 0)
-               return CommandResponseEnum.INVALID_POSITION;
-           return CommandResponseEnum.OK;
+               return CommandResponse.INVALID_POSITION;
+           return CommandResponse.OK;
        }catch (Exception e){
-          return CommandResponseEnum.INVALID_COMMAND;
+          return CommandResponse.INVALID_COMMAND;
        }
     }
-    private  CommandResponseEnum isCorrectPosition(String amount_s,Game game,String direction){
+    private  CommandResponse isCorrectPosition(String amount_s,Game game,String direction){
         try {
             //TODO : complete
             int amount = Integer.parseInt(amount_s);
-            CommandResponseEnum response;
+            CommandResponse response;
             switch (direction) {
                 case "right" -> response= validateRightWardMove(amount);
                 case "left" -> response= validateLeftWardMove(amount);
                 case "up" -> response= validateUpWardMove(amount);
                 case "down" -> response= validateDownWardMove(amount);
-                default -> response=CommandResponseEnum.INVALID_DIRECTION;
+                default -> response=CommandResponse.INVALID_DIRECTION;
             }
             return response;
         }catch (Exception e){
-            return CommandResponseEnum.INVALID_COMMAND;
+            return CommandResponse.INVALID_COMMAND;
         }
     }
-    private CommandResponseEnum validateRightWardMove(int amount){
+    private CommandResponse validateRightWardMove(int amount){
         //TODO : validate rightward move
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
-    private CommandResponseEnum validateLeftWardMove(int amount){
+    private CommandResponse validateLeftWardMove(int amount){
         //TODO : validate rightward move
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
-    private CommandResponseEnum validateUpWardMove(int amount){
+    private CommandResponse validateUpWardMove(int amount){
         //TODO : validate rightward move
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
-    private CommandResponseEnum validateDownWardMove(int amount){
+    private CommandResponse validateDownWardMove(int amount){
         //TODO : validate rightward move
-        return CommandResponseEnum.OK;
+        return CommandResponse.OK;
     }
     private Civilization getCurrentCilization(){
         return game.getCivTurn().get(game.getCivTurn().size()-1);

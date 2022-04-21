@@ -1,33 +1,33 @@
 package Controllers;
 
-import Enums.CommandResponseEnum;
+import Enums.CommandResponse;
 
 public class LoginMenuController {
-    public static CommandResponseEnum createUser(String username, String nickname, String password) {
-        return CommandResponseEnum.OK;
+    public static CommandResponse createUser(String username, String nickname, String password) {
+        return CommandResponse.OK;
     }
 
-    public static CommandResponseEnum loginUser(String username, String password) {
-        return CommandResponseEnum.OK;
+    public static CommandResponse loginUser(String username, String password) {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum logout() {
-        return CommandResponseEnum.OK;
+    public CommandResponse logout() {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum startNewGame() {
-        return CommandResponseEnum.OK;
+    public CommandResponse startNewGame() {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum enterMenu() {
-        return CommandResponseEnum.OK;
+    public CommandResponse enterMenu() {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum exitMenu() {
-        return CommandResponseEnum.OK;
+    public CommandResponse exitMenu() {
+        return CommandResponse.OK;
     }
 
-    public CommandResponseEnum playGame() {
-        return CommandResponseEnum.OK;
+    public CommandResponse playGame() {
+        return CommandResponse.OK;
     }
 }
