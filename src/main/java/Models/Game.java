@@ -51,4 +51,10 @@ public class Game {
     public TileGrid getTileGrid() {
         return this.tileGrid;
     }
+
+    public GameController getController(){
+        return this.controller;
+    }
+
+
 }

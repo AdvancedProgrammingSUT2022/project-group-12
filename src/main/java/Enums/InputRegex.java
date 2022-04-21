@@ -4,7 +4,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum REGEX {
+public enum InputRegex {
     LOGIN("\\s*user login -+(?<part1>[.\\S]+) ([.\\S]+) -+(?<part2>[.\\S]+) ([.\\S]+)\\s*"),
     LOGIN_DEEPER_USER_FIRST("\\s*user login -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+)\\s*"),
     LOGIN_DEEPER_PASS_FIRST("\\s*user login -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+)\\s*"),
@@ -35,11 +35,11 @@ public enum REGEX {
 
     private final String selectedRegex;
 
-    REGEX(String input) {
+    InputRegex(String input) {
         this.selectedRegex = input;
     }
 
-    public static Matcher getMatcher(String input, REGEX inputRegex) {
+    public static Matcher getMatcher(String input, InputRegex inputRegex) {
         Matcher matcher = Pattern.compile(inputRegex.selectedRegex).matcher(input);
         if (matcher.find() && matcher.group().equals(input)) {
             return matcher;
