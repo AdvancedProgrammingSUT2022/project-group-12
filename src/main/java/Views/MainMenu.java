@@ -1,10 +1,8 @@
 package Views;
 
 import Controllers.Command;
-import Controllers.GameController;
-import Controllers.MainMenuController;
 import Enums.CommandResponse;
-import Enums.InputRegex;
+import Enums.REGEX;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -17,13 +15,13 @@ public class MainMenu extends Menu {
     protected void handleCommand(Command command) {
         String input = command.getType();
         Matcher matcher;
-        if (InputRegex.getMatcher(input, InputRegex.PLAY_GAME_WITH) != null) {
+        if (REGEX.getMatcher(input, REGEX.PLAY_GAME_WITH) != null) {
             playGameWith(input);
-        } else if (InputRegex.getMatcher(input, InputRegex.CURRENT_MENU) != null) {
+        } else if (REGEX.getMatcher(input, REGEX.CURRENT_MENU) != null) {
             System.out.println("Main Menu");
-        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.ENTER_MENU)) != null) {
+        } else if ((matcher = REGEX.getMatcher(input, REGEX.ENTER_MENU)) != null) {
             System.out.println(MenuStack.getInstance().menuController.enterMenu(matcher));
-        } else if (InputRegex.getMatcher(input, InputRegex.EXIT_MENU) != null) {
+        } else if (REGEX.getMatcher(input, REGEX.EXIT_MENU) != null) {
             MenuStack.getInstance().popMenu();
         } else {
             System.out.println(CommandResponse.INVALID_COMMAND);
@@ -38,7 +36,7 @@ public class MainMenu extends Menu {
 
     private void playGameWith(String command) {
         StringBuilder input = new StringBuilder(command);
-        TreeMap<Integer, String> playersMap = InputRegex.playGameWithMatcher(input);
+        TreeMap<Integer, String> playersMap = REGEX.playGameWithMatcher(input);
         CommandResponse response = MenuStack.getInstance().menuController.startNewGame(playersMap);
         if (response.isOK()) {
             MenuStack.getInstance().pushMenu(new GameMenu());
