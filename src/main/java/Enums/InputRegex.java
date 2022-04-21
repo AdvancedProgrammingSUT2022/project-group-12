@@ -16,13 +16,15 @@ public enum InputRegex {
     LOGOUT("\\s*logout|LOGOUT|Logout\\s*"),
     CURRENT_MENU("\\s*menu show-current\\s*"),
     ENTER_MENU("\\s*menu enter (?<selectedMenu>Login|Main|(Play Game)|Profile|login|main|(play game)|profile)\\s*"),
-    U("(U|u|user|username|u_name)"),
-    P("(P|p|pass|password|p_word)"),
-    N("(N|n|nickname|n_name)"),
-    CHANGE_NICKNAME("\\s*profile change -+" + N + " [.\\S]+\\s*"),
+    USERNAME("(U|u|user|username|u_name)"),
+    PASSWORD("(P|p|pass|password|p_word)"),
+    NICKNAME("(N|n|nickname|n_name)"),
     CURRENT("(C|c|current|crnt)"),
     NEW("(N|n|new|NEW)"),
-    CHANGE_PASS("\\s*profile change -+" + P + " -+" + CURRENT + " (?<oldPass>[.\\S]+) -+" + NEW + " (?<newPass>[.\\S]+)+\\s*"),
+    CHANGE_NICKNAME("\\s*profile change -+" + NICKNAME + " (?<changeNicknameTo>[.\\S]+)\\s*"),
+    CHANGE_PASS("\\s*profile change -+" + PASSWORD + " -+(?<part1>[.\\S]+) [.\\S]+ -+(?<part2>[.\\S]+) [.\\S]+\\s*"),
+    CHANGE_PASS_OLD_FIRST("\\s*profile change -+" + PASSWORD + " -+[.\\S]+ (?<old>[.\\S]+) -+[.\\S]+ (?<new>[.\\S]+)\\s*"),
+    CHANGE_PASS_NEW_FIRST("\\s*profile change -+" + PASSWORD + " -+[.\\S]+ (?<new>[.\\S]+) -+[.\\S]+ (?<old>[.\\S]+)\\s*"),
     USER_PASS_NICK("\\s*user create -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<nickname>[.\\S]+)\\s*"),
     USER_NICK_PASS("\\s*user create -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<nickname>[.\\S]+) -+[.\\S]+ (?<password>[.\\S]+)\\s*"),
     PASS_USER_NICK("\\s*user create -+[.\\S]+ (?<password>[.\\S]+) -+[.\\S]+ (?<username>[.\\S]+) -+[.\\S]+ (?<nickname>[.\\S]+)\\s*"),
@@ -45,24 +47,23 @@ public enum InputRegex {
         return null;
     }
 
-    private static TreeMap<Integer, String> map = new TreeMap<>();
 
     public static Matcher registerMatcher(String input) {
         String regex = REGISTER.selectedRegex;
         Matcher matcher = Pattern.compile(regex).matcher(input.toString());
         if (matcher.find() && matcher.group().equals(input.toString())) {
             String parts = matcher.group("part1") + " " + matcher.group("part2") + " " + matcher.group("part3");
-            String regex_u1 = U + " " + P + " " + N;
+            String regex_u1 = USERNAME + " " + PASSWORD + " " + NICKNAME;
             Matcher m_u1 = Pattern.compile(regex_u1).matcher(parts);
-            String regex_u2 = U + " " + N + " " + P;
+            String regex_u2 = USERNAME + " " + NICKNAME + " " + PASSWORD;
             Matcher m_u2 = Pattern.compile(regex_u2).matcher(parts);
-            String regex_p1 = P + " " + U + " " + N;
+            String regex_p1 = PASSWORD + " " + USERNAME + " " + NICKNAME;
             Matcher m_p1 = Pattern.compile(regex_p1).matcher(parts);
-            String regex_p2 = P + " " + N + " " + U;
+            String regex_p2 = PASSWORD + " " + NICKNAME + " " + USERNAME;
             Matcher m_p2 = Pattern.compile(regex_p2).matcher(parts);
-            String regex_n1 = N + " " + U + " " + P;
+            String regex_n1 = NICKNAME + " " + USERNAME + " " + PASSWORD;
             Matcher m_n1 = Pattern.compile(regex_n1).matcher(parts);
-            String regex_n2 = N + " " + P + " " + U;
+            String regex_n2 = NICKNAME + " " + PASSWORD + " " + USERNAME;
             Matcher m_n2 = Pattern.compile(regex_n2).matcher(parts);
             if (m_u1.find() && m_u1.group().equals(parts)) {
                 regex = USER_PASS_NICK.selectedRegex;
@@ -91,10 +92,10 @@ public enum InputRegex {
         Matcher matcher = Pattern.compile(LOGIN.selectedRegex).matcher(input.toString());
         boolean canBeUsed = false;
         if (matcher.find() && matcher.group().equals(input.toString())) {
-            Matcher part1MatcherUser = Pattern.compile(U.selectedRegex).matcher(matcher.group("part1"));
-            Matcher part2MatcherPass = Pattern.compile(P.selectedRegex).matcher(matcher.group("part2"));
-            Matcher part1MatcherPass = Pattern.compile(P.selectedRegex).matcher(matcher.group("part1"));
-            Matcher part2MatcherUser = Pattern.compile(P.selectedRegex).matcher(matcher.group("part2"));
+            Matcher part1MatcherUser = Pattern.compile(USERNAME.selectedRegex).matcher(matcher.group("part1"));
+            Matcher part2MatcherPass = Pattern.compile(PASSWORD.selectedRegex).matcher(matcher.group("part2"));
+            Matcher part1MatcherPass = Pattern.compile(PASSWORD.selectedRegex).matcher(matcher.group("part1"));
+            Matcher part2MatcherUser = Pattern.compile(PASSWORD.selectedRegex).matcher(matcher.group("part2"));
             if (part1MatcherUser.find() && part1MatcherUser.group().equals(matcher.group("part1")) &&
                     part2MatcherPass.find() && part2MatcherPass.group().equals(matcher.group("part2"))) {
                 matcher = Pattern.compile(LOGIN_DEEPER_USER_FIRST.selectedRegex).matcher(input.toString());
@@ -112,6 +113,8 @@ public enum InputRegex {
         }
         return null;
     }
+
+    private static TreeMap<Integer, String> map = new TreeMap<>();
 
     public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
         Matcher matcher = Pattern.compile(PLAY_GAME_WITH.selectedRegex).matcher(input.toString());
@@ -135,20 +138,28 @@ public enum InputRegex {
         return null;
     }
 
-    public static Matcher changePassMatcher(String input) {
+    public static Matcher changePasswordMatcher(String input) {
         String regex = CHANGE_PASS.selectedRegex;
         Matcher matcher = Pattern.compile(regex).matcher(input);
         if (matcher.find() && matcher.group().equals(input)) {
-            return matcher;
-        }
-        return null;
-    }
+            Matcher checkPart1Current = Pattern.compile(CURRENT.selectedRegex).matcher(matcher.group("part1"));
+            Matcher checkPart1New = Pattern.compile(NEW.selectedRegex).matcher(matcher.group("part1"));
+            Matcher checkPart2Current = Pattern.compile(CURRENT.selectedRegex).matcher(matcher.group("part2"));
+            Matcher checkPart2New = Pattern.compile(NEW.selectedRegex).matcher(matcher.group("part2"));
 
-    public static Matcher changeNicknameMatcher(String input) {
-        String regex = "\\s*profile change" + "-+" + N + "(?<nickname>[.\\S]+)\\s*";
-        Matcher matcher = Pattern.compile(regex).matcher(input);
-        if (matcher.find() && matcher.group().equals(input)) {
-            return matcher;
+            if (checkPart1Current.find() && checkPart1Current.group().equals(matcher.group("part1")) &&
+                    checkPart2New.find() && checkPart2New.group().equals(matcher.group("part2"))) {
+                regex = CHANGE_PASS_OLD_FIRST.selectedRegex;
+            } else if (checkPart2Current.find() && checkPart2Current.group().equals(matcher.group("part2")) &&
+                    checkPart1New.find() && checkPart1New.group().equals(matcher.group("part1"))) {
+                regex = CHANGE_PASS_NEW_FIRST.selectedRegex;
+            } else {
+                return null;
+            }
+            matcher = Pattern.compile(regex).matcher(input);
+            if (matcher.find() && matcher.group().equals(input)) {
+                return matcher;
+            }
         }
         return null;
     }

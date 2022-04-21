@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Database {
     private HashMap<String, User> users = new HashMap<>();
@@ -63,6 +64,15 @@ public class Database {
 
     public boolean checkForUsername(String username) {
         return this.users.containsKey(username);
+    }
+
+    public boolean nicknameAlreadyExists(String nickname) {
+        for (Map.Entry<String, User> account : this.users.entrySet()) {
+            if (account.getValue().getNickname().equals(nickname)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void deserialize() {
