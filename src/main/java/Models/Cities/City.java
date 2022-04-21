@@ -10,6 +10,7 @@ import Models.Units.NonCombatUnit;
 import java.util.ArrayList;
 
 public class City {
+    private String name;
     private String isOwnedBy;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
@@ -160,6 +161,8 @@ public class City {
     public boolean hasACombatUnit() {
         return this.hasACombatUnit;
     }
+
+    public String getName() {return name;}
 
     public boolean hasANonCombatUnit() {
         return this.hasANonCombatUnit;

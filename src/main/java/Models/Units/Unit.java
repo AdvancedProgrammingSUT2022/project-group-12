@@ -16,4 +16,8 @@ public abstract class Unit {
     public void garrison(){
 
     }
+
+    public Civilization getCiv() {
+        return civ;
+    }
 }

@@ -1,4 +1,3 @@
-//TODO : decide to keep or don't
 package Controllers;
 
 import Enums.CommandResponse;
@@ -38,19 +37,19 @@ public class Command {
             String key;
             int idx2 = idx + 1;
             if (idx2 >= input.length()) {
-//                throw new InvalidCommand();
+                throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
             }
             if (input.charAt(idx2) == '-') {
                 idx2 = input.indexOf(' ', idx);
                 if (idx2 == -1) {
-//                    throw new InvalidCommand();
+                    throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
                 }
                 key = input.substring(idx + 2, idx2);
             } else {
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
                 if (input.charAt(idx2) != ' ') {
-//                    throw new InvalidCommand();
+                    throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
                 }
             }
             idx = idx2 + 1;
@@ -70,6 +69,11 @@ public class Command {
     public String getCategory() {
         return this.getType().split(" ")[0];
     }
+    public String getSubCategory() {
+        return this.getType().split(" ")[1];
+    }
+
+    public String getSubSubCategory() {return this.getType().split(" ")[2];}
 
     public String getOption(String key) {
         return this.options.get(key);
@@ -79,9 +83,11 @@ public class Command {
         // todo: should validate more: unrecognized options, difference of dash and double dash, ...
         for (String key : requiredKeys) {
             if (this.getOption(key) == null) {
-                return CommandResponse.COMMAND_MISSING_REQUIRED_OPTION; // todo: should contain the missing option's key
+                return CommandResponse.CommandMissingRequiredOption; // todo: should contain the missing option's key
             }
         }
         return CommandResponse.OK;
     }
+
+
 }
