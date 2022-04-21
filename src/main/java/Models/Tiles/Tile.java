@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class Tile {
     protected boolean isDamaged;
+    protected int row;
+    protected int col;
     protected CombatUnit combatUnit;
     protected NonCombatUnit nonCombatUnit;
     protected Terrain terrain;
@@ -17,16 +19,25 @@ public class Tile {
     protected ArrayList<ResourceEnum> resources;
     protected int HP;
 
-    public Tile(Terrain terrain, ArrayList<ResourceEnum> resources) {
+    public Tile(Terrain terrain, ArrayList<ResourceEnum> resources,int row,int col) {
         this.terrain = terrain;
         this.resources = resources;
         this.city=null;
         this.combatUnit=null; this.nonCombatUnit=null;
         this.isDamaged = false;
+        this.row=row; this.col=col;
     }
 
     public boolean isDamaged() {
         return isDamaged;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     public City getCity() {return city;}

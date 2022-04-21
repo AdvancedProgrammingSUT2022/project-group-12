@@ -1,11 +1,14 @@
 package Controllers;
 
 import Enums.CommandResponseEnum;
+import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.Unit;
+
+import java.io.Serializable;
 
 public class GameMenuController {
     private final Game game;
@@ -24,47 +27,33 @@ public class GameMenuController {
         }
         return false;
     }
-    public static CommandResponseEnum showMapOnCity(String key, Game game) {
-        if(validateCity(key, game)){
-            //TODO : showMapOnCity
-            return CommandResponseEnum.OK;
-        }
-        return CommandResponseEnum.INVALID_CITY;
+    public static String showMapOnCity(City city) {
+        return "map moved successfully";
     }
-    public static CommandResponseEnum moveMapRight(int amount) {
-        if(amount <= 0){return CommandResponseEnum.INVALID_NUMBER;}
-        return CommandResponseEnum.OK;
+    public static String moveMapRight(int amount) {
+        return "map moved successfully";
         // TODO : move map right
     }
 
-    public static CommandResponseEnum moveMapUp(int amount) {
-        if(amount <= 0){return CommandResponseEnum.INVALID_NUMBER;}
-        return CommandResponseEnum.OK;
+    public static String moveMapUp(int amount) {
+
+        return "map moved successfully";
         // TODO : move map right
     }
 
-    public static CommandResponseEnum moveMapLeft(int amount) {
-        if(amount <= 0){return CommandResponseEnum.INVALID_NUMBER;}
-        return CommandResponseEnum.OK;
+    public static String moveMapLeft(int amount) {
+
+        return "map moved successfully";
         // TODO : move map right
     }
 
-    public static CommandResponseEnum moveMapDown(int amount) {
-        if(amount <= 0){return CommandResponseEnum.INVALID_NUMBER;}
-        return CommandResponseEnum.OK;
+    public static String moveMapDown(int amount) {
+
+        return "map moved successfully";
         // TODO : move map right
     }
 
-    public static CommandResponseEnum AttackUnit(int row, int col, Game game,Tile currentTile,Civilization civilization) {
-        if(isCorrectPosition(row, col,game)){
-            CommandResponseEnum response=validateAttacking(currentTile,civilization);
 
-
-            return CommandResponseEnum.OK;
-        }else {
-            return CommandResponseEnum.INVALID_POSITION;
-        }
-    }
 
     private static CommandResponseEnum validateAttacking(Tile currentTile, Civilization civilization) {
         //TODO : complete

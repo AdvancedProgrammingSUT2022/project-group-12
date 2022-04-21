@@ -7,6 +7,8 @@ import Models.Civilization;
 import Models.Database;
 import Models.Game;
 import Models.Tiles.Tile;
+import Models.Units.CombatUnit;
+import Models.Units.NonCombatUnit;
 import Models.User;
 import Views.GameMenu;
 import Views.MenuStack;
@@ -64,7 +66,10 @@ public class GameController {
     public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
         return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase()+" built succesfully";
     }
+    public static String AttackUnit(int row, int col, Game game,Tile currentTile,Civilization civilization) {
 
+        return "attack successfully happened";
+    }
    
 
     public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
@@ -121,11 +126,11 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showNonCombatInfo(Tile currentTile) {
+    public static StringBuilder showNonCombatInfo(NonCombatUnit nonCombatUnit) {
         return null;
     }
 
-    public static StringBuilder showCombatInfo(Tile currentTile) {
+    public static StringBuilder showCombatInfo(CombatUnit CombatUnit) {
         return null;
     }
 
@@ -168,5 +173,15 @@ public class GameController {
 
     public static StringBuilder showDealsInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
+    }
+
+    public static String moveNonCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
+        return "noncombat unit moved successfully";
+
+    }
+
+    public static String moveCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
+        //TODO : check the position
+       return "combat unit moved successfully";
     }
 }
