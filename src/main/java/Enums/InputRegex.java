@@ -33,6 +33,7 @@ public enum InputRegex {
     NICK_PASS_USER("\\s*user create -+" + NICKNAME.selectedRegex + " (?<nickname>[.\\S]+) -+" + PASSWORD.selectedRegex + " (?<password>[.\\S]+) -+" + USERNAME.selectedRegex + " (?<username>[.\\S]+)\\s*"),
     EXIT_MENU("\\s*menu exit\\s*");
 
+    private static final TreeMap<Integer, String> map = new TreeMap<>();
     private final String selectedRegex;
 
     InputRegex(String input) {
@@ -47,11 +48,10 @@ public enum InputRegex {
         return null;
     }
 
-
     public static Matcher registerMatcher(String input) {
         String regex = REGISTER.selectedRegex;
-        Matcher matcher = Pattern.compile(regex).matcher(input.toString());
-        if (matcher.find() && matcher.group().equals(input.toString())) {
+        Matcher matcher = Pattern.compile(regex).matcher(input);
+        if (matcher.find() && matcher.group().equals(input)) {
             String parts = matcher.group("part1") + " " + matcher.group("part2") + " " + matcher.group("part3");
             String regex_u1 = USERNAME.selectedRegex + " " + PASSWORD.selectedRegex + " " + NICKNAME.selectedRegex;
             Matcher m_u1 = Pattern.compile(regex_u1).matcher(parts);
@@ -96,14 +96,12 @@ public enum InputRegex {
             Matcher part2MatcherPass = Pattern.compile(PASSWORD.selectedRegex).matcher(matcher.group("part2"));
             Matcher part1MatcherPass = Pattern.compile(PASSWORD.selectedRegex).matcher(matcher.group("part1"));
             Matcher part2MatcherUser = Pattern.compile(PASSWORD.selectedRegex).matcher(matcher.group("part2"));
-            if (part1MatcherUser.find() && part1MatcherUser.group().equals(matcher.group("part1")) &&
-                    part2MatcherPass.find() && part2MatcherPass.group().equals(matcher.group("part2"))) {
+            if (part1MatcherUser.find() && part1MatcherUser.group().equals(matcher.group("part1")) && part2MatcherPass.find() && part2MatcherPass.group().equals(matcher.group("part2"))) {
                 matcher = Pattern.compile(LOGIN_DEEPER_USER_FIRST.selectedRegex).matcher(input.toString());
                 if (matcher.find() && matcher.group().equals(input.toString())) {
                     canBeUsed = true;
                 }
-            } else if (part1MatcherPass.find() && part1MatcherPass.group().equals(matcher.group("part1")) &&
-                    part2MatcherUser.find() && part2MatcherUser.group().equals(matcher.group("part2"))) {
+            } else if (part1MatcherPass.find() && part1MatcherPass.group().equals(matcher.group("part1")) && part2MatcherUser.find() && part2MatcherUser.group().equals(matcher.group("part2"))) {
                 matcher = Pattern.compile(LOGIN_DEEPER_PASS_FIRST.selectedRegex).matcher(input.toString());
                 canBeUsed = true;
             }
@@ -113,8 +111,6 @@ public enum InputRegex {
         }
         return null;
     }
-
-    private static TreeMap<Integer, String> map = new TreeMap<>();
 
     public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
         Matcher matcher = Pattern.compile(PLAY_GAME_WITH.selectedRegex).matcher(input.toString());
@@ -147,11 +143,9 @@ public enum InputRegex {
             Matcher checkPart2Current = Pattern.compile(CURRENT.selectedRegex).matcher(matcher.group("part2"));
             Matcher checkPart2New = Pattern.compile(NEW.selectedRegex).matcher(matcher.group("part2"));
 
-            if (checkPart1Current.find() && checkPart1Current.group().equals(matcher.group("part1")) &&
-                    checkPart2New.find() && checkPart2New.group().equals(matcher.group("part2"))) {
+            if (checkPart1Current.find() && checkPart1Current.group().equals(matcher.group("part1")) && checkPart2New.find() && checkPart2New.group().equals(matcher.group("part2"))) {
                 regex = CHANGE_PASS_OLD_FIRST.selectedRegex;
-            } else if (checkPart2Current.find() && checkPart2Current.group().equals(matcher.group("part2")) &&
-                    checkPart1New.find() && checkPart1New.group().equals(matcher.group("part1"))) {
+            } else if (checkPart2Current.find() && checkPart2Current.group().equals(matcher.group("part2")) && checkPart1New.find() && checkPart1New.group().equals(matcher.group("part1"))) {
                 regex = CHANGE_PASS_NEW_FIRST.selectedRegex;
             } else {
                 return null;

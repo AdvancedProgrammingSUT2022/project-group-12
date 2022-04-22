@@ -19,13 +19,15 @@ public class Tile {
     protected ArrayList<ResourceEnum> resources;
     protected int HP;
 
-    public Tile(Terrain terrain, ArrayList<ResourceEnum> resources,int row,int col) {
+    public Tile(Terrain terrain, ArrayList<ResourceEnum> resources, int row, int col) {
         this.terrain = terrain;
         this.resources = resources;
-        this.city=null;
-        this.combatUnit=null; this.nonCombatUnit=null;
+        this.city = null;
+        this.combatUnit = null;
+        this.nonCombatUnit = null;
         this.isDamaged = false;
-        this.row=row; this.col=col;
+        this.row = row;
+        this.col = col;
     }
 
     public boolean isDamaged() {
@@ -40,17 +42,21 @@ public class Tile {
         return row;
     }
 
-    public City getCity() {return city;}
-
-    public NonCombatUnit getNonCombatUnit() {
-        return nonCombatUnit;
+    public City getCity() {
+        return city;
     }
 
     public void setCity(City city) {
         this.city = city;
     }
 
-    public Terrain getTerrain() {return terrain; }
+    public NonCombatUnit getNonCombatUnit() {
+        return nonCombatUnit;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
 
     public CombatUnit getCombatUnit() {
         return combatUnit;

@@ -18,18 +18,6 @@ public class Terrain {
 
     protected ArrayList<ImprovementEnum> improvements;
 
-    public ArrayList<TerrainEnum> getFeatures() {
-        return features;
-    }
-
-    public ArrayList<ImprovementEnum> getImprovements() {
-        return improvements;
-    }
-
-    public int getCombatModifier() {
-        return combatModifier;
-    }
-
     public Terrain(String type) {
         TerrainEnum terrainType = TerrainEnum.valueOf(type);
         this.foodCount = terrainType.getFoodCount();
@@ -46,5 +34,17 @@ public class Terrain {
             this.combatModifier += features.getCombatModifier();
             this.movementCost += features.getMovementCost();
         }
+    }
+
+    public ArrayList<TerrainEnum> getFeatures() {
+        return features;
+    }
+
+    public ArrayList<ImprovementEnum> getImprovements() {
+        return improvements;
+    }
+
+    public int getCombatModifier() {
+        return combatModifier;
     }
 }

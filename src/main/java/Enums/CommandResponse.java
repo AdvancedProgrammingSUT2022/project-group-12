@@ -34,8 +34,8 @@ public enum CommandResponse {
         this.message = message;
     }
 
-    public CommandResponse nicknameExists(String nickname){
-        this.message = "user with nickname "+nickname+" already exists";
+    public CommandResponse nicknameExists(String nickname) {
+        this.message = "user with nickname " + nickname + " already exists";
         return null;
     }
 
