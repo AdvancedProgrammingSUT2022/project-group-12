@@ -106,8 +106,7 @@ public enum TerrainEnum {
     private final boolean canPass;
     private final boolean blocksView;
 
-    TerrainEnum(int foodCount, int productsCount, int goldCount, int combatModifier
-            , int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
+    TerrainEnum(int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
         this.foodCount = foodCount;
         this.productsCount = productsCount;
         this.goldCount = goldCount;

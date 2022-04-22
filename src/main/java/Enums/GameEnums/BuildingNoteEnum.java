@@ -1,7 +1,7 @@
 package Enums.GameEnums;
 
-import Models.Cities.City;
 import Models.Buildings.BuildingNotes;
+import Models.Cities.City;
 
 public enum BuildingNoteEnum {
     BARRACK_NOTE(new BuildingNotes<City>() {
