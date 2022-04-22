@@ -31,18 +31,6 @@ public class Tile {
         this.col = col;
     }
 
-    public Tile(int row, int col, Terrain terrain, ArrayList<ResourceEnum> resources, CombatUnit combatUnit, NonCombatUnit nonCombatUnit, City city, int HP, boolean isDamaged) {
-        this.row = row;
-        this.col = col;
-        this.terrain = terrain;
-        this.resources = resources;
-        this.combatUnit = combatUnit;
-        this.nonCombatUnit = nonCombatUnit;
-        this.city = city;
-        this.HP = HP;
-        this.isDamaged = isDamaged;
-    }
-
     public boolean isDamaged() {
         return isDamaged;
     }
