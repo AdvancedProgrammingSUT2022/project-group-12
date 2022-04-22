@@ -2,8 +2,6 @@ package Controllers;
 
 import Enums.CommandResponse;
 import Models.Database;
-import Models.User;
-import Views.GameMenu;
 import Views.LoginMenu;
 import Views.MainMenu;
 import Views.MenuStack;
