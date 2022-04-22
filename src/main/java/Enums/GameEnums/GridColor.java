@@ -1,6 +1,6 @@
 package Enums.GameEnums;
 
-public enum MapColor {
+public enum GridColor {
     RED("\033[0;31m"),
     GREEN("\033[0;32m"),
     BLUE("\033[0;34m"),
@@ -11,7 +11,7 @@ public enum MapColor {
 
     private final String color;
 
-    MapColor(String color) {
+    GridColor(String color) {
         this.color = color;
     }
 

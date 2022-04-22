@@ -22,8 +22,7 @@ public class Terrain {
 
     protected ArrayList<ImprovementEnum> improvements;
 
-    public Terrain(String terrainType) {
-        TerrainEnum type = TerrainEnum.valueOf(terrainType);
+    public Terrain(TerrainEnum type) {
         this.foodCount = type.getFoodCount();
         this.productsCount = type.getProductsCount();
         this.goldCount = type.getGoldCount();
