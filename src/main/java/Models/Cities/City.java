@@ -158,7 +158,7 @@ public class City {
         this.cityStructure.add(cityStructure);
     }
 
-    public boolean hasACombatUnit() {
+    public boolean hasCombatUnit() {
         return this.hasACombatUnit;
     }
 
@@ -166,7 +166,7 @@ public class City {
         return name;
     }
 
-    public boolean hasANonCombatUnit() {
+    public boolean hasNonCombatUnit() {
         return this.hasANonCombatUnit;
     }
 }
