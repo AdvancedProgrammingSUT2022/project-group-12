@@ -15,14 +15,14 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 public class MainMenuController {
-    public User user = new User("sth", "sth", "Sth");
 
-    public String enterMenu(Matcher matcher) {
+    public static String enterMenu(Matcher matcher) {
         String newMenu = matcher.group("selectedMenu").toLowerCase();
         switch (newMenu) {
             case "login" -> MenuStack.getInstance().pushMenu(new LoginMenu());
             case "profile" -> MenuStack.getInstance().pushMenu(new ProfileMenu());
-            case "play game" -> MenuStack.getInstance().pushMenu(new GameMenu(user.getRunningGame().getController()));
+            // todo: should get user
+//            case "play game" -> MenuStack.getInstance().pushMenu(new GameMenu(user.getRunningGame().getController()));
             case "main" -> {
                 return "already in main menu";
             }
@@ -30,7 +30,7 @@ public class MainMenuController {
         return "menu changed to " + newMenu + " successfully";
     }
 
-    public CommandResponse startNewGame(TreeMap<Integer, String> usernames) {
+    public static CommandResponse startNewGame(TreeMap<Integer, String> usernames) {
         ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
         for (Map.Entry<Integer, String> entry : usernames.entrySet()) {

@@ -1,19 +1,10 @@
 package Views;
 
-import Controllers.CivilizationController;
-import Controllers.LoginMenuController;
-import Controllers.MainMenuController;
-import Controllers.ProfileMenuController;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuStack {
     private static MenuStack instance = null;
-    public final ProfileMenuController profileController = new ProfileMenuController();
-    public final MainMenuController menuController = new MainMenuController();
-    public final LoginMenuController loginController = new LoginMenuController();
-    public final CivilizationController civController = new CivilizationController();
     private final ArrayList<Menu> menus = new ArrayList<>();
     private Scanner scanner;
 
@@ -55,12 +46,5 @@ public class MenuStack {
 
     public void runTopMenu() {
         this.getMenus().get(this.getMenus().size() - 1).run();
-    }
-
-    public void logout() {
-        while (!this.getMenus().isEmpty()) {
-            this.getMenus().remove(this.getMenus().size() - 1);
-        }
-        this.getMenus().add(new LoginMenu());
     }
 }
