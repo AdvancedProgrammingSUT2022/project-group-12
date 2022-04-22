@@ -1,11 +1,13 @@
 package Enums.GameEnums;
 
+import Models.Terrains.Terrain;
+
 import java.util.ArrayList;
 
 public enum ImprovementEnum {
-    ROAD(null, new ArrayList<>() {{
-        add(TechnologyEnum.THE_WHEEL);
-    }}, new ArrayList<>() {{
+    ROAD(null,new ArrayList<>(){{
+      add(TechnologyEnum.THE_WHEEL);
+    }},new ArrayList<>(){{
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.JUNGLE);
         add(TerrainEnum.DESERT);
@@ -16,10 +18,9 @@ public enum ImprovementEnum {
         add(TerrainEnum.FOREST);
         add(TerrainEnum.RIVER);
         add(TerrainEnum.SNOW);
-    }}),
-    RailRoad(null, new ArrayList<>() {{
+    }}), RailRoad(null,new ArrayList<>(){{
         add(TechnologyEnum.RAILROAD);
-    }}, new ArrayList<>() {{
+    }},new ArrayList<>(){{
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.JUNGLE);
         add(TerrainEnum.DESERT);
@@ -163,11 +164,9 @@ public enum ImprovementEnum {
     }
 
     public boolean canBeBuiltOn(ArrayList<TerrainEnum> lands) {
-        for (TerrainEnum terrainEnum :
-                lands) {
-            if (this.canBeBuiltOn.contains(terrainEnum)) {
-                return true;
-            }
+        for (TerrainEnum terrainEnum:
+             lands) {
+            if(this.canBeBuiltOn.contains(terrainEnum)){return true;}
         }
         return false;
     }

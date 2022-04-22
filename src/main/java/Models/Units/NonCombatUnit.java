@@ -3,12 +3,10 @@ package Models.Units;
 import Enums.GameEnums.UnitEnum;
 
 public class NonCombatUnit extends Unit {
-    private final UnitEnum type;
-
-    NonCombatUnit(UnitEnum type) {
-        this.type = type;
+    private UnitEnum type;
+    NonCombatUnit(UnitEnum type){
+        this.type=type;
     }
-
     public void settler() {
 
     }

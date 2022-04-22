@@ -8,20 +8,6 @@ import java.util.Vector;
 
 public class Game {
     private static Game instance = null;
-    public final GameController controller;
-    private final ArrayList<Civilization> civs;
-    private final Vector<Civilization> civTurn;
-    private final TileGrid tileGrid;
-
-    public Game(ArrayList<User> users) {
-        this.civs = new ArrayList<>();
-        this.tileGrid = new TileGrid();
-        this.civTurn = new Vector<>();
-        for (User user : users) {
-            civs.add(new Civilization(user));
-        }
-        this.controller = new GameController(this);
-    }
 
     private static void setInstance(Game instance) {
         Game.instance = instance;
@@ -32,6 +18,20 @@ public class Game {
             setInstance(new Game(users));
         }
         return instance;
+    }
+
+    private final ArrayList<Civilization> civs;
+    private final Vector<Civilization> civTurn;
+    private final TileGrid tileGrid;
+    public final GameController controller;
+    public Game(ArrayList<User> users) {
+        this.civs = new ArrayList<>();
+        this.tileGrid = TileGrid.GenerateRandom(10, 10, 999);
+        this.civTurn = new Vector<>();
+        for (User user : users) {
+            civs.add(new Civilization(user));
+        }
+        this.controller = new GameController(this);
     }
 
     private void fullTurn() {
@@ -51,10 +51,4 @@ public class Game {
     public TileGrid getTileGrid() {
         return this.tileGrid;
     }
-
-    public GameController getController() {
-        return this.controller;
-    }
-
-
 }

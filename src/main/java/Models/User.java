@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class User {
     private final String username;
-    private final ArrayList<Game> gamesPlayed;
     private String nickname;
     private String password;
     private int score;
+    private ArrayList<Game> gamesPlayed;
     private Game runningGame;
 
     public User(String username, String password, String nickname) {
@@ -44,10 +44,6 @@ public class User {
         return this.score;
     }
 
-    public void setScore(int newScore) {
-        this.score = newScore;
-    }
-
     public void changePassword(String newPass) {
         this.password = newPass;
     }
@@ -62,6 +58,10 @@ public class User {
 
     public void removeGame(Game selectedGame) {
         this.gamesPlayed.remove(selectedGame);
+    }
+
+    public void setScore(int newScore) {
+        this.score += newScore;
     }
 
     public Game getRunningGame() {

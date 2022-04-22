@@ -3,28 +3,30 @@ package Models;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Database {
-    private static Database instance = null;
     private HashMap<String, User> users = new HashMap<>();
     private ArrayList<Game> games = new ArrayList<>();
+    private static Database instance = null;
+
+    private static void setInstance(Database instance) {
+        Database.instance = instance;
+    }
 
     public static Database getInstance() {
         if (instance == null) {
             setInstance(new Database());
         }
         return instance;
-    }
-
-    private static void setInstance(Database instance) {
-        Database.instance = instance;
     }
 
     public void addGame(Game game) {
@@ -83,7 +85,7 @@ public class Database {
         }
         try {
             String jsonFile = new String(Files.readAllBytes(Paths.get("games.json")));
-            this.games = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, Game>>() {
+            this.users = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, Game>>() {
             }.getType());
         } catch (IOException e) {
             e.printStackTrace();

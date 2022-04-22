@@ -105,8 +105,9 @@ public enum TerrainEnum {
     private final ArrayList<ResourceEnum> possibleResources;
     private final boolean canPass;
     private final boolean blocksView;
-    private final String color;
-    TerrainEnum(int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
+
+    TerrainEnum(int foodCount, int productsCount, int goldCount, int combatModifier
+            , int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
         this.foodCount = foodCount;
         this.productsCount = productsCount;
         this.goldCount = goldCount;
@@ -116,11 +117,6 @@ public enum TerrainEnum {
         this.possibleResources = possibleResources;
         this.canPass = canPass;
         this.blocksView = blocksView;
-        this.color = "";
-    }
-
-    public String getColor() {
-        return color;
     }
 
     public boolean canBePassed() {
