@@ -128,71 +128,6 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void dealsInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showDealsInfo(currentTile, currentCivilization);
-    }
-
-    private void diplomaticInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showDiplomaticInfo(currentTile, currentCivilization);
-    }
-
-    private void ecoInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showEcoInfo(currentTile, currentCivilization);
-    }
-
-    private void militaryInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showMilitaryInfo(currentTile, currentCivilization);
-    }
-
-    private void notifInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showNotifInfo(currentTile, currentCivilization);
-    }
-
-    private void demographicsInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showDemographicsInfo(currentTile, currentCivilization);
-    }
-
-    private void victoryInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showVictoryInfo(currentTile, currentCivilization);
-    }
-
-    private void diplomacyInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showDiplomacyInfo(currentTile, currentCivilization);
-    }
-
-    private void unitsInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        GameController.showUnitsInfo(currentTile, currentCivilization);
-    }
-
-    private void researchInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        System.out.println(GameController.showResearchInfo(currentTile, currentCivilization));
-    }
-
-    private void citiesInfo() {
-        Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCivilization();
-        System.out.println(GameController.showCitiesInfo(currentTile, currentCivilization));
-    }
 
     private void showMap(Command command) {
         String key;
@@ -733,49 +668,6 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void selectUnit(Command command) {
-        try {
-            switch (command.getSubSubCategory()) {
-                case "combat" -> selectCombatUnit(command);
-                case "noncombat" -> selectNonCombatUnit(command);
-                default -> System.out.println(CommandResponse.INVALID_COMMAND);
-            }
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-        }
-    }
-
-    private void selectNonCombatUnit(Command command) {
-        try {
-            Tile currentTile = getCurrentTile();
-            String key;
-            if ((key = command.getOption("position")) != null) {
-                String[] coordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
-                System.out.println(response.isOK() ? GameController.showNonCombatInfo(currentTile.getNonCombatUnit()) : response);
-            } else {
-                System.out.println(CommandResponse.CommandMissingRequiredOption);
-            }
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-        }
-    }
-
-    private void selectCombatUnit(Command command) {
-        try {
-            Tile currentTile = getCurrentTile();
-            String key;
-            if ((key = command.getOption("position")) != null) {
-                String[] coordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
-                System.out.println(response.isOK() ? GameController.showCombatInfo(currentTile.getCombatUnit()) : response);
-            } else {
-                System.out.println(CommandResponse.CommandMissingRequiredOption);
-            }
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-        }
-    }
 
     private City getCityWithThisName(Civilization currentCivilization, String key) {
         for (City city : currentCivilization.getCities()) {
@@ -802,6 +694,7 @@ public class GameMenu extends Menu {
         try {
             //TODO : complete
             int amount = Integer.parseInt(amount_s);
+
             return CommandResponse.OK;
         } catch (Exception e) {
             return CommandResponse.INVALID_COMMAND;
