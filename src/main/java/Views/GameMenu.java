@@ -9,6 +9,7 @@ import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
+import Models.Coord;
 import Models.Game;
 import Models.Tiles.Tile;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class GameMenu extends Menu {
 
     private final Game game;
+    private Coord gridCoord;
 
     public GameMenu(GameController controller) {
         this.game = controller.game;
@@ -214,16 +216,25 @@ public class GameMenu extends Menu {
         System.out.println(!response.isOK() ? response : GameMenuController.showMapOnPosition(row, col, this.getGame()));
     }
 
-    private void moveMapByDirection(Command command, String direction) {
+    private CommandResponse moveMapByDirection(Command command, String direction) {
         CommandResponse response = validateCommandForMoveByDirection(command.getType().trim(), command.getCategory(), command.getSubCategory(), command.getSubSubCategory(), command, direction);
-        String key = command.getOption("amount");
+        int amount = 1; //command.getOption("amount"); todo
+        Coord newCoord = new Coord(gridCoord);
         switch (direction) {
-            case "down" -> System.out.println(response.isOK() ? GameMenuController.moveMapDown(Integer.parseInt(key)) : response);
-            case "up" -> System.out.println(response.isOK() ? GameMenuController.moveMapUp(Integer.parseInt(key)) : response);
-            case "right" -> System.out.println(response.isOK() ? GameMenuController.moveMapRight(Integer.parseInt(key)) : response);
-            case "left" -> System.out.println(response.isOK() ? GameMenuController.moveMapLeft(Integer.parseInt(key)) : response);
-
+            case "down" -> newCoord.row += amount;
+            case "up" -> newCoord.row -= amount;
+            case "right" -> newCoord.col += amount;
+            case "left" -> newCoord.col -= amount;
         }
+        if (!isGridCoordValid(newCoord)) {
+            return CommandResponse.INVALID_DIRECTION; // todo: out of map
+        }
+        this.gridCoord = newCoord;
+        return CommandResponse.OK;
+    }
+
+    private boolean isGridCoordValid(Coord coord) {
+        return true; // todo
     }
 
     public CommandResponse validateCommandForMoveByDirection(String type, String category, String subCategory, String subSubCategory, Command command, String direction) {
@@ -778,7 +789,6 @@ public class GameMenu extends Menu {
         return null;
     }
 
-
     private CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
         try {
             int row = Integer.parseInt(row_s);
@@ -795,38 +805,10 @@ public class GameMenu extends Menu {
         try {
             //TODO : complete
             int amount = Integer.parseInt(amount_s);
-            CommandResponse response;
-            switch (direction) {
-                case "right" -> response = validateRightWardMove(amount);
-                case "left" -> response = validateLeftWardMove(amount);
-                case "up" -> response = validateUpWardMove(amount);
-                case "down" -> response = validateDownWardMove(amount);
-                default -> response = CommandResponse.INVALID_DIRECTION;
-            }
-            return response;
+            return CommandResponse.OK;
         } catch (Exception e) {
             return CommandResponse.INVALID_COMMAND;
         }
-    }
-
-    private CommandResponse validateRightWardMove(int amount) {
-        //TODO : validate rightward move
-        return CommandResponse.OK;
-    }
-
-    private CommandResponse validateLeftWardMove(int amount) {
-        //TODO : validate rightward move
-        return CommandResponse.OK;
-    }
-
-    private CommandResponse validateUpWardMove(int amount) {
-        //TODO : validate rightward move
-        return CommandResponse.OK;
-    }
-
-    private CommandResponse validateDownWardMove(int amount) {
-        //TODO : validate rightward move
-        return CommandResponse.OK;
     }
 
     private Civilization getCurrentCivilization() {
