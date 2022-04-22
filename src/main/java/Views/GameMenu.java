@@ -127,67 +127,67 @@ public class GameMenu extends Menu {
 
     private void dealsInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showDealsInfo(currentTile, currentCivilization);
     }
 
     private void diplomaticInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showDiplomaticInfo(currentTile, currentCivilization);
     }
 
     private void ecoInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showEcoInfo(currentTile, currentCivilization);
     }
 
     private void militaryInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showMilitaryInfo(currentTile, currentCivilization);
     }
 
     private void notifInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showNotifInfo(currentTile, currentCivilization);
     }
 
     private void demographicsInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showDemographicsInfo(currentTile, currentCivilization);
     }
 
     private void victoryInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showVictoryInfo(currentTile, currentCivilization);
     }
 
     private void diplomacyInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showDiplomacyInfo(currentTile, currentCivilization);
     }
 
     private void unitsInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         GameController.showUnitsInfo(currentTile, currentCivilization);
     }
 
     private void researchInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         System.out.println(GameController.showResearchInfo(currentTile, currentCivilization));
     }
 
     private void citiesInfo() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         System.out.println(GameController.showCitiesInfo(currentTile, currentCivilization));
     }
 
@@ -196,7 +196,7 @@ public class GameMenu extends Menu {
         if ((key = command.getOption("position")) != null) {
             showMapPosition(key);
         } else if ((key = command.getOption("cityname")) != null) {
-            City city = getCityWithThisName(getCurrentCilization(), key);
+            City city = getCityWithThisName(getCurrentCivilization(), key);
             System.out.println(city == null ? "city doesn't exists with this name" : GameMenuController.showMapOnCity(city));
         } else {
             System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -204,12 +204,12 @@ public class GameMenu extends Menu {
     }
 
     private void showMapPosition(String key) {
-        String[] cordinates = key.split("\\s+");
-        CommandResponse response = isCorrectPosition((cordinates[0]), (cordinates[1]), this.getGame());
+        String[] coordinates = key.split("\\s+");
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
         int row = 0, col = 0;
         if (response.isOK()) {
-            row = Integer.parseInt(cordinates[0]);
-            col = Integer.parseInt(cordinates[1]);
+            row = Integer.parseInt(coordinates[0]);
+            col = Integer.parseInt(coordinates[1]);
         }
         System.out.println(!response.isOK() ? response : GameMenuController.showMapOnPosition(row, col, this.getGame()));
     }
@@ -238,20 +238,19 @@ public class GameMenu extends Menu {
     }
 
     private void unitDelete(Command command) {
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response;
         switch (command.getOption("unit")) {
-            case "non combat":
-                response = validateFornonCombatUnit(currentTile, currentCivilizaion);
-                if (response.isOK()) GameController.deletenonCombatUnit(currentCivilizaion, currentTile);
-                break;
-            case "combat":
-                response = validateForCombatUnit(currentTile, currentCivilizaion);
-                if (response.isOK()) GameController.deleteCombatUnit(currentCivilizaion, currentTile);
-                break;
-            default:
-                response = CommandResponse.CommandMissingRequiredOption;
+            case "non combat" -> {
+                response = validateFornonCombatUnit(currentTile, currentCivilization);
+                if (response.isOK()) GameController.deletenonCombatUnit(currentCivilization, currentTile);
+            }
+            case "combat" -> {
+                response = validateForCombatUnit(currentTile, currentCivilization);
+                if (response.isOK()) GameController.deleteCombatUnit(currentCivilization, currentTile);
+            }
+            default -> response = CommandResponse.CommandMissingRequiredOption;
         }
         System.out.println(response.isOK() ? "unit deleted successfully" : response);
     }
@@ -277,20 +276,19 @@ public class GameMenu extends Menu {
     }
 
     private void unitWake(Command command) {
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response;
         switch (command.getOption("unit")) {
-            case "non combat":
-                response = validateFornonCombatUnit(currentTile, currentCivilizaion);
-                if (response.isOK()) GameController.wakeUpNonCombatUnit(currentCivilizaion, currentTile);
-                break;
-            case "combat":
-                response = validateForCombatUnit(currentTile, currentCivilizaion);
-                if (response.isOK()) GameController.wakeUpCombatUnit(currentCivilizaion, currentTile);
-                break;
-            default:
-                response = CommandResponse.CommandMissingRequiredOption;
+            case "non combat" -> {
+                response = validateFornonCombatUnit(currentTile, currentCivilization);
+                if (response.isOK()) GameController.wakeUpNonCombatUnit(currentCivilization, currentTile);
+            }
+            case "combat" -> {
+                response = validateForCombatUnit(currentTile, currentCivilization);
+                if (response.isOK()) GameController.wakeUpCombatUnit(currentCivilization, currentTile);
+            }
+            default -> response = CommandResponse.CommandMissingRequiredOption;
         }
         System.out.println(response.isOK() ? "unit waked up successfully" : response);
     }
@@ -300,20 +298,19 @@ public class GameMenu extends Menu {
             System.out.println(CommandResponse.INVALID_COMMAND);
             return;
         }
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response;
         switch (command.getOption("unit")) {
-            case "non combat":
-                response = validateFornonCombatUnit(currentTile, currentCivilizaion);
-                if (response.isOK()) GameController.CancelMissionNonCombatUnit(currentCivilizaion, currentTile);
-                break;
-            case "combat":
-                response = validateForCombatUnit(currentTile, currentCivilizaion);
-                if (response.isOK()) GameController.CancelMissionCombatUnit(currentCivilizaion, currentTile);
-                break;
-            default:
-                response = CommandResponse.CommandMissingRequiredOption;
+            case "non combat" -> {
+                response = validateFornonCombatUnit(currentTile, currentCivilization);
+                if (response.isOK()) GameController.CancelMissionNonCombatUnit(currentCivilization, currentTile);
+            }
+            case "combat" -> {
+                response = validateForCombatUnit(currentTile, currentCivilization);
+                if (response.isOK()) GameController.CancelMissionCombatUnit(currentCivilization, currentTile);
+            }
+            default -> response = CommandResponse.CommandMissingRequiredOption;
         }
         System.out.println(response.isOK() ? "unit waked up successfully" : response);
     }
@@ -323,9 +320,9 @@ public class GameMenu extends Menu {
             System.out.println(CommandResponse.INVALID_COMMAND);
             return;
         }
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = validateTileForFoundingCity(currentTile, currentCivilizaion);
+        CommandResponse response = validateTileForFoundingCity(currentTile, currentCivilization);
         String message;
         if (response.isOK()) System.out.println(GameController.FoundCity(currentTile));
         else System.out.println(response);
@@ -358,14 +355,14 @@ public class GameMenu extends Menu {
             System.out.println(CommandResponse.CommandMissingRequiredOption);
             return;
         }
-        String[] cordinates = key.split("\\s+");
-        Civilization civilizaion = getCurrentCilization();
+        String[] coordinates = key.split("\\s+");
+        Civilization civilizaion = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((cordinates[0]), (cordinates[1]), this.getGame());
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
         int row = 0, col = 0;
         if (response.isOK()) {
-            row = Integer.parseInt(cordinates[0]);
-            col = Integer.parseInt(cordinates[1]);
+            row = Integer.parseInt(coordinates[0]);
+            col = Integer.parseInt(coordinates[1]);
         }
         System.out.println(response.isOK() ? GameController.AttackUnit(row, col, this.getGame(), currentTile, civilizaion) : response);
     }
@@ -374,7 +371,7 @@ public class GameMenu extends Menu {
     }
 
     private void unitGarrison(Command command) {
-        Civilization civilization = getCurrentCilization();
+        Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateForGarrison(currentTile, civilization);
         if (response.isOK()) System.out.println(GameController.garrsionUnit(currentTile, civilization));
@@ -396,7 +393,7 @@ public class GameMenu extends Menu {
     }
 
     private void unitFortify(Command command) {
-        Civilization civilization = getCurrentCilization();
+        Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         try {
             if (command.getSubSubCategory().equals("heal")) {
@@ -414,7 +411,7 @@ public class GameMenu extends Menu {
     }
 
     private void unitAlert() {
-        Civilization civilization = getCurrentCilization();
+        Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateForCombatUnit(currentTile, civilization);
         if (response.isOK()) System.out.println(GameController.AlertUnit(currentTile, civilization));
@@ -422,23 +419,22 @@ public class GameMenu extends Menu {
     }
 
     private void unitSleep(Command command) {
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response;
         try {
             switch (command.getSubSubCategory()) {
-                case "non combat":
-                    response = validateFornonCombatUnit(currentTile, currentCivilizaion);
+                case "non combat" -> {
+                    response = validateFornonCombatUnit(currentTile, currentCivilization);
                     if (response.isOK())
-                        System.out.println(GameController.sleepNonCombatUnit(currentCivilizaion, currentTile));
-                    break;
-                case "combat":
-                    response = validateForCombatUnit(currentTile, currentCivilizaion);
+                        System.out.println(GameController.sleepNonCombatUnit(currentCivilization, currentTile));
+                }
+                case "combat" -> {
+                    response = validateForCombatUnit(currentTile, currentCivilization);
                     if (response.isOK())
-                        System.out.println(GameController.sleepCombatUnit(currentCivilizaion, currentTile));
-                    break;
-                default:
-                    response = CommandResponse.CommandMissingRequiredOption;
+                        System.out.println(GameController.sleepCombatUnit(currentCivilization, currentTile));
+                }
+                default -> response = CommandResponse.CommandMissingRequiredOption;
             }
             if (!response.isOK()) System.out.println(response);
         } catch (Exception e) {
@@ -447,15 +443,15 @@ public class GameMenu extends Menu {
     }
 
     private void unitMoveTo(Command command) {
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         if (command.getSubSubCategory().equals("noncombat")) {
             String key;
             if ((key = command.getOption("position")) != null) {
                 try {
-                    String[] cordinates = key.split("\\s+");
-                    CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, cordinates[0], cordinates[1], "noncombat");
-                    System.out.println(response.isOK() ? GameController.moveNonCombatUnit(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), currentTile, currentCivilization) : response);
+                    String[] coordinates = key.split("\\s+");
+                    CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, coordinates[0], coordinates[1], "noncombat");
+                    System.out.println(response.isOK() ? GameController.moveNonCombatUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization) : response);
                 } catch (Exception e) {
                     System.out.println(CommandResponse.INVALID_POSITION);
                 }
@@ -466,9 +462,9 @@ public class GameMenu extends Menu {
             String key;
             if ((key = command.getOption("position")) != null) {
                 try {
-                    String[] cordinates = key.split("\\s+");
-                    CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, cordinates[0], cordinates[1], "combat");
-                    System.out.println(response.isOK() ? GameController.moveCombatUnit(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), currentTile, currentCivilization) : response);
+                    String[] coordinates = key.split("\\s+");
+                    CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, coordinates[0], coordinates[1], "combat");
+                    System.out.println(response.isOK() ? GameController.moveCombatUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization) : response);
                 } catch (Exception e) {
                     System.out.println(CommandResponse.INVALID_POSITION);
                 }
@@ -504,7 +500,7 @@ public class GameMenu extends Menu {
     }
 
     private void unitRepair(Command command) {
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateTileForRepairing(currentTile, currentCivilization);
         if (response.isOK()) System.out.println(GameController.RepairTile(currentTile));
@@ -532,9 +528,9 @@ public class GameMenu extends Menu {
     }
 
     private void unitRemoveJungle() {
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = validateTileForRemovingJungle(currentTile, currentCivilizaion);
+        CommandResponse response = validateTileForRemovingJungle(currentTile, currentCivilization);
         if (response.isOK()) System.out.println(GameController.RemoveJungle(currentTile));
         else System.out.println(response);
     }
@@ -573,9 +569,9 @@ public class GameMenu extends Menu {
     }
 
     private void unitRemoveRoute() {
-        Civilization currentCivilizaion = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = validateTileForRemovingRoute(currentTile, currentCivilizaion);
+        CommandResponse response = validateTileForRemovingRoute(currentTile, currentCivilization);
         if (response.isOK()) {
             if (isExists(currentTile, ImprovementEnum.RailRoad))
                 System.out.println(GameController.RemoveRoute(currentTile, ImprovementEnum.RailRoad));
@@ -604,7 +600,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildQuarry() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.STONE_MINE);
         if (response.isOK())
             System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.STONE_MINE));
@@ -613,7 +609,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildPlantation() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.CULTIVATION);
         if (response.isOK())
             System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.CULTIVATION));
@@ -622,7 +618,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildCamp() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.CAMP);
         if (response.isOK()) System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.CAMP));
         else System.out.println(response);
@@ -630,7 +626,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildPasture() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.PASTURE);
         if (response.isOK()) System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.PASTURE));
         else System.out.println(response);
@@ -638,7 +634,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildLumberMill() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.LUMBER_MILL);
         if (response.isOK())
             System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.LUMBER_MILL));
@@ -647,7 +643,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildTradingPost() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.TRADING_POST);
         if (response.isOK())
             System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.TRADING_POST));
@@ -656,7 +652,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildMine() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.MINE);
         if (response.isOK()) System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.MINE));
         else System.out.println(response);
@@ -664,7 +660,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildFarm() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.FARM);
         if (response.isOK()) {
             GameController.BuildImprovment(currentTile, ImprovementEnum.FARM);
@@ -676,7 +672,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildRailRoad() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.RailRoad);
         if (response.isOK()) System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.RailRoad));
         else System.out.println(response);
@@ -684,7 +680,7 @@ public class GameMenu extends Menu {
 
     private void unitBuildRoad() {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.ROAD);
         if (response.isOK()) System.out.println(GameController.BuildImprovment(currentTile, ImprovementEnum.ROAD));
         else System.out.println(response);
@@ -711,7 +707,7 @@ public class GameMenu extends Menu {
 
     private void selectCity(Command command) {
         Tile currentTile = getCurrentTile();
-        Civilization currentCivilization = getCurrentCilization();
+        Civilization currentCivilization = getCurrentCivilization();
         String key;
         if ((key = command.getOption("cityName")) != null) {
             City city;
@@ -720,10 +716,10 @@ public class GameMenu extends Menu {
             } else {
                 System.out.println("city with this name doesn't exists");
             }
-        } else if ((key = command.getOption("cityPositon")) != null) {
-            String[] cordinates = key.split("\\s+");
-            CommandResponse response = isCorrectPosition(cordinates[0], cordinates[1], this.getGame());
-            System.out.println(!response.isOK() ? response : GameController.showCity(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), this.getGame()));
+        } else if ((key = command.getOption("cityPosition")) != null) {
+            String[] coordinates = key.split("\\s+");
+            CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
+            System.out.println(!response.isOK() ? response : GameController.showCity(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), this.getGame()));
         } else {
             System.out.println(CommandResponse.INVALID_COMMAND);
         }
@@ -746,8 +742,8 @@ public class GameMenu extends Menu {
             Tile currentTile = getCurrentTile();
             String key;
             if ((key = command.getOption("position")) != null) {
-                String[] cordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(cordinates[0], cordinates[1], this.getGame());
+                String[] coordinates = key.split("\\s+");
+                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
                 System.out.println(response.isOK() ? GameController.showNonCombatInfo(currentTile.getNonCombatUnit()) : response);
             } else {
                 System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -762,8 +758,8 @@ public class GameMenu extends Menu {
             Tile currentTile = getCurrentTile();
             String key;
             if ((key = command.getOption("position")) != null) {
-                String[] cordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(cordinates[0], cordinates[1], this.getGame());
+                String[] coordinates = key.split("\\s+");
+                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
                 System.out.println(response.isOK() ? GameController.showCombatInfo(currentTile.getCombatUnit()) : response);
             } else {
                 System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -833,7 +829,7 @@ public class GameMenu extends Menu {
         return CommandResponse.OK;
     }
 
-    private Civilization getCurrentCilization() {
+    private Civilization getCurrentCivilization() {
         return game.getCivTurn().get(game.getCivTurn().size() - 1);
     }
 
