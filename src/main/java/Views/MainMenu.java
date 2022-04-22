@@ -1,6 +1,7 @@
 package Views;
 
 import Controllers.Command;
+import Controllers.MainMenuController;
 import Enums.CommandResponse;
 import Enums.InputRegex;
 
@@ -19,8 +20,8 @@ public class MainMenu extends Menu {
             playGameWith(input);
         } else if (InputRegex.getMatcher(input, InputRegex.CURRENT_MENU) != null) {
             System.out.println("Main Menu");
-        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.ENTER_MENU)) != null) {
-            System.out.println(MenuStack.getInstance().menuController.enterMenu(matcher));
+        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.ENTER_MENU)) != null) { // todo: fix
+            System.out.println(MainMenuController.enterMenu(matcher));
         } else if (InputRegex.getMatcher(input, InputRegex.EXIT_MENU) != null) {
             MenuStack.getInstance().popMenu();
         } else {
@@ -37,7 +38,7 @@ public class MainMenu extends Menu {
     private void playGameWith(String command) {
         StringBuilder input = new StringBuilder(command);
         TreeMap<Integer, String> playersMap = InputRegex.playGameWithMatcher(input);
-        CommandResponse response = MenuStack.getInstance().menuController.startNewGame(playersMap);
+        CommandResponse response = MainMenuController.startNewGame(playersMap);
         System.out.println(response);
     }
 
@@ -50,7 +51,7 @@ public class MainMenu extends Menu {
             ++num;
         }
         TreeMap<Integer, String> map = new TreeMap<>();
-        CommandResponse response = MenuStack.getInstance().menuController.startNewGame(map);
+        CommandResponse response = MainMenuController.startNewGame(map);
         System.out.println(!response.isOK() ? response : "user created successfully");
 //        MenuStack.getInstance().pushMenu(new GameMenu());
     }

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 
 public class ProfileMenuController {
 
-    public CommandResponse changePass(Matcher matcher) {
+    public static CommandResponse changePass(Matcher matcher) { // todo
         String oldPass = matcher.group("old");
         String newPass = matcher.group("new");
 //        if(!selectedUser.passwordMatchCheck(oldPass)){
@@ -24,7 +24,7 @@ public class ProfileMenuController {
         return CommandResponse.OK;
     }
 
-    public CommandResponse changeNickname(Matcher matcher) {
+    public static CommandResponse changeNickname(Matcher matcher) { // todo
         String nickname = matcher.group("changeNicknameTo");
         Database database = Database.getInstance();
         if (database.nicknameAlreadyExists(nickname)) {
@@ -34,18 +34,5 @@ public class ProfileMenuController {
             //selectedUser.changeNickname(nickname);
             return CommandResponse.NICKNAME_CHANGED;
         }
-    }
-
-    public String enterMenu(Matcher matcher) {
-        String newMenu = matcher.group("selectedMenu").toLowerCase();
-        switch (newMenu) {
-            case "login" -> MenuStack.getInstance().pushMenu(new LoginMenu());
-            case "main" -> MenuStack.getInstance().pushMenu(new MainMenu());
-//            case "play game" -> MenuStack.getInstance().pushMenu(new GameMenu());
-            case "profile" -> {
-                return "already in profile menu";
-            }
-        }
-        return "menu changed to " + newMenu + " successfully";
     }
 }
