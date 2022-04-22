@@ -9,6 +9,10 @@ import Models.Tiles.TileGrid;
 public class GameMemuFuncs {
     private Game game;
 
+    public Game getGame() {
+        return game;
+    }
+
     protected Civilization getCurrentCivilization() {
         return game.getCivTurn().get(game.getCivTurn().size() - 1);
     }
@@ -17,7 +21,7 @@ public class GameMemuFuncs {
         return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
     }
 
-    private CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
+    protected CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
@@ -39,6 +43,21 @@ public class GameMemuFuncs {
         }
     }
 
+    private CommandResponse validateRightWardMove(int amount){
+        //TODO : validate rightward move
+        return CommandResponse.OK;
+    }
+    private CommandResponse validateLeftWardMove(int amount){
+        //TODO : validate rightward move
+        return CommandResponse.OK;
+    }
+    private CommandResponse validateUpWardMove(int amount){
+        //TODO : validate rightward move
+        return CommandResponse.OK;
+    }
+    private CommandResponse validateDownWardMove(int amount){
+        //TODO : validate rightward move
+    }
 
 
 
