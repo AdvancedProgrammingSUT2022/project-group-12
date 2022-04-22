@@ -3,6 +3,9 @@ package Models.Terrains;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.TerrainEnum;
+import Models.Cities.City;
+import Models.Civilization;
+import Models.Database;
 
 import java.util.ArrayList;
 
@@ -15,18 +18,19 @@ public class Terrain {
     protected int movementCost;
     protected ArrayList<TerrainEnum> features;
     protected ArrayList<ResourceEnum> resources;
+    protected boolean hasRoad;
 
     protected ArrayList<ImprovementEnum> improvements;
 
-    public Terrain(String type) {
-        TerrainEnum terrainType = TerrainEnum.valueOf(type);
-        this.foodCount = terrainType.getFoodCount();
-        this.productsCount = terrainType.getProductsCount();
-        this.goldCount = terrainType.getGoldCount();
-        this.combatModifier = terrainType.getCombatModifier();
-        this.movementCost = terrainType.getMovementCost();
-        this.features = terrainType.getFeatures();
-        this.resources = terrainType.getResources();
+    public Terrain(String terrainType) {
+        TerrainEnum type = TerrainEnum.valueOf(terrainType);
+        this.foodCount = type.getFoodCount();
+        this.productsCount = type.getProductsCount();
+        this.goldCount = type.getGoldCount();
+        this.combatModifier = type.getCombatModifier();
+        this.movementCost = type.getMovementCost();
+        this.features = type.getFeatures();
+        this.resources = type.getResources();
         for (TerrainEnum features : this.features) {
             this.foodCount += features.getFoodCount();
             this.productsCount += features.getProductsCount();
@@ -34,6 +38,43 @@ public class Terrain {
             this.combatModifier += features.getCombatModifier();
             this.movementCost += features.getMovementCost();
         }
+        this.hasRoad = false;
+    }
+
+    public String getTerrain() {
+        return terrain;
+    }
+
+    public int getFoodCount() {
+        return foodCount;
+    }
+
+    public int getProductsCount() {
+        return productsCount;
+    }
+
+    public int getGoldCount() {
+        return goldCount;
+    }
+
+    public int getMovementCost() {
+        return movementCost;
+    }
+
+    public ArrayList<ResourceEnum> getResources() {
+        return resources;
+    }
+
+    public boolean isHasRoad() {
+        return hasRoad;
+    }
+
+    public void buildRoad() {
+        this.hasRoad = true;
+    }
+
+    public void assignCity(City city){
+        city.addTerrain(this);
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
@@ -47,4 +88,5 @@ public class Terrain {
     public int getCombatModifier() {
         return combatModifier;
     }
+
 }

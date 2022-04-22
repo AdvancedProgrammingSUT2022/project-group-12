@@ -1,18 +1,26 @@
 package Models.Tiles;
 
+import Models.Civilization;
+
 import java.util.ArrayList;
 
 public class TileGrid {
     // TODO: complete
     private ArrayList<ArrayList<Tile>> tiles;
-    private int height, width;
+    private final int height = 50;
+    private final int width = 50;
 
-    private TileGrid() {
+    public TileGrid() {
+
     }
 
     public static TileGrid GenerateRandom(int height, int width, int seed) {
         TileGrid tileGrid = new TileGrid();
         return tileGrid;
+    }
+
+    public void assignToCivilization(Civilization civ){
+
     }
 
     public ArrayList<Tile> getNeighborsOf(Tile tile) {

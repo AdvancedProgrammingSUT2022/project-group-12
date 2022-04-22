@@ -12,7 +12,7 @@ public enum CommandResponse {
     NOT_HAVING_TILE("this tile is not yours"),
     UNIT_DOES_NOT_EXISTS("unit doesn't exists"),
     WRONG_UNIT("the unit is wrong!"),
-    NOT_DAMAGED("the tile is undamged!"),
+    NOT_DAMAGED("the tile is undamaged!"),
     ROUTE_DOES_NOT_EXISTS("there isn't any route here"),
     JUNGLE_DOES_NOT_EXISTS("there isn't any jungle here"),
     ROAD_EXISTS("there is already road"),

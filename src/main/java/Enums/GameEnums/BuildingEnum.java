@@ -10,7 +10,7 @@ public enum BuildingEnum {
     LIBRARY(80, 1, List.of(TechnologyEnum.WRITING), List.of(), BuildingNoteEnum.LIBRARY_NOTE.getNote()),
     MONUMENT(60, 1, List.of(), List.of(), BuildingNoteEnum.MONUMENT_NOTE.getNote()),
     WALLS(100, 1, List.of(TechnologyEnum.MASONRY), List.of(), BuildingNoteEnum.WALLS_NOTE.getNote()),
-    WATER_MILL(120, 2, List.of(TechnologyEnum.THE_WHEEL), List.of(), BuildingNoteEnum.WALLTERMILLS_NOTE.getNote()),
+    WATER_MILL(120, 2, List.of(TechnologyEnum.THE_WHEEL), List.of(), BuildingNoteEnum.WATER_MILLS_NOTE.getNote()),
     ARMORY(130, 3, List.of(TechnologyEnum.IRON_WORKING), List.of(BuildingEnum.BARRACK), BuildingNoteEnum.ARMORY_NOTE.getNote()),
     BURIAL_TOMB(120, 0, List.of(TechnologyEnum.PHILOSOPHY), List.of(), BuildingNoteEnum.BURIAL_TOMB_NOTE.getNote()),
     CIRCUS(150, 3, List.of(TechnologyEnum.HORSEBACK_RIDING), List.of(), BuildingNoteEnum.CIRCUS_NOTE.getNote()),
@@ -30,11 +30,9 @@ public enum BuildingEnum {
     MILITARY_ACADEMY(350, 3, List.of(TechnologyEnum.MILITARY_SCIENCE), List.of(BuildingEnum.BARRACK), BuildingNoteEnum.MILITARY_ACADEMY_NOTE.getNote()),
     OPERA_HOUSE(220, 3, List.of(TechnologyEnum.ACOUSTICS), List.of(BuildingEnum.TEMPLE, BuildingEnum.BURIAL_TOMB), BuildingNoteEnum.OPERA_HOUSE_NOTE.getNote()),
     MUSEUM(350, 3, List.of(TechnologyEnum.ARCHAEOLOGY), List.of(BuildingEnum.OPERA_HOUSE), BuildingNoteEnum.MUSEUM_NOTE.getNote()),
-
     PUBLIC_SCHOOL(350, 3, List.of(TechnologyEnum.SCIENTIFIC_THEORY), List.of(BuildingEnum.UNIVERSITY), BuildingNoteEnum.PUBLIC_SCHOOL_NOTE.getNote()),
     SATRAPS_COURT(220, 0, List.of(TechnologyEnum.BANKING), List.of(BuildingEnum.MARKET), BuildingNoteEnum.SATRAPS_COURT_NOTE.getNote()),
     THEATER(300, 5, List.of(TechnologyEnum.PRINTING_PRESS), List.of(BuildingEnum.COLOSSEUM), BuildingNoteEnum.THEATER_NOTE.getNote()),
-
     WINDMILL(180, 2, List.of(TechnologyEnum.ECONOMICS), List.of(), BuildingNoteEnum.WINDMILL_NOTE.getNote()),
     ARSENAL(350, 3, List.of(TechnologyEnum.RAILROAD), List.of(BuildingEnum.MILITARY_ACADEMY), BuildingNoteEnum.ARSENAL_NOTE.getNote()),
     BROADCAST_TOWER(600, 3, List.of(TechnologyEnum.RADIO), List.of(BuildingEnum.MUSEUM), BuildingNoteEnum.BROADCAST_TOWER_NOTE.getNote()),

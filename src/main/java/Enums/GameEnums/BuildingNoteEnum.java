@@ -10,12 +10,11 @@ public enum BuildingNoteEnum {
     GRANARY_NOTE((BuildingNotes<City>) city -> city.setFood(city.getFood() + 2)),
     LIBRARY_NOTE((BuildingNotes<City>) city -> city.setBeaker(city.getCitizensCount() / 2 + city.getBeaker())),
     MONUMENT_NOTE((BuildingNotes<City>) city -> {
-        return;
     }),
     WALLS_NOTE((BuildingNotes<City>) city -> {
         //TODO : complete
     }),
-    WALLTERMILLS_NOTE((BuildingNotes<City>) city -> {
+    WATER_MILLS_NOTE((BuildingNotes<City>) city -> {
         //TODO : complete
         //if border a river --> city.setFood(city.getFood()+2);
     }),

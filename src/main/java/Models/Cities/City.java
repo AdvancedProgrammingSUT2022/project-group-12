@@ -4,6 +4,7 @@ import Enums.GameEnums.BuildingEnum;
 import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.TerrainEnum;
 import Models.Civilization;
+import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 
@@ -28,6 +29,7 @@ public class City {
     private int unitCount;
     private int beaker;
     private int happiness;
+    private Terrain terrain;
 
     public City(Civilization civ, TerrainEnum terrain, boolean isCapital) {
         this.combatUnit = null;
@@ -46,6 +48,15 @@ public class City {
         this.hasACombatUnit = false;
         this.hasANonCombatUnit = false;
         this.isOwnedBy = civ.getName();
+        this.terrain = null;
+    }
+
+    public void addTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
+    public Terrain getTerrain() {
+        return this.terrain;
     }
 
     public CombatUnit getCombatUnit() {

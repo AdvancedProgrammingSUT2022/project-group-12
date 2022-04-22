@@ -11,7 +11,8 @@ public enum InputRegex {
     NICKNAME("--nickname|--Nickname|--NICKNAME|--n_name|-N|-n|--name"),
     CURRENT("-C|-c|--current|--CURRENT|--Current|--crnt"),
     NEW("-N|-n|--new|--NEW|--New"),
-    LOGIN("\\s*user login (?<part1>" + USERNAME.selectedRegex + "|" + PASSWORD.selectedRegex + ") ([.\\S]+) " +
+    LOGIN("\\s*user login " +
+            "(?<part1>" + USERNAME.selectedRegex + "|" + PASSWORD.selectedRegex + ") ([.\\S]+) " +
             "(?<part2>" + USERNAME.selectedRegex + "|" + PASSWORD.selectedRegex + ") ([.\\S]+)\\s*"),
     LOGIN_DEEPER_USER_FIRST("\\s*user login " +
             "(" + USERNAME.selectedRegex + ") (?<username>[.\\S]+) " +
@@ -26,7 +27,7 @@ public enum InputRegex {
     PLAY_GAME_WITH("[\\s]*play game (?<player>(--player|-p)[0-9]+ [.\\S]+[\\s]*)+"),
     PARSE_PLAY_GAME_WITH("[\\s]*(--player|-p)(?<turn>[0-9]+) (?<username>[.\\S]+)[\\s]*"),
     EXIT("\\s*exit\\s*"),
-    MENU_OPTIONS("Login|Main|(Play Game)|Profile|login|main|(play game)|profile"),
+    MENU_OPTIONS("Login|Main|Play Game|Profile|login|main|play game|profile"),
     BACK("\\s*back|BACK|Back\\s*"),
     LOGOUT("\\s*logout|LOGOUT|Logout\\s*"),
     CURRENT_MENU("\\s*menu show-current\\s*"),
@@ -80,7 +81,6 @@ public enum InputRegex {
         }
         return null;
     }
-
 
     public static Matcher registerMatcher(String input) {
         Matcher matcher = Pattern.compile(REGISTER.selectedRegex).matcher(input);
@@ -203,5 +203,4 @@ public enum InputRegex {
         }
         return null;
     }
-
 }
