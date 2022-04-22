@@ -1,7 +1,6 @@
 package Models.Units;
 
 import Enums.GameEnums.UnitEnum;
-import jdk.jshell.spi.SPIResolutionException;
 
 public class RangedUnit extends CombatUnit {
     private int rangedCombat;

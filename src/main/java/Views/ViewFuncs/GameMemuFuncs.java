@@ -37,8 +37,16 @@ public class GameMemuFuncs {
         try {
             //TODO : complete
             int amount = Integer.parseInt(amount_s);
-            return CommandResponse.OK;
-        } catch (Exception e) {
+            CommandResponse response;
+            switch (direction) {
+                case "right" -> response= validateRightWardMove(amount);
+                case "left" -> response= validateLeftWardMove(amount);
+                case "up" -> response= validateUpWardMove(amount);
+                case "down" -> response= validateDownWardMove(amount);
+                default -> response=CommandResponse.INVALID_DIRECTION;
+            }
+            return response;
+        }catch (Exception e){
             return CommandResponse.INVALID_COMMAND;
         }
     }
@@ -57,6 +65,7 @@ public class GameMemuFuncs {
     }
     private CommandResponse validateDownWardMove(int amount){
         //TODO : validate rightward move
+        return CommandResponse.OK;
     }
 
 

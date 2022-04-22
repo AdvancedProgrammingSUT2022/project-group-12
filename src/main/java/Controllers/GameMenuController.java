@@ -9,25 +9,17 @@ import Models.Tiles.TileGrid;
 import Models.Units.Unit;
 
 public class GameMenuController {
-    private final Game game;
-    private Civilization player1;
-    private Civilization player2;
-
-    public GameMenuController(Game newGame) {
-        this.game = newGame;
-    }
-
-
-    public static boolean validateCity(String key,Game game){
-        for (Tile tile:
-                game.getCivTurn().get(game.getCivTurn().size()-1).getTiles() ) {
-            if(tile.getCity() != null && tile.getCity().getName().equals(key)) return true;
+    public static boolean validateCity(String key, Game game) {
+        for (Tile tile : game.getCivTurn().get(game.getCivTurn().size() - 1).getTiles()) {
+            if (tile.getCity() != null && tile.getCity().getName().equals(key)) return true;
         }
         return false;
     }
+
     public static String showMapOnCity(City city) {
         return "map moved successfully";
     }
+
     public static String moveMapRight(int amount) {
         return "map moved successfully";
         // TODO : move map right
@@ -52,25 +44,16 @@ public class GameMenuController {
     }
 
 
-
     private static CommandResponse validateAttacking(Tile currentTile, Civilization civilization) {
         //TODO : complete
         return null;
     }
 
-
-    public Game getGame() {
-        return game;
-    }
-    private static boolean isCorrectPosition(int row, int col,Game game){
-        if(row > game.getTileGrid().getHeight() || row < 0 ||  col > game.getTileGrid().getWidth() || col < 0) return false;
-        return true;
-    }
     public static CommandResponse showMapOnPosition(int row, int col, Game game) {
-        if(isCorrectPosition(row, col,game)){
+        if (TileGrid.getInstance().isLocationValid(row, col)) {
             //TODO : show map
             return CommandResponse.OK;
-        }else {
+        } else {
             return CommandResponse.INVALID_POSITION;
         }
     }
@@ -81,9 +64,5 @@ public class GameMenuController {
 
     public CommandResponse movement(Unit moving) {
         return CommandResponse.OK;
-    }
-
-    public TileGrid getGameTileGrid() {
-        return game.getTileGrid();
     }
 }

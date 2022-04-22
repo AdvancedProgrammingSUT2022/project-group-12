@@ -4,72 +4,42 @@ import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Models.Cities.City;
 import Models.Civilization;
-import Models.Database;
 import Models.Game;
 import Models.Tiles.Tile;
+import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
-import Models.User;
-import Views.GameMenu;
-import Views.MenuStack;
+import Models.Units.Unit;
 
-import java.util.ArrayList;
 
 public class GameController {
-    private static boolean checkUsernameValidation(ArrayList<String> usernames) {
-        Database database = Database.getInstance();
-        for (String list : usernames) {
-            if (!database.checkForUsername(list)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    public final Game game;
 
-    public static CommandResponse startNewGame(ArrayList<String> usernames) {
-        ArrayList<User> users = new ArrayList<>();
-        if (!checkUsernameValidation(usernames)) {
-            return CommandResponse.USER_DOESNT_EXISTS;
-        }
-        Database database = Database.getInstance();
-        for (String username : usernames) {
-            User user = database.getUser(username);
-            users.add(user);
-        }
-        Game game = new Game(users);
-        database.addGame(game);
-        for (User user : users) {
-            user.addGame(game);
-            user.setRunningGame(game);
-        }
-        MenuStack.getInstance().pushMenu(new GameMenu(game));
-        return CommandResponse.OK;
+    public GameController(Game newGame) {
+        this.game = newGame;
     }
-
 
     public static String RepairTile(Tile currentTile) {
-        //tode : complete
+        // todo : complete
         return "Tile repaired successfully";
     }
 
-    public static String RemoveRoute(Tile currentTile,ImprovementEnum improvementEnum) {
-       return  "route removed succesfully";
+    public static String RemoveRoute(Tile currentTile, ImprovementEnum improvementEnum) {
+        return "route removed succesfully";
     }
 
     public static String RemoveJungle(Tile currentTile) {
         return "Jungle removed succesfully";
     }
 
-
-
     public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
-        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase()+" built succesfully";
+        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built succesfully";
     }
-    public static String AttackUnit(int row, int col, Game game,Tile currentTile,Civilization civilization) {
+
+    public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
 
         return "attack successfully happened";
     }
-   
 
     public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
@@ -93,13 +63,12 @@ public class GameController {
         return "city found successfully";
     }
 
-
     public static String garrsionUnit(Tile currentTile, Civilization civilization) {
         return "unit garrsioned successfully";
     }
 
     public static String fortifyUnit(Tile currentTile, Civilization civilization) {
-    return "unit fortified successfully";
+        return "unit fortified successfully";
     }
 
     public static String fortifyHealUnit(Tile currentTile, Civilization civilization) {
@@ -107,7 +76,7 @@ public class GameController {
     }
 
     public static String AlertUnit(Tile currentTile, Civilization civilization) {
-      return "unit alerted successfully";
+        return "unit alerted successfully";
     }
 
     public static String sleepNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
@@ -119,8 +88,9 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
-    return null;
+        return null;
     }
+
     public static CommandResponse showCity(int parseInt, int parseInt1, Game game) {
         return null;
     }
@@ -134,18 +104,21 @@ public class GameController {
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
-          return null;
+        return null;
     }
 
     public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
+
     public static StringBuilder showUnitsInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
+
     public static StringBuilder showDiplomacyInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
+
     public static StringBuilder showVictoryInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
@@ -181,6 +154,18 @@ public class GameController {
 
     public static String moveCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
         //TODO : check the position
-       return "combat unit moved successfully";
+        return "combat unit moved successfully";
+    }
+
+    public CommandResponse battle(Civilization attacking, Civilization defending) {
+        return CommandResponse.OK;
+    }
+
+    public CommandResponse movement(Unit moving) {
+        return CommandResponse.OK;
+    }
+
+    public TileGrid getGameTileGrid() {
+        return game.getTileGrid();
     }
 }

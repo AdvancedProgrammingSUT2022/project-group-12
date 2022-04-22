@@ -70,9 +70,7 @@ public enum ResourceEnum {
     private final boolean isBonus;
     private final boolean isStrategic;
 
-    ResourceEnum(ResourceTypeEnum type, int foodCount,
-                 int productCount, int goldCount, ArrayList<TerrainEnum> canBeOn,
-                 ImprovementEnum improvementNeeded) {
+    ResourceEnum(ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ArrayList<TerrainEnum> canBeOn, ImprovementEnum improvementNeeded) {
         this.type = type;
         this.foodCount = foodCount;
         this.productCount = productCount;

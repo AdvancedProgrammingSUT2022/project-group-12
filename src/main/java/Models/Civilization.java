@@ -13,9 +13,12 @@ import java.util.HashMap;
 public class Civilization {
     // todo: complete
 
-    private Tile currentTile;
     private final User user;
     private final String name;
+    private final CivilizationController controller;
+    private final ArrayList<City> cities;
+    private final ArrayList<String> notifications;
+    private Tile currentTile;
     private int gold;
     private int beaker;
     private int happiness;
@@ -26,18 +29,15 @@ public class Civilization {
     private ArrayList<Tile> tiles;
     private TileGrid revealedTileGrid;
     private City capital;
-    private ArrayList<City> cities;
     private ArrayList<Civilization> isInWarWith;
     private ArrayList<Civilization> isTradingWith;
-    private final CivilizationController controller;
-    private ArrayList<String> notification;
 
     public Civilization(User user) {
         this.name = user.getNickname();
         this.user = user;
         this.controller = new CivilizationController();
         this.cities = new ArrayList<>();
-        this.notification = new ArrayList<>();
+        this.notifications = new ArrayList<>();
     }
 
     public boolean isAlreadyInWarWith(String username) {
@@ -60,12 +60,12 @@ public class Civilization {
         return this.isInWarWith.contains(civilization);
     }
 
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
-    }
-
     public int getHappiness() {
         return this.happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
     }
 
     public int getGold() {
@@ -116,7 +116,9 @@ public class Civilization {
         return this.name;
     }
 
-    public Tile getCurrentTile() {return currentTile; }
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
 
     public ArrayList<City> getCities() {
         return cities;
@@ -124,14 +126,14 @@ public class Civilization {
 
     public StringBuilder getNotifications() {
         StringBuilder notificationList = new StringBuilder();
-        for (String message : this.notification) {
+        for (String message : this.notifications) {
             notificationList.append(message).append("\n");
         }
         return notificationList;
     }
 
     public void sendMessage(String message) {
-        this.notification.add(message);
+        this.notifications.add(message);
     }
 
     public User civUser() {
