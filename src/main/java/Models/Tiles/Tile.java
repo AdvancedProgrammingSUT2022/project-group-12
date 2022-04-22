@@ -5,21 +5,22 @@ import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 public class Tile {
-    protected boolean isDamaged;
     protected int row;
     protected int col;
+    protected Terrain terrain;
+    protected ArrayList<ResourceEnum> resources;
     protected CombatUnit combatUnit;
     protected NonCombatUnit nonCombatUnit;
-    protected Terrain terrain;
     protected City city;
-    protected ArrayList<ResourceEnum> resources;
     protected int HP;
+    protected boolean isDamaged;
 
-    public Tile(Terrain terrain, ArrayList<ResourceEnum> resources, int row, int col) {
+    public Tile(int row, int col, Terrain terrain, ArrayList<ResourceEnum> resources) {
         this.terrain = terrain;
         this.resources = resources;
         this.city = null;
@@ -28,6 +29,18 @@ public class Tile {
         this.isDamaged = false;
         this.row = row;
         this.col = col;
+    }
+
+    public Tile(int row, int col, Terrain terrain, ArrayList<ResourceEnum> resources, CombatUnit combatUnit, NonCombatUnit nonCombatUnit, City city, int HP, boolean isDamaged) {
+        this.row = row;
+        this.col = col;
+        this.terrain = terrain;
+        this.resources = resources;
+        this.combatUnit = combatUnit;
+        this.nonCombatUnit = nonCombatUnit;
+        this.city = city;
+        this.HP = HP;
+        this.isDamaged = isDamaged;
     }
 
     public boolean isDamaged() {
@@ -63,6 +76,7 @@ public class Tile {
     }
 
     public Tile deepCopy() {
-        return null; // todo
+        Gson gson = new Gson();
+        return gson.fromJson(gson.toJson(this), Tile.class);
     }
 }
