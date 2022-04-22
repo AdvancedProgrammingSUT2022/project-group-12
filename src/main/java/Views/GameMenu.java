@@ -455,8 +455,7 @@ public class GameMenu extends Menu {
                 try {
                     String[] cordinates = key.split("\\s+");
                     CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, cordinates[0], cordinates[1], "noncombat");
-                    System.out.println(response.isOK() ? GameController.moveNonCombatUnit(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), currentTile, currentCivilization)
-                            : response);
+                    System.out.println(response.isOK() ? GameController.moveNonCombatUnit(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), currentTile, currentCivilization) : response);
                 } catch (Exception e) {
                     System.out.println(CommandResponse.INVALID_POSITION);
                 }
@@ -469,8 +468,7 @@ public class GameMenu extends Menu {
                 try {
                     String[] cordinates = key.split("\\s+");
                     CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, cordinates[0], cordinates[1], "combat");
-                    System.out.println(response.isOK() ? GameController.moveCombatUnit(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), currentTile, currentCivilization)
-                            : response);
+                    System.out.println(response.isOK() ? GameController.moveCombatUnit(Integer.parseInt(cordinates[0]), Integer.parseInt(cordinates[1]), currentTile, currentCivilization) : response);
                 } catch (Exception e) {
                     System.out.println(CommandResponse.INVALID_POSITION);
                 }
@@ -530,8 +528,7 @@ public class GameMenu extends Menu {
     }
 
     private boolean isDamaged(Tile currentTile) {
-        if (currentTile.isDamaged()) return true;
-        return false;
+        return currentTile.isDamaged();
     }
 
     private void unitRemoveJungle() {
@@ -560,28 +557,19 @@ public class GameMenu extends Menu {
 
     private boolean isJungleExists(Tile currentTile) {
         //TODO : complete
-        if (currentTile.getTerrain().getFeatures().contains(TerrainEnum.JUNGLE)) {
-            return true;
-        }
-        return false;
+        return currentTile.getTerrain().getFeatures().contains(TerrainEnum.JUNGLE);
     }
 
     private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
         if (improvement.hasRequiredTechs(civilization.getTechnologies())) {
             return false;
         }
-        if (improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures())) {
-            return false;
-        }
-        return true;
+        return !improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures());
 
     }
 
     private boolean isExists(Tile currentTile, ImprovementEnum improvementEnum) {
-        if (currentTile.getTerrain().getImprovements().contains(improvementEnum)) {
-            return true;
-        }
-        return false;
+        return currentTile.getTerrain().getImprovements().contains(improvementEnum);
     }
 
     private void unitRemoveRoute() {
@@ -786,8 +774,7 @@ public class GameMenu extends Menu {
     }
 
     private City getCityWithThisName(Civilization currentCivilization, String key) {
-        for (City city :
-                currentCivilization.getCities()) {
+        for (City city : currentCivilization.getCities()) {
             if (city.getName().equals(key)) {
                 return city;
             }

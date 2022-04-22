@@ -1,7 +1,6 @@
 package Views;
 
 import Controllers.Command;
-import Controllers.ProfileMenuController;
 import Enums.CommandResponse;
 import Enums.InputRegex;
 

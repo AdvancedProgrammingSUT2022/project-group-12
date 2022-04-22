@@ -3,7 +3,6 @@ package Views;
 import Controllers.Command;
 import Exceptions.InvalidCommand;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public abstract class Menu {
