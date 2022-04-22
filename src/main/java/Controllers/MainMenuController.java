@@ -15,7 +15,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 public class MainMenuController {
-    public User user = new User("sth","sth","Sth");
+    public User user = new User("sth", "sth", "Sth");
+
     public String enterMenu(Matcher matcher) {
         String newMenu = matcher.group("selectedMenu").toLowerCase();
         switch (newMenu) {
@@ -32,11 +33,11 @@ public class MainMenuController {
     public CommandResponse startNewGame(TreeMap<Integer, String> usernames) {
         ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
-        for (Map.Entry<Integer, String> set : usernames.entrySet()) {
-            if (!database.checkForUsername(set.getValue())) {
+        for (Map.Entry<Integer, String> entry : usernames.entrySet()) {
+            if (!database.checkForUsername(entry.getValue())) {
                 return CommandResponse.INVALID_COMMAND;
             } else {
-                users.add(database.getUser(set.getValue()));
+                users.add(database.getUser(entry.getValue()));
             }
         }
         Game newGame = new Game(users);

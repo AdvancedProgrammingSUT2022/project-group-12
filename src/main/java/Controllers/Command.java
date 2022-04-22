@@ -69,11 +69,14 @@ public class Command {
     public String getCategory() {
         return this.getType().split(" ")[0];
     }
+
     public String getSubCategory() {
         return this.getType().split(" ")[1];
     }
 
-    public String getSubSubCategory() {return this.getType().split(" ")[2];}
+    public String getSubSubCategory() {
+        return this.getType().split(" ")[2];
+    }
 
     public String getOption(String key) {
         return this.options.get(key);

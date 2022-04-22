@@ -4,7 +4,8 @@ public enum CommandResponse {
     OK("OK"),
     CommandMissingRequiredOption("Required option is missing"),
     USER_DOES_NOT_EXISTS("user doesn't exists"),
-    INVALID_POSITION("invalid position"), INVALID_CITY("city name is incorrect"),
+    INVALID_POSITION("invalid position"),
+    INVALID_CITY("city name is incorrect"),
     INVALID_COMMAND("invalid command"),
     INVALID_NUMBER("invalid number"),
     INVALID_DIRECTION("invalid direction"),
@@ -34,8 +35,8 @@ public enum CommandResponse {
         this.message = message;
     }
 
-    public CommandResponse nicknameExists(String nickname){
-        this.message = "user with nickname "+nickname+" already exists";
+    public CommandResponse nicknameExists(String nickname) {
+        this.message = "user with nickname " + nickname + " already exists";
         return null;
     }
 

@@ -13,15 +13,11 @@ public class CivilizationController {
         return new StringBuilder();
     }
 
-    public void setHappiness() {
-
-    }
-
     public void setTurn() {
 
     }
 
     public void applyCheatSheet() {
-        
+
     }
 }

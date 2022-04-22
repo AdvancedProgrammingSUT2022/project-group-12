@@ -13,7 +13,7 @@ public abstract class Unit {
     protected int column;
     protected int healthBar;
 
-    public void garrison(){
+    public void garrison() {
 
     }
 
