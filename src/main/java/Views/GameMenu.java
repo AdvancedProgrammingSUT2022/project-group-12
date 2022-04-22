@@ -9,16 +9,17 @@ import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
-import Models.Coord;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
+import Models.Tiles.TileGrid;
 
 import java.util.List;
 
 public class GameMenu extends Menu {
 
     private final Game game;
-    private Coord gridCoord;
+    private Location gridCord;
 
     public GameMenu(GameController controller) {
         this.game = controller.game;
@@ -219,22 +220,18 @@ public class GameMenu extends Menu {
     private CommandResponse moveMapByDirection(Command command, String direction) {
         CommandResponse response = validateCommandForMoveByDirection(command.getType().trim(), command.getCategory(), command.getSubCategory(), command.getSubSubCategory(), command, direction);
         int amount = 1; //command.getOption("amount"); todo
-        Coord newCoord = new Coord(gridCoord);
+        Location newCord = gridCord;
         switch (direction) {
-            case "down" -> newCoord.row += amount;
-            case "up" -> newCoord.row -= amount;
-            case "right" -> newCoord.col += amount;
-            case "left" -> newCoord.col -= amount;
+            case "down" -> newCord.moveY(amount);
+            case "up" -> newCord.moveY(amount * -1);
+            case "right" -> newCord.moveX(amount);
+            case "left" -> newCord.moveX(amount * -1);
         }
-        if (!isGridCoordValid(newCoord)) {
+        if (!TileGrid.getInstance().isLocationValid(newCord.getX(), newCord.getY())) {
             return CommandResponse.INVALID_DIRECTION; // todo: out of map
         }
-        this.gridCoord = newCoord;
+        this.gridCord = newCord;
         return CommandResponse.OK;
-    }
-
-    private boolean isGridCoordValid(Coord coord) {
-        return true; // todo
     }
 
     public CommandResponse validateCommandForMoveByDirection(String type, String category, String subCategory, String subSubCategory, Command command, String direction) {
@@ -254,7 +251,7 @@ public class GameMenu extends Menu {
         CommandResponse response;
         switch (command.getOption("unit")) {
             case "non combat" -> {
-                response = validateFornonCombatUnit(currentTile, currentCivilization);
+                response = validateForNonCombatUnit(currentTile, currentCivilization);
                 if (response.isOK()) GameController.deletenonCombatUnit(currentCivilization, currentTile);
             }
             case "combat" -> {
@@ -266,7 +263,7 @@ public class GameMenu extends Menu {
         System.out.println(response.isOK() ? "unit deleted successfully" : response);
     }
 
-    private CommandResponse validateFornonCombatUnit(Tile currentTile, Civilization civilization) {
+    private CommandResponse validateForNonCombatUnit(Tile currentTile, Civilization civilization) {
         if (!(civilization.getCurrentTile().getNonCombatUnit().getType() == null)) {
             return CommandResponse.UNIT_DOES_NOT_EXISTS;
         }
@@ -292,7 +289,7 @@ public class GameMenu extends Menu {
         CommandResponse response;
         switch (command.getOption("unit")) {
             case "non combat" -> {
-                response = validateFornonCombatUnit(currentTile, currentCivilization);
+                response = validateForNonCombatUnit(currentTile, currentCivilization);
                 if (response.isOK()) GameController.wakeUpNonCombatUnit(currentCivilization, currentTile);
             }
             case "combat" -> {
@@ -314,7 +311,7 @@ public class GameMenu extends Menu {
         CommandResponse response;
         switch (command.getOption("unit")) {
             case "non combat" -> {
-                response = validateFornonCombatUnit(currentTile, currentCivilization);
+                response = validateForNonCombatUnit(currentTile, currentCivilization);
                 if (response.isOK()) GameController.CancelMissionNonCombatUnit(currentCivilization, currentTile);
             }
             case "combat" -> {
@@ -436,7 +433,7 @@ public class GameMenu extends Menu {
         try {
             switch (command.getSubSubCategory()) {
                 case "non combat" -> {
-                    response = validateFornonCombatUnit(currentTile, currentCivilization);
+                    response = validateForNonCombatUnit(currentTile, currentCivilization);
                     if (response.isOK())
                         System.out.println(GameController.sleepNonCombatUnit(currentCivilization, currentTile));
                 }
@@ -793,7 +790,7 @@ public class GameMenu extends Menu {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
-            if (row > game.getTileGrid().getHeight() || row < 0 || col > game.getTileGrid().getWidth() || col < 0)
+            if (TileGrid.getInstance().isLocationValid(row, col))
                 return CommandResponse.INVALID_POSITION;
             return CommandResponse.OK;
         } catch (Exception e) {

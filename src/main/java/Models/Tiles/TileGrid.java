@@ -1,17 +1,36 @@
 package Models.Tiles;
 
 import Enums.GameEnums.TerrainEnum;
+import Enums.GameEnums.VisibilityEnum;
 import Models.Civilization;
+import Models.Game;
 import Models.Location;
 import Models.Terrains.Terrain;
+import Models.User;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TileGrid extends Tile{
+public class TileGrid {
+    private static TileGrid instance = null;
+
+    private static void setInstance(TileGrid instance) {
+        TileGrid.instance = instance;
+    }
+
+    public static TileGrid getInstance() {
+        if (instance == null) {
+            setInstance(new TileGrid());
+        }
+        return instance;
+    }
+
     private ArrayList<Location> usedLocations;
     private final ArrayList<ArrayList<Terrain>> terrains = new ArrayList<>();
     private final Random random = new Random();
+    private final int row = 50, col = 50;
+    private ArrayList<ArrayList<VisibilityEnum>> terrainState = new ArrayList<>();
+
 
     public TileGrid() {
         this.usedLocations = new ArrayList<>();
@@ -23,6 +42,18 @@ public class TileGrid extends Tile{
                 terrains.get(i).add(new Terrain(randomAssignment(i, j)));
             }
         }
+    }
+
+
+    public boolean isLocationValid(int x, int y) {
+        return x > -1 && x < col && y > -1 && y < row;
+    }
+
+    public StringBuilder showGrid(int x, int y) {
+        if (isLocationValid(x, y)) {
+            //TODO : draw map
+        }
+        return null;
     }
 
     private TerrainEnum randomAssignment(int x, int y) {

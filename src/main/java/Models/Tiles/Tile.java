@@ -1,7 +1,6 @@
 package Models.Tiles;
 
 import Enums.GameEnums.ResourceEnum;
-import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
@@ -11,30 +10,57 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class Tile {
-    protected final int row = 50, col = 50;
-    protected ArrayList<ArrayList<VisibilityEnum>> terrainState = new ArrayList<>();
+    protected int row;
+    protected int col;
+    protected Terrain terrain;
+    protected ArrayList<ResourceEnum> resources;
+    protected CombatUnit combatUnit;
+    protected NonCombatUnit nonCombatUnit;
+    protected City city;
+    protected int HP;
+    protected boolean isDamaged;
 
-    public Tile() {
-        for (int i = 0; i < col; i++) {
-            terrainState.add(new ArrayList<>());
-            for (int j = 0; j < row; j++) {
-                if (this instanceof TileGrid)
-                    terrainState.get(i).add(VisibilityEnum.VISIBLE);
-                else
-                    terrainState.get(i).add(VisibilityEnum.FOG_OF_WAR);
-            }
-        }
+    public Tile(int row, int col, Terrain terrain, ArrayList<ResourceEnum> resources) {
+        this.terrain = terrain;
+        this.resources = resources;
+        this.city = null;
+        this.combatUnit = null;
+        this.nonCombatUnit = null;
+        this.isDamaged = false;
+        this.row = row;
+        this.col = col;
     }
 
-    public boolean isLocationValid(int x, int y) {
-        return x > -1 && x < col && y > -1 && y < row;
+    public boolean isDamaged() {
+        return isDamaged;
     }
 
-    public StringBuilder showGrid(int x, int y) {
-        if (isLocationValid(x, y)) {
-            //TODO : draw map
-        }
-        return null;
+    public int getCol() {
+        return col;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public NonCombatUnit getNonCombatUnit() {
+        return nonCombatUnit;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public CombatUnit getCombatUnit() {
+        return combatUnit;
     }
 
     public Tile deepCopy() {

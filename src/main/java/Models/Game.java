@@ -15,7 +15,7 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
-        this.tileGrid = TileGrid.GenerateRandom(10, 10, 999);
+        this.tileGrid = new TileGrid();
         this.civTurn = new Vector<>();
         for (User user : users) {
             civs.add(new Civilization(user));

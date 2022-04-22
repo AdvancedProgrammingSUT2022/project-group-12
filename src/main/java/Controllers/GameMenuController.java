@@ -5,6 +5,7 @@ import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
+import Models.Tiles.TileGrid;
 import Models.Units.Unit;
 
 public class GameMenuController {
@@ -48,12 +49,8 @@ public class GameMenuController {
         return null;
     }
 
-    private static boolean isCorrectPosition(int row, int col, Game game) {
-        return row <= game.getTileGrid().getHeight() && row >= 0 && col <= game.getTileGrid().getWidth() && col >= 0;
-    }
-
     public static CommandResponse showMapOnPosition(int row, int col, Game game) {
-        if (isCorrectPosition(row, col, game)) {
+        if (TileGrid.getInstance().isLocationValid(row, col)) {
             //TODO : show map
             return CommandResponse.OK;
         } else {

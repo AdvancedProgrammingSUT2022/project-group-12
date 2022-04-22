@@ -4,25 +4,24 @@ import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.TerrainEnum;
 import Models.Cities.City;
-import Models.Civilization;
-import Models.Database;
 
 import java.util.ArrayList;
 
 public class Terrain {
-    protected String terrain;
-    protected int foodCount;
-    protected int productsCount;
-    protected int goldCount;
-    protected int combatModifier;
-    protected int movementCost;
-    protected ArrayList<TerrainEnum> features;
-    protected ArrayList<ResourceEnum> resources;
-    protected boolean hasRoad;
+    private final TerrainEnum terrainType;
+    private int foodCount;
+    private int productsCount;
+    private int goldCount;
+    private int combatModifier;
+    private int movementCost;
+    private final ArrayList<TerrainEnum> features;
+    private final ArrayList<ResourceEnum> resources;
+    private boolean hasRoad;
 
     protected ArrayList<ImprovementEnum> improvements;
 
     public Terrain(TerrainEnum type) {
+        this.terrainType = type;
         this.foodCount = type.getFoodCount();
         this.productsCount = type.getProductsCount();
         this.goldCount = type.getGoldCount();
@@ -40,8 +39,8 @@ public class Terrain {
         this.hasRoad = false;
     }
 
-    public String getTerrain() {
-        return terrain;
+    public TerrainEnum getTerrain() {
+        return terrainType;
     }
 
     public int getFoodCount() {
@@ -72,7 +71,7 @@ public class Terrain {
         this.hasRoad = true;
     }
 
-    public void assignCity(City city){
+    public void assignCity(City city) {
         city.addTerrain(this);
     }
 

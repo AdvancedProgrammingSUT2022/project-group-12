@@ -19,4 +19,14 @@ public class Location {
     public void setY(int y) {
         this.y = y;
     }
+
+    public void moveX(int x) {
+        this.x += x;
+    }
+
+    public void moveY(int y) {
+        this.y += y;
+    }
+
+
 }
