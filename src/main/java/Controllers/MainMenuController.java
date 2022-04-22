@@ -15,7 +15,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 public class MainMenuController {
-    public User user = new User("sth","sth","Sth");
+    public User user = new User("sth", "sth", "Sth");
+
     public String enterMenu(Matcher matcher) {
         String newMenu = matcher.group("selectedMenu").toLowerCase();
         switch (newMenu) {

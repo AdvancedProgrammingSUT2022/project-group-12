@@ -12,6 +12,7 @@ public class Game {
     private final ArrayList<Civilization> civs;
     private final Vector<Civilization> civTurn;
     private final TileGrid tileGrid;
+
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
         this.tileGrid = TileGrid.GenerateRandom(10, 10, 999);

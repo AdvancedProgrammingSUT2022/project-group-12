@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class User {
     private final String username;
+    private final ArrayList<Game> gamesPlayed;
     private String nickname;
     private String password;
     private int score;
-    private final ArrayList<Game> gamesPlayed;
     private Game runningGame;
 
     public User(String username, String password, String nickname) {
