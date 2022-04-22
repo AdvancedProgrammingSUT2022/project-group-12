@@ -1,18 +1,22 @@
 package Views.ViewFuncs;
 
 import Enums.CommandResponse;
+import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 
 public class GameMemuFuncs {
-    private Game game;
-
+    protected Game game;
+    protected Location gridCord;
     public Game getGame() {
         return game;
     }
-
+    public GameMemuFuncs(Game game){
+        this.game=game;
+    }
     protected Civilization getCurrentCivilization() {
         return game.getCivTurn().get(game.getCivTurn().size() - 1);
     }
@@ -33,7 +37,7 @@ public class GameMemuFuncs {
         }
     }
 
-    private CommandResponse isCorrectPosition(String amount_s, Game game, String direction) {
+    protected CommandResponse isCorrectPosition(String amount_s, Game game, String direction) {
         try {
             //TODO : complete
             int amount = Integer.parseInt(amount_s);
@@ -66,6 +70,14 @@ public class GameMemuFuncs {
     private CommandResponse validateDownWardMove(int amount){
         //TODO : validate rightward move
         return CommandResponse.OK;
+    }
+    protected City getCityWithThisName(Civilization currentCivilization, String key) {
+        for (City city : currentCivilization.getCities()) {
+            if (city.getName().equals(key)) {
+                return city;
+            }
+        }
+        return null;
     }
 
 
