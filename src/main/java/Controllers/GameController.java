@@ -16,13 +16,14 @@ import Models.Units.Unit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class GameController {
-    public final Game game;
+    public static Game game; // todo: should be static?
 
     public GameController(Game newGame) {
-        this.game = newGame;
+        game = newGame;
     }
 
     public static String RepairTile(Tile currentTile) {
@@ -190,9 +191,37 @@ public class GameController {
         unit.getPathShouldCross().remove(0);
     }
 
-    private static ArrayList<Tile> findTheShortestPath(int x, int y, Tile currentTile) {
-        //TODO : find the shortest path
-        return null;
+    private static ArrayList<Tile> findTheShortestPath(int targetRow, int targetCol, Tile sourceTile) { // use Coord/Location
+        // Dijkstra algorithm for shortest path
+        TileGrid tileGrid = game.getTileGrid();
+        HashMap<Tile, Tile> parent = new HashMap<>();
+        HashMap<Tile, Integer> distance = new HashMap<>();
+        TreeMap<Integer, Tile> heap = new TreeMap<>();
+        distance.put(sourceTile, 0);
+        heap.put(0, sourceTile);
+        Tile p;
+        while (true) {
+            Tile first = heap.pollFirstEntry().getValue();
+            if (first.getRow() == targetRow && first.getCol() == targetCol) {
+                p = first;
+                break;
+            }
+            for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
+                // this is only true if weights are on tiles (graph vertexes)
+                if (!distance.containsKey(neighbor)) {
+                    int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
+                    distance.put(neighbor, dist);
+                    heap.put(dist, neighbor);
+                    parent.put(neighbor, first);
+                }
+            }
+        }
+        ArrayList<Tile> path = new ArrayList<>();
+        while (p != sourceTile) {
+            path.add(p);
+            p = parent.get(p);
+        }
+        return path;
     }
 
     public static String moveCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
@@ -201,6 +230,15 @@ public class GameController {
         currentTile.getCombatUnit().setPathShouldCross(shortestPath);
         moveToNextTile(currentTile.getCombatUnit());
         return "combat unit moved successfully";
+    }
+
+    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+        // todo, dummy function
+    }
+
+    public static Boolean BuildImprovement(Tile currentTile, ImprovementEnum stoneMine) {
+        // todo, dummy function
+        return null;
     }
 
     public CommandResponse battle(Civilization attacking, Civilization defending) {

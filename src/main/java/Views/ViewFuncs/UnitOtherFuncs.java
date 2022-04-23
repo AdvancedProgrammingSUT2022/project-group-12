@@ -270,7 +270,7 @@ public class UnitOtherFuncs extends UnitFuncs{
             if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
                 return CommandResponse.NOT_HAVING_UNIT;
             }
-            if(getGame().getTileGrid().getTiles().get(row).get(col).getNonCombatUnit() != null){
+            if(getGame().getTileGrid().getTile(row, col).getNonCombatUnit() != null){
                 return CommandResponse.TILE_IS_FULL;
             }
         } else {
@@ -280,7 +280,7 @@ public class UnitOtherFuncs extends UnitFuncs{
             if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
                 return CommandResponse.NOT_HAVING_UNIT;
             }
-            if(getGame().getTileGrid().getTiles().get(row).get(col).getCombatUnit() != null){
+            if(getGame().getTileGrid().getTile(row, col).getCombatUnit() != null){
                 return CommandResponse.TILE_IS_FULL;
             }
         }

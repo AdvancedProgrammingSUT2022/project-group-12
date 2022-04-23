@@ -37,6 +37,11 @@ public class TileGrid {
         }
     }
 
+    public ArrayList<Tile> getNeighborsOf(Tile tile) {
+        // todo
+        return new ArrayList<>();
+    }
+
     public Tile getTile(int row, int col) {
         return tiles.get(row).get(col);
     }
