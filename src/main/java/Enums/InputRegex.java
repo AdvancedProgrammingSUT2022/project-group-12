@@ -6,6 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum InputRegex {
+    CONTAINS_DIGIT(".*[0-9].*"),
+    CONTAINS_UPPERCASE_ALPHABET(".*[A-Z].*"),
+    CONTAINS_LOWERCASE_ALPHABET(".*[a-z].*"),
+    CONTAINS_SPECIAL_CHAR(".*[[*][.]!@$%^&(){}\\[\\]:;<>,?/~_+[-]=|].*"),
     USERNAME("--username|--Username|--USERNAME|--u_name|-U|-u|--user"),
     PASSWORD("--password|--Password|--PASSWORD|--p_word|-P|-p|--pass"),
     NICKNAME("--nickname|--Nickname|--NICKNAME|--n_name|-N|-n|--name"),
