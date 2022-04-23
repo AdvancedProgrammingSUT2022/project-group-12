@@ -2,6 +2,7 @@ package Controllers;
 
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
+import Enums.GameEnums.TechnologyEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -12,6 +13,9 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 
 public class GameController {
@@ -86,6 +90,7 @@ public class GameController {
     }
 
     public static String sleepCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+
         return "unit sleeped successfully";
     }
 
@@ -107,9 +112,17 @@ public class GameController {
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
+       StringBuilder researchInfo=new StringBuilder("");
+       HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
+       TechnologyEnum currentTech=currentCivilization.getCurrentTech();
+       researchInfo.append("Current research : "+currentTech);
+       researchInfo.append("Science remains : "+technologies.get(currentTech)+"\n");
+        for (Map.Entry<TechnologyEnum,Integer> tech:
+             technologies.entrySet()) {
+            researchInfo.append("research name :"+tech.getKey().name()+" science remains : "+tech.getValue()+"\n");
+        }
+        return researchInfo;
     }
-
     public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
@@ -135,6 +148,8 @@ public class GameController {
     }
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
+        StringBuilder militaryInfo=new StringBuilder("");
+        ArrayList<>
         return null;
     }
 
@@ -178,6 +193,7 @@ public class GameController {
     }
 
     public CommandResponse battle(Civilization attacking, Civilization defending) {
+
         return CommandResponse.OK;
     }
 
