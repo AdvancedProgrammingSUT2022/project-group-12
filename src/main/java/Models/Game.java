@@ -16,7 +16,7 @@ public class Game {
 
     public Game(List<User> users) {
         this.civs = new ArrayList<>();
-        this.tileGrid = new TileGrid();
+        this.tileGrid = new TileGrid(50, 50);
         this.civTurn = new Vector<>();
         for (User user : users) {
             civs.add(new Civilization(user));

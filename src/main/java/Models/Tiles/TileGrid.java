@@ -12,7 +12,7 @@ public class TileGrid {
 
     public static TileGrid getInstance() {
         if (instance == null) {
-            instance = new TileGrid();
+//            instance = new TileGrid(); // todo: change to non-singleton
         }
         return instance;
     }
@@ -20,24 +20,29 @@ public class TileGrid {
     private final ArrayList<Location> usedLocations;
     private final ArrayList<ArrayList<Tile>> tiles = new ArrayList<>();
     private final Random random = new Random();
-    private final int row = 50;
-    private final int col = 50;
+    private int height;
+    private int width;
 
-    public TileGrid() {
+    public TileGrid(int height, int width) {
+        this.height = height;
+        this.width = width;
         this.usedLocations = new ArrayList<>();
-        int x = random.nextInt(row);
-        int y = random.nextInt(col);
-        for (int i = 0; i < col; i++) {
+        int x = random.nextInt(height);
+        int y = random.nextInt(width);
+        for (int i = 0; i < width; i++) {
             tiles.add(new ArrayList<>());
-            for (int j = 0; j < row; j++) {
+            for (int j = 0; j < height; j++) {
                 tiles.get(i).add(randomAssignment(i, j));
             }
         }
     }
 
+    public Tile getTile(int row, int col) {
+        return tiles.get(row).get(col);
+    }
 
     public boolean isLocationValid(int x, int y) {
-        return x > -1 && x < col && y > -1 && y < row;
+        return x > -1 && x < width && y > -1 && y < height;
     }
 
     public StringBuilder showGrid(int x, int y) {
@@ -82,5 +87,13 @@ public class TileGrid {
 
     public Tile getTerrain(int x, int y) {
         return tiles.get(x).get(y);
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
