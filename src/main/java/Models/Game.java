@@ -4,6 +4,7 @@ import Controllers.GameController;
 import Models.Tiles.TileGrid;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class Game {
@@ -13,7 +14,7 @@ public class Game {
     private final Vector<Civilization> civTurn;
     private final TileGrid tileGrid;
 
-    public Game(ArrayList<User> users) {
+    public Game(List<User> users) {
         this.civs = new ArrayList<>();
         this.tileGrid = new TileGrid();
         this.civTurn = new Vector<>();

@@ -5,13 +5,14 @@ import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.TerrainEnum;
 import Models.Civilization;
 import Models.Terrains.Terrain;
+import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
 
 public class City {
-    private final String isOwnedBy;
+    private final Civilization isOwnedBy;
     private final int citizensCount;
     private final ArrayList<BuildingEnum> cityStructure;
     protected boolean isCapital;
@@ -29,14 +30,14 @@ public class City {
     private int unitCount;
     private int beaker;
     private int happiness;
-    private Terrain terrain;
-
-    public City(Civilization civ, TerrainEnum terrain, boolean isCapital) {
+    private Tile tile;
+    public City(Civilization civ, Tile tile, boolean isCapital) {
         this.combatUnit = null;
+        this.tile = tile;
         this.nonCombatUnit = null;
-        this.gold = terrain.getGoldCount();
-        this.production = 1 + terrain.getProductsCount();
-        this.resources = terrain.getResources();
+        this.gold = tile.getTerrain().getGoldCount();
+        this.production = 1 + tile.getTerrain().getProductsCount();
+        this.resources = tile.getTerrain().getResources();
         this.hitPoint = 20;
         this.combatStrength = 0;
         this.isCapital = isCapital;
@@ -47,16 +48,11 @@ public class City {
         this.cityStructure = new ArrayList<>();
         this.hasACombatUnit = false;
         this.hasANonCombatUnit = false;
-        this.isOwnedBy = civ.getName();
-        this.terrain = null;
+        this.isOwnedBy = civ;
     }
 
-    public void addTerrain(Terrain terrain) {
-        this.terrain = terrain;
-    }
-
-    public Terrain getTerrain() {
-        return this.terrain;
+    public Tile getTile() {
+        return this.tile;
     }
 
     public CombatUnit getCombatUnit() {
@@ -161,11 +157,11 @@ public class City {
         this.production = production;
     }
 
-    public boolean hasBuilding(String buildingName) {
-        return this.cityStructure.contains(BuildingEnum.valueOf(buildingName));
+    public boolean hasBuilding(BuildingEnum buildingName) {
+        return this.cityStructure.contains(buildingName);
     }
 
-    public void setCityStructure(BuildingEnum cityStructure) {
+    public void addBuilding(BuildingEnum cityStructure) {
         this.cityStructure.add(cityStructure);
     }
 
@@ -174,7 +170,7 @@ public class City {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public boolean hasNonCombatUnit() {

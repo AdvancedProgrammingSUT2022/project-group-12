@@ -31,15 +31,15 @@ public class GameController {
     }
 
     public static String RemoveRoute(Tile currentTile, ImprovementEnum improvementEnum) {
-        return "route removed succesfully";
+        return "route removed successfully";
     }
 
     public static String RemoveJungle(Tile currentTile) {
-        return "Jungle removed succesfully";
+        return "Jungle removed successfully";
     }
 
-    public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
-        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built succesfully";
+    public static String BuildImprovement(Tile currentTile, ImprovementEnum improvementEnum) {
+        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
     }
 
     public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
@@ -47,22 +47,22 @@ public class GameController {
         return "attack successfully happened";
     }
 
-    public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void deleteCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void wakeUpNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void wakeUpNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void wakeUpCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void wakeUpCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void CancelMissionNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void CancelMissionNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void CancelMissionCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
     public static String FoundCity(Tile currentTile) {
@@ -85,12 +85,16 @@ public class GameController {
         return "unit alerted successfully";
     }
 
-    public static String sleepNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static String sleepNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
         return "unit sleeped successfully";
     }
 
+<<<<<<< HEAD
     public static String sleepCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
 
+=======
+    public static String sleepCombatUnit(Civilization currentCivilization, Tile currentTile) {
+>>>>>>> 64e5a35a7f9e7a9ee77c8361ed48c26fa1879ec4
         return "unit sleeped successfully";
     }
 
@@ -143,7 +147,7 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showNotifInfo(Tile currentTile, Civilization currentCivilization) {
+    public static StringBuilder showNotificationInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 

@@ -1,12 +1,8 @@
 package Models.Tiles;
 
 import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.VisibilityEnum;
-import Models.Civilization;
-import Models.Game;
 import Models.Location;
 import Models.Terrains.Terrain;
-import Models.User;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,32 +10,27 @@ import java.util.Random;
 public class TileGrid {
     private static TileGrid instance = null;
 
-    private static void setInstance(TileGrid instance) {
-        TileGrid.instance = instance;
-    }
-
     public static TileGrid getInstance() {
         if (instance == null) {
-            setInstance(new TileGrid());
+            instance = new TileGrid();
         }
         return instance;
     }
 
-    private ArrayList<Location> usedLocations;
+    private final ArrayList<Location> usedLocations;
     private final ArrayList<ArrayList<Tile>> tiles = new ArrayList<>();
     private final Random random = new Random();
-    private final int row = 50, col = 50;
-    private ArrayList<ArrayList<VisibilityEnum>> terrainState = new ArrayList<>();
-
+    private final int row = 50;
+    private final int col = 50;
 
     public TileGrid() {
         this.usedLocations = new ArrayList<>();
         int x = random.nextInt(row);
         int y = random.nextInt(col);
         for (int i = 0; i < col; i++) {
-            terrains.add(new ArrayList<>());
+            tiles.add(new ArrayList<>());
             for (int j = 0; j < row; j++) {
-                terrains.get(i).add(new Terrain(randomAssignment(i, j)));
+                tiles.get(i).add(randomAssignment(i, j));
             }
         }
     }
@@ -56,14 +47,14 @@ public class TileGrid {
         return null;
     }
 
-    private TerrainEnum randomAssignment(int x, int y) {
+    private Tile randomAssignment(int x, int y) {
         if (!newTile(x, y)) {
-            return TerrainEnum.OCEAN;
+            return new Tile(new Terrain(TerrainEnum.OCEAN), x, y);
         }
-        return randomTerrainType();
+        return randomTerrainType(x, y);
     }
 
-    private TerrainEnum randomTerrainType() {
+    private Tile randomTerrainType(int x, int y) {
         ArrayList<TerrainEnum> values = new ArrayList<>();
         values.add(TerrainEnum.DESERT);
         values.add(TerrainEnum.HILL);
@@ -73,7 +64,7 @@ public class TileGrid {
         values.add(TerrainEnum.SNOW);
         values.add(TerrainEnum.TUNDRA);
         int randomSelection = random.nextInt(7);
-        return values.get(randomSelection);
+        return new Tile(new Terrain(values.get(randomSelection)), x, y);
     }
 
     private boolean newTile(int x, int y) {
@@ -89,7 +80,7 @@ public class TileGrid {
         return this.usedLocations;
     }
 
-    public ArrayList<ArrayList<Tile>> getTiles() {
-        return tiles;
+    public Tile getTerrain(int x, int y) {
+        return tiles.get(x).get(y);
     }
 }
