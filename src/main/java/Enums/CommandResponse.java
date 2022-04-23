@@ -28,7 +28,7 @@ public enum CommandResponse {
     NICKNAME_CHANGED("user with nickname already exists"),
     INVALID_PASSWORD("current password is invalid"),
     REPEATING_PASSWORD("please enter a new password"),
-    PASSWORD_CHANGED("password changed successfully");
+    PASSWORD_CHANGED("password changed successfully"), TILE_IS_FULL("this tile is full");
     private String message;
 
     CommandResponse(String message) {

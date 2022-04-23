@@ -2,6 +2,8 @@ package Controllers;
 
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
+import Enums.GameEnums.TechnologyEnum;
+import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -10,6 +12,10 @@ import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GameController {
@@ -25,15 +31,15 @@ public class GameController {
     }
 
     public static String RemoveRoute(Tile currentTile, ImprovementEnum improvementEnum) {
-        return "route removed successfully";
+        return "route removed succesfully";
     }
 
     public static String RemoveJungle(Tile currentTile) {
-        return "Jungle removed successfully";
+        return "Jungle removed succesfully";
     }
 
-    public static String BuildImprovement(Tile currentTile, ImprovementEnum improvementEnum) {
-        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
+    public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
+        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built succesfully";
     }
 
     public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
@@ -41,22 +47,22 @@ public class GameController {
         return "attack successfully happened";
     }
 
-    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
-    public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void deleteCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
-    public static void wakeUpNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void wakeUpNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
-    public static void wakeUpCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void wakeUpCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
-    public static void CancelMissionNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void CancelMissionNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
-    public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void CancelMissionCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
     }
 
     public static String FoundCity(Tile currentTile) {
@@ -79,11 +85,12 @@ public class GameController {
         return "unit alerted successfully";
     }
 
-    public static String sleepNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static String sleepNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
         return "unit sleeped successfully";
     }
 
-    public static String sleepCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static String sleepCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+
         return "unit sleeped successfully";
     }
 
@@ -100,18 +107,28 @@ public class GameController {
     }
 
     public static StringBuilder showCombatInfo(CombatUnit CombatUnit) {
+
         return null;
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
+       StringBuilder researchInfo=new StringBuilder("");
+       HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
+       TechnologyEnum currentTech=currentCivilization.getCurrentTech();
+       researchInfo.append("Current research : "+currentTech);
+       researchInfo.append("Science remains : "+technologies.get(currentTech)+"\n");
+        for (Map.Entry<TechnologyEnum,Integer> tech:
+             technologies.entrySet()) {
+            researchInfo.append("research name :"+tech.getKey().name()+" science remains : "+tech.getValue()+"\n");
+        }
+        return researchInfo;
     }
-
     public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 
-    public static StringBuilder showUnitsInfo(Tile currentTile, Civilization currentCivilization) {
+    public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
+
         return null;
     }
 
@@ -127,11 +144,14 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showNotificationInfo(Tile currentTile, Civilization currentCivilization) {
+    public static StringBuilder showNotifInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
+        StringBuilder militaryInfo=new StringBuilder("");
+        HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
+
         return null;
     }
 
@@ -139,30 +159,61 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showDiplomaticInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
+    public static StringBuilder showDiplomaticInfo(Game game,Civilization currentCivilization) {
+        StringBuilder diplomaticInfo=new StringBuilder("");
+        ArrayList<Civilization> inWarWith=currentCivilization.getIsInWarWith();
+        for (Civilization civ:
+             game.getCivs()) {
+          if(civ == currentCivilization) continue;
+          diplomaticInfo.append("civilization name : "+civ.getName()+" state : ");
+          if(currentCivilization.isInWarWith(civ)){diplomaticInfo.append("WAR!!\n");}
+          else {diplomaticInfo.append("Neutral\n");}
+        }
+        return diplomaticInfo;
     }
 
     public static StringBuilder showDealsInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 
-    public static String moveNonCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
+    public static String moveNonCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
+        ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile);
+        if(shortestPath == null){return "move is impossible";}
+        currentTile.getNonCombatUnit().setPathShouldCross(shortestPath);
+        moveToNextTile(currentTile.getNonCombatUnit());
         return "noncombat unit moved successfully";
-
     }
 
-    public static String moveCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
-        //TODO : check the position
+    private static void moveToNextTile(Unit unit) {
+        unit.setRow(unit.getPathShouldCross().get(0).getRow());
+        unit.setColumn(unit.getPathShouldCross().get(0).getCol());
+        unit.getPathShouldCross().remove(0);
+    }
+
+    private static ArrayList<Tile> findTheShortestPath(int x, int y, Tile currentTile) {
+        //TODO : find the shortest path
+        return null;
+    }
+
+    public static String moveCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
+        ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile);
+        if(shortestPath == null){return "move is impossible";}
+        currentTile.getCombatUnit().setPathShouldCross(shortestPath);
+        moveToNextTile(currentTile.getCombatUnit());
         return "combat unit moved successfully";
     }
 
     public CommandResponse battle(Civilization attacking, Civilization defending) {
+
         return CommandResponse.OK;
     }
 
     public CommandResponse movement(Unit moving) {
         return CommandResponse.OK;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public TileGrid getGameTileGrid() {

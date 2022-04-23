@@ -20,7 +20,7 @@ public class InfoFuncs extends GameMemuFuncs{
     public void diplomaticInfo() {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
-        GameController.showDiplomaticInfo(currentTile, currentCivilization);
+        System.out.println(GameController.showDiplomaticInfo(game, currentCivilization));
     }
 
     public void ecoInfo() {
@@ -38,7 +38,7 @@ public class InfoFuncs extends GameMemuFuncs{
     public void notifInfo() {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
-        GameController.showNotificationInfo(currentTile, currentCivilization);
+        GameController.showNotifInfo(currentTile, currentCivilization);
     }
 
     public void demographicsInfo() {
@@ -62,7 +62,7 @@ public class InfoFuncs extends GameMemuFuncs{
     public void unitsInfo() {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
-        GameController.showUnitsInfo(currentTile, currentCivilization);
+        GameController.showUnitsInfo(currentCivilization);
     }
 
     public void researchInfo() {

@@ -15,6 +15,7 @@ public class CombatUnit extends Unit {
     protected int combatStrength;
     protected int range;
 
+
     public CombatUnit(UnitEnum type, Terrain terrain, Civilization civ) {
         super(type, terrain, civ);
     }

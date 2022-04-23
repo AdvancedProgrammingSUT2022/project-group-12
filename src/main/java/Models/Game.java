@@ -53,6 +53,10 @@ public class Game {
         return this.tileGrid;
     }
 
+    public ArrayList<Civilization> getCivs() {
+        return civs;
+    }
+
     public GameController getController() {
         return this.controller;
     }

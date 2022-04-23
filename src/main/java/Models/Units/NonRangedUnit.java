@@ -6,6 +6,8 @@ import Models.Terrains.Terrain;
 
 public class NonRangedUnit extends CombatUnit {
 
+
+
     public NonRangedUnit(UnitEnum type, Terrain terrain, Civilization civ) {
         super(type, terrain, civ);
     }

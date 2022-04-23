@@ -5,7 +5,6 @@ import Models.Civilization;
 import Models.Terrains.Terrain;
 
 public class NonCombatUnit extends Unit {
-
     public NonCombatUnit(UnitEnum type, Terrain terrain, Civilization civ) {
         super(type, terrain, civ);
     }

@@ -30,7 +30,7 @@ public class City {
     private int unitCount;
     private int beaker;
     private int happiness;
-    private Tile tile;
+    private final Tile tile;
     public City(Civilization civ, Tile tile, boolean isCapital) {
         this.combatUnit = null;
         this.tile = tile;

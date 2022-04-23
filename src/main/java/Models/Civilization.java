@@ -23,6 +23,9 @@ public class Civilization {
     private int happiness;
     private int production;
     private ArrayList<TechnologyEnum> technologies;
+
+    private HashMap<TechnologyEnum,Integer> researchingTechnologies;
+    private TechnologyEnum currentTech;
     private HashMap<UnitEnum, Integer> combatUnits;
     private HashMap<UnitEnum, Integer> nonCombatUnits;
     private ArrayList<Tile> tiles;
@@ -53,6 +56,10 @@ public class Civilization {
 
     public int getHappiness() {
         return this.happiness;
+    }
+
+    public HashMap<TechnologyEnum, Integer> getResearchingTechnologies() {
+        return researchingTechnologies;
     }
 
     public void setHappiness(int happiness) {
@@ -95,8 +102,20 @@ public class Civilization {
         return this.capital;
     }
 
+    public TechnologyEnum getCurrentTech() {
+        return currentTech;
+    }
+
+    public void setCurrentTech(TechnologyEnum currentTech) {
+        this.currentTech = currentTech;
+    }
+
     public ArrayList<Civilization> getIsInWarWith() {
         return this.isInWarWith;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public CivilizationController getController() {
@@ -114,7 +133,6 @@ public class Civilization {
         }
         return notificationList;
     }
-
     public void sendMessage(String message) {
         this.notifications.add(message);
     }
