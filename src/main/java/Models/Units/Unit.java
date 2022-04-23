@@ -4,23 +4,20 @@ import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Terrains.Terrain;
+import Models.Tiles.Tile;
 
 public class Unit {
     protected UnitEnum type;
     protected Civilization civ;
     protected City assignedCity;
-    protected Terrain terrain;
-    protected int cost;
-    protected int movement;
-    protected int row;
-    protected int column;
+    protected Tile isSetOnTile;
     protected int healthBar;
     protected boolean isWorking;
 
-    public Unit(UnitEnum type, Terrain terrain, Civilization civ) {
+    public Unit(UnitEnum type, Civilization civ) {
         this.type = type;
-        this.terrain = terrain;
         this.civ = civ;
+        this.isSetOnTile = null;
     }
 
     public boolean isWorking() {

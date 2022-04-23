@@ -1,10 +1,8 @@
 package Models.Tiles;
 
 import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.VisibilityEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
-
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,13 +10,9 @@ import java.util.Random;
 public class TileGrid {
     private static TileGrid instance = null;
 
-    private static void setInstance(TileGrid instance) {
-        TileGrid.instance = instance;
-    }
-
     public static TileGrid getInstance() {
         if (instance == null) {
-            setInstance(new TileGrid());
+            instance = new TileGrid();
         }
         return instance;
     }
@@ -26,7 +20,8 @@ public class TileGrid {
     private final ArrayList<Location> usedLocations;
     private final ArrayList<ArrayList<Tile>> tiles = new ArrayList<>();
     private final Random random = new Random();
-    private final int row = 50, col = 50;
+    private final int row = 50;
+    private final int col = 50;
 
     public TileGrid() {
         this.usedLocations = new ArrayList<>();

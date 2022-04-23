@@ -23,6 +23,8 @@ public class Tile {
     private City city;
     private boolean hasRoad;
     private VisibilityEnum state;
+    private boolean hasACombatUnit;
+    private boolean hasANonCombatUnit;
 
     public Tile(Terrain terrain, int x, int y) {
         this.row = x;
@@ -35,18 +37,38 @@ public class Tile {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
+        this.hasACombatUnit = false;
+        this.hasANonCombatUnit = false;
     }
 
     public void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
+        this.hasACombatUnit = true;
     }
 
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
+        this.hasANonCombatUnit = true;
+    }
+
+    public boolean hasRoad() {
+        return hasRoad;
+    }
+
+    public boolean isHasACombatUnit() {
+        return hasACombatUnit;
+    }
+
+    public boolean isHasANonCombatUnit() {
+        return hasANonCombatUnit;
     }
 
     public void setHP(int HP) {
         this.HP = HP;
+    }
+
+    public void buildRoad() {
+        this.hasRoad = true;
     }
 
     public void setDamaged(boolean damaged) {

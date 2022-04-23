@@ -11,14 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Civilization {
-    // todo: complete
 
     private final User user;
     private final String name;
     private final CivilizationController controller;
-    private final ArrayList<City> cities;
-    private final ArrayList<String> notifications;
-    private Tile currentTile;
+    private ArrayList<City> cities;
+    private ArrayList<String> notifications;
+    private Tile ownedTiles;
     private int gold;
     private int beaker;
     private int happiness;
@@ -30,34 +29,26 @@ public class Civilization {
     private TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<Civilization> isInWarWith;
-    private ArrayList<Civilization> isTradingWith;
 
     public Civilization(User user) {
-        this.name = user.getNickname();
         this.user = user;
+        this.name = user.getNickname();
         this.controller = new CivilizationController();
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
+        this.ownedTiles = null;
     }
 
-    public boolean isAlreadyInWarWith(String username) {
-        return this.isInWarWith.contains(username);
+    public boolean isInWarWith(Civilization civilization) {
+        return this.isInWarWith.contains(civilization);
     }
 
     public void goToWarWith(Civilization civilization) {
         this.isInWarWith.add(civilization);
     }
 
-    public void startBusinessRelationWith(Civilization civilization) {
-        this.isTradingWith.add(civilization);
-    }
-
-    public boolean isInWarWithNow(Civilization civilization) {
-        return this.isInWarWith.contains(civilization);
-    }
-
-    public boolean isTradingWithNow(Civilization civilization) {
-        return this.isInWarWith.contains(civilization);
+    public void endWarWith(Civilization civilization) {
+        this.isInWarWith.remove(civilization);
     }
 
     public int getHappiness() {
@@ -65,7 +56,7 @@ public class Civilization {
     }
 
     public void setHappiness(int happiness) {
-        this.happiness = happiness;
+        this.happiness += happiness;
     }
 
     public int getGold() {
@@ -112,14 +103,6 @@ public class Civilization {
         return this.controller;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public Tile getCurrentTile() {
-        return currentTile;
-    }
-
     public ArrayList<City> getCities() {
         return cities;
     }
@@ -139,4 +122,10 @@ public class Civilization {
     public User civUser() {
         return this.user;
     }
+
+    public void addCity(City city) {
+        this.cities.add(city);
+    }
+
+
 }
