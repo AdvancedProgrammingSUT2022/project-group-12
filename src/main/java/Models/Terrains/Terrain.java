@@ -48,7 +48,7 @@ public class Terrain {
         this.state = state;
     }
 
-    public TerrainEnum getTerrain() {
+    public TerrainEnum getTerrainType() {
         return this.terrainType;
     }
 

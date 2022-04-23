@@ -2,38 +2,28 @@ package Views;
 
 import Controllers.Command;
 import Controllers.GameController;
-import Controllers.GameMenuController;
 import Enums.CommandResponse;
-import Enums.GameEnums.ImprovementEnum;
-import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.UnitEnum;
-import Models.Cities.City;
-import Models.Civilization;
 import Models.Game;
 import Models.Location;
-import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 import Views.ViewFuncs.*;
-
-import java.util.List;
 
 public class GameMenu extends Menu {
 
     private final Game game;
+    private final InfoFuncs infoFuncs;
+    private final MapFuncs mapFuncs;
+    private final SelectFuncs selectFuncs;
+    private final UnitBuildFuncs unitBuildFuncs;
+    private final UnitOtherFuncs unitOtherFuncs;
     private Location gridCord;
-    private InfoFuncs infoFuncs;
-    private MapFuncs mapFuncs;
-    private SelectFuncs selectFuncs;
-    private UnitBuildFuncs unitBuildFuncs;
-    private UnitOtherFuncs unitOtherFuncs;
 
     public GameMenu(GameController controller) {
-        this.game = controller.game;
-        this.infoFuncs=new InfoFuncs(controller.game);
-        this.mapFuncs=new MapFuncs(controller.game);
-        this.selectFuncs=new SelectFuncs(controller.game);
-        this.unitBuildFuncs=new UnitBuildFuncs(controller.game);
-        this.unitOtherFuncs=new UnitOtherFuncs(controller.game);
+        this.game = GameController.game;
+        this.infoFuncs = new InfoFuncs(GameController.game);
+        this.mapFuncs = new MapFuncs(GameController.game);
+        this.selectFuncs = new SelectFuncs(GameController.game);
+        this.unitBuildFuncs = new UnitBuildFuncs(GameController.game);
+        this.unitOtherFuncs = new UnitOtherFuncs(GameController.game);
     }
 
     public Game getGame() {
@@ -100,6 +90,7 @@ public class GameMenu extends Menu {
             case "city" -> getSelectFuncs().selectCity(command);
         }
     }
+
     private void selectUnit(Command command) {
         try {
             switch (command.getSubSubCategory()) {
