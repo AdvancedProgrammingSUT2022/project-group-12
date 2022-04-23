@@ -4,14 +4,14 @@ import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
 import Enums.GameEnums.UnitEnum;
+import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.CombatUnit;
-import Models.Units.NonCombatUnit;
-import Models.Units.Unit;
+import Models.Units.*;
 
 import java.util.*;
 
@@ -41,8 +41,30 @@ public class GameController {
     }
 
     public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
+        if(!isEnemyExists(row,col,civilization)) return "enemy doesn't exists there";
+        if(currentTile.getCombatUnit() instanceof RangedUnit){ return  AttackRangedUnit(row,col,game,currentTile,civilization,(RangedUnit) currentTile.getCombatUnit());}
+        else return AttackNonRangedUnit(row,col,game,currentTile,civilization,(NonRangedUnit) currentTile.getCombatUnit());
 
-        return "attack successfully happened";
+    }
+
+    private static String AttackNonRangedUnit(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
+        ArrayList<Tile> path=findTheShortestPath(row,col,currentTile);
+        if(nonRangedUnit.getMovement() >= path.size()){
+          return  caculateNonRangeAttack(nonRangedUnit,tileGrid.getTile(row,col).getCombatUnit());
+        }else return "Attack is not possible";
+
+    }
+
+    private static String AttackRangedUnit(int row, int col, Game game, Tile currentTile, Civilization civilization,RangedUnit rangedUnit) {
+
+
+
+    }
+
+    private static boolean isEnemyExists(int row, int col, Civilization civilization) {
+        CombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getCombatUnit();
+        if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
+        return false;
     }
 
     public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
@@ -232,9 +254,52 @@ public class GameController {
     }
 
     private static void moveToNextTile(Unit unit) {
-        unit.setRow(unit.getPathShouldCross().get(0).getRow());
-        unit.setColumn(unit.getPathShouldCross().get(0).getCol());
-        unit.getPathShouldCross().remove(0);
+        while (unit.getMovement() > 0 && unit.getPathShouldCross().size() != 0) {
+            TileGrid gameTileGrid=TileGrid.getInstance();
+            int nextRow=unit.getPathShouldCross().get(0).getRow(),nextCol=unit.getPathShouldCross().get(0).getCol();
+            calculateMoveMentCost(unit,nextRow,nextCol);
+            if (checkForEnemy(nextRow,nextCol,unit)) break;
+            unit.setRow(nextRow); unit.setColumn(nextCol);
+            checkForFogOfWars(game.getTileGrid(),game.getTileGrid().getTile(nextRow,nextCol));
+            unit.getPathShouldCross().remove(0);
+        }
+    }
+
+    private static boolean checkForEnemy(int nextRow, int nextCol, Unit unit) {
+        Tile currentTile=TileGrid.getInstance().getTile(nextRow,nextCol);
+            CombatUnit unknownUnit = currentTile.getCombatUnit();
+            if (unknownUnit != null && unknownUnit.getCiv() != unit.getCiv()) {
+                AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
+                unit.setMovement(0);
+                unit.setPathShouldCross(null);
+                return true;
+            }
+            return false;
+    }
+
+    private static void calculateMoveMentCost(Unit unit,int row,int col) {
+        if(checkForZOC(unit.getRow(),unit.getColumn(),row,col,unit)){unit.setMovement(0); return;}
+        unit.setMovement(unit.getMovement()-TileGrid.getInstance().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
+    }
+
+    private static boolean checkForZOC(int row, int col, int row1, int col1,Unit unit) {
+           if(checkForZOCOnTile(TileGrid.getInstance().getTile(row,col),unit) &&
+               checkForZOCOnTile(TileGrid.getInstance().getTile(row1,col1),unit)) return true;
+           return false;
+    }
+    private static boolean checkForZOCOnTile(Tile tile,Unit unit) {
+        ArrayList<Tile> tiles=TileGrid.getInstance().getNeighborsOf(tile);
+        Civilization unitCiv=unit.getCiv();
+        for (Tile tempTile:
+             tiles) {
+            if(tempTile.getCombatUnit() != null && tempTile.getCombatUnit().getCiv() != unitCiv) {return true;}
+        }
+      return false;
+    }
+
+        private static void checkForFogOfWars(TileGrid tileGrid,Tile tile) {
+        ArrayList<Tile> tiles=tileGrid.getNeighborsOf(tile);
+        tiles.forEach(temp_tile -> {if(temp_tile.getState()== VisibilityEnum.FOG_OF_WAR) temp_tile.setState(VisibilityEnum.VISIBLE);});
     }
 
     private static ArrayList<Tile> findTheShortestPath(int targetRow, int targetCol, Tile sourceTile) { // use Coord/Location
