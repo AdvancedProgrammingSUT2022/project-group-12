@@ -26,7 +26,7 @@ public class TileGrid {
     }
 
     private ArrayList<Location> usedLocations;
-    private final ArrayList<ArrayList<Terrain>> terrains = new ArrayList<>();
+    private final ArrayList<ArrayList<Tile>> tiles = new ArrayList<>();
     private final Random random = new Random();
     private final int row = 50, col = 50;
     private ArrayList<ArrayList<VisibilityEnum>> terrainState = new ArrayList<>();
@@ -89,7 +89,7 @@ public class TileGrid {
         return this.usedLocations;
     }
 
-    public Terrain getTerrain(int x, int y) {
-        return terrains.get(x).get(y);
+    public ArrayList<ArrayList<Tile>> getTiles() {
+        return tiles;
     }
 }

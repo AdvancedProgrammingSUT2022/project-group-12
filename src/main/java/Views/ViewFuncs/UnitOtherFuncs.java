@@ -257,8 +257,11 @@ public class UnitOtherFuncs extends UnitFuncs{
 
     private CommandResponse validateTileForMovingUnit(Tile currentTile, Civilization civilization, String row_s, String col_s, String combat) {
         CommandResponse response = isCorrectPosition(row_s, col_s, this.getGame());
+        int row,col;
         if (!response.isOK()) {
             return response;
+        }else {
+            row=Integer.parseInt(row_s); col=Integer.parseInt(col_s);
         }
         if (combat.equals("noncombat")) {
             if (currentTile.getNonCombatUnit() == null) {
@@ -267,12 +270,18 @@ public class UnitOtherFuncs extends UnitFuncs{
             if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
                 return CommandResponse.NOT_HAVING_UNIT;
             }
+            if(getGame().getTileGrid().getTiles().get(row).get(col).getNonCombatUnit() != null){
+                return CommandResponse.TILE_IS_FULL;
+            }
         } else {
             if (currentTile.getCombatUnit() == null) {
                 return CommandResponse.UNIT_DOES_NOT_EXISTS;
             }
             if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
                 return CommandResponse.NOT_HAVING_UNIT;
+            }
+            if(getGame().getTileGrid().getTiles().get(row).get(col).getCombatUnit() != null){
+                return CommandResponse.TILE_IS_FULL;
             }
         }
         return CommandResponse.OK;

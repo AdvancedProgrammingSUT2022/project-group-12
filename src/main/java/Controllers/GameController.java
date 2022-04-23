@@ -11,6 +11,8 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
+import java.util.ArrayList;
+
 
 public class GameController {
     public final Game game;
@@ -100,6 +102,7 @@ public class GameController {
     }
 
     public static StringBuilder showCombatInfo(CombatUnit CombatUnit) {
+
         return null;
     }
 
@@ -147,13 +150,30 @@ public class GameController {
         return null;
     }
 
-    public static String moveNonCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
+    public static String moveNonCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
+        ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile);
+        if(shortestPath == null){return "move is impossible";}
+        currentTile.getNonCombatUnit().setPathShouldCross(shortestPath);
+        moveToNextTile(currentTile.getNonCombatUnit());
         return "noncombat unit moved successfully";
-
     }
 
-    public static String moveCombatUnit(int parseInt, int parseInt1, Tile currentTile, Civilization currentCivilization) {
-        //TODO : check the position
+    private static void moveToNextTile(Unit unit) {
+        unit.setRow(unit.getPathShouldCross().get(0).getRow());
+        unit.setColumn(unit.getPathShouldCross().get(0).getCol());
+        unit.getPathShouldCross().remove(0);
+    }
+
+    private static ArrayList<Tile> findTheShortestPath(int x, int y, Tile currentTile) {
+        //TODO : find the shortest path
+        return null;
+    }
+
+    public static String moveCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
+        ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile);
+        if(shortestPath == null){return "move is impossible";}
+        currentTile.getCombatUnit().setPathShouldCross(shortestPath);
+        moveToNextTile(currentTile.getCombatUnit());
         return "combat unit moved successfully";
     }
 
