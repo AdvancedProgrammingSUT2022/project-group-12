@@ -3,7 +3,7 @@ package Models.Terrains;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.TerrainEnum;
-import Models.Cities.City;
+import Enums.GameEnums.VisibilityEnum;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class Terrain {
     private int movementCost;
     private final ArrayList<TerrainEnum> features;
     private final ArrayList<ResourceEnum> resources;
-    private boolean hasRoad;
+    private VisibilityEnum state;
 
     protected ArrayList<ImprovementEnum> improvements;
 
@@ -36,55 +36,50 @@ public class Terrain {
             this.combatModifier += features.getCombatModifier();
             this.movementCost += features.getMovementCost();
         }
-        this.hasRoad = false;
+        this.state = VisibilityEnum.FOG_OF_WAR;
+    }
+
+    public VisibilityEnum getState() {
+        return this.state;
+    }
+
+    public void setState(VisibilityEnum state) {
+        this.state = state;
     }
 
     public TerrainEnum getTerrain() {
-        return terrainType;
+        return this.terrainType;
     }
 
     public int getFoodCount() {
-        return foodCount;
+        return this.foodCount;
     }
 
     public int getProductsCount() {
-        return productsCount;
+        return this.productsCount;
     }
 
     public int getGoldCount() {
-        return goldCount;
+        return this.goldCount;
     }
 
     public int getMovementCost() {
-        return movementCost;
+        return this.movementCost;
     }
 
     public ArrayList<ResourceEnum> getResources() {
-        return resources;
-    }
-
-    public boolean isHasRoad() {
-        return hasRoad;
-    }
-
-    public void buildRoad() {
-        this.hasRoad = true;
-    }
-
-    public void assignCity(City city) {
-        city.addTerrain(this);
+        return this.resources;
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
-        return features;
+        return this.features;
     }
 
     public ArrayList<ImprovementEnum> getImprovements() {
-        return improvements;
+        return this.improvements;
     }
 
     public int getCombatModifier() {
-        return combatModifier;
+        return this.combatModifier;
     }
-
 }
