@@ -1,5 +1,7 @@
 package Views;
 
+import Models.User;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,8 +9,14 @@ public class MenuStack {
     private static MenuStack instance = null;
     private final ArrayList<Menu> menus = new ArrayList<>();
     private Scanner scanner;
+    private final LoginMenu loginMenu = new LoginMenu();
+    private final MainMenu mainMenu = new MainMenu();
+    private final ProfileMenu profileMenu = new ProfileMenu();
+
+    private User currentUser;
 
     private MenuStack() {
+        this.currentUser = null;
     }
 
     public static MenuStack getInstance() {
@@ -46,5 +54,26 @@ public class MenuStack {
 
     public void runTopMenu() {
         this.getMenus().get(this.getMenus().size() - 1).run();
+    }
+
+    public void gotoLoginMenu() {
+        this.currentUser = null;
+        this.pushMenu(this.loginMenu);
+    }
+
+    public User getUser() {
+        return this.currentUser;
+    }
+
+    public void setUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public void gotoMainMenu() {
+        this.pushMenu(this.mainMenu);
+    }
+
+    public void gotoProfileMenu() {
+        this.pushMenu(this.profileMenu);
     }
 }

@@ -9,18 +9,10 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.CombatUnit;
-import Models.Units.NonCombatUnit;
-import Models.Units.Unit;
+import Models.Units.*;
 
-<<<<<<< HEAD
 import java.util.*;
-=======
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
->>>>>>> 9e40de10b3485ff60fcd7dd8bd7c47b53e49f6b6
+
 
 
 public class GameController {
@@ -48,8 +40,25 @@ public class GameController {
     }
 
     public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
-
+        if(!isEnemyExists(row,col,civilization)) return "enemy doesn't exists there";
+        if(currentTile.getCombatUnit() instanceof RangedUnit){AttackRangedUnit(row,col,game,currentTile,civilization,(RangedUnit) currentTile.getCombatUnit());}
+        else AttackNonRangedUnit(row,col,game,currentTile,civilization,(NonRangedUnit) currentTile.getCombatUnit());
         return "attack successfully happened";
+    }
+
+    private static void AttackNonRangedUnit(int row, int col, Game game, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
+
+
+
+    }
+
+    private static void AttackRangedUnit(int row, int col, Game game, Tile currentTile, Civilization civilization,RangedUnit rangedUnit) {
+    }
+
+    private static boolean isEnemyExists(int row, int col, Civilization civilization) {
+        CombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getCombatUnit();
+        if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
+        return false;
     }
 
     public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
@@ -144,9 +153,6 @@ public class GameController {
         StringBuilder unitsinfo=new StringBuilder("");
         ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
         showCombatUnits(unitsinfo, combatUnits);
-
-
-
         return null;
     }
 
@@ -223,9 +229,11 @@ public class GameController {
     }
 
     private static void moveToNextTile(Unit unit) {
-        unit.setRow(unit.getPathShouldCross().get(0).getRow());
-        unit.setColumn(unit.getPathShouldCross().get(0).getCol());
-        unit.getPathShouldCross().remove(0);
+        while (unit.getMovement() != 0 && unit.getPathShouldCross().size() != 0) {
+            unit.setRow(unit.getPathShouldCross().get(0).getRow());
+            unit.setColumn(unit.getPathShouldCross().get(0).getCol());
+            unit.getPathShouldCross().remove(0);
+        }
     }
 
     private static ArrayList<Tile> findTheShortestPath(int targetRow, int targetCol, Tile sourceTile) { // use Coord/Location

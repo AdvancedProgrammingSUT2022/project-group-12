@@ -138,6 +138,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         Civilization civilizaion = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
+
         int row = 0, col = 0;
         if (response.isOK()) {
             row = Integer.parseInt(coordinates[0]);

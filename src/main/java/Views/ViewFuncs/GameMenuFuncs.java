@@ -8,13 +8,13 @@ import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 
-public class GameMemuFuncs {
+public class GameMenuFuncs {
     protected Game game;
     protected Location gridCord;
     public Game getGame() {
         return game;
     }
-    public GameMemuFuncs(Game game){
+    public GameMenuFuncs(Game game){
         this.game=game;
     }
     protected Civilization getCurrentCivilization() {

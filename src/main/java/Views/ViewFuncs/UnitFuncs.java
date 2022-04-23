@@ -4,7 +4,7 @@ import Enums.GameEnums.ImprovementEnum;
 import Models.Game;
 import Models.Tiles.Tile;
 
-public class UnitFuncs extends GameMemuFuncs {
+public class UnitFuncs extends GameMenuFuncs {
     UnitFuncs(Game game) {
         super(game);
     }

@@ -14,7 +14,7 @@ public class MainMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
-            case "goto profile menu" -> MenuStack.getInstance().pushMenu(new ProfileMenu());
+            case "goto profile menu" -> MenuStack.getInstance().gotoProfileMenu();
             case "show current menu" -> System.out.println("Main Menu");
             case "menu exit" -> MenuStack.getInstance().popMenu();
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
@@ -25,7 +25,8 @@ public class MainMenu extends Menu {
         ArrayList<String> usernames = new ArrayList<>();
         int num = 1;
         String username;
-        while ((username = command.getOption("player" + num)) != null) { // todo: check player number gap
+        while ((username = command.getOption("player" + num)) != null) {
+            // todo: check player number gap
             usernames.add(username);
             ++num;
         }

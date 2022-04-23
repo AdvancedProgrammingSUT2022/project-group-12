@@ -13,7 +13,7 @@ import Models.Tiles.TileGrid;
 
 import java.util.List;
 
-public class MapFuncs extends GameMemuFuncs{
+public class MapFuncs extends GameMenuFuncs {
 
 
     public MapFuncs(Game game) {

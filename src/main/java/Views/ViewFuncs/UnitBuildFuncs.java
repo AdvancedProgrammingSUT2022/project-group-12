@@ -128,5 +128,4 @@ public class UnitBuildFuncs extends UnitFuncs{
         return !improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures());
 
     }
-
 }
