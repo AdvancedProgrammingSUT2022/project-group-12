@@ -13,14 +13,17 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class GameController {
-    public final Game game;
+    public static Game game; // todo: should be static?
 
     public GameController(Game newGame) {
-        this.game = newGame;
+        game = newGame;
     }
 
     public static String RepairTile(Tile currentTile) {
@@ -110,57 +113,24 @@ public class GameController {
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
-        StringBuilder researchInfo=new StringBuilder("");
-        HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
-        TechnologyEnum currentTech=currentCivilization.getCurrentTech();
-        showCurrentTech(researchInfo, technologies, currentTech);
-        showOtherTechs(researchInfo, technologies);
-        return researchInfo;
-    }
-    private static void showCurrentTech(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies, TechnologyEnum currentTech) {
-        researchInfo.append("Current research : "+ currentTech);
-        researchInfo.append("Science remains : "+ technologies.get(currentTech)+"\n");
-    }
-
-    private static void showOtherTechs(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies) {
+       StringBuilder researchInfo=new StringBuilder("");
+       HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
+       TechnologyEnum currentTech=currentCivilization.getCurrentTech();
+       researchInfo.append("Current research : "+currentTech);
+       researchInfo.append("Science remains : "+technologies.get(currentTech)+"\n");
         for (Map.Entry<TechnologyEnum,Integer> tech:
              technologies.entrySet()) {
             researchInfo.append("research name :"+tech.getKey().name()+" science remains : "+tech.getValue()+"\n");
         }
+        return researchInfo;
     }
-
     public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
-        StringBuilder unitsinfo=new StringBuilder("");
-        ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
-        showCombatUnits(unitsinfo, combatUnits);
-
-
 
         return null;
-    }
-
-    private static void showCombatUnits(StringBuilder unitsinfo, ArrayList<CombatUnit> combatUnits) {
-        /***
-         * in this function we are
-         */
-        Collections.sort(combatUnits,new Comparator<CombatUnit>(){
-
-            public int compare(CombatUnit combatUnit1,CombatUnit combatUnit2){
-                return combatUnit1.getType().name().compareTo(combatUnit2.getType().name());
-            }
-
-        });
-        for (CombatUnit combatEnum:
-                combatUnits) {
-            StringBuilder combatName=new StringBuilder("combat name : "+combatEnum.getType().name());
-            StringBuilder combatStrength=new StringBuilder("Strength : "+combatEnum.getCombatStrength());
-            StringBuilder movmentPoint=new StringBuilder("MovementPoint : "+combatEnum.getMovement()+"/"+combatEnum.getType().getMovement());
-            unitsinfo.append(combatName+" "+combatStrength+" "+movmentPoint+'\n');
-        }
     }
 
     public static StringBuilder showDiplomacyInfo(Tile currentTile, Civilization currentCivilization) {
@@ -181,7 +151,7 @@ public class GameController {
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
         StringBuilder militaryInfo=new StringBuilder("");
-        //HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
+        HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
 
         return null;
     }
@@ -221,9 +191,37 @@ public class GameController {
         unit.getPathShouldCross().remove(0);
     }
 
-    private static ArrayList<Tile> findTheShortestPath(int x, int y, Tile currentTile) {
-        //TODO : find the shortest path
-        return null;
+    private static ArrayList<Tile> findTheShortestPath(int targetRow, int targetCol, Tile sourceTile) { // use Coord/Location
+        // Dijkstra algorithm for shortest path
+        TileGrid tileGrid = game.getTileGrid();
+        HashMap<Tile, Tile> parent = new HashMap<>();
+        HashMap<Tile, Integer> distance = new HashMap<>();
+        TreeMap<Integer, Tile> heap = new TreeMap<>();
+        distance.put(sourceTile, 0);
+        heap.put(0, sourceTile);
+        Tile p;
+        while (true) {
+            Tile first = heap.pollFirstEntry().getValue();
+            if (first.getRow() == targetRow && first.getCol() == targetCol) {
+                p = first;
+                break;
+            }
+            for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
+                // this is only true if weights are on tiles (graph vertexes)
+                if (!distance.containsKey(neighbor)) {
+                    int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
+                    distance.put(neighbor, dist);
+                    heap.put(dist, neighbor);
+                    parent.put(neighbor, first);
+                }
+            }
+        }
+        ArrayList<Tile> path = new ArrayList<>();
+        while (p != sourceTile) {
+            path.add(p);
+            p = parent.get(p);
+        }
+        return path;
     }
 
     public static String moveCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
@@ -232,6 +230,15 @@ public class GameController {
         currentTile.getCombatUnit().setPathShouldCross(shortestPath);
         moveToNextTile(currentTile.getCombatUnit());
         return "combat unit moved successfully";
+    }
+
+    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+        // todo, dummy function
+    }
+
+    public static Boolean BuildImprovement(Tile currentTile, ImprovementEnum stoneMine) {
+        // todo, dummy function
+        return null;
     }
 
     public CommandResponse battle(Civilization attacking, Civilization defending) {

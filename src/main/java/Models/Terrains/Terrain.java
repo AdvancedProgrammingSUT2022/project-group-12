@@ -29,12 +29,13 @@ public class Terrain {
         this.movementCost = type.getMovementCost();
         this.features = type.getFeatures();
         this.resources = type.getResources();
-        for (TerrainEnum features : this.features) {
-            this.foodCount += features.getFoodCount();
-            this.productsCount += features.getProductsCount();
-            this.goldCount += features.getGoldCount();
-            this.combatModifier += features.getCombatModifier();
-            this.movementCost += features.getMovementCost();
+        if (features != null) for (TerrainEnum feature : this.features) {
+            if (feature == null) continue;
+            this.foodCount += feature.getFoodCount();
+            this.productsCount += feature.getProductsCount();
+            this.goldCount += feature.getGoldCount();
+            this.combatModifier += feature.getCombatModifier();
+            this.movementCost += feature.getMovementCost();
         }
         this.state = VisibilityEnum.FOG_OF_WAR;
     }
