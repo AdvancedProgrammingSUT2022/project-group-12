@@ -127,4 +127,10 @@ public class Tile {
         Gson gson = new Gson();
         return gson.fromJson(gson.toJson(this), Tile.class);
     }
+
+    public int calculateMovementCost() {
+        int cost = terrain.getMovementCost();
+        if (hasRoad) cost /= 2;
+        return cost;
+    }
 }

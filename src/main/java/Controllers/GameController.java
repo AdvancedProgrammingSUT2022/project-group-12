@@ -3,7 +3,6 @@ package Controllers;
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
-import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -252,9 +251,10 @@ public class GameController {
                 break;
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
+                if (!neighbor.getTerrain().getTerrainType().canBePassed()) continue;
                 // this is only true if weights are on tiles (graph vertexes)
                 if (!distance.containsKey(neighbor)) {
-                    int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
+                    int dist = distance.get(first) + neighbor.calculateMovementCost();
                     distance.put(neighbor, dist);
                     heap.put(dist, neighbor);
                     parent.put(neighbor, first);
