@@ -10,6 +10,7 @@ import Views.MenuStack;
 import Views.ProfileMenu;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -30,24 +31,24 @@ public class MainMenuController {
         return "menu changed to " + newMenu + " successfully";
     }
 
-    public static CommandResponse startNewGame(TreeMap<Integer, String> usernames) {
-        ArrayList<User> users = new ArrayList<>();
+    public static GameController startNewGame(List<String> usernames) {
+        List<User> users = new ArrayList<>();
         Database database = Database.getInstance();
-        for (Map.Entry<Integer, String> entry : usernames.entrySet()) {
-            if (!database.checkForUsername(entry.getValue())) {
-                return CommandResponse.INVALID_COMMAND;
+        for (String username : usernames) {
+            User user = database.getUser(username);
+            if (user == null) {
+//                return CommandResponse.INVALID_COMMAND; // todo: exception
             } else {
-                users.add(database.getUser(entry.getValue()));
+                users.add(user);
             }
         }
-        Game newGame = new Game(users);
-        database.addGame(newGame);
+        Game game = new Game(users);
+        database.addGame(game);
         for (User user : users) {
-            user.addGame(newGame);
-            user.setRunningGame(newGame);
+            user.addGame(game);
+            user.setRunningGame(game); // todo: is required?
         }
-        MenuStack.getInstance().pushMenu(new GameMenu(new GameController(newGame)));
-        return CommandResponse.OK;
+        return new GameController(game);
     }
 }
 
