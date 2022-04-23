@@ -3,6 +3,7 @@ package Controllers;
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
+import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -13,7 +14,6 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
 import java.util.*;
-
 
 
 public class GameController {
@@ -133,37 +133,19 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showMilitaryInfo(Civilization currentCivilization) {
+    public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
         StringBuilder unitsinfo=new StringBuilder("");
         ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
-        ArrayList<NonCombatUnit> nonCombatUnits=currentCivilization.getNonCombatUnits();
         showCombatUnits(unitsinfo, combatUnits);
-        showNonCombatUnits(unitsinfo, nonCombatUnits);
+
+
+
         return null;
-    }
-
-    private static void showNonCombatUnits(StringBuilder unitsinfo, ArrayList<NonCombatUnit> nonCombatUnits) {
-        /***
-         * in this function we are going to sort by name
-         */
-        Collections.sort(nonCombatUnits,new Comparator<NonCombatUnit>(){
-            public int compare(NonCombatUnit nonCombatUnit1,NonCombatUnit nonCombatUnit2){
-                return nonCombatUnit1.getType().name().compareTo(nonCombatUnit2.getType().name());
-            }
-
-        });
-        for (NonCombatUnit nonCombatEnum:
-                nonCombatUnits) {
-            StringBuilder nonCombatName=new StringBuilder("nonCombat name : "+nonCombatEnum.getType().name());
-            StringBuilder nonCombatStrength=new StringBuilder("Strength : -");
-            StringBuilder movmentPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getMovement()+"/"+nonCombatEnum.getType().getMovement());
-            unitsinfo.append(nonCombatName+" "+nonCombatStrength+" "+movmentPoint+'\n');
-        }
     }
 
     private static void showCombatUnits(StringBuilder unitsinfo, ArrayList<CombatUnit> combatUnits) {
         /***
-         * in this function we are going to sort by name
+         * in this function we are
          */
         Collections.sort(combatUnits,new Comparator<CombatUnit>(){
 
@@ -197,7 +179,7 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
+    public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
         StringBuilder militaryInfo=new StringBuilder("");
         //HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
 
