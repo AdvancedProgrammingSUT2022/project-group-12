@@ -1,5 +1,6 @@
 package Views;
 
+import Models.Game;
 import Models.User;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class MenuStack {
     private User currentUser;
 
     private MenuStack() {
-        this.currentUser = null;
+
     }
 
     public static MenuStack getInstance() {

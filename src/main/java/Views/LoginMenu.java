@@ -8,6 +8,7 @@ import java.util.List;
 
 public class LoginMenu extends Menu {
     private LoginMenuController controller = new LoginMenuController();
+
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
@@ -15,6 +16,7 @@ public class LoginMenu extends Menu {
             case "user login" -> loginUser(command);
             case "show current menu" -> System.out.println("Login Menu");
             case "menu exit" -> MenuStack.getInstance().popMenu();
+            default -> System.out.println("invalid command");
         }
     }
 

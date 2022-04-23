@@ -9,7 +9,7 @@ import Views.ViewFuncs.*;
 
 public class GameMenu extends Menu {
 
-    private final Game game;
+    private Game game;
     private final InfoFuncs infoFuncs;
     private final MapFuncs mapFuncs;
     private final SelectFuncs selectFuncs;
