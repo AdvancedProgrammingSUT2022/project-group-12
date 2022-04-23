@@ -2,9 +2,7 @@ package Models.Cities;
 
 import Enums.GameEnums.BuildingEnum;
 import Enums.GameEnums.ResourceEnum;
-import Enums.GameEnums.TerrainEnum;
 import Models.Civilization;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;

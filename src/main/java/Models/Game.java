@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Vector;
 
 public class Game {
-    private static Game instance = null;
     public final GameController controller;
     private final ArrayList<Civilization> civs;
     private final Vector<Civilization> civTurn;
@@ -22,17 +21,6 @@ public class Game {
             civs.add(new Civilization(user));
         }
         this.controller = new GameController(this);
-    }
-
-    private static void setInstance(Game instance) {
-        Game.instance = instance;
-    }
-
-    public static Game getInstance(ArrayList<User> users) {
-        if (instance == null) {
-            setInstance(new Game(users));
-        }
-        return instance;
     }
 
     private void fullTurn() {
@@ -60,6 +48,4 @@ public class Game {
     public GameController getController() {
         return this.controller;
     }
-
-
 }

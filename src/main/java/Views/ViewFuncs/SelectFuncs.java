@@ -8,7 +8,7 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 
-public class SelectFuncs extends GameMemuFuncs{
+public class SelectFuncs extends GameMenuFuncs {
     public SelectFuncs(Game game) {
         super(game);
     }

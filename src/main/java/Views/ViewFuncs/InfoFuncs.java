@@ -5,7 +5,7 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 
-public class InfoFuncs extends GameMemuFuncs{
+public class InfoFuncs extends GameMenuFuncs {
 
     public InfoFuncs(Game game) {
         super(game);

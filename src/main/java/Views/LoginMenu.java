@@ -7,6 +7,8 @@ import Enums.CommandResponse;
 import java.util.List;
 
 public class LoginMenu extends Menu {
+    private LoginMenuController controller = new LoginMenuController();
+
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
@@ -14,6 +16,7 @@ public class LoginMenu extends Menu {
             case "user login" -> loginUser(command);
             case "show current menu" -> System.out.println("Login Menu");
             case "menu exit" -> MenuStack.getInstance().popMenu();
+            default -> System.out.println("invalid command");
         }
     }
 
@@ -24,7 +27,7 @@ public class LoginMenu extends Menu {
             String username = command.getOption("username");
             String nickname = command.getOption("nickname");
             String password = command.getOption("password");
-            response = LoginMenuController.createUser(username, nickname, password);
+            response = this.controller.createUser(username, nickname, password);
             System.out.println(!response.isOK() ? response : "user created successfully");
         }
     }
@@ -35,7 +38,7 @@ public class LoginMenu extends Menu {
         else {
             String username = command.getOption("username");
             String password = command.getOption("password");
-            response = LoginMenuController.loginUser(username, password);
+            response = this.controller.loginUser(username, password);
             System.out.println(!response.isOK() ? response : "user logged in successfully");
             if (response.isOK()) {
                 MenuStack.getInstance().pushMenu(new MainMenu());

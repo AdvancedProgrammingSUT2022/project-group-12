@@ -27,6 +27,4 @@ public class Location {
     public void moveY(int y) {
         this.y += y;
     }
-
-
 }

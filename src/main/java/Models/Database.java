@@ -3,8 +3,8 @@ package Models;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -40,16 +40,17 @@ public class Database {
     }
 
     public void serialize() {
+        Gson gson = new Gson();
         try {
-            FileWriter writer = new FileWriter("users.json");
-            writer.write(new Gson().toJson(this.users));
+            Writer writer = Files.newBufferedWriter(Paths.get("users.json"));
+            gson.toJson(this.users, writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-            FileWriter writer = new FileWriter("games.json");
-            writer.write(new Gson().toJson(this.games));
+            Writer writer = Files.newBufferedWriter(Paths.get("games.json"));
+            gson.toJson(this.games, writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
