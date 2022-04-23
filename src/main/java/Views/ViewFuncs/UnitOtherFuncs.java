@@ -23,7 +23,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         switch (command.getOption("unit")) {
             case "non combat" -> {
                 response = validateForNonCombatUnit(currentTile, currentCivilization);
-                if (response.isOK()) GameController.deletenonCombatUnit(currentCivilization, currentTile);
+                if (response.isOK()) GameController.deleteNonCombatUnit(currentCivilization, currentTile);
             }
             case "combat" -> {
                 response = validateForCombatUnit(currentTile, currentCivilization);
