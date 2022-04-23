@@ -128,4 +128,7 @@ public class Civilization {
     }
 
 
+    public Tile getCurrentTile() { // todo: dummy
+        return null;
+    }
 }

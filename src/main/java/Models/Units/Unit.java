@@ -14,7 +14,7 @@ public class Unit {
     protected int healthBar;
     protected boolean isWorking;
 
-    public Unit(UnitEnum type, Civilization civ) {
+    public Unit(UnitEnum type, Terrain terrain, Civilization civ) {
         this.type = type;
         this.civ = civ;
         this.isSetOnTile = null;

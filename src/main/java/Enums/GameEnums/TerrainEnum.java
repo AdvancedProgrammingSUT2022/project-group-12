@@ -43,10 +43,10 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
     }}),
-    MOUNTAIN(0, 0, 0, 25, 0, false, true, null, null),
+    MOUNTAIN(0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
     OCEAN(1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
         add(ICE);
-    }}, null),
+    }}, new ArrayList<>()),
     PLAIN(1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FOREST);
         add(JUNGLE);
@@ -63,7 +63,7 @@ public enum TerrainEnum {
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
     }}),
-    SNOW(0, 0, 0, -33, 1, true, false, null, new ArrayList<>() {{
+    SNOW(0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.IRON);
     }}),
     TUNDRA(1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
@@ -77,24 +77,24 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.FUR);
     }}),
-    FALLOUT(-3, -3, -3, -33, 2, true, false, null, null),
-    FOREST(1, 1, 0, 25, 2, true, true, null, new ArrayList<>() {{
+    FALLOUT(-3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
+    FOREST(1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.DEER);
         add(ResourceEnum.FUR);
         add(ResourceEnum.DYES);
         add(ResourceEnum.SILK);
     }}),
-    ICE(0, 0, 0, 0, 0, false, false, null, null),
-    JUNGLE(1, -1, 0, 25, 2, true, true, null, new ArrayList<>() {{
+    ICE(0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),
+    JUNGLE(1, -1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.BANANA);
         add(ResourceEnum.GEMSTONE);
         add(ResourceEnum.DYES);
     }}),
-    MARSH(-1, 0, 0, -33, 2, true, false, null, new ArrayList<>() {{
+    MARSH(-1, 0, 0, -33, 2, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.SUGAR);
     }}),
-    OASIS(3, 0, 1, -33, 1, true, false, null, null),
-    RIVER(0, 0, 1, 0, 999999, true, false, null, null);
+    OASIS(3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
+    RIVER(0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>());
 
     private final int foodCount;
     private final int productsCount;
