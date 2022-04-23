@@ -114,6 +114,10 @@ public class Civilization {
         return this.isInWarWith;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public CivilizationController getController() {
         return this.controller;
     }
