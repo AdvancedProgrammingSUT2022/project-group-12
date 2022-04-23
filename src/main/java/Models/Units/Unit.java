@@ -52,7 +52,9 @@ public class Unit {
         this.isWorking = work;
     }
 
-
+    public int getMovement() {
+        return movement;
+    }
 
     public UnitEnum getType() {
         return this.type;

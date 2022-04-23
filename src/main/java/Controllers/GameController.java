@@ -13,9 +13,7 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class GameController {
@@ -112,24 +110,57 @@ public class GameController {
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
-       StringBuilder researchInfo=new StringBuilder("");
-       HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
-       TechnologyEnum currentTech=currentCivilization.getCurrentTech();
-       researchInfo.append("Current research : "+currentTech);
-       researchInfo.append("Science remains : "+technologies.get(currentTech)+"\n");
+        StringBuilder researchInfo=new StringBuilder("");
+        HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
+        TechnologyEnum currentTech=currentCivilization.getCurrentTech();
+        showCurrentTech(researchInfo, technologies, currentTech);
+        showOtherTechs(researchInfo, technologies);
+        return researchInfo;
+    }
+    private static void showCurrentTech(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies, TechnologyEnum currentTech) {
+        researchInfo.append("Current research : "+ currentTech);
+        researchInfo.append("Science remains : "+ technologies.get(currentTech)+"\n");
+    }
+
+    private static void showOtherTechs(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies) {
         for (Map.Entry<TechnologyEnum,Integer> tech:
              technologies.entrySet()) {
             researchInfo.append("research name :"+tech.getKey().name()+" science remains : "+tech.getValue()+"\n");
         }
-        return researchInfo;
     }
+
     public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
+        StringBuilder unitsinfo=new StringBuilder("");
+        ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
+        showCombatUnits(unitsinfo, combatUnits);
+
+
 
         return null;
+    }
+
+    private static void showCombatUnits(StringBuilder unitsinfo, ArrayList<CombatUnit> combatUnits) {
+        /***
+         * in this function we are
+         */
+        Collections.sort(combatUnits,new Comparator<CombatUnit>(){
+
+            public int compare(CombatUnit combatUnit1,CombatUnit combatUnit2){
+                return combatUnit1.getType().name().compareTo(combatUnit2.getType().name());
+            }
+
+        });
+        for (CombatUnit combatEnum:
+                combatUnits) {
+            StringBuilder combatName=new StringBuilder("combat name : "+combatEnum.getType().name());
+            StringBuilder combatStrength=new StringBuilder("Strength : "+combatEnum.getCombatStrength());
+            StringBuilder movmentPoint=new StringBuilder("MovementPoint : "+combatEnum.getMovement()+"/"+combatEnum.getType().getMovement());
+            unitsinfo.append(combatName+" "+combatStrength+" "+movmentPoint+'\n');
+        }
     }
 
     public static StringBuilder showDiplomacyInfo(Tile currentTile, Civilization currentCivilization) {
@@ -150,7 +181,7 @@ public class GameController {
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
         StringBuilder militaryInfo=new StringBuilder("");
-        HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
+        //HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
 
         return null;
     }

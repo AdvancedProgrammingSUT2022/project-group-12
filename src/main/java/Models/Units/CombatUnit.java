@@ -23,4 +23,8 @@ public class CombatUnit extends Unit {
     public UnitEnum getType() {
         return type;
     }
+
+    public int getCombatStrength() {
+        return combatStrength;
+    }
 }

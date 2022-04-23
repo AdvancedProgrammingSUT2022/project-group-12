@@ -6,6 +6,8 @@ import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
+import Models.Units.CombatUnit;
+import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +28,8 @@ public class Civilization {
 
     private HashMap<TechnologyEnum,Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
-    private HashMap<UnitEnum, Integer> combatUnits;
-    private HashMap<UnitEnum, Integer> nonCombatUnits;
+    private ArrayList<CombatUnit> combatUnits;
+    private ArrayList<NonCombatUnit> nonCombatUnits;
     private ArrayList<Tile> tiles;
     private TileGrid revealedTileGrid;
     private City capital;
@@ -45,7 +47,9 @@ public class Civilization {
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
     }
-
+    public boolean isHaveThisTech(TechnologyEnum tech){
+        return this.technologies.contains(tech);
+    }
     public void goToWarWith(Civilization civilization) {
         this.isInWarWith.add(civilization);
     }
@@ -82,12 +86,12 @@ public class Civilization {
         return this.technologies;
     }
 
-    public HashMap<UnitEnum, Integer> getCombatUnits() {
-        return this.combatUnits;
+    public ArrayList<CombatUnit> getCombatUnits() {
+        return combatUnits;
     }
 
-    public HashMap<UnitEnum, Integer> getNonCombatUnits() {
-        return this.nonCombatUnits;
+    public ArrayList<NonCombatUnit> getNonCombatUnits() {
+        return nonCombatUnits;
     }
 
     public ArrayList<Tile> getTiles() {
