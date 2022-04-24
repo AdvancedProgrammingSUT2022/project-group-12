@@ -18,20 +18,23 @@ public class TileGrid {
         return instance;
     }
 
-    private final ArrayList<Location> usedLocations;
-    private final ArrayList<ArrayList<Tile>> tiles = new ArrayList<>();
-    private final Random random = new Random();
     private final int height = 30;
     private final int width = 30;
+    private final ArrayList<Location> usedLocations;
+    private Tile[][] tiles;
+    private final Random random = new Random();
+    private StringBuilder[][] tileGrid;
 
     public TileGrid() {
+        tileGrid = new StringBuilder[width][height];
+        tiles = new Tile[width][height];
         this.usedLocations = new ArrayList<>();
         int x = random.nextInt(height);
         int y = random.nextInt(width);
         for (int i = 0; i < width; i++) {
-            tiles.add(new ArrayList<>());
+
             for (int j = 0; j < height; j++) {
-                tiles.get(i).add(randomAssignment(i, j));
+                tiles[i][j] = randomAssignment(i, j);
             }
         }
     }
@@ -42,7 +45,7 @@ public class TileGrid {
     }
 
     public Tile getTile(int row, int col) {
-        return tiles.get(row).get(col);
+        return tiles[row][col];
     }
 
     public boolean isLocationValid(int x, int y) {
@@ -89,10 +92,6 @@ public class TileGrid {
         return this.usedLocations;
     }
 
-    public Tile getTerrain(int x, int y) {
-        return tiles.get(x).get(y);
-    }
-
     public int getHeight() {
         return height;
     }
@@ -101,7 +100,7 @@ public class TileGrid {
         return width;
     }
 
-    public ArrayList<ArrayList<Tile>> getTiles() {
+    public Tile[][] getTiles() {
         return this.tiles;
     }
 }

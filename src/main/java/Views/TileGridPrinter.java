@@ -6,21 +6,19 @@ import Models.Tiles.TileGrid;
 import java.util.ArrayList;
 
 public class TileGridPrinter {
-    private ArrayList<ArrayList<Character>> screen;
-    private TileGrid tileGrid;
-    private int height = 20;
-    private int width = 70;
+    private char[][] screen;
+    private final TileGrid tileGrid;
+    private final int height = 20;
+    private final int width = 70;
     private final int h = 6;
     private final int w = 5;
 
     public TileGridPrinter(TileGrid tileGrid) {
-
         this.tileGrid = tileGrid;
-        screen = new ArrayList<>();
+        screen = new char[width][height];
         for (int i = 0; i < height; ++i) {
-            screen.add(new ArrayList<>());
             for (int j = 0; j < width; ++j) {
-                screen.get(i).add(' ');
+                screen[i][j] = ' ';
             }
         }
     }
@@ -38,7 +36,7 @@ public class TileGridPrinter {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                output.append(screen.get(i).get(j));
+                output.append(screen[i][j]);
             }
             output.append('\n');
         }
@@ -47,14 +45,14 @@ public class TileGridPrinter {
 
     private void drawHex(Tile tile, int row, int col) {
         for (int j = -w / 2; j <= w / 2; ++j) {
-            this.screen.get(row - h / 2).set(col + j, '_');
-            this.screen.get(row + h / 2).set(col + j, '_');
+            this.screen[row - h / 2][col + j] = '_';
+            this.screen[row + h / 2][col + j] = '_';
         }
         for (int i = 0; i < h / 2; ++i) {
-            this.screen.get(row - h / 2 + 1 + i).set(col - 3 - i, '/');
-            this.screen.get(row - h / 2 + 1 + i).set(col + 3 + i, '\\');
-            this.screen.get(row + h / 2 - i).set(col - 3 - i, '\\');
-            this.screen.get(row + h / 2 - i).set(col + 3 + i, '/');
+            this.screen[row - h / 2 + 1 + i][col - 3 - i] = '/';
+            this.screen[row - h / 2 + 1 + i][col + 3 + i] = '\\';
+            this.screen[row + h / 2 - i][col - 3 - i] = '\\';
+            this.screen[row + h / 2 - i][col + 3 + i] = '/';
         }
     }
 }
