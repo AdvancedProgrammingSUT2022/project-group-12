@@ -8,7 +8,7 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 
-public class UnitBuildFuncs extends UnitFuncs{
+public class UnitBuildFuncs extends UnitFuncs {
 
 
     public UnitBuildFuncs(Game game) {
@@ -121,6 +121,7 @@ public class UnitBuildFuncs extends UnitFuncs{
         }
         return CommandResponse.OK;
     }
+
     private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
         if (improvement.hasRequiredTechs(civilization.getTechnologies())) {
             return false;

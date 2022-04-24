@@ -75,10 +75,4 @@ public class InfoFuncs extends GameMenuFuncs {
         Civilization currentCivilization = getCurrentCivilization();
         System.out.println(GameController.showCitiesInfo(currentTile, currentCivilization));
     }
-
-
-
-
-
-
 }

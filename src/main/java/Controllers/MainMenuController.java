@@ -1,18 +1,13 @@
 package Controllers;
 
-import Enums.CommandResponse;
 import Models.Database;
 import Models.Game;
 import Models.User;
-import Views.GameMenu;
 import Views.LoginMenu;
 import Views.MenuStack;
 import Views.ProfileMenu;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 public class MainMenuController {
@@ -31,8 +26,8 @@ public class MainMenuController {
         return "menu changed to " + newMenu + " successfully";
     }
 
-    public static GameController startNewGame(List<String> usernames) {
-        List<User> users = new ArrayList<>();
+    public static GameController startNewGame(ArrayList<String> usernames) {
+        ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
         for (String username : usernames) {
             User user = database.getUser(username);
