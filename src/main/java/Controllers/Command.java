@@ -1,9 +1,6 @@
 package Controllers;
 
-import Exceptions.DuplicateOptionKey;
-import Exceptions.InvalidCommandFormat;
-import Exceptions.MissingRequiredOption;
-import Exceptions.UnrecognizedOption;
+import Exceptions.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,16 +80,21 @@ public class Command {
         return type;
     }
 
+    private String getPartOfType(int idx) {
+        String[] parts = this.getType().split(" ");
+        return parts.length > idx ? parts[idx] : null;
+    }
+
     public String getCategory() {
-        return this.getType().split(" ")[0];
+        return getPartOfType(0);
     }
 
     public String getSubCategory() {
-        return this.getType().split(" ")[1];
+        return getPartOfType(1);
     }
 
     public String getSubSubCategory() {
-        return this.getType().split(" ")[2];
+        return getPartOfType(2);
     }
 
     public String getOption(String key) {
@@ -105,6 +107,14 @@ public class Command {
                 throw new MissingRequiredOption(key);
             } else if (!requiredKeys.contains(key)) {
                 throw new UnrecognizedOption(key);
+            }
+        }
+    }
+
+    public void assertOptionType(String option, String type) throws InvalidOptionType {
+        if (type.equals("integer")) {
+            if (!option.matches("^-?\\d+$")) {
+                throw new InvalidOptionType(option, type);
             }
         }
     }
