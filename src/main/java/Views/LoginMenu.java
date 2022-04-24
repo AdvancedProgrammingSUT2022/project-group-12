@@ -3,6 +3,7 @@ package Views;
 import Controllers.Command;
 import Controllers.LoginMenuController;
 import Enums.CommandResponse;
+import Exceptions.CommandException;
 
 import java.util.List;
 
@@ -21,28 +22,32 @@ public class LoginMenu extends Menu {
     }
 
     private void createUser(Command command) {
-        CommandResponse response = command.validateOptions(List.of("username", "nickname", "password"));
-        if (!response.isOK()) System.out.println(response);
-        else {
-            String username = command.getOption("username");
-            String nickname = command.getOption("nickname");
-            String password = command.getOption("password");
-            response = this.controller.createUser(username, nickname, password);
-            System.out.println(!response.isOK() ? response : "user created successfully");
+        try {
+            command.assertOptions(List.of("username", "nickname", "password"));
+        } catch (CommandException e) {
+            e.print();
+            return;
         }
+        String username = command.getOption("username");
+        String nickname = command.getOption("nickname");
+        String password = command.getOption("password");
+        this.controller.createUser(username, nickname, password);
+        System.out.println("user created successfully");
     }
 
     private void loginUser(Command command) {
-        CommandResponse response = command.validateOptions(List.of("username", "password"));
-        if (!response.isOK()) System.out.println(response);
-        else {
-            String username = command.getOption("username");
-            String password = command.getOption("password");
-            response = this.controller.loginUser(username, password);
-            System.out.println(!response.isOK() ? response : "user logged in successfully");
-            if (response.isOK()) {
-                MenuStack.getInstance().pushMenu(new MainMenu());
-            }
+        try {
+            command.assertOptions(List.of("username", "password"));
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
+        String username = command.getOption("username");
+        String password = command.getOption("password");
+        CommandResponse response = this.controller.loginUser(username, password);
+        System.out.println(!response.isOK() ? response : "user logged in successfully");
+        if (response.isOK()) {
+            MenuStack.getInstance().pushMenu(new MainMenu());
         }
     }
 }
