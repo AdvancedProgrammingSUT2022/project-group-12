@@ -72,43 +72,38 @@ public class GameMenu extends Menu {
     }
 
     private void info(Command command) {
-        switch (command.getType().trim()) {
-            case "info research" -> getInfoFuncs().researchInfo();
-            case "info units" -> getInfoFuncs().unitsInfo();
-            case "info cities" -> getInfoFuncs().citiesInfo();
-            case "info diplomacy" -> getInfoFuncs().diplomacyInfo();
-            case "info victory" -> getInfoFuncs().victoryInfo();
-            case "info demographics" -> getInfoFuncs().demographicsInfo();
-            case "info notifications" -> getInfoFuncs().notifInfo();
-            case "info military" -> getInfoFuncs().militaryInfo();
-            case "info economic" -> getInfoFuncs().ecoInfo();
-            case "info diplomatic" -> getInfoFuncs().diplomaticInfo();
-            case "info deals" -> getInfoFuncs().dealsInfo();
+        switch (command.getSubCategory()) {
+            case "research" -> getInfoFuncs().researchInfo();
+            case "units" -> getInfoFuncs().unitsInfo();
+            case "cities" -> getInfoFuncs().citiesInfo();
+            case "diplomacy" -> getInfoFuncs().diplomacyInfo();
+            case "victory" -> getInfoFuncs().victoryInfo();
+            case "demographics" -> getInfoFuncs().demographicsInfo();
+            case "notifications" -> getInfoFuncs().notifInfo();
+            case "military" -> getInfoFuncs().militaryInfo();
+            case "economic" -> getInfoFuncs().ecoInfo();
+            case "diplomatic" -> getInfoFuncs().diplomaticInfo();
+            case "deals" -> getInfoFuncs().dealsInfo();
         }
     }
 
     private void select(Command command) {
-        switch (command.getType().trim()) {
+        switch (command.getType()) {
             case "unit" -> this.selectUnit(command);
             case "city" -> getSelectFuncs().selectCity(command);
         }
     }
 
     private void selectUnit(Command command) {
-        try {
-            switch (command.getSubSubCategory()) {
-                case "combat" -> getSelectFuncs().selectCombatUnit(command);
-                case "noncombat" -> getSelectFuncs().selectNonCombatUnit(command);
-                default -> System.out.println(CommandResponse.INVALID_COMMAND);
-            }
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
+        switch (command.getSubSubCategory()) {
+            case "combat" -> getSelectFuncs().selectCombatUnit(command);
+            case "noncombat" -> getSelectFuncs().selectNonCombatUnit(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
-
     private void unit(Command command) {
-        switch (command.getSubCategory().trim()) {
+        switch (command.getSubCategory()) {
             case "moveTo" -> getUnitOtherFuncs().unitMoveTo(command);
             case "sleep" -> getUnitOtherFuncs().unitSleep(command);
             case "alert" -> getUnitOtherFuncs().unitAlert();
@@ -127,7 +122,7 @@ public class GameMenu extends Menu {
     }
 
     private void unitBuild(Command command) {
-        switch (command.getSubSubCategory().trim()) {
+        switch (command.getSubSubCategory()) {
             case "road" -> getUnitBuildFuncs().unitBuildRoad();
             case "railRoad" -> getUnitBuildFuncs().unitBuildRailRoad();
             case "farm" -> getUnitBuildFuncs().unitBuildFarm();
@@ -142,14 +137,14 @@ public class GameMenu extends Menu {
     }
 
     private void unitRemove(Command command) {
-        switch (command.getSubSubCategory().trim()) {
+        switch (command.getSubSubCategory()) {
             case "route" -> getUnitOtherFuncs().unitRemoveRoute();
             case "jungle" -> getUnitOtherFuncs().unitRemoveJungle();
         }
     }
 
     private void map(Command command) {
-        switch (command.getSubCategory().trim()) {
+        switch (command.getSubCategory()) {
             case "show" -> getMapFuncs().showMap(command);
             case "move" -> this.moveMap(command);
         }
@@ -158,11 +153,12 @@ public class GameMenu extends Menu {
     private void moveMap(Command command) {
         try {
             command.assertOptions(List.of("amount"));
+            command.assertOptionType("amount", "integer");
         } catch (CommandException e) {
             e.print();
             return;
         }
-        switch (command.getSubSubCategory().trim()) {
+        switch (command.getSubSubCategory()) {
             case "right" -> getMapFuncs().moveMapByDirection(command, "right");
             case "left" -> getMapFuncs().moveMapByDirection(command, "left");
             case "up" -> getMapFuncs().moveMapByDirection(command, "up");
