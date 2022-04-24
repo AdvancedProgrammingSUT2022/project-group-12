@@ -22,7 +22,7 @@ public class CombatController extends GameController {
         if (currentTile.getCombatUnit() instanceof RangedUnit) {
             return AttackRangedUnit(row, col, game, currentTile, civilization, (RangedUnit) currentTile.getCombatUnit());
         } else {
-            return AttackNonRangedUnit(row, col, TileGrid.getInstance(), currentTile, civilization, (NonRangedUnit) currentTile.getCombatUnit());
+            return AttackNonRangedUnit(row, col, GameController.game.getTileGrid(), currentTile, civilization, (NonRangedUnit) currentTile.getCombatUnit());
         }
     }
 

@@ -9,7 +9,6 @@ import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 
 public class MapFuncs extends GameMenuFuncs {
 
@@ -51,7 +50,7 @@ public class MapFuncs extends GameMenuFuncs {
             case "right" -> newCord.moveX(amount);
             case "left" -> newCord.moveX(amount * -1);
         }
-        if (!TileGrid.getInstance().isLocationValid(newCord.getX(), newCord.getY())) {
+        if (!GameController.game.getTileGrid().isLocationValid(newCord.getX(), newCord.getY())) {
             return CommandResponse.INVALID_DIRECTION; // todo: out of map
         }
         this.gridCord = newCord;

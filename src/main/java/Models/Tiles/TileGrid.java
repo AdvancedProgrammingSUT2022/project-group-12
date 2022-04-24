@@ -3,27 +3,17 @@ package Models.Tiles;
 import Enums.GameEnums.TerrainEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
-import com.sun.jdi.ArrayReference;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class TileGrid {
-    private static TileGrid instance = null;
-
-    public static TileGrid getInstance() {
-        if (instance == null) {
-            instance = new TileGrid();
-        }
-        return instance;
-    }
-
     private final int height = 30;
     private final int width = 30;
     private final ArrayList<Location> usedLocations;
-    private Tile[][] tiles;
     private final Random random = new Random();
-    private StringBuilder[][] tileGrid;
+    private final Tile[][] tiles;
+    private final StringBuilder[][] tileGrid;
 
     public TileGrid() {
         tileGrid = new StringBuilder[width][height];

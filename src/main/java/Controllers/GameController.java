@@ -16,7 +16,7 @@ import java.util.*;
 
 
 public class GameController {
-    public static Game game; // todo: should be static?
+    public static Game game;
 
     public GameController(Game newGame) {
         game = newGame;

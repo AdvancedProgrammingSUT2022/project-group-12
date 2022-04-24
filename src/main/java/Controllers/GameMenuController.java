@@ -5,7 +5,6 @@ import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 import Models.Units.Unit;
 
 public class GameMenuController {
@@ -50,7 +49,7 @@ public class GameMenuController {
     }
 
     public static CommandResponse showMapOnPosition(int row, int col, Game game) {
-        if (TileGrid.getInstance().isLocationValid(row, col)) {
+        if (GameController.game.getTileGrid().isLocationValid(row, col)) {
             //TODO : show map
             return CommandResponse.OK;
         } else {

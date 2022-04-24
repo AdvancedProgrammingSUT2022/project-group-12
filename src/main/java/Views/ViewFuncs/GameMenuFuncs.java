@@ -1,12 +1,12 @@
 package Views.ViewFuncs;
 
+import Controllers.GameController;
 import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 
 public class GameMenuFuncs {
     protected Game game;
@@ -33,7 +33,7 @@ public class GameMenuFuncs {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
-            if (TileGrid.getInstance().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
+            if (GameController.game.getTileGrid().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
             return CommandResponse.OK;
         } catch (Exception e) {
             return CommandResponse.INVALID_COMMAND;
