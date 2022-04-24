@@ -10,6 +10,9 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 
+import static Controllers.CombatController.AttackUnit;
+import static Controllers.MovingController.moveUnit;
+
 public class UnitOtherFuncs extends UnitFuncs{
 
     public UnitOtherFuncs(Game game) {
@@ -144,7 +147,7 @@ public class UnitOtherFuncs extends UnitFuncs{
             row = Integer.parseInt(coordinates[0]);
             col = Integer.parseInt(coordinates[1]);
         }
-        System.out.println(response.isOK() ? GameController.AttackUnit(row, col, this.getGame(), currentTile, civilizaion) : response);
+        System.out.println(response.isOK() ? AttackUnit(row, col, this.getGame(), currentTile, civilizaion) : response);
     }
 
     public void unitSetup(Command command) {
@@ -231,7 +234,7 @@ public class UnitOtherFuncs extends UnitFuncs{
                 try {
                     String[] coordinates = key.split("\\s+");
                     CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, coordinates[0], coordinates[1], "noncombat");
-                    System.out.println(response.isOK() ? GameController.moveNonCombatUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization) : response);
+                    System.out.println(response.isOK() ? moveUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization,currentTile.getNonCombatUnit()) : response);
                 } catch (Exception e) {
                     System.out.println(CommandResponse.INVALID_POSITION);
                 }
@@ -244,7 +247,7 @@ public class UnitOtherFuncs extends UnitFuncs{
                 try {
                     String[] coordinates = key.split("\\s+");
                     CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, coordinates[0], coordinates[1], "combat");
-                    System.out.println(response.isOK() ? GameController.moveCombatUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization) : response);
+                    System.out.println(response.isOK() ? moveUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization,currentTile.getCombatUnit()) : response);
                 } catch (Exception e) {
                     System.out.println(CommandResponse.INVALID_POSITION);
                 }
