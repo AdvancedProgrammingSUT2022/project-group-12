@@ -3,15 +3,14 @@ package Controllers;
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
-import Enums.GameEnums.UnitEnum;
-import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
-import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.*;
+import Models.Units.CombatUnit;
+import Models.Units.NonCombatUnit;
+import Models.Units.Unit;
 
 import java.util.*;
 
@@ -29,15 +28,15 @@ public class GameController {
     }
 
     public static String RemoveRoute(Tile currentTile, ImprovementEnum improvementEnum) {
-        return "route removed succesfully";
+        return "route removed successfully";
     }
 
     public static String RemoveJungle(Tile currentTile) {
-        return "Jungle removed succesfully";
+        return "Jungle removed successfully";
     }
 
     public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
-        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built succesfully";
+        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
     }
 
 
@@ -53,30 +52,30 @@ public class GameController {
         return false;
     }
 
-    public static void deletenonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void deleteMonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void deleteCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void wakeUpNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void wakeUpNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void wakeUpCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void wakeUpCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void CancelMissionNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void CancelMissionNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void CancelMissionCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
     public static String FoundCity(Tile currentTile) {
         return "city found successfully";
     }
 
-    public static String garrsionUnit(Tile currentTile, Civilization civilization) {
-        return "unit garrsioned successfully";
+    public static String garrisonUnit(Tile currentTile, Civilization civilization) {
+        return "unit garrisoned successfully";
     }
 
     public static String fortifyUnit(Tile currentTile, Civilization civilization) {
@@ -91,13 +90,13 @@ public class GameController {
         return "unit alerted successfully";
     }
 
-    public static String sleepNonCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
-        return "unit sleeped successfully";
+    public static String sleepNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+        return "unit slept successfully";
     }
 
-    public static String sleepCombatUnit(Civilization currentCivilizaion, Tile currentTile) {
+    public static String sleepCombatUnit(Civilization currentCivilization, Tile currentTile) {
 
-        return "unit sleeped successfully";
+        return "unit slept successfully";
     }
 
     public static StringBuilder showCity(City city) {
@@ -142,14 +141,14 @@ public class GameController {
     }
 
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
-        StringBuilder unitsinfo=new StringBuilder("");
+        StringBuilder unitsInfo=new StringBuilder("");
         ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
         ArrayList<NonCombatUnit> nonCombatUnits=currentCivilization.getNonCombatUnits();
-        showCombatUnits(unitsinfo, combatUnits);
-        showNonCombatUnits(unitsinfo,nonCombatUnits);
-        return unitsinfo;
+        showCombatUnits(unitsInfo, combatUnits);
+        showNonCombatUnits(unitsInfo,nonCombatUnits);
+        return unitsInfo;
     }
-    private static void showNonCombatUnits(StringBuilder unitsinfo, ArrayList<NonCombatUnit> nonCombatUnits) {
+    private static void showNonCombatUnits(StringBuilder unitsInfo, ArrayList<NonCombatUnit> nonCombatUnits) {
         /***
          * in this function we are going to sort by name
          */
@@ -163,11 +162,11 @@ public class GameController {
                 nonCombatUnits) {
             StringBuilder nonCombatName=new StringBuilder("nonCombat name : "+nonCombatEnum.getType().name());
             StringBuilder nonCombatStrength=new StringBuilder("Strength : -");
-            StringBuilder movmentPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getMovement()+"/"+nonCombatEnum.getType().getMovement());
-            unitsinfo.append(nonCombatName+" "+nonCombatStrength+" "+movmentPoint+'\n');
+            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getMovement()+"/"+nonCombatEnum.getType().getMovement());
+            unitsInfo.append(nonCombatName+" "+nonCombatStrength+" "+movementPoint+'\n');
         }
     }
-    private static void showCombatUnits(StringBuilder unitsinfo, ArrayList<CombatUnit> combatUnits) {
+    private static void showCombatUnits(StringBuilder unitsInfo, ArrayList<CombatUnit> combatUnits) {
         /***
          * in this function we are
          */
@@ -182,8 +181,8 @@ public class GameController {
                 combatUnits) {
             StringBuilder combatName=new StringBuilder("combat name : "+combatEnum.getType().name());
             StringBuilder combatStrength=new StringBuilder("Strength : "+combatEnum.getCombatStrength());
-            StringBuilder movmentPoint=new StringBuilder("MovementPoint : "+combatEnum.getMovement()+"/"+combatEnum.getType().getMovement());
-            unitsinfo.append(combatName+" "+combatStrength+" "+movmentPoint+'\n');
+            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+combatEnum.getMovement()+"/"+combatEnum.getType().getMovement());
+            unitsInfo.append(combatName+" "+combatStrength+" "+movementPoint+'\n');
         }
     }
 

@@ -47,11 +47,11 @@ public class UnitOtherFuncs extends UnitFuncs{
         return CommandResponse.OK;
     }
 
-    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilizaion) {
-        if (!(civilizaion.getCurrentTile().getCombatUnit().getType() == null)) {
+    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilization) {
+        if (!(civilization.getCurrentTile().getCombatUnit().getType() == null)) {
             return CommandResponse.UNIT_DOES_NOT_EXISTS;
         }
-        if (!(civilizaion.getCurrentTile().getCombatUnit().getCiv() == civilizaion)) {
+        if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
             return CommandResponse.WRONG_UNIT;
         }
         return CommandResponse.OK;
@@ -138,7 +138,7 @@ public class UnitOtherFuncs extends UnitFuncs{
             return;
         }
         String[] coordinates = key.split("\\s+");
-        Civilization civilizaion = getCurrentCivilization();
+        Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
 
@@ -147,7 +147,7 @@ public class UnitOtherFuncs extends UnitFuncs{
             row = Integer.parseInt(coordinates[0]);
             col = Integer.parseInt(coordinates[1]);
         }
-        System.out.println(response.isOK() ? AttackUnit(row, col, this.getGame(), currentTile, civilizaion) : response);
+        System.out.println(response.isOK() ? AttackUnit(row, col, this.getGame(), currentTile, civilization) : response);
     }
 
     public void unitSetup(Command command) {
@@ -157,7 +157,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateForGarrison(currentTile, civilization);
-        if (response.isOK()) System.out.println(GameController.garrsionUnit(currentTile, civilization));
+        if (response.isOK()) System.out.println(GameController.garrisonUnit(currentTile, civilization));
         else System.out.println(response);
     }
 

@@ -93,11 +93,11 @@ public class MapFuncs extends GameMenuFuncs {
         return CommandResponse.OK;
     }
 
-    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilizaion) {
-        if (!(civilizaion.getCurrentTile().getCombatUnit().getType() == null)) {
+    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilization) {
+        if (!(civilization.getCurrentTile().getCombatUnit().getType() == null)) {
             return CommandResponse.UNIT_DOES_NOT_EXISTS;
         }
-        if (!(civilizaion.getCurrentTile().getCombatUnit().getCiv() == civilizaion)) {
+        if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
             return CommandResponse.WRONG_UNIT;
         }
         return CommandResponse.OK;

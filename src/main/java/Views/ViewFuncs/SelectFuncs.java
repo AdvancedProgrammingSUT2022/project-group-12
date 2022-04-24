@@ -14,7 +14,6 @@ public class SelectFuncs extends GameMenuFuncs {
     }
 
 
-
     public void selectNonCombatUnit(Command command) {
         try {
             Tile currentTile = getCurrentTile();
@@ -46,6 +45,7 @@ public class SelectFuncs extends GameMenuFuncs {
             System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
+
     public void selectCity(Command command) {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
