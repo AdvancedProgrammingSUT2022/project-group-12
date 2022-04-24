@@ -1,10 +1,9 @@
 package Models.Tiles;
 
 import Enums.GameEnums.ResourceEnum;
-import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
-import Models.Location;
+import Models.Civilization;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -120,6 +119,10 @@ public class Tile {
 
     public CombatUnit getCombatUnit() {
         return combatUnit;
+    }
+
+    public Civilization getCivilization() {
+        return this.city.getCivilization();
     }
 
     public Tile deepCopy() {

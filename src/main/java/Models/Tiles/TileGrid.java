@@ -3,6 +3,7 @@ package Models.Tiles;
 import Enums.GameEnums.TerrainEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
+import com.sun.jdi.ArrayReference;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,7 +13,7 @@ public class TileGrid {
 
     public static TileGrid getInstance() {
         if (instance == null) {
-//            instance = new TileGrid(); // todo: change to non-singleton
+            instance = new TileGrid();
         }
         return instance;
     }
@@ -20,12 +21,10 @@ public class TileGrid {
     private final ArrayList<Location> usedLocations;
     private final ArrayList<ArrayList<Tile>> tiles = new ArrayList<>();
     private final Random random = new Random();
-    private int height;
-    private int width;
+    private final int height = 30;
+    private final int width = 30;
 
-    public TileGrid(int height, int width) {
-        this.height = height;
-        this.width = width;
+    public TileGrid() {
         this.usedLocations = new ArrayList<>();
         int x = random.nextInt(height);
         int y = random.nextInt(width);
@@ -100,5 +99,9 @@ public class TileGrid {
 
     public int getWidth() {
         return width;
+    }
+
+    public ArrayList<ArrayList<Tile>> getTiles() {
+        return this.tiles;
     }
 }

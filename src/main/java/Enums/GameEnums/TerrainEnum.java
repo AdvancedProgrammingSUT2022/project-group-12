@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public enum TerrainEnum {
 
-    DESERT(0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+    DESERT(TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(OASIS);
         add(PLAIN);
     }}, new ArrayList<>() {{
@@ -17,7 +17,7 @@ public enum TerrainEnum {
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
     }}),
-    GRASSLAND(2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+    GRASSLAND(TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FOREST);
         add(MARSH);
     }}, new ArrayList<>() {{
@@ -30,7 +30,7 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
     }}),
-    HILL(0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
+    HILL(TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
         add(FOREST);
         add(JUNGLE);
     }}, new ArrayList<>() {{
@@ -43,11 +43,11 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
     }}),
-    MOUNTAIN(0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
-    OCEAN(1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
+    MOUNTAIN(TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
+    OCEAN(TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
         add(ICE);
     }}, new ArrayList<>()),
-    PLAIN(1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
+    PLAIN(TerrainColor.GREEN_BACKGROUND, 1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FOREST);
         add(JUNGLE);
     }}, new ArrayList<>() {{
@@ -63,10 +63,10 @@ public enum TerrainEnum {
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
     }}),
-    SNOW(0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
+    SNOW(TerrainColor.WHITE_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.IRON);
     }}),
-    TUNDRA(1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+    TUNDRA(TerrainColor.DARKRED_BACKGROUND, 1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FOREST);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
@@ -77,24 +77,24 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.FUR);
     }}),
-    FALLOUT(-3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
-    FOREST(1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
+    FALLOUT(TerrainColor.RESET, -3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
+    FOREST(TerrainColor.RESET, 1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.DEER);
         add(ResourceEnum.FUR);
         add(ResourceEnum.DYES);
         add(ResourceEnum.SILK);
     }}),
-    ICE(0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),
-    JUNGLE(1, -1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
+    ICE(TerrainColor.RESET, 0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),
+    JUNGLE(TerrainColor.RESET, 1, -1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.BANANA);
         add(ResourceEnum.GEMSTONE);
         add(ResourceEnum.DYES);
     }}),
-    MARSH(-1, 0, 0, -33, 2, true, false, new ArrayList<>(), new ArrayList<>() {{
+    MARSH(TerrainColor.RESET, -1, 0, 0, -33, 2, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.SUGAR);
     }}),
-    OASIS(3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
-    RIVER(0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>());
+    OASIS(TerrainColor.RESET, 3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
+    RIVER(TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>());
 
     private final int foodCount;
     private final int productsCount;
@@ -105,8 +105,9 @@ public enum TerrainEnum {
     private final ArrayList<ResourceEnum> possibleResources;
     private final boolean canPass;
     private final boolean blocksView;
-    private final String color;
-    TerrainEnum(int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
+    private final TerrainColor color;
+
+    TerrainEnum(TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
         this.foodCount = foodCount;
         this.productsCount = productsCount;
         this.goldCount = goldCount;
@@ -116,10 +117,10 @@ public enum TerrainEnum {
         this.possibleResources = possibleResources;
         this.canPass = canPass;
         this.blocksView = blocksView;
-        this.color = "";
+        this.color = color;
     }
 
-    public String getColor() {
+    public TerrainColor getColor() {
         return color;
     }
 

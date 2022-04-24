@@ -11,11 +11,12 @@ public class Game {
     public final GameController controller;
     private final ArrayList<Civilization> civs;
     private final Vector<Civilization> civTurn;
+    private int gameTurn;
     private final TileGrid tileGrid;
 
-    public Game(List<User> users) {
+    public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
-        this.tileGrid = new TileGrid(50, 50);
+        this.tileGrid = new TileGrid();
         this.civTurn = new Vector<>();
         for (User user : users) {
             civs.add(new Civilization(user));
@@ -23,7 +24,7 @@ public class Game {
         this.controller = new GameController(this);
     }
 
-    private void fullTurn() {
+    public void fullPlayersMove() {
         for (int i = this.civs.size() - 1; i > -1; i--) {
             this.civTurn.add(this.civs.get(i));
         }
@@ -33,8 +34,18 @@ public class Game {
         return civTurn;
     }
 
-    private void nextTurn() {
+    public void nextPlayerMove() {
         this.civTurn.remove(this.civTurn.size() - 1);
+        if (this.civTurn.isEmpty()) {
+            fullPlayersMove();
+        }
+    }
+
+    public void nextTurn() {
+        this.gameTurn++;
+        if (this.gameTurn > 25) {
+            //TODO : end game
+        }
     }
 
     public TileGrid getTileGrid() {

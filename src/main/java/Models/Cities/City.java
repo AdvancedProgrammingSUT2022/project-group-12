@@ -29,6 +29,7 @@ public class City {
     private int beaker;
     private int happiness;
     private final Tile tile;
+
     public City(Civilization civ, Tile tile, boolean isCapital) {
         this.combatUnit = null;
         this.tile = tile;
@@ -69,6 +70,10 @@ public class City {
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
         this.hasANonCombatUnit = true;
+    }
+
+    public Civilization getCivilization() {
+        return this.isOwnedBy;
     }
 
     public int getGold() {
