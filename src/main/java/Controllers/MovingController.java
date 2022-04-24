@@ -21,29 +21,33 @@ public class MovingController extends GameController {
         super(newGame);
     }
     public static String moveUnit(int x, int y, Tile currentTile, Civilization currentCivilization, Unit unit) {
+        String response=new String("unit moved successfully");
         ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile,unit);
         if(shortestPath == null){return "move is impossible";}
         unit.setPathShouldCross(shortestPath);
-        moveToNextTile(unit);
-        return "unit moved successfully";
+        response=moveToNextTile(unit,response);
+        return response;
     }
 
-    private static void moveToNextTile(Unit unit) {
+    private static String moveToNextTile(Unit unit,String response) {
         while (unit.getMovement() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid gameTileGrid=TileGrid.getInstance();
             int nextRow=unit.getPathShouldCross().get(0).getRow(),nextCol=unit.getPathShouldCross().get(0).getCol();
             calculateMoveMentCost(unit,nextRow,nextCol);
-            if (checkForEnemy(nextRow,nextCol,unit)) break;
+            if (checkForEnemy(nextRow,nextCol,unit,response)) break;
+            gameTileGrid.getTile(unit.getRow(), unit.getColumn()).setUnit(unit,null);
             unit.setRow(nextRow); unit.setColumn(nextCol);
             checkForFogOfWars(game.getTileGrid(),game.getTileGrid().getTile(nextRow,nextCol));
+            gameTileGrid.getTile(unit.getRow(), unit.getColumn()).setUnit(unit,unit);
             unit.getPathShouldCross().remove(0);
         }
+        return response;
     }
 
-    private static boolean checkForEnemy(int nextRow, int nextCol, Unit unit) {
+    private static boolean checkForEnemy(int nextRow, int nextCol, Unit unit,String response) {
         Tile currentTile=TileGrid.getInstance().getTile(nextRow,nextCol);
-        if (isEnemyExists(nextRow,nextCol,unit.getCiv())) {
-            AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
+        if (isEnemyExists(nextRow,nextCol,unit.getCiv()) || isNonCombatEnemyExists(nextRow,nextCol,unit.getCiv())) {
+            response=AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
             unit.setMovement(0);
             unit.setPathShouldCross(null);
             return true;

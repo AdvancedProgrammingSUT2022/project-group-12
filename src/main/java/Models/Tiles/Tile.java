@@ -8,6 +8,7 @@ import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
+import Models.Units.Unit;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -125,6 +126,10 @@ public class Tile {
     public Tile deepCopy() {
         Gson gson = new Gson();
         return gson.fromJson(gson.toJson(this), Tile.class);
+    }
+    public void setUnit(Unit unit,Unit toSet){
+        if(unit instanceof CombatUnit){setCombatUnit((CombatUnit) toSet);}
+        else {setNonCombatUnit((NonCombatUnit) toSet);}
     }
 
     public int calculateMovementCost() {

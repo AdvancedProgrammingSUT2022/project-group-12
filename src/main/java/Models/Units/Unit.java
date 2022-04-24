@@ -84,6 +84,14 @@ public class Unit {
         return location;
     }
 
+    public void setHealthBar(int healthBar) {
+        this.healthBar = healthBar;
+    }
+
+    public int getHealthBar() {
+        return healthBar;
+    }
+
     public void garrison() {
 
     }
