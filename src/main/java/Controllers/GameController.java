@@ -3,15 +3,17 @@ package Controllers;
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
+import Enums.GameEnums.UnitEnum;
+import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.*;
 
 import java.util.*;
-
 
 
 public class GameController {
@@ -38,24 +40,15 @@ public class GameController {
         return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built succesfully";
     }
 
-    public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
-        if(!isEnemyExists(row,col,civilization)) return "enemy doesn't exists there";
-        if(currentTile.getCombatUnit() instanceof RangedUnit){AttackRangedUnit(row,col,game,currentTile,civilization,(RangedUnit) currentTile.getCombatUnit());}
-        else AttackNonRangedUnit(row,col,game,currentTile,civilization,(NonRangedUnit) currentTile.getCombatUnit());
-        return "attack successfully happened";
-    }
-
-    private static void AttackNonRangedUnit(int row, int col, Game game, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
 
 
-
-    }
-
-    private static void AttackRangedUnit(int row, int col, Game game, Tile currentTile, Civilization civilization,RangedUnit rangedUnit) {
-    }
-
-    private static boolean isEnemyExists(int row, int col, Civilization civilization) {
+    protected static boolean isEnemyExists(int row, int col, Civilization civilization) {
         CombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getCombatUnit();
+        if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
+        return false;
+    }
+    protected static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
+        NonCombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getNonCombatUnit();
         if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
         return false;
     }
@@ -151,10 +144,29 @@ public class GameController {
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
         StringBuilder unitsinfo=new StringBuilder("");
         ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
+        ArrayList<NonCombatUnit> nonCombatUnits=currentCivilization.getNonCombatUnits();
         showCombatUnits(unitsinfo, combatUnits);
-        return null;
+        showNonCombatUnits(unitsinfo,nonCombatUnits);
+        return unitsinfo;
     }
+    private static void showNonCombatUnits(StringBuilder unitsinfo, ArrayList<NonCombatUnit> nonCombatUnits) {
+        /***
+         * in this function we are going to sort by name
+         */
+        Collections.sort(nonCombatUnits,new Comparator<NonCombatUnit>(){
+            public int compare(NonCombatUnit nonCombatUnit1,NonCombatUnit nonCombatUnit2){
+                return nonCombatUnit1.getType().name().compareTo(nonCombatUnit2.getType().name());
+            }
 
+        });
+        for (NonCombatUnit nonCombatEnum:
+                nonCombatUnits) {
+            StringBuilder nonCombatName=new StringBuilder("nonCombat name : "+nonCombatEnum.getType().name());
+            StringBuilder nonCombatStrength=new StringBuilder("Strength : -");
+            StringBuilder movmentPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getMovement()+"/"+nonCombatEnum.getType().getMovement());
+            unitsinfo.append(nonCombatName+" "+nonCombatStrength+" "+movmentPoint+'\n');
+        }
+    }
     private static void showCombatUnits(StringBuilder unitsinfo, ArrayList<CombatUnit> combatUnits) {
         /***
          * in this function we are
@@ -219,63 +231,7 @@ public class GameController {
         return null;
     }
 
-    public static String moveNonCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
-        ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile);
-        if(shortestPath == null){return "move is impossible";}
-        currentTile.getNonCombatUnit().setPathShouldCross(shortestPath);
-        moveToNextTile(currentTile.getNonCombatUnit());
-        return "noncombat unit moved successfully";
-    }
 
-    private static void moveToNextTile(Unit unit) {
-        while (unit.getMovement() != 0 && unit.getPathShouldCross().size() != 0) {
-            unit.setRow(unit.getPathShouldCross().get(0).getRow());
-            unit.setColumn(unit.getPathShouldCross().get(0).getCol());
-            unit.getPathShouldCross().remove(0);
-        }
-    }
-
-    private static ArrayList<Tile> findTheShortestPath(int targetRow, int targetCol, Tile sourceTile) { // use Coord/Location
-        // Dijkstra algorithm for shortest path
-        TileGrid tileGrid = game.getTileGrid();
-        HashMap<Tile, Tile> parent = new HashMap<>();
-        HashMap<Tile, Integer> distance = new HashMap<>();
-        TreeMap<Integer, Tile> heap = new TreeMap<>();
-        distance.put(sourceTile, 0);
-        heap.put(0, sourceTile);
-        Tile p;
-        while (true) {
-            Tile first = heap.pollFirstEntry().getValue();
-            if (first.getRow() == targetRow && first.getCol() == targetCol) {
-                p = first;
-                break;
-            }
-            for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-                if (!neighbor.getTerrain().getTerrainType().canBePassed()) continue;
-                // this is only true if weights are on tiles (graph vertexes)
-                if (!distance.containsKey(neighbor)) {
-                    int dist = distance.get(first) + neighbor.calculateMovementCost();
-                    distance.put(neighbor, dist);
-                    heap.put(dist, neighbor);
-                    parent.put(neighbor, first);
-                }
-            }
-        }
-        ArrayList<Tile> path = new ArrayList<>();
-        while (p != sourceTile) {
-            path.add(p);
-            p = parent.get(p);
-        }
-        return path;
-    }
-
-    public static String moveCombatUnit(int x, int y, Tile currentTile, Civilization currentCivilization) {
-        ArrayList<Tile> shortestPath=findTheShortestPath(x,y,currentTile);
-        if(shortestPath == null){return "move is impossible";}
-        currentTile.getCombatUnit().setPathShouldCross(shortestPath);
-        moveToNextTile(currentTile.getCombatUnit());
-        return "combat unit moved successfully";
-    }
 
     public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
         // todo, dummy function

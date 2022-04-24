@@ -1,10 +1,13 @@
 package Controllers;
 
-import Enums.CommandResponse;
-import Exceptions.InvalidCommand;
+import Exceptions.DuplicateOptionKey;
+import Exceptions.InvalidCommandFormat;
+import Exceptions.MissingRequiredOption;
+import Exceptions.UnrecognizedOption;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Command {
     private final HashMap<String, String> options;
@@ -13,6 +16,16 @@ public class Command {
     private Command(String type, HashMap<String, String> options) {
         this.options = options;
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("type = '" + type + "'\n");
+        for (Map.Entry<String, String> entry : options.entrySet()) {
+            stringBuilder.append("key = '" + entry.getKey() + "' / value = '" + entry.getValue() + "'\n");
+        }
+        return stringBuilder.toString();
     }
 
     private static String removeWhiteSpaces(String str) {
@@ -27,39 +40,43 @@ public class Command {
         return stringBuilder.toString();
     }
 
-    public static Command parseCommand(String input) throws InvalidCommand {
-        input = removeWhiteSpaces(input);
+    public static Command parseCommand(String input) throws InvalidCommandFormat, DuplicateOptionKey {
         int idx = input.indexOf('-');
         if (idx == -1) idx = input.length();
-        String cmd = input.substring(0, idx);
+        String cmd = removeWhiteSpaces(input.substring(0, idx)).toLowerCase();
         HashMap<String, String> options = new HashMap<>();
         while (idx < input.length()) {
             String key;
             int idx2 = idx + 1;
-            if (idx2 >= input.length()) {
-//                throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
+            if (idx2 >= input.length()) { // like "move -"
+                throw new InvalidCommandFormat(idx2);
             }
-            if (input.charAt(idx2) == '-') {
+            if (input.charAt(idx2) == '-') { // double dash
                 idx2 = input.indexOf(' ', idx);
-                if (idx2 == -1) {
-//                    throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
+                if (idx2 == -1) { // like "move --amount"
+                    throw new InvalidCommandFormat(idx2);
                 }
                 key = input.substring(idx + 2, idx2);
-            } else {
+            } else { // single dash
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
-                if (input.charAt(idx2) != ' ') {
-//                    throw new InvalidCommand(CommandResponse.INVALID_COMMAND.toString());
+                if (input.charAt(idx2) != ' ') { // like "move -amount"
+                    throw new InvalidCommandFormat(idx2);
                 }
             }
             idx = idx2 + 1;
             idx2 = input.indexOf('-', idx);
             if (idx2 == -1) idx2 = input.length();
-            String value = input.substring(idx, idx2);
+            String value = removeWhiteSpaces(input.substring(idx, idx2));
             idx = idx2;
+            if (options.containsKey(key)) {
+                throw new DuplicateOptionKey(key);
+            }
             options.put(key, value);
         }
-        return new Command(cmd, options);
+        Command command = new Command(cmd, options);
+        System.out.println(command);
+        return command;
     }
 
     public String getType() {
@@ -82,15 +99,13 @@ public class Command {
         return this.options.get(key);
     }
 
-    public CommandResponse validateOptions(List<String> requiredKeys) {
-        // todo: should validate more: unrecognized options, difference of dash and double dash, ...
+    public void assertOptions(List<String> requiredKeys) throws MissingRequiredOption, UnrecognizedOption {
         for (String key : requiredKeys) {
             if (this.getOption(key) == null) {
-                return CommandResponse.CommandMissingRequiredOption;
-                // todo: should contain the missing option's key
+                throw new MissingRequiredOption(key);
+            } else if (!requiredKeys.contains(key)) {
+                throw new UnrecognizedOption(key);
             }
         }
-        return CommandResponse.OK;
     }
-
 }

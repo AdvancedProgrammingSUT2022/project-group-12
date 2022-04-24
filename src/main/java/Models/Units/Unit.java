@@ -3,6 +3,7 @@ package Models.Units;
 import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
+import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 
@@ -17,6 +18,7 @@ public class Unit {
     protected int movement;
     protected int row;
     protected int column;
+    protected Location location;
     protected int healthBar;
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
@@ -58,6 +60,28 @@ public class Unit {
 
     public UnitEnum getType() {
         return this.type;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+        this.row=location.getX();
+        this.column=location.getY();
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setMovement(int movement) {
+        this.movement = movement;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public void garrison() {

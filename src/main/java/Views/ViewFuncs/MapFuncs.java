@@ -11,8 +11,6 @@ import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 
-import java.util.List;
-
 public class MapFuncs extends GameMenuFuncs {
 
 
@@ -63,12 +61,8 @@ public class MapFuncs extends GameMenuFuncs {
     public CommandResponse validateCommandForMoveByDirection(String type, String category, String subCategory, String subSubCategory, Command command, String direction) {
         if (type.trim().length() > (category + " " + subCategory + " " + subSubCategory).length())
             return CommandResponse.INVALID_COMMAND;
-        CommandResponse response;
-        if ((response = command.validateOptions(List.of("amount"))).isOK()) {
-            String amount = command.getOption("amount");
-            response = isCorrectPosition(amount, this.getGame(), direction);
-        }
-        return response;
+        String amount = command.getOption("amount");
+        return isCorrectPosition(amount, this.getGame(), direction);
     }
 
     private void unitDelete(Command command) {

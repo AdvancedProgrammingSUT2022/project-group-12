@@ -77,7 +77,6 @@ public class Tile {
     public void setState(VisibilityEnum state) {
         this.state = state;
     }
-
     public ArrayList<ResourceEnum> getResources() {
         return terrain.getResources();
     }

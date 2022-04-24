@@ -3,9 +3,12 @@ package Views;
 import Controllers.Command;
 import Controllers.GameController;
 import Enums.CommandResponse;
+import Exceptions.CommandException;
 import Models.Game;
 import Models.Location;
 import Views.ViewFuncs.*;
+
+import java.util.List;
 
 public class GameMenu extends Menu {
 
@@ -153,6 +156,12 @@ public class GameMenu extends Menu {
     }
 
     private void moveMap(Command command) {
+        try {
+            command.assertOptions(List.of("amount"));
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
         switch (command.getSubSubCategory().trim()) {
             case "right" -> getMapFuncs().moveMapByDirection(command, "right");
             case "left" -> getMapFuncs().moveMapByDirection(command, "left");

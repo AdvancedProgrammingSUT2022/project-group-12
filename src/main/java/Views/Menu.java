@@ -1,7 +1,7 @@
 package Views;
 
 import Controllers.Command;
-import Exceptions.InvalidCommand;
+import Exceptions.CommandException;
 
 import java.util.Scanner;
 
@@ -13,8 +13,8 @@ public abstract class Menu {
         try {
             Command command = Command.parseCommand(line);
             handleCommand(command);
-        } catch (InvalidCommand e) {
-            e.printStackTrace();
+        } catch (CommandException e) {
+            System.out.println(e.getMessage());
         }
     }
 

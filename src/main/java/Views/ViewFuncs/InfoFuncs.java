@@ -32,7 +32,6 @@ public class InfoFuncs extends GameMenuFuncs {
     public void militaryInfo() {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
-        GameController.showMilitaryInfo(currentTile, currentCivilization);
     }
 
     public void notifInfo() {

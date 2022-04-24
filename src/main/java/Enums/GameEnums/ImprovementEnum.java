@@ -1,148 +1,146 @@
 package Enums.GameEnums;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public enum ImprovementEnum {
-    ROAD(null, new ArrayList<>() {{
-        add(TechnologyEnum.THE_WHEEL);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.JUNGLE);
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.HILL);
-        add(TerrainEnum.MARSH);
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.RIVER);
-        add(TerrainEnum.SNOW);
-    }}),
-    RailRoad(null, new ArrayList<>() {{
-        add(TechnologyEnum.RAILROAD);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.JUNGLE);
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.HILL);
-        add(TerrainEnum.MARSH);
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.RIVER);
-        add(TerrainEnum.SNOW);
-    }}),
-    CAMP(new ArrayList<>() {{
-        add(ResourceEnum.IVORY);
-        add(ResourceEnum.FUR);
-        add(ResourceEnum.DEER);
-    }}, new ArrayList<>() {{
-        add(TechnologyEnum.TRAPPING);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.HILL);
-    }}),
-    FARM(new ArrayList<>() {{
-        add(ResourceEnum.WHEAT);
-    }}, new ArrayList<>() {{
-        add(TechnologyEnum.AGRICULTURE);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.DESERT);
-    }}),
-    LUMBER_MILL(null, new ArrayList<>() {{
-        add(TechnologyEnum.ENGINEERING);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.FOREST);
-    }}),
-    MINE(new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-        add(ResourceEnum.COAL);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.GOLD);
-        add(ResourceEnum.SILVER);
-    }}, new ArrayList<>() {{
-        add(TechnologyEnum.MINING);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.SNOW);
-    }}),
-    PASTURE(new ArrayList<>() {{
-        add(ResourceEnum.HORSE);
-        add(ResourceEnum.CATTLE);
-        add(ResourceEnum.SHEEP);
-    }}, new ArrayList<>() {{
-        add(TechnologyEnum.ANIMAL_HUSBANDRY);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.HILL);
-    }}),
-    STONE_MINE(new ArrayList<>() {{
-        add(ResourceEnum.MARBLE);
-    }}, new ArrayList<>() {{
+    ROAD(null, List.of(
+        TechnologyEnum.THE_WHEEL
+    ), List.of(
+        TerrainEnum.PLAIN,
+        TerrainEnum.JUNGLE,
+        TerrainEnum.DESERT,
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.HILL,
+        TerrainEnum.MARSH,
+        TerrainEnum.FOREST,
+        TerrainEnum.RIVER,
+        TerrainEnum.SNOW
+    )),
+    RailRoad(null, List.of(
+        TechnologyEnum.RAILROAD
+    ), List.of(
+        TerrainEnum.PLAIN,
+        TerrainEnum.JUNGLE,
+        TerrainEnum.DESERT,
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.HILL,
+        TerrainEnum.MARSH,
+        TerrainEnum.FOREST,
+        TerrainEnum.RIVER,
+        TerrainEnum.SNOW
+    )),
+    CAMP(List.of(
+        ResourceEnum.IVORY,
+        ResourceEnum.FUR,
+        ResourceEnum.DEER
+    ), List.of(
+        TechnologyEnum.TRAPPING
+    ), List.of(
+        TerrainEnum.FOREST,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.PLAIN,
+        TerrainEnum.HILL
+    )),
+    FARM(List.of(
+        ResourceEnum.WHEAT
+    ), List.of(
+        TechnologyEnum.AGRICULTURE
+    ), List.of(
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.PLAIN,
+        TerrainEnum.DESERT
+    )),
+    LUMBER_MILL(null, List.of(
+        TechnologyEnum.ENGINEERING
+    ), List.of(
+        TerrainEnum.FOREST
+    )),
+    MINE(List.of(
+        ResourceEnum.IRON,
+        ResourceEnum.COAL,
+        ResourceEnum.GEMSTONE,
+        ResourceEnum.GOLD,
+        ResourceEnum.SILVER
+    ), List.of(
+        TechnologyEnum.MINING
+    ), List.of(
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.PLAIN,
+        TerrainEnum.DESERT,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.SNOW
+    )),
+    PASTURE(List.of(
+        ResourceEnum.HORSE,
+        ResourceEnum.CATTLE,
+        ResourceEnum.SHEEP
+    ), List.of(
+        TechnologyEnum.ANIMAL_HUSBANDRY
+    ), List.of(
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.PLAIN,
+        TerrainEnum.DESERT,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.HILL
+    )),
+    STONE_MINE(List.of(
+        ResourceEnum.MARBLE
+    ), List.of(
         //TODO : carving stone ?
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.HILL);
-    }}),
-    CULTIVATION(new ArrayList<>() {{
-        add(ResourceEnum.BANANA);
-        add(ResourceEnum.COTTON);
-        add(ResourceEnum.DYES);
-        add(ResourceEnum.INCENSE);
-        add(ResourceEnum.SILK);
-        add(ResourceEnum.SUGAR);
-    }}, new ArrayList<>() {{
-        add(TechnologyEnum.CALENDAR);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.JUNGLE);
-        add(TerrainEnum.MARSH);
-        add(TerrainEnum.FALLOUT);
-    }}),
-    TRADING_POST(null, new ArrayList<>() {{
-        add(TechnologyEnum.TRAPPING);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.TUNDRA);
-    }}),
-    COMPANY(null, new ArrayList<>() {{
-        add(TechnologyEnum.ENGINEERING);
-    }}, new ArrayList<>() {{
-        add(TerrainEnum.DESERT);
-        add(TerrainEnum.PLAIN);
-        add(TerrainEnum.GRASSLAND);
-        add(TerrainEnum.TUNDRA);
-        add(TerrainEnum.SNOW);
-    }});
+            ), List.of(
+        TerrainEnum.DESERT,
+        TerrainEnum.PLAIN,
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.HILL
+    )),
+    CULTIVATION(List.of(
+        ResourceEnum.BANANA,
+        ResourceEnum.COTTON,
+        ResourceEnum.DYES,
+        ResourceEnum.INCENSE,
+        ResourceEnum.SILK,
+        ResourceEnum.SUGAR
+    ), List.of(
+        TechnologyEnum.CALENDAR
+    ), List.of(
+        TerrainEnum.DESERT,
+        TerrainEnum.PLAIN,
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.FOREST,
+        TerrainEnum.JUNGLE,
+        TerrainEnum.MARSH,
+        TerrainEnum.FALLOUT
+    )),
+    TRADING_POST(null, List.of(TechnologyEnum.TRAPPING), List.of(
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.PLAIN,
+        TerrainEnum.DESERT,
+        TerrainEnum.TUNDRA
+        )),
+    COMPANY(null, List.of(
+        TechnologyEnum.ENGINEERING
+            ), List.of(
+        TerrainEnum.DESERT,
+        TerrainEnum.PLAIN,
+        TerrainEnum.GRASSLAND,
+        TerrainEnum.TUNDRA,
+        TerrainEnum.SNOW
+        ));
 
-    private final ArrayList<ResourceEnum> isRequiredBy;
-    private final ArrayList<TechnologyEnum> requiredTechs;
-    private final ArrayList<TerrainEnum> canBeBuiltOn;
+    private final List<ResourceEnum> isRequiredBy;
+    private final List<TechnologyEnum> requiredTechs;
+    private final List<TerrainEnum> canBeBuiltOn;
 
-    ImprovementEnum(ArrayList<ResourceEnum> isRequiredBy, ArrayList<TechnologyEnum> requiredTechs, ArrayList<TerrainEnum> canBeBuiltOn) {
+    ImprovementEnum(List<ResourceEnum> isRequiredBy, List<TechnologyEnum> requiredTechs, List<TerrainEnum> canBeBuiltOn) {
         this.isRequiredBy = isRequiredBy;
         this.requiredTechs = requiredTechs;
         this.canBeBuiltOn = canBeBuiltOn;
     }
 
-    public boolean hasRequiredTechs(ArrayList<TechnologyEnum> techs) {
+    public boolean hasRequiredTechs(List<TechnologyEnum> techs) {
         for (TechnologyEnum list : this.requiredTechs)
             if (!techs.contains(list)) {
                 return false;
@@ -150,19 +148,19 @@ public enum ImprovementEnum {
         return true;
     }
 
-    public ArrayList<ResourceEnum> getIsRequiredBy() {
+    public List<ResourceEnum> getIsRequiredBy() {
         return isRequiredBy;
     }
 
-    public ArrayList<TechnologyEnum> getRequiredTechs() {
+    public List<TechnologyEnum> getRequiredTechs() {
         return requiredTechs;
     }
 
-    public ArrayList<TerrainEnum> getCanBeBuiltOn() {
+    public List<TerrainEnum> getCanBeBuiltOn() {
         return canBeBuiltOn;
     }
 
-    public boolean canBeBuiltOn(ArrayList<TerrainEnum> lands) {
+    public boolean canBeBuiltOn(List<TerrainEnum> lands) {
         for (TerrainEnum terrainEnum :
                 lands) {
             if (this.canBeBuiltOn.contains(terrainEnum)) {
@@ -172,8 +170,14 @@ public enum ImprovementEnum {
         return false;
     }
 
-    public ArrayList<ResourceEnum> isRequiredBy() {
+    public List<ResourceEnum> isRequiredBy() {
         return isRequiredBy;
         //TODO : really don't need this func
     }
 }
+
+
+
+
+
+
