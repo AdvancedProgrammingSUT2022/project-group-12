@@ -31,7 +31,7 @@ public class MovingController extends GameController {
 
     private static String moveToNextTile(Unit unit,String response) {
         while (unit.getMovement() > 0 && unit.getPathShouldCross().size() != 0) {
-            TileGrid gameTileGrid=TileGrid.getInstance();
+            TileGrid gameTileGrid=game.getTileGrid();
             int nextRow=unit.getPathShouldCross().get(0).getRow(),nextCol=unit.getPathShouldCross().get(0).getCol();
             calculateMoveMentCost(unit,nextRow,nextCol);
             if (checkForEnemy(nextRow,nextCol,unit,response)) break;
@@ -45,7 +45,7 @@ public class MovingController extends GameController {
     }
 
     private static boolean checkForEnemy(int nextRow, int nextCol, Unit unit,String response) {
-        Tile currentTile=TileGrid.getInstance().getTile(nextRow,nextCol);
+        Tile currentTile=game.getTileGrid().getTile(nextRow,nextCol);
         if (isEnemyExists(nextRow,nextCol,unit.getCiv()) || isNonCombatEnemyExists(nextRow,nextCol,unit.getCiv())) {
             response=AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
             unit.setMovement(0);
@@ -57,16 +57,16 @@ public class MovingController extends GameController {
 
     private static void calculateMoveMentCost(Unit unit,int row,int col) {
         if(checkForZOC(unit.getRow(),unit.getColumn(),row,col,unit)){unit.setMovement(0); return;}
-        unit.setMovement(unit.getMovement()-TileGrid.getInstance().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
+        unit.setMovement(unit.getMovement()-game.getTileGrid().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
     }
 
     private static boolean checkForZOC(int row, int col, int row1, int col1,Unit unit) {
-        if(checkForZOCOnTile(TileGrid.getInstance().getTile(row,col),unit) &&
-                checkForZOCOnTile(TileGrid.getInstance().getTile(row1,col1),unit)) return true;
+        if(checkForZOCOnTile(game.getTileGrid().getTile(row,col),unit) &&
+                checkForZOCOnTile(game.getTileGrid().getTile(row1,col1),unit)) return true;
         return false;
     }
     private static boolean checkForZOCOnTile(Tile tile,Unit unit) {
-        ArrayList<Tile> tiles=TileGrid.getInstance().getNeighborsOf(tile);
+        ArrayList<Tile> tiles=game.getTileGrid().getNeighborsOf(tile);
         Civilization unitCiv=unit.getCiv();
         for (Tile tempTile:
                 tiles) {
