@@ -1,9 +1,6 @@
 package Models.Terrains;
 
-import Enums.GameEnums.ImprovementEnum;
-import Enums.GameEnums.ResourceEnum;
-import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.VisibilityEnum;
+import Enums.GameEnums.*;
 
 import java.util.ArrayList;
 
@@ -17,6 +14,7 @@ public class Terrain {
     private final ArrayList<TerrainEnum> features;
     private final ArrayList<ResourceEnum> resources;
     private VisibilityEnum state;
+    private TerrainColor color;
 
     protected ArrayList<ImprovementEnum> improvements;
 
@@ -38,6 +36,11 @@ public class Terrain {
             this.movementCost += feature.getMovementCost();
         }
         this.state = VisibilityEnum.FOG_OF_WAR;
+        this.color = terrainType.getColor();
+    }
+
+    public String getColor() {
+        return this.color.toString();
     }
 
     public VisibilityEnum getState() {

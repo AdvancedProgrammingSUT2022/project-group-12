@@ -8,7 +8,6 @@ import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -23,8 +22,6 @@ public class Tile {
     private City city;
     private boolean hasRoad;
     private VisibilityEnum state;
-    private boolean hasACombatUnit;
-    private boolean hasANonCombatUnit;
 
     public Tile(Terrain terrain, int x, int y) {
         this.row = x;
@@ -37,30 +34,32 @@ public class Tile {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.hasACombatUnit = false;
-        this.hasANonCombatUnit = false;
     }
+
+    private Tile(Tile anotherTile) {
+        this.row = anotherTile.row;
+        this.col = anotherTile.col;
+        this.terrain = anotherTile.terrain;
+        this.combatUnit = anotherTile.combatUnit;
+        this.nonCombatUnit = anotherTile.nonCombatUnit;
+        this.HP = anotherTile.HP;
+        this.isDamaged = anotherTile.isDamaged;
+        this.city = anotherTile.city;
+        this.hasRoad = anotherTile.hasRoad;
+        this.state = anotherTile.state;
+    }
+
 
     public void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
-        this.hasACombatUnit = true;
     }
 
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
-        this.hasANonCombatUnit = true;
     }
 
     public boolean hasRoad() {
         return hasRoad;
-    }
-
-    public boolean isHasACombatUnit() {
-        return hasACombatUnit;
-    }
-
-    public boolean isHasANonCombatUnit() {
-        return hasANonCombatUnit;
     }
 
     public void setHP(int HP) {
@@ -78,6 +77,7 @@ public class Tile {
     public void setState(VisibilityEnum state) {
         this.state = state;
     }
+
     public ArrayList<ResourceEnum> getResources() {
         return terrain.getResources();
     }
@@ -126,13 +126,17 @@ public class Tile {
         return this.city.getCivilization();
     }
 
-    public Tile deepCopy() {
-        Gson gson = new Gson();
-        return gson.fromJson(gson.toJson(this), Tile.class);
+    public Tile deepCopy(Tile tileToCopy) {
+        Tile newTile = new Tile(tileToCopy);
+        return newTile;
     }
-    public void setUnit(Unit unit,Unit toSet){
-        if(unit instanceof CombatUnit){setCombatUnit((CombatUnit) toSet);}
-        else {setNonCombatUnit((NonCombatUnit) toSet);}
+
+    public void setUnit(Unit unit, Unit toSet) {
+        if (unit instanceof CombatUnit) {
+            setCombatUnit((CombatUnit) toSet);
+        } else {
+            setNonCombatUnit((NonCombatUnit) toSet);
+        }
     }
 
     public int calculateMovementCost() {

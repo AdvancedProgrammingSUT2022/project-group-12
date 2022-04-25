@@ -78,4 +78,3 @@ public enum BuildingEnum {
         return true;
     }
 }
-

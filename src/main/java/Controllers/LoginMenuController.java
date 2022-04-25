@@ -37,6 +37,6 @@ public class LoginMenuController {
                 InputRegex.getMatcher(password, InputRegex.CONTAINS_UPPERCASE_ALPHABET) != null &&
                 InputRegex.getMatcher(password, InputRegex.CONTAINS_LOWERCASE_ALPHABET) != null &&
                 InputRegex.getMatcher(password, InputRegex.CONTAINS_SPECIAL_CHAR) != null &&
-                password.length() > 8;
+                password.length() >= 8;
     }
 }

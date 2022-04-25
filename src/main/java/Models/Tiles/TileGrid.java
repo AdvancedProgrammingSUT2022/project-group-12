@@ -1,6 +1,7 @@
 package Models.Tiles;
 
 import Enums.GameEnums.TerrainEnum;
+import Enums.GameEnums.VisibilityEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
 
@@ -22,9 +23,8 @@ public class TileGrid {
         int x = random.nextInt(height);
         int y = random.nextInt(width);
         for (int i = 0; i < width; i++) {
-
             for (int j = 0; j < height; j++) {
-                tiles[i][j] = randomAssignment(i, j);
+                tiles[i][j] = new Tile(new Terrain(TerrainEnum.GRASSLAND), i, j);
             }
         }
     }
@@ -82,6 +82,10 @@ public class TileGrid {
         return this.usedLocations;
     }
 
+    public Tile[][] getGrid() {
+        return this.tiles;
+    }
+
     public int getHeight() {
         return height;
     }
@@ -92,5 +96,19 @@ public class TileGrid {
 
     public Tile[][] getTiles() {
         return this.tiles;
+    }
+
+    public void replaceTile(Tile replacement) {
+        this.tiles[replacement.getRow()][replacement.getCol()] = replacement;
+    }
+
+    public VisibilityEnum[][] gridState() {
+        VisibilityEnum[][] state = new VisibilityEnum[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                state[i][j] = tiles[i][j].getState();
+            }
+        }
+        return state;
     }
 }

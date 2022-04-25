@@ -3,132 +3,133 @@ package Enums.GameEnums;
 import java.util.List;
 
 public enum ImprovementEnum {
-    ROAD(null, List.of(
-        TechnologyEnum.THE_WHEEL
+    RESET(List.of(), List.of(), List.of()),
+    ROAD(List.of(), List.of(
+            TechnologyEnum.THE_WHEEL
     ), List.of(
-        TerrainEnum.PLAIN,
-        TerrainEnum.JUNGLE,
-        TerrainEnum.DESERT,
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.HILL,
-        TerrainEnum.MARSH,
-        TerrainEnum.FOREST,
-        TerrainEnum.RIVER,
-        TerrainEnum.SNOW
+            TerrainEnum.PLAIN,
+            TerrainEnum.JUNGLE,
+            TerrainEnum.DESERT,
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.HILL,
+            TerrainEnum.MARSH,
+            TerrainEnum.FOREST,
+            TerrainEnum.RIVER,
+            TerrainEnum.SNOW
     )),
-    RailRoad(null, List.of(
-        TechnologyEnum.RAILROAD
+    RailRoad(List.of(), List.of(
+            TechnologyEnum.RAILROAD
     ), List.of(
-        TerrainEnum.PLAIN,
-        TerrainEnum.JUNGLE,
-        TerrainEnum.DESERT,
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.HILL,
-        TerrainEnum.MARSH,
-        TerrainEnum.FOREST,
-        TerrainEnum.RIVER,
-        TerrainEnum.SNOW
+            TerrainEnum.PLAIN,
+            TerrainEnum.JUNGLE,
+            TerrainEnum.DESERT,
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.HILL,
+            TerrainEnum.MARSH,
+            TerrainEnum.FOREST,
+            TerrainEnum.RIVER,
+            TerrainEnum.SNOW
     )),
     CAMP(List.of(
-        ResourceEnum.IVORY,
-        ResourceEnum.FUR,
-        ResourceEnum.DEER
+            ResourceEnum.IVORY,
+            ResourceEnum.FUR,
+            ResourceEnum.DEER
     ), List.of(
-        TechnologyEnum.TRAPPING
+            TechnologyEnum.TRAPPING
     ), List.of(
-        TerrainEnum.FOREST,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.PLAIN,
-        TerrainEnum.HILL
+            TerrainEnum.FOREST,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.PLAIN,
+            TerrainEnum.HILL
     )),
     FARM(List.of(
-        ResourceEnum.WHEAT
+            ResourceEnum.WHEAT
     ), List.of(
-        TechnologyEnum.AGRICULTURE
+            TechnologyEnum.AGRICULTURE
     ), List.of(
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.PLAIN,
-        TerrainEnum.DESERT
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.PLAIN,
+            TerrainEnum.DESERT
     )),
-    LUMBER_MILL(null, List.of(
-        TechnologyEnum.ENGINEERING
+    LUMBER_MILL(List.of(), List.of(
+            TechnologyEnum.ENGINEERING
     ), List.of(
-        TerrainEnum.FOREST
+            TerrainEnum.FOREST
     )),
     MINE(List.of(
-        ResourceEnum.IRON,
-        ResourceEnum.COAL,
-        ResourceEnum.GEMSTONE,
-        ResourceEnum.GOLD,
-        ResourceEnum.SILVER
+            ResourceEnum.IRON,
+            ResourceEnum.COAL,
+            ResourceEnum.GEMSTONE,
+            ResourceEnum.GOLD,
+            ResourceEnum.SILVER
     ), List.of(
-        TechnologyEnum.MINING
+            TechnologyEnum.MINING
     ), List.of(
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.PLAIN,
-        TerrainEnum.DESERT,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.SNOW
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.PLAIN,
+            TerrainEnum.DESERT,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.SNOW
     )),
     PASTURE(List.of(
-        ResourceEnum.HORSE,
-        ResourceEnum.CATTLE,
-        ResourceEnum.SHEEP
+            ResourceEnum.HORSE,
+            ResourceEnum.CATTLE,
+            ResourceEnum.SHEEP
     ), List.of(
-        TechnologyEnum.ANIMAL_HUSBANDRY
+            TechnologyEnum.ANIMAL_HUSBANDRY
     ), List.of(
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.PLAIN,
-        TerrainEnum.DESERT,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.HILL
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.PLAIN,
+            TerrainEnum.DESERT,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.HILL
     )),
     STONE_MINE(List.of(
-        ResourceEnum.MARBLE
+            ResourceEnum.MARBLE
     ), List.of(
-        //TODO : carving stone ?
-            ), List.of(
-        TerrainEnum.DESERT,
-        TerrainEnum.PLAIN,
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.HILL
+            //TODO : carving stone ?
+    ), List.of(
+            TerrainEnum.DESERT,
+            TerrainEnum.PLAIN,
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.HILL
     )),
     CULTIVATION(List.of(
-        ResourceEnum.BANANA,
-        ResourceEnum.COTTON,
-        ResourceEnum.DYES,
-        ResourceEnum.INCENSE,
-        ResourceEnum.SILK,
-        ResourceEnum.SUGAR
+            ResourceEnum.BANANA,
+            ResourceEnum.COTTON,
+            ResourceEnum.DYES,
+            ResourceEnum.INCENSE,
+            ResourceEnum.SILK,
+            ResourceEnum.SUGAR
     ), List.of(
-        TechnologyEnum.CALENDAR
+            TechnologyEnum.CALENDAR
     ), List.of(
-        TerrainEnum.DESERT,
-        TerrainEnum.PLAIN,
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.FOREST,
-        TerrainEnum.JUNGLE,
-        TerrainEnum.MARSH,
-        TerrainEnum.FALLOUT
+            TerrainEnum.DESERT,
+            TerrainEnum.PLAIN,
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.FOREST,
+            TerrainEnum.JUNGLE,
+            TerrainEnum.MARSH,
+            TerrainEnum.FALLOUT
     )),
-    TRADING_POST(null, List.of(TechnologyEnum.TRAPPING), List.of(
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.PLAIN,
-        TerrainEnum.DESERT,
-        TerrainEnum.TUNDRA
-        )),
-    COMPANY(null, List.of(
-        TechnologyEnum.ENGINEERING
-            ), List.of(
-        TerrainEnum.DESERT,
-        TerrainEnum.PLAIN,
-        TerrainEnum.GRASSLAND,
-        TerrainEnum.TUNDRA,
-        TerrainEnum.SNOW
-        ));
+    TRADING_POST(List.of(), List.of(TechnologyEnum.TRAPPING), List.of(
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.PLAIN,
+            TerrainEnum.DESERT,
+            TerrainEnum.TUNDRA
+    )),
+    COMPANY(List.of(), List.of(
+            TechnologyEnum.ENGINEERING
+    ), List.of(
+            TerrainEnum.DESERT,
+            TerrainEnum.PLAIN,
+            TerrainEnum.GRASSLAND,
+            TerrainEnum.TUNDRA,
+            TerrainEnum.SNOW
+    ));
 
     private final List<ResourceEnum> isRequiredBy;
     private final List<TechnologyEnum> requiredTechs;
@@ -161,8 +162,7 @@ public enum ImprovementEnum {
     }
 
     public boolean canBeBuiltOn(List<TerrainEnum> lands) {
-        for (TerrainEnum terrainEnum :
-                lands) {
+        for (TerrainEnum terrainEnum : lands) {
             if (this.canBeBuiltOn.contains(terrainEnum)) {
                 return true;
             }

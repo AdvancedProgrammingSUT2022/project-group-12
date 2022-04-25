@@ -3,7 +3,8 @@ package Enums.GameEnums;
 import java.util.ArrayList;
 
 public enum TechnologyEnum {
-    AGRICULTURE(20, null, new ArrayList<>() {{
+    RESET(0, new ArrayList<>(), new ArrayList<>()),
+    AGRICULTURE(20, new ArrayList<>(), new ArrayList<>() {{
         add(POTTERY);
         add(ANIMAL_HUSBANDRY);
         add(ARCHERY);
@@ -233,7 +234,7 @@ public enum TechnologyEnum {
         add(REPLACEABLE_PARTS);
         add(RAILROAD);
         add(DYNAMITE);
-    }}, null),
+    }}, new ArrayList<>()),
     DYNAMITE(1900, new ArrayList<>() {{
         add(FERTILIZER);
         add(RIFLING);
@@ -249,7 +250,7 @@ public enum TechnologyEnum {
     }}),
     RADIO(2200, new ArrayList<>() {{
         add(ELECTRICITY);
-    }}, null),
+    }}, new ArrayList<>()),
     RAILROAD(1900, new ArrayList<>() {{
         add(STEAM_POWER);
     }}, new ArrayList<>() {{
@@ -270,7 +271,7 @@ public enum TechnologyEnum {
     }}),
     TELEGRAPH(2200, new ArrayList<>() {{
         add(ELECTRICITY);
-    }}, null);
+    }}, new ArrayList<>());
 
     private final int cost;
     private final ArrayList<TechnologyEnum> prerequisiteTechs;
