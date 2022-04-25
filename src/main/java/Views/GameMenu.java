@@ -12,12 +12,12 @@ import java.util.List;
 
 public class GameMenu extends Menu {
 
-    private Game game;
     private final InfoFuncs infoFuncs;
     private final MapFuncs mapFuncs;
     private final SelectFuncs selectFuncs;
     private final UnitBuildFuncs unitBuildFuncs;
     private final UnitOtherFuncs unitOtherFuncs;
+    private final Game game;
     private Location gridCord;
 
     public GameMenu(GameController controller) {

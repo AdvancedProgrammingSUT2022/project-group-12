@@ -3,15 +3,13 @@ package Views;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 
-import java.util.ArrayList;
-
 public class TileGridPrinter {
-    private char[][] screen;
     private final TileGrid tileGrid;
     private final int height = 20;
     private final int width = 70;
     private final int h = 6;
     private final int w = 5;
+    private final char[][] screen;
 
     public TileGridPrinter(TileGrid tileGrid) {
         this.tileGrid = tileGrid;

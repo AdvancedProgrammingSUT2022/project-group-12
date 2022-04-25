@@ -2,7 +2,6 @@ package Views;
 
 import Controllers.Command;
 import Controllers.LoginMenuController;
-import Enums.CommandResponse;
 import Exceptions.CommandException;
 
 import java.util.List;
@@ -31,7 +30,12 @@ public class LoginMenu extends Menu {
         String username = command.getOption("username");
         String nickname = command.getOption("nickname");
         String password = command.getOption("password");
-        this.controller.createUser(username, nickname, password);
+        try {
+            this.controller.createUser(username, nickname, password);
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
         System.out.println("user created successfully");
     }
 
@@ -44,10 +48,13 @@ public class LoginMenu extends Menu {
         }
         String username = command.getOption("username");
         String password = command.getOption("password");
-        CommandResponse response = this.controller.loginUser(username, password);
-        System.out.println(!response.isOK() ? response : "user logged in successfully");
-        if (response.isOK()) {
-            MenuStack.getInstance().pushMenu(new MainMenu());
+        try {
+            this.controller.loginUser(username, password);
+        } catch (CommandException e) {
+            e.print();
+            return;
         }
+        System.out.println("user logged in successfully");
+        MenuStack.getInstance().pushMenu(new MainMenu());
     }
 }
