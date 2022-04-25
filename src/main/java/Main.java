@@ -1,5 +1,3 @@
-import Models.Tiles.TileGrid;
-import Models.User;
 import Views.MenuStack;
 
 import java.util.Scanner;
