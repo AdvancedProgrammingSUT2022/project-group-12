@@ -22,6 +22,9 @@ public class LoginMenu extends Menu {
     }
 
     private void createUser(Command command) {
+        command.abbreviate("username", "u");
+        command.abbreviate("nickname", "n");
+        command.abbreviate("password", "p");
         try {
             command.assertOptions(List.of("username", "nickname", "password"));
         } catch (CommandException e) {
@@ -41,6 +44,8 @@ public class LoginMenu extends Menu {
     }
 
     private void loginUser(Command command) {
+        command.abbreviate("username", "u");
+        command.abbreviate("password", "p");
         try {
             command.assertOptions(List.of("username", "password"));
         } catch (CommandException e) {

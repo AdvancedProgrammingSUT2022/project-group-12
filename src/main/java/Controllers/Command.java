@@ -76,6 +76,14 @@ public class Command {
         return command;
     }
 
+    public void abbreviate(String key, String abbr) {
+        String value = this.getOption(abbr);
+        if (value != null) {
+            this.options.remove(abbr);
+            this.options.put(key, value);
+        }
+    }
+
     public String getType() {
         return type;
     }
