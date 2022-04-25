@@ -204,7 +204,7 @@ public class GameController {
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
         StringBuilder militaryInfo=new StringBuilder("");
-        //HashMap<UnitEnum, Integer> combatType=currentCivilization.getCombatUnits();
+        ArrayList<CombatUnit> combatType=currentCivilization.getCombatUnits();
 
         return null;
     }
