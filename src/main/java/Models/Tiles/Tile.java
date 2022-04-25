@@ -130,6 +130,7 @@ public class Tile {
         Gson gson = new Gson();
         return gson.fromJson(gson.toJson(this), Tile.class);
     }
+
     public void setUnit(Unit unit,Unit toSet){
         if(unit instanceof CombatUnit){setCombatUnit((CombatUnit) toSet);}
         else {setNonCombatUnit((NonCombatUnit) toSet);}

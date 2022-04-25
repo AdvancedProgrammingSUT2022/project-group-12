@@ -97,6 +97,10 @@ public class Command {
         return getPartOfType(2);
     }
 
+    public HashMap<String, String> getOptions() {
+        return options;
+    }
+
     public String getOption(String key) {
         return this.options.get(key);
     }
@@ -118,4 +122,5 @@ public class Command {
             }
         }
     }
+
 }

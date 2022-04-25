@@ -1,5 +1,6 @@
 package Controllers;
 
+import Exceptions.UnknownUser;
 import Models.Database;
 import Models.Game;
 import Models.User;
@@ -26,13 +27,13 @@ public class MainMenuController {
         return "menu changed to " + newMenu + " successfully";
     }
 
-    public static GameController startNewGame(ArrayList<String> usernames) {
+    public static GameController startNewGame(ArrayList<String> usernames) throws UnknownUser {
         ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
         for (String username : usernames) {
             User user = database.getUser(username);
             if (user == null) {
-//                return CommandResponse.INVALID_COMMAND; // todo: exception
+                throw new UnknownUser(username);
             } else {
                 users.add(user);
             }

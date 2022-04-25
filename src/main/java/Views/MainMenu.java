@@ -4,6 +4,8 @@ import Controllers.Command;
 import Controllers.GameController;
 import Controllers.MainMenuController;
 import Enums.CommandResponse;
+import Exceptions.InvalidCommandFormat;
+import Exceptions.UnknownUser;
 
 import java.util.ArrayList;
 
@@ -23,15 +25,30 @@ public class MainMenu extends Menu {
 
     private void playGame(Command command) {
         ArrayList<String> usernames = new ArrayList<>();
-        int num = 1;
-        String username;
-        while ((username = command.getOption("player" + num)) != null) {
-            // todo: check player number gap
-            usernames.add(username);
-            ++num;
+        ArrayList<Integer> playerNumbers = new ArrayList<>();
+        for (String option : command.getOptions().keySet()) {
+            try {
+                if (option.startsWith("player")) playerNumbers.add(Integer.valueOf(option.substring("player".length())));
+            } catch (NumberFormatException e) {
+                new InvalidCommandFormat().print();
+            }
         }
-        GameController gameController = MainMenuController.startNewGame(usernames);
-        System.out.println(/*!response.isOK() ? response : */"user created successfully");
+        for (int i = 1 ; i <= playerNumbers.size(); ++i) {
+            String username = command.getOption("player" + i);
+            if (username == null) {
+                System.out.println("there is a gap in number of players, player " + i + "not entered");
+                return;
+            }
+            usernames.add(username);
+        }
+        GameController gameController;
+        try {
+            gameController = MainMenuController.startNewGame(usernames);
+        } catch (UnknownUser e) {
+            e.print();
+            return;
+        }
+        System.out.println("user created successfully");
         MenuStack.getInstance().pushMenu(new GameMenu(gameController));
     }
 }
