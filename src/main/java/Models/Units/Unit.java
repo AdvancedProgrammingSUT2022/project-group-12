@@ -88,6 +88,10 @@ public class Unit {
         this.healthBar = healthBar;
     }
 
+    public void setType(UnitEnum type) {
+        this.type = type;
+    }
+
     public int getHealthBar() {
         return healthBar;
     }
@@ -98,5 +102,9 @@ public class Unit {
 
     public Civilization getCiv() {
         return civ;
+    }
+
+    public void setCiv(Civilization civ) {
+        this.civ = civ;
     }
 }

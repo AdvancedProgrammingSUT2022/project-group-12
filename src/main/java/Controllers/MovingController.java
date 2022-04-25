@@ -1,5 +1,7 @@
 package Controllers;
 
+import Enums.GameEnums.TerrainEnum;
+import Enums.GameEnums.UnitEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Civilization;
 import Models.Game;
@@ -9,6 +11,7 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -46,18 +49,49 @@ public class MovingController extends GameController {
 
     private static boolean checkForEnemy(int nextRow, int nextCol, Unit unit,String response) {
         Tile currentTile=game.getTileGrid().getTile(nextRow,nextCol);
-        if (isEnemyExists(nextRow,nextCol,unit.getCiv()) || isNonCombatEnemyExists(nextRow,nextCol,unit.getCiv())) {
+        if (isEnemyExists(nextRow,nextCol,unit.getCiv())) {
             response=AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
             unit.setMovement(0);
             unit.setPathShouldCross(null);
             return true;
         }
+        if(isNonCombatEnemyExists(nextRow,nextCol,unit.getCiv())){
+            CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextRow,nextCol),unit.getCiv());
+            return false;
+        }
         return false;
     }
 
+    private static void CaptureTheNonCombatUnit(Tile tile, Civilization civ) {
+        NonCombatUnit capturedUnit=tile.getNonCombatUnit();
+        if(capturedUnit.getType() == UnitEnum.WORKER ||
+           capturedUnit.getType() == UnitEnum.SETTLER) {
+            /***
+             * non combat unit has captured
+             */
+            capturedUnit.setType(UnitEnum.WORKER);
+            capturedUnit.setCiv(civ);
+        }else {
+            /***
+             * nonCombat has killed
+             */
+            tile.setNonCombatUnit(null);
+        }
+        }
+
     private static void calculateMoveMentCost(Unit unit,int row,int col) {
         if(checkForZOC(unit.getRow(),unit.getColumn(),row,col,unit)){unit.setMovement(0); return;}
+        if(checkForRivers(game.getTileGrid().getTile(row, col),game.getTileGrid().getTile(unit.getRow(), unit.getColumn()))){
+            unit.setMovement(0); return;
+        }
         unit.setMovement(unit.getMovement()-game.getTileGrid().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
+    }
+
+    private static boolean checkForRivers(Tile tile, Tile tile1) {
+        //TODO : check if is there a river or not
+        if(tile.getTerrain().getFeatures().contains(TerrainEnum.RIVER) &&
+        tile1.getTerrain().getFeatures().contains(TerrainEnum.RIVER) ) return true;
+        return false;
     }
 
     private static boolean checkForZOC(int row, int col, int row1, int col1,Unit unit) {
