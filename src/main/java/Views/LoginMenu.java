@@ -2,6 +2,7 @@ package Views;
 
 import Controllers.Command;
 import Controllers.LoginMenuController;
+import Enums.CommandResponse;
 import Exceptions.CommandException;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class LoginMenu extends Menu {
             case "user login" -> loginUser(command);
             case "show current menu" -> System.out.println("Login Menu");
             case "menu exit" -> MenuStack.getInstance().popMenu();
-            default -> System.out.println("invalid command");
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
