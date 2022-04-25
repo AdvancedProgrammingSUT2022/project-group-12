@@ -64,9 +64,19 @@ public class GameMenu extends Menu {
             case "select" -> this.select(command);
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
+            case "city" -> this.city(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
+
+    private void city(Command command) {
+        switch (command.getSubCategory()){
+            case "attack" -> UnitOtherFuncs.CityAttack(command);
+        }
+
+    }
+
+
 
     private void info(Command command) {
         switch (command.getSubCategory()) {

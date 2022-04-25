@@ -29,16 +29,15 @@ public class City {
     private int unitCount;
     private int beaker;
     private int happiness;
-    private final Tile tile;
+
 
     public City(Civilization civ, Tile tile, boolean isCapital) {
         this.combatUnit = null;
-        this.tile = tile;
         this.nonCombatUnit = null;
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.getTerrain().getProductsCount();
         this.resources = tile.getTerrain().getResources();
-        this.hitPoint = 200;
+        this.hitPoint = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
         this.unitCount = 0;
@@ -53,9 +52,7 @@ public class City {
         //TODO : check the range of the city and the combat strength of that
     }
 
-    public Tile getTile() {
-        return this.tile;
-    }
+
 
     public CombatUnit getCombatUnit() {
         return this.combatUnit;

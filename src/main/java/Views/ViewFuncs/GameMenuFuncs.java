@@ -20,11 +20,11 @@ public class GameMenuFuncs {
         return game;
     }
 
-    protected Civilization getCurrentCivilization() {
+    protected static Civilization getCurrentCivilization() {
         return game.getCivTurn().get(game.getCivTurn().size() - 1);
     }
 
-    protected Tile getCurrentTile() {
+    protected static Tile getCurrentTile() {
         return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
     }
 

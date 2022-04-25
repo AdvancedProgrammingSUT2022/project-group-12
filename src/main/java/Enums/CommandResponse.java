@@ -35,7 +35,7 @@ public enum CommandResponse {
     INVALID_PASSWORD("current password is invalid"),
     REPEATING_PASSWORD("please enter a new password"),
     PASSWORD_CHANGED("password changed successfully"),
-    TILE_IS_FULL("this tile is full");
+    TILE_IS_FULL("this tile is full"), NOT_HAVING_CITY("this city is not belong to you");
 
     private String message;
 

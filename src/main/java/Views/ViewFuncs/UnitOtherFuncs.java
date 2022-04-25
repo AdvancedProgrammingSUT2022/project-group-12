@@ -10,6 +10,7 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 
+import static Controllers.CombatController.AttackCity;
 import static Controllers.CombatController.AttackUnit;
 import static Controllers.MovingController.moveUnit;
 
@@ -147,9 +148,11 @@ public class UnitOtherFuncs extends UnitFuncs{
             row = Integer.parseInt(coordinates[0]);
             col = Integer.parseInt(coordinates[1]);
         }
+
+        response=validateForCombatUnit(currentTile,civilization);
+
         System.out.println(response.isOK() ? AttackUnit(row, col, this.getGame(), currentTile, civilization) : response);
     }
-
     public void unitSetup(Command command) {
     }
 
@@ -376,6 +379,35 @@ public class UnitOtherFuncs extends UnitFuncs{
         }
         return CommandResponse.OK;
     }
+    public void CityAttack(Command command) {
+        String key;
+        if ((key = command.getOption("position")) == null) {
+            System.out.println(CommandResponse.CommandMissingRequiredOption);
+            return;
+        }
+        String[] coordinates = key.split("\\s+");
+        Civilization civilization = getCurrentCivilization();
+        Tile currentTile = getCurrentTile();
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
+
+        int row = 0, col = 0;
+        if (response.isOK()) {
+            row = Integer.parseInt(coordinates[0]);
+            col = Integer.parseInt(coordinates[1]);
+        }
+
+        response=validateForCity(currentTile,civilization);
+
+        System.out.println(response.isOK() ? AttackCity(row, col, this.getGame(), currentTile, civilization) : response);
+    }
 
 
+
+    private static CommandResponse validateForCity(Tile currentTile, Civilization civilization) {
+        if (currentTile.getCity() == null) return CommandResponse.CITY_DOES_NOT_EXISTS;
+        if (currentTile.getCity().getCivilization() != civilization) {
+            return CommandResponse.NOT_HAVING_CITY;
+        }
+        return CommandResponse.OK;
+    }
 }
