@@ -11,6 +11,8 @@ public enum CommandResponse {
     INVALID_POSITION("invalid position"),
     INVALID_CITY("city name is incorrect"),
     INVALID_COMMAND("invalid command"),
+    INVALID_SUBCOMMAND("invalid sub command"),
+    INVALID_SUBSUBCOMMAND("invalid sub sub command"),
     INVALID_NUMBER("invalid number"),
     INVALID_DIRECTION("invalid direction"),
     NOT_HAVING_TILE("this tile is not yours"),

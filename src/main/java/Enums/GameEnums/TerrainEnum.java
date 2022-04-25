@@ -153,7 +153,8 @@ public enum TerrainEnum {
     }
 
     public ArrayList<ResourceEnum> getResources() {
-        return this.possibleResources;
+//        return this.possibleResources;
+        return new ArrayList<>();
     }
 
     public boolean isBlockingView() {

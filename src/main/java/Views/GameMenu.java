@@ -12,12 +12,12 @@ import java.util.List;
 
 public class GameMenu extends Menu {
 
-    private Game game;
     private final InfoFuncs infoFuncs;
     private final MapFuncs mapFuncs;
     private final SelectFuncs selectFuncs;
     private final UnitBuildFuncs unitBuildFuncs;
     private final UnitOtherFuncs unitOtherFuncs;
+    private final Game game;
     private Location gridCord;
 
     public GameMenu(GameController controller) {
@@ -27,10 +27,6 @@ public class GameMenu extends Menu {
         this.selectFuncs = new SelectFuncs(GameController.game);
         this.unitBuildFuncs = new UnitBuildFuncs(GameController.game);
         this.unitOtherFuncs = new UnitOtherFuncs(GameController.game);
-    }
-
-    public Game getGame() {
-        return game;
     }
 
     public InfoFuncs getInfoFuncs() {
@@ -68,6 +64,7 @@ public class GameMenu extends Menu {
             case "select" -> this.select(command);
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -84,6 +81,7 @@ public class GameMenu extends Menu {
             case "economic" -> getInfoFuncs().ecoInfo();
             case "diplomatic" -> getInfoFuncs().diplomaticInfo();
             case "deals" -> getInfoFuncs().dealsInfo();
+            default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
@@ -91,6 +89,7 @@ public class GameMenu extends Menu {
         switch (command.getType()) {
             case "unit" -> this.selectUnit(command);
             case "city" -> getSelectFuncs().selectCity(command);
+            default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
@@ -98,7 +97,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
             case "combat" -> getSelectFuncs().selectCombatUnit(command);
             case "noncombat" -> getSelectFuncs().selectNonCombatUnit(command);
-            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+            default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
@@ -118,6 +117,7 @@ public class GameMenu extends Menu {
             case "build" -> this.unitBuild(command);
             case "remove" -> this.unitRemove(command);
             case "repair" -> getUnitOtherFuncs().unitRepair(command);
+            default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
@@ -133,6 +133,7 @@ public class GameMenu extends Menu {
             case "camp" -> getUnitBuildFuncs().unitBuildCamp();
             case "plantation" -> getUnitBuildFuncs().unitBuildPlantation();
             case "quarry" -> getUnitBuildFuncs().unitBuildQuarry();
+            default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
@@ -140,6 +141,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
             case "route" -> getUnitOtherFuncs().unitRemoveRoute();
             case "jungle" -> getUnitOtherFuncs().unitRemoveJungle();
+            default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
@@ -147,6 +149,7 @@ public class GameMenu extends Menu {
         switch (command.getSubCategory()) {
             case "show" -> getMapFuncs().showMap(command);
             case "move" -> this.moveMap(command);
+            default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
@@ -163,7 +166,7 @@ public class GameMenu extends Menu {
             case "left" -> getMapFuncs().moveMapByDirection(command, "left");
             case "up" -> getMapFuncs().moveMapByDirection(command, "up");
             case "down" -> getMapFuncs().moveMapByDirection(command, "down");
-            default -> System.out.println(CommandResponse.INVALID_DIRECTION);
+            default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 

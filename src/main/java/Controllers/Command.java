@@ -76,6 +76,14 @@ public class Command {
         return command;
     }
 
+    public void abbreviate(String key, String abbr) {
+        String value = this.getOption(abbr);
+        if (value != null) {
+            this.options.remove(abbr);
+            this.options.put(key, value);
+        }
+    }
+
     public String getType() {
         return type;
     }
@@ -95,6 +103,10 @@ public class Command {
 
     public String getSubSubCategory() {
         return getPartOfType(2);
+    }
+
+    public HashMap<String, String> getOptions() {
+        return options;
     }
 
     public String getOption(String key) {
@@ -118,4 +130,5 @@ public class Command {
             }
         }
     }
+
 }

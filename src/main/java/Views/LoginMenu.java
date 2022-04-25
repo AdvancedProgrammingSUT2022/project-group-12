@@ -3,12 +3,14 @@ package Views;
 import Controllers.Command;
 import Controllers.LoginMenuController;
 import Enums.CommandResponse;
+import Enums.InputRegex;
 import Exceptions.CommandException;
 
 import java.util.List;
+import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
-    private LoginMenuController controller = new LoginMenuController();
+    private final LoginMenuController controller = new LoginMenuController();
 
     @Override
     protected void handleCommand(Command command) {
@@ -17,11 +19,14 @@ public class LoginMenu extends Menu {
             case "user login" -> loginUser(command);
             case "show current menu" -> System.out.println("Login Menu");
             case "menu exit" -> MenuStack.getInstance().popMenu();
-            default -> System.out.println("invalid command");
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
     private void createUser(Command command) {
+        command.abbreviate("username", "u");
+        command.abbreviate("nickname", "n");
+        command.abbreviate("password", "p");
         try {
             command.assertOptions(List.of("username", "nickname", "password"));
         } catch (CommandException e) {
@@ -31,11 +36,18 @@ public class LoginMenu extends Menu {
         String username = command.getOption("username");
         String nickname = command.getOption("nickname");
         String password = command.getOption("password");
-        this.controller.createUser(username, nickname, password);
+        try {
+            this.controller.createUser(username, nickname, password);
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
         System.out.println("user created successfully");
     }
 
     private void loginUser(Command command) {
+        command.abbreviate("username", "u");
+        command.abbreviate("password", "p");
         try {
             command.assertOptions(List.of("username", "password"));
         } catch (CommandException e) {
@@ -44,10 +56,13 @@ public class LoginMenu extends Menu {
         }
         String username = command.getOption("username");
         String password = command.getOption("password");
-        CommandResponse response = this.controller.loginUser(username, password);
-        System.out.println(!response.isOK() ? response : "user logged in successfully");
-        if (response.isOK()) {
-            MenuStack.getInstance().pushMenu(new MainMenu());
+        try {
+            this.controller.loginUser(username, password);
+        } catch (CommandException e) {
+            e.print();
+            return;
         }
+        System.out.println("user logged in successfully");
+        MenuStack.getInstance().pushMenu(new MainMenu());
     }
 }

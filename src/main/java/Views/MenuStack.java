@@ -1,6 +1,5 @@
 package Views;
 
-import Models.Game;
 import Models.User;
 
 import java.util.ArrayList;
@@ -57,17 +56,17 @@ public class MenuStack {
         this.getMenus().get(this.getMenus().size() - 1).run();
     }
 
-    public void gotoLoginMenu() {
-        this.currentUser = null;
-        this.pushMenu(this.loginMenu);
-    }
-
     public User getUser() {
         return this.currentUser;
     }
 
     public void setUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public void gotoLoginMenu() {
+        this.currentUser = null;
+        this.pushMenu(this.loginMenu);
     }
 
     public void gotoMainMenu() {
