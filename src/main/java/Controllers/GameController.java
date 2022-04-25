@@ -10,6 +10,7 @@ import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
+import Models.Units.RangedUnit;
 import Models.Units.Unit;
 
 import java.util.*;
@@ -46,6 +47,24 @@ public class GameController {
         if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
         return false;
     }
+    protected static boolean isEnemyIsReadyForAttack(int row, int col, Civilization civilization,CombatUnit combatUnit) {
+        CombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getCombatUnit();
+        NonCombatUnit nonCombatEnemyUnit=game.getTileGrid().getTile(row, col).getNonCombatUnit();
+
+        if(combatUnit instanceof RangedUnit){
+            if(isEnemyExists(row, col, civilization) || isNonCombatEnemyExists(row, col, civilization))return true;
+            return false;
+        }else {
+            if (isEnemyExists(row, col, civilization)) return true;
+            return false;
+        }
+    }
+    protected static boolean isAttackToCity(int row, int col, Civilization civilization) {
+        City enemyCity=game.getTileGrid().getTile(row, col).getCity();
+        if(enemyCity != null){return true;}
+        else return false;
+    }
+
     protected static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
         NonCombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getNonCombatUnit();
         if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;

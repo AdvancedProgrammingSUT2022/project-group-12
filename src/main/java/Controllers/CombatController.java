@@ -1,12 +1,11 @@
 package Controllers;
 
+import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.CombatUnit;
-import Models.Units.NonRangedUnit;
-import Models.Units.RangedUnit;
+import Models.Units.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,9 +18,18 @@ public class CombatController extends GameController {
         super(newGame);
     }
     public static String AttackUnit(int row, int col, Game game, Tile currentTile, Civilization civilization) {
-        if(!isEnemyExists(row,col,civilization)) return "enemy doesn't exists there";
+        if(isAttackToCity(row,col,civilization)){return AttackToCity(row,col,game.getTileGrid(),currentTile,civilization,currentTile.getCity());}
+        if(!isEnemyIsReadyForAttack(row,col,civilization,currentTile.getCombatUnit())) return "enemy doesn't exists there";
         if(currentTile.getCombatUnit() instanceof RangedUnit){ return  AttackRangedUnit(row,col,game.getTileGrid(),currentTile,civilization,(RangedUnit) currentTile.getCombatUnit());}
         else return AttackNonRangedUnit(row,col, game.getTileGrid(),currentTile,civilization,(NonRangedUnit) currentTile.getCombatUnit());
+    }
+
+    private static String AttackToCity(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, City city) {
+        ArrayList<Tile> path=findTheShortestPath(row,col,currentTile,currentTile.getCombatUnit());
+        if(city.getRange() >= path.size()){
+            if(isEnemyExists(row, col, civilization)) return caculateCityRangeAttack(city,tileGrid.getTile(row,col).getCombatUnit(),currentTile,tileGrid.getTile(row, col));
+            else return  caculateCityRangeAttack(city,tileGrid.getTile(row,col).getNonCombatUnit(),currentTile,tileGrid.getTile(row, col));
+        }else return "Attack is not possible";
     }
 
     private static String AttackNonRangedUnit(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
@@ -34,7 +42,8 @@ public class CombatController extends GameController {
     private static String AttackRangedUnit(int row, int col,TileGrid tileGrid, Tile currentTile, Civilization civilization,RangedUnit rangedUnit) {
         ArrayList<Tile> path=findTheShortestPath(row,col,currentTile,currentTile.getCombatUnit());
         if(rangedUnit.getType().getRange() >= path.size()){
-            return  caculateRangeAttack(rangedUnit,tileGrid.getTile(row,col).getCombatUnit(),currentTile,tileGrid.getTile(row, col));
+            if(isEnemyExists(row, col, civilization)) return caculateRangeAttack(rangedUnit,tileGrid.getTile(row,col).getCombatUnit(),currentTile,tileGrid.getTile(row, col));
+            else return  caculateRangeAttack(rangedUnit,tileGrid.getTile(row,col).getNonCombatUnit(),currentTile,tileGrid.getTile(row, col));
         }else return "Attack is not possible";
     }
 
@@ -47,22 +56,35 @@ public class CombatController extends GameController {
         return null;
     }
 
-    private static String caculateRangeAttack(RangedUnit rangedUnit, CombatUnit combatUnit,Tile rangedUnitTile,Tile combatUnitTile) {
+    private static String caculateRangeAttack(RangedUnit rangedUnit, Unit unit,Tile rangedUnitTile,Tile combatUnitTile) {
         String response=new String("Attack happened successfully");
         int strengthRangedUnit=calculateCombatStrength(rangedUnit,rangedUnitTile);
-        int combatUnitStrength=calculateCombatStrength(combatUnit,combatUnitTile);
-        caculateRangeAttackDamage(rangedUnit,strengthRangedUnit,combatUnit,combatUnitStrength);
-        response=checkForKill(rangedUnit,combatUnit,rangedUnitTile,combatUnitTile);
+        int EnemyUnitStrength=calculateCombatStrength(unit,combatUnitTile);
+        caculateRangeAttackDamage(rangedUnit,strengthRangedUnit,unit,EnemyUnitStrength);
+        response=checkForKill(rangedUnit,unit,rangedUnitTile,combatUnitTile);
         return response;
     }
-    private static String checkForKill(CombatUnit combatUnit1, CombatUnit combatUnit2,Tile combatUnit1Tile,Tile combatUnit2Tile) {
+    private static String caculateCityRangeAttack(City city, Unit unit, Tile currentTile, Tile tile) {
+        String response=new String("Attack happened successfully");
+        int strengthRangedUnit=calculateCombatStrength(rangedUnit,rangedUnitTile);
+        int EnemyUnitStrength=calculateCombatStrength(unit,combatUnitTile);
+        caculateRangeAttackDamage(rangedUnit,strengthRangedUnit,unit,EnemyUnitStrength);
+        response=checkForKill(rangedUnit,unit,rangedUnitTile,combatUnitTile);
+        return response;
+    }
+    private static String checkForKill(CombatUnit combatUnit, Unit unitEnemy,Tile combatUnitTile,Tile unitEnemyTile) {
         boolean isHaveKill=false;
-        if(combatUnit2.getHealthBar()<=0){
-            isHaveKill=true; combatUnit2Tile.setCombatUnit(null);
-            combatUnit1Tile.setCombatUnit(null);
-            combatUnit2Tile.setCombatUnit(combatUnit1);
+        if(unitEnemy.getHealthBar()<=0){
+            isHaveKill=true;
+            if(unitEnemy instanceof NonCombatUnit){unitEnemyTile.setNonCombatUnit(null);}
+            else {unitEnemyTile.setCombatUnit(null);}
+
+            if(combatUnit instanceof NonRangedUnit) {
+                combatUnitTile.setCombatUnit(null);
+                unitEnemyTile.setCombatUnit(combatUnit);
+            }
         }
-        if(combatUnit1.getHealthBar()<= 0){isHaveKill=true; combatUnit1Tile.setCombatUnit(null);}
+        if(combatUnit.getHealthBar()<= 0){isHaveKill=true; combatUnitTile.setCombatUnit(null);}
         if(isHaveKill)return "Unit was killed";
         return "both are damaged and attack happened successfully";
     }
@@ -72,10 +94,10 @@ public class CombatController extends GameController {
         calculateDamage(nonRangedUnit,-strengthDiff, random);
         calculateDamage(combatUnit,strengthDiff,random);
     }
-    private static void caculateRangeAttackDamage(RangedUnit rangedUnit, int strengthRangedUnit, CombatUnit combatUnit, int combatUnitStrength) {
+    private static void caculateRangeAttackDamage(RangedUnit rangedUnit, int strengthRangedUnit,Unit unit, int combatUnitStrength) {
         int strengthDiff=strengthRangedUnit-combatUnitStrength;
         Random random= new Random();
-        calculateDamage(combatUnit,strengthDiff,random);
+        calculateDamage(unit,strengthDiff,random);
     }
 
 
@@ -83,9 +105,9 @@ public class CombatController extends GameController {
         double random_number=(random.nextInt(50)+75)/100;
         nonRangedUnit.setHealthBar(nonRangedUnit.getHealthBar()-(int) (25*exp(strengthDiff /(25.0*random_number))));
     }
-    private static void calculateDamage(CombatUnit combatUnit, int strengthDiff, Random random) {
+    private static void calculateDamage(Unit unit, int strengthDiff, Random random) {
         double random_number=(random.nextInt(50)+75)/100;
-        combatUnit.setHealthBar(combatUnit.getHealthBar()-(int) (25*exp(strengthDiff /(25.0*random_number))));
+        unit.setHealthBar(unit.getHealthBar()-(int) (25*exp(strengthDiff /(25.0*random_number))));
     }
 
     private static int calculateCombatStrength(NonRangedUnit nonRangedUnit, Tile itsTile){
@@ -95,14 +117,14 @@ public class CombatController extends GameController {
         return strength;
     }
 
-    private static int HealthBarAffect(int strength, CombatUnit combatUnit) {
-        return (combatUnit.getHealthBar()/100)*strength;
+    private static int HealthBarAffect(int strength, Unit unit) {
+        return (unit.getHealthBar()/100)*strength;
     }
 
-    private static int calculateCombatStrength(CombatUnit combatUnit, Tile itsTile){
-        int strength=combatUnit.getType().getCombatStrength();
+    private static int calculateCombatStrength(Unit unit, Tile itsTile){
+        int strength=unit.getType().getCombatStrength();
         strength=AffectTerrainFeatures(strength,itsTile);
-        strength=HealthBarAffect(strength,combatUnit);
+        strength=HealthBarAffect(strength,unit);
         return strength;
     }
     private static int calculateCombatStrength(RangedUnit rangedUnit, Tile itsTile){

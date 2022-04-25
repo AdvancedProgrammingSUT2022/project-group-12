@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class City {
     private final Civilization isOwnedBy;
     private final int citizensCount;
+    private final int range;
     private final ArrayList<BuildingEnum> cityStructure;
     protected boolean isCapital;
     private String name;
@@ -37,8 +38,8 @@ public class City {
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.getTerrain().getProductsCount();
         this.resources = tile.getTerrain().getResources();
-        this.hitPoint = 20;
-        this.combatStrength = 0;
+        this.hitPoint = 200;
+        this.combatStrength = 10;
         this.isCapital = isCapital;
         this.unitCount = 0;
         this.citizensCount = 0;
@@ -48,6 +49,8 @@ public class City {
         this.hasACombatUnit = false;
         this.hasANonCombatUnit = false;
         this.isOwnedBy = civ;
+        this.range=2;
+        //TODO : check the range of the city and the combat strength of that
     }
 
     public Tile getTile() {
@@ -70,6 +73,10 @@ public class City {
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
         this.hasANonCombatUnit = true;
+    }
+
+    public int getRange() {
+        return range;
     }
 
     public Civilization getCivilization() {
