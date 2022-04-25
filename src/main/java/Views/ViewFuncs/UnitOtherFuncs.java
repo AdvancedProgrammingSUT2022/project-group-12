@@ -353,8 +353,8 @@ public class UnitOtherFuncs extends UnitFuncs{
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateTileForRemovingRoute(currentTile, currentCivilization);
         if (response.isOK()) {
-            if (isExists(currentTile, ImprovementEnum.RailRoad))
-                System.out.println(GameController.RemoveRoute(currentTile, ImprovementEnum.RailRoad));
+            if (isExists(currentTile, ImprovementEnum.RAILROAD))
+                System.out.println(GameController.RemoveRoute(currentTile, ImprovementEnum.RAILROAD));
             if (isExists(currentTile, ImprovementEnum.ROAD))
                 System.out.println(GameController.RemoveRoute(currentTile, ImprovementEnum.ROAD));
         } else {
@@ -371,7 +371,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
             return CommandResponse.WRONG_UNIT;
         }
-        if (!isExists(currentTile, ImprovementEnum.ROAD) && !isExists(currentTile, ImprovementEnum.RailRoad)) {
+        if (!isExists(currentTile, ImprovementEnum.ROAD) && !isExists(currentTile, ImprovementEnum.RAILROAD)) {
             return CommandResponse.ROUTE_DOES_NOT_EXISTS;
         }
         return CommandResponse.OK;

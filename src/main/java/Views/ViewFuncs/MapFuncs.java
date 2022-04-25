@@ -42,7 +42,7 @@ public class MapFuncs extends GameMenuFuncs {
 
     public CommandResponse moveMapByDirection(Command command, String direction) {
         CommandResponse response = validateCommandForMoveByDirection(command.getType().trim(), command.getCategory(), command.getSubCategory(), command.getSubSubCategory(), command, direction);
-        int amount = 1; //command.getOption("amount"); todo
+        int amount = 1; // todo: get amount
         Location newCord = gridCord;
         switch (direction) {
             case "down" -> newCord.moveY(amount);

@@ -25,8 +25,7 @@ public class GameMenuFuncs {
     }
 
     protected Tile getCurrentTile() {
-//        return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
-        return null;
+        return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
     }
 
     protected CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
