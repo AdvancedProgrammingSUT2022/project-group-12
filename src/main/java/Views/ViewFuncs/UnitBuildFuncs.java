@@ -90,8 +90,8 @@ public class UnitBuildFuncs extends UnitFuncs {
     public void unitBuildRailRoad() {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
-        CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.RailRoad);
-        if (response.isOK()) System.out.println(GameController.BuildImprovement(currentTile, ImprovementEnum.RailRoad));
+        CommandResponse response = isPossibleToBuild(currentTile, currentCivilization, ImprovementEnum.RAILROAD);
+        if (response.isOK()) System.out.println(GameController.BuildImprovement(currentTile, ImprovementEnum.RAILROAD));
         else System.out.println(response);
     }
 
