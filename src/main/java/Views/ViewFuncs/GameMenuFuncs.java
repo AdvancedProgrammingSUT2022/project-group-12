@@ -9,7 +9,7 @@ import Models.Location;
 import Models.Tiles.Tile;
 
 public class GameMenuFuncs {
-    protected Game game;
+    protected static Game game;
     protected Location gridCord;
 
     public GameMenuFuncs(Game game) {

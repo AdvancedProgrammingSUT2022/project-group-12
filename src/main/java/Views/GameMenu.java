@@ -71,6 +71,7 @@ public class GameMenu extends Menu {
 
     private void city(Command command) {
         switch (command.getSubCategory()){
+//            ?
 //            case "attack" -> UnitOtherFuncs.CityAttack(command);
         }
 
