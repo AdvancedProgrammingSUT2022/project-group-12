@@ -3,6 +3,7 @@ package Controllers;
 import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
+import Exceptions.CommandException;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -181,7 +182,7 @@ public class GameController {
                 nonCombatUnits) {
             StringBuilder nonCombatName=new StringBuilder("nonCombat name : "+nonCombatEnum.getType().name());
             StringBuilder nonCombatStrength=new StringBuilder("Strength : -");
-            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getMovement()+"/"+nonCombatEnum.getType().getMovement());
+            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getAvailableMoveCount()+"/"+nonCombatEnum.getType().getMovement());
             unitsInfo.append(nonCombatName+" "+nonCombatStrength+" "+movementPoint+'\n');
         }
     }
@@ -200,7 +201,7 @@ public class GameController {
                 combatUnits) {
             StringBuilder combatName=new StringBuilder("combat name : "+combatEnum.getType().name());
             StringBuilder combatStrength=new StringBuilder("Strength : "+combatEnum.getCombatStrength());
-            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+combatEnum.getMovement()+"/"+combatEnum.getType().getMovement());
+            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+combatEnum.getAvailableMoveCount()+"/"+combatEnum.getType().getMovement());
             unitsInfo.append(combatName+" "+combatStrength+" "+movementPoint+'\n');
         }
     }
@@ -255,9 +256,9 @@ public class GameController {
         // todo, dummy function
     }
 
-    public static Boolean BuildImprovement(Tile currentTile, ImprovementEnum stoneMine) {
-        // todo, dummy function
-        return null;
+    public static void buildImprovement(Tile tile, Civilization civ, ImprovementEnum improvement) throws CommandException {
+        // todo, validations
+        throw new CommandException("error folan");
     }
 
     public CommandResponse battle(Civilization attacking, Civilization defending) {

@@ -3,8 +3,8 @@ package Views;
 import Controllers.Command;
 import Controllers.GameController;
 import Enums.CommandResponse;
+import Enums.GameEnums.ImprovementEnum;
 import Exceptions.CommandException;
-import Models.Game;
 import Models.Location;
 import Views.ViewFuncs.*;
 
@@ -17,11 +17,9 @@ public class GameMenu extends Menu {
     private final SelectFuncs selectFuncs;
     private final UnitBuildFuncs unitBuildFuncs;
     private final UnitOtherFuncs unitOtherFuncs;
-    private final Game game;
     private Location gridCord;
 
     public GameMenu(GameController controller) {
-        this.game = GameController.game;
         this.infoFuncs = new InfoFuncs(GameController.game);
         this.mapFuncs = new MapFuncs(GameController.game);
         this.selectFuncs = new SelectFuncs(GameController.game);
@@ -134,16 +132,16 @@ public class GameMenu extends Menu {
 
     private void unitBuild(Command command) {
         switch (command.getSubSubCategory()) {
-            case "road" -> getUnitBuildFuncs().unitBuildRoad();
-            case "railRoad" -> getUnitBuildFuncs().unitBuildRailRoad();
-            case "farm" -> getUnitBuildFuncs().unitBuildFarm();
-            case "mine" -> getUnitBuildFuncs().unitBuildMine();
-            case "tradingPost" -> getUnitBuildFuncs().unitBuildTradingPost();
-            case "lumberMill" -> getUnitBuildFuncs().unitBuildLumberMill();
-            case "pasture" -> getUnitBuildFuncs().unitBuildPasture();
-            case "camp" -> getUnitBuildFuncs().unitBuildCamp();
-            case "plantation" -> getUnitBuildFuncs().unitBuildPlantation();
-            case "quarry" -> getUnitBuildFuncs().unitBuildQuarry();
+            case "road" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.ROAD);
+            case "railRoad" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.RAILROAD);
+            case "farm" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.FARM);
+            case "mine" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.MINE);
+            case "tradingPost" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.TRADING_POST);
+            case "lumberMill" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.LUMBER_MILL);
+            case "pasture" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.PASTURE);
+            case "camp" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.CAMP);
+            case "plantation" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.CULTIVATION);
+            case "quarry" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.STONE_MINE);
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }

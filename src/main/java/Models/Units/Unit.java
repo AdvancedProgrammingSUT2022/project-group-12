@@ -15,7 +15,7 @@ public class Unit {
     protected City assignedCity;
     protected Terrain terrain;
     protected int cost;
-    protected int movement;
+    protected int availableMoveCount;
     protected int row;
     protected int column;
     protected Location location;
@@ -28,6 +28,7 @@ public class Unit {
         this.terrain = terrain;
         this.civ = civ;
         this.pathShouldCross=null;
+        this.resetMovementCount();
     }
 
     public void setPathShouldCross(ArrayList<Tile> pathShouldCross) {
@@ -54,8 +55,8 @@ public class Unit {
         this.isWorking = work;
     }
 
-    public int getMovement() {
-        return movement;
+    public int getAvailableMoveCount() {
+        return availableMoveCount;
     }
 
     public UnitEnum getType() {
@@ -72,8 +73,8 @@ public class Unit {
         return row;
     }
 
-    public void setMovement(int movement) {
-        this.movement = movement;
+    public void setAvailableMoveCount(int availableMoveCount) {
+        this.availableMoveCount = availableMoveCount;
     }
 
     public int getColumn() {
@@ -106,5 +107,9 @@ public class Unit {
 
     public void setCiv(Civilization civ) {
         this.civ = civ;
+    }
+
+    public void resetMovementCount() {
+        this.availableMoveCount = type.getMovement();
     }
 }
