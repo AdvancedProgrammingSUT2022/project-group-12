@@ -48,7 +48,7 @@ public class MainMenu extends Menu {
             e.print();
             return;
         }
-        System.out.println("user created successfully");
+        System.out.println("game started");
         MenuStack.getInstance().pushMenu(new GameMenu(gameController));
     }
 }

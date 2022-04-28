@@ -46,10 +46,6 @@ public class UnitBuildFuncs extends UnitFuncs {
     }
 
     private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
-        if (improvement.hasRequiredTechs(civilization.getTechnologies())) {
-            return false;
-        }
-        return !improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures());
-
+        return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
     }
 }

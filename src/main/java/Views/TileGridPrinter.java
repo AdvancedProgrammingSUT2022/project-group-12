@@ -11,14 +11,14 @@ public class TileGridPrinter {
     private final int width = 70;
     private final int h = 6;
     private final int w = 5;
-    private final char[][] screen;
+    private final String[][] screen;
 
     public TileGridPrinter(TileGrid tileGrid) {
         this.tileGrid = tileGrid;
-        screen = new char[width][height];
+        screen = new String[height][width];
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                screen[i][j] = ' ';
+                screen[i][j] = " ";
             }
         }
     }
@@ -45,14 +45,15 @@ public class TileGridPrinter {
 
     private void drawHex(Tile tile, int row, int col) {
         for (int j = -w / 2; j <= w / 2; ++j) {
-            this.screen[row - h / 2][col + j] = '_';
-            this.screen[row + h / 2][col + j] = '_';
+            // todo: need setChar
+//            this.screen[row - h / 2][col + j] = '_';
+//            this.screen[row + h / 2][col + j] = '_';
         }
         for (int i = 0; i < h / 2; ++i) {
-            this.screen[row - h / 2 + 1 + i][col - 3 - i] = '/';
-            this.screen[row - h / 2 + 1 + i][col + 3 + i] = '\\';
-            this.screen[row + h / 2 - i][col - 3 - i] = '\\';
-            this.screen[row + h / 2 - i][col + 3 + i] = '/';
+//            this.screen[row - h / 2 + 1 + i][col - 3 - i] = '/';
+//            this.screen[row - h / 2 + 1 + i][col + 3 + i] = '\\';
+//            this.screen[row + h / 2 - i][col - 3 - i] = '\\';
+//            this.screen[row + h / 2 - i][col + 3 + i] = '/';
         }
     }
 
@@ -131,9 +132,16 @@ public class TileGridPrinter {
         }
     }
 
-    public StringBuilder showTileGrid(Tile[][] TileGrid, int x, int y, VisibilityEnum[][] terrainStates) {
-        this.grid = TileGrid;
-        this.state = terrainStates;
+    private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
+        this.screen[row][col] = foreground.toString() + background.toString() + ch + TerrainColor.RESET;
+    }
+
+    public StringBuilder showTileGrid(int x, int y) {
+        this.grid = this.tileGrid.getGrid();
+        this.state = this.tileGrid.gridState();
+
+        tiles = new StringBuilder[21][51];
+
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 51; j++) {
                 tiles[i][j].replace(0, tiles.length - 1, " ");
@@ -150,11 +158,5 @@ public class TileGridPrinter {
             finalPrint.append("\n");
         }
         return finalPrint;
-    }
-
-    public StringBuilder showPartOfGrid(TileGrid grid, int x, int y) {
-        this.state = grid.gridState();
-        this.grid = grid.getGrid();
-        return showTileGrid(grid.getTiles(), x, y, state);
     }
 }

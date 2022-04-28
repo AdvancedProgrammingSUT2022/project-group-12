@@ -9,6 +9,8 @@ import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
+import Models.Tiles.TileGrid;
+import Views.TileGridPrinter;
 
 public class MapFuncs extends GameMenuFuncs {
 
@@ -37,7 +39,10 @@ public class MapFuncs extends GameMenuFuncs {
             row = Integer.parseInt(coordinates[0]);
             col = Integer.parseInt(coordinates[1]);
         }
-        System.out.println(!response.isOK() ? response : GameMenuController.showMapOnPosition(row, col, this.getGame()));
+        TileGrid tileGrid = GameController.game.getTileGrid();
+        TileGridPrinter tileGridPrinter = new TileGridPrinter(tileGrid);
+        String output = tileGridPrinter.showTileGrid(row, col).toString();
+        System.out.print(output);
     }
 
     public CommandResponse moveMapByDirection(Command command, String direction) {

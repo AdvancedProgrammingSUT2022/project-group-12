@@ -90,7 +90,7 @@ public class Command {
 
     private String getPartOfType(int idx) {
         String[] parts = this.getType().split(" ");
-        return parts.length > idx ? parts[idx] : null;
+        return parts.length > idx ? parts[idx] : "";
     }
 
     public String getCategory() {

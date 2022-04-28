@@ -11,7 +11,6 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -33,7 +32,7 @@ public class MovingController extends GameController {
     }
 
     private static String moveToNextTile(Unit unit,String response) {
-        while (unit.getMovement() > 0 && unit.getPathShouldCross().size() != 0) {
+        while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid gameTileGrid=game.getTileGrid();
             int nextRow=unit.getPathShouldCross().get(0).getRow(),nextCol=unit.getPathShouldCross().get(0).getCol();
             calculateMoveMentCost(unit,nextRow,nextCol);
@@ -51,7 +50,7 @@ public class MovingController extends GameController {
         Tile currentTile=game.getTileGrid().getTile(nextRow,nextCol);
         if (isEnemyExists(nextRow,nextCol,unit.getCiv())) {
             response=AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
-            unit.setMovement(0);
+            unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;
         }
@@ -80,11 +79,11 @@ public class MovingController extends GameController {
         }
 
     private static void calculateMoveMentCost(Unit unit,int row,int col) {
-        if(checkForZOC(unit.getRow(),unit.getColumn(),row,col,unit)){unit.setMovement(0); return;}
+        if(checkForZOC(unit.getRow(),unit.getColumn(),row,col,unit)){unit.setAvailableMoveCount(0); return;}
         if(checkForRivers(game.getTileGrid().getTile(row, col),game.getTileGrid().getTile(unit.getRow(), unit.getColumn()))){
-            unit.setMovement(0); return;
+            unit.setAvailableMoveCount(0); return;
         }
-        unit.setMovement(unit.getMovement()-game.getTileGrid().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
+        unit.setAvailableMoveCount(unit.getAvailableMoveCount()-game.getTileGrid().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
     }
 
     private static boolean checkForRivers(Tile tile, Tile tile1) {

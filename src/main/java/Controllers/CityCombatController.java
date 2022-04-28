@@ -9,11 +9,11 @@ import Models.Units.CombatUnit;
 import Models.Units.NonRangedUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 import static Controllers.MovingController.findTheShortestPath;
-import static java.lang.Math.exp;
 
 public class CityCombatController extends CombatController{
 
@@ -27,7 +27,7 @@ public class CityCombatController extends CombatController{
     }
     private static String AttackNonRangedUnitToCity(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
         ArrayList<Tile> path=findTheShortestPath(row,col,currentTile,currentTile.getCombatUnit());
-        if(nonRangedUnit.getMovement() >= path.size()){
+        if(nonRangedUnit.getAvailableMoveCount() >= path.size()){
             return  calculateNonRangeAttackToCity(nonRangedUnit,tileGrid.getTile(row,col).getCity(),currentTile,tileGrid.getTile(row, col));
         }else return "Attack is not possible";
     }

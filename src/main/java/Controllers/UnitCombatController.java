@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static Controllers.MovingController.findTheShortestPath;
-import static java.lang.Math.exp;
 
 public class UnitCombatController extends  CombatController{
     public UnitCombatController(Game newGame) {
@@ -18,7 +17,7 @@ public class UnitCombatController extends  CombatController{
     }
     protected static String AttackNonRangedUnit(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
         ArrayList<Tile> path=findTheShortestPath(row,col,currentTile,currentTile.getCombatUnit());
-        if(nonRangedUnit.getMovement() >= path.size()){
+        if(nonRangedUnit.getAvailableMoveCount() >= path.size()){
             return  calculateNonRangeAttack(nonRangedUnit,tileGrid.getTile(row,col).getCombatUnit(),currentTile,tileGrid.getTile(row, col));
         }else return "Attack is not possible";
 

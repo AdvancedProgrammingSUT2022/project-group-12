@@ -23,7 +23,7 @@ public enum CommandResponse {
     JUNGLE_DOES_NOT_EXISTS("there isn't any jungle here"),
     ROAD_EXISTS("there is already road"),
     FARM_EXISTS("there is already farm!"),
-    YOU_HAVE_NOT_REQUIRED_OPTIONS("you can build here"),
+    YOU_HAVE_NOT_REQUIRED_OPTIONS("you can't build here"),
     RAILROAD_EXISTS("there is already railroad"),
     IMPROVEMENT_EXISTS("this improvement is already exists"),
     NOT_HAVING_UNIT("this unit isn't belong to you"),
