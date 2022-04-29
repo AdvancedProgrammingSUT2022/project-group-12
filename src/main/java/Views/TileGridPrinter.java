@@ -21,6 +21,8 @@ public class TileGridPrinter {
                 screen[i][j] = " ";
             }
         }
+        this.grid = this.tileGrid.getGrid();
+        this.state = this.tileGrid.gridState();
     }
 
     public String print() {
@@ -28,8 +30,10 @@ public class TileGridPrinter {
             for (int j = 0; j < this.tileGrid.getWidth(); ++j) {
                 Tile tile = this.tileGrid.getTile(i, j);
                 int x = h + w * 2;
-                if (i % 2 == 0) this.drawHex(tile, 4 + i * h / 2, 10 + j * x);
-                else this.drawHex(tile, 4 + i * h / 2, 18 + j * x);
+                if (i % 2 == 0)
+                    this.drawHex(tile, 4 + i * h / 2, 10 + j * x);
+                else
+                    this.drawHex(tile, 4 + i * h / 2, 18 + j * x);
             }
         }
 
@@ -45,51 +49,50 @@ public class TileGridPrinter {
 
     private void drawHex(Tile tile, int row, int col) {
         for (int j = -w / 2; j <= w / 2; ++j) {
-            // todo: need setChar
-//            this.screen[row - h / 2][col + j] = '_';
-//            this.screen[row + h / 2][col + j] = '_';
+            this.screen[row - h / 2][col + j] = "_";
+            this.screen[row + h / 2][col + j] = "_";
         }
         for (int i = 0; i < h / 2; ++i) {
-//            this.screen[row - h / 2 + 1 + i][col - 3 - i] = '/';
-//            this.screen[row - h / 2 + 1 + i][col + 3 + i] = '\\';
-//            this.screen[row + h / 2 - i][col - 3 - i] = '\\';
-//            this.screen[row + h / 2 - i][col + 3 + i] = '/';
+            this.screen[row - h / 2 + 1 + i][col - 3 - i] = "/";
+            this.screen[row - h / 2 + 1 + i][col + 3 + i] = "\\";
+            this.screen[row + h / 2 - i][col - 3 - i] = "\\";
+            this.screen[row + h / 2 - i][col + 3 + i] = "/";
         }
     }
 
-    private Tile[][] grid;
+    private final Tile[][] grid;
     private VisibilityEnum[][] state;
-    private StringBuilder[][] tiles; // todo: not initialized
+    private final String[][] tiles = new String[height][width];
 
     private void drawHex(int x, int y) {
         for (int i = 2; i > -1; i--) {
-            tiles[x + 2 - i][y + i].replace(0, tiles.length - 1, "/");
-            tiles[x + 5 - i][y + 8 + i].replace(0, tiles.length - 1, "/");
-            tiles[x + 2 - i][y + 10 - i].replace(0, tiles.length - 1, "\\");
-            tiles[x + 5 - i][y + 2 - i].replace(0, tiles.length - 1, "\\");
+            tiles[x + 2 - i][y + i] = "/";
+            tiles[x + 5 - i][y + 8 + i] = "/";
+            tiles[x + 2 - i][y + 10 - i] = "\\";
+            tiles[x + 5 - i][y + 2 - i] = "\\";
         }
     }
 
     private void insertTileInfo(int x, int y, int ox, int oy, String color) {
         for (int i = 2; i > -1; i--) {
             for (int j = i + y + 1; j < y + i + 1 + 5 + 4 - 2; j++) {
-                this.tiles[x + 2 - i][j].replace(0, tiles.length - 1, color + " " + TerrainColor.RESET);
-                this.tiles[x + 3 + i][j].replace(0, tiles.length - 1, color + " " + TerrainColor.RESET);
+                this.tiles[x + 2 - i][j] = color + " " + TerrainColor.RESET;
+                this.tiles[x + 3 + i][j] = color + " " + TerrainColor.RESET;
             }
         }
         if (ox / 10 != 0) {
-            tiles[x + 2][y + 3].replace(0, tiles.length - 1, TerrainColor.BLACK + color + ox / 10 + TerrainColor.RESET);
+            tiles[x + 2][y + 3] = TerrainColor.BLACK + color + ox / 10 + TerrainColor.RESET;
         }
-        tiles[x + 2][y + 4].replace(0, tiles.length - 1, TerrainColor.BLACK + color + ox % 10 + TerrainColor.RESET);
-        tiles[x + 2][y + 5].replace(0, tiles.length - 1, TerrainColor.BLACK + color + "," + TerrainColor.RESET);
+        tiles[x + 2][y + 4] = TerrainColor.BLACK + color + ox % 10 + TerrainColor.RESET;
+        tiles[x + 2][y + 5] = TerrainColor.BLACK + color + "," + TerrainColor.RESET;
         if (oy / 10 != 0) {
-            tiles[x + 2][y + 6].replace(0, tiles.length - 1, TerrainColor.BLACK + color + oy / 10
-                    + TerrainColor.RESET);
+            tiles[x + 2][y + 6] = TerrainColor.BLACK + color + oy / 10
+                    + TerrainColor.RESET;
         }
-        tiles[x + 2][y + 7].replace(0, tiles.length - 1, TerrainColor.BLACK + color + oy % 10 + TerrainColor.RESET);
+        tiles[x + 2][y + 7] = TerrainColor.BLACK + color + oy % 10 + TerrainColor.RESET;
 
         for (int i = 0; i < 5; i++) {
-            tiles[x + 5][y + 3 + i].replace(0, tiles.length - 1, color + "_" + TerrainColor.RESET);
+            tiles[x + 5][y + 3 + i] = color + "_" + TerrainColor.RESET;
         }
     }
 
@@ -97,9 +100,9 @@ public class TileGridPrinter {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 5; j++) {
-                this.tiles[2][11 + j].replace(0, tiles.length - 1, "_");
-                this.tiles[2][27 + j].replace(0, tiles.length - 1, "_");
-                this.tiles[2][43 + j].replace(0, tiles.length - 1, "_");
+                this.tiles[2][11 + j] = "_";
+                this.tiles[2][27 + j] = "_";
+                this.tiles[2][43 + j] = "_";
             }
         }
 
@@ -122,10 +125,9 @@ public class TileGridPrinter {
 
                 if (state[x + i][y + j] == VisibilityEnum.VISIBLE) {
                     if (grid[x + i][y + j].getCity().getCivilization() == null) {
-                        tiles[xi + 1][yj + 5].replace(0, tiles.length - 1, color + " " + TerrainColor.RESET);
+                        tiles[xi + 1][yj + 5] = color + " " + TerrainColor.RESET;
                     } else {
-                        tiles[xi + 1][yj + 5].replace(0, tiles.length - 1, color
-                                + grid[x + i][y + j].getCity().getCivilization().getName().charAt(0) + TerrainColor.RESET);
+                        tiles[xi + 1][yj + 5] = color + grid[x + i][y + j].getCity().getCivilization().getName().charAt(0) + TerrainColor.RESET;
                     }
                 }
             }
@@ -137,23 +139,18 @@ public class TileGridPrinter {
     }
 
     public StringBuilder showTileGrid(int x, int y) {
-        this.grid = this.tileGrid.getGrid();
-        this.state = this.tileGrid.gridState();
-
-        tiles = new StringBuilder[21][51];
-
-        for (int i = 0; i < 21; i++) {
-            for (int j = 0; j < 51; j++) {
-                tiles[i][j].replace(0, tiles.length - 1, " ");
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                tiles[i][j] = " ";
             }
         }
 
         drawGrid(x, y);
 
         StringBuilder finalPrint = new StringBuilder();
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-                finalPrint.append(tiles[i][j]);
+        for (String[] tile : tiles) {
+            for (String string : tile) {
+                finalPrint.append(string);
             }
             finalPrint.append("\n");
         }

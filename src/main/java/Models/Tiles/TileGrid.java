@@ -4,6 +4,7 @@ import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
+import Views.TileGridPrinter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,7 +31,6 @@ public class TileGrid {
     }
 
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
-        // todo
         return new ArrayList<>();
     }
 
@@ -44,7 +44,8 @@ public class TileGrid {
 
     public StringBuilder showGrid(int x, int y) {
         if (isLocationValid(x, y)) {
-            //TODO : draw map
+            TileGridPrinter printer = new TileGridPrinter(this);
+            printer.showTileGrid(x, y);
         }
         return null;
     }

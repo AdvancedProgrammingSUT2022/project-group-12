@@ -15,7 +15,7 @@ public class Unit {
     protected City assignedCity;
     protected Terrain terrain;
     protected int cost;
-    protected int availableMoveCount;
+    protected double availableMoveCount;
     protected int row;
     protected int column;
     protected Location location;
@@ -55,7 +55,7 @@ public class Unit {
         this.isWorking = work;
     }
 
-    public int getAvailableMoveCount() {
+    public double getAvailableMoveCount() {
         return availableMoveCount;
     }
 
@@ -73,7 +73,7 @@ public class Unit {
         return row;
     }
 
-    public void setAvailableMoveCount(int availableMoveCount) {
+    public void setAvailableMoveCount(double availableMoveCount) {
         this.availableMoveCount = availableMoveCount;
     }
 
