@@ -76,7 +76,11 @@ public class TileGridPrinter {
             this.setChar(row + hexH / 2 - i, col + 3 + i, '/');
         }
         this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tile.getTerrain().getColor());
-        this.writeCentered(row, col, tile.getTerrain().getTerrainType().toString(), tile.getTerrain().getColor(), TerrainColor.RESET);
+        if (tile.getState() != VisibilityEnum.FOG_OF_WAR) {
+            this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
+            this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
+        } else
+            this.writeCentered(row, col, "", TerrainColor.GRAY_BACKGROUND, TerrainColor.RESET);
     }
 
     private void drawHex(int x, int y) {

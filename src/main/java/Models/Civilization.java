@@ -25,7 +25,7 @@ public class Civilization {
     private int production;
     private ArrayList<TechnologyEnum> technologies;
     private Tile currentTile;
-    private HashMap<TechnologyEnum,Integer> researchingTechnologies;
+    private HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
@@ -46,9 +46,11 @@ public class Civilization {
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
     }
-    public boolean isHaveThisTech(TechnologyEnum tech){
+
+    public boolean isHaveThisTech(TechnologyEnum tech) {
         return this.technologies.contains(tech);
     }
+
     public void goToWarWith(Civilization civilization) {
         this.isInWarWith.add(civilization);
     }
@@ -121,6 +123,10 @@ public class Civilization {
         return name;
     }
 
+    public String getAbbreviation() {
+        return this.name.substring(0, Math.min(4, this.name.length()));
+    }
+
     public CivilizationController getController() {
         return this.controller;
     }
@@ -136,6 +142,7 @@ public class Civilization {
         }
         return notificationList;
     }
+
     public void sendMessage(String message) {
         this.notifications.add(message);
     }
@@ -152,5 +159,7 @@ public class Civilization {
         return currentTile;
     }
 
-    public void setCurrentTile(Tile currentTile) {this.currentTile = currentTile;}
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
 }
