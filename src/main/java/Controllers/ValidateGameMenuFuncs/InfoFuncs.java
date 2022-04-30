@@ -1,4 +1,4 @@
-package Views.ViewFuncs;
+package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
 import Models.Civilization;

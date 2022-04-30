@@ -14,3 +14,8 @@ public class Main {
         }
     }
 }
+/*
+user create --username ali --nickname A --password A12345678!
+user login -u ali -p A12345678!
+play game --player1 ali
+ */

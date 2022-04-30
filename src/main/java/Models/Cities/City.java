@@ -8,6 +8,10 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+//import static Controllers.CityCombatController.AffectCityFeatures;
+import static java.lang.Math.exp;
 
 public class City {
     private final Civilization isOwnedBy;
@@ -29,6 +33,8 @@ public class City {
     private int unitCount;
     private int beaker;
     private int happiness;
+    private int row;
+    private int col;
 
 
     public City(Civilization civ, Tile tile, boolean isCapital) {
@@ -75,7 +81,23 @@ public class City {
     public int getRange() {
         return range;
     }
-
+    public static int calculateCombatStrength(City city, Tile cityTile) {
+        int strength= (int) city.getCombatStrength();
+        strength=AffectCityFeatures(city);
+        strength=HealthBarAffect(strength,city);
+        return strength;
+    }
+    protected static int HealthBarAffect(int strength, City city) {
+        return (city.getHitPoint()/2000)*strength;
+    }
+    static int AffectCityFeatures(City city) {
+        //todo : affect the citizen and buildings on combat strength
+        return 0;
+    }
+    public static void calculateDamage(City city, int strengthDiff, Random random) {
+        double random_number=(random.nextInt(50)+75)/100;
+        city.setHitPoint(city.getHitPoint()-(int) (25*exp(strengthDiff /(25.0*random_number))));
+    }
     public Civilization getCivilization() {
         return this.isOwnedBy;
     }
@@ -183,4 +205,12 @@ public class City {
     public boolean hasNonCombatUnit() {
         return this.hasANonCombatUnit;
     }
+
+    public int getRow() {return row;}
+
+    public int getCol() {return col;}
+
+    public void setCol(int col) {this.col = col;}
+
+    public void setRow(int row) {this.row = row;}
 }

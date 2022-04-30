@@ -1,4 +1,4 @@
-package Controllers;
+package Utils;
 
 import Exceptions.*;
 
@@ -94,15 +94,18 @@ public class Command {
     }
 
     public String getCategory() {
-        return getPartOfType(0);
+    if (getPartOfType(0) != null) return getPartOfType(0);
+            return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     public String getSubCategory() {
-        return getPartOfType(1);
+    if(getPartOfType(1) != null) return getPartOfType(1);
+            return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     public String getSubSubCategory() {
-        return getPartOfType(2);
+     if(getPartOfType(2) != null) return getPartOfType(2);
+            return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     public HashMap<String, String> getOptions() {

@@ -1,25 +1,61 @@
-package Views.ViewFuncs;
+package Controllers.ValidateGameMenuFuncs;
 
-import Controllers.Command;
 import Controllers.GameController;
-import Enums.CommandResponse;
+import Enums.GameEnums.CombatTypeEnum;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.UnitEnum;
+import Exceptions.CommandException;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
+import Models.Units.CombatUnit;
+import Utils.Command;
+import Utils.CommandResponse;
 
 import static Controllers.CombatController.AttackCity;
 import static Controllers.CombatController.AttackUnit;
 import static Controllers.MovingController.moveUnit;
+import static Controllers.UnitCombatController.setupUnit;
 
-public class UnitOtherFuncs extends UnitFuncs{
+public class UnitFuncs extends GameMenuFuncs{
 
-    public UnitOtherFuncs(Game game) {
+    public UnitFuncs(Game game) {
         super(game);
     }
 
+    public void unitBuild(ImprovementEnum improvement) {
+        Tile currentTile = getCurrentTile();
+        Civilization currentCivilization = getCurrentCivilization();
+        try {
+            GameController.buildImprovement(currentTile, currentCivilization, improvement);
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    private CommandResponse isPossibleToBuild(Tile currentTile, Civilization currentCivilization, ImprovementEnum improvement) {
+        if (currentTile.getNonCombatUnit() == null) {
+            return CommandResponse.UNIT_DOES_NOT_EXISTS;
+        }
+        if (!(currentCivilization.getCurrentTile().getNonCombatUnit().getCiv() == currentCivilization)) {
+            return CommandResponse.NOT_HAVING_UNIT;
+        }
+        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
+            return CommandResponse.WRONG_UNIT;
+        }
+        if (isExists(currentTile, improvement)) {
+            return CommandResponse.IMPROVEMENT_EXISTS;
+        }
+        if (isPossibleToBuildInThisTerrain(currentCivilization, improvement)) {
+            return CommandResponse.YOU_HAVE_NOT_REQUIRED_OPTIONS;
+        }
+        return CommandResponse.OK;
+    }
+
+    private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
+        return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
+    }
     public void unitDelete(Command command) {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
@@ -141,7 +177,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         String[] coordinates = key.split("\\s+");
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]));
 
         int row = 0, col = 0;
         if (response.isOK()) {
@@ -154,6 +190,20 @@ public class UnitOtherFuncs extends UnitFuncs{
         System.out.println(response.isOK() ? AttackUnit(row, col, this.getGame(), currentTile, civilization) : response);
     }
     public void unitSetup(Command command) {
+        CommandResponse response;
+        Civilization civilization = getCurrentCivilization();
+        Tile currentTile = getCurrentTile();
+        if((response=validateForCombatUnit(currentTile,civilization)).isOK()){
+            System.out.println(((response=validateForSetup(currentTile.getCombatUnit())).isOK()) ? setupUnit(currentTile.getCombatUnit()) : response);
+        }else {
+            System.out.println(response);
+        }
+    }
+    private CommandResponse validateForSetup(CombatUnit combatUnit){
+        if(combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE){return CommandResponse.UNIT_ISNOT_SIEGE;}
+        if(combatUnit.isSetup()){return CommandResponse.UNIT_HAS_ALREADY_SETTED_UP;}
+        if(combatUnit.getAvailableMoveCount() < 1){return CommandResponse.NOT_ENOUGH_MOVEMENT_COST;}
+        return CommandResponse.OK;
     }
 
     public void unitGarrison(Command command) {
@@ -263,7 +313,7 @@ public class UnitOtherFuncs extends UnitFuncs{
     }
 
     private CommandResponse validateTileForMovingUnit(Tile currentTile, Civilization civilization, String row_s, String col_s, String combat) {
-        CommandResponse response = isCorrectPosition(row_s, col_s, this.getGame());
+        CommandResponse response = isCorrectPosition(row_s, col_s);
         int row,col;
         if (!response.isOK()) {
             return response;
@@ -379,7 +429,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         }
         return CommandResponse.OK;
     }
-    public void CityAttack(Command command) {
+    public static void CityAttack(Command command) {
         String key;
         if ((key = command.getOption("position")) == null) {
             System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -388,7 +438,7 @@ public class UnitOtherFuncs extends UnitFuncs{
         String[] coordinates = key.split("\\s+");
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]));
 
         int row = 0, col = 0;
         if (response.isOK()) {
@@ -398,7 +448,7 @@ public class UnitOtherFuncs extends UnitFuncs{
 
         response=validateForCity(currentTile,civilization);
 
-        System.out.println(response.isOK() ? AttackCity(row, col, this.getGame(), currentTile, civilization) : response);
+        System.out.println(response.isOK() ? AttackCity(row, col, game, currentTile, civilization) : response);
     }
 
 
@@ -409,5 +459,8 @@ public class UnitOtherFuncs extends UnitFuncs{
             return CommandResponse.NOT_HAVING_CITY;
         }
         return CommandResponse.OK;
+    }
+    protected boolean isExists(Tile currentTile, ImprovementEnum improvementEnum) {
+        return currentTile.getTerrain().getImprovements().contains(improvementEnum);
     }
 }

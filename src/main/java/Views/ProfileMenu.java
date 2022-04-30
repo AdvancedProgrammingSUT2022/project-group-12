@@ -1,31 +1,46 @@
 package Views;
 
-import Controllers.Command;
 import Controllers.ProfileMenuController;
-import Enums.CommandResponse;
-import Enums.InputRegex;
-
-import java.util.regex.Matcher;
+import Exceptions.CommandException;
+import Utils.Command;
+import Utils.CommandResponse;
 
 public class ProfileMenu extends Menu {
 
-
     @Override
     protected void handleCommand(Command command) {
-        String input = command.getType();
-        Matcher matcher;
-        if ((matcher = InputRegex.getMatcher(input, InputRegex.CHANGE_NICKNAME)) != null) {
-            System.out.println(ProfileMenuController.changeNickname(matcher));
-        } else if ((matcher = InputRegex.getMatcher(input, InputRegex.CHANGE_PASS)) != null) {
-            System.out.println(ProfileMenuController.changePass(matcher));
-        } else if (InputRegex.getMatcher(input, InputRegex.BACK) != null) {
-            MenuStack.getInstance().popMenu();
-        } else if (InputRegex.getMatcher(input, InputRegex.CURRENT_MENU) != null) {
-            System.out.println("Profile Menu");
-        } else if (InputRegex.getMatcher(input, InputRegex.EXIT_MENU) != null) {
-            MenuStack.getInstance().popMenu();
-        } else {
-            System.out.println(CommandResponse.INVALID_COMMAND);
+        switch (command.getType()) {
+            case "change nickname" -> this.changeNickname(command);
+            case "change password" -> this.changePassword(command);
+            case "show current menu" -> System.out.println("Profile Menu");
+            case "menu exit" -> MenuStack.getInstance().popMenu();
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void changeNickname(Command command) {
+        command.abbreviate("nickname", "n");
+        String nickname = command.getOption("nickname");
+        try {
+            ProfileMenuController.changeNickname(nickname);
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
+        System.out.println("nickname changed successfully");
+    }
+
+    private void changePassword(Command command) {
+        command.abbreviate("oldPassword", "o");
+        command.abbreviate("newPassword", "n");
+        String oldPassword = command.getOption("oldPassword");
+        String newPassword = command.getOption("newPassword");
+        try {
+            ProfileMenuController.changePassword(oldPassword, newPassword);
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
+        System.out.println("password changed successfully");
     }
 }

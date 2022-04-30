@@ -2,7 +2,6 @@ package Models;
 
 import Controllers.CivilizationController;
 import Enums.GameEnums.TechnologyEnum;
-import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -17,15 +16,15 @@ public class Civilization {
     private final User user;
     private final String name;
     private final CivilizationController controller;
-    private ArrayList<City> cities;
-    private ArrayList<String> notifications;
-    private Tile ownedTiles;
+    private final ArrayList<City> cities;
+    private final ArrayList<String> notifications;
+    private final Tile ownedTiles;
     private int gold;
     private int beaker;
     private int happiness;
     private int production;
     private ArrayList<TechnologyEnum> technologies;
-
+    private Tile currentTile;
     private HashMap<TechnologyEnum,Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
@@ -149,8 +148,9 @@ public class Civilization {
         this.cities.add(city);
     }
 
-
     public Tile getCurrentTile() { // todo: dummy
-        return null;
+        return currentTile;
     }
+
+    public void setCurrentTile(Tile currentTile) {this.currentTile = currentTile;}
 }

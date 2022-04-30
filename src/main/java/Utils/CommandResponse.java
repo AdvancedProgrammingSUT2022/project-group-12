@@ -1,4 +1,4 @@
-package Enums;
+package Utils;
 
 public enum CommandResponse {
     OK("OK"),
@@ -31,11 +31,13 @@ public enum CommandResponse {
     CITY_DOES_NOT_EXISTS("there isn't any city here"),
     COMMAND_MISSING_REQUIRED_OPTION("Required option is missing"),
     NICKNAME_ALREADY_EXISTS("user with nickname already exists"),
-    NICKNAME_CHANGED("user with nickname already exists"),
     INVALID_PASSWORD("current password is invalid"),
     REPEATING_PASSWORD("please enter a new password"),
     PASSWORD_CHANGED("password changed successfully"),
-    TILE_IS_FULL("this tile is full"), NOT_HAVING_CITY("this city is not belong to you");
+    TILE_IS_FULL("this tile is full"), NOT_HAVING_CITY("this city is not belong to you"),
+    UNIT_ISNOT_SIEGE("this unit isn't siege unit"),
+    UNIT_HAS_ALREADY_SETTED_UP("this unit has already setted up"),
+    NOT_ENOUGH_MOVEMENT_COST("there isn't enough movement cost");
 
     private String message;
 

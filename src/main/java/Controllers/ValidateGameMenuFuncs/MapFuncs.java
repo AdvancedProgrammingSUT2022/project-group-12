@@ -1,15 +1,14 @@
-package Views.ViewFuncs;
+package Controllers.ValidateGameMenuFuncs;
 
-import Controllers.Command;
 import Controllers.GameController;
-import Controllers.GameMenuController;
-import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
+import Utils.Command;
+import Utils.CommandResponse;
 import Views.TileGridPrinter;
 
 public class MapFuncs extends GameMenuFuncs {
@@ -22,24 +21,28 @@ public class MapFuncs extends GameMenuFuncs {
     public void showMap(Command command) {
         String key;
         if ((key = command.getOption("position")) != null) {
-            showMapPosition(key);
+            String[] coordinates = key.split("\\s+");
+            CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
+            int row = 0, col = 0;
+            if (response.isOK()) {
+                row = Integer.parseInt(coordinates[0]);
+                col = Integer.parseInt(coordinates[1]);
+            }
+            showMapPosition(row, col);
         } else if ((key = command.getOption("cityname")) != null) {
-            City city = getCityWithThisName(getCurrentCivilization(), key);
-            System.out.println(city == null ? "city doesn't exists with this name" : GameMenuController.showMapOnCity(city));
+            City city = getCityWithThisName(getCurrentCivilization(), key); // todo: should be able to show cities of other civs too
+            if (city == null) {
+                System.out.println("city doesn't exists with this name");
+            } else {
+                showMapPosition(city.getRow(), city.getCol());
+            }
         } else {
             System.out.println(CommandResponse.CommandMissingRequiredOption);
         }
     }
 
-    private void showMapPosition(String key) {
-        String[] coordinates = key.split("\\s+");
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
-        int row = 0, col = 0;
-        if (response.isOK()) {
-            row = Integer.parseInt(coordinates[0]);
-            col = Integer.parseInt(coordinates[1]);
-        }
-        TileGrid tileGrid = GameController.game.getTileGrid();
+    private void showMapPosition(int row, int col) {
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
         TileGridPrinter tileGridPrinter = new TileGridPrinter(tileGrid);
         String output = tileGridPrinter.showTileGrid(row, col).toString();
         System.out.print(output);
@@ -55,7 +58,7 @@ public class MapFuncs extends GameMenuFuncs {
             case "right" -> newCord.moveX(amount);
             case "left" -> newCord.moveX(amount * -1);
         }
-        if (!GameController.game.getTileGrid().isLocationValid(newCord.getX(), newCord.getY())) {
+        if (!GameController.getGame().getTileGrid().isLocationValid(newCord.getX(), newCord.getY())) {
             return CommandResponse.INVALID_DIRECTION; // todo: out of map
         }
         this.gridCord = newCord;

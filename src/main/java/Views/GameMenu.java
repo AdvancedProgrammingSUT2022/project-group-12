@@ -1,12 +1,15 @@
 package Views;
 
-import Controllers.Command;
 import Controllers.GameController;
-import Enums.CommandResponse;
+import Controllers.ValidateGameMenuFuncs.InfoFuncs;
+import Controllers.ValidateGameMenuFuncs.MapFuncs;
+import Controllers.ValidateGameMenuFuncs.SelectFuncs;
+import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.GameEnums.ImprovementEnum;
 import Exceptions.CommandException;
 import Models.Location;
-import Views.ViewFuncs.*;
+import Utils.Command;
+import Utils.CommandResponse;
 
 import java.util.List;
 
@@ -15,16 +18,14 @@ public class GameMenu extends Menu {
     private final InfoFuncs infoFuncs;
     private final MapFuncs mapFuncs;
     private final SelectFuncs selectFuncs;
-    private final UnitBuildFuncs unitBuildFuncs;
-    private final UnitOtherFuncs unitOtherFuncs;
+    private final UnitFuncs unitFuncs;
     private Location gridCord;
 
     public GameMenu(GameController controller) {
-        this.infoFuncs = new InfoFuncs(GameController.game);
-        this.mapFuncs = new MapFuncs(GameController.game);
-        this.selectFuncs = new SelectFuncs(GameController.game);
-        this.unitBuildFuncs = new UnitBuildFuncs(GameController.game);
-        this.unitOtherFuncs = new UnitOtherFuncs(GameController.game);
+        this.infoFuncs = new InfoFuncs(GameController.getGame());
+        this.mapFuncs = new MapFuncs(GameController.getGame());
+        this.selectFuncs = new SelectFuncs(GameController.getGame());
+        this.unitFuncs = new UnitFuncs(GameController.getGame());
     }
 
     public InfoFuncs getInfoFuncs() {
@@ -35,14 +36,10 @@ public class GameMenu extends Menu {
         return selectFuncs;
     }
 
-    public UnitBuildFuncs getUnitBuildFuncs() {
-        return unitBuildFuncs;
+    public UnitFuncs getUnitFuncs() {
+        return unitFuncs;
     }
-
-    public UnitOtherFuncs getUnitOtherFuncs() {
-        return unitOtherFuncs;
-    }
-
+    
     public MapFuncs getMapFuncs() {
         return mapFuncs;
     }
@@ -63,6 +60,14 @@ public class GameMenu extends Menu {
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
             case "city" -> this.city(command);
+            case "end" -> this.end(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void end(Command command) {
+        switch (command.getSubCategory()) {
+            case "turn" -> GameController.getGame().startNextTurn();
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -111,44 +116,44 @@ public class GameMenu extends Menu {
 
     private void unit(Command command) {
         switch (command.getSubCategory()) {
-            case "moveTo" -> getUnitOtherFuncs().unitMoveTo(command);
-            case "sleep" -> getUnitOtherFuncs().unitSleep(command);
-            case "alert" -> getUnitOtherFuncs().unitAlert();
-            case "fortify" -> getUnitOtherFuncs().unitFortify(command);
-            case "garrison" -> getUnitOtherFuncs().unitGarrison(command);
-            case "setup" -> getUnitOtherFuncs().unitSetup(command);
-            case "attack" -> getUnitOtherFuncs().unitAttack(command);
-            case "found" -> getUnitOtherFuncs().unitFound(command);
-            case "cancel" -> getUnitOtherFuncs().unitCancel(command);
-            case "wake" -> getUnitOtherFuncs().unitWake(command);
-            case "delete" -> getUnitOtherFuncs().unitDelete(command);
+            case "moveTo" -> getUnitFuncs().unitMoveTo(command);
+            case "sleep" -> getUnitFuncs().unitSleep(command);
+            case "alert" -> getUnitFuncs().unitAlert();
+            case "fortify" -> getUnitFuncs().unitFortify(command);
+            case "garrison" -> getUnitFuncs().unitGarrison(command);
+            case "setup" -> getUnitFuncs().unitSetup(command);
+            case "attack" -> getUnitFuncs().unitAttack(command);
+            case "found" -> getUnitFuncs().unitFound(command);
+            case "cancel" -> getUnitFuncs().unitCancel(command);
+            case "wake" -> getUnitFuncs().unitWake(command);
+            case "delete" -> getUnitFuncs().unitDelete(command);
             case "build" -> this.unitBuild(command);
             case "remove" -> this.unitRemove(command);
-            case "repair" -> getUnitOtherFuncs().unitRepair(command);
+            case "repair" -> getUnitFuncs().unitRepair(command);
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
     private void unitBuild(Command command) {
         switch (command.getSubSubCategory()) {
-            case "road" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.ROAD);
-            case "railRoad" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.RAILROAD);
-            case "farm" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.FARM);
-            case "mine" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.MINE);
-            case "tradingPost" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.TRADING_POST);
-            case "lumberMill" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.LUMBER_MILL);
-            case "pasture" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.PASTURE);
-            case "camp" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.CAMP);
-            case "plantation" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.CULTIVATION);
-            case "quarry" -> getUnitBuildFuncs().unitBuild(ImprovementEnum.STONE_MINE);
+            case "road" -> getUnitFuncs().unitBuild(ImprovementEnum.ROAD);
+            case "railRoad" -> getUnitFuncs().unitBuild(ImprovementEnum.RAILROAD);
+            case "farm" -> getUnitFuncs().unitBuild(ImprovementEnum.FARM);
+            case "mine" -> getUnitFuncs().unitBuild(ImprovementEnum.MINE);
+            case "tradingPost" -> getUnitFuncs().unitBuild(ImprovementEnum.TRADING_POST);
+            case "lumberMill" -> getUnitFuncs().unitBuild(ImprovementEnum.LUMBER_MILL);
+            case "pasture" -> getUnitFuncs().unitBuild(ImprovementEnum.PASTURE);
+            case "camp" -> getUnitFuncs().unitBuild(ImprovementEnum.CAMP);
+            case "plantation" -> getUnitFuncs().unitBuild(ImprovementEnum.CULTIVATION);
+            case "quarry" -> getUnitFuncs().unitBuild(ImprovementEnum.STONE_MINE);
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
     private void unitRemove(Command command) {
         switch (command.getSubSubCategory()) {
-            case "route" -> getUnitOtherFuncs().unitRemoveRoute();
-            case "jungle" -> getUnitOtherFuncs().unitRemoveJungle();
+            case "route" -> getUnitFuncs().unitRemoveRoute();
+            case "jungle" -> getUnitFuncs().unitRemoveJungle();
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }

@@ -1,7 +1,7 @@
 package Views;
 
-import Controllers.Command;
 import Exceptions.CommandException;
+import Utils.Command;
 
 import java.util.Scanner;
 

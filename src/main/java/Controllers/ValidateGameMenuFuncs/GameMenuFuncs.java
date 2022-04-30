@@ -1,19 +1,19 @@
-package Views.ViewFuncs;
+package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
+import Utils.CommandResponse;
 
 public class GameMenuFuncs {
     protected static Game game;
     protected Location gridCord;
 
     public GameMenuFuncs(Game game) {
-        this.game = game;
+        GameMenuFuncs.game = game;
     }
 
     public Game getGame() {
@@ -21,18 +21,18 @@ public class GameMenuFuncs {
     }
 
     protected static Civilization getCurrentCivilization() {
-        return game.getCivTurn().get(game.getCivTurn().size() - 1);
+        return game.getCurrentCivilization();
     }
 
     protected static Tile getCurrentTile() {
-        return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
+        return game.getCurrentCivilization().getCurrentTile();
     }
 
-    protected CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
+    protected static CommandResponse isCorrectPosition(String row_s, String col_s) {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
-            if (!GameController.game.getTileGrid().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
+            if (!GameController.getGame().getTileGrid().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
             return CommandResponse.OK;
         } catch (Exception e) {
             return CommandResponse.INVALID_COMMAND;
@@ -62,6 +62,7 @@ public class GameMenuFuncs {
         return CommandResponse.OK;
     }
 
+
     private CommandResponse validateLeftWardMove(int amount) {
         //TODO : validate rightward move
         return CommandResponse.OK;
@@ -77,14 +78,12 @@ public class GameMenuFuncs {
         return CommandResponse.OK;
     }
 
-    protected City getCityWithThisName(Civilization currentCivilization, String key) {
+    protected City getCityWithThisName(Civilization currentCivilization, String name) {
         for (City city : currentCivilization.getCities()) {
-            if (city.getName().equals(key)) {
+            if (city.getName().equals(name)) {
                 return city;
             }
         }
         return null;
     }
-
-
 }

@@ -1,4 +1,4 @@
-package Enums;
+package Utils;
 
 import java.util.Arrays;
 import java.util.TreeMap;
@@ -164,7 +164,7 @@ public enum InputRegex {
         return null;
     }
 
-    private static TreeMap<Integer, String> map = new TreeMap<>();
+    private static final TreeMap<Integer, String> map = new TreeMap<>();
 
     public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
         Matcher matcher = Pattern.compile(PLAY_GAME_WITH.selectedRegex).matcher(input.toString());

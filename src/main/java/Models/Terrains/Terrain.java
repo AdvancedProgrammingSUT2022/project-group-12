@@ -14,7 +14,7 @@ public class Terrain {
     private final ArrayList<TerrainEnum> features;
     private final ArrayList<ResourceEnum> resources;
     private VisibilityEnum state;
-    private TerrainColor color;
+    private final TerrainColor color;
 
     protected ArrayList<ImprovementEnum> improvements;
 

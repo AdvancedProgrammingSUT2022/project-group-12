@@ -8,18 +8,17 @@ import Models.Terrains.Terrain;
 
 import java.util.ArrayList;
 
-public class CombatUnit extends Unit {
+public abstract class CombatUnit extends Unit {
     protected ArrayList<ResourceEnum> requiredResources = new ArrayList<>();
     protected ArrayList<TechnologyEnum> requiredTechs = new ArrayList<>();
     protected String combatType;
     protected int combatStrength;
     protected int range;
-
+    protected  boolean isSetup;
 
     public CombatUnit(UnitEnum type, Terrain terrain, Civilization civ) {
-        super(type, terrain, civ);
+        super(type, terrain, civ); isSetup=false;
     }
-
     public UnitEnum getType() {
         return type;
     }
@@ -27,4 +26,9 @@ public class CombatUnit extends Unit {
     public int getCombatStrength() {
         return combatStrength;
     }
+
+    public void setSetup(boolean setup) {isSetup = setup;}
+
+    public boolean isSetup() {return isSetup; }
+
 }
