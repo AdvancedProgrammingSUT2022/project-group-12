@@ -177,7 +177,7 @@ public class UnitFuncs extends GameMenuFuncs{
         String[] coordinates = key.split("\\s+");
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), this.getGame());
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]));
 
         int row = 0, col = 0;
         if (response.isOK()) {
@@ -313,7 +313,7 @@ public class UnitFuncs extends GameMenuFuncs{
     }
 
     private CommandResponse validateTileForMovingUnit(Tile currentTile, Civilization civilization, String row_s, String col_s, String combat) {
-        CommandResponse response = isCorrectPosition(row_s, col_s, this.getGame());
+        CommandResponse response = isCorrectPosition(row_s, col_s);
         int row,col;
         if (!response.isOK()) {
             return response;
@@ -438,7 +438,7 @@ public class UnitFuncs extends GameMenuFuncs{
         String[] coordinates = key.split("\\s+");
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]), game);
+        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]));
 
         int row = 0, col = 0;
         if (response.isOK()) {

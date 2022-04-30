@@ -21,14 +21,14 @@ public class GameMenuFuncs {
     }
 
     protected static Civilization getCurrentCivilization() {
-        return game.getCivTurn().get(game.getCivTurn().size() - 1);
+        return game.getCurrentCivilization();
     }
 
     protected static Tile getCurrentTile() {
-        return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
+        return game.getCurrentCivilization().getCurrentTile();
     }
 
-    protected static CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
+    protected static CommandResponse isCorrectPosition(String row_s, String col_s) {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
@@ -78,9 +78,9 @@ public class GameMenuFuncs {
         return CommandResponse.OK;
     }
 
-    protected City getCityWithThisName(Civilization currentCivilization, String key) {
+    protected City getCityWithThisName(Civilization currentCivilization, String name) {
         for (City city : currentCivilization.getCities()) {
-            if (city.getName().equals(key)) {
+            if (city.getName().equals(name)) {
                 return city;
             }
         }

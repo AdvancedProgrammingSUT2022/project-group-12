@@ -60,6 +60,14 @@ public class GameMenu extends Menu {
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
             case "city" -> this.city(command);
+            case "end" -> this.end(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void end(Command command) {
+        switch (command.getSubCategory()) {
+            case "turn" -> GameController.game.startNextTurn();
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }

@@ -20,7 +20,7 @@ public class SelectFuncs extends GameMenuFuncs {
             String key;
             if ((key = command.getOption("position")) != null) {
                 String[] coordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
+                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
                 System.out.println(response.isOK() ? GameController.showNonCombatInfo(currentTile.getNonCombatUnit()) : response);
             } else {
                 System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -36,7 +36,7 @@ public class SelectFuncs extends GameMenuFuncs {
             String key;
             if ((key = command.getOption("position")) != null) {
                 String[] coordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
+                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
                 System.out.println(response.isOK() ? GameController.showCombatInfo(currentTile.getCombatUnit()) : response);
             } else {
                 System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -59,7 +59,7 @@ public class SelectFuncs extends GameMenuFuncs {
             }
         } else if ((key = command.getOption("cityPosition")) != null) {
             String[] coordinates = key.split("\\s+");
-            CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1], this.getGame());
+            CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
             System.out.println(!response.isOK() ? response : GameController.showCity(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), this.getGame()));
         } else {
             System.out.println(CommandResponse.INVALID_COMMAND);
