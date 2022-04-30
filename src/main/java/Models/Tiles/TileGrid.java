@@ -112,4 +112,8 @@ public class TileGrid {
         }
         return state;
     }
+
+    public VisibilityEnum tileState(int x, int y){
+        return this.tiles[x][y].getState();
+    }
 }

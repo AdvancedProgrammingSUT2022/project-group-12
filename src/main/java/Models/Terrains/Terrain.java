@@ -86,4 +86,12 @@ public class Terrain {
     public int getCombatModifier() {
         return this.combatModifier;
     }
+
+    public StringBuilder getResourcesByName(){
+        StringBuilder resourcesNames = new StringBuilder("contains resources such as:");
+        for(ResourceEnum list : this.resources){
+            resourcesNames.append("\n").append(list);
+        }
+        return resourcesNames;
+    }
 }

@@ -19,14 +19,11 @@ public class Database {
 
     public static Database getInstance() {
         if (instance == null) {
-            setInstance(new Database());
+            instance = new Database();
         }
         return instance;
     }
 
-    private static void setInstance(Database instance) {
-        Database.instance = instance;
-    }
 
     public void addGame(Game game) {
         games.add(game);

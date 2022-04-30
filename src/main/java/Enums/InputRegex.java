@@ -10,11 +10,16 @@ public enum InputRegex {
     CONTAINS_UPPERCASE_ALPHABET(".*[A-Z].*"),
     CONTAINS_LOWERCASE_ALPHABET(".*[a-z].*"),
     CONTAINS_SPECIAL_CHAR(".*[[*][.]!@$%^&(){}\\[\\]:;<>,?/~_+[-]=|].*"),
-    USERNAME("--username|--Username|--USERNAME|--u_name|-U|-u|--user"),
-    PASSWORD("--password|--Password|--PASSWORD|--p_word|-P|-p|--pass"),
-    NICKNAME("--nickname|--Nickname|--NICKNAME|--n_name|-N|-n|--name"),
-    CURRENT("-C|-c|--current|--CURRENT|--Current|--crnt"),
-    NEW("-N|-n|--new|--NEW|--New"),
+    USERNAME("--[uU][sS][eE][rR][nN][aA][mM][eE]|--[uU]_[nN][aA][mM][eE]|-[uU]|--[uU][sS][eE][rR]"),
+    USERNAME_LIST("--username|--u_name|-u|--user"),
+    PASSWORD("--[pP][aA][sS][sS][wW][oO][rR][dD]|--[pP]_[wW][oO][rR][dD]|-[pP]|--[pP][aA][sS][sS]"),
+    PASSWORD_LIST("--password|--p_word|-p|--pass"),
+    NICKNAME("--[nN][iI][cC][kK][nN][aA][mM][eE]|--[nN]_[nN][aA][mM][eE]|-[nN]|--[nN][aA][mM][eE]"),
+    NICKNAME_LIST("--nickname|--n_name|-n|--name"),
+    CURRENT("-[cC]|--[cC][uU][rR][rR][eE][nN][tT]|--[cC][rR][nN][tT]"),
+    CURRENT_LIST("-c|--current|--crnt"),
+    NEW("-[nN]|--[nN][eE][wW]"),
+    NEW_LIST("-n|--new"),
     LOGIN("\\s*user login " +
             "(?<part1>" + USERNAME.selectedRegex + "|" + PASSWORD.selectedRegex + ") ([.\\S]+) " +
             "(?<part2>" + USERNAME.selectedRegex + "|" + PASSWORD.selectedRegex + ") ([.\\S]+)\\s*"),
@@ -90,36 +95,36 @@ public enum InputRegex {
         Matcher matcher = Pattern.compile(REGISTER.selectedRegex).matcher(input);
         String regex = "nothing";
         if (matcher.find() && matcher.group().equals(input)) {
-            String[] usernameArgs = USERNAME.selectedRegex.split("\\|");
-            String[] passwordArgs = PASSWORD.selectedRegex.split("\\|");
-            String[] nicknameArgs = NICKNAME.selectedRegex.split("\\|");
-            if (Arrays.toString(usernameArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(passwordArgs).contains(matcher.group("part2"))) {
-                    if (Arrays.toString(nicknameArgs).contains(matcher.group("part3"))) {
+            String[] usernameArgs = USERNAME_LIST.selectedRegex.split("\\|");
+            String[] passwordArgs = PASSWORD_LIST.selectedRegex.split("\\|");
+            String[] nicknameArgs = NICKNAME_LIST.selectedRegex.split("\\|");
+            if (Arrays.toString(usernameArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(passwordArgs).contains(matcher.group("part2").toLowerCase())) {
+                    if (Arrays.toString(nicknameArgs).contains(matcher.group("part3").toLowerCase())) {
                         regex = USER_PASS_NICK.selectedRegex;
                     }
-                } else if (Arrays.toString(nicknameArgs).contains(matcher.group("part2"))) {
-                    if (Arrays.toString(passwordArgs).contains(matcher.group("part3"))) {
+                } else if (Arrays.toString(nicknameArgs).contains(matcher.group("part2").toLowerCase())) {
+                    if (Arrays.toString(passwordArgs).contains(matcher.group("part3").toLowerCase())) {
                         regex = USER_NICK_PASS.selectedRegex;
                     }
                 }
-            } else if (Arrays.toString(nicknameArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(passwordArgs).contains(matcher.group("part2"))) {
-                    if (Arrays.toString(usernameArgs).contains(matcher.group("part3"))) {
+            } else if (Arrays.toString(nicknameArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(passwordArgs).contains(matcher.group("part2").toLowerCase())) {
+                    if (Arrays.toString(usernameArgs).contains(matcher.group("part3").toLowerCase())) {
                         regex = NICK_PASS_USER.selectedRegex;
                     }
-                } else if (Arrays.toString(usernameArgs).contains(matcher.group("part2"))) {
-                    if (Arrays.toString(passwordArgs).contains(matcher.group("part3"))) {
+                } else if (Arrays.toString(usernameArgs).contains(matcher.group("part2").toLowerCase())) {
+                    if (Arrays.toString(passwordArgs).contains(matcher.group("part3").toLowerCase())) {
                         regex = NICK_USER_PASS.selectedRegex;
                     }
                 }
-            } else if (Arrays.toString(passwordArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(usernameArgs).contains(matcher.group("part2"))) {
-                    if (Arrays.toString(nicknameArgs).contains(matcher.group("part3"))) {
+            } else if (Arrays.toString(passwordArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(usernameArgs).contains(matcher.group("part2").toLowerCase())) {
+                    if (Arrays.toString(nicknameArgs).contains(matcher.group("part3").toLowerCase())) {
                         regex = PASS_USER_NICK.selectedRegex;
                     }
-                } else if (Arrays.toString(nicknameArgs).contains(matcher.group("part2"))) {
-                    if (Arrays.toString(usernameArgs).contains(matcher.group("part3"))) {
+                } else if (Arrays.toString(nicknameArgs).contains(matcher.group("part2").toLowerCase())) {
+                    if (Arrays.toString(usernameArgs).contains(matcher.group("part3").toLowerCase())) {
                         regex = PASS_NICK_USER.selectedRegex;
                     }
                 }
@@ -138,14 +143,14 @@ public enum InputRegex {
         Matcher matcher = Pattern.compile(LOGIN.selectedRegex).matcher(input);
         String regex = "nothing";
         if (matcher.find() && matcher.group().equals(input)) {
-            String[] usernameArgs = USERNAME.selectedRegex.split("\\|");
-            String[] passwordArgs = PASSWORD.selectedRegex.split("\\|");
-            if (Arrays.toString(usernameArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(passwordArgs).contains(matcher.group("part2"))) {
+            String[] usernameArgs = USERNAME_LIST.selectedRegex.split("\\|");
+            String[] passwordArgs = PASSWORD_LIST.selectedRegex.split("\\|");
+            if (Arrays.toString(usernameArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(passwordArgs).contains(matcher.group("part2").toLowerCase())) {
                     regex = LOGIN_DEEPER_USER_FIRST.selectedRegex;
                 }
-            } else if (Arrays.toString(passwordArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(usernameArgs).contains(matcher.group("part2"))) {
+            } else if (Arrays.toString(passwordArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(usernameArgs).contains(matcher.group("part2").toLowerCase())) {
                     regex = LOGIN_DEEPER_PASS_FIRST.selectedRegex;
                 }
             }
@@ -187,14 +192,14 @@ public enum InputRegex {
         Matcher matcher = Pattern.compile(CHANGE_PASS.selectedRegex).matcher(input);
         String regex = "nothing";
         if (matcher.find() && matcher.group().equals(input)) {
-            String[] oldArgs = CURRENT.selectedRegex.split("\\|");
-            String[] newArgs = NEW.selectedRegex.split("\\|");
-            if (Arrays.toString(oldArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(newArgs).contains(matcher.group("part2"))) {
+            String[] oldArgs = CURRENT_LIST.selectedRegex.split("\\|");
+            String[] newArgs = NEW_LIST.selectedRegex.split("\\|");
+            if (Arrays.toString(oldArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(newArgs).contains(matcher.group("part2").toLowerCase())) {
                     regex = CHANGE_PASS_NEW_FIRST.selectedRegex;
                 }
-            } else if (Arrays.toString(newArgs).contains(matcher.group("part1"))) {
-                if (Arrays.toString(oldArgs).contains(matcher.group("part2"))) {
+            } else if (Arrays.toString(newArgs).contains(matcher.group("part1").toLowerCase())) {
+                if (Arrays.toString(oldArgs).contains(matcher.group("part2").toLowerCase())) {
                     regex = CHANGE_PASS_OLD_FIRST.selectedRegex;
                 }
             }
