@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static Controllers.MovingController.findTheShortestPath;
+import static Models.Units.NonRangedUnit.calculateDamage;
+import static Models.Units.Unit.calculateCombatStrength;
+import static java.lang.Math.exp;
 
 public class UnitCombatController extends  CombatController{
     public UnitCombatController(Game newGame) {
@@ -65,11 +68,16 @@ public class UnitCombatController extends  CombatController{
         if(isHaveKill)return "Unit was killed";
         return "both are damaged and attack happened successfully";
     }
+    public static String setupUnit(CombatUnit combatUnit) {
+        combatUnit.setAvailableMoveCount(combatUnit.getAvailableMoveCount()-1);
+        combatUnit.setSetup(true);
+        return "unit has setted up successfully";
+    }
     private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, int combatStrength1, CombatUnit combatUnit, int combatStrength2) {
         int strengthDiff=combatStrength1-combatStrength2;
         Random random= new Random();
-        calculateDamage(nonRangedUnit,-strengthDiff, random);
-        calculateDamage(combatUnit,strengthDiff,random);
+        nonRangedUnit.calculateDamage(nonRangedUnit,-strengthDiff, random);
+        combatUnit.calculateDamage(combatUnit,strengthDiff,random);
     }
     private static void calculateRangeAttackDamage(RangedUnit rangedUnit, int strengthRangedUnit,Unit unit, int combatUnitStrength) {
         int strengthDiff=strengthRangedUnit-combatUnitStrength;
@@ -77,8 +85,4 @@ public class UnitCombatController extends  CombatController{
         calculateDamage(unit,strengthDiff,random);
     }
 
-    protected static int AffectTerrainFeatures(int strength, Tile itsTile) {
-        //Todo : affect the terrain features
-        return 0;
-    }
 }

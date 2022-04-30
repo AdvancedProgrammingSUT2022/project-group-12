@@ -120,18 +120,31 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
+        /***
+         * change current tile to combatUnit tile
+         */
+        city.getCivilization().setCurrentTile(game.getTileGrid().getTile(city.getRow(), city.getCol()));
         return null;
     }
 
-    public static CommandResponse showCity(int parseInt, int parseInt1, Game game) {
+    public static CommandResponse showCity(int row, int col, Game game) {
+
         return null;
     }
 
     public static StringBuilder showNonCombatInfo(NonCombatUnit nonCombatUnit) {
+        /***
+         * change current tile to combatUnit tile
+         */
+        nonCombatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(nonCombatUnit.getRow(),nonCombatUnit.getColumn()));
         return null;
     }
 
-    public static StringBuilder showCombatInfo(CombatUnit CombatUnit) {
+    public static StringBuilder showCombatInfo(CombatUnit combatUnit) {
+        /***
+         * change current tile to combatUnit tile
+         */
+      combatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(combatUnit.getRow(),combatUnit.getColumn()));
 
         return null;
     }

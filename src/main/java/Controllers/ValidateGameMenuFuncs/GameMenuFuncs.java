@@ -1,4 +1,4 @@
-package Views.ViewFuncs;
+package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
 import Enums.CommandResponse;
@@ -28,7 +28,7 @@ public class GameMenuFuncs {
         return game.getCivTurn().get(game.getCivTurn().size() - 1).getCurrentTile();
     }
 
-    protected CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
+    protected static CommandResponse isCorrectPosition(String row_s, String col_s, Game game) {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
@@ -62,6 +62,7 @@ public class GameMenuFuncs {
         return CommandResponse.OK;
     }
 
+
     private CommandResponse validateLeftWardMove(int amount) {
         //TODO : validate rightward move
         return CommandResponse.OK;
@@ -85,6 +86,4 @@ public class GameMenuFuncs {
         }
         return null;
     }
-
-
 }

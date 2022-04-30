@@ -3,6 +3,11 @@ package Models.Units;
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
 import Models.Terrains.Terrain;
+import Models.Tiles.Tile;
+
+import java.util.Random;
+
+import static java.lang.Math.exp;
 
 public class NonRangedUnit extends CombatUnit {
 
@@ -75,4 +80,11 @@ public class NonRangedUnit extends CombatUnit {
     private void rifleman() {
 
     }
+    private static int calculateCombatStrength(NonRangedUnit nonRangedUnit, Tile itsTile){
+        int strength=nonRangedUnit.getType().getCombatStrength();
+        strength=AffectTerrainFeatures(strength,itsTile);
+        strength=HealthBarAffect(strength,nonRangedUnit);
+        return strength;
+    }
+
 }

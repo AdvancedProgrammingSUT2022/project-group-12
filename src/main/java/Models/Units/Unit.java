@@ -8,6 +8,9 @@ import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import static java.lang.Math.exp;
 
 public class Unit {
     protected UnitEnum type;
@@ -100,6 +103,24 @@ public class Unit {
     public void garrison() {
 
     }
+    public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
+        double random_number=(random.nextInt(50)+75)/100;
+        unit.setHealthBar(unit.getHealthBar()-(int) (25*exp(strengthDiff /(25.0*random_number))));
+    }
+    public static int calculateCombatStrength(Unit unit, Tile itsTile){
+        int strength=unit.getType().getCombatStrength();
+        strength=AffectTerrainFeatures(strength,itsTile);
+        strength=HealthBarAffect(strength,unit);
+        return strength;
+    }
+    protected static int HealthBarAffect(int strength, Unit unit) {
+        return (unit.getHealthBar()/100)*strength;
+    }
+    protected static int AffectTerrainFeatures(int strength, Tile itsTile) {
+        //Todo : affect the terrain features
+        return 0;
+    }
+
 
     public Civilization getCiv() {
         return civ;

@@ -1,4 +1,4 @@
-package Views.ViewFuncs;
+package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.Command;
 import Controllers.GameController;

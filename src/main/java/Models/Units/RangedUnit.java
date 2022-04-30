@@ -3,6 +3,7 @@ package Models.Units;
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
 import Models.Terrains.Terrain;
+import Models.Tiles.Tile;
 
 public class RangedUnit extends CombatUnit {
     private int rangedCombat;
@@ -46,5 +47,11 @@ public class RangedUnit extends CombatUnit {
 
     private void artillery() {
 
+    }
+    protected static int calculateCombatStrength(RangedUnit rangedUnit, Tile itsTile){
+        int strength=rangedUnit.getRangedCombatStrength();
+        strength=AffectTerrainFeatures(strength,itsTile);
+        strength=HealthBarAffect(strength,rangedUnit);
+        return strength;
     }
 }

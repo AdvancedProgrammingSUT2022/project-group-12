@@ -25,7 +25,7 @@ public class Civilization {
     private int happiness;
     private int production;
     private ArrayList<TechnologyEnum> technologies;
-
+    private Tile currentTile;
     private HashMap<TechnologyEnum,Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
@@ -149,8 +149,9 @@ public class Civilization {
         this.cities.add(city);
     }
 
-
     public Tile getCurrentTile() { // todo: dummy
-        return null;
+        return currentTile;
     }
+
+    public void setCurrentTile(Tile currentTile) {this.currentTile = currentTile;}
 }
