@@ -31,7 +31,6 @@ public enum CommandResponse {
     CITY_DOES_NOT_EXISTS("there isn't any city here"),
     COMMAND_MISSING_REQUIRED_OPTION("Required option is missing"),
     NICKNAME_ALREADY_EXISTS("user with nickname already exists"),
-    NICKNAME_CHANGED("user with nickname already exists"),
     INVALID_PASSWORD("current password is invalid"),
     REPEATING_PASSWORD("please enter a new password"),
     PASSWORD_CHANGED("password changed successfully"),

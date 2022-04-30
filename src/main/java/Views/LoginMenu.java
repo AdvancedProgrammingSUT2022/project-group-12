@@ -3,11 +3,9 @@ package Views;
 import Controllers.Command;
 import Controllers.LoginMenuController;
 import Enums.CommandResponse;
-import Enums.InputRegex;
 import Exceptions.CommandException;
 
 import java.util.List;
-import java.util.regex.Matcher;
 
 public class LoginMenu extends Menu {
     private final LoginMenuController controller = new LoginMenuController();
