@@ -4,6 +4,7 @@ import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
+import Views.TileGridPrinter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,10 +15,7 @@ public class TileGrid {
     private final ArrayList<Location> usedLocations;
     private final Random random = new Random();
     private final Tile[][] tiles;
-    private final StringBuilder[][] tileGrid;
-
     public TileGrid() {
-        tileGrid = new StringBuilder[width][height];
         tiles = new Tile[width][height];
         this.usedLocations = new ArrayList<>();
         int x = random.nextInt(height);
@@ -41,14 +39,6 @@ public class TileGrid {
         return x > -1 && x < width && y > -1 && y < height;
     }
 
-    public StringBuilder showGrid(int x, int y) {
-//        if (isLocationValid(x, y)) {
-//            TileGridPrinter printer = new TileGridPrinter(this);
-//            printer.showTileGrid(x, y);
-//        }
-        return null;
-    }
-
     private Tile randomAssignment(int x, int y) {
         if (!newTile(x, y)) {
             return new Tile(new Terrain(TerrainEnum.OCEAN), x, y);
@@ -68,6 +58,8 @@ public class TileGrid {
         int randomSelection = random.nextInt(7);
         return new Tile(new Terrain(values.get(randomSelection)), x, y);
     }
+
+
 
     private boolean newTile(int x, int y) {
         for (Location usedLocation : this.usedLocations) {
@@ -112,7 +104,7 @@ public class TileGrid {
         return state;
     }
 
-    public VisibilityEnum tileState(int x, int y){
+    public VisibilityEnum tileState(int x, int y) {
         return this.tiles[x][y].getState();
     }
 }
