@@ -3,6 +3,8 @@ package Models;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
@@ -38,14 +40,22 @@ public class Database {
 
     public void serialize() {
         Gson gson = new Gson();
+        File users = new File("users.json");
         try {
+            if(!users.createNewFile()){
+                System.err.println("created a json file for users");
+            }
             Writer writer = Files.newBufferedWriter(Paths.get("users.json"));
             gson.toJson(this.users, writer);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        File games = new File("games.json");
         try {
+            if(!games.createNewFile()){
+                System.err.println("created a json file for games");
+            }
             Writer writer = Files.newBufferedWriter(Paths.get("games.json"));
             gson.toJson(this.games, writer);
             writer.close();
@@ -72,14 +82,22 @@ public class Database {
     }
 
     public void deserialize() {
+        File users = new File("users.json");
         try {
+            if(!users.createNewFile()){
+                System.err.println("created a json file for users");
+            }
             String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
             this.users = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, User>>() {
             }.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        File games = new File("games.json");
         try {
+            if(!games.createNewFile()){
+                System.err.println("created a json file for games");
+            }
             String jsonFile = new String(Files.readAllBytes(Paths.get("games.json")));
             this.games = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, Game>>() {
             }.getType());
