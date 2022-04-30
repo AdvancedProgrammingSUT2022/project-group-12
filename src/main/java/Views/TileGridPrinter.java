@@ -21,11 +21,6 @@ public class TileGridPrinter {
         this.height = height;
         this.width = width;
         screen = new String[height][width];
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                screen[i][j] = " ";
-            }
-        }
     }
 
     private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
@@ -44,6 +39,12 @@ public class TileGridPrinter {
     }
 
     public String print(Location upleft) {
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                screen[i][j] = " ";
+            }
+        }
+
         for (int i = -1; i + upleft.getX() < tileGrid.getHeight(); ++i) {
             for (int j = -1; j + upleft.getY() < tileGrid.getWidth(); ++j) {
                 Tile tile = tileGrid.getTile(i + upleft.getX(), j + upleft.getY());

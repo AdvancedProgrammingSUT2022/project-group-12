@@ -6,7 +6,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Database.getInstance().deserialize();
+        // Exception in thread "main" java.lang.NullPointerException: Cannot invoke "java.util.HashMap.entrySet()" because "this.users" is null
+//        Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
         menuStack.setScanner(scanner);
