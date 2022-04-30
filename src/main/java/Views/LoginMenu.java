@@ -1,9 +1,9 @@
 package Views;
 
-import Controllers.Command;
 import Controllers.LoginMenuController;
-import Enums.CommandResponse;
 import Exceptions.CommandException;
+import Utils.Command;
+import Utils.CommandResponse;
 
 import java.util.List;
 

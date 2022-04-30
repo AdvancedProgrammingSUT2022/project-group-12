@@ -1,4 +1,4 @@
-package Enums;
+package Utils;
 
 public enum CommandResponse {
     OK("OK"),

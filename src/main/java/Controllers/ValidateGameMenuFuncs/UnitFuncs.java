@@ -1,8 +1,6 @@
 package Controllers.ValidateGameMenuFuncs;
 
-import Controllers.Command;
 import Controllers.GameController;
-import Enums.CommandResponse;
 import Enums.GameEnums.CombatTypeEnum;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TerrainEnum;
@@ -12,6 +10,8 @@ import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
+import Utils.Command;
+import Utils.CommandResponse;
 
 import static Controllers.CombatController.AttackCity;
 import static Controllers.CombatController.AttackUnit;

@@ -1,10 +1,10 @@
 package Controllers;
 
-import Enums.CommandResponse;
-import Enums.InputRegex;
 import Exceptions.CommandException;
 import Models.Database;
 import Models.User;
+import Utils.CommandResponse;
+import Utils.InputRegex;
 import Views.MenuStack;
 
 public class LoginMenuController {

@@ -1,11 +1,11 @@
 package Controllers;
 
-import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Units.Unit;
+import Utils.CommandResponse;
 
 public class GameMenuController {
     public static boolean validateCity(String key, Game game) {

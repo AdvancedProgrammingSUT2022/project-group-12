@@ -1,15 +1,15 @@
 package Controllers.ValidateGameMenuFuncs;
 
-import Controllers.Command;
 import Controllers.GameController;
 import Controllers.GameMenuController;
-import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
+import Utils.Command;
+import Utils.CommandResponse;
 import Views.TileGridPrinter;
 
 public class MapFuncs extends GameMenuFuncs {

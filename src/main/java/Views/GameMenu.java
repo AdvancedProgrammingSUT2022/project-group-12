@@ -1,11 +1,15 @@
 package Views;
-import Controllers.ValidateGameMenuFuncs.*;
-import Controllers.Command;
+
 import Controllers.GameController;
-import Enums.CommandResponse;
+import Controllers.ValidateGameMenuFuncs.InfoFuncs;
+import Controllers.ValidateGameMenuFuncs.MapFuncs;
+import Controllers.ValidateGameMenuFuncs.SelectFuncs;
+import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.GameEnums.ImprovementEnum;
 import Exceptions.CommandException;
 import Models.Location;
+import Utils.Command;
+import Utils.CommandResponse;
 
 import java.util.List;
 

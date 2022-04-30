@@ -1,9 +1,9 @@
 package Views;
 
-import Controllers.Command;
 import Controllers.ProfileMenuController;
-import Enums.CommandResponse;
 import Exceptions.CommandException;
+import Utils.Command;
+import Utils.CommandResponse;
 
 public class ProfileMenu extends Menu {
 

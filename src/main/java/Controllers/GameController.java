@@ -1,6 +1,5 @@
 package Controllers;
 
-import Enums.CommandResponse;
 import Enums.GameEnums.ImprovementEnum;
 import Enums.GameEnums.TechnologyEnum;
 import Exceptions.CommandException;
@@ -13,6 +12,7 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
+import Utils.CommandResponse;
 
 import java.util.*;
 

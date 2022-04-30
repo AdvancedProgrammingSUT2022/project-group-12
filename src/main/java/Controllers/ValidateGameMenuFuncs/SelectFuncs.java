@@ -1,12 +1,12 @@
 package Controllers.ValidateGameMenuFuncs;
 
-import Controllers.Command;
 import Controllers.GameController;
-import Enums.CommandResponse;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
+import Utils.Command;
+import Utils.CommandResponse;
 
 public class SelectFuncs extends GameMenuFuncs {
     public SelectFuncs(Game game) {

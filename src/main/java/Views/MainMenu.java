@@ -1,11 +1,11 @@
 package Views;
 
-import Controllers.Command;
 import Controllers.GameController;
 import Controllers.MainMenuController;
-import Enums.CommandResponse;
 import Exceptions.InvalidCommandFormat;
 import Exceptions.UnknownUser;
+import Utils.Command;
+import Utils.CommandResponse;
 
 import java.util.ArrayList;
 
