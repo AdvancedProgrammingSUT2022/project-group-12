@@ -32,7 +32,7 @@ public class GameMenuFuncs {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
-            if (!GameController.game.getTileGrid().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
+            if (!GameController.getGame().getTileGrid().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
             return CommandResponse.OK;
         } catch (Exception e) {
             return CommandResponse.INVALID_COMMAND;

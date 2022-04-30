@@ -18,7 +18,7 @@ import java.util.*;
 
 
 public class GameController {
-    public static Game game;
+    protected static Game game;
 
     public GameController(Game newGame) {
         game = newGame;
@@ -42,34 +42,30 @@ public class GameController {
     }
 
 
-
     protected static boolean isEnemyExists(int row, int col, Civilization civilization) {
-        CombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getCombatUnit();
-        if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
-        return false;
+        CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
+        return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
-    protected static boolean isEnemyIsReadyForAttack(int row, int col, Civilization civilization,CombatUnit combatUnit) {
-        CombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getCombatUnit();
-        NonCombatUnit nonCombatEnemyUnit=game.getTileGrid().getTile(row, col).getNonCombatUnit();
 
-        if(combatUnit instanceof RangedUnit){
-            if(isEnemyExists(row, col, civilization) || isNonCombatEnemyExists(row, col, civilization))return true;
-            return false;
-        }else {
-            if (isEnemyExists(row, col, civilization)) return true;
-            return false;
+    protected static boolean isEnemyIsReadyForAttack(int row, int col, Civilization civilization, CombatUnit combatUnit) {
+        CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
+        NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
+
+        if (combatUnit instanceof RangedUnit) {
+            return isEnemyExists(row, col, civilization) || isNonCombatEnemyExists(row, col, civilization);
+        } else {
+            return isEnemyExists(row, col, civilization);
         }
     }
+
     protected static boolean isAttackToCity(int row, int col, Civilization civilization) {
-        City enemyCity=game.getTileGrid().getTile(row, col).getCity();
-        if(enemyCity != null){return true;}
-        else return false;
+        City enemyCity = game.getTileGrid().getTile(row, col).getCity();
+        return enemyCity != null;
     }
 
     protected static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
-        NonCombatUnit enemyUnit=game.getTileGrid().getTile(row, col).getNonCombatUnit();
-        if(enemyUnit != null && enemyUnit.getCiv() != civilization)return true;
-        return false;
+        NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
+        return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
 
     public static void deleteMonCombatUnit(Civilization currentCivilization, Tile currentTile) {
@@ -136,7 +132,7 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        nonCombatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(nonCombatUnit.getRow(),nonCombatUnit.getColumn()));
+        nonCombatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(nonCombatUnit.getRow(), nonCombatUnit.getColumn()));
         return null;
     }
 
@@ -144,28 +140,28 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-      combatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(combatUnit.getRow(),combatUnit.getColumn()));
+        combatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(combatUnit.getRow(), combatUnit.getColumn()));
 
         return null;
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
-        StringBuilder researchInfo=new StringBuilder("");
-        HashMap<TechnologyEnum, Integer> technologies=new HashMap<>(currentCivilization.getResearchingTechnologies());
-        TechnologyEnum currentTech=currentCivilization.getCurrentTech();
+        StringBuilder researchInfo = new StringBuilder();
+        HashMap<TechnologyEnum, Integer> technologies = new HashMap<>(currentCivilization.getResearchingTechnologies());
+        TechnologyEnum currentTech = currentCivilization.getCurrentTech();
         showCurrentTech(researchInfo, technologies, currentTech);
         showOtherTechs(researchInfo, technologies);
         return researchInfo;
     }
+
     private static void showCurrentTech(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies, TechnologyEnum currentTech) {
-        researchInfo.append("Current research : "+ currentTech);
-        researchInfo.append("Science remains : "+ technologies.get(currentTech)+"\n");
+        researchInfo.append("Current research : " + currentTech);
+        researchInfo.append("Science remains : " + technologies.get(currentTech) + "\n");
     }
 
     private static void showOtherTechs(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies) {
-        for (Map.Entry<TechnologyEnum,Integer> tech:
-             technologies.entrySet()) {
-            researchInfo.append("research name :"+tech.getKey().name()+" science remains : "+tech.getValue()+"\n");
+        for (Map.Entry<TechnologyEnum, Integer> tech : technologies.entrySet()) {
+            researchInfo.append("research name :" + tech.getKey().name() + " science remains : " + tech.getValue() + "\n");
         }
     }
 
@@ -174,48 +170,37 @@ public class GameController {
     }
 
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
-        StringBuilder unitsInfo=new StringBuilder("");
-        ArrayList<CombatUnit> combatUnits=currentCivilization.getCombatUnits();
-        ArrayList<NonCombatUnit> nonCombatUnits=currentCivilization.getNonCombatUnits();
+        StringBuilder unitsInfo = new StringBuilder();
+        ArrayList<CombatUnit> combatUnits = currentCivilization.getCombatUnits();
+        ArrayList<NonCombatUnit> nonCombatUnits = currentCivilization.getNonCombatUnits();
         showCombatUnits(unitsInfo, combatUnits);
-        showNonCombatUnits(unitsInfo,nonCombatUnits);
+        showNonCombatUnits(unitsInfo, nonCombatUnits);
         return unitsInfo;
     }
+
     private static void showNonCombatUnits(StringBuilder unitsInfo, ArrayList<NonCombatUnit> nonCombatUnits) {
         /***
          * in this function we are going to sort by name
          */
-        Collections.sort(nonCombatUnits,new Comparator<NonCombatUnit>(){
-            public int compare(NonCombatUnit nonCombatUnit1,NonCombatUnit nonCombatUnit2){
-                return nonCombatUnit1.getType().name().compareTo(nonCombatUnit2.getType().name());
-            }
-
-        });
-        for (NonCombatUnit nonCombatEnum:
-                nonCombatUnits) {
-            StringBuilder nonCombatName=new StringBuilder("nonCombat name : "+nonCombatEnum.getType().name());
-            StringBuilder nonCombatStrength=new StringBuilder("Strength : -");
-            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+nonCombatEnum.getAvailableMoveCount()+"/"+nonCombatEnum.getType().getMovement());
-            unitsInfo.append(nonCombatName+" "+nonCombatStrength+" "+movementPoint+'\n');
+        Collections.sort(nonCombatUnits, Comparator.comparing(nonCombatUnit -> nonCombatUnit.getType().name()));
+        for (NonCombatUnit nonCombatEnum : nonCombatUnits) {
+            StringBuilder nonCombatName = new StringBuilder("nonCombat name : " + nonCombatEnum.getType().name());
+            StringBuilder nonCombatStrength = new StringBuilder("Strength : -");
+            StringBuilder movementPoint = new StringBuilder("MovementPoint : " + nonCombatEnum.getAvailableMoveCount() + "/" + nonCombatEnum.getType().getMovement());
+            unitsInfo.append(nonCombatName + " " + nonCombatStrength + " " + movementPoint + '\n');
         }
     }
+
     private static void showCombatUnits(StringBuilder unitsInfo, ArrayList<CombatUnit> combatUnits) {
         /***
          * in this function we are
          */
-        Collections.sort(combatUnits,new Comparator<CombatUnit>(){
-
-            public int compare(CombatUnit combatUnit1,CombatUnit combatUnit2){
-                return combatUnit1.getType().name().compareTo(combatUnit2.getType().name());
-            }
-
-        });
-        for (CombatUnit combatEnum:
-                combatUnits) {
-            StringBuilder combatName=new StringBuilder("combat name : "+combatEnum.getType().name());
-            StringBuilder combatStrength=new StringBuilder("Strength : "+combatEnum.getCombatStrength());
-            StringBuilder movementPoint=new StringBuilder("MovementPoint : "+combatEnum.getAvailableMoveCount()+"/"+combatEnum.getType().getMovement());
-            unitsInfo.append(combatName+" "+combatStrength+" "+movementPoint+'\n');
+        Collections.sort(combatUnits, Comparator.comparing(combatUnit -> combatUnit.getType().name()));
+        for (CombatUnit combatEnum : combatUnits) {
+            StringBuilder combatName = new StringBuilder("combat name : " + combatEnum.getType().name());
+            StringBuilder combatStrength = new StringBuilder("Strength : " + combatEnum.getCombatStrength());
+            StringBuilder movementPoint = new StringBuilder("MovementPoint : " + combatEnum.getAvailableMoveCount() + "/" + combatEnum.getType().getMovement());
+            unitsInfo.append(combatName + " " + combatStrength + " " + movementPoint + '\n');
         }
     }
 
@@ -236,8 +221,8 @@ public class GameController {
     }
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
-        StringBuilder militaryInfo=new StringBuilder("");
-        ArrayList<CombatUnit> combatType=currentCivilization.getCombatUnits();
+        StringBuilder militaryInfo = new StringBuilder();
+        ArrayList<CombatUnit> combatType = currentCivilization.getCombatUnits();
 
         return null;
     }
@@ -246,15 +231,17 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showDiplomaticInfo(Game game,Civilization currentCivilization) {
-        StringBuilder diplomaticInfo=new StringBuilder("");
-        ArrayList<Civilization> inWarWith=currentCivilization.getIsInWarWith();
-        for (Civilization civ:
-             game.getCivs()) {
-          if(civ == currentCivilization) continue;
-          diplomaticInfo.append("civilization name : "+civ.getName()+" state : ");
-          if(currentCivilization.isInWarWith(civ)){diplomaticInfo.append("WAR!!\n");}
-          else {diplomaticInfo.append("Neutral\n");}
+    public static StringBuilder showDiplomaticInfo(Game game, Civilization currentCivilization) {
+        StringBuilder diplomaticInfo = new StringBuilder();
+        ArrayList<Civilization> inWarWith = currentCivilization.getIsInWarWith();
+        for (Civilization civ : game.getCivs()) {
+            if (civ == currentCivilization) continue;
+            diplomaticInfo.append("civilization name : " + civ.getName() + " state : ");
+            if (currentCivilization.isInWarWith(civ)) {
+                diplomaticInfo.append("WAR!!\n");
+            } else {
+                diplomaticInfo.append("Neutral\n");
+            }
         }
         return diplomaticInfo;
     }
@@ -262,7 +249,6 @@ public class GameController {
     public static StringBuilder showDealsInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
-
 
 
     public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
@@ -283,7 +269,7 @@ public class GameController {
         return CommandResponse.OK;
     }
 
-    public Game getGame() {
+    public static Game getGame() {
         return game;
     }
 

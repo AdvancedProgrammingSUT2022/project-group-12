@@ -42,7 +42,7 @@ public class MapFuncs extends GameMenuFuncs {
     }
 
     private void showMapPosition(int row, int col) {
-        TileGrid tileGrid = GameController.game.getTileGrid();
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
         TileGridPrinter tileGridPrinter = new TileGridPrinter(tileGrid);
         String output = tileGridPrinter.showTileGrid(row, col).toString();
         System.out.print(output);
@@ -58,7 +58,7 @@ public class MapFuncs extends GameMenuFuncs {
             case "right" -> newCord.moveX(amount);
             case "left" -> newCord.moveX(amount * -1);
         }
-        if (!GameController.game.getTileGrid().isLocationValid(newCord.getX(), newCord.getY())) {
+        if (!GameController.getGame().getTileGrid().isLocationValid(newCord.getX(), newCord.getY())) {
             return CommandResponse.INVALID_DIRECTION; // todo: out of map
         }
         this.gridCord = newCord;

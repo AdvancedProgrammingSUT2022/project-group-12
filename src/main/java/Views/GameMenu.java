@@ -22,10 +22,10 @@ public class GameMenu extends Menu {
     private Location gridCord;
 
     public GameMenu(GameController controller) {
-        this.infoFuncs = new InfoFuncs(GameController.game);
-        this.mapFuncs = new MapFuncs(GameController.game);
-        this.selectFuncs = new SelectFuncs(GameController.game);
-        this.unitFuncs = new UnitFuncs(GameController.game);
+        this.infoFuncs = new InfoFuncs(GameController.getGame());
+        this.mapFuncs = new MapFuncs(GameController.getGame());
+        this.selectFuncs = new SelectFuncs(GameController.getGame());
+        this.unitFuncs = new UnitFuncs(GameController.getGame());
     }
 
     public InfoFuncs getInfoFuncs() {
@@ -67,7 +67,7 @@ public class GameMenu extends Menu {
 
     private void end(Command command) {
         switch (command.getSubCategory()) {
-            case "turn" -> GameController.game.startNextTurn();
+            case "turn" -> GameController.getGame().startNextTurn();
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }

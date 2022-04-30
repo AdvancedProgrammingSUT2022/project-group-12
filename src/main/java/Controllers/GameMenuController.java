@@ -20,7 +20,7 @@ public class GameMenuController {
     }
 
     public static CommandResponse showMapOnPosition(int row, int col, Game game) {
-        if (GameController.game.getTileGrid().isLocationValid(row, col)) {
+        if (GameController.getGame().getTileGrid().isLocationValid(row, col)) {
             //TODO : show map
             return CommandResponse.OK;
         } else {
