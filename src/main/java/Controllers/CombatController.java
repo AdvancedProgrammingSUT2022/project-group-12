@@ -1,19 +1,14 @@
 package Controllers;
 
-import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
-import Models.Units.*;
-
-import java.util.ArrayList;
-import java.util.Random;
+import Models.Units.NonRangedUnit;
+import Models.Units.RangedUnit;
 
 import static Controllers.CityCombatController.*;
-import static Controllers.MovingController.findTheShortestPath;
-import static Controllers.UnitCombatController.*;
-import static java.lang.Math.exp;
+import static Controllers.UnitCombatController.AttackNonRangedUnit;
+import static Controllers.UnitCombatController.AttackRangedUnit;
 
 public class CombatController extends GameController {
     public CombatController(Game newGame) {

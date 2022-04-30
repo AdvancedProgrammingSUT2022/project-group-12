@@ -14,7 +14,10 @@ import Models.Units.RangedUnit;
 import Models.Units.Unit;
 import Utils.CommandResponse;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GameController {
@@ -182,7 +185,7 @@ public class GameController {
         /***
          * in this function we are going to sort by name
          */
-        Collections.sort(nonCombatUnits, Comparator.comparing(nonCombatUnit -> nonCombatUnit.getType().name()));
+        nonCombatUnits.sort(Comparator.comparing(nonCombatUnit -> nonCombatUnit.getType().name()));
         for (NonCombatUnit nonCombatEnum : nonCombatUnits) {
             StringBuilder nonCombatName = new StringBuilder("nonCombat name : " + nonCombatEnum.getType().name());
             StringBuilder nonCombatStrength = new StringBuilder("Strength : -");
@@ -195,7 +198,7 @@ public class GameController {
         /***
          * in this function we are
          */
-        Collections.sort(combatUnits, Comparator.comparing(combatUnit -> combatUnit.getType().name()));
+        combatUnits.sort(Comparator.comparing(combatUnit -> combatUnit.getType().name()));
         for (CombatUnit combatEnum : combatUnits) {
             StringBuilder combatName = new StringBuilder("combat name : " + combatEnum.getType().name());
             StringBuilder combatStrength = new StringBuilder("Strength : " + combatEnum.getCombatStrength());

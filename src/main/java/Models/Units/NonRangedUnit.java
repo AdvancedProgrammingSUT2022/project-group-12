@@ -5,10 +5,6 @@ import Models.Civilization;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 
-import java.util.Random;
-
-import static java.lang.Math.exp;
-
 public class NonRangedUnit extends CombatUnit {
 
 

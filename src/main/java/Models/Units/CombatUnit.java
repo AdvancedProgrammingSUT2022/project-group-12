@@ -5,12 +5,8 @@ import Enums.GameEnums.TechnologyEnum;
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
 import Models.Terrains.Terrain;
-import Models.Tiles.Tile;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import static java.lang.Math.exp;
 
 public abstract class CombatUnit extends Unit {
     protected ArrayList<ResourceEnum> requiredResources = new ArrayList<>();
