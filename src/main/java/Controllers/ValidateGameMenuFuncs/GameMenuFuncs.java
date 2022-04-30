@@ -13,7 +13,7 @@ public class GameMenuFuncs {
     protected Location gridCord;
 
     public GameMenuFuncs(Game game) {
-        this.game = game;
+        GameMenuFuncs.game = game;
     }
 
     public Game getGame() {

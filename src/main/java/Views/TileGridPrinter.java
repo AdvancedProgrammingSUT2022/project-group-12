@@ -61,7 +61,7 @@ public class TileGridPrinter {
     }
 
     private final Tile[][] grid;
-    private VisibilityEnum[][] state;
+    private final VisibilityEnum[][] state;
     private final String[][] tiles = new String[height][width];
 
     private void drawHex(int x, int y) {

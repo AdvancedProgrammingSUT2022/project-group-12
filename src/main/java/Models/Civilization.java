@@ -2,7 +2,6 @@ package Models;
 
 import Controllers.CivilizationController;
 import Enums.GameEnums.TechnologyEnum;
-import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -17,9 +16,9 @@ public class Civilization {
     private final User user;
     private final String name;
     private final CivilizationController controller;
-    private ArrayList<City> cities;
-    private ArrayList<String> notifications;
-    private Tile ownedTiles;
+    private final ArrayList<City> cities;
+    private final ArrayList<String> notifications;
+    private final Tile ownedTiles;
     private int gold;
     private int beaker;
     private int happiness;
