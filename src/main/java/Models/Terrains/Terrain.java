@@ -39,8 +39,8 @@ public class Terrain {
         this.color = terrainType.getColor();
     }
 
-    public String getColor() {
-        return this.color.toString();
+    public TerrainColor getColor() {
+        return this.color;
     }
 
     public VisibilityEnum getState() {

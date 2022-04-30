@@ -24,7 +24,7 @@ public class TileGrid {
         int y = random.nextInt(width);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                tiles[i][j] = new Tile(new Terrain(TerrainEnum.GRASSLAND), i, j);
+                tiles[i][j] = this.randomAssignment(i, j);
             }
         }
     }

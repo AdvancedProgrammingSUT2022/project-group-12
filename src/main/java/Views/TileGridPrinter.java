@@ -32,9 +32,9 @@ public class TileGridPrinter {
         if (0 <= row && row < this.height && 0 <= col && col < this.width) screen[row][col] = String.valueOf(ch);
     }
 
-    private void writeCentered(int row, int col, String text) {
+    private void writeCentered(int row, int col, String text, TerrainColor foreground, TerrainColor background) {
         for (int i = 0; i < text.length(); ++i) {
-            this.setChar(row, col - text.length() / 2 + i, text.charAt(i));
+            this.setChar(row, col - text.length() / 2 + i, text.charAt(i), foreground, background);
         }
     }
 
@@ -75,7 +75,8 @@ public class TileGridPrinter {
             this.setChar(row + hexH / 2 - i, col - 3 - i, '\\');
             this.setChar(row + hexH / 2 - i, col + 3 + i, '/');
         }
-        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol());
+        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tile.getTerrain().getColor());
+        this.writeCentered(row, col, tile.getTerrain().getTerrainType().toString(), tile.getTerrain().getColor(), TerrainColor.RESET);
     }
 
     private void drawHex(int x, int y) {
@@ -121,7 +122,7 @@ public class TileGridPrinter {
 
         for (int i = 0; i < 3 && x + i < height; i++) {
             for (int j = 0; j < 6 && y + j < width; j++) {
-                String color = grid[x + i][y + j].getTerrain().getColor();
+                String color = grid[x + i][y + j].getTerrain().getColor().toString();
                 int xi = i * 6;
                 int yj = j * 8;
                 xi += (y % 2) * 3;
