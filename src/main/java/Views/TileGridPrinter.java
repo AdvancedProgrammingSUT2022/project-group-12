@@ -2,40 +2,54 @@ package Views;
 
 import Enums.GameEnums.TerrainColor;
 import Enums.GameEnums.VisibilityEnum;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 
 public class TileGridPrinter {
     private final TileGrid tileGrid;
+    private final String[][] screen;
+    private final int hexH = 6;
+    private final int hexW = 5;
     private final int height;
     private final int width;
-    private final int h = 6;
-    private final int w = 5;
-    private final String[][] screen;
 
-    public TileGridPrinter(TileGrid tileGrid) {
+    private String[][] tiles;
+
+    public TileGridPrinter(TileGrid tileGrid, int height, int width) {
         this.tileGrid = tileGrid;
-        this.height = tileGrid.getHeight();
-        this.width = tileGrid.getWidth();
+        this.height = height;
+        this.width = width;
         screen = new String[height][width];
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 screen[i][j] = " ";
             }
         }
-        this.grid = this.tileGrid.getGrid();
-        this.state = this.tileGrid.gridState();
     }
 
-    public String print() {
-        for (int i = 0; i < this.tileGrid.getHeight(); ++i) {
-            for (int j = 0; j < this.tileGrid.getWidth(); ++j) {
-                Tile tile = this.tileGrid.getTile(i, j);
-                int x = h + w * 2;
-                if (i % 2 == 0)
-                    this.drawHex(tile, 4 + i * h / 2, 10 + j * x);
-                else
-                    this.drawHex(tile, 4 + i * h / 2, 18 + j * x);
+    private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
+        if (0 <= row && row < this.height && 0 <= col && col < this.width)
+            screen[row][col] = foreground.toString() + background.toString() + ch + TerrainColor.RESET;
+    }
+
+    private void setChar(int row, int col, char ch) {
+        if (0 <= row && row < this.height && 0 <= col && col < this.width) screen[row][col] = String.valueOf(ch);
+    }
+
+    private void writeCentered(int row, int col, String text) {
+        for (int i = 0; i < text.length(); ++i) {
+            this.setChar(row, col - text.length() / 2 + i, text.charAt(i));
+        }
+    }
+
+    public String print(Location upleft) {
+        for (int i = -1; i + upleft.getX() < tileGrid.getHeight(); ++i) {
+            for (int j = -1; j + upleft.getY() < tileGrid.getWidth(); ++j) {
+                Tile tile = tileGrid.getTile(i + upleft.getX(), j + upleft.getY());
+                int x = hexH + hexW * 2;
+                if (i % 2 == 0) this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW + j * x);
+                else this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW * 2 + hexH / 2 + j * x);
             }
         }
 
@@ -44,28 +58,24 @@ public class TileGridPrinter {
             for (int j = 0; j < width; ++j) {
                 output.append(screen[i][j]);
             }
-            if (i < height - 1)
-                output.append("\n");
+            output.append('\n');
         }
         return output.toString();
     }
 
     private void drawHex(Tile tile, int row, int col) {
-        for (int j = -w / 2; j <= w / 2; ++j) {
-            this.screen[row - h / 2][col + j] = "_";
-            this.screen[row + h / 2][col + j] = "_";
+        for (int j = -hexW / 2; j <= hexW / 2; ++j) {
+            this.setChar(row - hexH / 2, col + j, '_');
+            this.setChar(row + hexH / 2, col + j, '_');
         }
-        for (int i = 0; i < h / 2; ++i) {
-            this.screen[row - h / 2 + 1 + i][col - 3 - i] = "/";
-            this.screen[row - h / 2 + 1 + i][col + 3 + i] = "\\";
-            this.screen[row + h / 2 - i][col - 3 - i] = "\\";
-            this.screen[row + h / 2 - i][col + 3 + i] = "/";
+        for (int i = 0; i < hexH / 2; ++i) {
+            this.setChar(row - hexH / 2 + 1 + i, col - 3 - i, '/');
+            this.setChar(row - hexH / 2 + 1 + i, col + 3 + i, '\\');
+            this.setChar(row + hexH / 2 - i, col - 3 - i, '\\');
+            this.setChar(row + hexH / 2 - i, col + 3 + i, '/');
         }
+        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol());
     }
-
-    private final Tile[][] grid;
-    private final VisibilityEnum[][] state;
-    private String[][] tiles;
 
     private void drawHex(int x, int y) {
         for (int i = 2; i > -1; i--) {
@@ -105,6 +115,9 @@ public class TileGridPrinter {
             this.tiles[2][43 + i] = "_";
         }
 
+        Tile[][] grid = this.tileGrid.getGrid();
+        VisibilityEnum[][] state = this.tileGrid.gridState();
+
         for (int i = 0; i < 3 && x + i < height; i++) {
             for (int j = 0; j < 6 && y + j < width; j++) {
                 String color = grid[x + i][y + j].getTerrain().getColor();
@@ -112,7 +125,7 @@ public class TileGridPrinter {
                 int yj = j * 8;
                 xi += (y % 2) * 3;
                 drawHex(xi, yj);
-                if (this.state[x + i][y + j].equals(VisibilityEnum.FOG_OF_WAR)) {
+                if (state[x + i][y + j].equals(VisibilityEnum.FOG_OF_WAR)) {
                     color = TerrainColor.GRAY_BACKGROUND.toString();
                 }
                 insertTileInfo(xi, yj, x + i + (y % 2), y + j, color);
@@ -125,10 +138,6 @@ public class TileGridPrinter {
                 }
             }
         }
-    }
-
-    private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
-        this.screen[row][col] = foreground.toString() + background.toString() + ch + TerrainColor.RESET;
     }
 
     public StringBuilder showTileGrid(int x, int y) {

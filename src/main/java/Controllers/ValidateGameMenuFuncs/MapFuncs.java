@@ -43,8 +43,7 @@ public class MapFuncs extends GameMenuFuncs {
 
     private void showMapPosition(int row, int col) {
         TileGrid tileGrid = GameController.getGame().getTileGrid();
-        TileGridPrinter tileGridPrinter = new TileGridPrinter(tileGrid);
-        String output = tileGridPrinter.showTileGrid(row, col).toString();
+        String output = new TileGridPrinter(tileGrid, 20, 70).print(new Location(row, col));
         System.out.print(output);
     }
 
