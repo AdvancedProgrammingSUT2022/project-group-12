@@ -34,7 +34,7 @@ public class TileGridPrinter {
 
     private void writeCentered(int row, int col, String text, TerrainColor foreground, TerrainColor background) {
         for (int i = 0; i < text.length(); ++i) {
-            this.setChar(row, col - text.length() / 2 + i, text.charAt(i), foreground, background);
+            this.setChar(row, col - (text.length() - 1) / 2 + i, text.charAt(i), foreground, background);
         }
     }
 
@@ -90,7 +90,7 @@ public class TileGridPrinter {
         String type = tile.getTerrain().getTerrainType().toString();
         if (tile.getState() == VisibilityEnum.FOG_OF_WAR) {
             this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
-//            this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
+            if (tile.getCivilization() != null) this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
         } else {
             this.writeCentered(row, col, "", TerrainColor.GRAY_BACKGROUND, TerrainColor.RESET);
         }
