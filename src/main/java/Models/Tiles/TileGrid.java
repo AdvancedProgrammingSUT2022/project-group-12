@@ -37,7 +37,7 @@ public class TileGrid {
         this.usedLocations = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                tiles[i][j] = new Tile(new Terrain(TerrainEnum.OCEAN), i, j);
+                tiles[i][j] = new Tile(new Terrain(TerrainEnum.UNKNOWN), i, j);
             }
         }
     }
@@ -188,5 +188,13 @@ public class TileGrid {
 
     public Tile getTile(Location location) {
         return getTile(location.getRow(), location.getCol());
+    }
+
+    public void setFogOfWarForAll() {
+        for (int i = 0; i < this.getHeight(); ++i) {
+            for (int j = 0; j < this.getWidth(); ++j) {
+                tiles[i][j].setState(tiles[i][j].getState() == VisibilityEnum.FOG_OF_WAR ? VisibilityEnum.FOG_OF_WAR : VisibilityEnum.REVEALED);
+            }
+        }
     }
 }
