@@ -30,7 +30,8 @@ public class MapFuncs extends GameMenuFuncs {
             }
             showMapPosition(row, col);
         } else if ((key = command.getOption("cityname")) != null) {
-            City city = getCityWithThisName(getCurrentCivilization(), key); // todo: should be able to show cities of other civs too
+            City city = getCityWithThisName(getCurrentCivilization(), key);
+            // todo: should be able to show cities of other civs too
             if (city == null) {
                 System.out.println("city doesn't exists with this name");
             } else {

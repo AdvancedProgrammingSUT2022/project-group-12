@@ -127,8 +127,7 @@ public class Tile {
     }
 
     public Tile deepCopy(Tile tileToCopy) {
-        Tile newTile = new Tile(tileToCopy);
-        return newTile;
+        return new Tile(tileToCopy);
     }
 
     public void setUnit(Unit unit, Unit toSet) {
@@ -141,7 +140,8 @@ public class Tile {
 
     public int calculateMovementCost() {
         int cost = terrain.getMovementCost();
-        if (hasRoad) cost /= 2;
+        if (hasRoad)
+            cost /= 2;
         return cost;
     }
 }

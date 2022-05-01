@@ -1,82 +1,11 @@
 package Enums.GameEnums;
 
+import Models.Terrains.Terrain;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public enum TerrainEnum {
-
-    DESERT("DSRT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(OASIS);
-        add(PLAIN);
-    }}, new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-        add(ResourceEnum.GOLD);
-        add(ResourceEnum.SILVER);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.MARBLE);
-        add(ResourceEnum.COTTON);
-        add(ResourceEnum.INCENSE);
-        add(ResourceEnum.SHEEP);
-    }}),
-    GRASSLAND("GRSLND", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(FOREST);
-        add(MARSH);
-    }}, new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-        add(ResourceEnum.HORSE);
-        add(ResourceEnum.COAL);
-        add(ResourceEnum.CATTLE);
-        add(ResourceEnum.GOLD);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.MARBLE);
-        add(ResourceEnum.SHEEP);
-    }}),
-    HILL("HILL", TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
-        add(FOREST);
-        add(JUNGLE);
-    }}, new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-        add(ResourceEnum.COAL);
-        add(ResourceEnum.DEER);
-        add(ResourceEnum.GOLD);
-        add(ResourceEnum.SILVER);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.MARBLE);
-        add(ResourceEnum.SHEEP);
-    }}),
-    MOUNTAIN("MNTN", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
-    OCEAN("OCEAN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
-        add(ICE);
-    }}, new ArrayList<>()),
-    PLAIN("PLN", TerrainColor.GREEN_BACKGROUND, 1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(FOREST);
-        add(JUNGLE);
-    }}, new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-        add(ResourceEnum.HORSE);
-        add(ResourceEnum.COAL);
-        add(ResourceEnum.WHEAT);
-        add(ResourceEnum.GOLD);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.MARBLE);
-        add(ResourceEnum.IVORY);
-        add(ResourceEnum.COTTON);
-        add(ResourceEnum.INCENSE);
-        add(ResourceEnum.SHEEP);
-    }}),
-    SNOW("SNOW", TerrainColor.WHITE_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-    }}),
-    TUNDRA("TNDRA", TerrainColor.DARKRED_BACKGROUND, 1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(FOREST);
-    }}, new ArrayList<>() {{
-        add(ResourceEnum.IRON);
-        add(ResourceEnum.HORSE);
-        add(ResourceEnum.DEER);
-        add(ResourceEnum.SILVER);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.MARBLE);
-        add(ResourceEnum.FUR);
-    }}),
     FALLOUT("FLOUT", TerrainColor.RESET, -3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
     FOREST("FORST", TerrainColor.RESET, 1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.DEER);
@@ -94,7 +23,81 @@ public enum TerrainEnum {
         add(ResourceEnum.SUGAR);
     }}),
     OASIS("OSIS", TerrainColor.RESET, 3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
-    RIVER("RIVR", TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>());
+    RIVER("RIVR", TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>()),
+
+    GRASSLAND("GRSLND", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(TerrainEnum.FOREST);
+        add(TerrainEnum.MARSH);
+    }}, new ArrayList<>() {{
+        add(ResourceEnum.IRON);
+        add(ResourceEnum.HORSE);
+        add(ResourceEnum.COAL);
+        add(ResourceEnum.CATTLE);
+        add(ResourceEnum.GOLD);
+        add(ResourceEnum.GEMSTONE);
+        add(ResourceEnum.MARBLE);
+        add(ResourceEnum.SHEEP);
+    }}),
+    HILL("HILL", TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
+        add(TerrainEnum.FOREST);
+        add(TerrainEnum.JUNGLE);
+    }}, new ArrayList<>() {{
+        add(ResourceEnum.IRON);
+        add(ResourceEnum.COAL);
+        add(ResourceEnum.DEER);
+        add(ResourceEnum.GOLD);
+        add(ResourceEnum.SILVER);
+        add(ResourceEnum.GEMSTONE);
+        add(ResourceEnum.MARBLE);
+        add(ResourceEnum.SHEEP);
+    }}),
+    MOUNTAIN("MNTN", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
+    OCEAN("OCEAN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
+        add(TerrainEnum.ICE);
+    }}, new ArrayList<>()),
+    PLAIN("PLN", TerrainColor.GREEN_BACKGROUND, 1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(TerrainEnum.FOREST);
+        add(TerrainEnum.JUNGLE);
+    }}, new ArrayList<>() {{
+        add(ResourceEnum.IRON);
+        add(ResourceEnum.HORSE);
+        add(ResourceEnum.COAL);
+        add(ResourceEnum.WHEAT);
+        add(ResourceEnum.GOLD);
+        add(ResourceEnum.GEMSTONE);
+        add(ResourceEnum.MARBLE);
+        add(ResourceEnum.IVORY);
+        add(ResourceEnum.COTTON);
+        add(ResourceEnum.INCENSE);
+        add(ResourceEnum.SHEEP);
+    }}),
+    DESERT("DSRT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(TerrainEnum.OASIS);
+        add(TerrainEnum.PLAIN);
+    }}, new ArrayList<>() {{
+        add(ResourceEnum.IRON);
+        add(ResourceEnum.GOLD);
+        add(ResourceEnum.SILVER);
+        add(ResourceEnum.GEMSTONE);
+        add(ResourceEnum.MARBLE);
+        add(ResourceEnum.COTTON);
+        add(ResourceEnum.INCENSE);
+        add(ResourceEnum.SHEEP);
+    }}),
+    SNOW("SNOW", TerrainColor.WHITE_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
+        add(ResourceEnum.IRON);
+    }}),
+    TUNDRA("TNDRA", TerrainColor.DARKRED_BACKGROUND, 1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+        add(TerrainEnum.FOREST);
+    }}, new ArrayList<>() {{
+        add(ResourceEnum.IRON);
+        add(ResourceEnum.HORSE);
+        add(ResourceEnum.DEER);
+        add(ResourceEnum.SILVER);
+        add(ResourceEnum.GEMSTONE);
+        add(ResourceEnum.MARBLE);
+        add(ResourceEnum.FUR);
+    }});
 
     private final int foodCount;
     private final int productsCount;
@@ -132,31 +135,74 @@ public enum TerrainEnum {
     }
 
     public int getFoodCount() {
-        return this.foodCount;
+        int count = this.foodCount;
+        if (!possibleTerrainFeatures.isEmpty())
+            for (TerrainEnum list : possibleTerrainFeatures) {
+                count += list.foodCount;
+            }
+        return count;
     }
 
     public int getProductsCount() {
-        return this.productsCount;
+        int count = this.productsCount;
+        if (!possibleTerrainFeatures.isEmpty())
+            for (TerrainEnum list : possibleTerrainFeatures) {
+                count += list.productsCount;
+            }
+        return productsCount;
     }
 
     public int getGoldCount() {
-        return this.goldCount;
+        int count = this.goldCount;
+        if (!possibleTerrainFeatures.isEmpty())
+            for (TerrainEnum list : possibleTerrainFeatures) {
+                count += list.goldCount;
+            }
+        return goldCount;
     }
 
     public int getCombatModifier() {
-        return this.combatModifier;
+        int count = this.combatModifier;
+        if (!possibleTerrainFeatures.isEmpty())
+            for (TerrainEnum list : possibleTerrainFeatures) {
+                count += list.combatModifier;
+            }
+        return combatModifier;
     }
 
     public int getMovementCost() {
-        return this.movementCost;
+        int count = this.movementCost;
+        if (!possibleTerrainFeatures.isEmpty())
+            for (TerrainEnum list : possibleTerrainFeatures) {
+                count += list.movementCost;
+            }
+        return movementCost;
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
-        return this.possibleTerrainFeatures;
+//        if (this.possibleTerrainFeatures.isEmpty())
+//            return this.possibleTerrainFeatures;
+//        ArrayList<TerrainEnum> features = new ArrayList<>(this.possibleTerrainFeatures);
+//        ArrayList<TerrainEnum> possibleFeatures = new ArrayList<>(this.possibleTerrainFeatures);
+//        Random random = new Random();
+//        int count = random.nextInt(Math.min(2, possibleFeatures.size()));
+//        for (int i = 0; i < count; i++) {
+//            int rand = random.nextInt(possibleFeatures.size());
+//            features.add(possibleFeatures.get(rand));
+//            possibleFeatures.remove(rand);
+//        }
+        return possibleTerrainFeatures;
     }
 
     public ArrayList<ResourceEnum> getResources() {
-        return this.possibleResources;
+        ArrayList<ResourceEnum> resources = new ArrayList<>(this.possibleResources);
+        if (!possibleTerrainFeatures.isEmpty())
+            for (TerrainEnum list : possibleTerrainFeatures) {
+                if (!list.possibleResources.isEmpty()) {
+                    resources.addAll(list.possibleResources);
+                }
+            }
+        return possibleResources;
     }
 
     public boolean isBlockingView() {

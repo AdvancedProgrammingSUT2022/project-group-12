@@ -1,3 +1,4 @@
+import Enums.GameEnums.TerrainEnum;
 import Models.Database;
 import Views.MenuStack;
 
@@ -19,8 +20,8 @@ public class Main {
     }
 }
 /*
-user create --username ali --nickname A --password A12345678!
-user login -u ali -p A12345678!
-play game --player1 ali
+user create --username alireza --password Password123? --nickname ali
+user login -p Password123? -u alireza
+play game --player1 alireza
 
  */
