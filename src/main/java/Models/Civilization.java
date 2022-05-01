@@ -8,6 +8,7 @@ import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class Civilization {
     public Civilization(User user) {
         this.user = user;
         this.name = user.getNickname();
-        this.revealedTileGrid = new TileGrid(this,5,5);
+        this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT,Constants.TILEGRID_WIDTH);
         this.controller = new CivilizationController();
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();

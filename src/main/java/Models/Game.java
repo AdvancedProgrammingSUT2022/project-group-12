@@ -8,6 +8,7 @@ import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandResponse;
+import Utils.Constants;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
-        this.tileGrid = new TileGrid(5, 5);
+        this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         for (User user : users) {
             Civilization civ = new Civilization(user);
             civs.add(civ);

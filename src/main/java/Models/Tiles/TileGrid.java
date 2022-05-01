@@ -17,26 +17,26 @@ public class TileGrid {
     private final int width;
     private final Tile[][] tiles;
 
-    public TileGrid(int width, int height) {
-        this.width = width;
+    public TileGrid(int height, int width) {
         this.height = height;
-        tiles = new Tile[width][height];
+        this.width = width;
+        tiles = new Tile[height][width];
         this.usedLocations = new ArrayList<>();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 tiles[i][j] = this.randomAssignment(i, j);
                 tiles[i][j].setState(VisibilityEnum.VISIBLE);
             }
         }
     }
 
-    public TileGrid(Civilization civilization, int width, int height) {
-        this.width = width;
+    public TileGrid(Civilization civilization, int height, int width) {
         this.height = height;
-        tiles = new Tile[width][height];
+        this.width = width;
+        tiles = new Tile[height][width];
         this.usedLocations = new ArrayList<>();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 tiles[i][j] = new Tile(new Terrain(TerrainEnum.OCEAN), i, j);
             }
         }

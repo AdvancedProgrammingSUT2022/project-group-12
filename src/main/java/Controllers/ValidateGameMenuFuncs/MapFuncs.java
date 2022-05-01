@@ -9,6 +9,7 @@ import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Utils.Command;
 import Utils.CommandResponse;
+import Utils.Constants;
 import Views.TileGridPrinter;
 
 public class MapFuncs extends GameMenuFuncs {
@@ -32,7 +33,7 @@ public class MapFuncs extends GameMenuFuncs {
 
     public void showMapPosition(Location location) {
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-        String output = new TileGridPrinter(tileGrid, 20, 120).print(location);
+        String output = new TileGridPrinter(tileGrid, Constants.TERMINAL_HEIGHT, Constants.TERMINAL_WIDTH).print(location);
         System.out.print(output);
     }
 
