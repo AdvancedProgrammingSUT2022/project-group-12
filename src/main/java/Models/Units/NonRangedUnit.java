@@ -2,15 +2,14 @@ package Models.Units;
 
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 
 public class NonRangedUnit extends CombatUnit {
 
 
 
-    public NonRangedUnit(UnitEnum type, Terrain terrain, Civilization civ) {
-        super(type, terrain, civ);
+    public NonRangedUnit(UnitEnum type, Civilization civ) {
+        super(type, civ);
     }
 
     private void horseman() {

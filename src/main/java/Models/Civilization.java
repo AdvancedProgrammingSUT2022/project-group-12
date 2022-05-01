@@ -7,6 +7,7 @@ import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
+import Models.Units.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class Civilization {
     private final CivilizationController controller;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
-    private final Tile ownedTiles;
+    private final ArrayList<Tile> ownedTiles;
     private int gold;
     private int beaker;
     private int happiness;
@@ -27,9 +28,9 @@ public class Civilization {
     private Tile currentTile;
     private HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
+    private ArrayList<Unit> units;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
-    private ArrayList<Tile> tiles;
     private TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<Civilization> isInWarWith;
@@ -63,12 +64,12 @@ public class Civilization {
         return this.happiness;
     }
 
-    public HashMap<TechnologyEnum, Integer> getResearchingTechnologies() {
-        return researchingTechnologies;
-    }
-
     public void setHappiness(int happiness) {
         this.happiness += happiness;
+    }
+
+    public HashMap<TechnologyEnum, Integer> getResearchingTechnologies() {
+        return researchingTechnologies;
     }
 
     public int getGold() {
@@ -95,8 +96,8 @@ public class Civilization {
         return nonCombatUnits;
     }
 
-    public ArrayList<Tile> getTiles() {
-        return this.tiles;
+    public ArrayList<Tile> getOwnedTiles() {
+        return this.ownedTiles;
     }
 
     public TileGrid getRevealedTileGrid() {

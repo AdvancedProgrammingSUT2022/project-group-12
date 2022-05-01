@@ -8,11 +8,12 @@ import Models.Terrains.Terrain;
 import java.util.*;
 
 public class TileGrid {
-    private final int height = 30;
-    private final int width = 30;
+    private final int height = 5;
+    private final int width = 5;
     private final ArrayList<Location> usedLocations;
     private final Random random = new Random();
     private final Tile[][] tiles;
+
     public TileGrid() {
         tiles = new Tile[width][height];
         this.usedLocations = new ArrayList<>();
@@ -25,28 +26,19 @@ public class TileGrid {
         }
     }
 
+    public Location getRandomTileLocation() {
+        Random random = new Random();
+        return new Location(random.nextInt(this.getHeight()), random.nextInt(this.getWidth()));
+    }
+
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
         int row = tile.getRow(), col = tile.getCol();
         ArrayList<Tile> tiles = new ArrayList<>();
         List<Location> neighbors;
         if (row % 2 == 0) {
-            neighbors = List.of(
-                    new Location(-2, 0),
-                    new Location(2, 0),
-                    new Location(-1, 0),
-                    new Location(1, 0),
-                    new Location(-1, -1),
-                    new Location(1, -1)
-            );
+            neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, 0), new Location(1, 0), new Location(-1, -1), new Location(1, -1));
         } else {
-            neighbors = List.of(
-                    new Location(-2, 0),
-                    new Location(2, 0),
-                    new Location(-1, 1),
-                    new Location(1, 1),
-                    new Location(-1, 0),
-                    new Location(1, 0)
-            );
+            neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, 1), new Location(1, 1), new Location(-1, 0), new Location(1, 0));
         }
         for (Location location : neighbors) {
             int nrow = row + location.getRow();

@@ -1,6 +1,8 @@
 package Models;
 
+import Enums.GameEnums.UnitEnum;
 import Models.Tiles.TileGrid;
+import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
 
@@ -13,7 +15,10 @@ public class Game {
         this.civs = new ArrayList<>();
         this.tileGrid = new TileGrid();
         for (User user : users) {
-            civs.add(new Civilization(user));
+            Civilization civ = new Civilization(user);
+            civs.add(civ);
+            Location settlerLocation = tileGrid.getRandomTileLocation();
+            tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(new NonCombatUnit(UnitEnum.SETTLER, civ));
         }
     }
 
