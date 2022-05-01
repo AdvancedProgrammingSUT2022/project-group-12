@@ -21,38 +21,15 @@ public class Terrain {
 
     public Terrain(TerrainEnum type) {
         this.terrainType = type;
+        this.features = type.getFeatures();
         this.foodCount = type.getFoodCount();
         this.productsCount = type.getProductsCount();
         this.goldCount = type.getGoldCount();
         this.combatModifier = type.getCombatModifier();
         this.movementCost = type.getMovementCost();
-        this.features = this.featuresList(type);
         this.resources = type.getResources();
-        if (features != null) for (TerrainEnum feature : this.features) {
-            if (feature == null) continue;
-            this.foodCount += feature.getFoodCount();
-            this.productsCount += feature.getProductsCount();
-            this.goldCount += feature.getGoldCount();
-            this.combatModifier += feature.getCombatModifier();
-            this.movementCost += feature.getMovementCost();
-        }
         this.state = VisibilityEnum.FOG_OF_WAR;
         this.color = terrainType.getColor();
-    }
-
-    private ArrayList<TerrainEnum> featuresList(TerrainEnum type) {
-        ArrayList<TerrainEnum> listedFeatures = type.getFeatures();
-        ArrayList<TerrainEnum> givenFeatures = new ArrayList<>();
-        if (!listedFeatures.isEmpty()) {
-            Random random = new Random();
-            int count = random.nextInt(Math.min(2, listedFeatures.size()));
-            for (int i = 0; i < count; i++) {
-                int rand = random.nextInt(listedFeatures.size());
-                givenFeatures.add(listedFeatures.get(rand));
-                listedFeatures.remove(rand);
-            }
-        }
-        return givenFeatures;
     }
 
     public TerrainColor getColor() {
