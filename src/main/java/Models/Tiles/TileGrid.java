@@ -72,16 +72,16 @@ public class TileGrid {
         return tiles;
     }
 
-    public ArrayList<Tile> getAllTilesInRadius(Tile tile, int rad) { // assume same vision for terrains
+    public ArrayList<Tile> getAllTilesInRadius(Tile sourceTile, int rad) {
         ArrayList<Tile> tiles = new ArrayList<>();
         HashMap<Tile, Integer> dist = new HashMap<>();
         ArrayDeque<Tile> queue = new ArrayDeque<>();
-        queue.add(tile);
-        dist.put(tile, 0);
+        queue.add(sourceTile);
+        dist.put(sourceTile, 0);
         while (!queue.isEmpty()) {
             Tile x = queue.poll();
             tiles.add(x);
-            if (dist.get(x) >= rad) continue;
+            if (dist.get(x) >= rad || (x != sourceTile && x.getTerrain().getTerrainType().isBlockingView() && sourceTile.getTerrain().getTerrainType() != TerrainEnum.HILL)) continue;
             for (Tile y : this.getNeighborsOf(x)) {
                 if (!dist.containsKey(y)) {
                     queue.add(y);

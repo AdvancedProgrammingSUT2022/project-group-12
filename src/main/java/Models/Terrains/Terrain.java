@@ -3,15 +3,14 @@ package Models.Terrains;
 import Enums.GameEnums.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Terrain {
     private final TerrainEnum terrainType;
-    private int foodCount;
-    private int productsCount;
-    private int goldCount;
-    private int combatModifier;
-    private int movementCost;
+    private final int foodCount;
+    private final int productsCount;
+    private final int goldCount;
+    private final int combatModifier;
+    private final int movementCost;
     private final ArrayList<TerrainEnum> features;
     private final ArrayList<ResourceEnum> resources;
     private VisibilityEnum state;
