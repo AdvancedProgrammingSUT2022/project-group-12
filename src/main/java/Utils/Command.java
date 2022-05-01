@@ -1,6 +1,7 @@
 package Utils;
 
 import Exceptions.*;
+import Models.Location;
 
 import java.util.HashMap;
 import java.util.List;
@@ -127,11 +128,24 @@ public class Command {
     }
 
     public void assertOptionType(String option, String type) throws InvalidOptionType {
+        String value = this.getOption(option);
         if (type.equals("integer")) {
-            if (!option.matches("^-?\\d+$")) {
+            if (!value.matches("^-?\\d+$")) {
                 throw new InvalidOptionType(option, type);
             }
         }
     }
 
+    public Location getLocationOption(String key) throws CommandException {
+        String value = this.getOption(key);
+        String[] parts = value.split("\\s+");
+        if (parts.length != 2) throw new InvalidCommandFormat();
+        try {
+            int row = Integer.parseInt(parts[0]);
+            int col = Integer.parseInt(parts[1]);
+            return new Location(row, col);
+        } catch (Exception e) {
+            throw new InvalidCommandFormat();
+        }
+    }
 }

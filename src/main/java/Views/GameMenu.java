@@ -8,6 +8,7 @@ import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.GameEnums.ImprovementEnum;
 import Exceptions.CommandException;
 import Models.Location;
+import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandResponse;
 
@@ -19,7 +20,7 @@ public class GameMenu extends Menu {
     private final MapFuncs mapFuncs;
     private final SelectFuncs selectFuncs;
     private final UnitFuncs unitFuncs;
-    private Location gridCord;
+    private Unit selectedUnit;
 
     public GameMenu(GameController controller) {
         this.infoFuncs = new InfoFuncs(GameController.getGame());
@@ -39,7 +40,7 @@ public class GameMenu extends Menu {
     public UnitFuncs getUnitFuncs() {
         return unitFuncs;
     }
-    
+
     public MapFuncs getMapFuncs() {
         return mapFuncs;
     }
@@ -107,10 +108,28 @@ public class GameMenu extends Menu {
     }
 
     private void selectUnit(Command command) {
+        command.abbreviate("position", "p");
+        try {
+            command.assertOptions(List.of("position"));
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
         switch (command.getSubSubCategory()) {
-            case "combat" -> getSelectFuncs().selectCombatUnit(command);
-            case "noncombat" -> getSelectFuncs().selectNonCombatUnit(command);
+            case "combat" -> this.selectUnit(command, true);
+            case "noncombat" -> this.selectUnit(command, false);
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
+        }
+    }
+
+    private void selectUnit(Command command, boolean isCombatUnit) {
+        try {
+            Location location = command.getLocationOption("position");
+            GameController.getGame().getTileGrid().assertLocationValid(location);
+            selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
+            mapFuncs.setCurrentGridLocation(selectedUnit.getLocation());
+        } catch (CommandException e) {
+            e.print();
         }
     }
 
@@ -167,6 +186,7 @@ public class GameMenu extends Menu {
     }
 
     private void moveMap(Command command) {
+        command.abbreviate("amount", "a");
         try {
             command.assertOptions(List.of("amount"));
             command.assertOptionType("amount", "integer");
@@ -174,13 +194,13 @@ public class GameMenu extends Menu {
             e.print();
             return;
         }
-        switch (command.getSubSubCategory()) {
-            case "right" -> getMapFuncs().moveMapByDirection(command, "right");
-            case "left" -> getMapFuncs().moveMapByDirection(command, "left");
-            case "up" -> getMapFuncs().moveMapByDirection(command, "up");
-            case "down" -> getMapFuncs().moveMapByDirection(command, "down");
-            default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
+        if (!List.of("right", "left", "up", "down").contains(command.getSubSubCategory())) {
+            System.out.println(CommandResponse.INVALID_DIRECTION);
+            return;
         }
+        getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
+        getMapFuncs().showMapPosition(getMapFuncs().currentGridLocation);
+        System.out.println(getMapFuncs().currentGridLocation.getRow() + " " + getMapFuncs().currentGridLocation.getCol());
     }
 
 }

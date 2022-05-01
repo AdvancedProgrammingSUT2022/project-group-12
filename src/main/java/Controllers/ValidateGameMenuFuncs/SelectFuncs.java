@@ -13,39 +13,6 @@ public class SelectFuncs extends GameMenuFuncs {
         super(game);
     }
 
-
-    public void selectNonCombatUnit(Command command) {
-        try {
-            Tile currentTile = getCurrentTile();
-            String key;
-            if ((key = command.getOption("position")) != null) {
-                String[] coordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
-                System.out.println(response.isOK() ? GameController.showNonCombatInfo(currentTile.getNonCombatUnit()) : response);
-            } else {
-                System.out.println(CommandResponse.CommandMissingRequiredOption);
-            }
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-        }
-    }
-
-    public void selectCombatUnit(Command command) {
-        try {
-            Tile currentTile = getCurrentTile();
-            String key;
-            if ((key = command.getOption("position")) != null) {
-                String[] coordinates = key.split("\\s+");
-                CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
-                System.out.println(response.isOK() ? GameController.showCombatInfo(currentTile.getCombatUnit()) : response);
-            } else {
-                System.out.println(CommandResponse.CommandMissingRequiredOption);
-            }
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-        }
-    }
-
     public void selectCity(Command command) {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();

@@ -9,6 +9,11 @@ public class Location {
         this.col = col;
     }
 
+    public Location(Location that) {
+        this.row = that.row;
+        this.col = that.col;
+    }
+
     public int getRow() {
         return this.row;
     }
@@ -25,11 +30,11 @@ public class Location {
         this.col = col;
     }
 
-    public void moveRow(int row) {
+    public void addRow(int row) {
         this.row += row;
     }
 
-    public void moveCol(int col) {
+    public void addCol(int col) {
         this.col += col;
     }
 }
