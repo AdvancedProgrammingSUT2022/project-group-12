@@ -31,7 +31,7 @@ public class MapFuncs extends GameMenuFuncs {
     }
 
     public void showMapPosition(Location location) {
-        TileGrid tileGrid = GameController.getGame().getTileGrid();
+        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         String output = new TileGridPrinter(tileGrid, 20, 120).print(location);
         System.out.print(output);
     }

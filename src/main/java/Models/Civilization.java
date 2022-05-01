@@ -39,6 +39,7 @@ public class Civilization {
     public Civilization(User user) {
         this.user = user;
         this.name = user.getNickname();
+        this.revealedTileGrid = new TileGrid(name,5,5);
         this.controller = new CivilizationController();
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();

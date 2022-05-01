@@ -10,20 +10,32 @@ import Utils.CommandResponse;
 import java.util.*;
 
 public class TileGrid {
-    private final int height = 5;
-    private final int width = 5;
     private final ArrayList<Location> usedLocations;
     private final Random random = new Random();
+    private final int height;
+    private final int width;
     private final Tile[][] tiles;
 
-    public TileGrid() {
+    public TileGrid(int width, int height) {
+        this.width = width;
+        this.height = height;
         tiles = new Tile[width][height];
         this.usedLocations = new ArrayList<>();
-        int x = random.nextInt(height);
-        int y = random.nextInt(width);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 tiles[i][j] = this.randomAssignment(i, j);
+            }
+        }
+    }
+
+    public TileGrid(String nickname, int width, int height) {
+        this.width = width;
+        this.height = height;
+        tiles = new Tile[width][height];
+        this.usedLocations = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                tiles[i][j] = new Tile(new Terrain(TerrainEnum.SNOW), i, j);
             }
         }
     }

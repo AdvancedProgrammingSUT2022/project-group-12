@@ -17,7 +17,7 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
-        this.tileGrid = new TileGrid();
+        this.tileGrid = new TileGrid(5,5);
         for (User user : users) {
             Civilization civ = new Civilization(user);
             civs.add(civ);

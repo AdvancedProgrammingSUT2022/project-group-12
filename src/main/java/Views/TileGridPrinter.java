@@ -87,7 +87,7 @@ public class TileGridPrinter {
             }
         }
         this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
-        if (tile.getState() == VisibilityEnum.FOG_OF_WAR) {
+        if (tile.getState() != VisibilityEnum.FOG_OF_WAR) {
             this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
 //            if (tile.getCivilization() != null) this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), TerrainColor.BLACK, tileColor);
             if (tile.getNonCombatUnit() != null) this.writeCentered(row + 1, col, tile.getNonCombatUnit().getType().name(), TerrainColor.BLACK, tileColor);
