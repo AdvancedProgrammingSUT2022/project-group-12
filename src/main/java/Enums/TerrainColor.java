@@ -1,4 +1,4 @@
-package Enums.GameEnums;
+package Enums;
 
 public enum TerrainColor {
     RESET("\033[0m"),

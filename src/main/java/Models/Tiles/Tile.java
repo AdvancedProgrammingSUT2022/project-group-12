@@ -1,7 +1,7 @@
 package Models.Tiles;
 
-import Enums.GameEnums.ResourceEnum;
-import Enums.GameEnums.VisibilityEnum;
+import Enums.ResourceEnum;
+import Enums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;

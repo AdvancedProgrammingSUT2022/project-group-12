@@ -1,8 +1,8 @@
 package Views;
 
 import Controllers.LoginMenuController;
-import Exceptions.CommandException;
 import Utils.Command;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.List;

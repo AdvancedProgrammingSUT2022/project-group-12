@@ -2,8 +2,8 @@ package Views;
 
 import Controllers.GameController;
 import Controllers.MainMenuController;
-import Exceptions.CommandException;
 import Utils.Command;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;

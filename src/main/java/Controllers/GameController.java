@@ -1,8 +1,7 @@
 package Controllers;
 
-import Enums.GameEnums.ImprovementEnum;
-import Enums.GameEnums.TechnologyEnum;
-import Exceptions.CommandException;
+import Enums.ImprovementEnum;
+import Enums.TechnologyEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -12,6 +11,7 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;

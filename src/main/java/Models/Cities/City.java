@@ -1,7 +1,7 @@
 package Models.Cities;
 
-import Enums.GameEnums.BuildingEnum;
-import Enums.GameEnums.ResourceEnum;
+import Enums.BuildingEnum;
+import Enums.ResourceEnum;
 import Models.Civilization;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
@@ -10,7 +10,6 @@ import Models.Units.NonCombatUnit;
 import java.util.ArrayList;
 import java.util.Random;
 
-//import static Controllers.CityCombatController.AffectCityFeatures;
 import static java.lang.Math.exp;
 
 public class City {

@@ -1,13 +1,13 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Exceptions.CommandException;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Utils.Command;
+import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
 import Views.TileGridPrinter;

@@ -1,6 +1,6 @@
 package Models.Units;
 
-import Enums.GameEnums.UnitEnum;
+import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
 

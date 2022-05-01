@@ -1,8 +1,8 @@
 package Models.Units;
 
-import Enums.GameEnums.ResourceEnum;
-import Enums.GameEnums.TechnologyEnum;
-import Enums.GameEnums.UnitEnum;
+import Enums.ResourceEnum;
+import Enums.TechnologyEnum;
+import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
 

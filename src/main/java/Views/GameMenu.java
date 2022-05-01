@@ -5,11 +5,11 @@ import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.SelectFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
-import Enums.GameEnums.ImprovementEnum;
-import Exceptions.CommandException;
+import Enums.ImprovementEnum;
 import Models.Location;
 import Models.Units.Unit;
 import Utils.Command;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.List;

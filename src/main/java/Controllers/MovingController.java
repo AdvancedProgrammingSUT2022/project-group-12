@@ -1,8 +1,8 @@
 package Controllers;
 
-import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.UnitEnum;
-import Enums.GameEnums.VisibilityEnum;
+import Enums.TerrainEnum;
+import Enums.UnitEnum;
+import Enums.VisibilityEnum;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;

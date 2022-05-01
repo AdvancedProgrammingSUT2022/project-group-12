@@ -1,4 +1,4 @@
-package Enums.GameEnums;
+package Enums;
 
 public enum ResourceEnum {
     RESET(ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),

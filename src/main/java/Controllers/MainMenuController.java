@@ -1,9 +1,9 @@
 package Controllers;
 
-import Exceptions.CommandException;
 import Models.Database;
 import Models.Game;
 import Models.User;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;

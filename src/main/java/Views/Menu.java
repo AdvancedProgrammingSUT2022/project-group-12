@@ -1,7 +1,7 @@
 package Views;
 
-import Exceptions.CommandException;
 import Utils.Command;
+import Utils.CommandException;
 
 import java.util.Scanner;
 

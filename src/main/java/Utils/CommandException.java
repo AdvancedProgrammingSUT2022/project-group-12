@@ -1,6 +1,4 @@
-package Exceptions;
-
-import Utils.CommandResponse;
+package Utils;
 
 public class CommandException extends Exception {
     public CommandException(String message) {

@@ -1,6 +1,6 @@
 package Controllers;
 
-import Enums.GameEnums.CombatTypeEnum;
+import Enums.CombatTypeEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;

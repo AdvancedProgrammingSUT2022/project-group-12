@@ -1,7 +1,7 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.GameEnums.TechnologyEnum;
+import Enums.TechnologyEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;

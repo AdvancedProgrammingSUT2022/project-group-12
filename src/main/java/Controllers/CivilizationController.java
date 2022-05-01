@@ -1,6 +1,6 @@
 package Controllers;
 
-import Enums.GameEnums.TechnologyEnum;
+import Enums.TechnologyEnum;
 import Models.Civilization;
 
 import java.util.HashMap;

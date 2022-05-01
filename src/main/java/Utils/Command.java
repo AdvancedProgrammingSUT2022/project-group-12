@@ -1,6 +1,5 @@
 package Utils;
 
-import Exceptions.CommandException;
 import Models.Location;
 
 import java.util.HashMap;

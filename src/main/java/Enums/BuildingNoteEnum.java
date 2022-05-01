@@ -1,4 +1,4 @@
-package Enums.GameEnums;
+package Enums;
 
 import Models.Buildings.BuildingNotes;
 import Models.Cities.City;

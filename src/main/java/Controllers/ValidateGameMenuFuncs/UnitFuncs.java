@@ -1,16 +1,16 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Enums.GameEnums.CombatTypeEnum;
-import Enums.GameEnums.ImprovementEnum;
-import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.UnitEnum;
-import Exceptions.CommandException;
+import Enums.CombatTypeEnum;
+import Enums.ImprovementEnum;
+import Enums.TerrainEnum;
+import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Utils.Command;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import static Controllers.CombatController.AttackCity;

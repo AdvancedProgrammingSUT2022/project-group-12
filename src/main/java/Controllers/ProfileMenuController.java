@@ -1,7 +1,7 @@
 package Controllers;
 
-import Exceptions.CommandException;
 import Models.Database;
+import Utils.CommandException;
 import Views.MenuStack;
 
 public class ProfileMenuController {

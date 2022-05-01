@@ -1,7 +1,7 @@
 package Views;
 
-import Enums.GameEnums.TerrainColor;
-import Enums.GameEnums.VisibilityEnum;
+import Enums.TerrainColor;
+import Enums.VisibilityEnum;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;

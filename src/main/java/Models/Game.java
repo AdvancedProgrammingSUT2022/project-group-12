@@ -1,12 +1,12 @@
 package Models;
 
 import Controllers.GameController;
-import Enums.GameEnums.UnitEnum;
-import Exceptions.CommandException;
+import Enums.UnitEnum;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
 

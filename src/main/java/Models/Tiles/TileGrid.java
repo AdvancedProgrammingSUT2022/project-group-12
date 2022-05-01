@@ -1,11 +1,11 @@
 package Models.Tiles;
 
-import Enums.GameEnums.TerrainEnum;
-import Enums.GameEnums.VisibilityEnum;
-import Exceptions.CommandException;
+import Enums.TerrainEnum;
+import Enums.VisibilityEnum;
 import Models.Civilization;
 import Models.Location;
 import Models.Terrains.Terrain;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.*;

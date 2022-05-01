@@ -1,6 +1,4 @@
-package Enums.GameEnums;
-
-import Models.Terrains.Terrain;
+package Enums;
 
 import java.util.ArrayList;
 import java.util.Random;
