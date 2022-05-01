@@ -28,10 +28,10 @@ public class Civilization {
     private Tile currentTile;
     private HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
-    private ArrayList<Unit> units;
+    private final ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
-    private TileGrid revealedTileGrid;
+    private final TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<Civilization> isInWarWith;
     private Location currentGridLocation = new Location(0, 0);
@@ -53,6 +53,10 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
     }
 
     public boolean isInWarWith(Civilization civilization) {
@@ -181,5 +185,9 @@ public class Civilization {
 
     public void setCurrentGridLocation(Location currentGridLocation) {
         this.currentGridLocation = currentGridLocation;
+    }
+
+    public void addUnit(Unit unit) {
+        this.units.add(unit);
     }
 }

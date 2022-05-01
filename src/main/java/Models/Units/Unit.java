@@ -24,11 +24,13 @@ public class Unit {
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
 
-    public Unit(UnitEnum type, Civilization civ) {
+    public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
         this.civ = civ;
         this.pathShouldCross=null;
         this.resetMovementCount();
+        this.location = location;
+        civ.addUnit(this);
     }
 
     public void setPathShouldCross(ArrayList<Tile> pathShouldCross) {

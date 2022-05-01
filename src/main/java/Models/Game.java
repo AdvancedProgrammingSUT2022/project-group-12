@@ -1,8 +1,8 @@
 package Models;
 
+import Controllers.GameController;
 import Enums.GameEnums.UnitEnum;
 import Exceptions.CommandException;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
@@ -10,7 +10,6 @@ import Models.Units.Unit;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
     private final ArrayList<Civilization> civs;
@@ -19,17 +18,14 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
-        Random random = new Random();
-        int x = random.nextInt(100);
-        int y = random.nextInt(100);
-        this.tileGrid = new TileGrid(x, y);
+        this.tileGrid = new TileGrid(5, 5);
         for (User user : users) {
-            Civilization civ = new Civilization(user, this.tileGrid);
+            Civilization civ = new Civilization(user);
             civs.add(civ);
-            Location settlerLocation = tileGrid.getRandomTileLocation();
-            tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(new NonCombatUnit(UnitEnum.SETTLER, civ));
-            civ.getRevealedTileGrid().setTile(settlerLocation, tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()));
-            civ.getRevealedTileGrid().setVisible(settlerLocation);
+            Location settlerLocation = this.tileGrid.getRandomTileLocation();
+            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerLocation);
+            this.tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(settler);
+            updateRevealedTileGrid(civ);
             civ.setCurrentGridLocation(settlerLocation);
         }
     }
@@ -57,8 +53,21 @@ public class Game {
 
     public void startNextTurn() {
         this.gameTurn++;
+        updateRevealedTileGrid(GameController.getGame().getCurrentCivilization());
         if (this.gameTurn > 25) {
             //TODO : end game
+        }
+    }
+
+    private void updateRevealedTileGrid(Civilization civilization) {
+        for (Unit unit : civilization.getUnits()) {
+            TileGrid tileGrid = this.getTileGrid();
+            Tile tile = tileGrid.getTile(unit.getLocation());
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 2)) {
+                TileGrid civTileGrid = civilization.getRevealedTileGrid();
+                civTileGrid.setVisible(neighbor.getLocation());
+                civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
+            }
         }
     }
 

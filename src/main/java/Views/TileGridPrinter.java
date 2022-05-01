@@ -52,7 +52,7 @@ public class TileGridPrinter {
                 if (0 <= ii && ii < tileGrid.getHeight() && 0 <= jj && jj < tileGrid.getWidth()) {
                     Tile tile = tileGrid.getTile(ii, jj);
                     int x = hexH + hexW * 2;
-                    if (i % 2 == 0) this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW + j * x);
+                    if (ii % 2 == 0) this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW + j * x);
                     else this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW * 2 + hexH / 2 + j * x);
                 }
             }
@@ -90,7 +90,9 @@ public class TileGridPrinter {
         if (tile.getState() != VisibilityEnum.FOG_OF_WAR) {
             this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
 //            if (tile.getCivilization() != null) this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), TerrainColor.BLACK, tileColor);
-            if (tile.getNonCombatUnit() != null) this.writeCentered(row + 1, col, tile.getNonCombatUnit().getType().name(), TerrainColor.BLACK, tileColor);
+            if (tile.getNonCombatUnit() != null) {
+                this.writeCentered(row + 1, col, tile.getNonCombatUnit().getType().name(), TerrainColor.BLACK, tileColor);
+            }
         } else {
             this.writeCentered(row, col, "", TerrainColor.GRAY_BACKGROUND, TerrainColor.RESET);
         }

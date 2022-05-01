@@ -141,8 +141,8 @@ public class Tile {
         return this.civilization;
     }
 
-    public Tile deepCopy(Tile tileToCopy) {
-        return new Tile(tileToCopy);
+    public Tile deepCopy() {
+        return new Tile(this);
     }
 
     public void setUnit(Unit unit, Unit toSet) {

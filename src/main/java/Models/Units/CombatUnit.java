@@ -4,6 +4,7 @@ import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.TechnologyEnum;
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
+import Models.Location;
 
 import java.util.ArrayList;
 
@@ -15,8 +16,8 @@ public abstract class CombatUnit extends Unit {
     protected int range;
     protected boolean isSetup;
 
-    public CombatUnit(UnitEnum type, Civilization civ) {
-        super(type, civ);
+    public CombatUnit(UnitEnum type, Civilization civ, Location location) {
+        super(type, civ, location);
         isSetup = false;
     }
 

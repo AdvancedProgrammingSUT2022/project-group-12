@@ -25,6 +25,7 @@ public class TileGrid {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 tiles[i][j] = this.randomAssignment(i, j);
+                tiles[i][j].setState(VisibilityEnum.VISIBLE);
             }
         }
     }
@@ -58,20 +59,20 @@ public class TileGrid {
         ArrayList<Tile> tiles = new ArrayList<>();
         List<Location> neighbors;
         if (row % 2 == 0) {
-            neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, 0), new Location(1, 0), new Location(-1, -1), new Location(1, -1));
+            neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, -1), new Location(1, -1), new Location(-1, 0), new Location(1, 0));
         } else {
-            neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, 1), new Location(1, 1), new Location(-1, 0), new Location(1, 0));
+            neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, 0), new Location(1, 0), new Location(-1, 1), new Location(1, 1));
         }
         for (Location location : neighbors) {
             int nrow = row + location.getRow();
-            int ncol = row + location.getCol();
+            int ncol = col + location.getCol();
             Tile ntile = this.getTile(nrow, ncol);
             if (ntile != null) tiles.add(ntile);
         }
         return tiles;
     }
 
-    public ArrayList<Tile> getNeighborsOfRadius(Tile tile, int rad) { // assume same vision for terrains
+    public ArrayList<Tile> getAllTilesInRadius(Tile tile, int rad) { // assume same vision for terrains
         ArrayList<Tile> tiles = new ArrayList<>();
         HashMap<Tile, Integer> dist = new HashMap<>();
         ArrayDeque<Tile> queue = new ArrayDeque<>();
@@ -79,12 +80,12 @@ public class TileGrid {
         dist.put(tile, 0);
         while (!queue.isEmpty()) {
             Tile x = queue.poll();
+            tiles.add(x);
             if (dist.get(x) >= rad) continue;
             for (Tile y : this.getNeighborsOf(x)) {
                 if (!dist.containsKey(y)) {
                     queue.add(y);
                     dist.put(y, dist.get(x) + 1);
-                    tiles.add(y);
                 }
             }
         }

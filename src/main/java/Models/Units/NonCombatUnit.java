@@ -2,10 +2,11 @@ package Models.Units;
 
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
+import Models.Location;
 
 public class NonCombatUnit extends Unit {
-    public NonCombatUnit(UnitEnum type, Civilization civ) {
-        super(type, civ);
+    public NonCombatUnit(UnitEnum type, Civilization civ, Location location) {
+        super(type, civ, location);
     }
 
     public void settler() {
