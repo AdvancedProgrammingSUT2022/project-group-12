@@ -127,7 +127,7 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             GameController.getGame().getTileGrid().assertLocationValid(location);
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
-            mapFuncs.setCurrentGridLocation(selectedUnit.getLocation());
+            GameController.getGame().getCurrentCivilization().setCurrentGridLocation(selectedUnit.getLocation());
         } catch (CommandException e) {
             e.print();
         }
@@ -199,8 +199,7 @@ public class GameMenu extends Menu {
             return;
         }
         getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
-        getMapFuncs().showMapPosition(getMapFuncs().currentGridLocation);
-        System.out.println(getMapFuncs().currentGridLocation.getRow() + " " + getMapFuncs().currentGridLocation.getCol());
+        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
     }
 
 }

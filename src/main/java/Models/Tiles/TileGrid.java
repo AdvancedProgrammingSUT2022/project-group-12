@@ -148,7 +148,8 @@ public class TileGrid {
     }
 
     public void assertLocationValid(Location location) throws CommandException {
-        if (!isLocationValid(location.getRow(), location.getCol())) throw new CommandException(CommandResponse.INVALID_POSITION);
+        if (!isLocationValid(location.getRow(), location.getCol()))
+            throw new CommandException(CommandResponse.INVALID_POSITION);
     }
 
     public Tile getTile(Location location) {

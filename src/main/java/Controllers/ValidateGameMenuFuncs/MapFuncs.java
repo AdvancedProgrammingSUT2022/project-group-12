@@ -13,8 +13,6 @@ import Views.TileGridPrinter;
 
 public class MapFuncs extends GameMenuFuncs {
 
-    public Location currentGridLocation = new Location(0, 0);
-
     public MapFuncs(Game game) {
         super(game);
     }
@@ -28,7 +26,7 @@ public class MapFuncs extends GameMenuFuncs {
                 e.print();
             }
         } else {
-            showMapPosition(currentGridLocation);
+            showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
         }
     }
 
@@ -40,13 +38,14 @@ public class MapFuncs extends GameMenuFuncs {
 
     public void moveMapByDirection(Command command, String direction) {
         int amount = Integer.parseInt(command.getOption("amount"));
+        Location currentGridLocation = new Location(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
         switch (direction) {
             case "down" -> currentGridLocation.addRow(amount);
             case "up" -> currentGridLocation.addRow(amount * -1);
             case "right" -> currentGridLocation.addCol(amount);
             case "left" -> currentGridLocation.addCol(amount * -1);
         }
-        currentGridLocation = correctGridLocation(currentGridLocation);
+        GameController.getGame().getCurrentCivilization().setCurrentGridLocation(correctGridLocation(currentGridLocation));
     }
 
     private Location correctGridLocation(Location location) {
@@ -105,7 +104,4 @@ public class MapFuncs extends GameMenuFuncs {
         return CommandResponse.OK;
     }
 
-    public void setCurrentGridLocation(Location currentGridLocation) {
-        this.currentGridLocation = currentGridLocation;
-    }
 }

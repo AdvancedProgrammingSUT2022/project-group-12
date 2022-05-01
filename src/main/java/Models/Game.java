@@ -23,6 +23,7 @@ public class Game {
             civs.add(civ);
             Location settlerLocation = tileGrid.getRandomTileLocation();
             tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(new NonCombatUnit(UnitEnum.SETTLER, civ));
+            civ.setCurrentGridLocation(settlerLocation);
         }
     }
 
