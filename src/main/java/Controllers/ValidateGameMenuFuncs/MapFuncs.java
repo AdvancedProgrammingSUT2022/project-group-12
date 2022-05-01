@@ -1,7 +1,7 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Models.Cities.City;
+import Exceptions.CommandException;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
@@ -13,56 +13,50 @@ import Views.TileGridPrinter;
 
 public class MapFuncs extends GameMenuFuncs {
 
-
     public MapFuncs(Game game) {
         super(game);
     }
 
     public void showMap(Command command) {
-        String key;
-        if ((key = command.getOption("position")) != null) {
-            String[] coordinates = key.split("\\s+");
-            CommandResponse response = isCorrectPosition(coordinates[0], coordinates[1]);
-            int row = 0, col = 0;
-            if (response.isOK()) {
-                row = Integer.parseInt(coordinates[0]);
-                col = Integer.parseInt(coordinates[1]);
-            }
-            showMapPosition(row, col);
-        } else if ((key = command.getOption("cityname")) != null) {
-            City city = getCityWithThisName(getCurrentCivilization(), key);
-            // todo: should be able to show cities of other civs too
-            if (city == null) {
-                System.out.println("city doesn't exists with this name");
-            } else {
-                showMapPosition(city.getRow(), city.getCol());
+        if ((command.getOption("position")) != null) {
+            try {
+                Location location = command.getLocationOption("position");
+                showMapPosition(location);
+            } catch (CommandException e) {
+                e.print();
             }
         } else {
-            System.out.println(CommandResponse.CommandMissingRequiredOption);
+            showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
         }
     }
 
-    private void showMapPosition(int row, int col) {
+    public void showMapPosition(Location location) {
         TileGrid tileGrid = GameController.getGame().getTileGrid();
-        String output = new TileGridPrinter(tileGrid, 20, 120).print(new Location(row, col));
+        String output = new TileGridPrinter(tileGrid, 20, 120).print(location);
         System.out.print(output);
     }
 
-    public CommandResponse moveMapByDirection(Command command, String direction) {
-        CommandResponse response = validateCommandForMoveByDirection(command.getType().trim(), command.getCategory(), command.getSubCategory(), command.getSubSubCategory(), command, direction);
-        int amount = 1; // todo: get amount
-        Location newCord = gridCord;
+    public void moveMapByDirection(Command command, String direction) {
+        int amount = Integer.parseInt(command.getOption("amount"));
+        Location currentGridLocation = new Location(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
         switch (direction) {
-            case "down" -> newCord.moveRow(amount);
-            case "up" -> newCord.moveRow(amount * -1);
-            case "right" -> newCord.moveCol(amount);
-            case "left" -> newCord.moveCol(amount * -1);
+            case "down" -> currentGridLocation.addRow(amount);
+            case "up" -> currentGridLocation.addRow(amount * -1);
+            case "right" -> currentGridLocation.addCol(amount);
+            case "left" -> currentGridLocation.addCol(amount * -1);
         }
-        if (!GameController.getGame().getTileGrid().isLocationValid(newCord.getRow(), newCord.getCol())) {
-            return CommandResponse.INVALID_DIRECTION; // todo: out of map
-        }
-        this.gridCord = newCord;
-        return CommandResponse.OK;
+        GameController.getGame().getCurrentCivilization().setCurrentGridLocation(correctGridLocation(currentGridLocation));
+    }
+
+    private Location correctGridLocation(Location location) {
+        Location newLocation = new Location(location);
+        int height = GameController.getGame().getTileGrid().getHeight();
+        int width = GameController.getGame().getTileGrid().getWidth();
+        if (newLocation.getRow() < 0) newLocation.setRow(0);
+        if (newLocation.getCol() < 0) newLocation.setCol(0);
+        if (newLocation.getRow() >= height) newLocation.setRow(height - 1);
+        if (newLocation.getCol() >= width) newLocation.setCol(width - 1);
+        return newLocation;
     }
 
     public CommandResponse validateCommandForMoveByDirection(String type, String category, String subCategory, String subSubCategory, Command command, String direction) {

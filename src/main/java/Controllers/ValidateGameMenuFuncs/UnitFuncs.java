@@ -74,7 +74,7 @@ public class UnitFuncs extends GameMenuFuncs{
         System.out.println(response.isOK() ? "unit deleted successfully" : response);
     }
 
-    private CommandResponse validateForNonCombatUnit(Tile currentTile, Civilization civilization) {
+    protected static CommandResponse validateForNonCombatUnit(Tile currentTile, Civilization civilization) {
         if (!(civilization.getCurrentTile().getNonCombatUnit().getType() == null)) {
             return CommandResponse.UNIT_DOES_NOT_EXISTS;
         }

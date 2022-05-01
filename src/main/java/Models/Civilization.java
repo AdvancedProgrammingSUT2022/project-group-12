@@ -34,6 +34,7 @@ public class Civilization {
     private TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<Civilization> isInWarWith;
+    private Location currentGridLocation = new Location(0, 0);
 
     public Civilization(User user) {
         this.user = user;
@@ -162,5 +163,13 @@ public class Civilization {
 
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
+    }
+
+    public Location getCurrentGridLocation() {
+        return currentGridLocation;
+    }
+
+    public void setCurrentGridLocation(Location currentGridLocation) {
+        this.currentGridLocation = currentGridLocation;
     }
 }

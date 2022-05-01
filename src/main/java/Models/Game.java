@@ -1,15 +1,19 @@
 package Models;
 
 import Enums.GameEnums.UnitEnum;
+import Exceptions.CommandException;
+import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
+import Models.Units.Unit;
+import Utils.CommandResponse;
 
 import java.util.ArrayList;
 
 public class Game {
     private final ArrayList<Civilization> civs;
-    private int gameTurn;
     private final TileGrid tileGrid;
+    private int gameTurn;
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
@@ -19,6 +23,7 @@ public class Game {
             civs.add(civ);
             Location settlerLocation = tileGrid.getRandomTileLocation();
             tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(new NonCombatUnit(UnitEnum.SETTLER, civ));
+            civ.setCurrentGridLocation(settlerLocation);
         }
     }
 
@@ -56,5 +61,15 @@ public class Game {
 
     public ArrayList<Civilization> getCivs() {
         return civs;
+    }
+
+    public Unit getSelectedUnit(Civilization currentCivilization, Location location, boolean isCombatUnit) throws CommandException {
+        Tile tile = this.tileGrid.getTile(location);
+        Unit unit = isCombatUnit ? tile.getCombatUnit() : tile.getNonCombatUnit();
+        if (unit == null || unit.getCiv() != currentCivilization) {
+            throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
+        } else {
+            return unit;
+        }
     }
 }

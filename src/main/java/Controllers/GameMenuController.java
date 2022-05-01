@@ -1,7 +1,6 @@
 package Controllers;
 
 import Models.Civilization;
-import Models.Game;
 import Models.Tiles.Tile;
 import Models.Units.Unit;
 import Utils.CommandResponse;
@@ -17,15 +16,6 @@ public class GameMenuController {
     private static CommandResponse validateAttacking(Tile currentTile, Civilization civilization) {
         //TODO : complete
         return null;
-    }
-
-    public static CommandResponse showMapOnPosition(int row, int col, Game game) {
-        if (GameController.getGame().getTileGrid().isLocationValid(row, col)) {
-            //TODO : show map
-            return CommandResponse.OK;
-        } else {
-            return CommandResponse.INVALID_POSITION;
-        }
     }
 
     public CommandResponse battle(Civilization attacking, Civilization defending) {

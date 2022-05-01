@@ -2,8 +2,10 @@ package Models.Tiles;
 
 import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.VisibilityEnum;
+import Exceptions.CommandException;
 import Models.Location;
 import Models.Terrains.Terrain;
+import Utils.CommandResponse;
 
 import java.util.*;
 
@@ -143,5 +145,14 @@ public class TileGrid {
 
     public VisibilityEnum tileState(int x, int y) {
         return this.tiles[x][y].getState();
+    }
+
+    public void assertLocationValid(Location location) throws CommandException {
+        if (!isLocationValid(location.getRow(), location.getCol()))
+            throw new CommandException(CommandResponse.INVALID_POSITION);
+    }
+
+    public Tile getTile(Location location) {
+        return getTile(location.getRow(), location.getCol());
     }
 }

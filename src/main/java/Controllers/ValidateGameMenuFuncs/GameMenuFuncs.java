@@ -4,13 +4,11 @@ import Controllers.GameController;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
-import Models.Location;
 import Models.Tiles.Tile;
 import Utils.CommandResponse;
 
 public class GameMenuFuncs {
     protected static Game game;
-    protected Location gridCord;
 
     public GameMenuFuncs(Game game) {
         GameMenuFuncs.game = game;
