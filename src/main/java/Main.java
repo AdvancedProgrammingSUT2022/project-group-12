@@ -15,12 +15,11 @@ public class Main {
         while (!menuStack.isEmpty()) {
             menuStack.runTopMenu();
         }
-        Database.getInstance().serialize();
+//        Database.getInstance().serialize();
     }
 }
 /*
 user create --username alireza --password Password123? --nickname ali
 user login -p Password123? -u alireza
 play game --player1 alireza
-
  */

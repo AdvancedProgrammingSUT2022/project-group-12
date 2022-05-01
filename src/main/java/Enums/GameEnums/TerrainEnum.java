@@ -180,18 +180,18 @@ public enum TerrainEnum {
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
-//        if (this.possibleTerrainFeatures.isEmpty())
-//            return this.possibleTerrainFeatures;
-//        ArrayList<TerrainEnum> features = new ArrayList<>(this.possibleTerrainFeatures);
-//        ArrayList<TerrainEnum> possibleFeatures = new ArrayList<>(this.possibleTerrainFeatures);
-//        Random random = new Random();
-//        int count = random.nextInt(Math.min(2, possibleFeatures.size()));
-//        for (int i = 0; i < count; i++) {
-//            int rand = random.nextInt(possibleFeatures.size());
-//            features.add(possibleFeatures.get(rand));
-//            possibleFeatures.remove(rand);
-//        }
-        return possibleTerrainFeatures;
+        if (this.possibleTerrainFeatures.isEmpty())
+            return this.possibleTerrainFeatures;
+        ArrayList<TerrainEnum> features = new ArrayList<>();
+        ArrayList<TerrainEnum> possibleFeatures = new ArrayList<>(this.possibleTerrainFeatures);
+        Random random = new Random();
+        int count = random.nextInt(possibleFeatures.size());
+        for (int i = 0; i < count; i++) {
+            int rand = random.nextInt(possibleFeatures.size());
+            features.add(possibleFeatures.get(rand));
+            possibleFeatures.remove(rand);
+        }
+        return features;
     }
 
     public ArrayList<ResourceEnum> getResources() {

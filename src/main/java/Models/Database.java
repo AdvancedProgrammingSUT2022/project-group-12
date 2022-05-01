@@ -39,21 +39,18 @@ public class Database {
     }
 
     public void serialize() {
-        Gson gson = new Gson();
-        File users = new File("users.json");
         try {
-            Writer writer = Files.newBufferedWriter(Paths.get("users.json"));
-            gson.toJson(this.users, writer);
+            FileWriter writer = new FileWriter("users.json");
+            writer.write(new Gson().toJson(this.users));
             writer.close();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
-        File games = new File("games.json");
         try {
-            Writer writer = Files.newBufferedWriter(Paths.get("games.json"));
-            gson.toJson(this.games, writer);
+            FileWriter writer = new FileWriter("games.json");
+            writer.write(new Gson().toJson(this.games));
             writer.close();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

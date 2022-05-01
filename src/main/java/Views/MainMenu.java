@@ -16,6 +16,7 @@ public class MainMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
+            case "logout" -> MenuStack.getInstance().gotoLoginMenu();
             case "goto profile menu" -> MenuStack.getInstance().gotoProfileMenu();
             case "show current menu" -> System.out.println("Main Menu");
             case "menu exit" -> MenuStack.getInstance().popMenu();

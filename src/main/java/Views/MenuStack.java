@@ -66,7 +66,10 @@ public class MenuStack {
 
     public void gotoLoginMenu() {
         this.currentUser = null;
-        this.pushMenu(this.loginMenu);
+        if(this.menus.isEmpty())
+            this.pushMenu(this.loginMenu);
+        else
+            this.popMenu();
     }
 
     public void gotoMainMenu() {
