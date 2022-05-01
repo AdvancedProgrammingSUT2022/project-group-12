@@ -14,7 +14,7 @@ public class TileGridPrinter {
     private final int height;
     private final int width;
 
-    private String[][] tiles;
+    private StringBuilder showTileInfo;
 
     public TileGridPrinter(TileGrid tileGrid, int height, int width) {
         this.tileGrid = tileGrid;
@@ -45,12 +45,16 @@ public class TileGridPrinter {
             }
         }
 
-        for (int i = -1; i + upleft.getX() < tileGrid.getHeight(); ++i) {
-            for (int j = -1; j + upleft.getY() < tileGrid.getWidth(); ++j) {
-                Tile tile = tileGrid.getTile(i + upleft.getX(), j + upleft.getY());
-                int x = hexH + hexW * 2;
-                if (i % 2 == 0) this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW + j * x);
-                else this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW * 2 + hexH / 2 + j * x);
+        for (int i = tileGrid.getHeight(); i >= -1; --i) {
+            for (int j = -1; j <= tileGrid.getWidth(); ++j) {
+                int ii = i + upleft.getX();
+                int jj = j + upleft.getY();
+                if (0 <= ii && ii < tileGrid.getHeight() && 0 <= jj && jj < tileGrid.getWidth()) {
+                    Tile tile = tileGrid.getTile(ii, jj);
+                    int x = hexH + hexW * 2;
+                    if (i % 2 == 0) this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW + j * x);
+                    else this.drawHex(tile, hexH / 2 + i * hexH / 2, hexW * 2 + hexH / 2 + j * x);
+                }
             }
         }
 
@@ -65,140 +69,52 @@ public class TileGridPrinter {
     }
 
     private void drawHex(Tile tile, int row, int col) {
-        for (int j = -hexW / 2; j <= hexW / 2; ++j) {
-            this.setChar(row - hexH / 2, col + j, '_');
-            this.setChar(row + hexH / 2, col + j, '_');
-        }
+        TerrainColor tileColor = tile.getTerrain().getColor();
         for (int i = 0; i < hexH / 2; ++i) {
-            this.setChar(row - hexH / 2 + 1 + i, col - 3 - i, '/');
-            this.setChar(row - hexH / 2 + 1 + i, col + 3 + i, '\\');
-            this.setChar(row + hexH / 2 - i, col - 3 - i, '\\');
-            this.setChar(row + hexH / 2 - i, col + 3 + i, '/');
+            int lt = col - 3 - i;
+            int rt = col + 3 + i;
+            this.setChar(row - hexH / 2 + 1 + i, lt, '/');
+            this.setChar(row - hexH / 2 + 1 + i, rt, '\\');
+            this.setChar(row + hexH / 2 - i, lt, '\\');
+            this.setChar(row + hexH / 2 - i, rt, '/');
+            for (int k = lt + 1; k < rt; ++k) {
+                this.setChar(row - hexH / 2 + 1 + i, k, ' ', TerrainColor.BLACK, tileColor);
+                this.setChar(row + hexH / 2 - i, k, ' ', TerrainColor.BLACK, tileColor);
+            }
+            for (int j = -hexW / 2; j <= hexW / 2; ++j) {
+                this.setChar(row - hexH / 2, col + j, '_');
+                this.setChar(row + hexH / 2, col + j, '_', TerrainColor.WHITE_BRIGHT, tileColor);
+            }
         }
-        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tile.getTerrain().getColor());
-        if (tile.getState() != VisibilityEnum.FOG_OF_WAR) {
-            this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
-            this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
-        } else
+        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
+        String type = tile.getTerrain().getTerrainType().toString();
+        if (tile.getState() == VisibilityEnum.FOG_OF_WAR) {
+            this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
+//            this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), tile.getTerrain().getColor(), TerrainColor.RESET);
+        } else {
             this.writeCentered(row, col, "", TerrainColor.GRAY_BACKGROUND, TerrainColor.RESET);
-    }
-
-    private void drawHex(int x, int y) {
-        for (int i = 2; i > -1; i--) {
-            tiles[x + 2 - i][y + i] = "/";
-            tiles[x + 5 - i][y + 8 + i] = "/";
-            tiles[x + 2 - i][y + 10 - i] = "\\";
-            tiles[x + 5 - i][y + 2 - i] = "\\";
         }
     }
-
-    private void insertTileInfo(int x, int y, int ox, int oy, String color) {
-        for (int i = 2; i > -1; i--) {
-            for (int j = i + y + 1; j < y + i + 10 - 2 * i; j++) {
-                this.tiles[x + 2 - i][j] = color + " " + TerrainColor.RESET;
-                this.tiles[x + 3 + i][j] = color + " " + TerrainColor.RESET;
-            }
-        }
-        if (ox / 10 != 0) {
-            tiles[x + 2][y + 3] = TerrainColor.BLACK + color + ox / 10 + TerrainColor.RESET;
-        }
-        tiles[x + 2][y + 4] = TerrainColor.BLACK + color + ox % 10 + TerrainColor.RESET;
-        tiles[x + 2][y + 5] = TerrainColor.BLACK + color + "," + TerrainColor.RESET;
-        if (oy / 10 != 0) {
-            tiles[x + 2][y + 6] = TerrainColor.BLACK + color + oy / 10 + TerrainColor.RESET;
-        }
-        tiles[x + 2][y + 7] = TerrainColor.BLACK + color + oy % 10 + TerrainColor.RESET;
-
-        for (int i = 0; i < 5; i++) {
-            tiles[x + 5][y + 3 + i] = color + "_" + TerrainColor.RESET;
-        }
-    }
-
-    private void drawGrid(int x, int y) {
-        for (int i = 0; i < 5; i++) {
-            this.tiles[2][11 + i] = "_";
-            this.tiles[2][27 + i] = "_";
-            this.tiles[2][43 + i] = "_";
-        }
-
-        Tile[][] grid = this.tileGrid.getGrid();
-        VisibilityEnum[][] state = this.tileGrid.gridState();
-
-        for (int i = 0; i < 3 && x + i < height; i++) {
-            for (int j = 0; j < 6 && y + j < width; j++) {
-                String color = grid[x + i][y + j].getTerrain().getColor().toString();
-                int xi = i * 6;
-                int yj = j * 8;
-                xi += (y % 2) * 3;
-                drawHex(xi, yj);
-                if (state[x + i][y + j].equals(VisibilityEnum.FOG_OF_WAR)) {
-                    color = TerrainColor.GRAY_BACKGROUND.toString();
-                }
-                insertTileInfo(xi, yj, x + i + (y % 2), y + j, color);
-                if (state[x + i][y + j] == VisibilityEnum.VISIBLE) {
-                    if (grid[x + i][y + j].getCity().getCivilization() == null) {
-                        tiles[xi + 1][yj + 5] = color + " " + TerrainColor.RESET;
-                    } else {
-                        tiles[xi + 1][yj + 5] = color + grid[x + i][y + j].getCity().getCivilization().getName() + TerrainColor.RESET;
-                    }
-                }
-            }
-        }
-    }
-
-    public StringBuilder showTileGrid(int x, int y) {
-        this.tiles = new String[height][width];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                tiles[i][j] = " ";
-            }
-        }
-
-        drawGrid(x, y);
-
-        StringBuilder finalPrint = new StringBuilder();
-        for (String[] tile : tiles) {
-            for (String string : tile) {
-                finalPrint.append(string);
-            }
-            finalPrint.append("\n");
-        }
-        return finalPrint;
-    }
-
-    private StringBuilder showTileInfo;
 
     private void appendTileInfo(Tile selected) {
-        if (selected.getNonCombatUnit() == null)
-            showTileInfo.append("\ncontains no non combat units");
-        else
-            showTileInfo.append("\ncontains ").append(selected.getNonCombatUnit().getType());
-        if (selected.getCombatUnit() == null)
-            showTileInfo.append("\ncontains no combat units");
-        else
-            showTileInfo.append("\ncontains ").append(selected.getCombatUnit().getType());
-        if (selected.getCity() != null)
-            showTileInfo.append("\nhas a city built on it");
-        if (selected.isDamaged())
-            showTileInfo.append("\nis damaged");
-        if (selected.hasRoad())
-            showTileInfo.append("\nhas roads");
-        if (selected.getResources() != null)
-            showTileInfo.append(selected.getTerrain().getResourcesByName());
+        if (selected.getNonCombatUnit() == null) showTileInfo.append("\ncontains no non combat units");
+        else showTileInfo.append("\ncontains ").append(selected.getNonCombatUnit().getType());
+        if (selected.getCombatUnit() == null) showTileInfo.append("\ncontains no combat units");
+        else showTileInfo.append("\ncontains ").append(selected.getCombatUnit().getType());
+        if (selected.getCity() != null) showTileInfo.append("\nhas a city built on it");
+        if (selected.isDamaged()) showTileInfo.append("\nis damaged");
+        if (selected.hasRoad()) showTileInfo.append("\nhas roads");
+        if (selected.getResources() != null) showTileInfo.append(selected.getTerrain().getResourcesByName());
     }
 
     public StringBuilder tileInfo(int x, int y) {
-        if (!this.tileGrid.isLocationValid(x, y))
-            return new StringBuilder("location not valid");
+        if (!this.tileGrid.isLocationValid(x, y)) return new StringBuilder("location not valid");
         Tile selectedTile = this.tileGrid.getTile(x, y);
         VisibilityEnum selectedTileState = this.tileGrid.tileState(x, y);
         if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR))
             return new StringBuilder("you have not explored this tile yet");
-        showTileInfo = new StringBuilder("Civilization: ")
-                .append(selectedTile.getCivilization().getName())
-                .append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
-        if (selectedTile.getState().equals(VisibilityEnum.VISIBLE))
-            appendTileInfo(selectedTile);
+        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCivilization().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
+        if (selectedTile.getState().equals(VisibilityEnum.VISIBLE)) appendTileInfo(selectedTile);
         return showTileInfo;
     }
 }

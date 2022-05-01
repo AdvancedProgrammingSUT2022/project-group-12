@@ -43,12 +43,14 @@ public class Terrain {
     private ArrayList<TerrainEnum> featuresList(TerrainEnum type) {
         ArrayList<TerrainEnum> listedFeatures = type.getFeatures();
         ArrayList<TerrainEnum> givenFeatures = new ArrayList<>();
-        Random random = new Random();
-        int count = random.nextInt(Math.min(2, listedFeatures.size()));
-        for (int i = 0; i < count; i++) {
-            int rand = random.nextInt(listedFeatures.size());
-            givenFeatures.add(listedFeatures.get(rand));
-            listedFeatures.remove(rand);
+        if (!listedFeatures.isEmpty()) {
+            Random random = new Random();
+            int count = random.nextInt(Math.min(2, listedFeatures.size()));
+            for (int i = 0; i < count; i++) {
+                int rand = random.nextInt(listedFeatures.size());
+                givenFeatures.add(listedFeatures.get(rand));
+                listedFeatures.remove(rand);
+            }
         }
         return givenFeatures;
     }
