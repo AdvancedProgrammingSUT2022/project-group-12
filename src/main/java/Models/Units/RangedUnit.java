@@ -2,15 +2,14 @@ package Models.Units;
 
 import Enums.GameEnums.UnitEnum;
 import Models.Civilization;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 
 public class RangedUnit extends CombatUnit {
     private int rangedCombat;
     private int rangedCombatStrength;
 
-    public RangedUnit(UnitEnum type, Terrain terrain, Civilization civ) {
-        super(type, terrain, civ);
+    public RangedUnit(UnitEnum type, Civilization civ) {
+        super(type, civ);
     }
 
     public int getRangedCombat() {

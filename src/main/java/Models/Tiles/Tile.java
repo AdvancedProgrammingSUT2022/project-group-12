@@ -4,6 +4,7 @@ import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
+import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -19,6 +20,7 @@ public class Tile {
     private NonCombatUnit nonCombatUnit;
     private int HP;
     private boolean isDamaged;
+    private Civilization civilization;
     private City city;
     private boolean hasRoad;
     private VisibilityEnum state;
@@ -49,33 +51,12 @@ public class Tile {
         this.state = anotherTile.state;
     }
 
-
-    public void setCombatUnit(CombatUnit combatUnit) {
-        this.combatUnit = combatUnit;
-    }
-
-    public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
-        this.nonCombatUnit = nonCombatUnit;
-    }
-
     public boolean hasRoad() {
         return hasRoad;
     }
 
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-
     public void buildRoad() {
         this.hasRoad = true;
-    }
-
-    public void setDamaged(boolean damaged) {
-        isDamaged = damaged;
-    }
-
-    public void setState(VisibilityEnum state) {
-        this.state = state;
     }
 
     public ArrayList<ResourceEnum> getResources() {
@@ -86,12 +67,24 @@ public class Tile {
         return HP;
     }
 
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
     public VisibilityEnum getState() {
         return state;
     }
 
+    public void setState(VisibilityEnum state) {
+        this.state = state;
+    }
+
     public boolean isDamaged() {
         return isDamaged;
+    }
+
+    public void setDamaged(boolean damaged) {
+        isDamaged = damaged;
     }
 
     public int getCol() {
@@ -114,6 +107,10 @@ public class Tile {
         return nonCombatUnit;
     }
 
+    public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
+        this.nonCombatUnit = nonCombatUnit;
+    }
+
     public Terrain getTerrain() {
         return terrain;
     }
@@ -122,8 +119,12 @@ public class Tile {
         return combatUnit;
     }
 
+    public void setCombatUnit(CombatUnit combatUnit) {
+        this.combatUnit = combatUnit;
+    }
+
     public Civilization getCivilization() {
-        return this.city.getCivilization();
+        return this.civilization;
     }
 
     public Tile deepCopy(Tile tileToCopy) {
@@ -143,5 +144,9 @@ public class Tile {
         if (hasRoad)
             cost /= 2;
         return cost;
+    }
+
+    public Location getLocation() {
+        return new Location(getRow(), getCol());
     }
 }

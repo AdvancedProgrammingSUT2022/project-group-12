@@ -142,7 +142,6 @@ public class UnitFuncs extends GameMenuFuncs{
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateTileForFoundingCity(currentTile, currentCivilization);
-        String message;
         if (response.isOK()) System.out.println(GameController.FoundCity(currentTile));
         else System.out.println(response);
     }

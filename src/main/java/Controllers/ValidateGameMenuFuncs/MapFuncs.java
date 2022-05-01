@@ -53,12 +53,12 @@ public class MapFuncs extends GameMenuFuncs {
         int amount = 1; // todo: get amount
         Location newCord = gridCord;
         switch (direction) {
-            case "down" -> newCord.moveY(amount);
-            case "up" -> newCord.moveY(amount * -1);
-            case "right" -> newCord.moveX(amount);
-            case "left" -> newCord.moveX(amount * -1);
+            case "down" -> newCord.moveRow(amount);
+            case "up" -> newCord.moveRow(amount * -1);
+            case "right" -> newCord.moveCol(amount);
+            case "left" -> newCord.moveCol(amount * -1);
         }
-        if (!GameController.getGame().getTileGrid().isLocationValid(newCord.getX(), newCord.getY())) {
+        if (!GameController.getGame().getTileGrid().isLocationValid(newCord.getRow(), newCord.getCol())) {
             return CommandResponse.INVALID_DIRECTION; // todo: out of map
         }
         this.gridCord = newCord;

@@ -4,7 +4,6 @@ import Enums.GameEnums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ public class Unit {
     protected UnitEnum type;
     protected Civilization civ;
     protected City assignedCity;
-    protected Terrain terrain;
     protected int cost;
     protected double availableMoveCount;
     protected int row;
@@ -26,9 +24,8 @@ public class Unit {
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
 
-    public Unit(UnitEnum type, Terrain terrain, Civilization civ) {
+    public Unit(UnitEnum type, Civilization civ) {
         this.type = type;
-        this.terrain = terrain;
         this.civ = civ;
         this.pathShouldCross=null;
         this.resetMovementCount();
@@ -68,8 +65,8 @@ public class Unit {
 
     public void setLocation(Location location) {
         this.location = location;
-        this.row=location.getX();
-        this.column=location.getY();
+        this.row=location.getRow();
+        this.column=location.getCol();
     }
 
     public int getRow() {
