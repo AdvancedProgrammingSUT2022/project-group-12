@@ -2,8 +2,7 @@ package Views;
 
 import Controllers.GameController;
 import Controllers.MainMenuController;
-import Exceptions.InvalidCommandFormat;
-import Exceptions.UnknownUser;
+import Exceptions.CommandException;
 import Utils.Command;
 import Utils.CommandResponse;
 
@@ -31,7 +30,7 @@ public class MainMenu extends Menu {
             try {
                 if (option.startsWith("player")) playerNumbers.add(Integer.valueOf(option.substring("player".length())));
             } catch (NumberFormatException e) {
-                new InvalidCommandFormat().print();
+                System.out.println(CommandResponse.INVALID_COMMAND_FORMAT);
             }
         }
         for (int i = 1 ; i <= playerNumbers.size(); ++i) {
@@ -45,7 +44,7 @@ public class MainMenu extends Menu {
         GameController gameController;
         try {
             gameController = MainMenuController.startNewGame(usernames);
-        } catch (UnknownUser e) {
+        } catch (CommandException e) {
             e.print();
             return;
         }

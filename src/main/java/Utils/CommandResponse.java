@@ -3,7 +3,7 @@ package Utils;
 public enum CommandResponse {
     OK("OK"),
     CommandMissingRequiredOption("Required option is missing"),
-    USER_DOES_NOT_EXISTS("user doesn't exists"),
+    USER_DOES_NOT_EXISTS("username cannot be found"),
     USERNAME_ALREADY_EXISTS("there is another user with this username"),
     NO_USER_EXIST_WITH_USERNAME("no user exist with this username"),
     WEAK_PASSWORD("weak password"),
@@ -37,7 +37,12 @@ public enum CommandResponse {
     TILE_IS_FULL("this tile is full"), NOT_HAVING_CITY("this city is not belong to you"),
     UNIT_ISNOT_SIEGE("this unit isn't siege unit"),
     UNIT_HAS_ALREADY_SETTED_UP("this unit has already setted up"),
-    NOT_ENOUGH_MOVEMENT_COST("there isn't enough movement cost");
+    NOT_ENOUGH_MOVEMENT_COST("there isn't enough movement cost"),
+    DUPLICATE_OPTION_KEY("duplicate option key"),
+    INVALID_COMMAND_FORMAT("command format is invalid"),
+    MISSING_REQUIRED_OPTION("missing required option"),
+    UNRECOGNIZED_OPTION("unrecognized option entered"),
+    INVALID_OPTION_TYPE("invalid option type");
 
     private String message;
 

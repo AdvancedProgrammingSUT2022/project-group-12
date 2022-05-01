@@ -1,6 +1,6 @@
 package Utils;
 
-import Exceptions.*;
+import Exceptions.CommandException;
 import Models.Location;
 
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public class Command {
         return stringBuilder.toString();
     }
 
-    public static Command parseCommand(String input) throws InvalidCommandFormat, DuplicateOptionKey {
+    public static Command parseCommand(String input) throws CommandException {
         int idx = input.indexOf('-');
         if (idx == -1) idx = input.length();
         String cmd = removeWhiteSpaces(input.substring(0, idx)).toLowerCase();
@@ -47,19 +47,19 @@ public class Command {
             String key;
             int idx2 = idx + 1;
             if (idx2 >= input.length()) { // like "move -"
-                throw new InvalidCommandFormat(idx2);
+                throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT, String.valueOf(idx2));
             }
             if (input.charAt(idx2) == '-') { // double dash
                 idx2 = input.indexOf(' ', idx);
                 if (idx2 == -1) { // like "move --amount"
-                    throw new InvalidCommandFormat(idx2);
+                    throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT, String.valueOf(idx2));
                 }
                 key = input.substring(idx + 2, idx2);
             } else { // single dash
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
                 if (input.charAt(idx2) != ' ') { // like "move -amount"
-                    throw new InvalidCommandFormat(idx2);
+                    throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT, String.valueOf(idx2));
                 }
             }
             idx = idx2 + 1;
@@ -68,7 +68,7 @@ public class Command {
             String value = removeWhiteSpaces(input.substring(idx, idx2));
             idx = idx2;
             if (options.containsKey(key)) {
-                throw new DuplicateOptionKey(key);
+                throw new CommandException(CommandResponse.DUPLICATE_OPTION_KEY, key);
             }
             options.put(key, value);
         }
@@ -117,21 +117,21 @@ public class Command {
         return this.options.get(key);
     }
 
-    public void assertOptions(List<String> requiredKeys) throws MissingRequiredOption, UnrecognizedOption {
+    public void assertOptions(List<String> requiredKeys) throws CommandException {
         for (String key : requiredKeys) {
             if (this.getOption(key) == null) {
-                throw new MissingRequiredOption(key);
+                throw new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, key);
             } else if (!requiredKeys.contains(key)) {
-                throw new UnrecognizedOption(key);
+                throw new CommandException(CommandResponse.UNRECOGNIZED_OPTION, key);
             }
         }
     }
 
-    public void assertOptionType(String option, String type) throws InvalidOptionType {
+    public void assertOptionType(String option, String type) throws CommandException {
         String value = this.getOption(option);
         if (type.equals("integer")) {
             if (!value.matches("^-?\\d+$")) {
-                throw new InvalidOptionType(option, type);
+                throw new CommandException(CommandResponse.INVALID_OPTION_TYPE, option + " must be " + type);
             }
         }
     }
@@ -139,13 +139,13 @@ public class Command {
     public Location getLocationOption(String key) throws CommandException {
         String value = this.getOption(key);
         String[] parts = value.split("\\s+");
-        if (parts.length != 2) throw new InvalidCommandFormat();
+        if (parts.length != 2) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
         try {
             int row = Integer.parseInt(parts[0]);
             int col = Integer.parseInt(parts[1]);
             return new Location(row, col);
         } catch (Exception e) {
-            throw new InvalidCommandFormat();
+            throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
         }
     }
 }

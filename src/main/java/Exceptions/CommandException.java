@@ -11,6 +11,10 @@ public class CommandException extends Exception {
         super(commandResponse.toString());
     }
 
+    public CommandException(CommandResponse commandResponse, String item) {
+        super(commandResponse.toString() + ": " + item);
+    }
+
     public void print() {
         System.out.println("Error, " + this.getMessage());
     }
