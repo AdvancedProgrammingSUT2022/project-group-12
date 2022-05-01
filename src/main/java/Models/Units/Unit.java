@@ -68,8 +68,8 @@ public class Unit {
 
     public void setLocation(Location location) {
         this.location = location;
-        this.row=location.getX();
-        this.column=location.getY();
+        this.row=location.getRow();
+        this.column=location.getCol();
     }
 
     public int getRow() {

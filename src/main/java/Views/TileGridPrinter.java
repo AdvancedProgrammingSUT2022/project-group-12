@@ -47,8 +47,8 @@ public class TileGridPrinter {
 
         for (int i = tileGrid.getHeight(); i >= -1; --i) {
             for (int j = -1; j <= tileGrid.getWidth(); ++j) {
-                int ii = i + upleft.getX();
-                int jj = j + upleft.getY();
+                int ii = i + upleft.getRow();
+                int jj = j + upleft.getCol();
                 if (0 <= ii && ii < tileGrid.getHeight() && 0 <= jj && jj < tileGrid.getWidth()) {
                     Tile tile = tileGrid.getTile(ii, jj);
                     int x = hexH + hexW * 2;

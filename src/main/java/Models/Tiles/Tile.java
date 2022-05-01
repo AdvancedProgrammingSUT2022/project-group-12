@@ -4,6 +4,7 @@ import Enums.GameEnums.ResourceEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
+import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -142,5 +143,9 @@ public class Tile {
         int cost = terrain.getMovementCost();
         if (hasRoad) cost /= 2;
         return cost;
+    }
+
+    public Location getLocation() {
+        return new Location(getRow(), getCol());
     }
 }

@@ -4,10 +4,8 @@ import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Models.Location;
 import Models.Terrains.Terrain;
-import Views.TileGridPrinter;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class TileGrid {
     private final int height = 30;
@@ -28,11 +26,60 @@ public class TileGrid {
     }
 
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
-        return new ArrayList<>();
+        int row = tile.getRow(), col = tile.getCol();
+        ArrayList<Tile> tiles = new ArrayList<>();
+        List<Location> neighbors;
+        if (row % 2 == 0) {
+            neighbors = List.of(
+                    new Location(-2, 0),
+                    new Location(2, 0),
+                    new Location(-1, 0),
+                    new Location(1, 0),
+                    new Location(-1, -1),
+                    new Location(1, -1)
+            );
+        } else {
+            neighbors = List.of(
+                    new Location(-2, 0),
+                    new Location(2, 0),
+                    new Location(-1, 1),
+                    new Location(1, 1),
+                    new Location(-1, 0),
+                    new Location(1, 0)
+            );
+        }
+        for (Location location : neighbors) {
+            int nrow = row + location.getRow();
+            int ncol = row + location.getCol();
+            Tile ntile = this.getTile(nrow, ncol);
+            if (ntile != null) tiles.add(ntile);
+        }
+        return tiles;
+    }
+
+    public ArrayList<Tile> getNeighborsOfRadius(Tile tile, int rad) { // assume same vision for terrains
+        ArrayList<Tile> tiles = new ArrayList<>();
+        HashMap<Tile, Integer> dist = new HashMap<>();
+        ArrayDeque<Tile> queue = new ArrayDeque<>();
+        queue.add(tile);
+        dist.put(tile, 0);
+        while (!queue.isEmpty()) {
+            Tile x = queue.poll();
+            if (dist.get(x) >= rad) continue;
+            for (Tile y : this.getNeighborsOf(x)) {
+                if (!dist.containsKey(y)) {
+                    queue.add(y);
+                    dist.put(y, dist.get(x) + 1);
+                    tiles.add(y);
+                }
+            }
+        }
+        return tiles;
     }
 
     public Tile getTile(int row, int col) {
-        return tiles[row][col];
+        if (0 <= row && row < this.getHeight() && 0 <= col && col < this.getWidth()) return tiles[row][col];
+        else return null;
     }
 
     public boolean isLocationValid(int x, int y) {
@@ -59,11 +106,9 @@ public class TileGrid {
         return new Tile(new Terrain(values.get(randomSelection)), x, y);
     }
 
-
-
     private boolean newTile(int x, int y) {
         for (Location usedLocation : this.usedLocations) {
-            if (usedLocation.getX() == x && usedLocation.getY() == y) {
+            if (usedLocation.getRow() == x && usedLocation.getCol() == y) {
                 return false;
             }
         }
