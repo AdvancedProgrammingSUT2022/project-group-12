@@ -38,6 +38,20 @@ public class Tile {
         this.state = VisibilityEnum.FOG_OF_WAR;
     }
 
+    public Tile(Civilization civilization, Terrain terrain, int x, int y) {
+        this.civilization = civilization;
+        this.row = x;
+        this.col = y;
+        this.terrain = terrain;
+        this.combatUnit = null;
+        this.nonCombatUnit = null;
+        this.HP = 0;
+        this.isDamaged = false;
+        this.city = null;
+        this.hasRoad = false;
+        this.state = VisibilityEnum.VISIBLE;
+    }
+
     private Tile(Tile anotherTile) {
         this.row = anotherTile.row;
         this.col = anotherTile.col;

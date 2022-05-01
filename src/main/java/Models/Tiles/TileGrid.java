@@ -3,6 +3,7 @@ package Models.Tiles;
 import Enums.GameEnums.TerrainEnum;
 import Enums.GameEnums.VisibilityEnum;
 import Exceptions.CommandException;
+import Models.Civilization;
 import Models.Location;
 import Models.Terrains.Terrain;
 import Utils.CommandResponse;
@@ -28,16 +29,20 @@ public class TileGrid {
         }
     }
 
-    public TileGrid(String nickname, int width, int height) {
+    public TileGrid(Civilization civilization, int width, int height) {
         this.width = width;
         this.height = height;
         tiles = new Tile[width][height];
         this.usedLocations = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                tiles[i][j] = new Tile(new Terrain(TerrainEnum.SNOW), i, j);
+                tiles[i][j] = new Tile(new Terrain(TerrainEnum.OCEAN), i, j);
             }
         }
+    }
+
+    public void setVisible(Location location) {
+        this.tiles[location.getRow()][location.getCol()].setState(VisibilityEnum.VISIBLE);
     }
 
     public Location getRandomTileLocation() {
@@ -45,6 +50,9 @@ public class TileGrid {
         return new Location(random.nextInt(this.getHeight()), random.nextInt(this.getWidth()));
     }
 
+    public void setTile(Location location,Tile tile){
+        this.tiles[location.getRow()][location.getCol()] = tile;
+    }
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
         int row = tile.getRow(), col = tile.getCol();
         ArrayList<Tile> tiles = new ArrayList<>();
@@ -110,6 +118,19 @@ public class TileGrid {
         values.add(TerrainEnum.TUNDRA);
         int randomSelection = random.nextInt(7);
         return new Tile(new Terrain(values.get(randomSelection)), x, y);
+    }
+
+    private TerrainEnum givePlayerATile(int x, int y) {
+        ArrayList<TerrainEnum> values = new ArrayList<>();
+        values.add(TerrainEnum.DESERT);
+        values.add(TerrainEnum.HILL);
+        values.add(TerrainEnum.MOUNTAIN);
+        values.add(TerrainEnum.GRASSLAND);
+        values.add(TerrainEnum.PLAIN);
+        values.add(TerrainEnum.SNOW);
+        values.add(TerrainEnum.TUNDRA);
+        int randomSelection = random.nextInt(7);
+        return values.get(randomSelection);
     }
 
     private boolean newTile(int x, int y) {
