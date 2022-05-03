@@ -134,7 +134,7 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        city.getCivilization().setCurrentTile(game.getTileGrid().getTile(city.getLocation()));
+        city.getCivilization().setCurrentTile(city.getTile());
         return null;
     }
 

@@ -2,6 +2,7 @@ package Models;
 
 import Controllers.GameController;
 import Enums.UnitEnum;
+import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
@@ -40,9 +41,13 @@ public class Game {
     }
 
     public void startNextTurn() {
-        GameController.getGame().getCurrentCivilization().implementCityProductions();
+        Civilization civ = GameController.getGame().getCurrentCivilization();
+        civ.applyNotes();
         this.gameTurn++;
-        updateRevealedTileGrid(GameController.getGame().getCurrentCivilization());
+        updateRevealedTileGrid(civ);
+        for (City city : civ.getCities()) {
+            city.advanceProductionQueue();
+        }
         if (this.gameTurn / civs.size() > 25) {
             //TODO: end game
         }

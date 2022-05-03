@@ -192,9 +192,9 @@ public class Civilization {
         this.currentGridLocation = currentGridLocation;
     }
 
-    public void implementCityProductions() {
+    public void applyNotes() {
         for (City city : this.cities) {
-            //     city.productionImplementation();
+             city.applyBuildingNotes();
         }
     }
 

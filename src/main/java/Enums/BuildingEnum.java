@@ -1,6 +1,7 @@
 package Enums;
 
 import Models.Buildings.BuildingNotes;
+import Models.Cities.City;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public enum BuildingEnum {
         return requiredBuildings;
     }
 
-    public BuildingNotes getNote() {
+    public BuildingNotes<City> getNote() {
         return note;
     }
 }
