@@ -135,52 +135,58 @@ public enum TerrainEnum {
 
     public int getFoodCount() {
         int count = this.foodCount;
-        if (!possibleTerrainFeatures.isEmpty())
+        if (!possibleTerrainFeatures.isEmpty()) {
             for (TerrainEnum list : possibleTerrainFeatures) {
                 count += list.foodCount;
             }
+        }
         return count;
     }
 
     public int getProductsCount() {
         int count = this.productsCount;
-        if (!possibleTerrainFeatures.isEmpty())
+        if (!possibleTerrainFeatures.isEmpty()) {
             for (TerrainEnum list : possibleTerrainFeatures) {
                 count += list.productsCount;
             }
+        }
         return productsCount;
     }
 
     public int getGoldCount() {
         int count = this.goldCount;
-        if (!possibleTerrainFeatures.isEmpty())
+        if (!possibleTerrainFeatures.isEmpty()) {
             for (TerrainEnum list : possibleTerrainFeatures) {
                 count += list.goldCount;
             }
+        }
         return goldCount;
     }
 
     public int getCombatModifier() {
         int count = this.combatModifier;
-        if (!possibleTerrainFeatures.isEmpty())
+        if (!possibleTerrainFeatures.isEmpty()) {
             for (TerrainEnum list : possibleTerrainFeatures) {
                 count += list.combatModifier;
             }
+        }
         return combatModifier;
     }
 
     public int getMovementCost() {
         int count = this.movementCost;
-        if (!possibleTerrainFeatures.isEmpty())
+        if (!possibleTerrainFeatures.isEmpty()) {
             for (TerrainEnum list : possibleTerrainFeatures) {
                 count += list.movementCost;
             }
+        }
         return movementCost;
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
-        if (this.possibleTerrainFeatures.isEmpty())
+        if (this.possibleTerrainFeatures.isEmpty()) {
             return this.possibleTerrainFeatures;
+        }
         ArrayList<TerrainEnum> features = new ArrayList<>();
         ArrayList<TerrainEnum> possibleFeatures = new ArrayList<>(this.possibleTerrainFeatures);
         Random random = new Random();
@@ -195,12 +201,13 @@ public enum TerrainEnum {
 
     public ArrayList<ResourceEnum> getResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>(this.possibleResources);
-        if (!possibleTerrainFeatures.isEmpty())
+        if (!possibleTerrainFeatures.isEmpty()) {
             for (TerrainEnum list : possibleTerrainFeatures) {
                 if (!list.possibleResources.isEmpty()) {
                     resources.addAll(list.possibleResources);
                 }
             }
+        }
         return resources;
     }
 

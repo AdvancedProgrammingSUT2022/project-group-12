@@ -51,6 +51,7 @@ public class GameController {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
+
     protected static boolean isEnemyExists(Location location, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
@@ -76,6 +77,7 @@ public class GameController {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
+
     protected static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
@@ -132,7 +134,7 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        city.getCivilization().setCurrentTile(game.getTileGrid().getTile(city.getRow(), city.getCol()));
+        city.getCivilization().setCurrentTile(game.getTileGrid().getTile(city.getLocation()));
         return null;
     }
 
@@ -272,14 +274,6 @@ public class GameController {
         throw new CommandException("error folan");
     }
 
-    public CommandResponse battle(Civilization attacking, Civilization defending) {
-
-        return CommandResponse.OK;
-    }
-
-    public CommandResponse movement(Unit moving) {
-        return CommandResponse.OK;
-    }
     public static boolean checkForRivers(Tile tile, Tile tile1) {
         //TODO : check if is there a river or not
         return tile.getTerrain().getFeatures().contains(TerrainEnum.RIVER) && tile1.getTerrain().getFeatures().contains(TerrainEnum.RIVER);
@@ -287,6 +281,15 @@ public class GameController {
 
     public static Game getGame() {
         return game;
+    }
+
+    public CommandResponse battle(Civilization attacking, Civilization defending) {
+
+        return CommandResponse.OK;
+    }
+
+    public CommandResponse movement(Unit moving) {
+        return CommandResponse.OK;
     }
 
     public TileGrid getGameTileGrid() {

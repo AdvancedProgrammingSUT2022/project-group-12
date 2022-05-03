@@ -77,6 +77,7 @@ public enum InputRegex {
             "(" + USERNAME.selectedRegex + ") (?<username>[.\\S]+)\\s*"),
     EXIT_MENU("\\s*menu exit\\s*");
 
+    private static final TreeMap<Integer, String> map = new TreeMap<>();
     private final String selectedRegex;
 
     InputRegex(String input) {
@@ -163,8 +164,6 @@ public enum InputRegex {
         }
         return null;
     }
-
-    private static final TreeMap<Integer, String> map = new TreeMap<>();
 
     public static TreeMap<Integer, String> playGameWithMatcher(StringBuilder input) {
         Matcher matcher = Pattern.compile(PLAY_GAME_WITH.selectedRegex).matcher(input.toString());

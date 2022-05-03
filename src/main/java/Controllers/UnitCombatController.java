@@ -23,18 +23,23 @@ public class UnitCombatController extends CombatController {
         ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (nonRangedUnit.getAvailableMoveCount() >= path.size()) {
             return calculateNonRangeAttack(nonRangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
-        } else return "Attack is not possible";
+        } else {
+            return "Attack is not possible";
+        }
 
     }
 
     protected static String AttackRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, RangedUnit rangedUnit) {
         ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (rangedUnit.getType().getRange() >= path.size()) {
-            if (isEnemyExists(location, civilization))
+            if (isEnemyExists(location, civilization)) {
                 return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
-            else
+            } else {
                 return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getNonCombatUnit(), currentTile, tileGrid.getTile(location));
-        } else return "Attack is not possible";
+            }
+        } else {
+            return "Attack is not possible";
+        }
     }
 
     private static String calculateNonRangeAttack(NonRangedUnit nonRangedUnit, CombatUnit combatUnit, Tile nonRangedTile, Tile combatUnitTile) {

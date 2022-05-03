@@ -27,22 +27,27 @@ public class CityCombatController extends CombatController {
     protected static String AttackToCity(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, City city) {
         if (currentTile.getCombatUnit() instanceof RangedUnit) {
             return AttackRangedUnitToCity(location, game.getTileGrid(), currentTile, civilization, (RangedUnit) currentTile.getCombatUnit());
-        } else
+        } else {
             return AttackNonRangedUnitToCity(location, game.getTileGrid(), currentTile, civilization, (NonRangedUnit) currentTile.getCombatUnit());
+        }
     }
 
     private static String AttackNonRangedUnitToCity(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
         ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (nonRangedUnit.getAvailableMoveCount() >= path.size()) {
             return calculateNonRangeAttackToCity(nonRangedUnit, tileGrid.getTile(location).getCity(), currentTile, tileGrid.getTile(location));
-        } else return "Attack is not possible";
+        } else {
+            return "Attack is not possible";
+        }
     }
 
     private static String AttackRangedUnitToCity(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, RangedUnit rangedUnit) {
         ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (rangedUnit.getType().getRange() >= path.size()) {
             return calculateRangeAttackToCity(rangedUnit, tileGrid.getTile(location).getCity(), currentTile, tileGrid.getTile(location));
-        } else return "Attack is not possible";
+        } else {
+            return "Attack is not possible";
+        }
     }
 
     private static int calculateRangeOfCityAttack(Tile currentTile, City city) {
@@ -56,7 +61,9 @@ public class CityCombatController extends CombatController {
         range = calculateRangeOfCityAttack(currentTile, city);
         if (city.getRange() >= path.size()) {
             return calculateCityRangeAttack(currentTile.getCombatUnit(), tileGrid.getTile(location).getCity(), currentTile, tileGrid.getTile(location));
-        } else return "Attack is not possible";
+        } else {
+            return "Attack is not possible";
+        }
     }
 
     protected static String cityAttackToCity(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, City city) {
@@ -65,7 +72,9 @@ public class CityCombatController extends CombatController {
         range = calculateRangeOfCityAttack(currentTile, city);
         if (city.getRange() >= path.size()) {
             return calculateCityRangeAttack(currentTile.getCity(), tileGrid.getTile(location).getCity(), currentTile, tileGrid.getTile(location));
-        } else return "Attack is not possible";
+        } else {
+            return "Attack is not possible";
+        }
     }
 
     private static String calculateCityRangeAttack(City city, City enemyCity, Tile cityTile, Tile enemyCityTile) {

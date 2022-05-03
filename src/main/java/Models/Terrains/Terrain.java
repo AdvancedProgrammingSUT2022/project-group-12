@@ -13,10 +13,9 @@ public class Terrain {
     private final int movementCost;
     private final ArrayList<TerrainEnum> features;
     private final ArrayList<ResourceEnum> resources;
-    private VisibilityEnum state;
     private final TerrainColor color;
-
     protected ArrayList<ImprovementEnum> improvements;
+    private VisibilityEnum state;
 
     public Terrain(TerrainEnum type) {
         this.terrainType = type;

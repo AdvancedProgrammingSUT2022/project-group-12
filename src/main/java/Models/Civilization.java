@@ -21,6 +21,8 @@ public class Civilization {
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
+    private final ArrayList<Unit> units = new ArrayList<>();
+    private final TileGrid revealedTileGrid;
     private int gold;
     private int beaker;
     private int happiness;
@@ -29,10 +31,8 @@ public class Civilization {
     private Tile currentTile;
     private HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
-    private final ArrayList<Unit> units = new ArrayList<>();
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
-    private final TileGrid revealedTileGrid;
     private City capital;
     private ArrayList<Civilization> isInWarWith;
     private Location currentGridLocation = new Location(0, 0);
@@ -188,15 +188,14 @@ public class Civilization {
         return currentGridLocation;
     }
 
-    public void implementCityProductions() {
-        for (City city : this.cities) {
-       //     city.productionImplementation();
-        }
-    }
-
-
     public void setCurrentGridLocation(Location currentGridLocation) {
         this.currentGridLocation = currentGridLocation;
+    }
+
+    public void implementCityProductions() {
+        for (City city : this.cities) {
+            //     city.productionImplementation();
+        }
     }
 
     public void addUnit(Unit unit) {

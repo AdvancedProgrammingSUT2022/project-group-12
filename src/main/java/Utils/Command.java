@@ -15,16 +15,6 @@ public class Command {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("type = '").append(type).append("'\n");
-        for (Map.Entry<String, String> entry : options.entrySet()) {
-            stringBuilder.append("key = '").append(entry.getKey()).append("' / value = '").append(entry.getValue()).append("'\n");
-        }
-        return stringBuilder.toString();
-    }
-
     private static String removeWhiteSpaces(String str) {
         str = str.trim();
         StringBuilder stringBuilder = new StringBuilder();
@@ -76,6 +66,16 @@ public class Command {
         return command;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("type = '").append(type).append("'\n");
+        for (Map.Entry<String, String> entry : options.entrySet()) {
+            stringBuilder.append("key = '").append(entry.getKey()).append("' / value = '").append(entry.getValue()).append("'\n");
+        }
+        return stringBuilder.toString();
+    }
+
     public void abbreviate(String key, String abbr) {
         String value = this.getOption(abbr);
         if (value != null) {
@@ -94,18 +94,18 @@ public class Command {
     }
 
     public String getCategory() {
-    if (getPartOfType(0) != null) return getPartOfType(0);
-    return String.valueOf(CommandResponse.INVALID_COMMAND);
+        if (getPartOfType(0) != null) return getPartOfType(0);
+        return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     public String getSubCategory() {
-    if(getPartOfType(1) != null) return getPartOfType(1);
-    return String.valueOf(CommandResponse.INVALID_COMMAND);
+        if (getPartOfType(1) != null) return getPartOfType(1);
+        return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     public String getSubSubCategory() {
-     if(getPartOfType(2) != null) return getPartOfType(2);
-     return String.valueOf(CommandResponse.INVALID_COMMAND);
+        if (getPartOfType(2) != null) return getPartOfType(2);
+        return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     public HashMap<String, String> getOptions() {

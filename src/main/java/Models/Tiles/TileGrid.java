@@ -51,9 +51,10 @@ public class TileGrid {
         return new Location(random.nextInt(this.getHeight()), random.nextInt(this.getWidth()));
     }
 
-    public void setTile(Location location,Tile tile){
+    public void setTile(Location location, Tile tile) {
         this.tiles[location.getRow()][location.getCol()] = tile;
     }
+
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
         int row = tile.getRow(), col = tile.getCol();
         ArrayList<Tile> tiles = new ArrayList<>();
@@ -81,7 +82,9 @@ public class TileGrid {
         while (!queue.isEmpty()) {
             Tile x = queue.poll();
             tiles.add(x);
-            if (dist.get(x) >= rad || (x != sourceTile && x.getTerrain().getTerrainType().isBlockingView() && sourceTile.getTerrain().getTerrainType() != TerrainEnum.HILL)) continue;
+            if (dist.get(x) >= rad || (x != sourceTile && x.getTerrain().getTerrainType().isBlockingView() && sourceTile.getTerrain().getTerrainType() != TerrainEnum.HILL)) {
+                continue;
+            }
             for (Tile y : this.getNeighborsOf(x)) {
                 if (!dist.containsKey(y)) {
                     queue.add(y);
@@ -93,8 +96,11 @@ public class TileGrid {
     }
 
     public Tile getTile(int row, int col) {
-        if (0 <= row && row < this.getHeight() && 0 <= col && col < this.getWidth()) return tiles[row][col];
-        else return null;
+        if (0 <= row && row < this.getHeight() && 0 <= col && col < this.getWidth()) {
+            return tiles[row][col];
+        } else {
+            return null;
+        }
     }
 
     public boolean isLocationValid(int x, int y) {
@@ -182,8 +188,9 @@ public class TileGrid {
     }
 
     public void assertLocationValid(Location location) throws CommandException {
-        if (!isLocationValid(location.getRow(), location.getCol()))
+        if (!isLocationValid(location.getRow(), location.getCol())) {
             throw new CommandException(CommandResponse.INVALID_POSITION);
+        }
     }
 
     public Tile getTile(Location location) {

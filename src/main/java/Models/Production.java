@@ -5,8 +5,6 @@ import Models.Cities.City;
 public abstract class Production {
     private int remainedProductions;
 
-    public abstract void note(City city);
-
     public Production(int setProduction) {
         this.remainedProductions = setProduction;
     }
@@ -14,6 +12,8 @@ public abstract class Production {
     public Production() {
 
     }
+
+    public abstract void note(City city);
 
     public int getRemainedProductions() {
         return remainedProductions;

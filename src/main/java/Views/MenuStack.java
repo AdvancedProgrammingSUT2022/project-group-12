@@ -8,11 +8,10 @@ import java.util.Scanner;
 public class MenuStack {
     private static MenuStack instance = null;
     private final ArrayList<Menu> menus = new ArrayList<>();
-    private Scanner scanner;
     private final LoginMenu loginMenu = new LoginMenu();
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
-
+    private Scanner scanner;
     private User currentUser;
 
     private MenuStack() {
@@ -66,10 +65,11 @@ public class MenuStack {
 
     public void gotoLoginMenu() {
         this.currentUser = null;
-        if(this.menus.isEmpty())
+        if (this.menus.isEmpty()) {
             this.pushMenu(this.loginMenu);
-        else
+        } else {
             this.popMenu();
+        }
     }
 
     public void gotoMainMenu() {

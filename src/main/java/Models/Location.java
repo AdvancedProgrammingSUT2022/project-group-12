@@ -15,20 +15,20 @@ public class Location {
     }
 
     public Location(String row, String col) {
-        this.row=Integer.valueOf(row);
-        this.col=Integer.valueOf(col);
+        this.row = Integer.valueOf(row);
+        this.col = Integer.valueOf(col);
     }
 
     public int getRow() {
         return this.row;
     }
 
-    public int getCol() {
-        return this.col;
-    }
-
     public void setRow(int row) {
         this.row = row;
+    }
+
+    public int getCol() {
+        return this.col;
     }
 
     public void setCol(int col) {

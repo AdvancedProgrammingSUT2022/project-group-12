@@ -145,10 +145,11 @@ public enum ImprovementEnum {
     }
 
     public boolean hasRequiredTechs(ArrayList<TechnologyEnum> techs) {
-        for (TechnologyEnum list : this.requiredTechs)
+        for (TechnologyEnum list : this.requiredTechs) {
             if (!techs.contains(list)) {
                 return false;
             }
+        }
         return true;
     }
 

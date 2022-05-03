@@ -26,18 +26,39 @@ public class Unit extends Production {
     public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
         this.civ = civ;
-        this.pathShouldCross=null;
+        this.pathShouldCross = null;
         this.resetMovementCount();
         this.location = location;
         civ.addUnit(this);
     }
 
-    public void setPathShouldCross(ArrayList<Tile> pathShouldCross) {
-        this.pathShouldCross = pathShouldCross;
+    public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
+        double random_number = (random.nextInt(50) + 75) / 100;
+        unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
+    }
+
+    public static int calculateCombatStrength(Unit unit, Tile itsTile) {
+        int strength = unit.getType().getCombatStrength();
+        strength = AffectTerrainFeatures(strength, itsTile);
+        strength = HealthBarAffect(strength, unit);
+        return strength;
+    }
+
+    protected static int HealthBarAffect(int strength, Unit unit) {
+        return (unit.getHealthBar() / 100) * strength;
+    }
+
+    protected static int AffectTerrainFeatures(int strength, Tile itsTile) {
+        //Todo : affect the terrain features
+        return 0;
     }
 
     public ArrayList<Tile> getPathShouldCross() {
         return pathShouldCross;
+    }
+
+    public void setPathShouldCross(ArrayList<Tile> pathShouldCross) {
+        this.pathShouldCross = pathShouldCross;
     }
 
     public boolean isWorking() {
@@ -52,57 +73,37 @@ public class Unit extends Production {
         return availableMoveCount;
     }
 
-    public UnitEnum getType() {
-        return this.type;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-
     public void setAvailableMoveCount(double availableMoveCount) {
         this.availableMoveCount = availableMoveCount;
     }
 
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setHealthBar(int healthBar) {
-        this.healthBar = healthBar;
+    public UnitEnum getType() {
+        return this.type;
     }
 
     public void setType(UnitEnum type) {
         this.type = type;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public int getHealthBar() {
         return healthBar;
+    }
+
+    public void setHealthBar(int healthBar) {
+        this.healthBar = healthBar;
     }
 
     public void garrison() {
 
     }
-    public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
-        double random_number=(random.nextInt(50)+75)/100;
-        unit.setHealthBar(unit.getHealthBar()-(int) (25*exp(strengthDiff /(25.0*random_number))));
-    }
-    public static int calculateCombatStrength(Unit unit, Tile itsTile){
-        int strength=unit.getType().getCombatStrength();
-        strength=AffectTerrainFeatures(strength,itsTile);
-        strength=HealthBarAffect(strength,unit);
-        return strength;
-    }
-    protected static int HealthBarAffect(int strength, Unit unit) {
-        return (unit.getHealthBar()/100)*strength;
-    }
-    protected static int AffectTerrainFeatures(int strength, Tile itsTile) {
-        //Todo : affect the terrain features
-        return 0;
-    }
-
 
     public Civilization getCiv() {
         return civ;
@@ -118,6 +119,6 @@ public class Unit extends Production {
 
     @Override
     public void note(City city) {
-      //todo : complete
+        //todo : complete
     }
 }

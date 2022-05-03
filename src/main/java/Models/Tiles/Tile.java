@@ -37,7 +37,7 @@ public class Tile {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.isCitizen=false;
+        this.isCitizen = false;
     }
 
     public Tile(Civilization civilization, Terrain terrain, int x, int y) {
@@ -157,8 +157,9 @@ public class Tile {
 
     public int calculateMovementCost() {
         int cost = terrain.getMovementCost();
-        if (hasRoad)
+        if (hasRoad) {
             cost /= 2;
+        }
         return cost;
     }
 

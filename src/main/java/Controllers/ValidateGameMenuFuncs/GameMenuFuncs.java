@@ -15,10 +15,6 @@ public class GameMenuFuncs {
         GameMenuFuncs.game = game;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     protected static Civilization getCurrentCivilization() {
         return game.getCurrentCivilization();
     }
@@ -31,10 +27,16 @@ public class GameMenuFuncs {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
-            if (!GameController.getGame().getTileGrid().isLocationValid(row, col)) throw new CommandException(CommandResponse.INVALID_POSITION);
+            if (!GameController.getGame().getTileGrid().isLocationValid(row, col)) {
+                throw new CommandException(CommandResponse.INVALID_POSITION);
+            }
         } catch (Exception e) {
             throw new CommandException(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     protected CommandResponse isCorrectPosition(String amount_s, Game game, String direction) {

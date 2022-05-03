@@ -34,7 +34,7 @@ public class SelectFuncs extends GameMenuFuncs {
                 System.out.println(CommandResponse.INVALID_COMMAND);
             }
         } catch (Exception e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

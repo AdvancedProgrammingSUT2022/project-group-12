@@ -28,12 +28,14 @@ public class MainMenu extends Menu {
         ArrayList<Integer> playerNumbers = new ArrayList<>();
         for (String option : command.getOptions().keySet()) {
             try {
-                if (option.startsWith("player")) playerNumbers.add(Integer.valueOf(option.substring("player".length())));
+                if (option.startsWith("player")) {
+                    playerNumbers.add(Integer.valueOf(option.substring("player".length())));
+                }
             } catch (NumberFormatException e) {
                 System.out.println(CommandResponse.INVALID_COMMAND_FORMAT);
             }
         }
-        for (int i = 1 ; i <= playerNumbers.size(); ++i) {
+        for (int i = 1; i <= playerNumbers.size(); ++i) {
             String username = command.getOption("player" + i);
             if (username == null) {
                 System.out.println("there is a gap in number of players, player " + i + "not entered");

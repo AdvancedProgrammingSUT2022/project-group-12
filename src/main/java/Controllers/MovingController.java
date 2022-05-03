@@ -1,6 +1,5 @@
 package Controllers;
 
-import Enums.TerrainEnum;
 import Enums.UnitEnum;
 import Enums.VisibilityEnum;
 import Models.Civilization;
@@ -39,7 +38,7 @@ public class MovingController extends GameController {
     private static String moveToNextTile(Unit unit, String response) {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid gameTileGrid = game.getTileGrid();
-            Location location=unit.getPathShouldCross().get(0).getLocation();
+            Location location = unit.getPathShouldCross().get(0).getLocation();
             calculateMoveMentCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit, response)) break;
             gameTileGrid.getTile(location).setUnit(unit, null);
@@ -53,13 +52,13 @@ public class MovingController extends GameController {
 
     private static boolean checkForEnemy(Location nextLocation, Unit unit, String response) {
         Tile currentTile = game.getTileGrid().getTile(nextLocation);
-        if (isEnemyExists(nextLocation ,unit.getCiv())) {
+        if (isEnemyExists(nextLocation, unit.getCiv())) {
             response = AttackUnit(new Location(nextLocation.getRow(), nextLocation.getCol()), game, currentTile, unit.getCiv());
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;
         }
-        if (isNonCombatEnemyExists(nextLocation , unit.getCiv())) {
+        if (isNonCombatEnemyExists(nextLocation, unit.getCiv())) {
             CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextLocation), unit.getCiv());
             return false;
         }
@@ -95,7 +94,6 @@ public class MovingController extends GameController {
     }
 
 
-
     private static boolean checkForZOC(Location location, Location location1, Unit unit) {
         return checkForZOCOnTile(game.getTileGrid().getTile(location), unit) && checkForZOCOnTile(game.getTileGrid().getTile(location1), unit);
     }
@@ -120,8 +118,8 @@ public class MovingController extends GameController {
 
     protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile, Unit sourceUnit) { // use Coord/Location
         // Dijkstra algorithm for shortest path
-        int targetRow=location.getRow();
-        int targetCol=location.getCol();
+        int targetRow = location.getRow();
+        int targetCol = location.getCol();
         TileGrid tileGrid = game.getTileGrid();
         HashMap<Tile, Tile> parent = new HashMap<>();
         HashMap<Tile, Integer> distance = new HashMap<>();
