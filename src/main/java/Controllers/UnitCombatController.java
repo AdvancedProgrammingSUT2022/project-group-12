@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.*;
@@ -18,21 +19,21 @@ public class UnitCombatController extends CombatController {
         super(newGame);
     }
 
-    protected static String AttackNonRangedUnit(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
-        ArrayList<Tile> path = findTheShortestPath(row, col, currentTile, currentTile.getCombatUnit());
+    protected static String AttackNonRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
+        ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (nonRangedUnit.getAvailableMoveCount() >= path.size()) {
-            return calculateNonRangeAttack(nonRangedUnit, tileGrid.getTile(row, col).getCombatUnit(), currentTile, tileGrid.getTile(row, col));
+            return calculateNonRangeAttack(nonRangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
         } else return "Attack is not possible";
 
     }
 
-    protected static String AttackRangedUnit(int row, int col, TileGrid tileGrid, Tile currentTile, Civilization civilization, RangedUnit rangedUnit) {
-        ArrayList<Tile> path = findTheShortestPath(row, col, currentTile, currentTile.getCombatUnit());
+    protected static String AttackRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, RangedUnit rangedUnit) {
+        ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (rangedUnit.getType().getRange() >= path.size()) {
-            if (isEnemyExists(row, col, civilization))
-                return calculateRangeAttack(rangedUnit, tileGrid.getTile(row, col).getCombatUnit(), currentTile, tileGrid.getTile(row, col));
+            if (isEnemyExists(location, civilization))
+                return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
             else
-                return calculateRangeAttack(rangedUnit, tileGrid.getTile(row, col).getNonCombatUnit(), currentTile, tileGrid.getTile(row, col));
+                return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getNonCombatUnit(), currentTile, tileGrid.getTile(location));
         } else return "Attack is not possible";
     }
 

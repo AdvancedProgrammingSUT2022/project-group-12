@@ -5,6 +5,7 @@ import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
+import Utils.CommandException;
 import Utils.CommandResponse;
 
 public class GameMenuFuncs {
@@ -23,17 +24,16 @@ public class GameMenuFuncs {
     }
 
     protected static Tile getCurrentTile() {
-        return game.getCurrentCivilization().getCurrentTile();
+        return game.getTileGrid().getTile(getCurrentCivilization().getCurrentGridLocation());
     }
 
-    protected static CommandResponse isCorrectPosition(String row_s, String col_s) {
+    protected static void isCorrectPosition(String row_s, String col_s) throws CommandException {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
-            if (!GameController.getGame().getTileGrid().isLocationValid(row, col)) return CommandResponse.INVALID_POSITION;
-            return CommandResponse.OK;
+            if (!GameController.getGame().getTileGrid().isLocationValid(row, col)) throw new CommandException(CommandResponse.INVALID_POSITION);
         } catch (Exception e) {
-            return CommandResponse.INVALID_COMMAND;
+            throw new CommandException(CommandResponse.INVALID_COMMAND);
         }
     }
 

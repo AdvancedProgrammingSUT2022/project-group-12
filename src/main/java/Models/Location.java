@@ -14,6 +14,11 @@ public class Location {
         this.col = that.col;
     }
 
+    public Location(String row, String col) {
+        this.row=Integer.valueOf(row);
+        this.col=Integer.valueOf(col);
+    }
+
     public int getRow() {
         return this.row;
     }

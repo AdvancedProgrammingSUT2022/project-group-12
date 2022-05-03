@@ -190,9 +190,10 @@ public class Civilization {
 
     public void implementCityProductions() {
         for (City city : this.cities) {
-            city.productionImplementation();
+       //     city.productionImplementation();
         }
     }
+
 
     public void setCurrentGridLocation(Location currentGridLocation) {
         this.currentGridLocation = currentGridLocation;

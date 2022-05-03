@@ -7,6 +7,7 @@ import Enums.TerrainEnum;
 import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Utils.Command;
@@ -18,7 +19,7 @@ import static Controllers.CombatController.AttackUnit;
 import static Controllers.MovingController.moveUnit;
 import static Controllers.UnitCombatController.setupUnit;
 
-public class UnitFuncs extends GameMenuFuncs{
+public class UnitFuncs extends GameMenuFuncs {
 
     public UnitFuncs(Game game) {
         super(game);
@@ -56,6 +57,7 @@ public class UnitFuncs extends GameMenuFuncs{
     private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
         return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
     }
+
     public void unitDelete(Command command) {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
@@ -167,41 +169,48 @@ public class UnitFuncs extends GameMenuFuncs{
         return true;
     }
 
-    public void unitAttack(Command command) {
-        String key;
-        if ((key = command.getOption("position")) == null) {
-            System.out.println(CommandResponse.CommandMissingRequiredOption);
-            return;
+    public void unitAttack(Command command){
+        try {
+            String key;
+            if ((key = command.getOption("position")) == null) {
+                System.out.println(CommandResponse.CommandMissingRequiredOption);
+                return;
+            }
+            String[] coordinates = key.split("\\s+");
+            Civilization civilization = getCurrentCivilization();
+            Tile currentTile = getCurrentTile();
+            isCorrectPosition((coordinates[0]), (coordinates[1]));
+            int row = 0, col = 0;
+                row = Integer.parseInt(coordinates[0]);
+                col = Integer.parseInt(coordinates[1]);
+            validateForCombatUnit(currentTile, civilization);
+            System.out.println(AttackUnit(new Location(row, col), this.getGame(), currentTile, civilization));
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        String[] coordinates = key.split("\\s+");
-        Civilization civilization = getCurrentCivilization();
-        Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]));
-
-        int row = 0, col = 0;
-        if (response.isOK()) {
-            row = Integer.parseInt(coordinates[0]);
-            col = Integer.parseInt(coordinates[1]);
-        }
-
-        response=validateForCombatUnit(currentTile,civilization);
-
-        System.out.println(response.isOK() ? AttackUnit(row, col, this.getGame(), currentTile, civilization) : response);
     }
+
     public void unitSetup(Command command) {
         CommandResponse response;
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        if((response=validateForCombatUnit(currentTile,civilization)).isOK()){
-            System.out.println(((response=validateForSetup(currentTile.getCombatUnit())).isOK()) ? setupUnit(currentTile.getCombatUnit()) : response);
-        }else {
+        if ((response = validateForCombatUnit(currentTile, civilization)).isOK()) {
+            System.out.println(((response = validateForSetup(currentTile.getCombatUnit())).isOK()) ? setupUnit(currentTile.getCombatUnit()) : response);
+        } else {
             System.out.println(response);
         }
     }
-    private CommandResponse validateForSetup(CombatUnit combatUnit){
-        if(combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE){return CommandResponse.UNIT_ISNOT_SIEGE;}
-        if(combatUnit.isSetup()){return CommandResponse.UNIT_HAS_ALREADY_SETTED_UP;}
-        if(combatUnit.getAvailableMoveCount() < 1){return CommandResponse.NOT_ENOUGH_MOVEMENT_COST;}
+
+    private CommandResponse validateForSetup(CombatUnit combatUnit) {
+        if (combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE) {
+            return CommandResponse.UNIT_ISNOT_SIEGE;
+        }
+        if (combatUnit.isSetup()) {
+            return CommandResponse.UNIT_HAS_ALREADY_SETTED_UP;
+        }
+        if (combatUnit.getAvailableMoveCount() < 1) {
+            return CommandResponse.NOT_ENOUGH_MOVEMENT_COST;
+        }
         return CommandResponse.OK;
     }
 
@@ -277,70 +286,42 @@ public class UnitFuncs extends GameMenuFuncs{
         }
     }
 
-    public void unitMoveTo(Command command) {
+    public String unitMoveTo(String key, String combatType) throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
-        Tile currentTile = getCurrentTile();
-        if (command.getSubSubCategory().equals("noncombat")) {
-            String key;
-            if ((key = command.getOption("position")) != null) {
-                try {
-                    String[] coordinates = key.split("\\s+");
-                    CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, coordinates[0], coordinates[1], "noncombat");
-                    System.out.println(response.isOK() ? moveUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization,currentTile.getNonCombatUnit()) : response);
-                } catch (Exception e) {
-                    System.out.println(CommandResponse.INVALID_POSITION);
-                }
-            } else {
-                System.out.println(CommandResponse.CommandMissingRequiredOption);
-            }
-        } else if (command.getSubSubCategory().equals("combat")) {
-            String key;
-            if ((key = command.getOption("position")) != null) {
-                try {
-                    String[] coordinates = key.split("\\s+");
-                    CommandResponse response = validateTileForMovingUnit(currentTile, currentCivilization, coordinates[0], coordinates[1], "combat");
-                    System.out.println(response.isOK() ? moveUnit(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]), currentTile, currentCivilization,currentTile.getCombatUnit()) : response);
-                } catch (Exception e) {
-                    System.out.println(CommandResponse.INVALID_POSITION);
-                }
-            } else {
-                System.out.println(CommandResponse.CommandMissingRequiredOption);
-            }
-        } else {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-        }
+        Location currentGridLocation = currentCivilization.getCurrentGridLocation();
+        Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
+        String[] coordinates = key.split("\\s+");
+        Location location=new Location(coordinates[0], coordinates[1]);
+        validateTileForMovingUnit(currentTile, currentCivilization,location , combatType);
+        if (combatType.equals("noncombat")) {
+            return moveUnit(location, currentTile, currentCivilization, currentTile.getNonCombatUnit());
+        } else
+            return moveUnit(location, currentTile, currentCivilization, currentTile.getCombatUnit());
     }
 
-    private CommandResponse validateTileForMovingUnit(Tile currentTile, Civilization civilization, String row_s, String col_s, String combat) {
-        CommandResponse response = isCorrectPosition(row_s, col_s);
-        int row,col;
-        if (!response.isOK()) {
-            return response;
-        }else {
-            row=Integer.parseInt(row_s); col=Integer.parseInt(col_s);
-        }
-        if (combat.equals("noncombat")) {
+    private void validateTileForMovingUnit(Tile currentTile, Civilization civilization, Location location, String combatType) throws CommandException {
+        isCorrectPosition(String.valueOf(location.getRow()), String.valueOf(location.getCol()));
+        if (combatType.equals("noncombat")) {
             if (currentTile.getNonCombatUnit() == null) {
-                return CommandResponse.UNIT_DOES_NOT_EXISTS;
+                throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
             }
             if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
-                return CommandResponse.NOT_HAVING_UNIT;
+                throw new CommandException(CommandResponse.NOT_HAVING_UNIT);
             }
-            if(getGame().getTileGrid().getTile(row, col).getNonCombatUnit() != null){
-                return CommandResponse.TILE_IS_FULL;
+            if (civilization.getRevealedTileGrid().getTile(location).getNonCombatUnit() != null) {
+                throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
         } else {
             if (currentTile.getCombatUnit() == null) {
-                return CommandResponse.UNIT_DOES_NOT_EXISTS;
+                throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
             }
             if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
-                return CommandResponse.NOT_HAVING_UNIT;
+                throw new CommandException(CommandResponse.NOT_HAVING_UNIT);
             }
-            if(getGame().getTileGrid().getTile(row, col).getCombatUnit() != null){
-                return CommandResponse.TILE_IS_FULL;
+            if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
+                throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
         }
-        return CommandResponse.OK;
     }
 
     public void unitRepair(Command command) {
@@ -413,6 +394,7 @@ public class UnitFuncs extends GameMenuFuncs{
             System.out.println(response);
         }
     }
+
     private CommandResponse validateTileForRemovingRoute(Tile currentTile, Civilization civilization) {
         if (currentTile.getNonCombatUnit() == null) {
             return CommandResponse.UNIT_DOES_NOT_EXISTS;
@@ -428,7 +410,8 @@ public class UnitFuncs extends GameMenuFuncs{
         }
         return CommandResponse.OK;
     }
-    public static void CityAttack(Command command) {
+
+    public static void CityAttack(Command command) throws CommandException {
         String key;
         if ((key = command.getOption("position")) == null) {
             System.out.println(CommandResponse.CommandMissingRequiredOption);
@@ -437,19 +420,12 @@ public class UnitFuncs extends GameMenuFuncs{
         String[] coordinates = key.split("\\s+");
         Civilization civilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
-        CommandResponse response = isCorrectPosition((coordinates[0]), (coordinates[1]));
-
-        int row = 0, col = 0;
-        if (response.isOK()) {
-            row = Integer.parseInt(coordinates[0]);
-            col = Integer.parseInt(coordinates[1]);
-        }
-
-        response=validateForCity(currentTile,civilization);
-
-        System.out.println(response.isOK() ? AttackCity(row, col, game, currentTile, civilization) : response);
+        isCorrectPosition((coordinates[0]), (coordinates[1]));
+        int row = Integer.parseInt(coordinates[0]);
+        int col = Integer.parseInt(coordinates[1]);
+        validateForCity(currentTile, civilization);
+        System.out.println(AttackCity(new Location(row, col), game, currentTile, civilization));
     }
-
 
 
     private static CommandResponse validateForCity(Tile currentTile, Civilization civilization) {
@@ -459,6 +435,7 @@ public class UnitFuncs extends GameMenuFuncs{
         }
         return CommandResponse.OK;
     }
+
     protected boolean isExists(Tile currentTile, ImprovementEnum improvementEnum) {
         return currentTile.getTerrain().getImprovements().contains(improvementEnum);
     }

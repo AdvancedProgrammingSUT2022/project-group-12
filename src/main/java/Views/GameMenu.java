@@ -102,7 +102,7 @@ public class GameMenu extends Menu {
     private void select(Command command) {
         switch (command.getType()) {
             case "unit" -> this.selectUnit(command);
-            case "city" -> getSelectFuncs().selectCity(command);
+            case "city" -> this.selectCity(command);
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
@@ -132,10 +132,29 @@ public class GameMenu extends Menu {
             e.print();
         }
     }
+    private void selectCity(Command command){
+        command.abbreviate("cityname","cn");
+        command.abbreviate("cityposition","cp");
+        try{
+            if(command.getOption("cityposition") != null){
+                //TODO : complete selectCity
+                //selectCityByPosiiton();
+            }else if(command.getOption("cityname") != null){
+                //selectCityWithName();
+            }else {
+                System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
+            }
+        }catch (Exception e){
+
+        }
+    }
+
+
+
 
     private void unit(Command command) {
         switch (command.getSubCategory()) {
-            case "moveTo" -> getUnitFuncs().unitMoveTo(command);
+            case "move" -> unitMove(command);
             case "sleep" -> getUnitFuncs().unitSleep(command);
             case "alert" -> getUnitFuncs().unitAlert();
             case "fortify" -> getUnitFuncs().unitFortify(command);
@@ -200,6 +219,22 @@ public class GameMenu extends Menu {
         }
         getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
         getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
+    }
+    private void  unitMove(Command command){
+        command.abbreviate("position","p");
+        try {
+            if(!List.of("combat","noncombat").contains(command.getSubCategory())){
+                System.out.println(CommandResponse.INVALID_SUBCOMMAND);
+                return;
+            }
+            command.assertOptions(List.of("position"));
+            command.assertOptionType("position", "integer");
+            System.out.println(getUnitFuncs().unitMoveTo((command.getOption("position")), command.getSubCategory()));
+            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
+        } catch (CommandException e) {
+            e.print();
+            return;
+        }
     }
 
 }

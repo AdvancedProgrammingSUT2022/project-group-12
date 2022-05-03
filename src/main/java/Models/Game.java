@@ -48,7 +48,7 @@ public class Game {
         }
     }
 
-    private void updateRevealedTileGrid(Civilization civilization) {
+    public void updateRevealedTileGrid(Civilization civilization) {
         tileGrid.setFogOfWarForAll();
         for (Unit unit : civilization.getUnits()) {
             Tile tile = tileGrid.getTile(unit.getLocation());

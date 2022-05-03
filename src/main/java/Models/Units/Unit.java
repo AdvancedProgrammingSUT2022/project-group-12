@@ -18,8 +18,6 @@ public class Unit extends Production {
     protected City assignedCity;
     protected int cost;
     protected double availableMoveCount;
-    protected int row;
-    protected int column;
     protected Location location;
     protected int healthBar;
     protected ArrayList<Tile> pathShouldCross;
@@ -28,7 +26,7 @@ public class Unit extends Production {
     public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
         this.civ = civ;
-        this.pathShouldCross = null;
+        this.pathShouldCross=null;
         this.resetMovementCount();
         this.location = location;
         civ.addUnit(this);
@@ -46,14 +44,6 @@ public class Unit extends Production {
         return this.isWorking;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
     public void keepWorking(boolean work) {
         this.isWorking = work;
     }
@@ -68,21 +58,13 @@ public class Unit extends Production {
 
     public void setLocation(Location location) {
         this.location = location;
-        this.row = location.getRow();
-        this.column = location.getCol();
     }
 
-    public int getRow() {
-        return row;
-    }
 
     public void setAvailableMoveCount(double availableMoveCount) {
         this.availableMoveCount = availableMoveCount;
     }
 
-    public int getColumn() {
-        return column;
-    }
 
     public Location getLocation() {
         return location;
@@ -103,25 +85,19 @@ public class Unit extends Production {
     public void garrison() {
 
     }
-
     public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
-        double randomNumber = random.nextInt(50);
-        randomNumber += 75;
-        randomNumber /= 100;
-        unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * randomNumber))));
+        double random_number=(random.nextInt(50)+75)/100;
+        unit.setHealthBar(unit.getHealthBar()-(int) (25*exp(strengthDiff /(25.0*random_number))));
     }
-
-    public static int calculateCombatStrength(Unit unit, Tile itsTile) {
-        int strength = unit.getType().getCombatStrength();
-        strength = AffectTerrainFeatures(strength, itsTile);
-        strength = HealthBarAffect(strength, unit);
+    public static int calculateCombatStrength(Unit unit, Tile itsTile){
+        int strength=unit.getType().getCombatStrength();
+        strength=AffectTerrainFeatures(strength,itsTile);
+        strength=HealthBarAffect(strength,unit);
         return strength;
     }
-
     protected static int HealthBarAffect(int strength, Unit unit) {
-        return (unit.getHealthBar() / 100) * strength;
+        return (unit.getHealthBar()/100)*strength;
     }
-
     protected static int AffectTerrainFeatures(int strength, Tile itsTile) {
         //Todo : affect the terrain features
         return 0;
@@ -142,6 +118,6 @@ public class Unit extends Production {
 
     @Override
     public void note(City city) {
-
+      //todo : complete
     }
 }

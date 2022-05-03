@@ -20,6 +20,7 @@ public class Tile {
     private NonCombatUnit nonCombatUnit;
     private int HP;
     private boolean isDamaged;
+    private boolean isCitizen;
     private Civilization civilization;
     private City city;
     private boolean hasRoad;
@@ -36,6 +37,7 @@ public class Tile {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
+        this.isCitizen=false;
     }
 
     public Tile(Civilization civilization, Terrain terrain, int x, int y) {
@@ -158,6 +160,10 @@ public class Tile {
         if (hasRoad)
             cost /= 2;
         return cost;
+    }
+
+    public boolean isCitizen() {
+        return isCitizen;
     }
 
     public Location getLocation() {

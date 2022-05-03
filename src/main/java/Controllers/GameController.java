@@ -2,9 +2,11 @@ package Controllers;
 
 import Enums.ImprovementEnum;
 import Enums.TechnologyEnum;
+import Enums.TerrainEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
@@ -49,6 +51,10 @@ public class GameController {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
+    protected static boolean isEnemyExists(Location location, Civilization civilization) {
+        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
+        return enemyUnit != null && enemyUnit.getCiv() != civilization;
+    }
 
     protected static boolean isEnemyIsReadyForAttack(int row, int col, Civilization civilization, CombatUnit combatUnit) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
@@ -68,6 +74,10 @@ public class GameController {
 
     protected static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
+        return enemyUnit != null && enemyUnit.getCiv() != civilization;
+    }
+    protected static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
+        NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
 
@@ -135,7 +145,7 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        nonCombatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(nonCombatUnit.getRow(), nonCombatUnit.getColumn()));
+        nonCombatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(nonCombatUnit.getLocation()));
         return null;
     }
 
@@ -143,8 +153,7 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        combatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(combatUnit.getRow(), combatUnit.getColumn()));
-
+        combatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(combatUnit.getLocation()));
         return null;
     }
 
@@ -270,6 +279,10 @@ public class GameController {
 
     public CommandResponse movement(Unit moving) {
         return CommandResponse.OK;
+    }
+    public static boolean checkForRivers(Tile tile, Tile tile1) {
+        //TODO : check if is there a river or not
+        return tile.getTerrain().getFeatures().contains(TerrainEnum.RIVER) && tile1.getTerrain().getFeatures().contains(TerrainEnum.RIVER);
     }
 
     public static Game getGame() {

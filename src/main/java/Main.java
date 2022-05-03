@@ -14,6 +14,7 @@ public class Main {
         while (!menuStack.isEmpty()) {
             menuStack.runTopMenu();
         }
+//
 //        Database.getInstance().serialize();
     }
 }
@@ -21,4 +22,5 @@ public class Main {
 user create --username alireza --password Password123? --nickname ali
 user login -p Password123? -u alireza
 play game --player1 alireza
+map show
  */

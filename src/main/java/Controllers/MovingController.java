@@ -5,11 +5,13 @@ import Enums.UnitEnum;
 import Enums.VisibilityEnum;
 import Models.Civilization;
 import Models.Game;
+import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +25,11 @@ public class MovingController extends GameController {
         super(newGame);
     }
 
-    public static String moveUnit(int x, int y, Tile currentTile, Civilization currentCivilization, Unit unit) {
+    public static String moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
         String response = "unit moved successfully";
-        ArrayList<Tile> shortestPath = findTheShortestPath(x, y, currentTile, unit);
+        ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile, unit);
         if (shortestPath == null) {
-            return "move is impossible";
+            throw new CommandException("move is impossible");
         }
         unit.setPathShouldCross(shortestPath);
         response = moveToNextTile(unit, response);
@@ -37,29 +39,28 @@ public class MovingController extends GameController {
     private static String moveToNextTile(Unit unit, String response) {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid gameTileGrid = game.getTileGrid();
-            int nextRow = unit.getPathShouldCross().get(0).getRow(), nextCol = unit.getPathShouldCross().get(0).getCol();
-            calculateMoveMentCost(unit, nextRow, nextCol);
-            if (checkForEnemy(nextRow, nextCol, unit, response)) break;
-            gameTileGrid.getTile(unit.getRow(), unit.getColumn()).setUnit(unit, null);
-            unit.setRow(nextRow);
-            unit.setColumn(nextCol);
-            checkForFogOfWars(game.getTileGrid(), game.getTileGrid().getTile(nextRow, nextCol));
-            gameTileGrid.getTile(unit.getRow(), unit.getColumn()).setUnit(unit, unit);
+            Location location=unit.getPathShouldCross().get(0).getLocation();
+            calculateMoveMentCost(unit, location);
+            if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit, response)) break;
+            gameTileGrid.getTile(location).setUnit(unit, null);
+            unit.setLocation(location);
+            game.updateRevealedTileGrid(unit.getCiv());
+            gameTileGrid.getTile(unit.getLocation()).setUnit(unit, unit);
             unit.getPathShouldCross().remove(0);
         }
         return response;
     }
 
-    private static boolean checkForEnemy(int nextRow, int nextCol, Unit unit, String response) {
-        Tile currentTile = game.getTileGrid().getTile(nextRow, nextCol);
-        if (isEnemyExists(nextRow, nextCol, unit.getCiv())) {
-            response = AttackUnit(nextRow, nextCol, game, currentTile, unit.getCiv());
+    private static boolean checkForEnemy(Location nextLocation, Unit unit, String response) {
+        Tile currentTile = game.getTileGrid().getTile(nextLocation);
+        if (isEnemyExists(nextLocation ,unit.getCiv())) {
+            response = AttackUnit(new Location(nextLocation.getRow(), nextLocation.getCol()), game, currentTile, unit.getCiv());
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;
         }
-        if (isNonCombatEnemyExists(nextRow, nextCol, unit.getCiv())) {
-            CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextRow, nextCol), unit.getCiv());
+        if (isNonCombatEnemyExists(nextLocation , unit.getCiv())) {
+            CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextLocation), unit.getCiv());
             return false;
         }
         return false;
@@ -81,25 +82,22 @@ public class MovingController extends GameController {
         }
     }
 
-    private static void calculateMoveMentCost(Unit unit, int row, int col) {
-        if (checkForZOC(unit.getRow(), unit.getColumn(), row, col, unit)) {
+    private static void calculateMoveMentCost(Unit unit, Location location) {
+        if (checkForZOC(unit.getLocation(), location, unit)) {
             unit.setAvailableMoveCount(0);
             return;
         }
-        if (checkForRivers(game.getTileGrid().getTile(row, col), game.getTileGrid().getTile(unit.getRow(), unit.getColumn()))) {
+        if (checkForRivers(game.getTileGrid().getTile(location), game.getTileGrid().getTile(location))) {
             unit.setAvailableMoveCount(0);
             return;
         }
-        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - game.getTileGrid().getTile(unit.getRow(), unit.getColumn()).getTerrain().getMovementCost());
+        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - game.getTileGrid().getTile(location).getTerrain().getMovementCost());
     }
 
-    private static boolean checkForRivers(Tile tile, Tile tile1) {
-        //TODO : check if is there a river or not
-        return tile.getTerrain().getFeatures().contains(TerrainEnum.RIVER) && tile1.getTerrain().getFeatures().contains(TerrainEnum.RIVER);
-    }
 
-    private static boolean checkForZOC(int row, int col, int row1, int col1, Unit unit) {
-        return checkForZOCOnTile(game.getTileGrid().getTile(row, col), unit) && checkForZOCOnTile(game.getTileGrid().getTile(row1, col1), unit);
+
+    private static boolean checkForZOC(Location location, Location location1, Unit unit) {
+        return checkForZOCOnTile(game.getTileGrid().getTile(location), unit) && checkForZOCOnTile(game.getTileGrid().getTile(location1), unit);
     }
 
     private static boolean checkForZOCOnTile(Tile tile, Unit unit) {
@@ -120,8 +118,10 @@ public class MovingController extends GameController {
         });
     }
 
-    protected static ArrayList<Tile> findTheShortestPath(int targetRow, int targetCol, Tile sourceTile, Unit sourceUnit) { // use Coord/Location
+    protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile, Unit sourceUnit) { // use Coord/Location
         // Dijkstra algorithm for shortest path
+        int targetRow=location.getRow();
+        int targetCol=location.getCol();
         TileGrid tileGrid = game.getTileGrid();
         HashMap<Tile, Tile> parent = new HashMap<>();
         HashMap<Tile, Integer> distance = new HashMap<>();
@@ -160,9 +160,7 @@ public class MovingController extends GameController {
         if (sourceUnit instanceof CombatUnit) {
             return unknownCombatUnit == null;
         } else {
-            return !isEnemyExists(unknownNonCombatUnit.getRow(), unknownNonCombatUnit.getColumn(), sourceUnit.getCiv()) && !isNonCombatEnemyExists(unknownNonCombatUnit.getRow(), unknownNonCombatUnit.getColumn(), sourceUnit.getCiv());
+            return !isEnemyExists(unknownNonCombatUnit.getLocation(), sourceUnit.getCiv()) && !isNonCombatEnemyExists(unknownNonCombatUnit.getLocation(), sourceUnit.getCiv());
         }
     }
-
-
 }
