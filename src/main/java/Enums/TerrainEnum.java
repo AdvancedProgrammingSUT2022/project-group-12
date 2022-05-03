@@ -51,7 +51,7 @@ public enum TerrainEnum {
         add(ResourceEnum.SHEEP);
     }}),
     MOUNTAIN("MNTN", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
-    OCEAN("OCEAN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
+    OCEAN("OCN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
         add(TerrainEnum.ICE);
     }}, new ArrayList<>()),
     PLAIN("PLN", TerrainColor.GREEN_BACKGROUND, 1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
@@ -201,7 +201,7 @@ public enum TerrainEnum {
                     resources.addAll(list.possibleResources);
                 }
             }
-        return possibleResources;
+        return resources;
     }
 
     public boolean isBlockingView() {

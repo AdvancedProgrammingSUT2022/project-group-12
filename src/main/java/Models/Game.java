@@ -11,6 +11,7 @@ import Utils.CommandResponse;
 import Utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
     private final ArrayList<Civilization> civs;
@@ -19,6 +20,9 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
+        Random random = new Random();
+        int randomRow = random.nextInt(50, 100);
+        int randomCol = random.nextInt(50, 100);
         this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         for (User user : users) {
             Civilization civ = new Civilization(user);
@@ -31,43 +35,26 @@ public class Game {
         }
     }
 
-//    public void fullPlayersMove() {
-//        for (int i = this.civs.size() - 1; i > -1; i--) {
-//            this.civTurn.add(this.civs.get(i));
-//        }
-//    }
-
-//    public ArrayList<Civilization> getCivTurn() {
-//        return civTurn;
-//    }
-
-//    public void nextPlayerMove() {
-//        this.civTurn.remove(this.civTurn.size() - 1);
-//        if (this.civTurn.isEmpty()) {
-//            fullPlayersMove();
-//        }
-//    }
-
     public Civilization getCurrentCivilization() {
         return civs.get(this.gameTurn % civs.size());
     }
 
     public void startNextTurn() {
+        GameController.getGame().getCurrentCivilization().implementCityProductions();
         this.gameTurn++;
         updateRevealedTileGrid(GameController.getGame().getCurrentCivilization());
-        if (this.gameTurn > 25) {
-            //TODO : end game
+        if (this.gameTurn / civs.size() > 25) {
+            //TODO: end game
         }
     }
 
     private void updateRevealedTileGrid(Civilization civilization) {
         tileGrid.setFogOfWarForAll();
         for (Unit unit : civilization.getUnits()) {
-            TileGrid tileGrid = this.getTileGrid();
             Tile tile = tileGrid.getTile(unit.getLocation());
-            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 2)) {
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
                 TileGrid civTileGrid = civilization.getRevealedTileGrid();
-                civTileGrid.setVisible(neighbor.getLocation());
+//                civTileGrid.setVisible(neighbor.getLocation());
                 civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
             }
         }
