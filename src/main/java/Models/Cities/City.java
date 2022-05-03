@@ -210,6 +210,10 @@ public class City {
         }
     }
 
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
     public void advanceProductionQueue() {
         productionQueue.get(0).decreaseRemainedProduction(this.getProduction());
         if (productionQueue.get(0).getRemainedProduction() <= 0) {

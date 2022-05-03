@@ -4,6 +4,7 @@ import Enums.BuildingEnum;
 import Enums.ImprovementEnum;
 import Enums.TechnologyEnum;
 import Enums.TerrainEnum;
+import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -134,9 +135,9 @@ public class GameController {
     public static StringBuilder showCity(City city) {
         StringBuilder message=new StringBuilder("");
         message.append("city citizens : " + city.getCitizensCount()+"\n");
-        for (BuildingEnum buildingEnum:
-             city.getCityStructure()) {
-            message.append("city building : "+buildingEnum.toString().toLowerCase()+'\n');
+        for (Building building:
+             city.getBuildings()) {
+            message.append("city building : "+building.getType().toString().toLowerCase()+'\n');
         }
         message.append("city combat unit : "+city.getCombatUnit()+'\n');
         message.append("city nonCombat unit : "+city.getNonCombatUnit()+'\n');
