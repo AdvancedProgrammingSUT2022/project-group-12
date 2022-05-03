@@ -8,7 +8,7 @@ public abstract class Production {
     public abstract void note(City city);
 
     public Production(int setProduction) {
-        this.remainedProductions = setProduction;
+        this.remainedProductions = 0;
     }
 
     public Production() {
