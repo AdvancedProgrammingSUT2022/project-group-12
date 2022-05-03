@@ -1,5 +1,6 @@
 package Controllers;
 
+import Enums.BuildingEnum;
 import Enums.ImprovementEnum;
 import Enums.TechnologyEnum;
 import Enums.TerrainEnum;
@@ -131,16 +132,24 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
-        /***
-         * change current tile to combatUnit tile
-         */
-        city.getCivilization().setCurrentTile(game.getTileGrid().getTile(city.getLocation()));
-        return null;
-    }
-
-    public static CommandResponse showCity(int row, int col, Game game) {
-
-        return null;
+        StringBuilder message=new StringBuilder("");
+        message.append("city citizens : " + city.getCitizensCount()+"\n");
+        for (BuildingEnum buildingEnum:
+             city.getCityStructure()) {
+            message.append("city building : "+buildingEnum.toString().toLowerCase()+'\n');
+        }
+        message.append("city combat unit : "+city.getCombatUnit()+'\n');
+        message.append("city nonCombat unit : "+city.getNonCombatUnit()+'\n');
+        for (Tile cityTile:
+                city.getTiles()) {
+            if (cityTile.isCitizen()){ message.append("citizen is in tile with position "+cityTile.getLocation().getRow()+" "+cityTile.getLocation().getCol()+'\n'); }
+        }
+        //todo : calculate food science production gold
+        message.append("city food : "+city.getFood()+'\n');
+        message.append("city science : "+city.getBeaker()+'\n');
+        message.append("city production : "+city.getProduction()+'\n');
+        message.append("city gold : "+ city.getGold()+'\n');
+        return message;
     }
 
     public static StringBuilder showNonCombatInfo(NonCombatUnit nonCombatUnit) {

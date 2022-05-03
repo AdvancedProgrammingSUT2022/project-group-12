@@ -327,12 +327,10 @@ public class UnitFuncs extends GameMenuFuncs {
         }
     }
 
-    public String unitMoveTo(String key, String combatType) throws CommandException {
+    public String unitMoveTo(Location location, String combatType) throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
-        String[] coordinates = key.split("\\s+");
-        Location location = new Location(coordinates[0], coordinates[1]);
         validateTileForMovingUnit(currentTile, currentCivilization, location, combatType);
         if (combatType.equals("noncombat")) {
             return moveUnit(location, currentTile, currentCivilization, currentTile.getNonCombatUnit());
@@ -343,15 +341,19 @@ public class UnitFuncs extends GameMenuFuncs {
 
     private void validateTileForMovingUnit(Tile currentTile, Civilization civilization, Location location, String combatType) throws CommandException {
         isCorrectPosition(String.valueOf(location.getRow()), String.valueOf(location.getCol()));
+        Tile nextTile=civilization.getRevealedTileGrid().getTile(location);
         if (combatType.equals("noncombat")) {
             if (currentTile.getNonCombatUnit() == null) {
                 throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
             }
-            if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
+            if (!(currentTile.getNonCombatUnit().getCiv() == civilization)) {
                 throw new CommandException(CommandResponse.NOT_HAVING_UNIT);
             }
-            if (civilization.getRevealedTileGrid().getTile(location).getNonCombatUnit() != null) {
+            if (nextTile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
+            }
+            if(!nextTile.getTerrain().getTerrainType().canBePassed()){
+                throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         } else {
             if (currentTile.getCombatUnit() == null) {
@@ -362,6 +364,9 @@ public class UnitFuncs extends GameMenuFuncs {
             }
             if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
+            }
+            if(!nextTile.getTerrain().getTerrainType().canBePassed()){
+                throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         }
     }

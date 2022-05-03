@@ -129,12 +129,13 @@ public class MovingController extends GameController {
         Tile p;
         while (true) {
             Tile first = heap.pollFirstEntry().getValue();
+            System.out.println("first : "+first.getLocation().getRow()+" "+first.getLocation().getCol());
             if (first.getRow() == targetRow && first.getCol() == targetCol) {
                 p = first;
                 break;
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-                if (validateTile(neighbor, sourceUnit)) continue;
+              //  if (validateTile(neighbor, sourceUnit)) continue;
                 // this is only true if weights are on tiles (graph vertexes)
                 if (!distance.containsKey(neighbor)) {
                     int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
@@ -146,19 +147,14 @@ public class MovingController extends GameController {
         }
         ArrayList<Tile> path = new ArrayList<>();
         while (p != sourceTile) {
+            System.out.println(p.getLocation().getRow()+" "+p.getLocation().getCol());
             path.add(p);
             p = parent.get(p);
         }
         return path;
     }
 
-    private static boolean validateTile(Tile tile, Unit sourceUnit) {
-        CombatUnit unknownCombatUnit = tile.getCombatUnit();
-        NonCombatUnit unknownNonCombatUnit = tile.getNonCombatUnit();
-        if (sourceUnit instanceof CombatUnit) {
-            return unknownCombatUnit == null;
-        } else {
-            return !isEnemyExists(unknownNonCombatUnit.getLocation(), sourceUnit.getCiv()) && !isNonCombatEnemyExists(unknownNonCombatUnit.getLocation(), sourceUnit.getCiv());
-        }
+    private static boolean  validateTile(Tile tile, Unit sourceUnit) {
+        return !tile.getTerrain().getTerrainType().canBePassed();
     }
 }

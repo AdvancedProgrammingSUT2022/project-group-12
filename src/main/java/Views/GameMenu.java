@@ -1,17 +1,18 @@
 package Views;
 
 import Controllers.GameController;
-import Controllers.ValidateGameMenuFuncs.InfoFuncs;
-import Controllers.ValidateGameMenuFuncs.MapFuncs;
-import Controllers.ValidateGameMenuFuncs.SelectFuncs;
-import Controllers.ValidateGameMenuFuncs.UnitFuncs;
+import Controllers.ValidateGameMenuFuncs.*;
 import Enums.ImprovementEnum;
+import Models.Cities.City;
+import Models.Civilization;
+import Models.Game;
 import Models.Location;
 import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 public class GameMenu extends Menu {
@@ -100,7 +101,7 @@ public class GameMenu extends Menu {
     }
 
     private void select(Command command) {
-        switch (command.getType()) {
+        switch (command.getSubCategory()) {
             case "unit" -> this.selectUnit(command);
             case "city" -> this.selectCity(command);
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
@@ -132,27 +133,28 @@ public class GameMenu extends Menu {
             e.print();
         }
     }
-
-    private void selectCity(Command command) {
-        command.abbreviate("cityname", "cn");
-        command.abbreviate("cityposition", "cp");
-        try {
-            if (command.getOption("cityposition") != null) {
-                //TODO : complete selectCity
-                //selectCityByPosiiton();
-            } else if (command.getOption("cityname") != null) {
-                //selectCityWithName();
-            } else {
+    private void selectCity(Command command){
+        command.abbreviate("cityname","cn");
+        command.abbreviate("cityposition","cp");
+        try{
+            if(command.getOption("cityposition") != null){
+                command.assertOptionType("cityposition","integer");
+                System.out.println(getSelectFuncs().selectCityByPosition(command.getLocationOption("cityposition")));
+            }else if(command.getOption("cityname") != null){
+                command.assertOptionType("cityname","string");
+                System.out.println(getSelectFuncs().selectCityWithName(command.getOption("cityname")));
+            }else {
                 System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
             }
-        } catch (Exception e) {
-
+        }catch (Exception e){
+              e.printStackTrace();
         }
     }
 
 
     private void unit(Command command) {
-        switch (command.getSubCategory()) {
+
+        switch (command.getSubCategory().trim()) {
             case "move" -> unitMove(command);
             case "sleep" -> getUnitFuncs().unitSleep(command);
             case "alert" -> getUnitFuncs().unitAlert();
@@ -219,22 +221,20 @@ public class GameMenu extends Menu {
         getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
         getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
     }
-
-    private void unitMove(Command command) {
+    private void  unitMove(Command command){
         command.abbreviate("position", "p");
         try {
-            if (!List.of("combat", "noncombat").contains(command.getSubCategory())) {
-                System.out.println(CommandResponse.INVALID_SUBCOMMAND);
+            if (!List.of("combat", "noncombat").contains(command.getSubSubCategory())) {
+                System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
                 return;
             }
             command.assertOptions(List.of("position"));
-            command.assertOptionType("position", "integer");
-            System.out.println(getUnitFuncs().unitMoveTo((command.getOption("position")), command.getSubCategory()));
+            //command.assertOptionType("position", "integer");
+            System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), command.getSubSubCategory()));
             getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
         } catch (CommandException e) {
             e.print();
             return;
         }
     }
-
 }

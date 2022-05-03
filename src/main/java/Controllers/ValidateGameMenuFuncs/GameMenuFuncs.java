@@ -23,7 +23,7 @@ public class GameMenuFuncs {
         return game.getTileGrid().getTile(getCurrentCivilization().getCurrentGridLocation());
     }
 
-    protected static void isCorrectPosition(String row_s, String col_s) throws CommandException {
+    public static void isCorrectPosition(String row_s, String col_s) throws CommandException {
         try {
             int row = Integer.parseInt(row_s);
             int col = Integer.parseInt(col_s);
@@ -78,12 +78,12 @@ public class GameMenuFuncs {
         return CommandResponse.OK;
     }
 
-    protected City getCityWithThisName(Civilization currentCivilization, String name) {
+    public City getCityWithThisName(Civilization currentCivilization, String name) throws CommandException {
         for (City city : currentCivilization.getCities()) {
             if (city.getName().equals(name)) {
                 return city;
             }
         }
-        return null;
+        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 }

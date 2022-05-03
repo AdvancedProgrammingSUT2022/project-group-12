@@ -219,6 +219,10 @@ public class City {
         return this.hasANonCombatUnit;
     }
 
+    public ArrayList<BuildingEnum> getCityStructure() {
+        return cityStructure;
+    }
+
     public Civilization getIsOwnedBy() {
         return isOwnedBy;
     }
