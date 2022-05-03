@@ -53,7 +53,7 @@ public enum BuildingNoteEnum {
     STABLE_NOTE((BuildingNotes<City>) city -> {
         Production production = null; //todo : getCurrent production
         if (production instanceof Unit && ((Unit) production).getType().getCombatType() == CombatTypeEnum.MOUNTED) {
-            production.setRemainedProductions(production.getRemainedProductions() * 85 / 100);
+            production.decreaseRemainedProduction(production.getRemainedProduction() * 85 / 100);
         }
     }),
     TEMPLE_NOTE((BuildingNotes<City>) city -> {
@@ -90,7 +90,7 @@ public enum BuildingNoteEnum {
     WORKSHOP_NOTE(o -> {
         Production production = null; //todo : getCurrent production
         if (production instanceof Building) {
-            production.setRemainedProductions(production.getRemainedProductions() * 4 / 5);
+            production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);
         }
     }),
     BANK((BuildingNotes<City>) city -> city.setGold(city.getGold() + city.getGold() / 4)),
@@ -110,7 +110,7 @@ public enum BuildingNoteEnum {
     ARSENAL_NOTE((BuildingNotes<City>) city -> {
         Production production = null; //todo : getCurrent production
         if (production instanceof Unit) {
-            production.setRemainedProductions(production.getRemainedProductions() * 4 / 5);
+            production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);
         }
     }),
     BROADCAST_TOWER_NOTE((BuildingNotes<City>) city -> {

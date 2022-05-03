@@ -2,11 +2,14 @@ package Models.Cities;
 
 import Enums.BuildingEnum;
 import Enums.ResourceEnum;
+import Models.Buildings.Building;
 import Models.Civilization;
 import Models.Location;
+import Models.Production;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
+import Models.Units.Unit;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,21 +21,19 @@ public class City {
     private final Civilization isOwnedBy;
     private final int citizensCount;
     private final int range;
-    private final ArrayList<BuildingEnum> cityStructure;
-    private final Location location;
+    private final ArrayList<Building> buildings;
+    private final Tile cityTile;
+    private final ArrayList<Production> productionQueue;
     protected boolean isCapital;
     private String name;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
-    private boolean hasACombatUnit;
-    private boolean hasANonCombatUnit;
     private int gold;
     private double production;
     private int food;
     private ArrayList<ResourceEnum> resources;
     private int hitPoint;
     private double combatStrength;
-    private int unitCount;
     private int beaker;
     private int happiness;
 
@@ -47,17 +48,15 @@ public class City {
         this.hitPoint = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
-        this.unitCount = 0;
         this.citizensCount = 0;
         this.food = 0;
         this.happiness = 0;
-        this.cityStructure = new ArrayList<>();
-        this.hasACombatUnit = false;
-        this.hasANonCombatUnit = false;
+        this.buildings = new ArrayList<Building>();
         this.isOwnedBy = civ;
         this.range = 2;
-        this.location = tile.getLocation();
+        this.cityTile = tile;
         //TODO : check the range of the city and the combat strength of that
+        this.productionQueue = new ArrayList<>();
     }
 
     public static int calculateCombatStrength(City city, Tile cityTile) {
@@ -87,7 +86,6 @@ public class City {
 
     public void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
-        this.hasACombatUnit = true;
     }
 
     public NonCombatUnit getNonCombatUnit() {
@@ -96,7 +94,6 @@ public class City {
 
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
-        this.hasANonCombatUnit = true;
     }
 
     public int getRange() {
@@ -104,7 +101,7 @@ public class City {
     }
 
     public Location getLocation() {
-        return location;
+        return this.cityTile.getLocation();
     }
 
     public Civilization getCivilization() {
@@ -163,14 +160,6 @@ public class City {
         this.isCapital = isCapital;
     }
 
-    public int getUnitCount() {
-        return this.unitCount;
-    }
-
-    public void setUnitCount(int unitCount) {
-        this.unitCount = unitCount;
-    }
-
     public int getFood() {
         return food;
     }
@@ -200,31 +189,46 @@ public class City {
     }
 
     public boolean hasBuilding(BuildingEnum buildingName) {
-        return this.cityStructure.contains(buildingName);
+        return this.buildings.contains(buildingName);
     }
 
-    public void addBuilding(BuildingEnum cityStructure) {
-        this.cityStructure.add(cityStructure);
-    }
-
-    public boolean hasCombatUnit() {
-        return this.hasACombatUnit;
+    public void addBuilding(Building cityStructure) {
+        this.buildings.add(cityStructure);
     }
 
     public String getName() {
         return this.name;
     }
 
-    public boolean hasNonCombatUnit() {
-        return this.hasANonCombatUnit;
-    }
-
-    public ArrayList<BuildingEnum> getCityStructure() {
-        return cityStructure;
-    }
-
     public Civilization getIsOwnedBy() {
         return isOwnedBy;
     }
 
+    public void applyBuildingNotes() {
+        for (Building building : this.buildings) {
+//            building.getNote().note(); // todo: how to call the note function?
+        }
+    }
+
+    public void advanceProductionQueue() {
+        productionQueue.get(0).decreaseRemainedProduction(this.getProduction());
+        if (productionQueue.get(0).getRemainedProduction() <= 0) {
+            Production production = productionQueue.remove(0);
+            if (production instanceof Building) {
+                this.buildings.add((Building) production);
+            } else if (production instanceof Unit) {
+                this.getCivilization().addUnit((Unit) production);
+                // todo: what if there is already a unit on city tile?
+                if (production instanceof CombatUnit) {
+                    this.cityTile.setCombatUnit((CombatUnit) production);
+                } else if (production instanceof NonCombatUnit) {
+                    this.cityTile.setNonCombatUnit((NonCombatUnit) production);
+                }
+            }
+        }
+    }
+
+    public Tile getTile() {
+        return this.cityTile;
+    }
 }

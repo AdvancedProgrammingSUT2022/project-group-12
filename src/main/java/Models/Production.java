@@ -3,10 +3,10 @@ package Models;
 import Models.Cities.City;
 
 public abstract class Production {
-    private int remainedProductions;
+    private double remainedProduction;
 
-    public Production(int setProduction) {
-        this.remainedProductions = setProduction;
+    public Production(int remainedProduction) {
+        this.remainedProduction = remainedProduction;
     }
 
     public Production() {
@@ -15,11 +15,11 @@ public abstract class Production {
 
     public abstract void note(City city);
 
-    public int getRemainedProductions() {
-        return remainedProductions;
+    public double getRemainedProduction() {
+        return remainedProduction;
     }
 
-    public void setRemainedProductions(int remainedProductions) {
-        this.remainedProductions += remainedProductions;
+    public void decreaseRemainedProduction(double remainedProductions) {
+        this.remainedProduction -= remainedProductions;
     }
 }
