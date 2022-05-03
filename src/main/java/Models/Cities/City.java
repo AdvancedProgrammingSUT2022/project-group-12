@@ -2,12 +2,15 @@ package Models.Cities;
 
 import Enums.BuildingEnum;
 import Enums.ResourceEnum;
+import Models.Buildings.Building;
 import Models.Civilization;
+import Models.Production;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Random;
 
 import static java.lang.Math.exp;
@@ -24,7 +27,7 @@ public class City {
     private boolean hasACombatUnit;
     private boolean hasANonCombatUnit;
     private int gold;
-    private double production;
+    private double productionSpeed;
     private int food;
     private ArrayList<ResourceEnum> resources;
     private int hitPoint;
@@ -34,13 +37,15 @@ public class City {
     private int happiness;
     private int row;
     private int col;
+    private ArrayList<Production> productionsQueue;
 
 
     public City(Civilization civ, Tile tile, boolean isCapital) {
         this.combatUnit = null;
+        this.productionsQueue = new ArrayList<>();
         this.nonCombatUnit = null;
         this.gold = tile.getTerrain().getGoldCount();
-        this.production = 1 + tile.getTerrain().getProductsCount();
+        this.productionSpeed = 1 + tile.getTerrain().getProductsCount();
         this.resources = tile.getTerrain().getResources();
         this.hitPoint = 2000;
         this.combatStrength = 10;
@@ -53,10 +58,10 @@ public class City {
         this.hasACombatUnit = false;
         this.hasANonCombatUnit = false;
         this.isOwnedBy = civ;
-        this.range=2;
+        this.range = 2;
+
         //TODO : check the range of the city and the combat strength of that
     }
-
 
 
     public CombatUnit getCombatUnit() {
@@ -80,23 +85,28 @@ public class City {
     public int getRange() {
         return range;
     }
+
     public static int calculateCombatStrength(City city, Tile cityTile) {
-        int strength= (int) city.getCombatStrength();
-        strength=AffectCityFeatures(city);
-        strength=HealthBarAffect(strength,city);
+        int strength = (int) city.getCombatStrength();
+        strength = AffectCityFeatures(city);
+        strength = HealthBarAffect(strength, city);
         return strength;
     }
+
     protected static int HealthBarAffect(int strength, City city) {
-        return (city.getHitPoint()/2000)*strength;
+        return (city.getHitPoint() / 2000) * strength;
     }
+
     static int AffectCityFeatures(City city) {
         //todo : affect the citizen and buildings on combat strength
         return 0;
     }
+
     public static void calculateDamage(City city, int strengthDiff, Random random) {
-        double random_number=(random.nextInt(50)+75)/100;
-        city.setHitPoint(city.getHitPoint()-(int) (25*exp(strengthDiff /(25.0*random_number))));
+        double random_number = (random.nextInt(50) + 75) / 100;
+        city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
+
     public Civilization getCivilization() {
         return this.isOwnedBy;
     }
@@ -177,12 +187,12 @@ public class City {
         this.happiness = happiness;
     }
 
-    public double getProduction() {
-        return production;
+    public double getProductionSpeed() {
+        return productionSpeed;
     }
 
-    public void setProduction(double production) {
-        this.production = production;
+    public void setProductionSpeed(double productionSpeed) {
+        this.productionSpeed = productionSpeed;
     }
 
     public boolean hasBuilding(BuildingEnum buildingName) {
@@ -205,11 +215,31 @@ public class City {
         return this.hasANonCombatUnit;
     }
 
-    public int getRow() {return row;}
+    public int getRow() {
+        return row;
+    }
 
-    public int getCol() {return col;}
+    public int getCol() {
+        return col;
+    }
 
-    public void setCol(int col) {this.col = col;}
+    public void setCol(int col) {
+        this.col = col;
+    }
 
-    public void setRow(int row) {this.row = row;}
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void addProduction(Production production) {
+        this.productionsQueue.add(production);
+    }
+
+    public void productionImplementation() {
+        for (Production production : this.productionsQueue) {
+            if (production instanceof Building) {
+                //TODO
+            }
+        }
+    }
 }

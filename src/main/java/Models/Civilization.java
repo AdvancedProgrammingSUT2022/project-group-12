@@ -39,14 +39,18 @@ public class Civilization {
 
     public Civilization(User user) {
         this.user = user;
+        this.gold = 0;
+        this.production = 0;
+        this.isInWarWith = new ArrayList<>();
         this.name = user.getNickname();
-        this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT,Constants.TILEGRID_WIDTH);
+        this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.controller = new CivilizationController();
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
     }
-    public Civilization(User user,TileGrid tileGrid) {
+
+    public Civilization(User user, TileGrid tileGrid) {
         this.user = user;
         this.name = user.getNickname();
         this.revealedTileGrid = tileGrid;
@@ -182,6 +186,12 @@ public class Civilization {
 
     public Location getCurrentGridLocation() {
         return currentGridLocation;
+    }
+
+    public void implementCityProductions() {
+        for (City city : this.cities) {
+            city.productionImplementation();
+        }
     }
 
     public void setCurrentGridLocation(Location currentGridLocation) {

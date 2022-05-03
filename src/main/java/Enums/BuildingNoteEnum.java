@@ -41,7 +41,7 @@ public enum BuildingNoteEnum {
     CASTLE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 7.5)),
     FORGE_NOTE((BuildingNotes<City>) city -> {
         //TODO : complete
-        city.setProduction(city.getProduction() + (city.getProduction() * 15.0 / 100.0));
+        city.setProductionSpeed(city.getProductionSpeed() + (city.getProductionSpeed() * 15.0 / 100.0));
     }),
     GARDEN_NOTE(o -> {
         //TODO : complete
@@ -73,11 +73,11 @@ public enum BuildingNoteEnum {
         city.setHappiness(city.getHappiness() + 2);
     }),
     THEATER_NOTE((BuildingNotes<City>) city -> city.setHappiness(city.getHappiness() + 4)),
-    WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() * 15.0 / 100.0)),
-    ARSENAL_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() * 20.0 / 100.0)),
+    WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProductionSpeed(city.getProductionSpeed() + city.getProductionSpeed() * 15.0 / 100.0)),
+    ARSENAL_NOTE((BuildingNotes<City>) city -> city.setProductionSpeed(city.getProductionSpeed() + city.getProductionSpeed() * 20.0 / 100.0)),
     BROADCAST_TOWER_NOTE((BuildingNotes<City>) city -> {
     }),
-    FACTORY_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() / 2)),
+    FACTORY_NOTE((BuildingNotes<City>) city -> city.setProductionSpeed(city.getProductionSpeed() + city.getProductionSpeed() / 2)),
     HOSPITAL_NOTE((BuildingNotes<City>) city -> city.setFood(city.getFood() - city.getFood() / 2)),
     MILITARY_BASE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 12)),
     STOCK_EXCHANGE_NOTE((BuildingNotes<City>) city -> city.setGold(city.getGold() + city.getGold() / 3));
