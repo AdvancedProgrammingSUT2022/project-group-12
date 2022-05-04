@@ -137,7 +137,6 @@ public class MovingController extends GameController {
         };
         while (true) {
             Collections.sort(heap,compareTiles);
-            print_Heap(heap,distance);
             first = heap.get(0);
             heap.remove(0);
             if (first.getRow() == targetRow && first.getCol() == targetCol) {
@@ -147,7 +146,6 @@ public class MovingController extends GameController {
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
                 if (validateTile(neighbor, sourceUnit)) continue;
                 // this is only true if weights are on tiles (graph vertexes)
-                System.out.println("neighbors : "+neighbor.getRow()+" "+neighbor.getCol());
                 int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
                 if (!distance.containsKey(neighbor)) {
                     distance.put(neighbor, dist);
@@ -164,28 +162,9 @@ public class MovingController extends GameController {
             }
             parent.add(first);
         }
-//        while (p != sourceTile) {
-//            System.out.println(p.getLocation().getRow()+" "+p.getLocation().getCol());
-//            path.add(p);
-//            p = parent.get(p);
-//
-//        }
         shortestPath.get(p).remove(0);
-        System.out.println("distance = "+distance.get(p));
-        //debug
-        for (Tile tile :
-                shortestPath.get(p)) {
-            System.out.println("row = : " + tile.getRow() + " col = : " + tile.getCol());
-        }
         return shortestPath.get(p);
     }
-    public static void print_Heap(ArrayList<Tile> debug, HashMap<Tile, Integer> distance){
-        debug.forEach( e ->{
-            System.out.println(e.getRow()+" "+e.getCol()+" "+distance.get(e));
-        });
-        System.out.println("");
-    }
-
     private static boolean  validateTile(Tile tile, Unit sourceUnit) {
         return !tile.getTerrain().getTerrainType().canBePassed() || tile.getState() == VisibilityEnum.FOG_OF_WAR;
     }
