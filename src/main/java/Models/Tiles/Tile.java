@@ -76,9 +76,6 @@ public class Tile {
         this.hasRoad = true;
     }
 
-    public ArrayList<ResourceEnum> getResources() {
-        return terrain.getResources();
-    }
 
     public int getHP() {
         return HP;

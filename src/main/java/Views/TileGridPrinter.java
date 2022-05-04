@@ -115,7 +115,7 @@ public class TileGridPrinter {
         if (selected.getCity() != null) showTileInfo.append("\nhas a city built on it");
         if (selected.isDamaged()) showTileInfo.append("\nis damaged");
         if (selected.hasRoad()) showTileInfo.append("\nhas roads");
-        if (selected.getResources() != null) showTileInfo.append(selected.getTerrain().getResourcesByName());
+        if (selected.getTerrain().getResource() != null) showTileInfo.append(selected.getTerrain().getResourcesByName());
     }
 
     public StringBuilder tileInfo(int x, int y) {

@@ -214,4 +214,8 @@ public class Civilization {
     public void addUnit(Unit unit) {
         this.units.add(unit);
     }
+
+    public Location getCurrentGridLocation() {
+        return this.currentSelectedGridLocation;
+    }
 }

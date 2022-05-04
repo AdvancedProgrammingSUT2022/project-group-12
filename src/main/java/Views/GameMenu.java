@@ -165,7 +165,7 @@ public class GameMenu extends Menu {
             case "garrison" -> getUnitFuncs().unitGarrison(command);
             case "setup" -> getUnitFuncs().unitSetup(command);
             case "attack" -> getUnitFuncs().unitAttack(command);
-            case "found" -> getUnitFuncs().unitFound(command);
+            case "found" -> foundCity(command);
             case "cancel" -> getUnitFuncs().unitCancel(command);
             case "wake" -> getUnitFuncs().unitWake(command);
             case "delete" -> getUnitFuncs().unitDelete(command);
