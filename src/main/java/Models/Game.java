@@ -32,7 +32,7 @@ public class Game {
             NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerLocation);
             this.tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(settler);
             updateRevealedTileGrid(civ);
-            civ.setCurrentGridLocation(settlerLocation);
+            civ.setCurrentSelectedGridLocation(settlerLocation);
         }
     }
 

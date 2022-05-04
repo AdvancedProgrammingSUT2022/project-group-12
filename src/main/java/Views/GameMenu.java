@@ -1,18 +1,17 @@
 package Views;
 
 import Controllers.GameController;
-import Controllers.ValidateGameMenuFuncs.*;
+import Controllers.ValidateGameMenuFuncs.InfoFuncs;
+import Controllers.ValidateGameMenuFuncs.MapFuncs;
+import Controllers.ValidateGameMenuFuncs.SelectFuncs;
+import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.ImprovementEnum;
-import Models.Cities.City;
-import Models.Civilization;
-import Models.Game;
 import Models.Location;
 import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class GameMenu extends Menu {
@@ -128,26 +127,30 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             GameController.getGame().getTileGrid().assertLocationValid(location);
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
-            GameController.getGame().getCurrentCivilization().setCurrentGridLocation(selectedUnit.getLocation());
+            GameController.getGame().getCurrentCivilization().setCurrentSelectedGridLocation(selectedUnit.getLocation());
+            GameController.getGame().getCurrentCivilization().setCurrentTile(GameController.getGame().getTileGrid().getTile(selectedUnit.getLocation()));
         } catch (CommandException e) {
             e.print();
+            return;
         }
+        System.out.println("unit selected");
     }
-    private void selectCity(Command command){
-        command.abbreviate("cityname","cn");
-        command.abbreviate("cityposition","cp");
-        try{
-            if(command.getOption("cityposition") != null){
-                command.assertOptionType("cityposition","integer");
+
+    private void selectCity(Command command) {
+        command.abbreviate("cityname", "cn");
+        command.abbreviate("cityposition", "cp");
+        try {
+            if (command.getOption("cityposition") != null) {
+                command.assertOptionType("cityposition", "integer");
                 System.out.println(getSelectFuncs().selectCityByPosition(command.getLocationOption("cityposition")));
-            }else if(command.getOption("cityname") != null){
-                command.assertOptionType("cityname","string");
+            } else if (command.getOption("cityname") != null) {
+                command.assertOptionType("cityname", "string");
                 System.out.println(getSelectFuncs().selectCityWithName(command.getOption("cityname")));
-            }else {
+            } else {
                 System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
             }
-        }catch (Exception e){
-              e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -219,9 +222,10 @@ public class GameMenu extends Menu {
             return;
         }
         getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
-        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
+        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
     }
-    private void  unitMove(Command command){
+
+    private void unitMove(Command command) {
         command.abbreviate("position", "p");
         try {
             if (!List.of("combat", "noncombat").contains(command.getSubSubCategory())) {
@@ -231,7 +235,7 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             //command.assertOptionType("position", "integer");
             System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), command.getSubSubCategory()));
-            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
+            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
             e.print();
             return;

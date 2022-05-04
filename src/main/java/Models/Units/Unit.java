@@ -29,7 +29,7 @@ public class Unit extends Production {
         this.pathShouldCross = null;
         this.resetMovementCount();
         this.location = location;
-        this.availableMoveCount=10;
+        this.availableMoveCount = 10;
         civ.addUnit(this);
     }
 

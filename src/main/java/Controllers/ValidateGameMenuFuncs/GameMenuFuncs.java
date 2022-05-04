@@ -20,7 +20,7 @@ public class GameMenuFuncs {
     }
 
     protected static Tile getCurrentTile() {
-        return game.getTileGrid().getTile(getCurrentCivilization().getCurrentGridLocation());
+        return game.getTileGrid().getTile(getCurrentCivilization().getCurrentSelectedGridLocation());
     }
 
     public static void isCorrectPosition(String row_s, String col_s) throws CommandException {

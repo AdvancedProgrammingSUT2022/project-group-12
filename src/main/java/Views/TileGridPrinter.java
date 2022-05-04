@@ -93,8 +93,11 @@ public class TileGridPrinter {
         this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
         this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
 //            if (tile.getCivilization() != null) this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), TerrainColor.BLACK, tileColor);
-        if (tile.getNonCombatUnit() != null) {
-            this.writeCentered(row + 1, col, tile.getNonCombatUnit().getType().name(), TerrainColor.BLACK, tileColor);
+        String units = tile.getNonCombatUnit() == null ? " " : tile.getNonCombatUnit().getType().name().substring(0, 1) + " " +
+                (tile.getCombatUnit() == null ? " " : tile.getCombatUnit().getType().name().substring(0, 1));
+        this.writeCentered(row + 2, col, units, TerrainColor.BLACK, tileColor);
+        if (tile.getCity() != null) {
+            this.writeCentered(row + 1, col, "City", TerrainColor.BLACK, tileColor);
         }
     }
 

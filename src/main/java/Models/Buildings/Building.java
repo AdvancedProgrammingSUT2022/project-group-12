@@ -21,7 +21,7 @@ public class Building extends Production {
         this.requiredTechs = type.getRequiredTechs();
         this.requiredBuildings = type.getRequiredBuildings();
         this.note = type.getNote();
-        this.type=type;
+        this.type = type;
     }
 
     public int getCost() {
