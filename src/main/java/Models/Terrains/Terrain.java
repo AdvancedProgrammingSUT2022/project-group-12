@@ -1,6 +1,9 @@
 package Models.Terrains;
 
-import Enums.*;
+import Enums.ImprovementEnum;
+import Enums.ResourceEnum;
+import Enums.TerrainColor;
+import Enums.TerrainEnum;
 
 import java.util.ArrayList;
 

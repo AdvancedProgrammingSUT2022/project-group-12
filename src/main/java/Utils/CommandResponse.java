@@ -43,7 +43,8 @@ public enum CommandResponse {
     INVALID_COMMAND_FORMAT("command format is invalid"),
     MISSING_REQUIRED_OPTION("missing required option"),
     UNRECOGNIZED_OPTION("unrecognized option entered"),
-    INVALID_OPTION_TYPE("invalid option type"), IMPOSSIBLE_MOVE("this move is impossible");
+    INVALID_OPTION_TYPE("invalid option type"),
+    IMPOSSIBLE_MOVE("this move is impossible");
 
     private String message;
 

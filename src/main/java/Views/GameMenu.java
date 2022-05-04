@@ -132,21 +132,22 @@ public class GameMenu extends Menu {
             e.print();
         }
     }
-    private void selectCity(Command command){
-        command.abbreviate("cityname","cn");
-        command.abbreviate("cityposition","cp");
-        try{
-            if(command.getOption("cityposition") != null){
-                command.assertOptionType("cityposition","integer");
+
+    private void selectCity(Command command) {
+        command.abbreviate("cityname", "cn");
+        command.abbreviate("cityposition", "cp");
+        try {
+            if (command.getOption("cityposition") != null) {
+                command.assertOptionType("cityposition", "integer");
                 System.out.println(getSelectFuncs().selectCityByPosition(command.getLocationOption("cityposition")));
-            }else if(command.getOption("cityname") != null){
-                command.assertOptionType("cityname","string");
+            } else if (command.getOption("cityname") != null) {
+                command.assertOptionType("cityname", "string");
                 System.out.println(getSelectFuncs().selectCityWithName(command.getOption("cityname")));
-            }else {
+            } else {
                 System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
             }
-        }catch (Exception e){
-              e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -220,7 +221,8 @@ public class GameMenu extends Menu {
         getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
         getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
     }
-    private void  unitMove(Command command){
+
+    private void unitMove(Command command) {
         command.abbreviate("position", "p");
         try {
             if (!List.of("combat", "noncombat").contains(command.getSubSubCategory())) {

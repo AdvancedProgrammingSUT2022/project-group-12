@@ -80,7 +80,10 @@ public class MovingController extends GameController {
     }
 
     private static void calculateMoveMentCost(Unit unit, Location location) {
-        if(unit.getType() == UnitEnum.SCOUT){ unit.setAvailableMoveCount(unit.getAvailableMoveCount() - 1); return; }
+        if (unit.getType() == UnitEnum.SCOUT) {
+            unit.setAvailableMoveCount(unit.getAvailableMoveCount() - 1);
+            return;
+        }
         if (checkForZOC(unit.getLocation(), location, unit)) {
             unit.setAvailableMoveCount(0);
             return;
@@ -123,21 +126,21 @@ public class MovingController extends GameController {
         ArrayList<Tile> parent = new ArrayList<>();
         HashMap<Tile, Integer> distance = new HashMap<>();
         ArrayList<Tile> heap = new ArrayList<>(List.of(sourceTile));
-        HashMap<Tile,ArrayList<Tile>> shortestPath = new HashMap<>();
+        HashMap<Tile, ArrayList<Tile>> shortestPath = new HashMap<>();
         distance.put(sourceTile, 0);
-        shortestPath.put(sourceTile,new ArrayList<>(List.of(sourceTile)));
+        shortestPath.put(sourceTile, new ArrayList<>(List.of(sourceTile)));
         Tile p;
         Tile first;
         Tile second;
-        Comparator compareTiles=new Comparator<Tile>() {
+        Comparator compareTiles = new Comparator<Tile>() {
             @Override
             public int compare(Tile o1, Tile o2) {
                 return distance.get(o1).compareTo(distance.get(o2));
             }
         };
-        
+
         while (true) {
-            Collections.sort(heap,compareTiles);
+            Collections.sort(heap, compareTiles);
             first = heap.get(0);
             heap.remove(0);
             if (first.getRow() == targetRow && first.getCol() == targetCol) {
@@ -153,9 +156,9 @@ public class MovingController extends GameController {
                     heap.add(neighbor);
                     shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
                     shortestPath.get(neighbor).add(neighbor);
-                }else if(!parent.contains(neighbor) && dist <= distance.get(neighbor)){
+                } else if (!parent.contains(neighbor) && dist <= distance.get(neighbor)) {
                     heap.remove(neighbor);
-                    distance.put(neighbor,dist);
+                    distance.put(neighbor, dist);
                     heap.add(neighbor);
                     shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
                     shortestPath.get(neighbor).add(neighbor);
@@ -166,7 +169,8 @@ public class MovingController extends GameController {
         shortestPath.get(p).remove(0);
         return shortestPath.get(p);
     }
-    private static boolean  validateTile(Tile tile, Unit sourceUnit) {
+
+    private static boolean validateTile(Tile tile, Unit sourceUnit) {
         return !tile.getTerrain().getTerrainType().canBePassed() || tile.getState() == VisibilityEnum.FOG_OF_WAR;
     }
 }

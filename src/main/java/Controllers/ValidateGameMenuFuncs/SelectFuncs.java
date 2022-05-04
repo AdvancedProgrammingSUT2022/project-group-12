@@ -33,22 +33,25 @@ public class SelectFuncs extends GameMenuFuncs {
             e.printStackTrace();
         }
     }
+
     public StringBuilder selectCityByPosition(Location cityLocation) throws CommandException {
-      isCorrectPosition(String.valueOf(cityLocation.getRow()),String.valueOf(cityLocation.getCol()));
-      City city;
-      Civilization currentCiv=GameController.getGame().getCurrentCivilization();
-      Tile cityTile=currentCiv.getRevealedTileGrid().getTile(cityLocation);
-      assertCityByPosition(cityTile);
-      city=cityTile.getCity();
-      return  GameController.showCity(city);
-    }
-    private void assertCityByPosition(Tile tile) throws CommandException {
-        if(tile.getCity() == null) throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
-    }
-    public StringBuilder selectCityWithName(String key) throws CommandException{
+        isCorrectPosition(String.valueOf(cityLocation.getRow()), String.valueOf(cityLocation.getCol()));
         City city;
-        Civilization currentCiv=GameController.getGame().getCurrentCivilization();
-        city = getCityWithThisName(currentCiv,key);
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        Tile cityTile = currentCiv.getRevealedTileGrid().getTile(cityLocation);
+        assertCityByPosition(cityTile);
+        city = cityTile.getCity();
+        return GameController.showCity(city);
+    }
+
+    private void assertCityByPosition(Tile tile) throws CommandException {
+        if (tile.getCity() == null) throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+    }
+
+    public StringBuilder selectCityWithName(String key) throws CommandException {
+        City city;
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        city = getCityWithThisName(currentCiv, key);
         return GameController.showCity(city);
     }
 }

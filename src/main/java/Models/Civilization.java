@@ -198,7 +198,7 @@ public class Civilization {
 
     public void applyNotes() {
         for (City city : this.cities) {
-             city.applyBuildingNotes();
+            city.applyBuildingNotes();
         }
     }
 

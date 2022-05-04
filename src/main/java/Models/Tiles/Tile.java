@@ -154,7 +154,8 @@ public class Tile {
             setNonCombatUnit(null);
         }
     }
-    public void setUnit(Unit unit){
+
+    public void setUnit(Unit unit) {
         if (unit instanceof CombatUnit) {
             setCombatUnit((CombatUnit) unit);
         } else {
