@@ -12,6 +12,7 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.exp;
@@ -32,10 +33,12 @@ public class City {
     private double production;
     private int food;
     private ArrayList<ResourceEnum> resources;
+    private ResourceEnum reservedResource;
     private int hitPoint;
     private double combatStrength;
     private int beaker;
     private int happiness;
+
 
 
     public City(ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
@@ -44,7 +47,7 @@ public class City {
         this.nonCombatUnit = null;
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateProductionCount();
-        this.resources = tile.getTerrain().getResources();
+        this.resources = new ArrayList<>(List.of(tile.getTerrain().getResource()));
         this.hitPoint = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
@@ -59,6 +62,7 @@ public class City {
         this.productionQueue = new ArrayList<>();
     }
 
+
     public static int calculateCombatStrength(City city, Tile cityTile) {
         int strength = (int) city.getCombatStrength();
         strength = AffectCityFeatures(city);
@@ -69,6 +73,7 @@ public class City {
     protected static int HealthBarAffect(int strength, City city) {
         return (city.getHitPoint() / 2000) * strength;
     }
+
 
     static int AffectCityFeatures(City city) {
         //todo : affect the citizen and buildings on combat strength
@@ -188,6 +193,10 @@ public class City {
         this.production = production;
     }
 
+    public void setReservedResource(ResourceEnum reservedResource) {this.reservedResource = reservedResource;}
+
+    public ResourceEnum getReservedResource() {return reservedResource;}
+
     public boolean hasBuilding(BuildingEnum buildingName) {
         return this.buildings.contains(buildingName);
     }
@@ -235,4 +244,5 @@ public class City {
     public Tile getTile() {
         return this.cityTile;
     }
+
 }

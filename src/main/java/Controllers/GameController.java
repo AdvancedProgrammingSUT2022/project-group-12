@@ -1,9 +1,6 @@
 package Controllers;
 
-import Enums.BuildingEnum;
-import Enums.ImprovementEnum;
-import Enums.TechnologyEnum;
-import Enums.TerrainEnum;
+import Enums.*;
 import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
@@ -103,27 +100,37 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static String FoundCity(Civilization civilization,Location location) throws CommandException {
-        checkConditionsForCity(location,civilization,game.getTileGrid().getTile(location));
-
-
+    public static String FoundCity(Civilization civ,Location location) throws CommandException {
+        checkConditionsForCity(location,civ,game.getTileGrid().getTile(location));
+        Tile currentTile = game.getTileGrid().getTile(location);
+        int cityProduction= 1 + currentTile.calculateProductionCount();
+        int food = 2 + currentTile.calculateFoodCount();
+        boolean isCapital = civ.getCapital() == null;
+        City city = new City(game.getTileGrid().getAllTilesInRadius(currentTile, 1), civ, currentTile, isCapital);
+        currentTile.setCity(city);
+        civ.addCity(city);
+        if (isCapital) civ.setCapital(city);
+        checkForResource(currentTile,city,civ);
         return "city found successfully";
     }
 
     private static void checkConditionsForCity(Location location, Civilization civilization, Tile tile) throws CommandException {
         checkForHavingEnoughTiles(location,civilization,tile);
-        int cityProduction= 1 + tile.calculateProductionCount();
-        int food = 2 + tile.calculateFoodCount();
-        boolean iscapital = civilization.getCities().size() == 0 ? true : false;
-        City newCity = new City(game.getTileGrid().getAllTilesInRadius(tile,1),civilization,tile,iscapital);
-        tile.setCity(newCity);
-        civilization.addCity(newCity);
-        checkForResource(tile,newCity,civilization);
     }
 
-    private static void checkForResource(Tile tile, City newCity, Civilization civilization) {
-        if(tile.getResources())
+    private static void checkForResource(Tile tile, City newCity, Civilization civ)
+    {
+        //Todo : fekre bishtar
+        ResourceEnum cityResource = tile.getTerrain().getResource();
+        if(cityResource != null){
+            if(civ.isPossibleToHaveThisResource(cityResource)){
+                newCity.getResources().add(cityResource);
+            }else {
+                newCity.setReservedResource(cityResource);
+            }
+        }
     }
+
 
     private static void checkForHavingEnoughTiles(Location location, Civilization civilization, Tile cityTile) throws CommandException {
         ArrayList<Tile> checkTiles=game.getTileGrid().getAllTilesInRadius(cityTile,4);

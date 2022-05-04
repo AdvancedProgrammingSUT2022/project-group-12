@@ -1,6 +1,8 @@
 package Models;
 
 import Controllers.CivilizationController;
+import Enums.ImprovementEnum;
+import Enums.ResourceEnum;
 import Enums.TechnologyEnum;
 import Models.Cities.City;
 import Models.Tiles.Tile;
@@ -200,6 +202,13 @@ public class Civilization {
         for (City city : this.cities) {
             city.applyBuildingNotes();
         }
+    }
+    public boolean isPossibleToHaveThisResource(ResourceEnum sourceResourceEnum){
+        ImprovementEnum requiredImprovement=sourceResourceEnum.improvementNeeded();
+        for (TechnologyEnum technology: requiredImprovement.getRequiredTechs()) {
+            if(this.getTechnologies().contains(technology)) return true;
+        }
+        return false;
     }
 
     public void addUnit(Unit unit) {

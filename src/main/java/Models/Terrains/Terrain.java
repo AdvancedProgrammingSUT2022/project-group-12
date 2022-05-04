@@ -16,7 +16,7 @@ public class Terrain {
     private final int combatModifier;
     private final int movementCost;
     private final ArrayList<TerrainEnum> features;
-    private final ResourceEnum resources;
+    private final ResourceEnum resource;
     private final TerrainColor color;
     protected ArrayList<ImprovementEnum> improvements;
 
@@ -29,7 +29,7 @@ public class Terrain {
         this.goldCount = type.getGoldCount();
         this.combatModifier = type.getCombatModifier();
         this.movementCost = type.getMovementCost();
-        this.resources = type.getResources().rando;
+        this.resource = type.getResources().get(random.nextInt() % type.getResources().size());
         this.color = terrainType.getColor();
     }
 
@@ -57,8 +57,8 @@ public class Terrain {
         return this.movementCost;
     }
 
-    public ArrayList<ResourceEnum> getResources() {
-        return this.resources;
+    public ResourceEnum getResource() {
+        return this.resource;
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
@@ -74,10 +74,7 @@ public class Terrain {
     }
 
     public StringBuilder getResourcesByName() {
-        StringBuilder resourcesNames = new StringBuilder("contains resources such as:");
-        for (ResourceEnum list : this.resources) {
-            resourcesNames.append("\n").append(list);
-        }
+        StringBuilder resourcesNames = new StringBuilder("contains resource :" + this.resource.toString());
         return resourcesNames;
     }
 }
