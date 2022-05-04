@@ -120,7 +120,6 @@ public class MovingController extends GameController {
         int targetRow = location.getRow();
         int targetCol = location.getCol();
         TileGrid tileGrid = game.getTileGrid();
-        //HashMap<Tile, Tile> parent = new HashMap<>();
         ArrayList<Tile> parent = new ArrayList<>();
         HashMap<Tile, Integer> distance = new HashMap<>();
         ArrayList<Tile> heap = new ArrayList<>(List.of(sourceTile));
@@ -136,6 +135,7 @@ public class MovingController extends GameController {
                 return distance.get(o1).compareTo(distance.get(o2));
             }
         };
+        
         while (true) {
             Collections.sort(heap,compareTiles);
             first = heap.get(0);
