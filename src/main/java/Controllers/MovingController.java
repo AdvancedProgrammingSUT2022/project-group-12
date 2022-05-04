@@ -42,7 +42,7 @@ public class MovingController extends GameController {
             unit.setLocation(location);
             gameTileGrid.getTile(unit.getLocation()).setUnit(unit);
             game.updateRevealedTileGrid(unit.getCiv());
-            unit.getCiv().setCurrentGridLocation(location);
+            unit.getCiv().setCurrentSelectedGridLocation(location);
             unit.getPathShouldCross().remove(0);
         }
         return response;

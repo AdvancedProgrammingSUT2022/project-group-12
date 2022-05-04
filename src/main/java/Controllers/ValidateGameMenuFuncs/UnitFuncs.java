@@ -166,7 +166,8 @@ public class UnitFuncs extends GameMenuFuncs {
         Tile currentTile = getCurrentTile();
         CommandResponse response = validateTileForFoundingCity(currentTile, currentCivilization);
         if (response.isOK()) {
-            System.out.println(GameController.FoundCity(currentTile));
+            GameController.foundCity(currentTile);
+            System.out.println("city found successfully");
         } else {
             System.out.println(response);
         }
@@ -326,7 +327,7 @@ public class UnitFuncs extends GameMenuFuncs {
 
     public String unitMoveTo(Location location, String combatType) throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
-        Location currentGridLocation = currentCivilization.getCurrentGridLocation();
+        Location currentGridLocation = currentCivilization.getCurrentSelectedGridLocation();
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
         validateTileForMovingUnit(currentTile, currentCivilization, location, combatType);
         if (combatType.equals("noncombat")) {

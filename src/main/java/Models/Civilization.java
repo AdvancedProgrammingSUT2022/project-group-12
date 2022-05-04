@@ -33,9 +33,9 @@ public class Civilization {
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
-    private City capital;
+    private City capital = null;
     private ArrayList<Civilization> isInWarWith;
-    private Location currentGridLocation = new Location(0, 0);
+    private Location currentSelectedGridLocation = new Location(0, 0);
 
     public Civilization(User user) {
         this.user = user;
@@ -128,6 +128,10 @@ public class Civilization {
         return this.capital;
     }
 
+    public void setCapital(City capital) {
+        this.capital = capital;
+    }
+
     public TechnologyEnum getCurrentTech() {
         return currentTech;
     }
@@ -184,12 +188,12 @@ public class Civilization {
         this.currentTile = currentTile;
     }
 
-    public Location getCurrentGridLocation() {
-        return currentGridLocation;
+    public Location getCurrentSelectedGridLocation() {
+        return currentSelectedGridLocation;
     }
 
-    public void setCurrentGridLocation(Location currentGridLocation) {
-        this.currentGridLocation = currentGridLocation;
+    public void setCurrentSelectedGridLocation(Location currentSelectedGridLocation) {
+        this.currentSelectedGridLocation = currentSelectedGridLocation;
     }
 
     public void applyNotes() {

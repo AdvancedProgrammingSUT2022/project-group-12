@@ -27,7 +27,7 @@ public class MapFuncs extends GameMenuFuncs {
                 e.print();
             }
         } else {
-            showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
+            showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         }
     }
 
@@ -39,14 +39,14 @@ public class MapFuncs extends GameMenuFuncs {
 
     public void moveMapByDirection(Command command, String direction) {
         int amount = Integer.parseInt(command.getOption("amount"));
-        Location currentGridLocation = new Location(GameController.getGame().getCurrentCivilization().getCurrentGridLocation());
+        Location currentGridLocation = new Location(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         switch (direction) {
             case "down" -> currentGridLocation.addRow(amount);
             case "up" -> currentGridLocation.addRow(amount * -1);
             case "right" -> currentGridLocation.addCol(amount);
             case "left" -> currentGridLocation.addCol(amount * -1);
         }
-        GameController.getGame().getCurrentCivilization().setCurrentGridLocation(correctGridLocation(currentGridLocation));
+        GameController.getGame().getCurrentCivilization().setCurrentSelectedGridLocation(correctGridLocation(currentGridLocation));
     }
 
     private Location correctGridLocation(Location location) {

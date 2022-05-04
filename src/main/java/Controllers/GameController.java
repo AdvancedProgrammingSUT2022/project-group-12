@@ -1,6 +1,5 @@
 package Controllers;
 
-import Enums.BuildingEnum;
 import Enums.ImprovementEnum;
 import Enums.TechnologyEnum;
 import Enums.TerrainEnum;
@@ -103,8 +102,13 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static String FoundCity(Tile currentTile) {
-        return "city found successfully";
+    public static void foundCity(Tile tile) {
+        Civilization civ = game.getCurrentCivilization();
+        boolean isCapital = civ.getCapital() == null;
+        City city = new City(game.getTileGrid().getAllTilesInRadius(tile, 1), civ, tile, isCapital);
+        tile.setCity(city);
+        civ.addCity(city);
+        if (isCapital) civ.setCapital(city);
     }
 
     public static String garrisonUnit(Tile currentTile, Civilization civilization) {
