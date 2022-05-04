@@ -14,7 +14,6 @@ import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
-import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;
@@ -43,10 +42,10 @@ public class GameController {
         return "Jungle removed successfully";
     }
 
-    public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
+    public static String buildImprovement(Tile currentTile, Civilization civ, ImprovementEnum improvementEnum) {
+        // todo, validations
         return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
     }
-
 
     protected static boolean isEnemyExists(int row, int col, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
@@ -84,7 +83,7 @@ public class GameController {
         return enemyUnit != null && enemyUnit.getCiv() != civilization;
     }
 
-    public static void deleteMonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
     public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
@@ -137,23 +136,25 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
-        StringBuilder message=new StringBuilder("");
-        message.append("city citizens : " + city.getCitizensCount()+"\n");
-        for (Building building:
-             city.getBuildings()) {
-            message.append("city building : "+building.getType().toString().toLowerCase()+'\n');
+        StringBuilder message = new StringBuilder();
+        message.append("city citizens : " + city.getCitizensCount() + "\n");
+        for (Building building :
+                city.getBuildings()) {
+            message.append("city building : " + building.getType().toString().toLowerCase() + '\n');
         }
-        message.append("city combat unit : "+city.getCombatUnit()+'\n');
-        message.append("city nonCombat unit : "+city.getNonCombatUnit()+'\n');
-        for (Tile cityTile:
+        message.append("city combat unit : " + city.getCombatUnit() + '\n');
+        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
+        for (Tile cityTile :
                 city.getTiles()) {
-            if (cityTile.isCitizen()){ message.append("citizen is in tile with position "+cityTile.getLocation().getRow()+" "+cityTile.getLocation().getCol()+'\n'); }
+            if (cityTile.isCitizen()) {
+                message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
+            }
         }
         //todo : calculate food science production gold
-        message.append("city food : "+city.getFood()+'\n');
-        message.append("city science : "+city.getBeaker()+'\n');
-        message.append("city production : "+city.getProduction()+'\n');
-        message.append("city gold : "+ city.getGold()+'\n');
+        message.append("city food : " + city.getFood() + '\n');
+        message.append("city science : " + city.getBeaker() + '\n');
+        message.append("city production : " + city.getProduction() + '\n');
+        message.append("city gold : " + city.getGold() + '\n');
         return message;
     }
 
@@ -276,16 +277,6 @@ public class GameController {
 
     public static StringBuilder showDealsInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
-    }
-
-
-    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
-        // todo, dummy function
-    }
-
-    public static void buildImprovement(Tile tile, Civilization civ, ImprovementEnum improvement) throws CommandException {
-        // todo, validations
-        throw new CommandException("error folan");
     }
 
     public static boolean checkForRivers(Tile tile, Tile tile1) {

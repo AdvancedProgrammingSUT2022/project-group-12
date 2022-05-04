@@ -11,6 +11,8 @@ import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
+import java.util.ArrayList;
+
 import static Controllers.CombatController.AttackCity;
 import static Controllers.CombatController.AttackUnit;
 import static Controllers.MovingController.moveUnit;
@@ -59,11 +61,7 @@ public class UnitFuncs extends GameMenuFuncs {
     public void unitBuild(ImprovementEnum improvement) {
         Tile currentTile = getCurrentTile();
         Civilization currentCivilization = getCurrentCivilization();
-        try {
-            GameController.buildImprovement(currentTile, currentCivilization, improvement);
-        } catch (CommandException e) {
-            e.print();
-        }
+        GameController.buildImprovement(currentTile, currentCivilization, improvement);
     }
 
     private CommandResponse isPossibleToBuild(Tile currentTile, Civilization currentCivilization, ImprovementEnum improvement) {
@@ -177,10 +175,10 @@ public class UnitFuncs extends GameMenuFuncs {
         if (currentTile.getNonCombatUnit() == null) {
             return CommandResponse.UNIT_DOES_NOT_EXISTS;
         }
-        if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
+        if (civilization.getCurrentTile().getNonCombatUnit().getCiv() != civilization) {
             return CommandResponse.NOT_HAVING_UNIT;
         }
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.SETTLER)) {
+        if (currentTile.getNonCombatUnit().getType() != UnitEnum.SETTLER) {
             return CommandResponse.WRONG_UNIT;
         }
         if (!isPossibleToBuildCity(currentTile)) {
@@ -189,8 +187,12 @@ public class UnitFuncs extends GameMenuFuncs {
         return CommandResponse.OK;
     }
 
-    private boolean isPossibleToBuildCity(Tile currentTile) {
-        //TODO : need at least 4 tile around it to build the city
+    private boolean isPossibleToBuildCity(Tile tile) {
+        // need at least 4 tile around it to build the city
+        ArrayList<Tile> neighbors = GameController.getGame().getTileGrid().getAllTilesInRadius(tile, 4);
+        for (Tile neighbor : neighbors) {
+            if (neighbor.getCity() != null) return false;
+        }
         return true;
     }
 
@@ -339,7 +341,7 @@ public class UnitFuncs extends GameMenuFuncs {
 
     private void validateTileForMovingUnit(Tile currentTile, Civilization civilization, Location location, String combatType) throws CommandException {
         isCorrectPosition(String.valueOf(location.getRow()), String.valueOf(location.getCol()));
-        Tile nextTile=civilization.getRevealedTileGrid().getTile(location);
+        Tile nextTile = civilization.getRevealedTileGrid().getTile(location);
         if (combatType.equals("noncombat")) {
             if (currentTile.getNonCombatUnit() == null) {
                 throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
@@ -350,7 +352,7 @@ public class UnitFuncs extends GameMenuFuncs {
             if (nextTile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if(!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR){
+            if (!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR) {
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         } else {
@@ -363,7 +365,7 @@ public class UnitFuncs extends GameMenuFuncs {
             if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if(!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR){
+            if (!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR) {
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         }
