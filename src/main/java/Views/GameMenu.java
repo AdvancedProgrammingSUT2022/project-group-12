@@ -128,9 +128,12 @@ public class GameMenu extends Menu {
             GameController.getGame().getTileGrid().assertLocationValid(location);
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
             GameController.getGame().getCurrentCivilization().setCurrentSelectedGridLocation(selectedUnit.getLocation());
+            GameController.getGame().getCurrentCivilization().setCurrentTile(GameController.getGame().getTileGrid().getTile(selectedUnit.getLocation()));
         } catch (CommandException e) {
             e.print();
+            return;
         }
+        System.out.println("unit selected");
     }
 
     private void selectCity(Command command) {
