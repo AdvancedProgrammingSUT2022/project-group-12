@@ -59,7 +59,7 @@ public class Game {
             Tile tile = tileGrid.getTile(unit.getLocation());
             for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
                 TileGrid civTileGrid = civilization.getRevealedTileGrid();
-//                civTileGrid.setVisible(neighbor.getLocation());
+                civTileGrid.setVisible(neighbor.getLocation());
                 civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
             }
         }

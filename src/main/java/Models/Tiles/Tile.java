@@ -147,11 +147,18 @@ public class Tile {
         return new Tile(this);
     }
 
-    public void setUnit(Unit unit, Unit toSet) {
+    public void setNullUnit(Unit unit) {
         if (unit instanceof CombatUnit) {
-            setCombatUnit((CombatUnit) toSet);
+            setCombatUnit(null);
         } else {
-            setNonCombatUnit((NonCombatUnit) toSet);
+            setNonCombatUnit(null);
+        }
+    }
+    public void setUnit(Unit unit){
+        if (unit instanceof CombatUnit) {
+            setCombatUnit((CombatUnit) unit);
+        } else {
+            setNonCombatUnit((NonCombatUnit) unit);
         }
     }
 

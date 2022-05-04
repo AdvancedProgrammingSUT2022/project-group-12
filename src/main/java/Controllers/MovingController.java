@@ -38,10 +38,11 @@ public class MovingController extends GameController {
             Location location = unit.getPathShouldCross().get(0).getLocation();
             calculateMoveMentCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit, response)) break;
-            gameTileGrid.getTile(location).setUnit(unit, null);
+            gameTileGrid.getTile(unit.getLocation()).setNullUnit(unit);
             unit.setLocation(location);
+            gameTileGrid.getTile(unit.getLocation()).setUnit(unit);
             game.updateRevealedTileGrid(unit.getCiv());
-            gameTileGrid.getTile(unit.getLocation()).setUnit(unit, unit);
+            unit.getCiv().setCurrentGridLocation(location);
             unit.getPathShouldCross().remove(0);
         }
         return response;
@@ -118,7 +119,7 @@ public class MovingController extends GameController {
         // Dijkstra algorithm for shortest path
         int targetRow = location.getRow();
         int targetCol = location.getCol();
-        TileGrid tileGrid = sourceUnit.getCiv().getRevealedTileGrid();
+        TileGrid tileGrid = game.getTileGrid();
         //HashMap<Tile, Tile> parent = new HashMap<>();
         ArrayList<Tile> parent = new ArrayList<>();
         HashMap<Tile, Integer> distance = new HashMap<>();

@@ -103,6 +103,7 @@ public class TileGrid {
         }
     }
 
+
     public boolean isLocationValid(int x, int y) {
         return x > -1 && x < width && y > -1 && y < height;
     }
