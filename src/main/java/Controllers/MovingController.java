@@ -135,7 +135,7 @@ public class MovingController extends GameController {
                 return distance.get(o1).compareTo(distance.get(o2));
             }
         };
-        
+
         while (true) {
             Collections.sort(heap,compareTiles);
             first = heap.get(0);

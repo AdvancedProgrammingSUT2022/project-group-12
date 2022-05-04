@@ -237,4 +237,14 @@ public class GameMenu extends Menu {
             return;
         }
     }
+    private void foundCity(Command command) {
+        try {
+            if (!command.getSubSubCategory().equals("city")) {
+                System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
+            }
+            System.out.println(getUnitFuncs().foundCity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

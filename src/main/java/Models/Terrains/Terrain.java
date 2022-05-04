@@ -3,6 +3,7 @@ package Models.Terrains;
 import Enums.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Terrain {
     private final TerrainEnum terrainType;
@@ -12,11 +13,12 @@ public class Terrain {
     private final int combatModifier;
     private final int movementCost;
     private final ArrayList<TerrainEnum> features;
-    private final ArrayList<ResourceEnum> resources;
+    private final ResourceEnum resources;
     private final TerrainColor color;
     protected ArrayList<ImprovementEnum> improvements;
 
     public Terrain(TerrainEnum type) {
+        Random random = new Random();
         this.terrainType = type;
         this.features = type.getFeatures();
         this.foodCount = type.getFoodCount();
@@ -24,7 +26,7 @@ public class Terrain {
         this.goldCount = type.getGoldCount();
         this.combatModifier = type.getCombatModifier();
         this.movementCost = type.getMovementCost();
-        this.resources = type.getResources();
+        this.resources = type.getResources().rando;
         this.color = terrainType.getColor();
     }
 

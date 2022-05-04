@@ -103,8 +103,36 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static String FoundCity(Tile currentTile) {
+    public static String FoundCity(Civilization civilization,Location location) throws CommandException {
+        checkConditionsForCity(location,civilization,game.getTileGrid().getTile(location));
+
+
         return "city found successfully";
+    }
+
+    private static void checkConditionsForCity(Location location, Civilization civilization, Tile tile) throws CommandException {
+        checkForHavingEnoughTiles(location,civilization,tile);
+        int cityProduction= 1 + tile.calculateProductionCount();
+        int food = 2 + tile.calculateFoodCount();
+        boolean iscapital = civilization.getCities().size() == 0 ? true : false;
+        City newCity = new City(game.getTileGrid().getAllTilesInRadius(tile,1),civilization,tile,iscapital);
+        tile.setCity(newCity);
+        civilization.addCity(newCity);
+        checkForResource(tile,newCity,civilization);
+    }
+
+    private static void checkForResource(Tile tile, City newCity, Civilization civilization) {
+        if(tile.getResources())
+    }
+
+    private static void checkForHavingEnoughTiles(Location location, Civilization civilization, Tile cityTile) throws CommandException {
+        ArrayList<Tile> checkTiles=game.getTileGrid().getAllTilesInRadius(cityTile,4);
+        for (Tile tile:
+             checkTiles) {
+            if(tile.getCity() != null){
+                throw new CommandException(CommandResponse.TILE_IS_FULL);
+            }
+        }
     }
 
     public static String garrisonUnit(Tile currentTile, Civilization civilization) {

@@ -157,35 +157,19 @@ public class UnitFuncs extends GameMenuFuncs {
         System.out.println(response.isOK() ? "unit waked up successfully" : response);
     }
 
-    public void unitFound(Command command) {
-        if (!command.getSubSubCategory().equals("city")) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
-            return;
-        }
-        Civilization currentCivilization = getCurrentCivilization();
-        Tile currentTile = getCurrentTile();
-        CommandResponse response = validateTileForFoundingCity(currentTile, currentCivilization);
-        if (response.isOK()) {
-            System.out.println(GameController.FoundCity(currentTile));
-        } else {
-            System.out.println(response);
-        }
-    }
-
-    private CommandResponse validateTileForFoundingCity(Tile currentTile, Civilization civilization) {
+    private void validateTileForFoundingCity(Tile currentTile, Civilization civilization) throws CommandException {
         if (currentTile.getNonCombatUnit() == null) {
-            return CommandResponse.UNIT_DOES_NOT_EXISTS;
+            throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         }
         if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
-            return CommandResponse.NOT_HAVING_UNIT;
+            throw new CommandException(CommandResponse.NOT_HAVING_UNIT);
         }
         if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.SETTLER)) {
-            return CommandResponse.WRONG_UNIT;
+            throw new CommandException(CommandResponse.WRONG_UNIT);
         }
         if (!isPossibleToBuildCity(currentTile)) {
-            return CommandResponse.IMPOSSIBLE_CITY;
+            throw new CommandException(CommandResponse.IMPOSSIBLE_CITY);
         }
-        return CommandResponse.OK;
     }
 
     private boolean isPossibleToBuildCity(Tile currentTile) {
@@ -465,5 +449,12 @@ public class UnitFuncs extends GameMenuFuncs {
 
     protected boolean isExists(Tile currentTile, ImprovementEnum improvementEnum) {
         return currentTile.getTerrain().getImprovements().contains(improvementEnum);
+    }
+
+    public String foundCity() throws CommandException {
+        Civilization currentCivilization = getCurrentCivilization();
+        Tile currentTile = getCurrentTile();
+        validateTileForFoundingCity(currentTile, currentCivilization);
+        return GameController.FoundCity(currentCivilization,currentCivilization.getCurrentGridLocation());
     }
 }

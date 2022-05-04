@@ -1,6 +1,7 @@
 package Models.Tiles;
 
 import Enums.ResourceEnum;
+import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
@@ -168,6 +169,22 @@ public class Tile {
             cost /= 2;
         }
         return cost;
+    }
+    public int calculateProductionCount(){
+        int production= this.terrain.getProductsCount();
+        for (TerrainEnum feature :
+               terrain.getFeatures()) {
+            production+= feature.getProductsCount();
+        }
+        return production;
+    }
+    public int calculateFoodCount(){
+        int food = this.terrain.getFoodCount();
+        for (TerrainEnum feature :
+                terrain.getFeatures()) {
+            food += feature.getFoodCount();
+        }
+        return food;
     }
 
     public boolean isCitizen() {
