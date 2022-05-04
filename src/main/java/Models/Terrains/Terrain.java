@@ -15,7 +15,6 @@ public class Terrain {
     private final ArrayList<ResourceEnum> resources;
     private final TerrainColor color;
     protected ArrayList<ImprovementEnum> improvements;
-    private VisibilityEnum state;
 
     public Terrain(TerrainEnum type) {
         this.terrainType = type;
@@ -26,20 +25,11 @@ public class Terrain {
         this.combatModifier = type.getCombatModifier();
         this.movementCost = type.getMovementCost();
         this.resources = type.getResources();
-        this.state = VisibilityEnum.FOG_OF_WAR;
         this.color = terrainType.getColor();
     }
 
     public TerrainColor getColor() {
         return this.color;
-    }
-
-    public VisibilityEnum getState() {
-        return this.state;
-    }
-
-    public void setState(VisibilityEnum state) {
-        this.state = state;
     }
 
     public TerrainEnum getTerrainType() {

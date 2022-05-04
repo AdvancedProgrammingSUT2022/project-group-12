@@ -1,10 +1,7 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Enums.CombatTypeEnum;
-import Enums.ImprovementEnum;
-import Enums.TerrainEnum;
-import Enums.UnitEnum;
+import Enums.*;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
@@ -352,7 +349,7 @@ public class UnitFuncs extends GameMenuFuncs {
             if (nextTile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if(!nextTile.getTerrain().getTerrainType().canBePassed()){
+            if(!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR){
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         } else {
@@ -365,7 +362,7 @@ public class UnitFuncs extends GameMenuFuncs {
             if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if(!nextTile.getTerrain().getTerrainType().canBePassed()){
+            if(!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR){
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         }
