@@ -1,6 +1,8 @@
 package Enums;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum TechnologyEnum {
     RESET(0, new ArrayList<>(), new ArrayList<>()),
@@ -287,9 +289,9 @@ public enum TechnologyEnum {
         return this.cost;
     }
 
-    public boolean hasPrerequisiteTechs(ArrayList<TechnologyEnum> techs) {
+    public boolean hasPrerequisiteTechs(HashMap<TechnologyEnum, Integer> techs) {
         for (TechnologyEnum list : this.prerequisiteTechs) {
-            if (!techs.contains(list)) {
+            if (!techs.containsKey(list) || techs.get(list) == 0) {
                 return false;
             }
         }

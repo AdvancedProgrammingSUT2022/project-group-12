@@ -17,6 +17,7 @@ public class Unit extends Production {
     protected Civilization civ;
     protected City assignedCity;
     protected int cost;
+    protected boolean isAssigned;
     protected double availableMoveCount;
     protected Location location;
     protected int healthBar;
@@ -64,6 +65,10 @@ public class Unit extends Production {
 
     public boolean isWorking() {
         return this.isWorking;
+    }
+
+    public City getAssignedCity() {
+        return assignedCity;
     }
 
     public void keepWorking(boolean work) {

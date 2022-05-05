@@ -12,10 +12,8 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Constants;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Civilization {
 
@@ -25,13 +23,13 @@ public class Civilization {
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
-    private final ArrayList<Unit> units = new ArrayList<>();
+    private ArrayList<Unit> units;
     private final TileGrid revealedTileGrid;
     private int gold;
     private int beaker;
     private int happiness;
     private int production;
-    private ArrayList<TechnologyEnum> technologies;
+    private HashMap<TechnologyEnum, Integer> technologies;
     private Tile currentTile;
     private TechnologyEnum researchingTechnology;
     private HashMap<TechnologyEnum, Integer> researchingTechnologies;
@@ -43,23 +41,42 @@ public class Civilization {
     private Location currentSelectedGridLocation = new Location(0, 0);
 
     public Civilization(User user) {
+        this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;
+        this.units = new ArrayList<>();
         this.gold = 0;
         this.production = 0;
         this.isInWarWith = new ArrayList<>();
         this.name = user.getNickname();
         this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
-        this.controller = new CivilizationController();
+        this.controller = new CivilizationController(this);
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
     }
 
+    public Civilization(User user, TileGrid tileGrid) {
+        this.technologies = new HashMap<>();
+        this.user = user;
+        this.name = user.getNickname();
+        this.revealedTileGrid = tileGrid;
+        this.units = new ArrayList<>();
+        this.controller = new CivilizationController(this);
+        this.cities = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+        this.ownedTiles = null;
+        this.researchingTechnology = null;
+        this.researchingTechnologies = new HashMap<>();
+    }
     public void researchTech() {
         if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
-            technologies.add(researchingTechnology);
+            if (technologies.containsKey(researchingTechnology)) {
+                int count = technologies.get(researchingTechnology) + 1;
+                technologies.remove(researchingTechnology);
+                technologies.put(researchingTechnology, count);
+            }
             researchingTechnologies.remove(researchingTechnology);
             checkLeadsToTech();
             researchingTechnology = null;
@@ -84,28 +101,12 @@ public class Civilization {
             this.researchingTechnologies.put(tech, tech.getCost());
     }
 
-    public Civilization(User user, TileGrid tileGrid) {
-        this.user = user;
-        this.name = user.getNickname();
-        this.revealedTileGrid = tileGrid;
-        this.controller = new CivilizationController();
-        this.cities = new ArrayList<>();
-        this.notifications = new ArrayList<>();
-        this.ownedTiles = null;
-        this.researchingTechnology = null;
-        this.researchingTechnologies = new HashMap<>();
-    }
-
     public ArrayList<Unit> getUnits() {
         return units;
     }
 
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
-    }
-
-    public boolean isHaveThisTech(TechnologyEnum tech) {
-        return this.technologies.contains(tech);
     }
 
     public void goToWarWith(Civilization civilization) {
@@ -140,7 +141,7 @@ public class Civilization {
         return this.production;
     }
 
-    public ArrayList<TechnologyEnum> getTechnologies() {
+    public HashMap<TechnologyEnum, Integer> getTechnologies() {
         return this.technologies;
     }
 
@@ -196,6 +197,10 @@ public class Civilization {
         return cities;
     }
 
+    public HashMap<TechnologyEnum, Integer> getResearch() {
+        return this.researchingTechnologies;
+    }
+
     public StringBuilder getNotifications() {
         StringBuilder notificationList = new StringBuilder();
         for (String message : this.notifications) {
@@ -241,7 +246,7 @@ public class Civilization {
     public boolean isPossibleToHaveThisResource(ResourceEnum sourceResourceEnum) {
         ImprovementEnum requiredImprovement = sourceResourceEnum.improvementNeeded();
         for (TechnologyEnum technology : requiredImprovement.getRequiredTechs()) {
-            if (this.getTechnologies().contains(technology)) return true;
+            if (this.technologies.containsKey(technology)) return true;
         }
         return false;
     }
@@ -253,4 +258,6 @@ public class Civilization {
     public Location getCurrentGridLocation() {
         return this.currentSelectedGridLocation;
     }
+
+
 }

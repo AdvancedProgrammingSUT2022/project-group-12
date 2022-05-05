@@ -15,8 +15,8 @@ public class Location {
     }
 
     public Location(String row, String col) {
-        this.row = Integer.valueOf(row);
-        this.col = Integer.valueOf(col);
+        this.row = Integer.parseInt(row);
+        this.col = Integer.parseInt(col);
     }
 
     public int getRow() {
@@ -41,5 +41,10 @@ public class Location {
 
     public void addCol(int col) {
         this.col += col;
+    }
+
+    @Override
+    public String toString() {
+        return "-X: " + row + " -Y: " + col;
     }
 }

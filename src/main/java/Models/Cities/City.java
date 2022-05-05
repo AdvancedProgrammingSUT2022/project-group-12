@@ -40,8 +40,7 @@ public class City {
     private int happiness;
 
 
-
-    public City(ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
+    public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
         this.combatUnit = null;
         this.nonCombatUnit = null;
@@ -58,6 +57,7 @@ public class City {
         this.isOwnedBy = civ;
         this.range = 2;
         this.cityTile = tile;
+        this.name = name;
         //TODO : check the range of the city and the combat strength of that
         this.productionQueue = new ArrayList<>();
     }
@@ -81,7 +81,8 @@ public class City {
     }
 
     public static void calculateDamage(City city, int strengthDiff, Random random) {
-        double random_number = (random.nextInt(50) + 75) / 100;
+        double random_number = random.nextInt(50) + 75;
+        random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
 
@@ -193,9 +194,13 @@ public class City {
         this.production = production;
     }
 
-    public void setReservedResource(ResourceEnum reservedResource) {this.reservedResource = reservedResource;}
+    public void setReservedResource(ResourceEnum reservedResource) {
+        this.reservedResource = reservedResource;
+    }
 
-    public ResourceEnum getReservedResource() {return reservedResource;}
+    public ResourceEnum getReservedResource() {
+        return reservedResource;
+    }
 
     public boolean hasBuilding(BuildingEnum buildingName) {
         return this.buildings.contains(buildingName);

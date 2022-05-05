@@ -2,38 +2,53 @@ package Controllers;
 
 import Enums.TechnologyEnum;
 import Models.Civilization;
+import Models.Units.Unit;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class CivilizationController {
-    public static void addTechnology(TechnologyEnum tech, Civilization civilization) {
-        /***
-         * add new technology and remove from current researching techs and current tech
-         */
-        civilization.getTechnologies().add(tech);
-        civilization.getResearchingTechnologies().remove(tech.name());
-        checkForUpdateResearchingTechs(civilization);
-        civilization.setCurrentTech(null);
+    private final Civilization civilization;
+
+    public CivilizationController(Civilization civilization) {
+        this.civilization = civilization;
     }
 
-    private static void checkForUpdateResearchingTechs(Civilization civilization) {
-        /***
-         * check if we can have access to new technology for research
-         */
-        TechnologyEnum[] allTechs = TechnologyEnum.values();
-        for (TechnologyEnum tech : allTechs) {
-            if (!civilization.isHaveThisTech(tech) &&
-                    tech.hasPrerequisiteTechs(civilization.getTechnologies()) &&
-                    isThisTechExistsInResearchingTechs(tech, civilization.getResearchingTechnologies())
-            ) {
-                civilization.getResearchingTechnologies().put(tech, tech.getCost());
-            }
+    public String civilizationUnitInfo() {
+        if (civilization.getUnits().isEmpty())
+            return "";
+        StringBuilder unitInfo = new StringBuilder("Unit info:\n");
+        for (Unit units : civilization.getUnits()) {
+            unitInfo.append("- <").append(units).append("> City: <").append(units.getAssignedCity().getName())
+                    .append("> Movement: <").append(units.getAvailableMoveCount())
+                    .append("> Health: <").append(units.getHealthBar())
+                    .append("> Has work to do: <").append(units.isWorking())
+                    .append("> Current location: <").append(units.getLocation().toString());
         }
-
+        return unitInfo.toString();
     }
 
-    private static boolean isThisTechExistsInResearchingTechs(TechnologyEnum tech, HashMap<TechnologyEnum, Integer> researchingTechs) {
-        return researchingTechs.containsKey(tech.name());
+    public String ownedTech() {
+        if (civilization.getTechnologies().isEmpty())
+            return "";
+        StringBuilder techs = new StringBuilder();
+        for (Map.Entry<TechnologyEnum, Integer> tech : civilization.getTechnologies().entrySet()) {
+            techs.append("- <").append(tech.getKey().name()).append("> Count: <").append(tech.getValue()).append(">");
+        }
+        return techs.toString();
+    }
+
+    public String showTechTree() {
+        if (civilization.getResearch().isEmpty())
+            return "";
+        HashMap<TechnologyEnum, Integer> research = civilization.getResearch();
+        StringBuilder techTree = new StringBuilder();
+        int count = 1;
+        for (Map.Entry<TechnologyEnum, Integer> set : research.entrySet()) {
+            techTree.append(count).append("- <").append(set.getKey()).append("> remained: <").append(set.getValue());
+            count++;
+        }
+        return techTree.toString();
     }
 
     public StringBuilder exploreInfo() {
