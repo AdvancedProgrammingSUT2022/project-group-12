@@ -100,32 +100,31 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static String FoundCity(Civilization civ,Location location) throws CommandException {
-        checkConditionsForCity(location,civ,game.getTileGrid().getTile(location));
+    public static String FoundCity(Civilization civ, Location location) throws CommandException {
+        checkConditionsForCity(location, civ, game.getTileGrid().getTile(location));
         Tile currentTile = game.getTileGrid().getTile(location);
-        int cityProduction= 1 + currentTile.calculateProductionCount();
+        int cityProduction = 1 + currentTile.calculateProductionCount();
         int food = 2 + currentTile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
         City city = new City(game.getTileGrid().getAllTilesInRadius(currentTile, 1), civ, currentTile, isCapital);
         currentTile.setCity(city);
         civ.addCity(city);
         if (isCapital) civ.setCapital(city);
-        checkForResource(currentTile,city,civ);
+        checkForResource(currentTile, city, civ);
         return "city found successfully";
     }
 
     private static void checkConditionsForCity(Location location, Civilization civilization, Tile tile) throws CommandException {
-        checkForHavingEnoughTiles(location,civilization,tile);
+        checkForHavingEnoughTiles(location, civilization, tile);
     }
 
-    private static void checkForResource(Tile tile, City newCity, Civilization civ)
-    {
+    private static void checkForResource(Tile tile, City newCity, Civilization civ) {
         //Todo : fekre bishtar
         ResourceEnum cityResource = tile.getTerrain().getResource();
-        if(cityResource != null){
-            if(civ.isPossibleToHaveThisResource(cityResource)){
+        if (cityResource != null) {
+            if (civ.isPossibleToHaveThisResource(cityResource)) {
                 newCity.getResources().add(cityResource);
-            }else {
+            } else {
                 newCity.setReservedResource(cityResource);
             }
         }
@@ -133,10 +132,10 @@ public class GameController {
 
 
     private static void checkForHavingEnoughTiles(Location location, Civilization civilization, Tile cityTile) throws CommandException {
-        ArrayList<Tile> checkTiles=game.getTileGrid().getAllTilesInRadius(cityTile,4);
-        for (Tile tile:
-             checkTiles) {
-            if(tile.getCity() != null){
+        ArrayList<Tile> checkTiles = game.getTileGrid().getAllTilesInRadius(cityTile, 4);
+        for (Tile tile :
+                checkTiles) {
+            if (tile.getCity() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
         }
@@ -168,23 +167,25 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
-        StringBuilder message=new StringBuilder("");
-        message.append("city citizens : " + city.getCitizensCount()+"\n");
-        for (Building building:
-             city.getBuildings()) {
-            message.append("city building : "+building.getType().toString().toLowerCase()+'\n');
+        StringBuilder message = new StringBuilder("");
+        message.append("city citizens : " + city.getCitizensCount() + "\n");
+        for (Building building :
+                city.getBuildings()) {
+            message.append("city building : " + building.getType().toString().toLowerCase() + '\n');
         }
-        message.append("city combat unit : "+city.getCombatUnit()+'\n');
-        message.append("city nonCombat unit : "+city.getNonCombatUnit()+'\n');
-        for (Tile cityTile:
+        message.append("city combat unit : " + city.getCombatUnit() + '\n');
+        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
+        for (Tile cityTile :
                 city.getTiles()) {
-            if (cityTile.isCitizen()){ message.append("citizen is in tile with position "+cityTile.getLocation().getRow()+" "+cityTile.getLocation().getCol()+'\n'); }
+            if (cityTile.isCitizen()) {
+                message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
+            }
         }
         //todo : calculate food science production gold
-        message.append("city food : "+city.getFood()+'\n');
-        message.append("city science : "+city.getBeaker()+'\n');
-        message.append("city production : "+city.getProduction()+'\n');
-        message.append("city gold : "+ city.getGold()+'\n');
+        message.append("city food : " + city.getFood() + '\n');
+        message.append("city science : " + city.getBeaker() + '\n');
+        message.append("city production : " + city.getProduction() + '\n');
+        message.append("city gold : " + city.getGold() + '\n');
         return message;
     }
 
@@ -214,13 +215,13 @@ public class GameController {
     }
 
     private static void showCurrentTech(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies, TechnologyEnum currentTech) {
-        researchInfo.append("Current research : " + currentTech);
-        researchInfo.append("Science remains : " + technologies.get(currentTech) + "\n");
+        researchInfo.append("Current research : ").append(currentTech);
+        researchInfo.append("Science remains : ").append(technologies.get(currentTech)).append("\n");
     }
 
     private static void showOtherTechs(StringBuilder researchInfo, HashMap<TechnologyEnum, Integer> technologies) {
         for (Map.Entry<TechnologyEnum, Integer> tech : technologies.entrySet()) {
-            researchInfo.append("research name :" + tech.getKey().name() + " science remains : " + tech.getValue() + "\n");
+            researchInfo.append("research name :").append(tech.getKey().name()).append(" science remains : ").append(tech.getValue()).append("\n");
         }
     }
 
@@ -295,7 +296,7 @@ public class GameController {
         ArrayList<Civilization> inWarWith = currentCivilization.getIsInWarWith();
         for (Civilization civ : game.getCivs()) {
             if (civ == currentCivilization) continue;
-            diplomaticInfo.append("civilization name : " + civ.getName() + " state : ");
+            diplomaticInfo.append("civilization name : ").append(civ.getName()).append(" state : ");
             if (currentCivilization.isInWarWith(civ)) {
                 diplomaticInfo.append("WAR!!\n");
             } else {

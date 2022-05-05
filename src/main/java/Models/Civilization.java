@@ -12,8 +12,10 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Constants;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Civilization {
 
@@ -31,6 +33,7 @@ public class Civilization {
     private int production;
     private ArrayList<TechnologyEnum> technologies;
     private Tile currentTile;
+    private TechnologyEnum researchingTechnology;
     private HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
@@ -40,6 +43,7 @@ public class Civilization {
     private Location currentSelectedGridLocation = new Location(0, 0);
 
     public Civilization(User user) {
+        this.researchingTechnology = null;
         this.user = user;
         this.gold = 0;
         this.production = 0;
@@ -50,6 +54,34 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
+        this.researchingTechnologies = new HashMap<>();
+    }
+
+    public void researchTech() {
+        if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
+            technologies.add(researchingTechnology);
+            researchingTechnologies.remove(researchingTechnology);
+            checkLeadsToTech();
+            researchingTechnology = null;
+        } else {
+            int temp = researchingTechnologies.get(researchingTechnology) + beaker;
+            researchingTechnologies.remove(researchingTechnology);
+            researchingTechnologies.put(researchingTechnology, temp);
+            beaker = 0;
+        }
+    }
+
+    public void checkLeadsToTech() {
+        ArrayList<TechnologyEnum> techs = researchingTechnology.leadsToTech();
+        for (TechnologyEnum tech : techs) {
+            if (!tech.hasPrerequisiteTechs(this.technologies))
+                researchingTechnologies.put(tech, tech.getCost());
+        }
+    }
+
+    public void startResearchOnTech(TechnologyEnum tech) {
+        if (!researchingTechnologies.containsKey(tech))
+            this.researchingTechnologies.put(tech, tech.getCost());
     }
 
     public Civilization(User user, TileGrid tileGrid) {
@@ -60,6 +92,8 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
+        this.researchingTechnology = null;
+        this.researchingTechnologies = new HashMap<>();
     }
 
     public ArrayList<Unit> getUnits() {
@@ -203,10 +237,11 @@ public class Civilization {
             city.applyBuildingNotes();
         }
     }
-    public boolean isPossibleToHaveThisResource(ResourceEnum sourceResourceEnum){
-        ImprovementEnum requiredImprovement=sourceResourceEnum.improvementNeeded();
-        for (TechnologyEnum technology: requiredImprovement.getRequiredTechs()) {
-            if(this.getTechnologies().contains(technology)) return true;
+
+    public boolean isPossibleToHaveThisResource(ResourceEnum sourceResourceEnum) {
+        ImprovementEnum requiredImprovement = sourceResourceEnum.improvementNeeded();
+        for (TechnologyEnum technology : requiredImprovement.getRequiredTechs()) {
+            if (this.getTechnologies().contains(technology)) return true;
         }
         return false;
     }
