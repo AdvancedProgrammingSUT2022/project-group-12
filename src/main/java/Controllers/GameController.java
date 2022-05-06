@@ -106,9 +106,11 @@ public class GameController {
         int cityProduction = 1 + currentTile.calculateProductionCount();
         int food = 2 + currentTile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
-        City city = new City(game.getTileGrid().getAllTilesInRadius(currentTile, 1), civ, currentTile, isCapital);
+        //todo : get a name for city from user
+        City city = new City("temp",game.getTileGrid().getAllTilesInRadius(currentTile, 1), civ, currentTile, isCapital);
         currentTile.setCity(city);
         civ.addCity(city);
+        currentTile.setNonCombatUnit(null);
         if (isCapital) civ.setCapital(city);
         checkForResource(currentTile, city, civ);
         return "city found successfully";

@@ -118,7 +118,7 @@ public class MovingController extends GameController {
         });
     }
 
-    protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile, Unit sourceUnit) { // use Coord/Location
+    protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile, Unit sourceUnit) {
         // Dijkstra algorithm for shortest path
         int targetRow = location.getRow();
         int targetCol = location.getCol();

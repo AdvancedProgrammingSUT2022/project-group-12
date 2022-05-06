@@ -125,7 +125,7 @@ public class TileGridPrinter {
         if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR)) {
             return new StringBuilder("you have not explored this tile yet");
         }
-        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCivilization().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
+        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCiv().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
         if (selectedTile.getState().equals(VisibilityEnum.VISIBLE)) appendTileInfo(selectedTile);
         return showTileInfo;
     }

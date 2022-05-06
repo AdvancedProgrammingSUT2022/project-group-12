@@ -251,4 +251,7 @@ public class GameMenu extends Menu {
             e.printStackTrace();
         }
     }
+    public static void printError(CommandResponse commandResponse){
+        System.out.println(commandResponse);
+    }
 }

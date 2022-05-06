@@ -1,11 +1,14 @@
 package Models.Cities;
 
 import Enums.BuildingEnum;
+import Enums.CityTypeEnum;
+import Enums.ImprovementEnum;
 import Enums.ResourceEnum;
 import Models.Buildings.Building;
 import Models.Civilization;
 import Models.Location;
 import Models.Production;
+import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -19,7 +22,7 @@ import static java.lang.Math.exp;
 
 public class City {
     private final ArrayList<Tile> tiles;
-    private final Civilization isOwnedBy;
+    private Civilization isOwnedBy;
     private final int citizensCount;
     private final int range;
     private final ArrayList<Building> buildings;
@@ -29,6 +32,7 @@ public class City {
     private String name;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
+    private double happinessFromBuildings;
     private int gold;
     private double production;
     private int food;
@@ -37,11 +41,14 @@ public class City {
     private int hitPoint;
     private double combatStrength;
     private int beaker;
-    private int happiness;
+    private double localHappiness;
+    private CityTypeEnum cityState;
+
 
 
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
+        this.tiles.add(tile);
         this.combatUnit = null;
         this.nonCombatUnit = null;
         this.gold = tile.getTerrain().getGoldCount();
@@ -52,14 +59,16 @@ public class City {
         this.isCapital = isCapital;
         this.citizensCount = 1;
         this.food = tile.calculateFoodCount();
-        this.happiness = 10;
+        this.localHappiness = 10;
         this.buildings = new ArrayList<Building>();
         this.isOwnedBy = civ;
         this.range = 2;
         this.cityTile = tile;
         this.name = name;
+        this.cityState = CityTypeEnum.RAW;
         //TODO : check the range of the city and the combat strength of that
         this.productionQueue = new ArrayList<>();
+        this.happinessFromBuildings=0;
     }
 
 
@@ -113,6 +122,7 @@ public class City {
     public Civilization getCivilization() {
         return this.isOwnedBy;
     }
+    public void setCivilization(Civilization civ){ this.isOwnedBy = civ; }
 
     public int getGold() {
         return this.gold;
@@ -178,12 +188,16 @@ public class City {
         return tiles;
     }
 
-    public int getHappiness() {
-        return happiness;
+    public double getHappiness() {
+        return localHappiness;
     }
 
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
+    public CityTypeEnum getCityState() {
+        return cityState;
+    }
+
+    public void setHappiness(double happiness) {
+        this.localHappiness = happiness;
     }
 
     public double getProduction() {
@@ -224,6 +238,14 @@ public class City {
         }
     }
 
+    public double getHappinessFromBuildings() {
+        return happinessFromBuildings;
+    }
+
+    public void setHappinessFromBuildings(double happinessFromBuildings) {
+        this.happinessFromBuildings = happinessFromBuildings;
+    }
+
     public ArrayList<Building> getBuildings() {
         return buildings;
     }
@@ -245,7 +267,58 @@ public class City {
             }
         }
     }
+    public double calculateCityHappiness(){
+        /***
+         * calculate happiness
+         */
+        this.localHappiness = 0;
+        this.localHappiness += this.happinessFromBuildings;
+        /***
+         * affect unhappiness
+         */
+        if (cityState == CityTypeEnum.ANNEXED) {
+            this.localHappiness -= (citizensCount + citizensCount / 3);
+            if(!haveCourtHouse()) this.localHappiness -= 5;
+        } else {
+            this.localHappiness -= citizensCount;
+            this.localHappiness -= 3;
+        }
 
+        return this.localHappiness <= citizensCount ? this.localHappiness : citizensCount;
+    }
+
+    private boolean haveCourtHouse() {
+        for (Building building:
+             buildings) {
+            if(building.getType() == BuildingEnum.COURT_HOUSE){return true;}
+        }
+        return false;
+    }
+
+    public double numberOfLuxuryResources(){
+        double counter = 0;
+        checkForReservedResource(this.reservedResource);
+        for (Tile tile :
+                this.getTiles()) {
+            Terrain terrain = tile.getTerrain();
+            ResourceEnum resource = terrain.getResource();
+            if (resource.isLuxury() && terrain.getImprovements().contains(resource.getImprovementNeeded())) {
+                ++counter;
+            }
+        }
+        return counter;
+    }
+
+    private void checkForReservedResource(ResourceEnum reservedResource) {
+        if(reservedResource == null){return;}
+        if(reservedResource.getImprovementNeeded().hasRequiredTechs(this.isOwnedBy.getTechnologies())){
+            this.resources.add(reservedResource); reservedResource=null;
+        }
+    }
+
+    public void setCityState(CityTypeEnum cityState) {
+        this.cityState = cityState;
+    }
     public Tile getTile() {
         return this.cityTile;
     }

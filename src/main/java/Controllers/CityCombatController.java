@@ -1,6 +1,8 @@
 package Controllers;
 
+import Enums.CityTypeEnum;
 import Enums.CombatTypeEnum;
+import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -11,6 +13,10 @@ import Models.Units.CombatUnit;
 import Models.Units.NonRangedUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
+import Utils.CommandResponse;
+import Views.GameMenu;
+import Views.MenuStack;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -156,8 +162,75 @@ public class CityCombatController extends CombatController {
     }
 
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-        //todo : capture the city or choose another option
+        //todo : complete capturing type aaaaaaaaaaaaaaaaaa
+        String message=MenuStack.getInstance().getOption("enter your capture type : Puppet / Annexed / Destroy(if city isn't captial or Puppet)");
+        GetMessageLoop :
+        while (true) {
+            switch (message) {
+                case "Puppet" -> {
+                    city.setCityState(CityTypeEnum.PUPPET);
+                    makePuppetCity(city, cityTile, civ);
+                    break GetMessageLoop;
+                }
+                case "Annexed" -> {
+                    city.setCityState(CityTypeEnum.ANNEXED);
+                    makeCityAnnexed(city, cityTile, civ);
+                    break GetMessageLoop;
+                }
+                case "Destroy" -> destroyCity(city, cityTile, civ);
+                default -> {
+                    if (city.isCapital()) {
+                        MenuStack.getInstance().getOption("you can't destroy capital");
+                        continue GetMessageLoop;
+                    }
+                    if (city.getCityState() == CityTypeEnum.PUPPET) {
+                        MenuStack.getInstance().getOption("you can't destroy Puppet City");
+                        continue GetMessageLoop;
+                    }
+                    GameMenu.printError(CommandResponse.INVALID_COMMAND);
+                    message = MenuStack.getInstance().getOption();
+                }
+            }
+        }
         return "wow you have capture the city";
+    }
+
+    private static void destroyCity(City city,Tile cityTile,Civilization civ) {
+        city.setCivilization(civ);
+        Random random;
+        for (Building building:
+                city.getBuildings()) {
+            //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
+        }
+        setNewCivForCityTiles(city, cityTile, civ);
+    }
+
+    private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
+        cityTile.setCivilization(civ);
+        for (Tile tile:
+                city.getTiles()) {
+            tile.setCivilization(civ);
+        }
+        setNewCivForCityTiles(city, cityTile, civ);
+    }
+    private static void makeCityAnnexed(City city,Tile cityTile, Civilization civ) {
+        city.setCivilization(civ);
+        Random random;
+        for (Building building:
+                city.getBuildings()) {
+            //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
+        }
+        setNewCivForCityTiles(city, cityTile, civ);
+    }
+
+    private static void makePuppetCity(City city, Tile cityTile, Civilization civ) {
+        city.setCivilization(civ);
+        Random random;
+        for (Building building:
+             city.getBuildings()) {
+            //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
+        }
+        setNewCivForCityTiles(city, cityTile, civ);
     }
 
     private static void calculateRangeAttackDamage(RangedUnit rangedUnit, int strengthRangedUnit, City city, int combatUnitStrength) {

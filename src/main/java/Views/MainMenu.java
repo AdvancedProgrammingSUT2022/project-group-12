@@ -7,6 +7,7 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class MainMenu extends Menu {
@@ -53,4 +54,5 @@ public class MainMenu extends Menu {
         System.out.println("game started");
         MenuStack.getInstance().pushMenu(new GameMenu(gameController));
     }
+
 }

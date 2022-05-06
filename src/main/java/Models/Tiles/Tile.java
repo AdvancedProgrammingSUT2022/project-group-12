@@ -1,6 +1,5 @@
 package Models.Tiles;
 
-import Enums.ResourceEnum;
 import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
 import Models.Cities.City;
@@ -10,8 +9,6 @@ import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
-
-import java.util.ArrayList;
 
 public class Tile {
     private final int row;
@@ -137,8 +134,12 @@ public class Tile {
         this.combatUnit = combatUnit;
     }
 
-    public Civilization getCivilization() {
+    public Civilization getCiv() {
         return this.civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 
     public Tile deepCopy() {

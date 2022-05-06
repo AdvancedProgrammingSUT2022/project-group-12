@@ -1,10 +1,9 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.ImprovementEnum;
-import Enums.ResourceEnum;
-import Enums.TechnologyEnum;
+import Enums.*;
 import Models.Cities.City;
+import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
@@ -13,6 +12,7 @@ import Models.Units.Unit;
 import Utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
 
 public class Civilization {
@@ -39,6 +39,7 @@ public class Civilization {
     private City capital = null;
     private ArrayList<Civilization> isInWarWith;
     private Location currentSelectedGridLocation = new Location(0, 0);
+    private HappinessTypeEnum happinessType;
 
     public Civilization(User user) {
         this.technologies = new HashMap<>();
@@ -55,6 +56,7 @@ public class Civilization {
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
+        this.happinessType = this.detectHappinessState(this.happiness);
     }
 
     public Civilization(User user, TileGrid tileGrid) {
@@ -239,6 +241,7 @@ public class Civilization {
 
     public void applyNotes() {
         for (City city : this.cities) {
+            city.setHappinessFromBuildings(0);
             city.applyBuildingNotes();
         }
     }
@@ -258,6 +261,36 @@ public class Civilization {
     public Location getCurrentGridLocation() {
         return this.currentSelectedGridLocation;
     }
-
-
+    public HappinessTypeEnum detectHappinessState(double happiness){
+        if(happiness > 0){return HappinessTypeEnum.HAPPY;}
+        if (happiness > -10){return HappinessTypeEnum.UNHAPPY;}
+        return HappinessTypeEnum.VERYUNHAPPY;
+    }
+    public double calculateHappiness(){
+        this.happiness = 0;
+        for (City city :
+              this.getCities()) {
+            this.happiness += city.calculateCityHappiness();
+        }
+        int numberOfLuxuryResource = (int)this.numberOfLuxuryResources();
+        this.happiness += numberOfLuxuryResource * 4;
+        detectHappinessState(happiness);
+        return happiness;
+    }
+    public double numberOfLuxuryResources(){
+        double counter = 0;
+        int height = this.getRevealedTileGrid().getHeight() , width = this.getRevealedTileGrid().getWidth();
+        Tile[][] tiles = this.getRevealedTileGrid().getTiles();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Tile tile = tiles[i][j];
+                Terrain terrain = tile.getTerrain();
+                ResourceEnum resource = terrain.getResource();
+                if (tile.getCiv() == this && resource.isLuxury() && terrain.getImprovements().contains(resource.getImprovementNeeded())) {
+                    ++counter;
+                }
+            }
+        }
+        return counter;
+    }
 }

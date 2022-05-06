@@ -91,4 +91,8 @@ public enum ResourceEnum {
     public boolean isStrategic() {
         return this.isStrategic;
     }
+
+    public ImprovementEnum getImprovementNeeded() {
+        return improvementNeeded;
+    }
 }
