@@ -13,7 +13,6 @@ import Models.Units.CombatUnit;
 import Models.Units.NonRangedUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
-import Utils.CommandException;
 import Utils.CommandResponse;
 import Views.GameMenu;
 import Views.MenuStack;
@@ -167,11 +166,6 @@ public class CityCombatController extends CombatController {
         GetMessageLoop :
         while (true) {
             switch (message) {
-                case "Puppet" -> {
-                    city.setCityState(CityTypeEnum.PUPPET);
-                    makePuppetCity(city, cityTile, civ);
-                    break GetMessageLoop;
-                }
                 case "Annexed" -> {
                     city.setCityState(CityTypeEnum.ANNEXED);
                     makeCityAnnexed(city, cityTile, civ);
@@ -192,7 +186,7 @@ public class CityCombatController extends CombatController {
                 }
             }
         }
-        return "wow you have capture the city";
+        return "wow you have captured the city";
     }
 
     private static void destroyCity(City city,Tile cityTile,Civilization civ) {
@@ -218,16 +212,6 @@ public class CityCombatController extends CombatController {
         Random random;
         for (Building building:
                 city.getBuildings()) {
-            //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
-        }
-        setNewCivForCityTiles(city, cityTile, civ);
-    }
-
-    private static void makePuppetCity(City city, Tile cityTile, Civilization civ) {
-        city.setCivilization(civ);
-        Random random;
-        for (Building building:
-             city.getBuildings()) {
             //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
         }
         setNewCivForCityTiles(city, cityTile, civ);

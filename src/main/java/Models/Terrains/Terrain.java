@@ -29,11 +29,7 @@ public class Terrain {
         this.goldCount = type.getGoldCount();
         this.combatModifier = type.getCombatModifier();
         this.movementCost = type.getMovementCost();
-        if (type.getResources().size() == 0) {
-            this.resource = null;
-        } else {
-            this.resource = type.getResources().get(random.nextInt(20) % type.getResources().size());
-        }
+        this.resource = type.getResources().size() == 0 ? null : type.getResources().get(random.nextInt(type.getResources().size()));
         this.color = terrainType.getColor();
     }
 

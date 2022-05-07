@@ -1,7 +1,10 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.*;
+import Enums.HappinessTypeEnum;
+import Enums.ImprovementEnum;
+import Enums.ResourceEnum;
+import Enums.TechnologyEnum;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
@@ -12,7 +15,6 @@ import Models.Units.Unit;
 import Utils.Constants;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 
 public class Civilization {
