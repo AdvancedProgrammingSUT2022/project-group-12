@@ -3,6 +3,7 @@ package Models.Tiles;
 import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
 import Models.Cities.City;
+import Models.Citizen;
 import Models.Civilization;
 import Models.Location;
 import Models.Terrains.Terrain;
@@ -18,11 +19,11 @@ public class Tile {
     private NonCombatUnit nonCombatUnit;
     private int HP;
     private boolean isDamaged;
-    private boolean isCitizen;
     private Civilization civilization;
     private City city;
     private boolean hasRoad;
     private VisibilityEnum state;
+    private Citizen citizen = null;
 
     public Tile(Terrain terrain, int x, int y) {
         this.row = x;
@@ -35,7 +36,6 @@ public class Tile {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.isCitizen = false;
     }
 
     public Tile(Civilization civilization, Terrain terrain, int x, int y) {
@@ -80,6 +80,14 @@ public class Tile {
 
     public void setHP(int HP) {
         this.HP = HP;
+    }
+
+    public Citizen getCitizen() {
+        return citizen;
+    }
+
+    public void setCitizen(Citizen citizen) {
+        this.citizen = citizen;
     }
 
     public VisibilityEnum getState() {
@@ -184,10 +192,6 @@ public class Tile {
             food += feature.getFoodCount();
         }
         return food;
-    }
-
-    public boolean isCitizen() {
-        return isCitizen;
     }
 
     public Location getLocation() {

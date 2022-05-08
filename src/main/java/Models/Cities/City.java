@@ -2,7 +2,6 @@ package Models.Cities;
 
 import Enums.BuildingEnum;
 import Enums.CityTypeEnum;
-import Enums.ImprovementEnum;
 import Enums.ResourceEnum;
 import Models.Buildings.Building;
 import Models.Civilization;
@@ -44,8 +43,6 @@ public class City {
     private double localHappiness;
     private CityTypeEnum cityState;
 
-
-
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
         this.tiles.add(tile);
@@ -60,7 +57,7 @@ public class City {
         this.citizensCount = 1;
         this.food = tile.calculateFoodCount();
         this.localHappiness = 10;
-        this.buildings = new ArrayList<Building>();
+        this.buildings = new ArrayList<>();
         this.isOwnedBy = civ;
         this.range = 2;
         this.cityTile = tile;
@@ -71,6 +68,13 @@ public class City {
         this.happinessFromBuildings=0;
     }
 
+    private void affectCitizens() {
+        for (Tile tile : this.getTiles()) {
+            if (tile.getCitizen().getCity() == this) {
+                // affect citizen
+            }
+        }
+    }
 
     public static int calculateCombatStrength(City city, Tile cityTile) {
         int strength = (int) city.getCombatStrength();
