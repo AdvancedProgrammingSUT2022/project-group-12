@@ -28,7 +28,7 @@ public class City {
     private final Tile cityTile;
     private final ArrayList<Production> productionQueue;
     protected boolean isCapital;
-    private String name;
+    private final String name;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;

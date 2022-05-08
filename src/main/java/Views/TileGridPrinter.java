@@ -90,15 +90,13 @@ public class TileGridPrinter {
                 this.setChar(row + hexH / 2, col + j, '_', TerrainColor.WHITE_BRIGHT, tileColor);
             }
         }
-        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
-        this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
-//            if (tile.getCivilization() != null) this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), TerrainColor.BLACK, tileColor);
+        if (tile.getCity() != null) this.writeCentered(row - 2, col, "City", TerrainColor.BLACK, tileColor);
+        this.writeCentered(row, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
+        if (tile.getCiv() != null) this.writeCentered(row - 1, col, tile.getCiv().getAbbreviation(), TerrainColor.BLACK, tileColor);
         String units = tile.getNonCombatUnit() == null ? " " : tile.getNonCombatUnit().getType().name().charAt(0) + " " +
                 (tile.getCombatUnit() == null ? " " : tile.getCombatUnit().getType().name().substring(0, 1));
-        this.writeCentered(row + 2, col, units, TerrainColor.BLACK, tileColor);
-        if (tile.getCity() != null) {
-            this.writeCentered(row + 1, col, "City", TerrainColor.BLACK, tileColor);
-        }
+        this.writeCentered(row + 1, col, units, TerrainColor.BLACK, tileColor);
+        if (!tile.getTerrain().getFeatures().isEmpty()) this.writeCentered(row + 2, col, tile.getTerrain().getFeatures().get(0).getAbbreviation(), TerrainColor.BLACK, tileColor);
     }
 
     private void appendTileInfo(Tile selected) {

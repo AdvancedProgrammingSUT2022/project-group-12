@@ -190,7 +190,7 @@ public class Civilization {
     }
 
     public String getAbbreviation() {
-        return this.name.substring(0, Math.min(4, this.name.length()));
+        return this.name.substring(0, Math.min(5, this.name.length()));
     }
 
     public CivilizationController getController() {
