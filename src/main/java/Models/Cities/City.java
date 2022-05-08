@@ -72,6 +72,8 @@ public class City {
         for (Tile tile : this.getTiles()) {
             if (tile.getCitizen().getCity() == this) {
                 // affect citizen
+                this.food += tile.calculateFoodCount();
+                this.production += tile.calculateProductionCount();
             }
         }
     }

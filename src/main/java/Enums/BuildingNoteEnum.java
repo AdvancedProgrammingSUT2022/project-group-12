@@ -81,7 +81,7 @@ public enum BuildingNoteEnum {
         city.setBeaker(city.getBeaker() + city.getBeaker() / 2);
         int number = 0;
         for (Tile tile : city.getTiles()) {
-            if (tile.isCitizen() && tile.getTerrain().getTerrainType() == TerrainEnum.JUNGLE) {
+            if (tile.getCitizen() != null && tile.getTerrain().getTerrainType() == TerrainEnum.JUNGLE) {
                 ++number;
             }
         }

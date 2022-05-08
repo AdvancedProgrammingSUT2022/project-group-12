@@ -1,6 +1,9 @@
 package Controllers;
 
-import Enums.*;
+import Enums.ImprovementEnum;
+import Enums.ResourceEnum;
+import Enums.TechnologyEnum;
+import Enums.TerrainEnum;
 import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
@@ -179,7 +182,7 @@ public class GameController {
         message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
         for (Tile cityTile :
                 city.getTiles()) {
-            if (cityTile.isCitizen()) {
+            if (cityTile.getCitizen() != null) {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
             }
         }
