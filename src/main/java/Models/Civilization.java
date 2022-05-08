@@ -1,10 +1,7 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.HappinessTypeEnum;
-import Enums.ImprovementEnum;
-import Enums.ResourceEnum;
-import Enums.TechnologyEnum;
+import Enums.*;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
@@ -16,11 +13,14 @@ import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Civilization {
 
     private final User user;
     private final String name;
+    private final TerrainColor color;
     private final CivilizationController controller;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
@@ -44,6 +44,8 @@ public class Civilization {
     private HappinessTypeEnum happinessType;
 
     public Civilization(User user) {
+        List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
+        this.color = colors.get(new Random().nextInt(colors.size()));
         this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;
@@ -61,19 +63,6 @@ public class Civilization {
         this.happinessType = this.detectHappinessState(this.happiness);
     }
 
-    public Civilization(User user, TileGrid tileGrid) {
-        this.technologies = new HashMap<>();
-        this.user = user;
-        this.name = user.getNickname();
-        this.revealedTileGrid = tileGrid;
-        this.units = new ArrayList<>();
-        this.controller = new CivilizationController(this);
-        this.cities = new ArrayList<>();
-        this.notifications = new ArrayList<>();
-        this.ownedTiles = null;
-        this.researchingTechnology = null;
-        this.researchingTechnologies = new HashMap<>();
-    }
     public void researchTech() {
         if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
             if (technologies.containsKey(researchingTechnology)) {
@@ -294,5 +283,9 @@ public class Civilization {
             }
         }
         return counter;
+    }
+
+    public TerrainColor getColor() {
+        return color;
     }
 }
