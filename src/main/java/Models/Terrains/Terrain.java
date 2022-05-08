@@ -39,8 +39,9 @@ public class Terrain {
             for (TerrainEnum feature : this.features) {
                 resources.addAll(feature.getResources());
             }
+        if (resources.isEmpty()) return null;
         int chooseResource = new Random().nextInt(resources.size());
-        return resources.get(chooseResource - 1);
+        return resources.get(chooseResource);
     }
 
     private int featureMovementCost() {
@@ -74,11 +75,12 @@ public class Terrain {
     }
 
     private void setFeatures(ArrayList<TerrainEnum> possibleTerrainFeatures) {
+        if (possibleTerrainFeatures.isEmpty()) return;
         int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
         for (int i = 0; i < chooseRandom; i++) {
-            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size() - 1));
+            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
             while (this.features.contains(feature))
-                feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size() - 1));
+                feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
             this.features.add(feature);
         }
     }
