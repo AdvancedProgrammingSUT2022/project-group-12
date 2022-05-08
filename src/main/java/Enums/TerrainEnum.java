@@ -117,12 +117,12 @@ public enum TerrainEnum {
         this.goldCount = goldCount;
         this.combatModifier = combatModifier;
         this.movementCost = movementCost;
-        this.possibleTerrainFeatures = possibleTerrainFeatures;
         this.possibleResources = possibleResources;
         this.canPass = canPass;
         this.blocksView = blocksView;
         this.color = color;
         this.abbreviation = abbreviation;
+        this.possibleTerrainFeatures = possibleTerrainFeatures;
     }
 
     public TerrainColor getColor() {
@@ -134,81 +134,31 @@ public enum TerrainEnum {
     }
 
     public int getFoodCount() {
-        int count = this.foodCount;
-        if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.foodCount;
-            }
-        }
-        return count;
+        return this.foodCount;
     }
 
     public int getProductsCount() {
-        int count = this.productsCount;
-        if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.productsCount;
-            }
-        }
-        return productsCount;
+        return this.productsCount;
     }
 
     public int getGoldCount() {
-        int count = this.goldCount;
-        if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.goldCount;
-            }
-        }
-        return goldCount;
+        return this.goldCount;
     }
 
     public int getCombatModifier() {
-        int count = this.combatModifier;
-        if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.combatModifier;
-            }
-        }
-        return combatModifier;
+        return this.combatModifier;
     }
 
     public int getMovementCost() {
-        int count = this.movementCost;
-        if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.movementCost;
-            }
-        }
         return movementCost;
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
-        if (this.possibleTerrainFeatures.isEmpty()) {
-            return this.possibleTerrainFeatures;
-        }
-        ArrayList<TerrainEnum> features = new ArrayList<>();
-        ArrayList<TerrainEnum> possibleFeatures = new ArrayList<>(this.possibleTerrainFeatures);
-        Random random = new Random();
-        int count = random.nextInt(possibleFeatures.size());
-        for (int i = 0; i < count; i++) {
-            int rand = random.nextInt(possibleFeatures.size());
-            features.add(possibleFeatures.get(rand));
-            possibleFeatures.remove(rand);
-        }
-        return features;
+        return possibleTerrainFeatures;
     }
 
     public ArrayList<ResourceEnum> getResources() {
-        ArrayList<ResourceEnum> resources = new ArrayList<>(this.possibleResources);
-        if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                if (!list.possibleResources.isEmpty()) {
-                    resources.addAll(list.possibleResources);
-                }
-            }
-        }
-        return resources;
+        return possibleResources;
     }
 
     public boolean isBlockingView() {

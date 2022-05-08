@@ -21,16 +21,76 @@ public class Terrain {
     protected ArrayList<ImprovementEnum> improvements;
 
     public Terrain(TerrainEnum type) {
-        Random random = new Random();
         this.terrainType = type;
-        this.features = type.getFeatures();
-        this.foodCount = type.getFoodCount();
-        this.productsCount = type.getProductsCount();
+        features = new ArrayList<>();
+        setFeatures(type.getFeatures());
         this.goldCount = type.getGoldCount();
-        this.combatModifier = type.getCombatModifier();
-        this.movementCost = type.getMovementCost();
-        this.resource = type.getResources().size() == 0 ? null : type.getResources().get(random.nextInt(type.getResources().size()));
+        this.foodCount = featureFood();
+        this.productsCount = featureProducts();
+        this.combatModifier = featureCombatModifier();
+        this.movementCost = featureMovementCost();
+        this.resource = featureResources();
         this.color = terrainType.getColor();
+    }
+
+    private ResourceEnum featureResources() {
+        ArrayList<ResourceEnum> resources = new ArrayList<>(terrainType.getResources());
+        if (!features.isEmpty())
+            for (TerrainEnum feature : this.features) {
+                resources.addAll(feature.getResources());
+            }
+        int chooseResource = new Random().nextInt(resources.size());
+        return resources.get(chooseResource - 1);
+    }
+
+    private int featureMovementCost() {
+        int count = getTerrainType().getMovementCost();
+        if (!features.isEmpty()) {
+            for (TerrainEnum feature : features) {
+                count += feature.getMovementCost();
+            }
+        }
+        return count;
+    }
+
+    private int featureCombatModifier() {
+        int count = getTerrainType().getCombatModifier();
+        if (!features.isEmpty()) {
+            for (TerrainEnum feature : features) {
+                count += feature.getCombatModifier();
+            }
+        }
+        return count;
+    }
+
+    private int featureProducts() {
+        int count = getTerrainType().getProductsCount();
+        if (!features.isEmpty()) {
+            for (TerrainEnum feature : features) {
+                count += feature.getProductsCount();
+            }
+        }
+        return count;
+    }
+
+    private void setFeatures(ArrayList<TerrainEnum> possibleTerrainFeatures) {
+        int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
+        for (int i = 0; i < chooseRandom; i++) {
+            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size() - 1));
+            while (this.features.contains(feature))
+                feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size() - 1));
+            this.features.add(feature);
+        }
+    }
+
+    private int featureFood() {
+        int count = getTerrainType().getFoodCount();
+        if (!features.isEmpty()) {
+            for (TerrainEnum feature : features) {
+                count += feature.getFoodCount();
+            }
+        }
+        return count;
     }
 
     public TerrainColor getColor() {
