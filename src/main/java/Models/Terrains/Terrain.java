@@ -21,7 +21,6 @@ public class Terrain {
     protected ArrayList<ImprovementEnum> improvements;
 
     public Terrain(TerrainEnum type) {
-        Random random = new Random();
         this.terrainType = type;
         features = new ArrayList<>();
         setFeatures(type.getFeatures());
