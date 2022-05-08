@@ -52,17 +52,19 @@ public class Tile {
         this.state = VisibilityEnum.VISIBLE;
     }
 
-    private Tile(Tile anotherTile) {
-        this.row = anotherTile.row;
-        this.col = anotherTile.col;
-        this.terrain = anotherTile.terrain;
-        this.combatUnit = anotherTile.combatUnit;
-        this.nonCombatUnit = anotherTile.nonCombatUnit;
-        this.HP = anotherTile.HP;
-        this.isDamaged = anotherTile.isDamaged;
-        this.city = anotherTile.city;
-        this.hasRoad = anotherTile.hasRoad;
-        this.state = anotherTile.state;
+    private Tile(Tile that) {
+        this.row = that.row;
+        this.col = that.col;
+        this.terrain = that.terrain;
+        this.combatUnit = that.combatUnit;
+        this.nonCombatUnit = that.nonCombatUnit;
+        this.HP = that.HP;
+        this.isDamaged = that.isDamaged;
+        this.city = that.city;
+        this.hasRoad = that.hasRoad;
+        this.state = that.state;
+        this.civilization = that.civilization;
+        this.citizen = that.citizen;
     }
 
     public boolean hasRoad() {

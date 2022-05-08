@@ -110,7 +110,9 @@ public class GameController {
         int food = 2 + currentTile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
         //todo : get a name for city from user
-        City city = new City("temp",game.getTileGrid().getAllTilesInRadius(currentTile, 1), civ, currentTile, isCapital);
+        ArrayList<Tile> assignedTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
+        City city = new City("City1", assignedTiles, civ, currentTile, isCapital);
+        for (Tile tile : assignedTiles) tile.setCivilization(civ);
         currentTile.setCity(city);
         civ.addCity(city);
         currentTile.setNonCombatUnit(null);

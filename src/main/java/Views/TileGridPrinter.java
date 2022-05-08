@@ -90,7 +90,7 @@ public class TileGridPrinter {
                 this.setChar(row + hexH / 2, col + j, '_', TerrainColor.WHITE_BRIGHT, tileColor);
             }
         }
-        if (tile.getCity() != null) this.writeCentered(row - 2, col, "City", TerrainColor.BLACK, tileColor);
+        if (tile.getCity() != null) this.writeCentered(row - 2, col, tile.getCity().getName(), TerrainColor.BLACK, tileColor);
         this.writeCentered(row, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
         if (tile.getCiv() != null) this.writeCentered(row - 1, col, tile.getCiv().getAbbreviation(), TerrainColor.BLACK, tileColor);
         String units = tile.getNonCombatUnit() == null ? " " : tile.getNonCombatUnit().getType().name().charAt(0) + " " +
