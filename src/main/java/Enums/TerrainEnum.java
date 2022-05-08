@@ -117,12 +117,19 @@ public enum TerrainEnum {
         this.goldCount = goldCount;
         this.combatModifier = combatModifier;
         this.movementCost = movementCost;
-        this.possibleTerrainFeatures = possibleTerrainFeatures;
         this.possibleResources = possibleResources;
         this.canPass = canPass;
         this.blocksView = blocksView;
         this.color = color;
         this.abbreviation = abbreviation;
+        this.possibleTerrainFeatures = new ArrayList<>();
+        int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
+        for (int i = 0; i < chooseRandom; i++) {
+            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size() - 1));
+            while (this.possibleTerrainFeatures.contains(feature))
+                feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size() - 1));
+            this.possibleTerrainFeatures.add(feature);
+        }
     }
 
     public TerrainColor getColor() {
@@ -136,8 +143,8 @@ public enum TerrainEnum {
     public int getFoodCount() {
         int count = this.foodCount;
         if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.foodCount;
+            for (TerrainEnum feature : possibleTerrainFeatures) {
+                count += feature.foodCount;
             }
         }
         return count;
@@ -146,69 +153,55 @@ public enum TerrainEnum {
     public int getProductsCount() {
         int count = this.productsCount;
         if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.productsCount;
+            for (TerrainEnum feature : possibleTerrainFeatures) {
+                count += feature.productsCount;
             }
         }
-        return productsCount;
+        return count;
     }
 
     public int getGoldCount() {
         int count = this.goldCount;
         if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.goldCount;
+            for (TerrainEnum feature : possibleTerrainFeatures) {
+                count += feature.goldCount;
             }
         }
-        return goldCount;
+        return count;
     }
 
     public int getCombatModifier() {
         int count = this.combatModifier;
         if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.combatModifier;
+            for (TerrainEnum feature : possibleTerrainFeatures) {
+                count += feature.combatModifier;
             }
         }
-        return combatModifier;
+        return count;
     }
 
     public int getMovementCost() {
         int count = this.movementCost;
         if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                count += list.movementCost;
+            for (TerrainEnum feature : possibleTerrainFeatures) {
+                count += feature.movementCost;
             }
         }
-        return movementCost;
+        return count;
     }
 
     public ArrayList<TerrainEnum> getFeatures() {
-        if (this.possibleTerrainFeatures.isEmpty()) {
-            return this.possibleTerrainFeatures;
-        }
-        ArrayList<TerrainEnum> features = new ArrayList<>();
-        ArrayList<TerrainEnum> possibleFeatures = new ArrayList<>(this.possibleTerrainFeatures);
-        Random random = new Random();
-        int count = random.nextInt(possibleFeatures.size());
-        for (int i = 0; i < count; i++) {
-            int rand = random.nextInt(possibleFeatures.size());
-            features.add(possibleFeatures.get(rand));
-            possibleFeatures.remove(rand);
-        }
-        return features;
+        return possibleTerrainFeatures;
     }
 
     public ArrayList<ResourceEnum> getResources() {
-        ArrayList<ResourceEnum> resources = new ArrayList<>(this.possibleResources);
+        ArrayList<ResourceEnum> resource = new ArrayList<>();
         if (!possibleTerrainFeatures.isEmpty()) {
-            for (TerrainEnum list : possibleTerrainFeatures) {
-                if (!list.possibleResources.isEmpty()) {
-                    resources.addAll(list.possibleResources);
-                }
+            for (TerrainEnum feature : possibleTerrainFeatures) {
+                resource.addAll(feature.getResources());
             }
         }
-        return resources;
+        return resource;
     }
 
     public boolean isBlockingView() {
