@@ -128,6 +128,7 @@ public class Tile {
 
     public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
+
     }
 
     public Terrain getTerrain() {

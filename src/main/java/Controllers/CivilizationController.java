@@ -19,7 +19,8 @@ public class CivilizationController {
             return "";
         StringBuilder unitInfo = new StringBuilder("Unit info:\n");
         for (Unit units : civilization.getUnits()) {
-            unitInfo.append("- <").append(units).append("> City: <").append(units.getAssignedCity().getName())
+            unitInfo.append("- <").append(units)
+                    .append("> Tile: <").append(units.getAssignedTile().getTerrain().getTerrainType())
                     .append("> Movement: <").append(units.getAvailableMoveCount())
                     .append("> Health: <").append(units.getHealthBar())
                     .append("> Has work to do: <").append(units.isWorking())
@@ -49,18 +50,6 @@ public class CivilizationController {
             count++;
         }
         return techTree.toString();
-    }
-
-    public StringBuilder exploreInfo() {
-        return new StringBuilder();
-    }
-
-    public StringBuilder unitInfo() {
-        return new StringBuilder();
-    }
-
-    public StringBuilder citiesInfo() {
-        return new StringBuilder();
     }
 
     public void setTurn() {

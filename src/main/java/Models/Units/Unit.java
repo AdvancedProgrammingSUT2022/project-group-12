@@ -15,7 +15,7 @@ import static java.lang.Math.exp;
 public class Unit extends Production {
     protected UnitEnum type;
     protected Civilization civ;
-    protected City assignedCity;
+    protected Tile assignedTile;
     protected int cost;
     protected boolean isAssigned;
     protected double availableMoveCount;
@@ -32,6 +32,7 @@ public class Unit extends Production {
         this.location = location;
         this.availableMoveCount = 10;
         civ.addUnit(this);
+        assignedTile = null;
     }
 
     public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
@@ -67,8 +68,8 @@ public class Unit extends Production {
         return this.isWorking;
     }
 
-    public City getAssignedCity() {
-        return assignedCity;
+    public Tile getAssignedTile() {
+        return assignedTile;
     }
 
     public void keepWorking(boolean work) {

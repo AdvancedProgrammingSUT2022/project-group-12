@@ -5,7 +5,7 @@ import java.util.Random;
 
 public enum TerrainEnum {
     UNKNOWN("N/A", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),
-    FALLOUT("FLOUT", TerrainColor.RESET, -3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
+    FALLOUT("FLT", TerrainColor.RESET, -3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
     FOREST("FORST", TerrainColor.RESET, 1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.DEER);
         add(ResourceEnum.FUR);
@@ -18,13 +18,13 @@ public enum TerrainEnum {
         add(ResourceEnum.GEMSTONE);
         add(ResourceEnum.DYES);
     }}),
-    MARSH("MRSH", TerrainColor.RESET, -1, 0, 0, -33, 2, true, false, new ArrayList<>(), new ArrayList<>() {{
+    MARSH("MARSH", TerrainColor.RESET, -1, 0, 0, -33, 2, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.SUGAR);
     }}),
-    OASIS("OSIS", TerrainColor.RESET, 3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
-    RIVER("RIVR", TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>()),
+    OASIS("OASIS", TerrainColor.RESET, 3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
+    RIVER("RIVER", TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>()),
 
-    GRASSLAND("GRSLND", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+    GRASSLAND("GRSLD", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(TerrainEnum.FOREST);
         add(TerrainEnum.MARSH);
     }}, new ArrayList<>() {{
@@ -37,7 +37,7 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
     }}),
-    HILL("HILL", TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
+    HILL("HIL", TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
         add(TerrainEnum.FOREST);
         add(TerrainEnum.JUNGLE);
     }}, new ArrayList<>() {{
@@ -50,7 +50,7 @@ public enum TerrainEnum {
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
     }}),
-    MOUNTAIN("MNTN", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
+    MOUNTAIN("MTN", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
     OCEAN("OCN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
         add(TerrainEnum.ICE);
     }}, new ArrayList<>()),
@@ -70,7 +70,7 @@ public enum TerrainEnum {
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
     }}),
-    DESERT("DSRT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
+    DESERT("DSERT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(TerrainEnum.OASIS);
         add(TerrainEnum.PLAIN);
     }}, new ArrayList<>() {{
@@ -83,7 +83,7 @@ public enum TerrainEnum {
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
     }}),
-    SNOW("SNOW", TerrainColor.WHITE_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
+    SNOW("SNW", TerrainColor.WHITE_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.IRON);
     }}),
     TUNDRA("TNDRA", TerrainColor.DARKRED_BACKGROUND, 1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
