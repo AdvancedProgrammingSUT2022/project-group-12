@@ -84,8 +84,8 @@ public class CityCombatController extends CombatController {
 
     private static String calculateCityRangeAttack(City city, City enemyCity, Tile cityTile, Tile enemyCityTile) {
         String response = "Attack happened successfully";
-        int strengthRangedUnit = City.calculateCombatStrength(enemyCity, cityTile);
-        int EnemyUnitStrength = City.calculateCombatStrength(city, enemyCityTile);
+        int strengthRangedUnit = enemyCity.calculateCombatStrength();
+        int EnemyUnitStrength = city.calculateCombatStrength();
         calculateRangeAttackDamage(enemyCity, strengthRangedUnit, city, EnemyUnitStrength);
         response = checkForKill(city, enemyCity, enemyCityTile, cityTile);
         return response;
@@ -94,7 +94,7 @@ public class CityCombatController extends CombatController {
 
     private static String calculateCityRangeAttack(CombatUnit enemyUnit, City city, Tile enemyUnitTile, Tile cityTile) {
         String response = "Attack happened successfully";
-        int strengthRangedUnit = City.calculateCombatStrength(city, cityTile);
+        int strengthRangedUnit = city.calculateCombatStrength();
         int EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyUnitTile);
         calculateRangeAttackDamage(city, strengthRangedUnit, enemyUnit, EnemyUnitStrength);
         response = checkForKill(enemyUnit, city, enemyUnitTile, cityTile);
@@ -107,7 +107,7 @@ public class CityCombatController extends CombatController {
         if (rangedUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
             strengthRangedUnit = bonusForAttackToCity(rangedUnit, strengthRangedUnit);
         }
-        int EnemyUnitStrength = City.calculateCombatStrength(city, cityTile);
+        int EnemyUnitStrength = city.calculateCombatStrength();
         calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, city, EnemyUnitStrength);
         response = checkForKill(rangedUnit, city, rangedUnitTile, cityTile);
         return response;
@@ -120,7 +120,7 @@ public class CityCombatController extends CombatController {
     private static String calculateNonRangeAttackToCity(NonRangedUnit nonRangedUnit, City city, Tile nonRangedTile, Tile cityTile) {
         String response = "Attack happened successfully";
         int combatStrengthNonRangedUnit = Unit.calculateCombatStrength(nonRangedUnit, nonRangedTile);
-        int EnemyCityStrength = City.calculateCombatStrength(city, cityTile);
+        int EnemyCityStrength = city.calculateCombatStrength();
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrengthNonRangedUnit, city, EnemyCityStrength);
         response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
         return null;

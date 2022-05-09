@@ -256,8 +256,7 @@ public class Civilization {
 
     public double calculateHappiness() {
         this.happiness = 0;
-        for (City city :
-                this.getCities()) {
+        for (City city : this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
         int numberOfLuxuryResource = (int) this.numberOfLuxuryResources();

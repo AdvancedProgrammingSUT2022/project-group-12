@@ -22,6 +22,7 @@ public class Tile {
     private Civilization civilization;
     private City city;
     private boolean hasRoad;
+    private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
 
@@ -69,6 +70,10 @@ public class Tile {
 
     public boolean hasRoad() {
         return hasRoad;
+    }
+
+    public boolean hasRiver() {
+        return this.hasRiver;
     }
 
     public void buildRoad() {

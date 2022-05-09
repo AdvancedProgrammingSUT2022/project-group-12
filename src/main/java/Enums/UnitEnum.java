@@ -60,6 +60,8 @@ public enum UnitEnum {
     private final ResourceEnum requiredResource;
     private final TechnologyEnum requiredTech;
 
+    private final boolean isACombatUnit;
+
     UnitEnum(int cost, CombatTypeEnum combatType, int combatStrength, int rangedCombatStrength, int range, double movement, ResourceEnum requiredResource, TechnologyEnum requiredTech) {
         this.cost = cost;
         this.combatType = combatType;
@@ -69,6 +71,15 @@ public enum UnitEnum {
         this.movement = movement;
         this.requiredResource = requiredResource;
         this.requiredTech = requiredTech;
+        this.isACombatUnit = combatType != CombatTypeEnum.CIVILIAN;
+    }
+
+    public boolean isACombatUnit() {
+        return this.isACombatUnit;
+    }
+
+    public boolean isRangedUnit() {
+        return this.range != 0;
     }
 
     public int getCost() {

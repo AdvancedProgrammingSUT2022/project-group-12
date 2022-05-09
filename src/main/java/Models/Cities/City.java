@@ -69,15 +69,12 @@ public class City {
         this.happinessFromBuildings = 0;
     }
 
-    public static int calculateCombatStrength(City city, Tile cityTile) {
-        int strength = (int) city.getCombatStrength();
-        strength = AffectCityFeatures(city);
-        strength = HealthBarAffect(strength, city);
-        return strength;
+    public int calculateCombatStrength() {
+        return HealthBarAffect(AffectCityFeatures(this));
     }
 
-    protected static int HealthBarAffect(int strength, City city) {
-        return (city.getHitPoint() / 2000) * strength;
+    protected int HealthBarAffect(int strength) {
+        return (this.getHitPoint() / 2000) * strength;
     }
 
     static int AffectCityFeatures(City city) {
@@ -325,8 +322,7 @@ public class City {
     }
 
     private boolean haveCourtHouse() {
-        for (Building building :
-                buildings) {
+        for (Building building : buildings) {
             if (building.getType() == BuildingEnum.COURT_HOUSE) {
                 return true;
             }

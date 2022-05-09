@@ -91,7 +91,6 @@ public enum ImprovementEnum {
     STONE_MINE(new ArrayList<>() {{
         add(ResourceEnum.MARBLE);
     }}, new ArrayList<>() {{
-        //TODO : carving stone ?
     }}, new ArrayList<>() {{
         add(TerrainEnum.DESERT);
         add(TerrainEnum.PLAIN);

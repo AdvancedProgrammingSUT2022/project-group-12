@@ -9,50 +9,35 @@ import Models.Units.Unit;
 
 public enum BuildingNoteEnum {
     BARRACK_NOTE((BuildingNotes<City>) city -> {
-        //TODO : complete
     }),
     GRANARY_NOTE((BuildingNotes<City>) city -> city.setFood(city.getFood() + 2)),
     LIBRARY_NOTE((BuildingNotes<City>) city -> city.setBeaker(city.getCitizensCount() / 2 + city.getBeaker())),
     MONUMENT_NOTE((BuildingNotes<City>) city -> {
     }),
     WALLS_NOTE((BuildingNotes<City>) city -> {
-        //TODO : complete
+        city.setCombatStrength(5.0f);
     }),
     WATER_MILLS_NOTE((BuildingNotes<City>) city -> {
-        //TODO : for buildings we have to check if they can build or not
-//        Location location=city.getCityLocation();
-//        Tile cityTile=GameController.getGame().getTileGrid().getTile(location);
-//        TileGrid gameTileGrid=GameController.getGame().getTileGrid();
-//        for (Tile neighborTile:
-//        gameTileGrid.getNeighborsOf(cityTile)) {
-//          if(GameController.checkForRivers(cityTile,neighborTile)){
-//              return true;
-//          }
-//        }
-//        return false;
-        city.setFood(city.getFood() + 2);
+        if (city.getTile().hasRiver())
+            city.setFood(city.getFood() + 2);
     }),
     ARMORY_NOTE(o -> {
-        //TODO : complete
     }),
     BURIAL_TOMB_NOTE((BuildingNotes<City>) city -> {
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
-        /***
-         * it used in when city is capture;
-         */
     }),
     CIRCUS_NOTE((BuildingNotes<City>) city -> {
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0);
     }),
     COLOSSEUM_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     COURTHOUSE_NOTE((BuildingNotes<City>) city -> {
-        /***
-         * eliminates happiness from city
-         */
+        if (city.getHappiness() < 0) {
+            city.setHappiness(0.0);
+        }
     }),
     STABLE_NOTE((BuildingNotes<City>) city -> {
-        Production production = null; //todo : getCurrent production
-        if (production instanceof Unit && ((Unit) production).getType().getCombatType() == CombatTypeEnum.MOUNTED) {
+        Production production = null;
+        if ((production instanceof Unit) && ((Unit) production).getType().getCombatType() == CombatTypeEnum.MOUNTED) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 85 / 100);
         }
     }),
@@ -88,7 +73,7 @@ public enum BuildingNoteEnum {
         city.setBeaker(city.getBeaker() + 2 * number);
     }),
     WORKSHOP_NOTE(o -> {
-        Production production = null; //todo : getCurrent production
+        Production production = null;
         if (production instanceof Building) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);
         }
@@ -108,7 +93,7 @@ public enum BuildingNoteEnum {
     THEATER_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() * 15.0 / 100.0)),
     ARSENAL_NOTE((BuildingNotes<City>) city -> {
-        Production production = null; //todo : getCurrent production
+        Production production = null;
         if (production instanceof Unit) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);
         }
