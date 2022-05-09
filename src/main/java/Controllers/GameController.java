@@ -102,7 +102,7 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static City foundCity(Civilization civ, Location location) throws CommandException {
+    public static City foundCity(Civilization civ, Location location,String name) throws CommandException {
         checkConditionsForCity(location, civ, game.getTileGrid().getTile(location));
         Tile currentTile = game.getTileGrid().getTile(location);
         int cityProduction = 1 + currentTile.calculateProductionCount();
@@ -110,12 +110,13 @@ public class GameController {
         boolean isCapital = civ.getCapital() == null;
         //todo : get a name for city from user
         ArrayList<Tile> assignedTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
-        City city = new City("City1", assignedTiles, civ, currentTile, isCapital);
+        City city = new City(name, assignedTiles, civ, currentTile, isCapital);
         for (Tile tile : assignedTiles) tile.setCivilization(civ);
         currentTile.setCity(city);
         civ.addCity(city);
         currentTile.setNonCombatUnit(null);
         if (isCapital) civ.setCapital(city);
+        currentTile.setNonCombatUnit(null);
         checkForResource(currentTile, city, civ);
         return city;
     }
@@ -342,5 +343,11 @@ public class GameController {
         Tile tile = GameController.getGame().getTileGrid().getTile(location);
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
         tile.setCitizen(new Citizen(city));
+    }
+
+    public static void cityUnassignCitizen(City city, Location location) throws CommandException {
+        Tile tile = GameController.getGame().getTileGrid().getTile(location);
+        if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
+        tile.setCitizen(null);
     }
 }
