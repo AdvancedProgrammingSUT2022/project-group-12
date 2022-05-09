@@ -127,4 +127,8 @@ public class Database {
         serializeUsers();
         serializeGames();
     }
+
+    public void printUsers() {
+        System.out.println(this.users);
+    }
 }

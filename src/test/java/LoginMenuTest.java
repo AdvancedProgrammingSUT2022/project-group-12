@@ -17,12 +17,13 @@ public class LoginMenuTest {
     @BeforeEach
     void load() {
         Database.getInstance().deserializeUsers();
-        User user = new User("alireza", "Password123!", "ali");
+        User user = new User("alireza", "Password123!", "nickname");
         Database.getInstance().addUser(user);
     }
 
     @Test
-    void invalidUsername() throws CommandException {
+    public void invalidUsername() throws CommandException {
+        User newUser = new User("alireza","password1","nickname");
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
@@ -48,7 +49,7 @@ public class LoginMenuTest {
     }
 
     @Test
-    void weakPassword() throws CommandException {
+    public void weakPassword() throws CommandException {
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza2 -p password -n nickname2";
         Command command = Command.parseCommand(inputString);
@@ -74,7 +75,7 @@ public class LoginMenuTest {
     }
 
     @Test
-    void invalidNickname() throws CommandException {
+    public void invalidNickname() throws CommandException {
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza1 -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
@@ -100,7 +101,7 @@ public class LoginMenuTest {
     }
 
     @Test
-    void invalidPassword() throws CommandException {
+    public void invalidPassword() throws CommandException {
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user login -u alireza -p password";
         Command command = Command.parseCommand(inputString);
@@ -120,11 +121,11 @@ public class LoginMenuTest {
                 controller.loginUser(username, password);
             }
         });
-        assertEquals(INVALID_PASSWORD.toString(), exception.getMessage());
+        assertEquals(PASSWORD_DOES_NOT_MATCH.toString(), exception.getMessage());
     }
 
     @Test
-    void usernameDoesNotExists() throws CommandException {
+    public void usernameDoesNotExists() throws CommandException {
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user login -u alireza23 -p Password1!";
         Command command = Command.parseCommand(inputString);
