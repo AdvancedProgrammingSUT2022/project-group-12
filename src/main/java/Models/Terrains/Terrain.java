@@ -141,4 +141,8 @@ public class Terrain {
         StringBuilder resourcesNames = new StringBuilder("contains resource :" + this.resource.toString());
         return resourcesNames;
     }
+
+    public void clearLands() {
+
+    }
 }

@@ -204,7 +204,7 @@ public class Tile {
     }
 
     public void deleteUnit(Unit unit){
-        this.civilization.unitDelete(unit);
+        this.getCiv().unitDelete(unit);
         if(unit instanceof NonCombatUnit)
             this.nonCombatUnit = null;
         else

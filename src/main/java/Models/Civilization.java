@@ -297,4 +297,8 @@ public class Civilization {
     public TerrainColor getColor() {
         return color;
     }
+
+    public void unitDelete(Unit unit) {
+
+    }
 }
