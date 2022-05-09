@@ -202,4 +202,16 @@ public class Tile {
     public Location getLocation() {
         return new Location(getRow(), getCol());
     }
+
+    public void deleteUnit(Unit unit){
+        this.civilization.unitDelete(unit);
+        if(unit instanceof NonCombatUnit)
+            this.nonCombatUnit = null;
+        else
+            this.combatUnit = null;
+    }
+
+    public void clearLand(){
+        this.terrain.clearLands();
+    }
 }
