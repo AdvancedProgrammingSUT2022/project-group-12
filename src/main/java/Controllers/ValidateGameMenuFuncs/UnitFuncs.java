@@ -452,10 +452,10 @@ public class UnitFuncs extends GameMenuFuncs {
         return currentTile.getTerrain().getImprovements().contains(improvementEnum);
     }
 
-    public City foundCity(String name) throws CommandException {
+    public City foundCity() throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         validateTileForFoundingCity(currentTile, currentCivilization);
-        return GameController.foundCity(currentCivilization, currentCivilization.getCurrentGridLocation(),name);
+        return GameController.foundCity(currentCivilization, currentCivilization.getCurrentGridLocation());
     }
 }
