@@ -11,10 +11,7 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Constants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Civilization {
 
@@ -279,19 +276,38 @@ public class Civilization {
 
     public double numberOfLuxuryResources() {
         double counter = 0;
-        int height = this.getRevealedTileGrid().getHeight(), width = this.getRevealedTileGrid().getWidth();
-        Tile[][] tiles = this.getRevealedTileGrid().getTiles();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                Tile tile = tiles[i][j];
-                Terrain terrain = tile.getTerrain();
-                ResourceEnum resource = terrain.getResource();
-                if (tile.getCiv() == this && resource.isLuxury() && terrain.getImprovements().contains(resource.getImprovementNeeded())) {
-                    ++counter;
-                }
+        Set<Tile> visitedTiles = new TreeSet<>();
+        for (City city :
+                this.cities) {
+            counter += numberOfCityLuxuryResources(city, visitedTiles);
+        }
+
+        return counter;
+    }
+
+    public double numberOfCityLuxuryResources(City city, Set<Tile> tiles) {
+        double counter = 0;
+        checkForReservedResource(city.getReservedResource(), city);
+        for (Tile tile :
+                city.getTiles()) {
+            Terrain terrain = tile.getTerrain();
+            ResourceEnum resource = terrain.getResource();
+            if (resource.isLuxury() && terrain.getImprovements().contains(resource.getImprovementNeeded()) && !tiles.contains(tile)) {
+                ++counter;
             }
+            tiles.add(tile);
         }
         return counter;
+    }
+
+    private void checkForReservedResource(ResourceEnum reservedResource, City city) {
+        if (reservedResource == null) {
+            return;
+        }
+        if (reservedResource.getImprovementNeeded().hasRequiredTechs(city.getCivilization().getTechnologies())) {
+            city.getResources().add(reservedResource);
+            reservedResource = null;
+        }
     }
 
     public TerrainColor getColor() {
