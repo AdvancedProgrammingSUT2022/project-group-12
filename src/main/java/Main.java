@@ -15,7 +15,7 @@ public class Main {
             menuStack.runTopMenu();
         }
 
-        Database.getInstance().serialize();
+//        Database.getInstance().serialize();
     }
 }
 /*
