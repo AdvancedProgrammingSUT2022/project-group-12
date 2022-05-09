@@ -10,7 +10,7 @@ import Views.MenuStack;
 public class LoginMenuController {
     public void createUser(String username, String nickname, String password) throws CommandException {
         Database database = Database.getInstance();
-        if (database.nicknameAlreadyExists(username)) {
+        if (database.checkForUsername(username)) {
             throw new CommandException(CommandResponse.USERNAME_ALREADY_EXISTS.toString());
         } else if (database.nicknameAlreadyExists(nickname)) {
             throw new CommandException(CommandResponse.NICKNAME_ALREADY_EXISTS.toString());

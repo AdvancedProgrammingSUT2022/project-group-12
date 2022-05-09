@@ -71,4 +71,12 @@ public class User {
     public void setRunningGame(Game runningGame) {
         this.runningGame = runningGame;
     }
+
+    @Override
+    public String toString() {
+        return "username : " + username +
+                "\npassword : " + password +
+                "\nnickname : " + nickname +
+                "\nscore : " + score;
+    }
 }
