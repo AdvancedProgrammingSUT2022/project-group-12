@@ -74,6 +74,7 @@ public class Civilization {
         this.researchingTechnology = null;
         this.researchingTechnologies = new HashMap<>();
     }
+
     public void researchTech() {
         if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
             if (technologies.containsKey(researchingTechnology)) {
@@ -263,25 +264,32 @@ public class Civilization {
     public Location getCurrentGridLocation() {
         return this.currentSelectedGridLocation;
     }
-    public HappinessTypeEnum detectHappinessState(double happiness){
-        if(happiness > 0){return HappinessTypeEnum.HAPPY;}
-        if (happiness > -10){return HappinessTypeEnum.UNHAPPY;}
+
+    public HappinessTypeEnum detectHappinessState(double happiness) {
+        if (happiness > 0) {
+            return HappinessTypeEnum.HAPPY;
+        }
+        if (happiness > -10) {
+            return HappinessTypeEnum.UNHAPPY;
+        }
         return HappinessTypeEnum.VERYUNHAPPY;
     }
-    public double calculateHappiness(){
+
+    public double calculateHappiness() {
         this.happiness = 0;
         for (City city :
-              this.getCities()) {
+                this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
-        int numberOfLuxuryResource = (int)this.numberOfLuxuryResources();
+        int numberOfLuxuryResource = (int) this.numberOfLuxuryResources();
         this.happiness += numberOfLuxuryResource * 4;
         detectHappinessState(happiness);
         return happiness;
     }
-    public double numberOfLuxuryResources(){
+
+    public double numberOfLuxuryResources() {
         double counter = 0;
-        int height = this.getRevealedTileGrid().getHeight() , width = this.getRevealedTileGrid().getWidth();
+        int height = this.getRevealedTileGrid().getHeight(), width = this.getRevealedTileGrid().getWidth();
         Tile[][] tiles = this.getRevealedTileGrid().getTiles();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -294,5 +302,10 @@ public class Civilization {
             }
         }
         return counter;
+    }
+
+
+    public void unitDelete(Unit unit) {
+        this.units.remove(unit);
     }
 }
