@@ -277,6 +277,14 @@ public class City {
         return buildings;
     }
 
+    public void addToProductionQueue(Production production) {
+        this.productionQueue.add(production);
+    }
+
+    public void removeFromProductionQueue(int index) {
+        this.productionQueue.remove(index);
+    }
+
     public void advanceProductionQueue() {
         // productionQueue cannot be empty (Game.endCurrentTurn guarantee)
         productionQueue.get(0).decreaseRemainedProduction(this.getProduction());

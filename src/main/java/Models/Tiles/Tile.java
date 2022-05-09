@@ -145,7 +145,7 @@ public class Tile {
         this.combatUnit = combatUnit;
     }
 
-    public Civilization getCiv() {
+    public Civilization getCivilization() {
         return this.civilization;
     }
 

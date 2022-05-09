@@ -19,7 +19,7 @@ public class Citizen {
         return locked;
     }
 
-    public void setLocked(boolean locked) {
+    public void setLock(boolean locked) {
         this.locked = locked;
     }
 }

@@ -51,7 +51,8 @@ public enum CommandResponse {
     CITIZEN_ALREADY_WORKING_ON_TILE("a citizen already working on this tile"),
     EMPTY_PRODUCTION_QUEUE("production queue is empty"),
     NO_CITIZEN_ON_TILE("there is no citizen on the tile"),
-    UNIT_NOT_SELECTED("no unit selected");
+    UNIT_NOT_SELECTED("no unit selected"),
+    NOT_YOUR_TERRITORY("tile isn't in city's territory");
 
     private String message;
 

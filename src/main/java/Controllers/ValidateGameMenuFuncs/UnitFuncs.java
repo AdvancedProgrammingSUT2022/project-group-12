@@ -14,6 +14,7 @@ import Models.Units.NonCombatUnit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
+import Utils.Constants;
 
 import static Controllers.MovingController.moveUnit;
 
@@ -67,8 +68,10 @@ public class UnitFuncs extends GameMenuFuncs {
         }
     }
 
-    private boolean isPossibleToBuildCity(Tile currentTile) {
-        //TODO : need at least 4 tile around it to build the city
+    private boolean isPossibleToBuildCity(Tile tile) {
+        for (Tile neighbor : GameController.getGame().getTileGrid().getAllTilesInRadius(tile, Constants.CITY_DISTANCE)) {
+            if (neighbor.getCity() != null) return false;
+        }
         return true;
 
     }

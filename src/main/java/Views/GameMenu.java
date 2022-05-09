@@ -30,6 +30,11 @@ public class GameMenu extends Menu {
         this.infoFuncs = new InfoFuncs(GameController.getGame());
         this.mapFuncs = new MapFuncs(GameController.getGame());
         this.unitFuncs = new UnitFuncs(GameController.getGame());
+        startOfTurnInfo(GameController.getGame().getCurrentCivilization());
+    }
+
+    public void startOfTurnInfo(Civilization civilization) {
+        System.out.println("turn of: " + civilization.getName());
     }
 
     public static void printError(CommandResponse commandResponse) {
@@ -78,10 +83,17 @@ public class GameMenu extends Menu {
                     e.print();
                     break;
                 }
-                GameController.getGame().startNextTurn();
+                this.startNewTurn();
             }
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void startNewTurn() {
+        System.out.println("end of turn");
+        System.out.println("------------------------------");
+        GameController.getGame().startNextTurn();
+        startOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 
     private void city(Command command) {
@@ -95,7 +107,26 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
             case "assign" -> cityCitizenModify(command, true);
             case "unassign" -> cityCitizenModify(command, false);
+            case "lock" -> cityCitizenChangeLock(command, true);
+            case "unlock" -> cityCitizenChangeLock(command, false);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityCitizenChangeLock(Command command, boolean lock) {
+        command.abbreviate("position", "p");
+        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            GameController.cityCitizenSetLock(selectedCity, location, lock);
+            if (lock) {
+                System.out.println("citizen successfully locked on " + location);
+            } else {
+                System.out.println("citizen successfully unlocked from " + location);
+            }
+        } catch (CommandException e) {
+            e.print();
         }
     }
 
