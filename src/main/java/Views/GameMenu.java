@@ -246,8 +246,8 @@ public class GameMenu extends Menu {
             }
             command.assertOptions(List.of("cityname"));
             System.out.println(getUnitFuncs().foundCity(command.getOption("cityname")));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (CommandException e) {
+            e.print();
         }
     }
     public City selectCityByPosition(Location location) throws CommandException {
