@@ -419,7 +419,7 @@ public class GameController {
         } else {
             NonCombatUnit nonCombatUnit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
             if (tile.getNonCombatUnit() != null) {
-                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getType().name());
             }
             tile.setNonCombatUnit(nonCombatUnit);
         }

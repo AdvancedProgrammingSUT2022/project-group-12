@@ -106,7 +106,7 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuy(Command command) {
-        switch (command.getSubCategory()) {
+        switch (command.getSubSubCategory()) {
             case "tile" -> cityBuyTile(command);
             case "unit" -> cityBuyUnit(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
@@ -114,12 +114,10 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuyUnit(Command command) {
-        command.abbreviate("position", "p");
         command.abbreviate("unit", "u");
         if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
-            command.assertOptions(List.of("position", "unit"));
-            Location location = command.getLocationOption("position");
+            command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
             UnitEnum unit = UnitEnum.valueOf(unitName);
             GameController.cityBuyUnit(selectedCity, unit);
