@@ -399,7 +399,7 @@ public class GameController {
         if (tile.getCity() != null) throw new CommandException(CommandResponse.ALREADY_FOR_A_CITY);
         boolean isNeighbor = false;
         for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
-            if (neighbor.getCity() == city) {
+            if (city.getTiles().contains(neighbor)) {
                 isNeighbor = true;
                 break;
             }

@@ -123,7 +123,7 @@ public class Game {
         tileGrid.setFogOfWarForAll();
         for (Unit unit : civilization.getUnits()) {
             Tile tile = tileGrid.getTile(unit.getLocation());
-            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
                 TileGrid civTileGrid = civilization.getRevealedTileGrid();
                 civTileGrid.setVisible(neighbor.getLocation());
                 civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());

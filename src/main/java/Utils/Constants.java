@@ -7,4 +7,5 @@ public class Constants {
     public static final int TERMINAL_WIDTH = 120;
     public static final int CITY_DISTANCE = 4;
     public static final int TILE_COST = 80;
+    public static final int UNIT_VISION_RADIUS = 2;
 }
