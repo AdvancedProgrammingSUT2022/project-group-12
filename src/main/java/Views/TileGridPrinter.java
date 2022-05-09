@@ -45,17 +45,19 @@ public class TileGridPrinter {
         }
     }
 
-    public String print(Location upleft) {
+    public String print(Location center) {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 screen[i][j] = " ";
             }
         }
 
-        for (int i = tileGrid.getHeight(); i >= -1; --i) {
-            for (int j = -1; j <= tileGrid.getWidth(); ++j) {
-                int ii = i + upleft.getRow();
-                int jj = j + upleft.getCol();
+        int hexInRow = this.height / this.hexH * 2;
+        int hexInCol = this.width / this.hexW / 2;
+        for (int i = hexInRow; i >= -2; --i) {
+            for (int j = -1; j < hexInCol; ++j) {
+                int ii = i + center.getRow() - hexInRow / 2 + 1;
+                int jj = j + center.getCol() - hexInCol / 4;
                 if (0 <= ii && ii < tileGrid.getHeight() && 0 <= jj && jj < tileGrid.getWidth()) {
                     Tile tile = tileGrid.getTile(ii, jj);
                     int x = hexH + hexW * 2;
