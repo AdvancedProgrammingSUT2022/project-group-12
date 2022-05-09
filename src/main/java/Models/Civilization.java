@@ -13,34 +13,39 @@ import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Civilization {
 
     private final User user;
     private final String name;
+    private final TerrainColor color;
     private final CivilizationController controller;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
-    private ArrayList<Unit> units;
     private final TileGrid revealedTileGrid;
-    private int gold;
+    private final ArrayList<Unit> units;
+    private final int gold;
+    private final int production;
+    private final HashMap<TechnologyEnum, Integer> technologies;
+    private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
+    private final ArrayList<Civilization> isInWarWith;
+    private final HappinessTypeEnum happinessType;
     private int beaker;
     private int happiness;
-    private int production;
-    private HashMap<TechnologyEnum, Integer> technologies;
     private Tile currentTile;
     private TechnologyEnum researchingTechnology;
-    private HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
     private City capital = null;
-    private ArrayList<Civilization> isInWarWith;
     private Location currentSelectedGridLocation = new Location(0, 0);
-    private HappinessTypeEnum happinessType;
 
     public Civilization(User user) {
+        List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
+        this.color = colors.get(new Random().nextInt(colors.size()));
         this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;
@@ -56,20 +61,6 @@ public class Civilization {
         this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
-    }
-
-    public Civilization(User user, TileGrid tileGrid) {
-        this.technologies = new HashMap<>();
-        this.user = user;
-        this.name = user.getNickname();
-        this.revealedTileGrid = tileGrid;
-        this.units = new ArrayList<>();
-        this.controller = new CivilizationController(this);
-        this.cities = new ArrayList<>();
-        this.notifications = new ArrayList<>();
-        this.ownedTiles = null;
-        this.researchingTechnology = null;
-        this.researchingTechnologies = new HashMap<>();
     }
 
     public void researchTech() {
@@ -93,14 +84,16 @@ public class Civilization {
     public void checkLeadsToTech() {
         ArrayList<TechnologyEnum> techs = researchingTechnology.leadsToTech();
         for (TechnologyEnum tech : techs) {
-            if (!tech.hasPrerequisiteTechs(this.technologies))
+            if (!tech.hasPrerequisiteTechs(this.technologies)) {
                 researchingTechnologies.put(tech, tech.getCost());
+            }
         }
     }
 
     public void startResearchOnTech(TechnologyEnum tech) {
-        if (!researchingTechnologies.containsKey(tech))
+        if (!researchingTechnologies.containsKey(tech)) {
             this.researchingTechnologies.put(tech, tech.getCost());
+        }
     }
 
     public ArrayList<Unit> getUnits() {
@@ -188,7 +181,7 @@ public class Civilization {
     }
 
     public String getAbbreviation() {
-        return this.name.substring(0, Math.min(4, this.name.length()));
+        return this.name.substring(0, Math.min(5, this.name.length()));
     }
 
     public CivilizationController getController() {
@@ -301,12 +294,7 @@ public class Civilization {
         return counter;
     }
 
-
-    public void unitDelete(Unit unit) {
-        this.units.remove(unit);
-    }
-
     public TerrainColor getColor() {
-        return TerrainColor.WHITE;
+        return color;
     }
 }
