@@ -1,7 +1,6 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
@@ -76,14 +75,5 @@ public class GameMenuFuncs {
     private CommandResponse validateDownWardMove(int amount) {
         //TODO : validate rightward move
         return CommandResponse.OK;
-    }
-
-    public City getCityWithThisName(Civilization currentCivilization, String name) throws CommandException {
-        for (City city : currentCivilization.getCities()) {
-            if (city.getName().equals(name)) {
-                return city;
-            }
-        }
-        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 }

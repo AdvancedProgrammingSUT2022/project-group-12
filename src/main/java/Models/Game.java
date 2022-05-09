@@ -10,9 +10,9 @@ import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
+import Utils.GameException;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Game {
     private final ArrayList<Civilization> civs;
@@ -21,14 +21,12 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
-        Random random = new Random();
-        int randomRow = random.nextInt(50, 100);
-        int randomCol = random.nextInt(50, 100);
         this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         for (User user : users) {
             Civilization civ = new Civilization(user);
             civs.add(civ);
-            Location settlerLocation = this.tileGrid.getRandomTileLocation();
+            // for easier testing
+            Location settlerLocation = new Location(10, 10); // this.tileGrid.getRandomTileLocation();
             NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerLocation);
             this.tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(settler);
             updateRevealedTileGrid(civ);
@@ -38,6 +36,16 @@ public class Game {
 
     public Civilization getCurrentCivilization() {
         return civs.get(this.gameTurn % civs.size());
+    }
+
+    public void endCurrentTurn() throws GameException {
+        Civilization civ = GameController.getGame().getCurrentCivilization();
+        updateRevealedTileGrid(civ);
+        for (City city : civ.getCities()) {
+            if (city.getCitizens().size() < city.getCitizensCount()) {
+                throw new GameException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
+            }
+        }
     }
 
     public void startNextTurn() {

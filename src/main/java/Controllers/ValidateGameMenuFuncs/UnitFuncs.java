@@ -2,6 +2,7 @@ package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
 import Enums.*;
+import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
@@ -451,7 +452,7 @@ public class UnitFuncs extends GameMenuFuncs {
         return currentTile.getTerrain().getImprovements().contains(improvementEnum);
     }
 
-    public String foundCity() throws CommandException {
+    public City foundCity() throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         validateTileForFoundingCity(currentTile, currentCivilization);

@@ -3,14 +3,16 @@ package Views;
 import Controllers.GameController;
 import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
-import Controllers.ValidateGameMenuFuncs.SelectFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.ImprovementEnum;
+import Models.Cities.City;
+import Models.Civilization;
 import Models.Location;
 import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
+import Utils.GameException;
 
 import java.util.List;
 
@@ -18,14 +20,13 @@ public class GameMenu extends Menu {
 
     private final InfoFuncs infoFuncs;
     private final MapFuncs mapFuncs;
-    private final SelectFuncs selectFuncs;
     private final UnitFuncs unitFuncs;
     private Unit selectedUnit;
+    private City selectedCity;
 
     public GameMenu(GameController controller) {
         this.infoFuncs = new InfoFuncs(GameController.getGame());
         this.mapFuncs = new MapFuncs(GameController.getGame());
-        this.selectFuncs = new SelectFuncs(GameController.getGame());
         this.unitFuncs = new UnitFuncs(GameController.getGame());
     }
 
@@ -35,10 +36,6 @@ public class GameMenu extends Menu {
 
     public InfoFuncs getInfoFuncs() {
         return infoFuncs;
-    }
-
-    public SelectFuncs getSelectFuncs() {
-        return selectFuncs;
     }
 
     public UnitFuncs getUnitFuncs() {
@@ -72,7 +69,15 @@ public class GameMenu extends Menu {
 
     private void end(Command command) {
         switch (command.getSubCategory()) {
-            case "turn" -> GameController.getGame().startNextTurn();
+            case "turn" -> {
+                try {
+                    GameController.getGame().endCurrentTurn();
+                } catch (GameException e) {
+                    e.print();
+                    break;
+                }
+                GameController.getGame().startNextTurn();
+            }
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -136,25 +141,25 @@ public class GameMenu extends Menu {
             e.print();
             return;
         }
-        System.out.println("unit selected");
+        System.out.println("unit selected: " + selectedUnit.getType().name());
     }
 
     private void selectCity(Command command) {
-        command.abbreviate("cityname", "cn");
-        command.abbreviate("cityposition", "cp");
+        command.abbreviate("name", "n");
+        command.abbreviate("position", "p");
         try {
-            if (command.getOption("cityposition") != null) {
-                command.assertOptionType("cityposition", "integer");
-                System.out.println(getSelectFuncs().selectCityByPosition(command.getLocationOption("cityposition")));
-            } else if (command.getOption("cityname") != null) {
-                command.assertOptionType("cityname", "string");
-                System.out.println(getSelectFuncs().selectCityWithName(command.getOption("cityname")));
+            if (command.getOption("position") != null) {
+                this.selectedCity = selectCityByPosition(command.getLocationOption("position"));
+            } else if (command.getOption("name") != null) {
+                this.selectedCity = selectCityByName(command.getOption("name"));
             } else {
-                System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
+                new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, "name/position").print();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (CommandException e) {
+            e.print();
+            return;
         }
+        System.out.println("city selected: " + selectedCity.getName());
     }
 
     private void unit(Command command) {
@@ -249,9 +254,28 @@ public class GameMenu extends Menu {
             if (!command.getSubSubCategory().equals("city")) {
                 System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
             }
-            System.out.println(getUnitFuncs().foundCity());
-        } catch (Exception e) {
-            e.printStackTrace();
+            City city = getUnitFuncs().foundCity();
+            System.out.println("city found successfully: " + city.getName());
+        } catch (CommandException e) {
+            e.print();
         }
+    }
+
+    public City selectCityByPosition(Location location) throws CommandException {
+        if (!GameController.getGame().getTileGrid().isLocationValid(location)) throw new CommandException(CommandResponse.INVALID_POSITION);
+        City city = GameController.getGame().getTileGrid().getTile(location).getCity();
+        Civilization civ = GameController.getGame().getCurrentCivilization();
+        if (city == null || city.getCivilization() != civ) throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+        return city;
+    }
+
+    public City selectCityByName(String name) throws CommandException {
+        Civilization civ = GameController.getGame().getCurrentCivilization();
+        for (City city : civ.getCities()) {
+            if (city.getName().equals(name)) {
+                return city;
+            }
+        }
+        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 }

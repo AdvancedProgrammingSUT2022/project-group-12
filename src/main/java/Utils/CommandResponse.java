@@ -44,7 +44,8 @@ public enum CommandResponse {
     MISSING_REQUIRED_OPTION("missing required option"),
     UNRECOGNIZED_OPTION("unrecognized option entered"),
     INVALID_OPTION_TYPE("invalid option type"),
-    IMPOSSIBLE_MOVE("this move is impossible");
+    IMPOSSIBLE_MOVE("this move is impossible"),
+    UNASSIGNED_CITIZEN("unassigned citizen in city");
 
     private String message;
 

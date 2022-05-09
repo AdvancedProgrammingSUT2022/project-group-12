@@ -62,7 +62,7 @@ public class Command {
             options.put(key, value);
         }
         Command command = new Command(cmd, options);
-        System.out.println(command);
+//        System.out.println(command);
         return command;
     }
 

@@ -28,20 +28,20 @@ public class Civilization {
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
     private final int gold;
-    private int beaker;
-    private int happiness;
     private final int production;
     private final HashMap<TechnologyEnum, Integer> technologies;
+    private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
+    private final ArrayList<Civilization> isInWarWith;
+    private final HappinessTypeEnum happinessType;
+    private int beaker;
+    private int happiness;
     private Tile currentTile;
     private TechnologyEnum researchingTechnology;
-    private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
     private City capital = null;
-    private final ArrayList<Civilization> isInWarWith;
     private Location currentSelectedGridLocation = new Location(0, 0);
-    private final HappinessTypeEnum happinessType;
 
     public Civilization(User user) {
         List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);

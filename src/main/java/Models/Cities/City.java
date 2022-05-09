@@ -4,6 +4,7 @@ import Enums.BuildingEnum;
 import Enums.CityTypeEnum;
 import Enums.ResourceEnum;
 import Models.Buildings.Building;
+import Models.Citizen;
 import Models.Civilization;
 import Models.Location;
 import Models.Production;
@@ -28,7 +29,7 @@ public class City {
     private final ArrayList<Production> productionQueue;
     private final String name;
     protected boolean isCapital;
-    private Civilization isOwnedBy;
+    private Civilization civilization;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;
@@ -50,7 +51,7 @@ public class City {
         this.nonCombatUnit = null;
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateProductionCount();
-        this.resources = new ArrayList<>(List.of(tile.getTerrain().getResource()));
+        this.resources = new ArrayList<>(tile.getTerrain().getResource() == null ? List.of() : List.of(tile.getTerrain().getResource()));
         this.hitPoint = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
@@ -58,7 +59,7 @@ public class City {
         this.food = tile.calculateFoodCount();
         this.localHappiness = 10;
         this.buildings = new ArrayList<>();
-        this.isOwnedBy = civ;
+        this.civilization = civ;
         this.range = 2;
         this.cityTile = tile;
         this.name = name;
@@ -88,6 +89,16 @@ public class City {
         double random_number = random.nextInt(50) + 75;
         random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
+    }
+
+    public ArrayList<Citizen> getCitizens() {
+        ArrayList<Citizen> citizens = new ArrayList<>();
+        for (Tile tile : this.getTiles()) {
+            if (tile.getCitizen() != null && tile.getCitizen().getCity() == this) {
+                citizens.add(tile.getCitizen());
+            }
+        }
+        return citizens;
     }
 
     private void affectCitizens() {
@@ -122,14 +133,6 @@ public class City {
 
     public Location getLocation() {
         return this.cityTile.getLocation();
-    }
-
-    public Civilization getCivilization() {
-        return this.isOwnedBy;
-    }
-
-    public void setCivilization(Civilization civ) {
-        this.isOwnedBy = civ;
     }
 
     public int getGold() {
@@ -240,8 +243,12 @@ public class City {
         return this.name;
     }
 
-    public Civilization getIsOwnedBy() {
-        return isOwnedBy;
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civ) {
+        this.civilization = civ;
     }
 
     public void applyBuildingNotes() {
@@ -328,7 +335,7 @@ public class City {
         if (reservedResource == null) {
             return;
         }
-        if (reservedResource.getImprovementNeeded().hasRequiredTechs(this.isOwnedBy.getTechnologies())) {
+        if (reservedResource.getImprovementNeeded().hasRequiredTechs(this.civilization.getTechnologies())) {
             this.resources.add(reservedResource);
             reservedResource = null;
         }

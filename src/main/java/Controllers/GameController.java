@@ -103,7 +103,7 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static String FoundCity(Civilization civ, Location location) throws CommandException {
+    public static City FoundCity(Civilization civ, Location location) throws CommandException {
         checkConditionsForCity(location, civ, game.getTileGrid().getTile(location));
         Tile currentTile = game.getTileGrid().getTile(location);
         int cityProduction = 1 + currentTile.calculateProductionCount();
@@ -118,7 +118,7 @@ public class GameController {
         currentTile.setNonCombatUnit(null);
         if (isCapital) civ.setCapital(city);
         checkForResource(currentTile, city, civ);
-        return "city found successfully";
+        return city;
     }
 
     private static void checkConditionsForCity(Location location, Civilization civilization, Tile tile) throws CommandException {
