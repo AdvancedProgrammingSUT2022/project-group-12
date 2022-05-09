@@ -18,7 +18,6 @@ public class LoginMenuController {
             throw new CommandException(CommandResponse.WEAK_PASSWORD.toString());
         } else {
             User newUser = new User(username, password, nickname);
-            database.addUserToList(newUser);
         }
     }
 

@@ -17,7 +17,7 @@ public class User {
         this.gamesPlayed = new ArrayList<>();
         this.score = 0;
         Database data = Database.getInstance();
-        data.addUserToList(this);
+        data.addUser(this);
     }
 
     public String getUsername() {
