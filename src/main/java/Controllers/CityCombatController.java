@@ -143,7 +143,7 @@ public class CityCombatController extends CombatController {
             } else if (unit instanceof NonRangedUnit) {
                 cityTile.setCombatUnit((CombatUnit) unit);
                 unitTile.setCombatUnit(null);
-                return captureTheCity(unit.getCiv(), unit, city, cityTile, city.getCivilization());
+                return captureTheCity(unit.getCivilization(), unit, city, cityTile, city.getCivilization());
             } else {
                 city.setHitPoint(0);
                 return "city is destroyed but your unit is destroyed too !!!";

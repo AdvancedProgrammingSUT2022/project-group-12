@@ -1,10 +1,8 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Models.Civilization;
 import Models.Game;
 import Models.Location;
-import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Utils.Command;
 import Utils.CommandException;
@@ -68,43 +66,4 @@ public class MapFuncs extends GameMenuFuncs {
         String amount = command.getOption("amount");
         return isCorrectPosition(amount, this.getGame(), direction);
     }
-
-    private void unitDelete(Command command) {
-        Civilization currentCivilization = getCurrentCivilization();
-        Tile currentTile = getCurrentTile();
-        CommandResponse response;
-        switch (command.getOption("unit")) {
-            case "non combat" -> {
-                response = validateForNonCombatUnit(currentTile, currentCivilization);
-                if (response.isOK()) GameController.deleteNonCombatUnit(currentCivilization, currentTile);
-            }
-            case "combat" -> {
-                response = validateForCombatUnit(currentTile, currentCivilization);
-                if (response.isOK()) GameController.deleteCombatUnit(currentCivilization, currentTile);
-            }
-            default -> response = CommandResponse.CommandMissingRequiredOption;
-        }
-        System.out.println(response.isOK() ? "unit deleted successfully" : response);
-    }
-
-    private CommandResponse validateForNonCombatUnit(Tile currentTile, Civilization civilization) {
-        if (!(civilization.getCurrentTile().getNonCombatUnit().getType() == null)) {
-            return CommandResponse.UNIT_DOES_NOT_EXISTS;
-        }
-        if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
-            return CommandResponse.WRONG_UNIT;
-        }
-        return CommandResponse.OK;
-    }
-
-    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilization) {
-        if (!(civilization.getCurrentTile().getCombatUnit().getType() == null)) {
-            return CommandResponse.UNIT_DOES_NOT_EXISTS;
-        }
-        if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
-            return CommandResponse.WRONG_UNIT;
-        }
-        return CommandResponse.OK;
-    }
-
 }

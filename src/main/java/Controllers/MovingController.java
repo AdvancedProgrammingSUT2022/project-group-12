@@ -13,8 +13,6 @@ import Utils.CommandException;
 
 import java.util.*;
 
-import static Controllers.CombatController.AttackUnit;
-
 public class MovingController extends GameController {
 
     public MovingController(Game newGame) {
@@ -41,8 +39,8 @@ public class MovingController extends GameController {
             gameTileGrid.getTile(unit.getLocation()).setNullUnit(unit);
             unit.setLocation(location);
             gameTileGrid.getTile(unit.getLocation()).setUnit(unit);
-            game.updateRevealedTileGrid(unit.getCiv());
-            unit.getCiv().setCurrentSelectedGridLocation(location);
+            game.updateRevealedTileGrid(unit.getCivilization());
+            unit.getCivilization().setCurrentSelectedGridLocation(location);
             unit.getPathShouldCross().remove(0);
         }
         return response;
@@ -50,14 +48,14 @@ public class MovingController extends GameController {
 
     private static boolean checkForEnemy(Location nextLocation, Unit unit, String response) {
         Tile currentTile = game.getTileGrid().getTile(nextLocation);
-        if (isEnemyExists(nextLocation, unit.getCiv())) {
-            response = AttackUnit(new Location(nextLocation.getRow(), nextLocation.getCol()), game, currentTile, unit.getCiv());
+        if (isEnemyExists(nextLocation, unit.getCivilization())) {
+//            response = AttackUnit(new Location(nextLocation.getRow(), nextLocation.getCol()), game, currentTile, unit.getCivilization());
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;
         }
-        if (isNonCombatEnemyExists(nextLocation, unit.getCiv())) {
-            CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextLocation), unit.getCiv());
+        if (isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
+            CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextLocation), unit.getCivilization());
             return false;
         }
         return false;
@@ -102,9 +100,9 @@ public class MovingController extends GameController {
 
     private static boolean checkForZOCOnTile(Tile tile, Unit unit) {
         ArrayList<Tile> tiles = game.getTileGrid().getNeighborsOf(tile);
-        Civilization unitCiv = unit.getCiv();
+        Civilization unitCiv = unit.getCivilization();
         for (Tile tempTile : tiles) {
-            if (tempTile.getCombatUnit() != null && tempTile.getCombatUnit().getCiv() != unitCiv) {
+            if (tempTile.getCombatUnit() != null && tempTile.getCombatUnit().getCivilization() != unitCiv) {
                 return true;
             }
         }

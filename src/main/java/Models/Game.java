@@ -86,7 +86,7 @@ public class Game {
     public Unit getSelectedUnit(Civilization currentCivilization, Location location, boolean isCombatUnit) throws CommandException {
         Tile tile = this.tileGrid.getTile(location);
         Unit unit = isCombatUnit ? tile.getCombatUnit() : tile.getNonCombatUnit();
-        if (unit == null || unit.getCiv() != currentCivilization) {
+        if (unit == null || unit.getCivilization() != currentCivilization) {
             throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         } else {
             return unit;

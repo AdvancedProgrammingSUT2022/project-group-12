@@ -28,9 +28,14 @@ public class GameController {
         game = newGame;
     }
 
-    public static String RepairTile(Tile currentTile) {
+    public static void unitRepairTile(Unit unit) throws CommandException {
+        if (unit.getType() == UnitEnum.WORKER) {
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        if (!GameController.getGame().getTileGrid().getTile(unit.getLocation()).isDamaged()) {
+            throw new CommandException(CommandResponse.NOT_DAMAGED);
+        }
         // todo : complete
-        return "Tile repaired successfully";
     }
 
     public static String RemoveRoute(Tile currentTile, ImprovementEnum improvementEnum) {
@@ -48,12 +53,12 @@ public class GameController {
 
     protected static boolean isEnemyExists(int row, int col, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
-        return enemyUnit != null && enemyUnit.getCiv() != civilization;
+        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
     protected static boolean isEnemyExists(Location location, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
-        return enemyUnit != null && enemyUnit.getCiv() != civilization;
+        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
     protected static boolean isEnemyIsReadyForAttack(int row, int col, Civilization civilization, CombatUnit combatUnit) {
@@ -74,12 +79,12 @@ public class GameController {
 
     protected static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
-        return enemyUnit != null && enemyUnit.getCiv() != civilization;
+        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
     protected static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
-        return enemyUnit != null && enemyUnit.getCiv() != civilization;
+        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
     public static void deleteMonCombatUnit(Civilization currentCivilization, Tile currentTile) {
@@ -88,16 +93,10 @@ public class GameController {
     public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void wakeUpNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void wakeUpUnit(Unit unit) {
     }
 
-    public static void wakeUpCombatUnit(Civilization currentCivilization, Tile currentTile) {
-    }
-
-    public static void CancelMissionNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
-    }
-
-    public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static void CancelMissionUnit(Unit unit) {
     }
 
     public static City foundCity(Civilization civ, Location location) throws CommandException {
@@ -161,14 +160,8 @@ public class GameController {
         return "unit alerted successfully";
     }
 
-    public static String sleepNonCombatUnit(NonCombatUnit nonCombatUnit) {
-        nonCombatUnit.setState(UnitStates.SLEEP);
-        return "unit slept successfully";
-    }
-
-    public static String sleepCombatUnit(Civilization currentCivilization, Tile currentTile) {
-
-        return "unit slept successfully";
+    public static void sleepUnit(Unit unit) {
+        unit.setState(UnitStates.SLEEP);
     }
 
     public static StringBuilder showCity(City city) {
@@ -198,7 +191,6 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        nonCombatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(nonCombatUnit.getLocation()));
         return null;
     }
 
@@ -206,14 +198,13 @@ public class GameController {
         /***
          * change current tile to combatUnit tile
          */
-        combatUnit.getCiv().setCurrentTile(game.getTileGrid().getTile(combatUnit.getLocation()));
         return null;
     }
 
     public static StringBuilder showResearchInfo(Tile currentTile, Civilization currentCivilization) {
         StringBuilder researchInfo = new StringBuilder();
         HashMap<TechnologyEnum, Integer> technologies = new HashMap<>(currentCivilization.getResearchingTechnologies());
-        TechnologyEnum currentTech = currentCivilization.getCurrentTech();
+        TechnologyEnum currentTech = currentCivilization.getResearchingTechnology();
         showCurrentTech(researchInfo, technologies, currentTech);
         showOtherTechs(researchInfo, technologies);
         return researchInfo;
@@ -320,9 +311,8 @@ public class GameController {
         // todo, dummy function
     }
 
-    public static void buildImprovement(Tile tile, Civilization civ, ImprovementEnum improvement) throws CommandException {
+    public static void buildImprovement(Unit unit, ImprovementEnum improvement) {
         // todo, validations
-        throw new CommandException("error folan");
     }
 
     public static boolean checkForRivers(Tile tile, Tile tile1) {
@@ -347,5 +337,11 @@ public class GameController {
         Tile tile = GameController.getGame().getTileGrid().getTile(location);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.setCitizen(null);
+    }
+
+    public static void deleteUnit(Unit unit) {
+        Tile tile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
+        tile.deleteUnit(unit);
+        unit.getCivilization().deleteUnit(unit);
     }
 }

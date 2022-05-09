@@ -3,7 +3,6 @@ package Controllers.ValidateGameMenuFuncs;
 import Controllers.GameController;
 import Models.Civilization;
 import Models.Game;
-import Models.Tiles.Tile;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
@@ -16,10 +15,6 @@ public class GameMenuFuncs {
 
     protected static Civilization getCurrentCivilization() {
         return game.getCurrentCivilization();
-    }
-
-    protected static Tile getCurrentTile() {
-        return game.getTileGrid().getTile(getCurrentCivilization().getCurrentSelectedGridLocation());
     }
 
     public static void isCorrectPosition(String row_s, String col_s) throws CommandException {

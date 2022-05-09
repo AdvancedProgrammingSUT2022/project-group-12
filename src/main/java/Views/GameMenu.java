@@ -1,6 +1,8 @@
 package Views;
 
+import Controllers.CombatController;
 import Controllers.GameController;
+import Controllers.UnitCombatController;
 import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
@@ -131,19 +133,18 @@ public class GameMenu extends Menu {
             return;
         }
         switch (command.getSubSubCategory()) {
-            case "combat" -> this.selectUnit(command, true);
-            case "noncombat" -> this.selectUnit(command, false);
+            case "combat" -> this.setSelectedUnit(command, true);
+            case "noncombat" -> this.setSelectedUnit(command, false);
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
-    private void selectUnit(Command command, boolean isCombatUnit) {
+    private void setSelectedUnit(Command command, boolean isCombatUnit) {
         try {
             Location location = command.getLocationOption("position");
             GameController.getGame().getTileGrid().assertLocationValid(location);
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
             GameController.getGame().getCurrentCivilization().setCurrentSelectedGridLocation(selectedUnit.getLocation());
-            GameController.getGame().getCurrentCivilization().setCurrentTile(GameController.getGame().getTileGrid().getTile(selectedUnit.getLocation()));
         } catch (CommandException e) {
             e.print();
             return;
@@ -174,42 +175,42 @@ public class GameMenu extends Menu {
         switch (command.getSubCategory().trim()) {
             case "move" -> unitMove(command);
             case "sleep" -> unitSleep(command);
-            case "alert" -> getUnitFuncs().unitAlert();
-            case "fortify" -> getUnitFuncs().unitFortify(command);
-            case "garrison" -> getUnitFuncs().unitGarrison(command);
-            case "setup" -> getUnitFuncs().unitSetup(command);
-            case "attack" -> getUnitFuncs().unitAttack(command);
+//            case "alert" -> this.unitAlert();
+//            case "fortify" -> this.unitFortify(command);
+//            case "garrison" -> this.unitGarrison(command);
+            case "setup" -> this.unitSetup(command);
+            case "attack" -> this.unitAttack(command);
             case "found" -> foundCity(command);
-            case "cancel" -> getUnitFuncs().unitCancel(command);
-            case "wake" -> getUnitFuncs().unitWake(command);
-            case "delete" -> getUnitFuncs().unitDelete(command);
+            case "cancel" -> this.unitCancel(command);
+            case "wake" -> this.unitWake(command);
+            case "delete" -> this.unitDelete(command);
             case "build" -> this.unitBuild(command);
             case "remove" -> this.unitRemove(command);
-            case "repair" -> getUnitFuncs().unitRepair(command);
+            case "repair" -> this.unitRepair(command);
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
     private void unitBuild(Command command) {
         switch (command.getSubSubCategory()) {
-            case "road" -> getUnitFuncs().unitBuild(ImprovementEnum.ROAD);
-            case "railRoad" -> getUnitFuncs().unitBuild(ImprovementEnum.RAILROAD);
-            case "farm" -> getUnitFuncs().unitBuild(ImprovementEnum.FARM);
-            case "mine" -> getUnitFuncs().unitBuild(ImprovementEnum.MINE);
-            case "tradingPost" -> getUnitFuncs().unitBuild(ImprovementEnum.TRADING_POST);
-            case "lumberMill" -> getUnitFuncs().unitBuild(ImprovementEnum.LUMBER_MILL);
-            case "pasture" -> getUnitFuncs().unitBuild(ImprovementEnum.PASTURE);
-            case "camp" -> getUnitFuncs().unitBuild(ImprovementEnum.CAMP);
-            case "plantation" -> getUnitFuncs().unitBuild(ImprovementEnum.CULTIVATION);
-            case "quarry" -> getUnitFuncs().unitBuild(ImprovementEnum.STONE_MINE);
+            case "road" -> this.unitBuildImprovement(ImprovementEnum.ROAD);
+            case "railRoad" -> this.unitBuildImprovement(ImprovementEnum.RAILROAD);
+            case "farm" -> this.unitBuildImprovement(ImprovementEnum.FARM);
+            case "mine" -> this.unitBuildImprovement(ImprovementEnum.MINE);
+            case "tradingPost" -> this.unitBuildImprovement(ImprovementEnum.TRADING_POST);
+            case "lumberMill" -> this.unitBuildImprovement(ImprovementEnum.LUMBER_MILL);
+            case "pasture" -> this.unitBuildImprovement(ImprovementEnum.PASTURE);
+            case "camp" -> this.unitBuildImprovement(ImprovementEnum.CAMP);
+            case "plantation" -> this.unitBuildImprovement(ImprovementEnum.CULTIVATION);
+            case "quarry" -> this.unitBuildImprovement(ImprovementEnum.STONE_MINE);
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
     private void unitRemove(Command command) {
         switch (command.getSubSubCategory()) {
-            case "route" -> getUnitFuncs().unitRemoveRoute();
-            case "jungle" -> getUnitFuncs().unitRemoveJungle();
+//            case "route" -> getUnitFuncs().unitRemoveRoute();
+//            case "jungle" -> getUnitFuncs().unitRemoveJungle();
             default -> System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
@@ -256,11 +257,15 @@ public class GameMenu extends Menu {
     }
 
     private void foundCity(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
         try {
             if (!command.getSubSubCategory().equals("city")) {
                 System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
             }
-            City city = getUnitFuncs().foundCity();
+            City city = getUnitFuncs().foundCity(this.selectedUnit.getLocation());
             System.out.println("city found successfully: " + city.getName());
         } catch (CommandException e) {
             e.print();
@@ -306,11 +311,101 @@ public class GameMenu extends Menu {
             e.print();
         }
     }
-    private void unitSleep(Command command){
+
+    private void unitDelete(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        GameController.deleteUnit(this.selectedUnit);
+        System.out.println("unit deleted successfully");
+    }
+
+    public void cityAttack(Command command) {
+        command.abbreviate("position", "p");
         try {
-            System.out.println(getUnitFuncs().unitSleep(command));
-        }catch (CommandException e){
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            CombatController.AttackCity(this.selectedCity, location);
+            System.out.println("city attack successful");
+        } catch (CommandException e) {
             e.print();
         }
     }
+
+    public void unitAttack(Command command) {
+        command.abbreviate("position", "p");
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            CombatController.AttackUnit(this.selectedUnit, location);
+            System.out.println("unit attack successful");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    public void unitBuildImprovement(ImprovementEnum improvement) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        GameController.buildImprovement(this.selectedUnit, improvement);
+    }
+
+    public void unitWake(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        GameController.wakeUpUnit(this.selectedUnit);
+        System.out.println("unit waked up successfully");
+    }
+
+    public void unitCancel(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        GameController.CancelMissionUnit(this.selectedUnit);
+        System.out.println("unit mission canceled successfully");
+    }
+
+    public void unitSetup(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        try {
+            UnitCombatController.setupUnit(this.selectedUnit);
+            System.out.println("siege unit has set up successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    public void unitSleep(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        GameController.sleepUnit(this.selectedUnit);
+        System.out.println("unit slept successfully");
+    }
+
+    public void unitRepair(Command command) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        try {
+            GameController.unitRepairTile(this.selectedUnit);
+            System.out.println("tile repaired successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+
+
 }

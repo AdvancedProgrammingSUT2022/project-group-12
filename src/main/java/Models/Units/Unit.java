@@ -118,7 +118,7 @@ public class Unit extends Production {
         this.state = state;
     }
 
-    public Civilization getCiv() {
+    public Civilization getCivilization() {
         return civ;
     }
 

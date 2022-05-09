@@ -33,7 +33,6 @@ public class Civilization {
 
     private int beaker;
     private int happiness;
-    private Tile currentTile;
     private TechnologyEnum researchingTechnology;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
@@ -59,9 +58,7 @@ public class Civilization {
         this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
-
     }
-
 
     public void researchTech() {
         if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
@@ -216,14 +213,6 @@ public class Civilization {
         this.cities.add(city);
     }
 
-    public Tile getCurrentTile() { // todo: dummy
-        return currentTile;
-    }
-
-    public void setCurrentTile(Tile currentTile) {
-        this.currentTile = currentTile;
-    }
-
     public Location getCurrentSelectedGridLocation() {
         return currentSelectedGridLocation;
     }
@@ -316,7 +305,7 @@ public class Civilization {
     public TerrainColor getColor() {
         return color;
     }
-    public void unitDelete(Unit unit) {
+    public void deleteUnit(Unit unit) {
         this.units.remove(unit);
     }
 }

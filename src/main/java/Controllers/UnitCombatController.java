@@ -1,11 +1,14 @@
 package Controllers;
 
+import Enums.CombatTypeEnum;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.*;
+import Utils.CommandException;
+import Utils.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -85,10 +88,18 @@ public class UnitCombatController extends CombatController {
         return "both are damaged and attack happened successfully";
     }
 
-    public static String setupUnit(CombatUnit combatUnit) {
+    public static void setupUnit(Unit unit) throws CommandException {
+        if (!(unit instanceof CombatUnit combatUnit) || combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE) {
+            throw new CommandException(CommandResponse.UNIT_ISNOT_SIEGE);
+        }
+        if (combatUnit.isSetup()) {
+            throw new CommandException(CommandResponse.UNIT_HAS_ALREADY_SETTED_UP);
+        }
+        if (combatUnit.getAvailableMoveCount() < 1) {
+            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COST);
+        }
         combatUnit.setAvailableMoveCount(combatUnit.getAvailableMoveCount() - 1);
         combatUnit.setSetup(true);
-        return "unit has setted up successfully";
     }
 
     private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, int combatStrength1, CombatUnit combatUnit, int combatStrength2) {
