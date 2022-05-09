@@ -7,7 +7,6 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class MainMenu extends Menu {

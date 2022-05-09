@@ -25,23 +25,23 @@ public class Civilization {
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
-    private ArrayList<Unit> units;
     private final TileGrid revealedTileGrid;
-    private int gold;
+    private final ArrayList<Unit> units;
+    private final int gold;
     private int beaker;
     private int happiness;
-    private int production;
-    private HashMap<TechnologyEnum, Integer> technologies;
+    private final int production;
+    private final HashMap<TechnologyEnum, Integer> technologies;
     private Tile currentTile;
     private TechnologyEnum researchingTechnology;
-    private HashMap<TechnologyEnum, Integer> researchingTechnologies;
+    private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
     private City capital = null;
-    private ArrayList<Civilization> isInWarWith;
+    private final ArrayList<Civilization> isInWarWith;
     private Location currentSelectedGridLocation = new Location(0, 0);
-    private HappinessTypeEnum happinessType;
+    private final HappinessTypeEnum happinessType;
 
     public Civilization(User user) {
         List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
@@ -84,14 +84,16 @@ public class Civilization {
     public void checkLeadsToTech() {
         ArrayList<TechnologyEnum> techs = researchingTechnology.leadsToTech();
         for (TechnologyEnum tech : techs) {
-            if (!tech.hasPrerequisiteTechs(this.technologies))
+            if (!tech.hasPrerequisiteTechs(this.technologies)) {
                 researchingTechnologies.put(tech, tech.getCost());
+            }
         }
     }
 
     public void startResearchOnTech(TechnologyEnum tech) {
-        if (!researchingTechnologies.containsKey(tech))
+        if (!researchingTechnologies.containsKey(tech)) {
             this.researchingTechnologies.put(tech, tech.getCost());
+        }
     }
 
     public ArrayList<Unit> getUnits() {
@@ -252,25 +254,32 @@ public class Civilization {
     public Location getCurrentGridLocation() {
         return this.currentSelectedGridLocation;
     }
-    public HappinessTypeEnum detectHappinessState(double happiness){
-        if(happiness > 0){return HappinessTypeEnum.HAPPY;}
-        if (happiness > -10){return HappinessTypeEnum.UNHAPPY;}
+
+    public HappinessTypeEnum detectHappinessState(double happiness) {
+        if (happiness > 0) {
+            return HappinessTypeEnum.HAPPY;
+        }
+        if (happiness > -10) {
+            return HappinessTypeEnum.UNHAPPY;
+        }
         return HappinessTypeEnum.VERYUNHAPPY;
     }
-    public double calculateHappiness(){
+
+    public double calculateHappiness() {
         this.happiness = 0;
         for (City city :
-              this.getCities()) {
+                this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
-        int numberOfLuxuryResource = (int)this.numberOfLuxuryResources();
+        int numberOfLuxuryResource = (int) this.numberOfLuxuryResources();
         this.happiness += numberOfLuxuryResource * 4;
         detectHappinessState(happiness);
         return happiness;
     }
-    public double numberOfLuxuryResources(){
+
+    public double numberOfLuxuryResources() {
         double counter = 0;
-        int height = this.getRevealedTileGrid().getHeight() , width = this.getRevealedTileGrid().getWidth();
+        int height = this.getRevealedTileGrid().getHeight(), width = this.getRevealedTileGrid().getWidth();
         Tile[][] tiles = this.getRevealedTileGrid().getTiles();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

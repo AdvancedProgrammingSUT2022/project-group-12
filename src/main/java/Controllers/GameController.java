@@ -174,7 +174,7 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
-        StringBuilder message = new StringBuilder("");
+        StringBuilder message = new StringBuilder();
         message.append("city citizens : " + city.getCitizensCount() + "\n");
         for (Building building :
                 city.getBuildings()) {

@@ -29,6 +29,10 @@ public class GameMenu extends Menu {
         this.unitFuncs = new UnitFuncs(GameController.getGame());
     }
 
+    public static void printError(CommandResponse commandResponse) {
+        System.out.println(commandResponse);
+    }
+
     public InfoFuncs getInfoFuncs() {
         return infoFuncs;
     }
@@ -80,7 +84,6 @@ public class GameMenu extends Menu {
         }
 
     }
-
 
     private void info(Command command) {
         switch (command.getSubCategory()) {
@@ -153,7 +156,6 @@ public class GameMenu extends Menu {
             e.printStackTrace();
         }
     }
-
 
     private void unit(Command command) {
 
@@ -241,6 +243,7 @@ public class GameMenu extends Menu {
             return;
         }
     }
+
     private void foundCity(Command command) {
         try {
             if (!command.getSubSubCategory().equals("city")) {
@@ -250,8 +253,5 @@ public class GameMenu extends Menu {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    public static void printError(CommandResponse commandResponse){
-        System.out.println(commandResponse);
     }
 }

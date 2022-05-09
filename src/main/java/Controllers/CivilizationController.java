@@ -15,8 +15,9 @@ public class CivilizationController {
     }
 
     public String civilizationUnitInfo() {
-        if (civilization.getUnits().isEmpty())
+        if (civilization.getUnits().isEmpty()) {
             return "";
+        }
         StringBuilder unitInfo = new StringBuilder("Unit info:\n");
         for (Unit units : civilization.getUnits()) {
             unitInfo.append("- <").append(units)
@@ -30,8 +31,9 @@ public class CivilizationController {
     }
 
     public String ownedTech() {
-        if (civilization.getTechnologies().isEmpty())
+        if (civilization.getTechnologies().isEmpty()) {
             return "";
+        }
         StringBuilder techs = new StringBuilder();
         for (Map.Entry<TechnologyEnum, Integer> tech : civilization.getTechnologies().entrySet()) {
             techs.append("- <").append(tech.getKey().name()).append("> Count: <").append(tech.getValue()).append(">");
@@ -40,8 +42,9 @@ public class CivilizationController {
     }
 
     public String showTechTree() {
-        if (civilization.getResearch().isEmpty())
+        if (civilization.getResearch().isEmpty()) {
             return "";
+        }
         HashMap<TechnologyEnum, Integer> research = civilization.getResearch();
         StringBuilder techTree = new StringBuilder();
         int count = 1;

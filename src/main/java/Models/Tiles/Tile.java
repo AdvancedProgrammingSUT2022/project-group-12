@@ -180,15 +180,17 @@ public class Tile {
         }
         return cost;
     }
-    public int calculateProductionCount(){
-        int production= this.terrain.getProductsCount();
+
+    public int calculateProductionCount() {
+        int production = this.terrain.getProductsCount();
         for (TerrainEnum feature :
-               terrain.getFeatures()) {
-            production+= feature.getProductsCount();
+                terrain.getFeatures()) {
+            production += feature.getProductsCount();
         }
         return production;
     }
-    public int calculateFoodCount(){
+
+    public int calculateFoodCount() {
         int food = this.terrain.getFoodCount();
         for (TerrainEnum feature :
                 terrain.getFeatures()) {

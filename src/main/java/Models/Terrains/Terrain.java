@@ -35,10 +35,11 @@ public class Terrain {
 
     private ResourceEnum featureResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>(terrainType.getResources());
-        if (!features.isEmpty())
+        if (!features.isEmpty()) {
             for (TerrainEnum feature : this.features) {
                 resources.addAll(feature.getResources());
             }
+        }
         if (resources.isEmpty()) return null;
         int chooseResource = new Random().nextInt(resources.size());
         return resources.get(chooseResource);
@@ -72,17 +73,6 @@ public class Terrain {
             }
         }
         return count;
-    }
-
-    private void setFeatures(ArrayList<TerrainEnum> possibleTerrainFeatures) {
-        if (possibleTerrainFeatures.isEmpty()) return;
-        int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
-        for (int i = 0; i < chooseRandom; i++) {
-            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
-            while (this.features.contains(feature))
-                feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
-            this.features.add(feature);
-        }
     }
 
     private int featureFood() {
@@ -125,6 +115,18 @@ public class Terrain {
 
     public ArrayList<TerrainEnum> getFeatures() {
         return this.features;
+    }
+
+    private void setFeatures(ArrayList<TerrainEnum> possibleTerrainFeatures) {
+        if (possibleTerrainFeatures.isEmpty()) return;
+        int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
+        for (int i = 0; i < chooseRandom; i++) {
+            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
+            while (this.features.contains(feature)) {
+                feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
+            }
+            this.features.add(feature);
+        }
     }
 
     public ArrayList<ImprovementEnum> getImprovements() {

@@ -322,7 +322,7 @@ public class UnitFuncs extends GameMenuFuncs {
 
     private void validateTileForMovingUnit(Tile currentTile, Civilization civilization, Location location, String combatType) throws CommandException {
         isCorrectPosition(String.valueOf(location.getRow()), String.valueOf(location.getCol()));
-        Tile nextTile=civilization.getRevealedTileGrid().getTile(location);
+        Tile nextTile = civilization.getRevealedTileGrid().getTile(location);
         if (combatType.equals("noncombat")) {
             if (currentTile.getNonCombatUnit() == null) {
                 throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
@@ -333,7 +333,7 @@ public class UnitFuncs extends GameMenuFuncs {
             if (nextTile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if(!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR){
+            if (!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR) {
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         } else {
@@ -346,7 +346,7 @@ public class UnitFuncs extends GameMenuFuncs {
             if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if(!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR){
+            if (!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR) {
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         }
@@ -455,6 +455,6 @@ public class UnitFuncs extends GameMenuFuncs {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         validateTileForFoundingCity(currentTile, currentCivilization);
-        return GameController.FoundCity(currentCivilization,currentCivilization.getCurrentGridLocation());
+        return GameController.FoundCity(currentCivilization, currentCivilization.getCurrentGridLocation());
     }
 }
