@@ -12,7 +12,6 @@ import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
-import Utils.GameException;
 
 import java.util.List;
 
@@ -30,13 +29,10 @@ public class GameMenu extends Menu {
         this.unitFuncs = new UnitFuncs(GameController.getGame());
     }
 
-    public static void printError(CommandResponse commandResponse) {
-        System.out.println(commandResponse);
-    }
-
     public InfoFuncs getInfoFuncs() {
         return infoFuncs;
     }
+
 
     public UnitFuncs getUnitFuncs() {
         return unitFuncs;
@@ -69,33 +65,19 @@ public class GameMenu extends Menu {
 
     private void end(Command command) {
         switch (command.getSubCategory()) {
-            case "turn" -> {
-                try {
-                    GameController.getGame().endCurrentTurn();
-                } catch (GameException e) {
-                    e.print();
-                    break;
-                }
-                GameController.getGame().startNextTurn();
-            }
+            case "turn" -> GameController.getGame().startNextTurn();
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
 
     private void city(Command command) {
         switch (command.getSubCategory()) {
-            case "citizen" -> cityCitizen(command);
-            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+//            ?
+//            case "attack" -> UnitOtherFuncs.CityAttack(command);
         }
+
     }
 
-    private void cityCitizen(Command command) {
-        switch (command.getSubSubCategory()) {
-            case "assign" -> cityCitizenModify(command, true);
-            case "unassign" -> cityCitizenModify(command, false);
-            default -> System.out.println(CommandResponse.INVALID_COMMAND);
-        }
-    }
 
     private void info(Command command) {
         switch (command.getSubCategory()) {
@@ -148,26 +130,27 @@ public class GameMenu extends Menu {
             e.print();
             return;
         }
-        System.out.println("unit selected: " + selectedUnit.getType().name());
+        System.out.println("unit selected");
     }
 
     private void selectCity(Command command) {
-        command.abbreviate("name", "n");
-        command.abbreviate("position", "p");
+        command.abbreviate("cityname", "cn");
+        command.abbreviate("cityposition", "cp");
         try {
-            if (command.getOption("position") != null) {
-                this.selectedCity = selectCityByPosition(command.getLocationOption("position"));
-            } else if (command.getOption("name") != null) {
-                this.selectedCity = selectCityByName(command.getOption("name"));
+            if (command.getOption("cityposition") != null) {
+                command.assertOptionType("cityposition", "integer");
+                System.out.println(this.selectCityByPosition(command.getLocationOption("cityposition")));
+            } else if (command.getOption("cityname") != null) {
+                command.assertOptionType("cityname", "string");
+                System.out.println(this.selectCityByName(command.getOption("cityname")));
             } else {
-                new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, "name/position").print();
+                System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
             }
-        } catch (CommandException e) {
-            e.print();
-            return;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("city selected: " + selectedCity.getName());
     }
+
 
     private void unit(Command command) {
 
@@ -247,6 +230,7 @@ public class GameMenu extends Menu {
                 return;
             }
             command.assertOptions(List.of("position"));
+            //command.assertOptionType("position", "integer");
             System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), command.getSubSubCategory()));
             getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
@@ -254,19 +238,18 @@ public class GameMenu extends Menu {
             return;
         }
     }
-
     private void foundCity(Command command) {
         try {
+            command.abbreviate("cityname","cn");
             if (!command.getSubSubCategory().equals("city")) {
                 System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
             }
-            City city = getUnitFuncs().foundCity();
-            System.out.println("city found successfully: " + city.getName());
+            command.assertOptions(List.of("cityname"));
+            System.out.println(getUnitFuncs().foundCity(command.getOption("cityname")));
         } catch (CommandException e) {
             e.print();
         }
     }
-
     public City selectCityByPosition(Location location) throws CommandException {
         if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
             throw new CommandException(CommandResponse.INVALID_POSITION);
@@ -289,21 +272,19 @@ public class GameMenu extends Menu {
         throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 
-    private void cityCitizenModify(Command command, boolean isAssigning) {
+    private void cityAssignCitizen(Command command) {
         command.abbreviate("position", "p");
         if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            if (isAssigning) {
-                GameController.cityAssignCitizen(selectedCity, location);
-                System.out.println("citizen successfully assigned on " + location);
-            } else {
-                GameController.cityUnassignCitizen(selectedCity, location);
-                System.out.println("citizen successfully unassigned from " + location);
-            }
+            GameController.cityAssignCitizen(selectedCity, location);
+            System.out.println("citizen successfully assigned on " + location);
         } catch (CommandException e) {
             e.print();
         }
+    }
+    public static void printError(CommandResponse commandResponse){
+        System.out.println(commandResponse);
     }
 }
