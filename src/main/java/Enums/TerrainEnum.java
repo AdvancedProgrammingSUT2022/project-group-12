@@ -1,7 +1,6 @@
 package Enums;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public enum TerrainEnum {
     UNKNOWN("N/A", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),

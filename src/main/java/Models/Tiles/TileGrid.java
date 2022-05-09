@@ -103,9 +103,12 @@ public class TileGrid {
         }
     }
 
+    public boolean isLocationValid(int r, int c) {
+        return 0 <= r && r < this.getHeight() && 0 <= c && c < this.getWidth();
+    }
 
-    public boolean isLocationValid(int x, int y) {
-        return x > -1 && x < width && y > -1 && y < height;
+    public boolean isLocationValid(Location location) {
+        return isLocationValid(location.getRow(), location.getCol());
     }
 
     private Tile randomAssignment(int x, int y) {

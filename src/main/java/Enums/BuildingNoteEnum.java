@@ -44,7 +44,7 @@ public enum BuildingNoteEnum {
     CIRCUS_NOTE((BuildingNotes<City>) city -> {
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0);
     }),
-    COLOSSEUM_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() +  4.0)),
+    COLOSSEUM_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     COURTHOUSE_NOTE((BuildingNotes<City>) city -> {
         /***
          * eliminates happiness from city
@@ -105,7 +105,7 @@ public enum BuildingNoteEnum {
         city.setGold(city.getGold() + city.getGold() / 4);
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
     }),
-    THEATER_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings()  + 4.0)),
+    THEATER_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() * 15.0 / 100.0)),
     ARSENAL_NOTE((BuildingNotes<City>) city -> {
         Production production = null; //todo : getCurrent production

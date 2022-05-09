@@ -45,6 +45,6 @@ public class Location {
 
     @Override
     public String toString() {
-        return "-X: " + row + " -Y: " + col;
+        return "(" + this.getRow() + ", " + this.getCol() + ")";
     }
 }

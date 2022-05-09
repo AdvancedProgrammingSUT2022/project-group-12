@@ -6,15 +6,14 @@ import Enums.TechnologyEnum;
 import Enums.TerrainEnum;
 import Models.Buildings.Building;
 import Models.Cities.City;
+import Models.Citizen;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
-import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
@@ -103,20 +102,23 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static String FoundCity(Civilization civ, Location location) throws CommandException {
+    public static City foundCity(Civilization civ, Location location,String name) throws CommandException {
         checkConditionsForCity(location, civ, game.getTileGrid().getTile(location));
         Tile currentTile = game.getTileGrid().getTile(location);
         int cityProduction = 1 + currentTile.calculateProductionCount();
         int food = 2 + currentTile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
         //todo : get a name for city from user
-        City city = new City("temp",game.getTileGrid().getAllTilesInRadius(currentTile, 1), civ, currentTile, isCapital);
+        ArrayList<Tile> assignedTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
+        City city = new City(name, assignedTiles, civ, currentTile, isCapital);
+        for (Tile tile : assignedTiles) tile.setCivilization(civ);
         currentTile.setCity(city);
         civ.addCity(city);
         currentTile.setNonCombatUnit(null);
         if (isCapital) civ.setCapital(city);
+        currentTile.setNonCombatUnit(null);
         checkForResource(currentTile, city, civ);
-        return "city found successfully";
+        return city;
     }
 
     private static void checkConditionsForCity(Location location, Civilization civilization, Tile tile) throws CommandException {
@@ -172,7 +174,7 @@ public class GameController {
     }
 
     public static StringBuilder showCity(City city) {
-        StringBuilder message = new StringBuilder("");
+        StringBuilder message = new StringBuilder();
         message.append("city citizens : " + city.getCitizensCount() + "\n");
         for (Building building :
                 city.getBuildings()) {
@@ -334,16 +336,18 @@ public class GameController {
         return game;
     }
 
-    public CommandResponse battle(Civilization attacking, Civilization defending) {
-
-        return CommandResponse.OK;
+    public static void cityAssignCitizen(City city, Location location) throws CommandException {
+        if (city.getCitizensCount() <= city.getCitizens().size()) {
+            throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
+        }
+        Tile tile = GameController.getGame().getTileGrid().getTile(location);
+        if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
+        tile.setCitizen(new Citizen(city));
     }
 
-    public CommandResponse movement(Unit moving) {
-        return CommandResponse.OK;
-    }
-
-    public TileGrid getGameTileGrid() {
-        return game.getTileGrid();
+    public static void cityUnassignCitizen(City city, Location location) throws CommandException {
+        Tile tile = GameController.getGame().getTileGrid().getTile(location);
+        if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
+        tile.setCitizen(null);
     }
 }

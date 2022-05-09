@@ -2,7 +2,6 @@ package Enums;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public enum TechnologyEnum {
     RESET(0, new ArrayList<>(), new ArrayList<>()),

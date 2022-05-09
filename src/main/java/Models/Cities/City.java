@@ -4,6 +4,7 @@ import Enums.BuildingEnum;
 import Enums.CityTypeEnum;
 import Enums.ResourceEnum;
 import Models.Buildings.Building;
+import Models.Citizen;
 import Models.Civilization;
 import Models.Location;
 import Models.Production;
@@ -21,14 +22,14 @@ import static java.lang.Math.exp;
 
 public class City {
     private final ArrayList<Tile> tiles;
-    private Civilization isOwnedBy;
     private final int citizensCount;
     private final int range;
     private final ArrayList<Building> buildings;
     private final Tile cityTile;
     private final ArrayList<Production> productionQueue;
+    private final String name;
     protected boolean isCapital;
-    private String name;
+    private Civilization civilization;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;
@@ -50,7 +51,7 @@ public class City {
         this.nonCombatUnit = null;
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateProductionCount();
-        this.resources = new ArrayList<>(List.of(tile.getTerrain().getResource()));
+        this.resources = new ArrayList<>(tile.getTerrain().getResource() == null ? List.of() : List.of(tile.getTerrain().getResource()));
         this.hitPoint = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
@@ -58,24 +59,14 @@ public class City {
         this.food = tile.calculateFoodCount();
         this.localHappiness = 10;
         this.buildings = new ArrayList<>();
-        this.isOwnedBy = civ;
+        this.civilization = civ;
         this.range = 2;
         this.cityTile = tile;
         this.name = name;
         this.cityState = CityTypeEnum.RAW;
         //TODO : check the range of the city and the combat strength of that
         this.productionQueue = new ArrayList<>();
-        this.happinessFromBuildings=0;
-    }
-
-    private void affectCitizens() {
-        for (Tile tile : this.getTiles()) {
-            if (tile.getCitizen().getCity() == this) {
-                // affect citizen
-                this.food += tile.calculateFoodCount();
-                this.production += tile.calculateProductionCount();
-            }
-        }
+        this.happinessFromBuildings = 0;
     }
 
     public static int calculateCombatStrength(City city, Tile cityTile) {
@@ -89,7 +80,6 @@ public class City {
         return (city.getHitPoint() / 2000) * strength;
     }
 
-
     static int AffectCityFeatures(City city) {
         //todo : affect the citizen and buildings on combat strength
         return 0;
@@ -99,6 +89,34 @@ public class City {
         double random_number = random.nextInt(50) + 75;
         random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
+    }
+
+    public Tile getCityTile() {
+        return cityTile;
+    }
+
+    public ArrayList<Production> getProductionQueue() {
+        return productionQueue;
+    }
+
+    public ArrayList<Citizen> getCitizens() {
+        ArrayList<Citizen> citizens = new ArrayList<>();
+        for (Tile tile : this.getTiles()) {
+            if (tile.getCitizen() != null && tile.getCitizen().getCity() == this) {
+                citizens.add(tile.getCitizen());
+            }
+        }
+        return citizens;
+    }
+
+    private void affectCitizens() {
+        for (Tile tile : this.getTiles()) {
+            if (tile.getCitizen().getCity() == this) {
+                // affect citizen
+                this.food += tile.calculateFoodCount();
+                this.production += tile.calculateProductionCount();
+            }
+        }
     }
 
     public CombatUnit getCombatUnit() {
@@ -124,11 +142,6 @@ public class City {
     public Location getLocation() {
         return this.cityTile.getLocation();
     }
-
-    public Civilization getCivilization() {
-        return this.isOwnedBy;
-    }
-    public void setCivilization(Civilization civ){ this.isOwnedBy = civ; }
 
     public int getGold() {
         return this.gold;
@@ -198,12 +211,16 @@ public class City {
         return localHappiness;
     }
 
+    public void setHappiness(double happiness) {
+        this.localHappiness = happiness;
+    }
+
     public CityTypeEnum getCityState() {
         return cityState;
     }
 
-    public void setHappiness(double happiness) {
-        this.localHappiness = happiness;
+    public void setCityState(CityTypeEnum cityState) {
+        this.cityState = cityState;
     }
 
     public double getProduction() {
@@ -214,12 +231,12 @@ public class City {
         this.production = production;
     }
 
-    public void setReservedResource(ResourceEnum reservedResource) {
-        this.reservedResource = reservedResource;
-    }
-
     public ResourceEnum getReservedResource() {
         return reservedResource;
+    }
+
+    public void setReservedResource(ResourceEnum reservedResource) {
+        this.reservedResource = reservedResource;
     }
 
     public boolean hasBuilding(BuildingEnum buildingName) {
@@ -234,8 +251,12 @@ public class City {
         return this.name;
     }
 
-    public Civilization getIsOwnedBy() {
-        return isOwnedBy;
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civ) {
+        this.civilization = civ;
     }
 
     public void applyBuildingNotes() {
@@ -257,6 +278,7 @@ public class City {
     }
 
     public void advanceProductionQueue() {
+        // productionQueue cannot be empty (Game.endCurrentTurn guarantee)
         productionQueue.get(0).decreaseRemainedProduction(this.getProduction());
         if (productionQueue.get(0).getRemainedProduction() <= 0) {
             Production production = productionQueue.remove(0);
@@ -273,7 +295,8 @@ public class City {
             }
         }
     }
-    public double calculateCityHappiness(){
+
+    public double calculateCityHappiness() {
         /***
          * calculate happiness
          */
@@ -284,7 +307,7 @@ public class City {
          */
         if (cityState == CityTypeEnum.ANNEXED) {
             this.localHappiness -= (citizensCount + citizensCount / 3);
-            if(!haveCourtHouse()) this.localHappiness -= 5;
+            if (!haveCourtHouse()) this.localHappiness -= 5;
         } else {
             this.localHappiness -= citizensCount;
             this.localHappiness -= 3;
@@ -294,14 +317,16 @@ public class City {
     }
 
     private boolean haveCourtHouse() {
-        for (Building building:
-             buildings) {
-            if(building.getType() == BuildingEnum.COURT_HOUSE){return true;}
+        for (Building building :
+                buildings) {
+            if (building.getType() == BuildingEnum.COURT_HOUSE) {
+                return true;
+            }
         }
         return false;
     }
 
-    public double numberOfLuxuryResources(){
+    public double numberOfLuxuryResources() {
         double counter = 0;
         checkForReservedResource(this.reservedResource);
         for (Tile tile :
@@ -316,15 +341,15 @@ public class City {
     }
 
     private void checkForReservedResource(ResourceEnum reservedResource) {
-        if(reservedResource == null){return;}
-        if(reservedResource.getImprovementNeeded().hasRequiredTechs(this.isOwnedBy.getTechnologies())){
-            this.resources.add(reservedResource); reservedResource=null;
+        if (reservedResource == null) {
+            return;
+        }
+        if (reservedResource.getImprovementNeeded().hasRequiredTechs(this.civilization.getTechnologies())) {
+            this.resources.add(reservedResource);
+            reservedResource = null;
         }
     }
 
-    public void setCityState(CityTypeEnum cityState) {
-        this.cityState = cityState;
-    }
     public Tile getTile() {
         return this.cityTile;
     }

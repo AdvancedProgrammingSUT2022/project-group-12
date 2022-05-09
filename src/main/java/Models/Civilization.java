@@ -295,8 +295,4 @@ public class Civilization {
         }
         return counter;
     }
-
-    public void unitDelete(Unit unit){
-        this.units.remove(unit);
-    }
 }

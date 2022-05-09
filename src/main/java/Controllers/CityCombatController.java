@@ -162,8 +162,8 @@ public class CityCombatController extends CombatController {
 
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
         //todo : complete capturing type aaaaaaaaaaaaaaaaaa
-        String message=MenuStack.getInstance().getOption("enter your capture type : Puppet / Annexed / Destroy(if city isn't captial or Puppet)");
-        GetMessageLoop :
+        String message = MenuStack.getInstance().getOption("enter your capture type : Puppet / Annexed / Destroy(if city isn't captial or Puppet)");
+        GetMessageLoop:
         while (true) {
             switch (message) {
                 case "Annexed" -> {
@@ -189,10 +189,10 @@ public class CityCombatController extends CombatController {
         return "wow you have captured the city";
     }
 
-    private static void destroyCity(City city,Tile cityTile,Civilization civ) {
+    private static void destroyCity(City city, Tile cityTile, Civilization civ) {
         city.setCivilization(civ);
         Random random;
-        for (Building building:
+        for (Building building :
                 city.getBuildings()) {
             //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
         }
@@ -201,16 +201,17 @@ public class CityCombatController extends CombatController {
 
     private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
         cityTile.setCivilization(civ);
-        for (Tile tile:
+        for (Tile tile :
                 city.getTiles()) {
             tile.setCivilization(civ);
         }
         setNewCivForCityTiles(city, cityTile, civ);
     }
-    private static void makeCityAnnexed(City city,Tile cityTile, Civilization civ) {
+
+    private static void makeCityAnnexed(City city, Tile cityTile, Civilization civ) {
         city.setCivilization(civ);
         Random random;
-        for (Building building:
+        for (Building building :
                 city.getBuildings()) {
             //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
         }

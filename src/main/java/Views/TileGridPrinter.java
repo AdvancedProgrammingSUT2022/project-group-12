@@ -29,6 +29,12 @@ public class TileGridPrinter {
         }
     }
 
+    private void setChar(int row, int col, char ch, TerrainColor foreground) {
+        if (0 <= row && row < this.height && 0 <= col && col < this.width) {
+            screen[row][col] = TerrainColor.RESET + foreground.toString() + ch + TerrainColor.RESET;
+        }
+    }
+
     private void setChar(int row, int col, char ch) {
         if (0 <= row && row < this.height && 0 <= col && col < this.width) screen[row][col] = String.valueOf(ch);
     }
@@ -39,17 +45,19 @@ public class TileGridPrinter {
         }
     }
 
-    public String print(Location upleft) {
+    public String print(Location center) {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 screen[i][j] = " ";
             }
         }
 
-        for (int i = tileGrid.getHeight(); i >= -1; --i) {
-            for (int j = -1; j <= tileGrid.getWidth(); ++j) {
-                int ii = i + upleft.getRow();
-                int jj = j + upleft.getCol();
+        int hexInRow = this.height / this.hexH * 2;
+        int hexInCol = this.width / this.hexW / 2;
+        for (int i = hexInRow; i >= -2; --i) {
+            for (int j = -1; j < hexInCol; ++j) {
+                int ii = i + center.getRow() - hexInRow / 2 + 1;
+                int jj = j + center.getCol() - hexInCol / 4;
                 if (0 <= ii && ii < tileGrid.getHeight() && 0 <= jj && jj < tileGrid.getWidth()) {
                     Tile tile = tileGrid.getTile(ii, jj);
                     int x = hexH + hexW * 2;
@@ -90,15 +98,12 @@ public class TileGridPrinter {
                 this.setChar(row + hexH / 2, col + j, '_', TerrainColor.WHITE_BRIGHT, tileColor);
             }
         }
-        this.writeCentered(row - 1, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
-        this.writeCentered(row, col, tile.getTerrain().getTerrainType().getAbbreviation(), TerrainColor.BLACK, tileColor);
-//            if (tile.getCivilization() != null) this.writeCentered(row + 1, col, tile.getCivilization().getAbbreviation(), TerrainColor.BLACK, tileColor);
-        String units = tile.getNonCombatUnit() == null ? " " : tile.getNonCombatUnit().getType().name().charAt(0) + " " +
-                (tile.getCombatUnit() == null ? " " : tile.getCombatUnit().getType().name().substring(0, 1));
-        this.writeCentered(row + 2, col, units, TerrainColor.BLACK, tileColor);
-        if (tile.getCity() != null) {
-            this.writeCentered(row + 1, col, "City", TerrainColor.BLACK, tileColor);
-        }
+        if (tile.getCity() != null) this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivilization().getColor(), tileColor);
+        this.writeCentered(row, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
+        if (tile.getCiv() != null) this.writeCentered(row - 1, col, tile.getCiv().getAbbreviation(), tile.getCiv().getColor(), tileColor);
+        if (tile.getNonCombatUnit() != null) this.setChar(row + 1, col - 1, tile.getNonCombatUnit().getType().name().charAt(0), tile.getNonCombatUnit().getCiv().getColor());
+        if (tile.getCombatUnit() != null) this.setChar(row + 1, col - 1, tile.getCombatUnit().getType().name().charAt(0), tile.getCombatUnit().getCiv().getColor());
+        if (!tile.getTerrain().getFeatures().isEmpty()) this.writeCentered(row + 2, col, tile.getTerrain().getFeatures().get(0).getAbbreviation(), TerrainColor.BLACK, tileColor);
     }
 
     private void appendTileInfo(Tile selected) {
@@ -115,7 +120,9 @@ public class TileGridPrinter {
         if (selected.getCity() != null) showTileInfo.append("\nhas a city built on it");
         if (selected.isDamaged()) showTileInfo.append("\nis damaged");
         if (selected.hasRoad()) showTileInfo.append("\nhas roads");
-        if (selected.getTerrain().getResource() != null) showTileInfo.append(selected.getTerrain().getResourcesByName());
+        if (selected.getTerrain().getResource() != null) {
+            showTileInfo.append(selected.getTerrain().getResourcesByName());
+        }
     }
 
     public StringBuilder tileInfo(int x, int y) {
