@@ -254,7 +254,7 @@ public class City {
 
     public void applyBuildingNotes() {
         for (Building building : this.buildings) {
-            //  building.getNote().note(this); // todo: how to call the note function?
+            building.getNote().note(this); // todo: how to call the note function?
         }
     }
 

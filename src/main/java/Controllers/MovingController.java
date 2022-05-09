@@ -20,22 +20,21 @@ public class MovingController extends GameController {
     }
 
     public static String moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
-        String response = "unit moved successfully";
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile, unit);
         if (shortestPath == null) {
             throw new CommandException("move is impossible");
         }
         unit.setPathShouldCross(shortestPath);
-        response = moveToNextTile(unit, response);
-        return response;
+        moveToNextTile(unit);
+        return "unit moved successfully";
     }
 
-    private static String moveToNextTile(Unit unit, String response) {
+    public static void moveToNextTile(Unit unit) {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid gameTileGrid = game.getTileGrid();
             Location location = unit.getPathShouldCross().get(0).getLocation();
             calculateMoveMentCost(unit, location);
-            if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit, response)) break;
+            if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
             gameTileGrid.getTile(unit.getLocation()).setNullUnit(unit);
             unit.setLocation(location);
             gameTileGrid.getTile(unit.getLocation()).setUnit(unit);
@@ -43,13 +42,11 @@ public class MovingController extends GameController {
             unit.getCivilization().setCurrentSelectedGridLocation(location);
             unit.getPathShouldCross().remove(0);
         }
-        return response;
     }
 
-    private static boolean checkForEnemy(Location nextLocation, Unit unit, String response) {
+    private static boolean checkForEnemy(Location nextLocation, Unit unit) {
         Tile currentTile = game.getTileGrid().getTile(nextLocation);
         if (isEnemyExists(nextLocation, unit.getCivilization())) {
-//            response = AttackUnit(new Location(nextLocation.getRow(), nextLocation.getCol()), game, currentTile, unit.getCivilization());
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;

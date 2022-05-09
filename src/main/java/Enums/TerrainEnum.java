@@ -3,7 +3,7 @@ package Enums;
 import java.util.ArrayList;
 
 public enum TerrainEnum {
-    UNKNOWN("N/A", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),
+    UNKNOWN("N/A", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, true, false, new ArrayList<>(), new ArrayList<>()),
     FALLOUT("FLT", TerrainColor.RESET, -3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
     FOREST("FORST", TerrainColor.RESET, 1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.DEER);

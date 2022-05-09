@@ -320,12 +320,8 @@ public class GameMenu extends Menu {
     private void unitMove(Command command) {
         command.abbreviate("position", "p");
         try {
-            if (!List.of("combat", "noncombat").contains(command.getSubSubCategory())) {
-                System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
-                return;
-            }
             command.assertOptions(List.of("position"));
-            System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), command.getSubSubCategory()));
+            System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), selectedUnit));
             getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
             e.print();

@@ -1,6 +1,7 @@
 package Models;
 
 import Controllers.GameController;
+import Controllers.MovingController;
 import Enums.UnitEnum;
 import Enums.UnitStates;
 import Models.Cities.City;
@@ -50,6 +51,7 @@ public class Game {
                     checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
                 }
                 case AWAKED -> {
+                    checkForMultipleMoves(unit);
                     checkForMovementCost(unit);
                 }
                 case FORTIFY_UNTIL_HEAL -> {
@@ -67,10 +69,16 @@ public class Game {
         }
     }
 
+    private void checkForMultipleMoves(Unit unit) {
+        if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
+            MovingController.moveToNextTile(unit);
+        }
+    }
+
     private void checkForFortifyHealUnit(Unit unit, Tile tile) throws GameException {
-          if(unit.getHealthBar() == 100){
-              checkForMovementCost(unit);
-          }
+        if (unit.getHealthBar() == 100) {
+            checkForMovementCost(unit);
+        }
     }
 
     private void checkForMovementCost(Unit unit) throws GameException {
@@ -105,6 +113,7 @@ public class Game {
         for (City city : civ.getCities()) {
             city.advanceProductionQueue();
         }
+        civ.assignMovementCost();
         if (this.gameTurn / civs.size() > 25) {
             //TODO: end game
         }

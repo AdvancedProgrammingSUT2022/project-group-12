@@ -23,5 +23,6 @@ user create --username alireza --password Password123? --nickname ali
 user login -p Password123? -u alireza
 play game --player1 alireza
 map show
-unit move noncombat -p 9 2
+select unit noncombat -p 10 10
+unit fortify
  */

@@ -4,7 +4,6 @@ import Controllers.GameController;
 import Enums.ImprovementEnum;
 import Enums.TerrainEnum;
 import Enums.UnitEnum;
-import Enums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -104,8 +103,8 @@ public class UnitFuncs extends GameMenuFuncs {
 
     public String unitFortify(Unit selectedUnit,Command command) throws CommandException {
             if (command.getSubSubCategory().equals("heal")) {
-                 return GameController.fortifyHealUnit(selectedUnit);
-            } else if(command.getSubCategory().equals(String.valueOf(CommandResponse.INVALID_COMMAND))){
+                return GameController.fortifyHealUnit(selectedUnit);
+            } else if (command.getSubSubCategory().trim().equals("")) {
                 return GameController.fortifyUnit(selectedUnit);
             }
             throw new CommandException(CommandResponse.INVALID_COMMAND);
@@ -115,33 +114,29 @@ public class UnitFuncs extends GameMenuFuncs {
         return GameController.AlertUnit(selectedUnit);
     }
 
-    public String unitMoveTo(Location location, String combatType) throws CommandException {
+    public String unitMoveTo(Location location, Unit selectedUnit) throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
-        validateTileForMovingUnit(currentTile, currentCivilization, location, combatType);
-        if (combatType.equals("noncombat")) {
-            return moveUnit(location, currentTile, currentCivilization, currentTile.getNonCombatUnit());
-        } else {
-            return moveUnit(location, currentTile, currentCivilization, currentTile.getCombatUnit());
-        }
+        validateTileForMovingUnit(currentCivilization, location, selectedUnit);
+        return moveUnit(location, currentTile, currentCivilization, selectedUnit);
     }
 
-    private void validateTileForMovingUnit(Tile currentTile, Civilization civilization, Location location, String combatType) throws CommandException {
+    private void validateTileForMovingUnit(Civilization civilization, Location location, Unit unit) throws CommandException {
         isCorrectPosition(String.valueOf(location.getRow()), String.valueOf(location.getCol()));
         Tile nextTile = civilization.getRevealedTileGrid().getTile(location);
-        if (combatType.equals("noncombat")) {
+        if (unit instanceof NonCombatUnit) {
             if (nextTile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if (!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR) {
+            if (!nextTile.getTerrain().getTerrainType().canBePassed()) {
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         } else {
             if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
-            if (!nextTile.getTerrain().getTerrainType().canBePassed() || nextTile.getState() == VisibilityEnum.FOG_OF_WAR) {
+            if (!nextTile.getTerrain().getTerrainType().canBePassed()) {
                 throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
             }
         }
