@@ -3,9 +3,10 @@ package Views;
 import Controllers.GameController;
 import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
-import Controllers.ValidateGameMenuFuncs.SelectFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.ImprovementEnum;
+import Models.Cities.City;
+import Models.Civilization;
 import Models.Location;
 import Models.Units.Unit;
 import Utils.Command;
@@ -18,14 +19,13 @@ public class GameMenu extends Menu {
 
     private final InfoFuncs infoFuncs;
     private final MapFuncs mapFuncs;
-    private final SelectFuncs selectFuncs;
     private final UnitFuncs unitFuncs;
     private Unit selectedUnit;
+    private City selectedCity;
 
     public GameMenu(GameController controller) {
         this.infoFuncs = new InfoFuncs(GameController.getGame());
         this.mapFuncs = new MapFuncs(GameController.getGame());
-        this.selectFuncs = new SelectFuncs(GameController.getGame());
         this.unitFuncs = new UnitFuncs(GameController.getGame());
     }
 
@@ -33,9 +33,6 @@ public class GameMenu extends Menu {
         return infoFuncs;
     }
 
-    public SelectFuncs getSelectFuncs() {
-        return selectFuncs;
-    }
 
     public UnitFuncs getUnitFuncs() {
         return unitFuncs;
@@ -142,10 +139,10 @@ public class GameMenu extends Menu {
         try {
             if (command.getOption("cityposition") != null) {
                 command.assertOptionType("cityposition", "integer");
-                System.out.println(getSelectFuncs().selectCityByPosition(command.getLocationOption("cityposition")));
+                System.out.println(this.selectCityByPosition(command.getLocationOption("cityposition")));
             } else if (command.getOption("cityname") != null) {
                 command.assertOptionType("cityname", "string");
-                System.out.println(getSelectFuncs().selectCityWithName(command.getOption("cityname")));
+                System.out.println(this.selectCityByName(command.getOption("cityname")));
             } else {
                 System.out.println(CommandResponse.MISSING_REQUIRED_OPTION);
             }
@@ -249,8 +246,42 @@ public class GameMenu extends Menu {
             }
             command.assertOptions(List.of("cityname"));
             System.out.println(getUnitFuncs().foundCity(command.getOption("cityname")));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+    public City selectCityByPosition(Location location) throws CommandException {
+        if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
+            throw new CommandException(CommandResponse.INVALID_POSITION);
+        }
+        City city = GameController.getGame().getTileGrid().getTile(location).getCity();
+        Civilization civ = GameController.getGame().getCurrentCivilization();
+        if (city == null || city.getCivilization() != civ) {
+            throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+        }
+        return city;
+    }
+
+    public City selectCityByName(String name) throws CommandException {
+        Civilization civ = GameController.getGame().getCurrentCivilization();
+        for (City city : civ.getCities()) {
+            if (city.getName().equals(name)) {
+                return city;
+            }
+        }
+        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+    }
+
+    private void cityAssignCitizen(Command command) {
+        command.abbreviate("position", "p");
+        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            GameController.cityAssignCitizen(selectedCity, location);
+            System.out.println("citizen successfully assigned on " + location);
+        } catch (CommandException e) {
+            e.print();
         }
     }
     public static void printError(CommandResponse commandResponse){
