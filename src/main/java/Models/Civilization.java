@@ -305,4 +305,8 @@ public class Civilization {
     public void unitDelete(Unit unit) {
         this.units.remove(unit);
     }
+
+    public TerrainColor getColor() {
+        return TerrainColor.WHITE;
+    }
 }

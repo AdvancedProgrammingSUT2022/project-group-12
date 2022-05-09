@@ -66,6 +66,8 @@ public class Database {
             String fileReader = new String(Files.readAllBytes(Paths.get("users.json")));
             this.users = new Gson().fromJson(fileReader, new TypeToken<HashMap<String, User>>() {
             }.getType());
+            if (this.users == null)
+                this.users = new HashMap<>();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
