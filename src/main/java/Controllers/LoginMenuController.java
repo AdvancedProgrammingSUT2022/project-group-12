@@ -24,9 +24,11 @@ public class LoginMenuController {
 
     public void loginUser(String username, String password) throws CommandException {
         Database database = Database.getInstance();
-        User user = database.getUser(username);
-        if (user == null || !user.passwordMatchCheck(password)) {
-            throw new CommandException("no user exists with this username or password doesn't match");
+        User user;
+        if (!database.checkForUsername(username)) {
+            throw new CommandException(CommandResponse.USER_DOES_NOT_EXISTS);
+        } else if (!(user = database.getUser(username)).passwordMatchCheck(password)) {
+            throw new CommandException(CommandResponse.PASSWORD_DOES_NOT_MATCH);
         } else {
             MenuStack.getInstance().setUser(user);
         }

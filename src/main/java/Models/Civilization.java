@@ -1,10 +1,7 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.HappinessTypeEnum;
-import Enums.ImprovementEnum;
-import Enums.ResourceEnum;
-import Enums.TechnologyEnum;
+import Enums.*;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
@@ -307,5 +304,9 @@ public class Civilization {
 
     public void unitDelete(Unit unit) {
         this.units.remove(unit);
+    }
+
+    public TerrainColor getColor() {
+
     }
 }
