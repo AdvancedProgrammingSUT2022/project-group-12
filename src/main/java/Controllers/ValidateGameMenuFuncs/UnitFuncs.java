@@ -8,6 +8,7 @@ import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
+import Models.Units.NonCombatUnit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
@@ -23,14 +24,13 @@ public class UnitFuncs extends GameMenuFuncs {
         super(game);
     }
 
-    protected static CommandResponse validateForNonCombatUnit(Tile currentTile, Civilization civilization) {
-        if (!(civilization.getCurrentTile().getNonCombatUnit().getType() == null)) {
-            return CommandResponse.UNIT_DOES_NOT_EXISTS;
+    protected static void validateForNonCombatUnit(NonCombatUnit nonCombatUnit,Civilization civilization) throws CommandException {
+        if (!(nonCombatUnit == null)) {
+            throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         }
-        if (!(civilization.getCurrentTile().getNonCombatUnit().getCiv() == civilization)) {
-            return CommandResponse.WRONG_UNIT;
+        if (nonCombatUnit.getCiv() == civilization) {
+            throw new CommandException(CommandResponse.WRONG_UNIT);
         }
-        return CommandResponse.OK;
     }
 
     public static void CityAttack(Command command) throws CommandException {
@@ -108,14 +108,13 @@ public class UnitFuncs extends GameMenuFuncs {
         System.out.println(response.isOK() ? "unit deleted successfully" : response);
     }
 
-    private CommandResponse validateForCombatUnit(Tile currentTile, Civilization civilization) {
+    private void validateForCombatUnit(Tile currentTile, Civilization civilization) throws CommandException {
         if (!(civilization.getCurrentTile().getCombatUnit().getType() == null)) {
-            return CommandResponse.UNIT_DOES_NOT_EXISTS;
+            throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         }
         if (!(civilization.getCurrentTile().getCombatUnit().getCiv() == civilization)) {
-            return CommandResponse.WRONG_UNIT;
+            throw new CommandException(CommandResponse.WRONG_UNIT);
         }
-        return CommandResponse.OK;
     }
 
     public void unitWake(Command command) {
@@ -283,29 +282,22 @@ public class UnitFuncs extends GameMenuFuncs {
         }
     }
 
-    public void unitSleep(Command command) {
+    public String unitSleep(Command command) throws CommandException {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         CommandResponse response;
-        try {
-            switch (command.getSubSubCategory()) {
-                case "non combat" -> {
-                    response = validateForNonCombatUnit(currentTile, currentCivilization);
-                    if (response.isOK()) {
-                        System.out.println(GameController.sleepNonCombatUnit(currentCivilization, currentTile));
-                    }
-                }
-                case "combat" -> {
-                    response = validateForCombatUnit(currentTile, currentCivilization);
-                    if (response.isOK()) {
-                        System.out.println(GameController.sleepCombatUnit(currentCivilization, currentTile));
-                    }
-                }
-                default -> response = CommandResponse.CommandMissingRequiredOption;
+        switch (command.getSubSubCategory()) {
+            case "non combat" -> {
+                validateForNonCombatUnit(currentTile, currentCivilization);
+                return GameController.sleepNonCombatUnit();
             }
-            if (!response.isOK()) System.out.println(response);
-        } catch (Exception e) {
-            System.out.println(CommandResponse.INVALID_COMMAND);
+            case "combat" -> {
+                validateForCombatUnit(currentTile, currentCivilization);
+                return GameController.sleepCombatUnit(currentCivilization, currentTile);
+            }
+            default -> {
+                throw new CommandException(CommandResponse.CommandMissingRequiredOption);
+            }
         }
     }
 

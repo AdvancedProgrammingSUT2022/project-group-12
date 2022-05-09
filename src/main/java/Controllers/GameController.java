@@ -1,9 +1,6 @@
 package Controllers;
 
-import Enums.ImprovementEnum;
-import Enums.ResourceEnum;
-import Enums.TechnologyEnum;
-import Enums.TerrainEnum;
+import Enums.*;
 import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Citizen;
@@ -14,6 +11,7 @@ import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
+import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
@@ -164,7 +162,8 @@ public class GameController {
         return "unit alerted successfully";
     }
 
-    public static String sleepNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
+    public static String sleepNonCombatUnit(NonCombatUnit nonCombatUnit) {
+        nonCombatUnit.setState(UnitStates.SLEEP);
         return "unit slept successfully";
     }
 

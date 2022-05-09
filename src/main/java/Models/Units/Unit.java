@@ -1,6 +1,7 @@
 package Models.Units;
 
 import Enums.UnitEnum;
+import Enums.UnitStates;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;
@@ -23,7 +24,7 @@ public class Unit extends Production {
     protected int healthBar;
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
-
+    protected UnitStates state;
     public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
         this.civ = civ;
@@ -33,6 +34,7 @@ public class Unit extends Production {
         this.availableMoveCount = 10;
         civ.addUnit(this);
         assignedTile = null;
+        state = UnitStates.AWAKED;
     }
 
     public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
@@ -110,6 +112,10 @@ public class Unit extends Production {
 
     public void garrison() {
 
+    }
+
+    public void setState(UnitStates state) {
+        this.state = state;
     }
 
     public Civilization getCiv() {

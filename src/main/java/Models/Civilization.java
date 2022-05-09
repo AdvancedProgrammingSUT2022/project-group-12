@@ -12,6 +12,8 @@ import Models.Units.Unit;
 import Utils.Constants;
 
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Civilization {
 
@@ -34,7 +36,6 @@ public class Civilization {
     private int happiness;
     private Tile currentTile;
     private TechnologyEnum researchingTechnology;
-    private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
     private City capital = null;
@@ -44,7 +45,7 @@ public class Civilization {
         List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
         this.color = colors.get(new Random().nextInt(colors.size()));
         this.technologies = new HashMap<>();
-        this.researchingTechnology = null;
+        this.researchingTechnologies = null;
         this.user = user;
         this.units = new ArrayList<>();
         this.gold = 0;
@@ -56,7 +57,6 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
-        this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
     }
 
@@ -161,12 +161,12 @@ public class Civilization {
         this.capital = capital;
     }
 
-    public TechnologyEnum getCurrentTech() {
-        return currentTech;
+    public TechnologyEnum getResearchingTechnology() {
+        return researchingTechnology;
     }
 
-    public void setCurrentTech(TechnologyEnum currentTech) {
-        this.currentTech = currentTech;
+    public void setResearchingTechnology(TechnologyEnum researchingTechnology) {
+        this.researchingTechnology = researchingTechnology;
     }
 
     public ArrayList<Civilization> getIsInWarWith() {
@@ -312,5 +312,8 @@ public class Civilization {
 
     public TerrainColor getColor() {
         return color;
+    }
+    public void unitDelete(Unit unit) {
+        this.units.remove(unit);
     }
 }

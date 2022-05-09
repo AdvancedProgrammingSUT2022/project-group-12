@@ -156,7 +156,7 @@ public class GameMenu extends Menu {
 
         switch (command.getSubCategory().trim()) {
             case "move" -> unitMove(command);
-            case "sleep" -> getUnitFuncs().unitSleep(command);
+            case "sleep" -> unitSleep(command);
             case "alert" -> getUnitFuncs().unitAlert();
             case "fortify" -> getUnitFuncs().unitFortify(command);
             case "garrison" -> getUnitFuncs().unitGarrison(command);
@@ -281,6 +281,13 @@ public class GameMenu extends Menu {
             GameController.cityAssignCitizen(selectedCity, location);
             System.out.println("citizen successfully assigned on " + location);
         } catch (CommandException e) {
+            e.print();
+        }
+    }
+    private void unitSleep(Command command){
+        try {
+            System.out.println(getUnitFuncs().unitSleep(command));
+        }catch (CommandException e){
             e.print();
         }
     }
