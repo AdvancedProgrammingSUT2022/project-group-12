@@ -116,6 +116,7 @@ public class GameController {
         civ.addCity(city);
         currentTile.setNonCombatUnit(null);
         if (isCapital) civ.setCapital(city);
+        currentTile.setNonCombatUnit(null);
         checkForResource(currentTile, city, civ);
         return city;
     }
