@@ -26,7 +26,8 @@ public class Civilization {
     private final ArrayList<Unit> units;
     private final HashMap<TechnologyEnum, Integer> technologies;
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
-    private final ArrayList<Civilization> isInWarWith;
+    private ArrayList<Civilization> isInWarWith;
+    private ArrayList<Civilization> isInEconomicRelation;
     private final HappinessTypeEnum happinessType;
     private int gold;
     private int production;
@@ -58,6 +59,7 @@ public class Civilization {
         this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
+        this.isInEconomicRelation = new ArrayList<>();
     }
 
     public void researchTech() {
@@ -99,6 +101,9 @@ public class Civilization {
 
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
+    }
+    public boolean isFriendWith(Civilization civilization) {
+        return this.isInEconomicRelation.contains(civilization);
     }
 
     public void goToWarWith(Civilization civilization) {
@@ -268,8 +273,7 @@ public class Civilization {
     public double numberOfLuxuryResources() {
         double counter = 0;
         Set<Tile> visitedTiles = new TreeSet<>();
-        for (City city :
-                this.cities) {
+        for (City city : this.cities) {
             counter += numberOfCityLuxuryResources(city, visitedTiles);
         }
 
@@ -304,11 +308,16 @@ public class Civilization {
     public TerrainColor getColor() {
         return color;
     }
+
     public void deleteUnit(Unit unit) {
         this.units.remove(unit);
     }
 
     public void addGold(int value) {
         this.gold += value;
+    }
+
+    public ArrayList<Civilization> economicRelations() {
+        return this.isInEconomicRelation;
     }
 }

@@ -321,13 +321,14 @@ public class GameController {
     public static StringBuilder showDiplomaticInfo(Game game, Civilization currentCivilization) {
         StringBuilder diplomaticInfo = new StringBuilder();
         ArrayList<Civilization> inWarWith = currentCivilization.getIsInWarWith();
+        ArrayList<Civilization> economicPartnership = currentCivilization.economicRelations();
         for (Civilization civ : game.getCivs()) {
             if (civ == currentCivilization) continue;
             diplomaticInfo.append("civilization name : ").append(civ.getName()).append(" state : ");
             if (currentCivilization.isInWarWith(civ)) {
                 diplomaticInfo.append("WAR!!\n");
-            } else {
-                diplomaticInfo.append("Neutral\n");
+            } else if (currentCivilization.isFriendWith(civ)) {
+                diplomaticInfo.append("Economic relations\n");
             }
         }
         return diplomaticInfo;
