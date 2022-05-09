@@ -1,10 +1,7 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.HappinessTypeEnum;
-import Enums.ImprovementEnum;
-import Enums.ResourceEnum;
-import Enums.TechnologyEnum;
+import Enums.*;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
@@ -14,10 +11,7 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Constants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Civilization {
 
@@ -30,12 +24,13 @@ public class Civilization {
     private final ArrayList<Tile> ownedTiles;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
-    private final int gold;
-    private final int production;
     private final HashMap<TechnologyEnum, Integer> technologies;
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> isInWarWith;
     private final HappinessTypeEnum happinessType;
+    private int gold;
+    private int production;
+
     private int beaker;
     private int happiness;
     private Tile currentTile;
@@ -64,21 +59,9 @@ public class Civilization {
         this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
+
     }
 
-    public Civilization(User user, TileGrid tileGrid) {
-        this.technologies = new HashMap<>();
-        this.user = user;
-        this.name = user.getNickname();
-        this.revealedTileGrid = tileGrid;
-        this.units = new ArrayList<>();
-        this.controller = new CivilizationController(this);
-        this.cities = new ArrayList<>();
-        this.notifications = new ArrayList<>();
-        this.ownedTiles = null;
-        this.researchingTechnology = null;
-        this.researchingTechnologies = new HashMap<>();
-    }
 
     public void researchTech() {
         if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
