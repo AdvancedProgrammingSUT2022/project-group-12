@@ -83,8 +83,16 @@ public class GameMenu extends Menu {
     }
 
     private void city(Command command) {
-        switch (command.getSubCategory() + " " + command.getSubSubCategory()) {
-            case "assign citizen" -> cityAssignCitizen(command);
+        switch (command.getSubCategory()) {
+            case "citizen" -> cityCitizen(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityCitizen(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "assign" -> cityCitizenModify(command, true);
+            case "unassign" -> cityCitizenModify(command, false);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -281,14 +289,19 @@ public class GameMenu extends Menu {
         throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 
-    private void cityAssignCitizen(Command command) {
+    private void cityCitizenModify(Command command, boolean isAssigning) {
         command.abbreviate("position", "p");
         if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            GameController.cityAssignCitizen(selectedCity, location);
-            System.out.println("citizen successfully assigned on " + location);
+            if (isAssigning) {
+                GameController.cityAssignCitizen(selectedCity, location);
+                System.out.println("citizen successfully assigned on " + location);
+            } else {
+                GameController.cityUnassignCitizen(selectedCity, location);
+                System.out.println("citizen successfully unassigned from " + location);
+            }
         } catch (CommandException e) {
             e.print();
         }

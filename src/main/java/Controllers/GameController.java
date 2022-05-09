@@ -343,4 +343,10 @@ public class GameController {
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
         tile.setCitizen(new Citizen(city));
     }
+
+    public static void cityUnassignCitizen(City city, Location location) throws CommandException {
+        Tile tile = GameController.getGame().getTileGrid().getTile(location);
+        if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
+        tile.setCitizen(null);
+    }
 }

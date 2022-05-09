@@ -10,6 +10,7 @@ public abstract class Menu {
     public void run() {
         Scanner scanner = MenuStack.getInstance().getScanner();
         String line = scanner.nextLine().trim();
+        if (line.isEmpty()) return;
         try {
             Command command = Command.parseCommand(line);
             handleCommand(command);
