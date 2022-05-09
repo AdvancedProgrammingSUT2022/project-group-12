@@ -15,7 +15,7 @@ public class Terrain {
     private final int goldCount;
     private final int combatModifier;
     private final int movementCost;
-    private final ArrayList<TerrainEnum> features;
+    private ArrayList<TerrainEnum> features;
     private final ResourceEnum resource;
     private final TerrainColor color;
     protected ArrayList<ImprovementEnum> improvements;
@@ -136,5 +136,9 @@ public class Terrain {
     public StringBuilder getResourcesByName() {
         StringBuilder resourcesNames = new StringBuilder("contains resource :" + this.resource.toString());
         return resourcesNames;
+    }
+
+    public void clearLands(){
+        this.features = new ArrayList<>();
     }
 }
