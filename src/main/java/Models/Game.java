@@ -52,7 +52,7 @@ public class Game {
                 case AWAKED -> {
                     checkForMovementCost(unit);
                 }
-                case FORTIFYUNTILHEAL -> {
+                case FORTIFY_UNTIL_HEAL -> {
                     checkForFortifyHealUnit(unit,tileGrid.getTile(unit.getLocation()));
                 }
                 default -> {}

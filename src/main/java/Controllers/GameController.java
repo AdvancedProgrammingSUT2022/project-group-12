@@ -167,10 +167,10 @@ public class GameController {
         if(!(unit instanceof CombatUnit)){
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
-        if(unit.getState() == UnitStates.FORTIFYUNTILHEAL){
+        if(unit.getState() == UnitStates.FORTIFY_UNTIL_HEAL){
             throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
         }
-        unit.setState(UnitStates.FORTIFYUNTILHEAL);
+        unit.setState(UnitStates.FORTIFY_UNTIL_HEAL);
         return "unit fortified successfully";
     }
 

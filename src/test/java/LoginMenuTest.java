@@ -14,6 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LoginMenuTest {
+    private String username;
+    private String nickname;
+    private String password;
+
     @BeforeEach
     void load() {
         Database.getInstance().deserializeUsers();
@@ -23,22 +27,11 @@ public class LoginMenuTest {
 
     @Test
     public void invalidUsername() throws CommandException {
-        User newUser = new User("alireza","password1","nickname");
+        User newUser = new User("alireza", "password1", "n");
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
-        command.abbreviate("username", "u");
-        command.abbreviate("nickname", "n");
-        command.abbreviate("password", "p");
-        try {
-            command.assertOptions(List.of("username", "nickname", "password"));
-        } catch (CommandException e) {
-            e.print();
-            return;
-        }
-        String username = command.getOption("username");
-        String nickname = command.getOption("nickname");
-        String password = command.getOption("password");
+        setUserCreds(command);
         Throwable exception = assertThrows(CommandException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
@@ -53,32 +46,45 @@ public class LoginMenuTest {
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza2 -p password -n nickname2";
         Command command = Command.parseCommand(inputString);
-        command.abbreviate("username", "u");
-        command.abbreviate("nickname", "n");
-        command.abbreviate("password", "p");
-        try {
-            command.assertOptions(List.of("username", "nickname", "password"));
-        } catch (CommandException e) {
-            e.print();
-            return;
-        }
-        String username = command.getOption("username");
-        String nickname = command.getOption("nickname");
-        String password = command.getOption("password");
-        Throwable exception = assertThrows(CommandException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                controller.createUser(username, nickname, password);
-            }
-        });
+        setUserCreds(command);
+        Throwable exception = assertThrows(CommandException.class, () -> controller.createUser(username, nickname, password));
         assertEquals(WEAK_PASSWORD.toString(), exception.getMessage());
     }
 
     @Test
     public void invalidNickname() throws CommandException {
+        new User("a", "p", "nickname");
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza1 -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
+        setUserCreds(command);
+        Throwable exception = assertThrows(CommandException.class, () -> controller.createUser(username, nickname, password));
+        assertEquals(NICKNAME_ALREADY_EXISTS.toString(), exception.getMessage());
+    }
+
+    @Test
+    public void invalidPassword() throws CommandException {
+        new User("Ap", "P", "nname");
+        LoginMenuController controller = new LoginMenuController();
+        String inputString = "user login -u Ap -p password";
+        Command command = Command.parseCommand(inputString);
+        setLoginCreds(command);
+        Throwable exception = assertThrows(CommandException.class, () -> controller.loginUser(username, password));
+        assertEquals(PASSWORD_DOES_NOT_MATCH.toString(), exception.getMessage());
+    }
+
+    @Test
+    public void usernameDoesNotExists() throws CommandException {
+        new User("AP", "T", "nName");
+        LoginMenuController controller = new LoginMenuController();
+        String inputString = "user login -u alireza23 -p Password1!";
+        Command command = Command.parseCommand(inputString);
+        setLoginCreds(command);
+        Throwable exception = assertThrows(CommandException.class, () -> controller.loginUser(username, password));
+        assertEquals(USER_DOES_NOT_EXISTS.toString(), exception.getMessage());
+    }
+
+    private void setUserCreds(Command command) {
         command.abbreviate("username", "u");
         command.abbreviate("nickname", "n");
         command.abbreviate("password", "p");
@@ -88,23 +94,12 @@ public class LoginMenuTest {
             e.print();
             return;
         }
-        String username = command.getOption("username");
-        String nickname = command.getOption("nickname");
-        String password = command.getOption("password");
-        Throwable exception = assertThrows(CommandException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                controller.createUser(username, nickname, password);
-            }
-        });
-        assertEquals(NICKNAME_ALREADY_EXISTS.toString(), exception.getMessage());
+        username = command.getOption("username");
+        nickname = command.getOption("nickname");
+        password = command.getOption("password");
     }
 
-    @Test
-    public void invalidPassword() throws CommandException {
-        LoginMenuController controller = new LoginMenuController();
-        String inputString = "user login -u alireza -p password";
-        Command command = Command.parseCommand(inputString);
+    private void setLoginCreds(Command command) {
         command.abbreviate("username", "u");
         command.abbreviate("password", "p");
         try {
@@ -113,38 +108,7 @@ public class LoginMenuTest {
             e.print();
             return;
         }
-        String username = command.getOption("username");
-        String password = command.getOption("password");
-        Throwable exception = assertThrows(CommandException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                controller.loginUser(username, password);
-            }
-        });
-        assertEquals(PASSWORD_DOES_NOT_MATCH.toString(), exception.getMessage());
-    }
-
-    @Test
-    public void usernameDoesNotExists() throws CommandException {
-        LoginMenuController controller = new LoginMenuController();
-        String inputString = "user login -u alireza23 -p Password1!";
-        Command command = Command.parseCommand(inputString);
-        command.abbreviate("username", "u");
-        command.abbreviate("password", "p");
-        try {
-            command.assertOptions(List.of("username", "password"));
-        } catch (CommandException e) {
-            e.print();
-            return;
-        }
-        String username = command.getOption("username");
-        String password = command.getOption("password");
-        Throwable exception = assertThrows(CommandException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                controller.loginUser(username, password);
-            }
-        });
-        assertEquals(USER_DOES_NOT_EXISTS.toString(), exception.getMessage());
+        username = command.getOption("username");
+        password = command.getOption("password");
     }
 }
