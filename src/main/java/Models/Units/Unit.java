@@ -114,6 +114,10 @@ public class Unit extends Production {
 
     }
 
+    public UnitStates getState() {
+        return state;
+    }
+
     public void setState(UnitStates state) {
         this.state = state;
     }

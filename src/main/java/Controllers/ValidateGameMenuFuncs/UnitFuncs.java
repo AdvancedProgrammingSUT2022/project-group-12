@@ -11,6 +11,7 @@ import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Units.NonCombatUnit;
+import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
@@ -101,39 +102,17 @@ public class UnitFuncs extends GameMenuFuncs {
 //
 //    }
 
-    public void unitFortify(Command command) {
-//        Civilization civilization = getCurrentCivilization();
-//        Tile currentTile = getCurrentTile();
-//        try {
-//            if (command.getSubSubCategory().equals("heal")) {
-//                CommandResponse response = validateForCombatUnit(currentTile, civilization);
-//                if (response.isOK()) {
-//                    GameController.fortifyHealUnit(currentTile, civilization);
-//                } else {
-//                    System.out.println(response);
-//                }
-//            } else {
-//                System.out.println(CommandResponse.INVALID_COMMAND);
-//            }
-//        } catch (Exception e) {
-//            CommandResponse response = validateForCombatUnit(currentTile, civilization);
-//            if (response.isOK()) {
-//                System.out.println(GameController.fortifyUnit(currentTile, civilization));
-//            } else {
-//                System.out.println(response);
-//            }
-//        }
+    public String unitFortify(Unit selectedUnit,Command command) throws CommandException {
+            if (command.getSubSubCategory().equals("heal")) {
+                 return GameController.fortifyHealUnit(selectedUnit);
+            } else if(command.getSubCategory().equals(String.valueOf(CommandResponse.INVALID_COMMAND))){
+                return GameController.fortifyUnit(selectedUnit);
+            }
+            throw new CommandException(CommandResponse.INVALID_COMMAND);
     }
 
-    public void unitAlert() {
-//        Civilization civilization = getCurrentCivilization();
-//        Tile currentTile = getCurrentTile();
-//        CommandResponse response = validateForCombatUnit(currentTile, civilization);
-//        if (response.isOK()) {
-//            System.out.println(GameController.AlertUnit(currentTile, civilization));
-//        } else {
-//            System.out.println(response);
-//        }
+    public String unitAlert(Unit selectedUnit) throws CommandException {
+        return GameController.AlertUnit(selectedUnit);
     }
 
     public String unitMoveTo(Location location, String combatType) throws CommandException {

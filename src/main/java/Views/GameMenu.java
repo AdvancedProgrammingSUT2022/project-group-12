@@ -206,19 +206,26 @@ public class GameMenu extends Menu {
         switch (command.getSubCategory().trim()) {
             case "move" -> unitMove(command);
             case "sleep" -> unitSleep(command);
-//            case "alert" -> this.unitAlert();
-//            case "fortify" -> this.unitFortify(command);
-//            case "garrison" -> this.unitGarrison(command);
-            case "setup" -> this.unitSetup(command);
-            case "attack" -> this.unitAttack(command);
+            case "alert" -> unitAlert();
+            case "fortify" -> unitFortify(command);
+            case "setup" -> unitSetup(command);
+            case "attack" -> unitAttack(command);
             case "found" -> foundCity(command);
-            case "cancel" -> this.unitCancel(command);
-            case "wake" -> this.unitWake(command);
-            case "delete" -> this.unitDelete(command);
-            case "build" -> this.unitBuild(command);
-            case "remove" -> this.unitRemove(command);
-            case "repair" -> this.unitRepair(command);
+            case "cancel" -> unitCancel(command);
+            case "wake" -> unitWake(command);
+            case "delete" -> unitDelete(command);
+            case "build" -> unitBuild(command);
+            case "remove" -> unitRemove(command);
+            case "repair" -> unitRepair(command);
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
+        }
+    }
+
+    private void unitFortify(Command command) {
+        try {
+            unitFuncs.unitFortify(selectedUnit,command);
+        }catch (CommandException e){
+            e.print();
         }
     }
 
@@ -385,11 +392,16 @@ public class GameMenu extends Menu {
     }
 
     public void unitWake(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+        try {
+            if (this.selectedUnit == null) {
+                new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+                return;
+            }
+            GameController.wakeUpUnit(this.selectedUnit);
+        }catch (CommandException e){
+            e.print();
             return;
         }
-        GameController.wakeUpUnit(this.selectedUnit);
         System.out.println("unit waked up successfully");
     }
 
@@ -416,12 +428,23 @@ public class GameMenu extends Menu {
     }
 
     public void unitSleep(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
+        try {
+            if (this.selectedUnit == null) {
+                new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+                return;
+            }
+            GameController.sleepUnit(this.selectedUnit);
+            System.out.println("unit slept successfully");
+        }catch (CommandException e){
+            e.print();
         }
-        GameController.sleepUnit(this.selectedUnit);
-        System.out.println("unit slept successfully");
+    }
+    public void unitAlert() {
+        try {
+            System.out.println(unitFuncs.unitAlert(selectedUnit));
+        }catch (CommandException e){
+            e.print();
+        }
     }
 
     public void unitRepair(Command command) {

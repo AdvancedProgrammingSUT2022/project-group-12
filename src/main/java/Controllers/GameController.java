@@ -51,12 +51,12 @@ public class GameController {
     }
 
 
-    protected static boolean isEnemyExists(int row, int col, Civilization civilization) {
+    public static boolean isEnemyExists(int row, int col, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
-    protected static boolean isEnemyExists(Location location, Civilization civilization) {
+    public static boolean isEnemyExists(Location location, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
@@ -77,12 +77,12 @@ public class GameController {
         return enemyCity != null;
     }
 
-    protected static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
+    public static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
-    protected static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
+    public static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
@@ -93,7 +93,11 @@ public class GameController {
     public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static void wakeUpUnit(Unit unit) {
+    public static void wakeUpUnit(Unit unit) throws CommandException {
+        if(unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY){
+            unit.setState(UnitStates.AWAKED);
+        }
+        throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
     }
 
     public static void CancelMissionUnit(Unit unit) {
@@ -148,20 +152,48 @@ public class GameController {
         return "unit garrisoned successfully";
     }
 
-    public static String fortifyUnit(Tile currentTile, Civilization civilization) {
+    public static String fortifyUnit(Unit unit) throws CommandException {
+        if(!(unit instanceof CombatUnit)){
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        if(unit.getState() == UnitStates.FORTIFY){
+            throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
+        }
+        unit.setState(UnitStates.FORTIFY);
         return "unit fortified successfully";
     }
 
-    public static String fortifyHealUnit(Tile currentTile, Civilization civilization) {
+    public static String fortifyHealUnit(Unit unit) throws CommandException {
+        if(!(unit instanceof CombatUnit)){
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        if(unit.getState() == UnitStates.FORTIFYUNTILHEAL){
+            throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
+        }
+        unit.setState(UnitStates.FORTIFYUNTILHEAL);
         return "unit fortified successfully";
     }
 
-    public static String AlertUnit(Tile currentTile, Civilization civilization) {
+    public static String AlertUnit(Unit unit) throws CommandException {
+        if(!(unit instanceof CombatUnit)){
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        if(unit.getState() == UnitStates.ALERT){
+            throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
+        }
+        unit.setState(UnitStates.ALERT);
         return "unit alerted successfully";
     }
 
-    public static void sleepUnit(Unit unit) {
+    public static String sleepUnit(Unit unit) throws CommandException {
+        if(!(unit instanceof NonCombatUnit)) {
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        if (unit.getState() == UnitStates.AWAKED) {
+            throw new CommandException(CommandResponse.UNIT_IS_SLEEP);
+        }
         unit.setState(UnitStates.SLEEP);
+        return "unit slept successfully";
     }
 
     public static StringBuilder showCity(City city) {

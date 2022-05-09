@@ -2,6 +2,7 @@ package Models;
 
 import Controllers.GameController;
 import Enums.UnitEnum;
+import Enums.UnitStates;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -41,6 +42,22 @@ public class Game {
     public void endCurrentTurn() throws GameException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
+        //todo : complete
+        for (Unit unit :
+                civ.getUnits()) {
+            switch (unit.getState()) {
+                case ALERT -> {
+                    checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
+                }
+                case AWAKED -> {
+                    checkForMovementCost(unit);
+                }
+                case FORTIFYUNTILHEAL -> {
+                    checkForFortifyHealUnit(unit,tileGrid.getTile(unit.getLocation()));
+                }
+                default -> {}
+            }
+        }
         for (City city : civ.getCities()) {
             if (city.getCitizens().size() < city.getCitizensCount()) {
                 throw new GameException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
@@ -48,6 +65,36 @@ public class Game {
                 throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }
         }
+    }
+
+    private void checkForFortifyHealUnit(Unit unit, Tile tile) throws GameException {
+          if(unit.getHealthBar() == 100){
+              checkForMovementCost(unit);
+          }
+    }
+
+    private void checkForMovementCost(Unit unit) throws GameException {
+        if (unit.getAvailableMoveCount() > 0) {
+            throw new GameException(CommandResponse.UNIT_NEED_ORDER);
+        }
+    }
+    private void checkForAlertUnit(Unit unit, Tile unitTile) throws GameException {
+      ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile,2);
+      Civilization unitCiv = unit.getCivilization();
+       if(checkForEnemy(tiles, unitCiv)){
+           unit.setState(UnitStates.AWAKED);
+           checkForMovementCost(unit);
+       }
+    }
+
+    private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {
+        for (Tile tile:
+                tiles) {
+            if(GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)){
+                  return true;        
+            }
+        }
+        return false;
     }
 
     public void startNextTurn() {

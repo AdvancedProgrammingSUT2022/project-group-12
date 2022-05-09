@@ -52,7 +52,11 @@ public enum CommandResponse {
     EMPTY_PRODUCTION_QUEUE("production queue is empty"),
     NO_CITIZEN_ON_TILE("there is no citizen on the tile"),
     UNIT_NOT_SELECTED("no unit selected"),
-    NOT_YOUR_TERRITORY("tile isn't in city's territory");
+    NOT_YOUR_TERRITORY("tile isn't in city's territory"),
+    UNIT_IS_NOT_SLEEP("unit isn't sleep"),
+    UNIT_IS_SLEEP("unit is sleep"),
+    UNIT_IS_FORTIFIED("unit is fortified"),
+    UNIT_NEED_ORDER("unit need order");
 
     private String message;
 

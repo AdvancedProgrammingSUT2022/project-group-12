@@ -1,6 +1,7 @@
 package Controllers;
 
 import Enums.CombatTypeEnum;
+import Enums.UnitStates;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
@@ -99,7 +100,7 @@ public class UnitCombatController extends CombatController {
             throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COST);
         }
         combatUnit.setAvailableMoveCount(combatUnit.getAvailableMoveCount() - 1);
-        combatUnit.setSetup(true);
+        combatUnit.setState(UnitStates.SETUP);
     }
 
     private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, int combatStrength1, CombatUnit combatUnit, int combatStrength2) {
