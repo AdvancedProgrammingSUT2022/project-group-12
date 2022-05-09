@@ -13,12 +13,11 @@ import java.util.Random;
 
 import static java.lang.Math.exp;
 
-public class Unit extends Production {
+public abstract class Unit extends Production {
     protected UnitEnum type;
     protected Civilization civ;
     protected Tile assignedTile;
     protected int cost;
-    protected boolean isAssigned;
     protected double availableMoveCount;
     protected Location location;
     protected int healthBar;

@@ -33,7 +33,7 @@ public class City {
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;
-    private int gold;
+    private int goldProductionValue;
     private double production;
     private int food;
     private ArrayList<ResourceEnum> resources;
@@ -49,7 +49,7 @@ public class City {
         this.tiles.add(tile);
         this.combatUnit = null;
         this.nonCombatUnit = null;
-        this.gold = tile.getTerrain().getGoldCount();
+        this.goldProductionValue = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateProductionCount();
         this.resources = new ArrayList<>(tile.getTerrain().getResource() == null ? List.of() : List.of(tile.getTerrain().getResource()));
         this.hitPoint = 2000;
@@ -86,10 +86,6 @@ public class City {
         double random_number = random.nextInt(50) + 75;
         random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
-    }
-
-    public Tile getCityTile() {
-        return cityTile;
     }
 
     public ArrayList<Production> getProductionQueue() {
@@ -140,12 +136,12 @@ public class City {
         return this.cityTile.getLocation();
     }
 
-    public int getGold() {
-        return this.gold;
+    public int getGoldProductionValue() {
+        return this.goldProductionValue;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
+    public void setGoldProductionValue(int goldProductionValue) {
+        this.goldProductionValue = goldProductionValue;
     }
 
     public ArrayList<ResourceEnum> getResources() {
@@ -358,4 +354,7 @@ public class City {
         return this.cityTile;
     }
 
+    public void addTile(Tile tile) {
+        this.tiles.add(tile);
+    }
 }

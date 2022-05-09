@@ -7,6 +7,7 @@ import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.ImprovementEnum;
+import Enums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;
@@ -99,7 +100,47 @@ public class GameMenu extends Menu {
     private void city(Command command) {
         switch (command.getSubCategory()) {
             case "citizen" -> cityCitizen(command);
+            case "buy" -> cityBuy(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityBuy(Command command) {
+        switch (command.getSubCategory()) {
+            case "tile" -> cityBuyTile(command);
+            case "unit" -> cityBuyUnit(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityBuyUnit(Command command) {
+        command.abbreviate("position", "p");
+        command.abbreviate("unit", "u");
+        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+        try {
+            command.assertOptions(List.of("position", "unit"));
+            Location location = command.getLocationOption("position");
+            String unitName = command.getOption("unit");
+            UnitEnum unit = UnitEnum.valueOf(unitName);
+            GameController.cityBuyUnit(selectedCity, unit);
+            System.out.println(unitName + " bought and added at " + this.selectedCity.getName());
+        } catch (CommandException e) {
+            e.print();
+        } catch (IllegalArgumentException e) {
+            new CommandException(CommandResponse.INVALID_UNIT_NAME).print();
+        }
+    }
+
+    private void cityBuyTile(Command command) {
+        command.abbreviate("position", "p");
+        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            GameController.cityBuyTile(selectedCity, location);
+            System.out.println("tile " + location + " bought for " + this.selectedCity.getName());
+        } catch (CommandException e) {
+            e.print();
         }
     }
 

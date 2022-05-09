@@ -307,4 +307,8 @@ public class Civilization {
     public void deleteUnit(Unit unit) {
         this.units.remove(unit);
     }
+
+    public void addGold(int value) {
+        this.gold += value;
+    }
 }

@@ -56,7 +56,13 @@ public enum CommandResponse {
     UNIT_IS_NOT_SLEEP("unit isn't sleep"),
     UNIT_IS_SLEEP("unit is sleep"),
     UNIT_IS_FORTIFIED("unit is fortified"),
-    UNIT_NEED_ORDER("unit need order");
+    UNIT_NEED_ORDER("unit need order"),
+    NOT_ENOUGH_GOLD("not enough gold for buy"),
+    NOT_ADJACENT_TO_CITY_TERRITORY("tile is not adjacent to city territory"),
+    ALREADY_FOR_A_CITY("tile is already for a city"),
+    INVALID_UNIT_NAME("unit name not recognized"),
+    COMBAT_UNIT_ALREADY_ON_TILE("a combat unit is already on tile"),
+    NONCOMBAT_UNIT_ALREADY_ON_TILE("a non combat unit is already on tile");
 
     private String message;
 

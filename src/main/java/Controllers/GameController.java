@@ -8,12 +8,14 @@ import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
+import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
+import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -94,7 +96,7 @@ public class GameController {
     }
 
     public static void wakeUpUnit(Unit unit) throws CommandException {
-        if(unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY){
+        if (unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY) {
             unit.setState(UnitStates.AWAKED);
         }
         throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
@@ -140,8 +142,7 @@ public class GameController {
 
     private static void checkForHavingEnoughTiles(Location location, Civilization civilization, Tile cityTile) throws CommandException {
         ArrayList<Tile> checkTiles = game.getTileGrid().getAllTilesInRadius(cityTile, 4);
-        for (Tile tile :
-                checkTiles) {
+        for (Tile tile : checkTiles) {
             if (tile.getCity() != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
@@ -153,10 +154,10 @@ public class GameController {
     }
 
     public static String fortifyUnit(Unit unit) throws CommandException {
-        if(!(unit instanceof CombatUnit)){
+        if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
-        if(unit.getState() == UnitStates.FORTIFY){
+        if (unit.getState() == UnitStates.FORTIFY) {
             throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
         }
         unit.setState(UnitStates.FORTIFY);
@@ -164,10 +165,10 @@ public class GameController {
     }
 
     public static String fortifyHealUnit(Unit unit) throws CommandException {
-        if(!(unit instanceof CombatUnit)){
+        if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
-        if(unit.getState() == UnitStates.FORTIFY_UNTIL_HEAL){
+        if (unit.getState() == UnitStates.FORTIFY_UNTIL_HEAL) {
             throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
         }
         unit.setState(UnitStates.FORTIFY_UNTIL_HEAL);
@@ -175,10 +176,10 @@ public class GameController {
     }
 
     public static String AlertUnit(Unit unit) throws CommandException {
-        if(!(unit instanceof CombatUnit)){
+        if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
-        if(unit.getState() == UnitStates.ALERT){
+        if (unit.getState() == UnitStates.ALERT) {
             throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
         }
         unit.setState(UnitStates.ALERT);
@@ -186,7 +187,7 @@ public class GameController {
     }
 
     public static String sleepUnit(Unit unit) throws CommandException {
-        if(!(unit instanceof NonCombatUnit)) {
+        if (!(unit instanceof NonCombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
         if (unit.getState() == UnitStates.AWAKED) {
@@ -199,14 +200,12 @@ public class GameController {
     public static StringBuilder showCity(City city) {
         StringBuilder message = new StringBuilder();
         message.append("city citizens : " + city.getCitizensCount() + "\n");
-        for (Building building :
-                city.getBuildings()) {
+        for (Building building : city.getBuildings()) {
             message.append("city building : " + building.getType().toString().toLowerCase() + '\n');
         }
         message.append("city combat unit : " + city.getCombatUnit() + '\n');
         message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
-        for (Tile cityTile :
-                city.getTiles()) {
+        for (Tile cityTile : city.getTiles()) {
             if (cityTile.getCitizen() != null) {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
             }
@@ -215,7 +214,7 @@ public class GameController {
         message.append("city food : " + city.getFood() + '\n');
         message.append("city science : " + city.getBeaker() + '\n');
         message.append("city production : " + city.getProduction() + '\n');
-        message.append("city gold : " + city.getGold() + '\n');
+        message.append("city gold : " + city.getGoldProductionValue() + '\n');
         return message;
     }
 
@@ -384,5 +383,45 @@ public class GameController {
         if (tile.getCity() != city) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.getCitizen().setLock(lock);
+    }
+
+    public static void cityBuyTile(City city, Location location) throws CommandException {
+        if (city.getCivilization().getGold() < Constants.TILE_COST) {
+            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+        }
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
+        Tile tile = tileGrid.getTile(location);
+        if (tile.getCity() != null) throw new CommandException(CommandResponse.ALREADY_FOR_A_CITY);
+        boolean isNeighbor = false;
+        for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
+            if (neighbor.getCity() == city) {
+                isNeighbor = true;
+                break;
+            }
+        }
+        if (!isNeighbor) throw new CommandException(CommandResponse.NOT_ADJACENT_TO_CITY_TERRITORY);
+        city.getCivilization().addGold(-Constants.TILE_COST);
+        city.addTile(tile);
+        tile.setCity(city);
+    }
+
+    public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
+        if (city.getCivilization().getGold() < unitEnum.getCost()) {
+            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+        }
+        Tile tile = city.getTile();
+        if (unitEnum.isACombatUnit()) {
+            CombatUnit combatUnit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
+            if (tile.getCombatUnit() != null) {
+                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
+            }
+            tile.setCombatUnit(combatUnit);
+        } else {
+            NonCombatUnit nonCombatUnit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
+            if (tile.getNonCombatUnit() != null) {
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
+            }
+            tile.setNonCombatUnit(nonCombatUnit);
+        }
     }
 }

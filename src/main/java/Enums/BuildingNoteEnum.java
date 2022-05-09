@@ -49,7 +49,7 @@ public enum BuildingNoteEnum {
     }),
     GARDEN_NOTE(o -> {
     }),
-    MARKET_NOTE((BuildingNotes<City>) city -> city.setGold(city.getGold() + city.getGold() / 4)),
+    MARKET_NOTE((BuildingNotes<City>) city -> city.setGoldProductionValue(city.getGoldProductionValue() + city.getGoldProductionValue() / 4)),
     MINT_NOTE((BuildingNotes<City>) city -> {
         int counter = 0;
         for (ResourceEnum resource :
@@ -58,7 +58,7 @@ public enum BuildingNoteEnum {
                 ++counter;
             }
         }
-        city.setGold(city.getGold() + 3 * counter);
+        city.setGoldProductionValue(city.getGoldProductionValue() + 3 * counter);
     }),
     MONASTERY_NOTE((BuildingNotes<City>) o -> {
     }),
@@ -78,7 +78,7 @@ public enum BuildingNoteEnum {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);
         }
     }),
-    BANK((BuildingNotes<City>) city -> city.setGold(city.getGold() + city.getGold() / 4)),
+    BANK((BuildingNotes<City>) city -> city.setGoldProductionValue(city.getGoldProductionValue() + city.getGoldProductionValue() / 4)),
     MILITARY_ACADEMY_NOTE(o -> {
     }),
     MUSEUM_NOTE((BuildingNotes<City>) city -> {
@@ -87,7 +87,7 @@ public enum BuildingNoteEnum {
     }),
     PUBLIC_SCHOOL_NOTE((BuildingNotes<City>) city -> city.setBeaker(city.getBeaker() + city.getBeaker() / 2)),
     SATRAPS_COURT_NOTE((BuildingNotes<City>) city -> {
-        city.setGold(city.getGold() + city.getGold() / 4);
+        city.setGoldProductionValue(city.getGoldProductionValue() + city.getGoldProductionValue() / 4);
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
     }),
     THEATER_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
@@ -103,7 +103,7 @@ public enum BuildingNoteEnum {
     FACTORY_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() / 2)),
     HOSPITAL_NOTE((BuildingNotes<City>) city -> city.setFood(city.getFood() - city.getFood() / 2)),
     MILITARY_BASE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 12)),
-    STOCK_EXCHANGE_NOTE((BuildingNotes<City>) city -> city.setGold(city.getGold() + city.getGold() / 3));
+    STOCK_EXCHANGE_NOTE((BuildingNotes<City>) city -> city.setGoldProductionValue(city.getGoldProductionValue() + city.getGoldProductionValue() / 3));
     private final BuildingNotes note;
 
     BuildingNoteEnum(BuildingNotes note) {

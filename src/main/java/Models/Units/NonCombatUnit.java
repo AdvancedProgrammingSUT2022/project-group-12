@@ -9,26 +9,6 @@ public class NonCombatUnit extends Unit {
         super(type, civ, location);
     }
 
-    public void settler() {
-
-    }
-
-    public void worker() {
-
-    }
-
-    public void buildRoad() {
-
-    }
-
-    public void destroyRoad() {
-
-    }
-
-    public void createProduct() {
-
-    }
-
     public UnitEnum getType() {
         return type;
     }

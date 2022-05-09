@@ -8,12 +8,10 @@ import Models.Location;
 
 import java.util.ArrayList;
 
-public abstract class CombatUnit extends Unit {
+public class CombatUnit extends Unit {
     protected ArrayList<ResourceEnum> requiredResources = new ArrayList<>();
     protected ArrayList<TechnologyEnum> requiredTechs = new ArrayList<>();
-    protected String combatType;
     protected int combatStrength;
-    protected int range;
     protected boolean isSetup;
 
     public CombatUnit(UnitEnum type, Civilization civ, Location location) {
