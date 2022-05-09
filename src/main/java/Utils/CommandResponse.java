@@ -45,7 +45,11 @@ public enum CommandResponse {
     UNRECOGNIZED_OPTION("unrecognized option entered"),
     INVALID_OPTION_TYPE("invalid option type"),
     IMPOSSIBLE_MOVE("this move is impossible"),
-    UNASSIGNED_CITIZEN("unassigned citizen in city");
+    UNASSIGNED_CITIZEN("unassigned citizen in city"),
+    CITY_NOT_SELECTED("no city selected"),
+    NO_UNASSIGNED_CITIZEN("all of citizens already assigned"),
+    CITIZEN_ALREADY_WORKING_ON_TILE("a citizen already working on this tile"),
+    EMPTY_PRODUCTION_QUEUE("production queue is empty");
 
     private String message;
 

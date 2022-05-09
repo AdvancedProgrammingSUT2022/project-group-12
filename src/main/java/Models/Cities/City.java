@@ -91,6 +91,14 @@ public class City {
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
 
+    public Tile getCityTile() {
+        return cityTile;
+    }
+
+    public ArrayList<Production> getProductionQueue() {
+        return productionQueue;
+    }
+
     public ArrayList<Citizen> getCitizens() {
         ArrayList<Citizen> citizens = new ArrayList<>();
         for (Tile tile : this.getTiles()) {
@@ -270,6 +278,7 @@ public class City {
     }
 
     public void advanceProductionQueue() {
+        // productionQueue cannot be empty (Game.endCurrentTurn guarantee)
         productionQueue.get(0).decreaseRemainedProduction(this.getProduction());
         if (productionQueue.get(0).getRemainedProduction() <= 0) {
             Production production = productionQueue.remove(0);

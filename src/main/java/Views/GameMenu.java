@@ -83,11 +83,10 @@ public class GameMenu extends Menu {
     }
 
     private void city(Command command) {
-        switch (command.getSubCategory()) {
-//            ?
-//            case "attack" -> UnitOtherFuncs.CityAttack(command);
+        switch (command.getSubCategory() + " " + command.getSubSubCategory()) {
+            case "assign citizen" -> cityAssignCitizen(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
-
     }
 
     private void info(Command command) {
@@ -240,7 +239,6 @@ public class GameMenu extends Menu {
                 return;
             }
             command.assertOptions(List.of("position"));
-            //command.assertOptionType("position", "integer");
             System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), command.getSubSubCategory()));
             getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
@@ -262,10 +260,14 @@ public class GameMenu extends Menu {
     }
 
     public City selectCityByPosition(Location location) throws CommandException {
-        if (!GameController.getGame().getTileGrid().isLocationValid(location)) throw new CommandException(CommandResponse.INVALID_POSITION);
+        if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
+            throw new CommandException(CommandResponse.INVALID_POSITION);
+        }
         City city = GameController.getGame().getTileGrid().getTile(location).getCity();
         Civilization civ = GameController.getGame().getCurrentCivilization();
-        if (city == null || city.getCivilization() != civ) throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+        if (city == null || city.getCivilization() != civ) {
+            throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+        }
         return city;
     }
 
@@ -277,5 +279,18 @@ public class GameMenu extends Menu {
             }
         }
         throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+    }
+
+    private void cityAssignCitizen(Command command) {
+        command.abbreviate("position", "p");
+        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            GameController.cityAssignCitizen(selectedCity, location);
+            System.out.println("citizen successfully assigned on " + location);
+        } catch (CommandException e) {
+            e.print();
+        }
     }
 }

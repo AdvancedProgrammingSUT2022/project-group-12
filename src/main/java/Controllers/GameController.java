@@ -6,15 +6,14 @@ import Enums.TechnologyEnum;
 import Enums.TerrainEnum;
 import Models.Buildings.Building;
 import Models.Cities.City;
+import Models.Citizen;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.RangedUnit;
-import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
@@ -103,7 +102,7 @@ public class GameController {
     public static void CancelMissionCombatUnit(Civilization currentCivilization, Tile currentTile) {
     }
 
-    public static City FoundCity(Civilization civ, Location location) throws CommandException {
+    public static City foundCity(Civilization civ, Location location) throws CommandException {
         checkConditionsForCity(location, civ, game.getTileGrid().getTile(location));
         Tile currentTile = game.getTileGrid().getTile(location);
         int cityProduction = 1 + currentTile.calculateProductionCount();
@@ -336,16 +335,12 @@ public class GameController {
         return game;
     }
 
-    public CommandResponse battle(Civilization attacking, Civilization defending) {
-
-        return CommandResponse.OK;
-    }
-
-    public CommandResponse movement(Unit moving) {
-        return CommandResponse.OK;
-    }
-
-    public TileGrid getGameTileGrid() {
-        return game.getTileGrid();
+    public static void cityAssignCitizen(City city, Location location) throws CommandException {
+        if (city.getCitizensCount() <= city.getCitizens().size()) {
+            throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
+        }
+        Tile tile = GameController.getGame().getTileGrid().getTile(location);
+        if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
+        tile.setCitizen(new Citizen(city));
     }
 }

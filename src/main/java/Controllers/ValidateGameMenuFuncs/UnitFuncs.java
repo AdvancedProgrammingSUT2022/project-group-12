@@ -456,6 +456,6 @@ public class UnitFuncs extends GameMenuFuncs {
         Civilization currentCivilization = getCurrentCivilization();
         Tile currentTile = getCurrentTile();
         validateTileForFoundingCity(currentTile, currentCivilization);
-        return GameController.FoundCity(currentCivilization, currentCivilization.getCurrentGridLocation());
+        return GameController.foundCity(currentCivilization, currentCivilization.getCurrentGridLocation());
     }
 }

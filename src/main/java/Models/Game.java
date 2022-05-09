@@ -44,6 +44,8 @@ public class Game {
         for (City city : civ.getCities()) {
             if (city.getCitizens().size() < city.getCitizensCount()) {
                 throw new GameException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
+            } else if (city.getProductionQueue().isEmpty()) {
+                throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }
         }
     }
