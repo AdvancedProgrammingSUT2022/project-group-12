@@ -3,25 +3,31 @@ package Models;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Database {
     private static Database instance = null;
-    private HashMap<String, User> users = new HashMap<>();
-    private ArrayList<Game> games = new ArrayList<>();
+    private HashMap<String, User> users;
+    private ArrayList<User> usersList;
+    private ArrayList<Game> games;
+
+    private final Gson gson;
 
     public static Database getInstance() {
         if (instance == null) {
             instance = new Database();
         }
         return instance;
+    }
+
+    private Database() {
+        this.gson = new Gson();
+        this.users = new HashMap<>();
+        this.games = new ArrayList<>();
+        this.usersList = new ArrayList<>();
     }
 
 
@@ -31,68 +37,94 @@ public class Database {
 
     public void addUser(User user) {
         users.put(user.getUsername(), user);
+        usersList.add(user);
     }
 
     public User getUser(String username) {
         return this.users.get(username);
     }
 
-    public void serialize() {
-        try {
-            FileWriter writer = new FileWriter("users.json");
-            writer.write(new Gson().toJson(this.users));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            FileWriter writer = new FileWriter("games.json");
-            writer.write(new Gson().toJson(this.games));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addUserToList(User user) {
-        this.users.put(user.getUsername(), user);
-    }
 
     public boolean checkForUsername(String username) {
         return this.users.containsKey(username);
     }
 
     public boolean nicknameAlreadyExists(String nickname) {
-        for (Map.Entry<String, User> account : this.users.entrySet()) {
-            if (account.getValue().getNickname().equals(nickname)) {
+        for (User account : this.usersList) {
+            if (account.getNickname().equals(nickname)) {
                 return true;
             }
         }
         return false;
     }
 
+    public void deserializeUsers() {
+        try {
+            File gameFile = new File("users.json");
+            if (!gameFile.exists())
+                gameFile.createNewFile();
+            List<User> list = new ArrayList<>();
+            Reader reader = Files.newBufferedReader(Paths.get("users.json"));
+            User[] usersArray = gson.fromJson(reader, User[].class);
+            if (usersArray != null)
+                list = Arrays.asList(usersArray);
+            ArrayList<User> copyingUsers = new ArrayList<>(list);
+            reader.close();
+            this.usersList.addAll(copyingUsers);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (!this.usersList.isEmpty())
+            for (User user : this.usersList) {
+                users.put(user.getUsername(), user);
+            }
+    }
+
+    public void deserializeGames() {
+        try {
+            File gameFile = new File("games.json");
+            if (!gameFile.exists())
+                gameFile.createNewFile();
+            List<Game> games = new ArrayList<>();
+            Reader reader = Files.newBufferedReader(Paths.get("games.json"));
+            Game[] gamesArray = gson.fromJson(reader, Game[].class);
+            if (gamesArray != null)
+                games = Arrays.asList(gamesArray);
+            ArrayList<Game> gameList = new ArrayList<>(games);
+            reader.close();
+            this.games.addAll(gameList);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deserialize() {
-        File users = new File("users.json");
+        deserializeUsers();
+        deserializeGames();
+    }
+
+    public void serializeUsers() {
         try {
-            if (users.length() == 0) {
-                return;
-            }
-            String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
-            this.users = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, User>>() {
-            }.getType());
+            Writer writer = Files.newBufferedWriter(Paths.get("users.json"));
+            gson.toJson(usersList, writer);
+            writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        File games = new File("games.json");
+    }
+
+    public void serializeGames() {
         try {
-            if (games.length() == 0) {
-                return;
-            }
-            String jsonFile = new String(Files.readAllBytes(Paths.get("games.json")));
-            this.games = new Gson().fromJson(jsonFile, new TypeToken<HashMap<String, Game>>() {
-            }.getType());
+            Writer writer = Files.newBufferedWriter(Paths.get("games.json"));
+            gson.toJson(games, writer);
+            writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+    }
+
+    public void serialize() {
+        serializeUsers();
+        serializeGames();
     }
 }

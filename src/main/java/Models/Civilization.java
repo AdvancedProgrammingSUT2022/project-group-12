@@ -1,7 +1,10 @@
 package Models;
 
 import Controllers.CivilizationController;
-import Enums.*;
+import Enums.HappinessTypeEnum;
+import Enums.ImprovementEnum;
+import Enums.ResourceEnum;
+import Enums.TechnologyEnum;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
@@ -11,9 +14,10 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Constants;
 
-import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Civilization {
 
@@ -36,6 +40,7 @@ public class Civilization {
     private int happiness;
     private Tile currentTile;
     private TechnologyEnum researchingTechnology;
+    private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
     private ArrayList<NonCombatUnit> nonCombatUnits;
     private City capital = null;
@@ -45,7 +50,7 @@ public class Civilization {
         List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
         this.color = colors.get(new Random().nextInt(colors.size()));
         this.technologies = new HashMap<>();
-        this.researchingTechnologies = null;
+        this.researchingTechnology = null;
         this.user = user;
         this.units = new ArrayList<>();
         this.gold = 0;
@@ -57,7 +62,22 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
+        this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
+    }
+
+    public Civilization(User user, TileGrid tileGrid) {
+        this.technologies = new HashMap<>();
+        this.user = user;
+        this.name = user.getNickname();
+        this.revealedTileGrid = tileGrid;
+        this.units = new ArrayList<>();
+        this.controller = new CivilizationController(this);
+        this.cities = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+        this.ownedTiles = null;
+        this.researchingTechnology = null;
+        this.researchingTechnologies = new HashMap<>();
     }
 
     public void researchTech() {
