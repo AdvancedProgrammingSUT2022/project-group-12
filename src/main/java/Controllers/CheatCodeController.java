@@ -48,4 +48,12 @@ public class CheatCodeController {
     public void increaseProduction(City city, int amount) {
         city.setProduction(city.getProduction() + amount);
     }
+
+    public void increaseHappiness(int amount) {
+        GameController.getGame().getCurrentCivilization().setHappiness(amount);
+    }
+
+    public void revealTile(Location location) {
+        GameController.getGame().getCurrentCivilization().getRevealedTileGrid().setVisible(location);
+    }
 }

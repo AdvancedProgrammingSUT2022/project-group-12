@@ -233,7 +233,7 @@ public class City {
         this.reservedResource = reservedResource;
     }
 
-    public boolean hasBuilding(BuildingEnum buildingName) {
+    public boolean hasBuilding(Building buildingName) {
         return this.buildings.contains(buildingName);
     }
 
