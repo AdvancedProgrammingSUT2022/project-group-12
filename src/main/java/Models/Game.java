@@ -2,6 +2,7 @@ package Models;
 
 import Controllers.GameController;
 import Controllers.MovingController;
+import Enums.TerrainColor;
 import Enums.UnitEnum;
 import Enums.UnitStates;
 import Models.Cities.City;
@@ -16,6 +17,7 @@ import Utils.GameException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Game {
     private final ArrayList<Civilization> civs;
@@ -27,8 +29,10 @@ public class Game {
         this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         ArrayList<Tile> availableTiles = this.tileGrid.getFlatTiles();
         Collections.shuffle(availableTiles);
-        for (User user : users) {
-            Civilization civ = new Civilization(user);
+        List<TerrainColor> colors = List.of(TerrainColor.GREEN_BOLD, TerrainColor.RED_BOLD, TerrainColor.YELLOW_BOLD, TerrainColor.CYAN_BOLD, TerrainColor.WHITE_BOLD);
+        for (int index = 0; index < users.size(); index++) {
+            TerrainColor color = colors.get(index % colors.size());
+            Civilization civ = new Civilization(users.get(index), color);
             civs.add(civ);
             // for easier testing
 //            Location settlerLocation = new Location(10, 10);

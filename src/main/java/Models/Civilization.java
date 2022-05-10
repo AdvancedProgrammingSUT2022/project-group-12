@@ -10,7 +10,10 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Constants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Civilization {
 
@@ -38,9 +41,8 @@ public class Civilization {
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
 
-    public Civilization(User user) {
-        List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
-        this.color = colors.get(new Random().nextInt(colors.size()));
+    public Civilization(User user, TerrainColor color) {
+        this.color = color;
         this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;
