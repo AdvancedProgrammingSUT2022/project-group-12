@@ -372,7 +372,6 @@ public class GameMenu extends Menu {
             getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
             e.print();
-            return;
         }
     }
 

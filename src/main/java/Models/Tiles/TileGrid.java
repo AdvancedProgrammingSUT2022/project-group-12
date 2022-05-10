@@ -208,4 +208,24 @@ public class TileGrid {
             }
         }
     }
+
+    public ArrayList<Tile> getFlatTiles() {
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (int i = 0; i < this.getHeight(); ++i) {
+            for (int j = 0; j < this.getWidth(); ++j) {
+                tiles.add(this.getGrid()[i][j]);
+            }
+        }
+        return tiles;
+    }
+
+    public ArrayList<Location> getFlatTileLocations() {
+        ArrayList<Location> tiles = new ArrayList<>();
+        for (int i = 0; i < this.getHeight(); ++i) {
+            for (int j = 0; j < this.getWidth(); ++j) {
+                tiles.add(new Location(i, j));
+            }
+        }
+        return tiles;
+    }
 }

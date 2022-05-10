@@ -28,7 +28,7 @@ public abstract class Unit extends Production {
     public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
         this.civ = civ;
-        this.pathShouldCross = null;
+        this.pathShouldCross = new ArrayList<>();
         this.resetMovementCount();
         this.location = location;
         civ.addUnit(this);

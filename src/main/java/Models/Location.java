@@ -1,5 +1,7 @@
 package Models;
 
+import java.util.Objects;
+
 public class Location {
     private int row;
     private int col;
@@ -46,5 +48,10 @@ public class Location {
     @Override
     public String toString() {
         return "(" + this.getRow() + ", " + this.getCol() + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
     }
 }

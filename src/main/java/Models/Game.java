@@ -15,6 +15,7 @@ import Utils.Constants;
 import Utils.GameException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game {
     private final ArrayList<Civilization> civs;
@@ -24,15 +25,23 @@ public class Game {
     public Game(ArrayList<User> users) {
         this.civs = new ArrayList<>();
         this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        ArrayList<Tile> availableTiles = this.tileGrid.getFlatTiles();
+        Collections.shuffle(availableTiles);
         for (User user : users) {
             Civilization civ = new Civilization(user);
             civs.add(civ);
             // for easier testing
-            Location settlerLocation = new Location(10, 10); // this.tileGrid.getRandomTileLocation();
-            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerLocation);
-            this.tileGrid.getTile(settlerLocation.getRow(), settlerLocation.getCol()).setNonCombatUnit(settler);
+//            Location settlerLocation = new Location(10, 10);
+
+            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
+            for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
+                availableTiles.remove(tile);
+            }
+
+            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerTile.getLocation());
+            settlerTile.setNonCombatUnit(settler);
             updateRevealedTileGrid(civ);
-            civ.setCurrentSelectedGridLocation(settlerLocation);
+            civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
     }
 
@@ -98,8 +107,7 @@ public class Game {
     }
 
     private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {
-        for (Tile tile :
-                tiles) {
+        for (Tile tile : tiles) {
             if (GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)) {
                 return true;
             }
