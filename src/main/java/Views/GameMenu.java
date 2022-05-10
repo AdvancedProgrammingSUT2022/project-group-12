@@ -34,12 +34,12 @@ public class GameMenu extends Menu {
         startOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 
-    public void startOfTurnInfo(Civilization civilization) {
-        System.out.println("turn of: " + civilization.getName());
-    }
-
     public static void printError(CommandResponse commandResponse) {
         System.out.println(commandResponse);
+    }
+
+    public void startOfTurnInfo(Civilization civilization) {
+        System.out.println("turn of: " + civilization.getName());
     }
 
     public InfoFuncs getInfoFuncs() {
@@ -262,8 +262,8 @@ public class GameMenu extends Menu {
 
     private void unitFortify(Command command) {
         try {
-            unitFuncs.unitFortify(selectedUnit,command);
-        }catch (CommandException e){
+            unitFuncs.unitFortify(selectedUnit, command);
+        } catch (CommandException e) {
             e.print();
         }
     }
@@ -433,7 +433,7 @@ public class GameMenu extends Menu {
                 return;
             }
             GameController.wakeUpUnit(this.selectedUnit);
-        }catch (CommandException e){
+        } catch (CommandException e) {
             e.print();
             return;
         }
@@ -470,14 +470,15 @@ public class GameMenu extends Menu {
             }
             GameController.sleepUnit(this.selectedUnit);
             System.out.println("unit slept successfully");
-        }catch (CommandException e){
+        } catch (CommandException e) {
             e.print();
         }
     }
+
     public void unitAlert() {
         try {
             System.out.println(unitFuncs.unitAlert(selectedUnit));
-        }catch (CommandException e){
+        } catch (CommandException e) {
             e.print();
         }
     }
@@ -494,7 +495,6 @@ public class GameMenu extends Menu {
             e.print();
         }
     }
-
 
 
 }

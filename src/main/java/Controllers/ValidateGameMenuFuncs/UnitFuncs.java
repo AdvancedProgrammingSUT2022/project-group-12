@@ -90,13 +90,13 @@ public class UnitFuncs {
 //
 //    }
 
-    public String unitFortify(Unit selectedUnit,Command command) throws CommandException {
-            if (command.getSubSubCategory().equals("heal")) {
-                return GameController.fortifyHealUnit(selectedUnit);
-            } else if (command.getSubSubCategory().trim().equals("")) {
-                return GameController.fortifyUnit(selectedUnit);
-            }
-            throw new CommandException(CommandResponse.INVALID_COMMAND);
+    public String unitFortify(Unit selectedUnit, Command command) throws CommandException {
+        if (command.getSubSubCategory().equals("heal")) {
+            return GameController.fortifyHealUnit(selectedUnit);
+        } else if (command.getSubSubCategory().trim().equals("")) {
+            return GameController.fortifyUnit(selectedUnit);
+        }
+        throw new CommandException(CommandResponse.INVALID_COMMAND);
     }
 
     public String unitAlert(Unit selectedUnit) throws CommandException {
@@ -117,8 +117,8 @@ public class UnitFuncs {
         }
         Tile nextTile = GameController.getGame().getTileGrid().getTile(location);
         if (unit instanceof NonCombatUnit && nextTile.getNonCombatUnit() != null ||
-            unit instanceof CombatUnit    && nextTile.getCombatUnit()    != null) {
-                throw new CommandException(CommandResponse.TILE_IS_FULL);
+                unit instanceof CombatUnit && nextTile.getCombatUnit() != null) {
+            throw new CommandException(CommandResponse.TILE_IS_FULL);
         }
         if (!nextTile.getTerrain().getTerrainType().canBePassed()) {
             throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);

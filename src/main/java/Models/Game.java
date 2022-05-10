@@ -55,9 +55,10 @@ public class Game {
                     checkForMovementCost(unit);
                 }
                 case FORTIFY_UNTIL_HEAL -> {
-                    checkForFortifyHealUnit(unit,tileGrid.getTile(unit.getLocation()));
+                    checkForFortifyHealUnit(unit, tileGrid.getTile(unit.getLocation()));
                 }
-                default -> {}
+                default -> {
+                }
             }
         }
         for (City city : civ.getCities()) {
@@ -86,20 +87,21 @@ public class Game {
             throw new GameException(CommandResponse.UNIT_NEED_ORDER);
         }
     }
+
     private void checkForAlertUnit(Unit unit, Tile unitTile) throws GameException {
-      ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile,2);
-      Civilization unitCiv = unit.getCivilization();
-       if(checkForEnemy(tiles, unitCiv)){
-           unit.setState(UnitStates.AWAKED);
-           checkForMovementCost(unit);
-       }
+        ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
+        Civilization unitCiv = unit.getCivilization();
+        if (checkForEnemy(tiles, unitCiv)) {
+            unit.setState(UnitStates.AWAKED);
+            checkForMovementCost(unit);
+        }
     }
 
     private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {
-        for (Tile tile:
+        for (Tile tile :
                 tiles) {
-            if(GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)){
-                  return true;        
+            if (GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)) {
+                return true;
             }
         }
         return false;

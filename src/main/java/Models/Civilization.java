@@ -27,9 +27,8 @@ public class Civilization {
     private final ArrayList<Civilization> isInWarWith;
     private final ArrayList<Civilization> isInEconomicRelation;
     private final HappinessTypeEnum happinessType;
-    private int gold;
     private final int production;
-
+    private int gold;
     private int beaker;
     private int happiness;
     private TechnologyEnum researchingTechnology;
@@ -99,6 +98,7 @@ public class Civilization {
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
     }
+
     public boolean isFriendWith(Civilization civilization) {
         return this.isInEconomicRelation.contains(civilization);
     }

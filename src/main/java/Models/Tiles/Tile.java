@@ -208,14 +208,15 @@ public class Tile {
         return new Location(getRow(), getCol());
     }
 
-    public void deleteUnit(Unit unit){
-        if (unit instanceof NonCombatUnit)
+    public void deleteUnit(Unit unit) {
+        if (unit instanceof NonCombatUnit) {
             this.nonCombatUnit = null;
-        else
+        } else {
             this.combatUnit = null;
+        }
     }
 
-    public void clearLand(){
+    public void clearLand() {
         this.terrain.clearLands();
     }
 }

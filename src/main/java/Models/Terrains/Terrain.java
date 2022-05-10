@@ -15,10 +15,10 @@ public class Terrain {
     private final int goldCount;
     private final int combatModifier;
     private final int movementCost;
-    private ArrayList<TerrainEnum> features;
     private final ResourceEnum resource;
     private final TerrainColor color;
     protected ArrayList<ImprovementEnum> improvements;
+    private ArrayList<TerrainEnum> features;
 
     public Terrain(TerrainEnum type) {
         this.terrainType = type;
@@ -142,7 +142,7 @@ public class Terrain {
         return resourcesNames;
     }
 
-    public void clearLands(){
+    public void clearLands() {
         this.features = new ArrayList<>();
     }
 }

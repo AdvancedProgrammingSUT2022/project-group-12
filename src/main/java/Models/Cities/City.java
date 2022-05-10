@@ -69,14 +69,6 @@ public class City {
         this.happinessFromBuildings = 0;
     }
 
-    public int calculateCombatStrength() {
-        return HealthBarAffect(AffectCityFeatures(this));
-    }
-
-    protected int HealthBarAffect(int strength) {
-        return (this.getHitPoint() / 2000) * strength;
-    }
-
     static int AffectCityFeatures(City city) {
         //todo : affect the citizen and buildings on combat strength
         return 0;
@@ -86,6 +78,14 @@ public class City {
         double random_number = random.nextInt(50) + 75;
         random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
+    }
+
+    public int calculateCombatStrength() {
+        return HealthBarAffect(AffectCityFeatures(this));
+    }
+
+    protected int HealthBarAffect(int strength) {
+        return (this.getHitPoint() / 2000) * strength;
     }
 
     public ArrayList<Production> getProductionQueue() {

@@ -18,8 +18,9 @@ public enum BuildingNoteEnum {
         city.setCombatStrength(5.0f);
     }),
     WATER_MILLS_NOTE((BuildingNotes<City>) city -> {
-        if (city.getTile().hasRiver())
+        if (city.getTile().hasRiver()) {
             city.setFood(city.getFood() + 2);
+        }
     }),
     ARMORY_NOTE(o -> {
     }),

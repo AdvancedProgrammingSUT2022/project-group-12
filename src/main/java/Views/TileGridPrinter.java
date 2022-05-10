@@ -98,12 +98,22 @@ public class TileGridPrinter {
                 this.setChar(row + hexH / 2, col + j, '_', TerrainColor.WHITE_BRIGHT, tileColor);
             }
         }
-        if (tile.getCity() != null) this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivilization().getColor(), tileColor);
+        if (tile.getCity() != null) {
+            this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivilization().getColor(), tileColor);
+        }
         this.writeCentered(row, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
-        if (tile.getCivilization() != null) this.writeCentered(row - 1, col, tile.getCivilization().getAbbreviation(), tile.getCivilization().getColor(), tileColor);
-        if (tile.getNonCombatUnit() != null) this.setChar(row + 1, col - 1, tile.getNonCombatUnit().getType().name().charAt(0), tile.getNonCombatUnit().getCivilization().getColor());
-        if (tile.getCombatUnit() != null) this.setChar(row + 1, col + 1, tile.getCombatUnit().getType().name().charAt(0), tile.getCombatUnit().getCivilization().getColor());
-        if (!tile.getTerrain().getFeatures().isEmpty()) this.writeCentered(row + 2, col, tile.getTerrain().getFeatures().get(0).getAbbreviation(), TerrainColor.BLACK, tileColor);
+        if (tile.getCivilization() != null) {
+            this.writeCentered(row - 1, col, tile.getCivilization().getAbbreviation(), tile.getCivilization().getColor(), tileColor);
+        }
+        if (tile.getNonCombatUnit() != null) {
+            this.setChar(row + 1, col - 1, tile.getNonCombatUnit().getType().name().charAt(0), tile.getNonCombatUnit().getCivilization().getColor());
+        }
+        if (tile.getCombatUnit() != null) {
+            this.setChar(row + 1, col + 1, tile.getCombatUnit().getType().name().charAt(0), tile.getCombatUnit().getCivilization().getColor());
+        }
+        if (!tile.getTerrain().getFeatures().isEmpty()) {
+            this.writeCentered(row + 2, col, tile.getTerrain().getFeatures().get(0).getAbbreviation(), TerrainColor.BLACK, tileColor);
+        }
     }
 
     private void appendTileInfo(Tile selected) {

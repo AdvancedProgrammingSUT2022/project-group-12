@@ -24,6 +24,7 @@ public abstract class Unit extends Production {
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
     protected UnitStates state;
+
     public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
         this.civ = civ;
