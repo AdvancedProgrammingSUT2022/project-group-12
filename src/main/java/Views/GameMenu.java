@@ -183,6 +183,10 @@ public class GameMenu extends Menu {
     }
 
     private void cityCitizenChangeLock(Command command, boolean lock) {
+        if (this.selectedCity == null) {
+            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            return;
+        }
         command.abbreviate("position", "p");
         if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
@@ -416,6 +420,10 @@ public class GameMenu extends Menu {
     }
 
     private void cityCitizenModify(Command command, boolean isAssigning) {
+        if (this.selectedCity == null) {
+            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            return;
+        }
         command.abbreviate("position", "p");
         if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {

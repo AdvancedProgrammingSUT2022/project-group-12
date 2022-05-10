@@ -104,9 +104,9 @@ public class GameController {
         int cityProduction = 1 + currentTile.calculateProductionCount();
         int food = 2 + currentTile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
-        ArrayList<Tile> assignedTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
-        City city = new City("City1", assignedTiles, civ, currentTile, isCapital);
-        for (Tile tile : assignedTiles) tile.setCivilization(civ);
+        ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
+        City city = new City("City1", territoryTiles, civ, currentTile, isCapital);
+        for (Tile tile : territoryTiles) tile.setCivilization(civ);
         currentTile.setCity(city);
         civ.addCity(city);
         Unit settler = currentTile.getNonCombatUnit();
