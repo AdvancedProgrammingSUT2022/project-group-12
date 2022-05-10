@@ -27,7 +27,7 @@ public class LoginMenuTest {
 
     @Test
     public void invalidUsername() throws CommandException {
-        User newUser = new User("alireza", "password1", "n");
+        new User("alireza", "password1", "n");
         LoginMenuController controller = new LoginMenuController();
         String inputString = "user create -u alireza -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
