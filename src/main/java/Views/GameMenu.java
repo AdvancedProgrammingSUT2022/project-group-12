@@ -27,10 +27,10 @@ public class GameMenu extends Menu {
     private Unit selectedUnit;
     private City selectedCity;
 
-    public GameMenu(GameController controller) {
-        this.infoFuncs = new InfoFuncs(GameController.getGame());
-        this.mapFuncs = new MapFuncs(GameController.getGame());
-        this.unitFuncs = new UnitFuncs(GameController.getGame());
+    public GameMenu() {
+        this.infoFuncs = new InfoFuncs();
+        this.mapFuncs = new MapFuncs();
+        this.unitFuncs = new UnitFuncs();
         startOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 

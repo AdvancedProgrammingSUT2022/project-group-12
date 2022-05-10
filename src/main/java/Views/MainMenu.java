@@ -51,7 +51,7 @@ public class MainMenu extends Menu {
             return;
         }
         System.out.println("game started");
-        MenuStack.getInstance().pushMenu(new GameMenu(gameController));
+        MenuStack.getInstance().pushMenu(new GameMenu());
     }
 
 }

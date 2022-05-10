@@ -1,12 +1,17 @@
 package Models;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class Database {
     private static Database instance = null;
@@ -43,7 +48,6 @@ public class Database {
     public User getUser(String username) {
         return this.users.get(username);
     }
-
 
     public boolean checkForUsername(String username) {
         return this.users.containsKey(username);

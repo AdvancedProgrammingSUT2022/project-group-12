@@ -6,9 +6,9 @@ import Enums.TerrainEnum;
 import Enums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
-import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
+import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.Command;
@@ -16,22 +16,11 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
 
+import java.util.ArrayList;
+
 import static Controllers.MovingController.moveUnit;
 
-public class UnitFuncs extends GameMenuFuncs {
-
-    public UnitFuncs(Game game) {
-        super(game);
-    }
-
-    protected static void validateForNonCombatUnit(NonCombatUnit nonCombatUnit,Civilization civilization) throws CommandException {
-        if (!(nonCombatUnit == null)) {
-            throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
-        }
-        if (nonCombatUnit.getCivilization() == civilization) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
-        }
-    }
+public class UnitFuncs {
 
     private static CommandResponse validateForCity(Tile currentTile, Civilization civilization) {
         if (currentTile.getCity() == null) return CommandResponse.CITY_DOES_NOT_EXISTS;
@@ -115,30 +104,24 @@ public class UnitFuncs extends GameMenuFuncs {
     }
 
     public String unitMoveTo(Location location, Unit selectedUnit) throws CommandException {
-        Civilization currentCivilization = getCurrentCivilization();
+        Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
-        validateTileForMovingUnit(currentCivilization, location, selectedUnit);
+        validateTileForMovingUnit(location, selectedUnit);
         return moveUnit(location, currentTile, currentCivilization, selectedUnit);
     }
 
-    private void validateTileForMovingUnit(Civilization civilization, Location location, Unit unit) throws CommandException {
-        isCorrectPosition(String.valueOf(location.getRow()), String.valueOf(location.getCol()));
-        Tile nextTile = civilization.getRevealedTileGrid().getTile(location);
-        if (unit instanceof NonCombatUnit) {
-            if (nextTile.getNonCombatUnit() != null) {
+    private void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {
+        if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
+            throw new CommandException(CommandResponse.INVALID_POSITION);
+        }
+        Tile nextTile = GameController.getGame().getTileGrid().getTile(location);
+        if (unit instanceof NonCombatUnit && nextTile.getNonCombatUnit() != null ||
+            unit instanceof CombatUnit    && nextTile.getCombatUnit()    != null) {
                 throw new CommandException(CommandResponse.TILE_IS_FULL);
-            }
-            if (!nextTile.getTerrain().getTerrainType().canBePassed()) {
-                throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
-            }
-        } else {
-            if (getGame().getTileGrid().getTile(location).getCombatUnit() != null) {
-                throw new CommandException(CommandResponse.TILE_IS_FULL);
-            }
-            if (!nextTile.getTerrain().getTerrainType().canBePassed()) {
-                throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
-            }
+        }
+        if (!nextTile.getTerrain().getTerrainType().canBePassed()) {
+            throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
         }
     }
 
@@ -184,22 +167,19 @@ public class UnitFuncs extends GameMenuFuncs {
 //        }
     }
 
-    private CommandResponse validateTileForRemovingRoute(Tile currentTile, Civilization civilization) {
+    private CommandResponse validateTileForRemovingRoute(Tile currentTile) {
         if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
             return CommandResponse.WRONG_UNIT;
         }
-        if (!isExists(currentTile, ImprovementEnum.ROAD) && !isExists(currentTile, ImprovementEnum.RAILROAD)) {
+        ArrayList<ImprovementEnum> tileImprovements = currentTile.getTerrain().getImprovements();
+        if (!tileImprovements.contains(ImprovementEnum.ROAD) && !tileImprovements.contains(ImprovementEnum.RAILROAD)) {
             return CommandResponse.ROUTE_DOES_NOT_EXISTS;
         }
         return CommandResponse.OK;
     }
 
-    protected boolean isExists(Tile currentTile, ImprovementEnum improvementEnum) {
-        return currentTile.getTerrain().getImprovements().contains(improvementEnum);
-    }
-
     public City foundCity(Location location) throws CommandException {
-        Civilization currentCivilization = getCurrentCivilization();
+        Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
         Tile tile = GameController.getGame().getTileGrid().getTile(location);
         validateTileForFoundingCity(tile, currentCivilization);
         return GameController.foundCity(currentCivilization, currentCivilization.getCurrentGridLocation());

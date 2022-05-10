@@ -1,6 +1,5 @@
 package Models;
 
-import Controllers.CivilizationController;
 import Enums.*;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
@@ -18,7 +17,6 @@ public class Civilization {
     private final User user;
     private final String name;
     private final TerrainColor color;
-    private final CivilizationController controller;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
@@ -53,7 +51,6 @@ public class Civilization {
         this.isInWarWith = new ArrayList<>();
         this.name = user.getNickname();
         this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
-        this.controller = new CivilizationController(this);
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
@@ -186,10 +183,6 @@ public class Civilization {
         return this.name.substring(0, Math.min(5, this.name.length()));
     }
 
-    public CivilizationController getController() {
-        return this.controller;
-    }
-
     public ArrayList<City> getCities() {
         return cities;
     }
@@ -210,7 +203,7 @@ public class Civilization {
         this.notifications.add(message);
     }
 
-    public User civUser() {
+    public User getUser() {
         return this.user;
     }
 
@@ -321,9 +314,8 @@ public class Civilization {
         return this.isInEconomicRelation;
     }
 
-    public void assignMovementCost() {
-        for (Unit unit :
-                this.getUnits()) {
+    public void resetMoveCount() {
+        for (Unit unit : this.getUnits()) {
             unit.setAvailableMoveCount(unit.getType().getMovement());
         }
     }

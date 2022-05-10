@@ -113,7 +113,7 @@ public class Game {
         for (City city : civ.getCities()) {
             city.advanceProductionQueue();
         }
-        civ.assignMovementCost();
+        civ.resetMoveCount();
         if (this.gameTurn / civs.size() > 25) {
             //TODO: end game
         }

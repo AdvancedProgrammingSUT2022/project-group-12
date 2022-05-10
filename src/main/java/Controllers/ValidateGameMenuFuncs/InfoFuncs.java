@@ -1,12 +1,6 @@
 package Controllers.ValidateGameMenuFuncs;
 
-import Models.Game;
-
-public class InfoFuncs extends GameMenuFuncs {
-
-    public InfoFuncs(Game game) {
-        super(game);
-    }
+public class InfoFuncs {
 
     public void dealsInfo() {
 //        Tile currentTile = getCurrentTile();

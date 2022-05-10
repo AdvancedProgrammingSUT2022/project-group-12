@@ -1,20 +1,14 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
-import Models.Game;
 import Models.Location;
 import Models.Tiles.TileGrid;
 import Utils.Command;
 import Utils.CommandException;
-import Utils.CommandResponse;
 import Utils.Constants;
 import Views.TileGridPrinter;
 
-public class MapFuncs extends GameMenuFuncs {
-
-    public MapFuncs(Game game) {
-        super(game);
-    }
+public class MapFuncs {
 
     public void showMap(Command command) {
         if ((command.getOption("position")) != null) {
@@ -59,11 +53,4 @@ public class MapFuncs extends GameMenuFuncs {
         return newLocation;
     }
 
-    public CommandResponse validateCommandForMoveByDirection(String type, String category, String subCategory, String subSubCategory, Command command, String direction) {
-        if (type.trim().length() > (category + " " + subCategory + " " + subSubCategory).length()) {
-            return CommandResponse.INVALID_COMMAND;
-        }
-        String amount = command.getOption("amount");
-        return isCorrectPosition(amount, this.getGame(), direction);
-    }
 }

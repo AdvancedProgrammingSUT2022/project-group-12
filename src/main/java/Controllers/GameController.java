@@ -89,12 +89,6 @@ public class GameController {
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
-    public static void deleteMonCombatUnit(Civilization currentCivilization, Tile currentTile) {
-    }
-
-    public static void deleteCombatUnit(Civilization currentCivilization, Tile currentTile) {
-    }
-
     public static void wakeUpUnit(Unit unit) throws CommandException {
         if (unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY) {
             unit.setState(UnitStates.AWAKED);
@@ -409,6 +403,7 @@ public class GameController {
         city.addTile(tile);
         tile.setCity(city);
     }
+
 
     public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
         if (city.getCivilization().getGold() < unitEnum.getCost()) {
