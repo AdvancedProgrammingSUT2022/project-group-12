@@ -1,16 +1,10 @@
 package Models.Units;
 
-import Enums.ResourceEnum;
-import Enums.TechnologyEnum;
 import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
 
-import java.util.ArrayList;
-
 public class CombatUnit extends Unit {
-    protected ArrayList<ResourceEnum> requiredResources = new ArrayList<>();
-    protected ArrayList<TechnologyEnum> requiredTechs = new ArrayList<>();
     protected int combatStrength;
     protected boolean isSetup;
 

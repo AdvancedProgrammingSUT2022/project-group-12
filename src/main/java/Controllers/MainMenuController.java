@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class MainMenuController {
 
-    public static GameController startNewGame(ArrayList<String> usernames) throws CommandException {
+    public static void startNewGame(ArrayList<String> usernames) throws CommandException {
         ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
         for (String username : usernames) {
@@ -27,7 +27,6 @@ public class MainMenuController {
             user.addGame(game);
             user.setRunningGame(game); // todo: is required?
         }
-        return new GameController(game);
     }
 }
 

@@ -192,27 +192,22 @@ public class CityCombatController extends CombatController {
     private static void destroyCity(City city, Tile cityTile, Civilization civ) {
         city.setCivilization(civ);
         Random random;
-        for (Building building :
-                city.getBuildings()) {
+        for (Building building : city.getBuildings()) {
             //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
         }
         setNewCivForCityTiles(city, cityTile, civ);
     }
 
     private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
-        cityTile.setCivilization(civ);
-        for (Tile tile :
-                city.getTiles()) {
+        for (Tile tile : city.getTiles()) {
             tile.setCivilization(civ);
         }
-        setNewCivForCityTiles(city, cityTile, civ);
     }
 
     private static void makeCityAnnexed(City city, Tile cityTile, Civilization civ) {
         city.setCivilization(civ);
         Random random;
-        for (Building building :
-                city.getBuildings()) {
+        for (Building building : city.getBuildings()) {
             //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
         }
         setNewCivForCityTiles(city, cityTile, civ);
