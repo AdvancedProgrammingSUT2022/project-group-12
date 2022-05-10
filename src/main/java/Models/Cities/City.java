@@ -285,13 +285,14 @@ public class City {
             Production production = productionQueue.remove(0);
             if (production instanceof Building) {
                 this.buildings.add((Building) production);
-            } else if (production instanceof Unit) {
-                this.getCivilization().addUnit((Unit) production);
-                // todo: what if there is already a unit on city tile?
-                if (production instanceof CombatUnit) {
-                    this.cityTile.setCombatUnit((CombatUnit) production);
-                } else if (production instanceof NonCombatUnit) {
-                    this.cityTile.setNonCombatUnit((NonCombatUnit) production);
+            } else if (production instanceof Unit unit) {
+                this.getCivilization().addUnit(unit);
+                // todo: already a unit on city tile
+                unit.getCivilization().addUnit(unit);
+                if (production instanceof CombatUnit combatUnit) {
+                    this.cityTile.setCombatUnit(combatUnit);
+                } else if (production instanceof NonCombatUnit nonCombatUnit) {
+                    this.cityTile.setNonCombatUnit(nonCombatUnit);
                 }
             }
         }

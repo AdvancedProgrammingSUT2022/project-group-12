@@ -36,6 +36,17 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKED;
     }
 
+    public Unit(UnitEnum type, Civilization civ, Location location, int productionCost) {
+        super(productionCost);
+        this.type = type;
+        this.civ = civ;
+        this.pathShouldCross = new ArrayList<>();
+        this.resetMovementCount();
+        this.location = location;
+        assignedTile = null;
+        state = UnitStates.AWAKED;
+    }
+
     public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
         double random_number = (random.nextInt(50) + 75) / 100;
         unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));

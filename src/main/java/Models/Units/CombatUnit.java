@@ -8,8 +8,13 @@ public class CombatUnit extends Unit {
     protected int combatStrength;
     protected boolean isSetup;
 
-    public CombatUnit(UnitEnum type, Civilization civ, Location location) {
-        super(type, civ, location);
+    public CombatUnit(UnitEnum type, Civilization civilization, Location location) {
+        super(type, civilization, location);
+        isSetup = false;
+    }
+
+    public CombatUnit(UnitEnum type, Civilization civilization, Location location, int productionCost) {
+        super(type, civilization, location, productionCost);
         isSetup = false;
     }
 

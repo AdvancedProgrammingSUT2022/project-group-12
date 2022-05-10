@@ -51,7 +51,7 @@ public enum UnitEnum {
 
     TANK(450, CombatTypeEnum.ARMORED, 50, 0, 0, 4.0f, ResourceEnum.RESET, TechnologyEnum.COMBUSTION);
 
-    private final int cost;
+    private final int productionCost;
     private final CombatTypeEnum combatType;
     private final int combatStrength;
     private final int rangedCombatStrength;
@@ -62,8 +62,8 @@ public enum UnitEnum {
 
     private final boolean isACombatUnit;
 
-    UnitEnum(int cost, CombatTypeEnum combatType, int combatStrength, int rangedCombatStrength, int range, double movement, ResourceEnum requiredResource, TechnologyEnum requiredTech) {
-        this.cost = cost;
+    UnitEnum(int productionCost, CombatTypeEnum combatType, int combatStrength, int rangedCombatStrength, int range, double movement, ResourceEnum requiredResource, TechnologyEnum requiredTech) {
+        this.productionCost = productionCost;
         this.combatType = combatType;
         this.combatStrength = combatStrength;
         this.rangedCombatStrength = rangedCombatStrength;
@@ -82,8 +82,12 @@ public enum UnitEnum {
         return this.range != 0;
     }
 
-    public int getCost() {
-        return this.cost;
+    public int getProductionCost() {
+        return this.productionCost;
+    }
+
+    public int calculateGoldCost() {
+        return this.productionCost / 5;
     }
 
     public CombatTypeEnum getCombatType() {

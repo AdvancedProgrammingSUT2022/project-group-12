@@ -406,9 +406,10 @@ public class GameController {
 
 
     public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
-        if (city.getCivilization().getGold() < unitEnum.getCost()) {
+        if (city.getCivilization().getGold() < unitEnum.calculateGoldCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
+        city.getCivilization().addGold(-unitEnum.calculateGoldCost());
         Tile tile = city.getTile();
         if (unitEnum.isACombatUnit()) {
             CombatUnit combatUnit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
@@ -426,16 +427,15 @@ public class GameController {
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
-        if (city.getCivilization().getGold() < unitEnum.getCost()) {
+        if (city.getCivilization().getGold() < unitEnum.getProductionCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         Unit unit;
         if (unitEnum.isACombatUnit()) {
-            unit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
+            unit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation(), unitEnum.getProductionCost());
         } else {
-            unit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
+            unit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation(), unitEnum.getProductionCost());
         }
-        // todo: number of turns
         city.addToProductionQueue(unit);
     }
 }
