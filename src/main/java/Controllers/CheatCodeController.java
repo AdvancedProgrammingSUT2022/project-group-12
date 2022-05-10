@@ -6,6 +6,7 @@ import Models.Location;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
 
 
 public class CheatCodeController {
@@ -21,7 +22,8 @@ public class CheatCodeController {
         GameController.getGame().getCurrentCivilization().addGold(amount);
     }
 
-    public void increaseFood(int amount, City city) {
+    public void increaseFood(int amount, String name) throws CommandException {
+        City city = GameController.getGame().getCurrentCivilization().getCityByName(name);
         city.setFood(city.getFood() + amount);
     }
 
@@ -45,7 +47,8 @@ public class CheatCodeController {
         city.finishProducts();
     }
 
-    public void increaseProduction(City city, int amount) {
+    public void increaseProduction(int amount, String name) throws CommandException {
+        City city = GameController.getGame().getCurrentCivilization().getCityByName(name);
         city.setProduction(city.getProduction() + amount);
     }
 

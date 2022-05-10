@@ -1,5 +1,6 @@
 package Views;
 
+import Controllers.CheatCodeController;
 import Controllers.CombatController;
 import Controllers.GameController;
 import Controllers.UnitCombatController;
@@ -71,7 +72,74 @@ public class GameMenu extends Menu {
             case "map" -> this.map(command);
             case "city" -> this.city(command);
             case "end" -> this.end(command);
+            case "cheat" -> this.cheat(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheat(Command command) {
+        switch (command.getSubCategory()){
+            case "addgold" -> this.cheatGold(command);
+            case "addfood" -> this.cheatCityFood(command);
+            case "addunit" -> this.cheatUnit(command);
+            case "addproduction" -> this.cheatProduction(command);
+            case "revealtile" -> this.cheatRevealTile(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatRevealTile(Command command) {
+        try {
+            command.abbreviate("position", "p");
+            command.assertOptions(List.of("position"));
+            CheatCodeController.getInstance().revealTile(command.getLocationOption("position"));
+        }catch (CommandException e){
+            e.print();
+        }
+    }
+
+    private void cheatProduction(Command command) {
+        try {
+            command.abbreviate("amount", "a");
+            command.abbreviate("cityname", "n");
+            command.assertOptions(List.of("amount"));
+            command.assertOptionType("amount", "integer");
+            CheatCodeController.getInstance().increaseProduction(Integer.parseInt(command.getOption("amount")), command.getOption("cityname"));
+        }catch (CommandException e){
+            e.print();
+        }
+    }
+
+    private void cheatUnit(Command command) {
+        try {
+            command.abbreviate("unitname", "n");
+            command.abbreviate("position", "p");
+            command.assertOptions(List.of("unitname", "position"));
+            CheatCodeController.getInstance().spawnUnit(UnitEnum.getUnitEnumByThisName(command.getOption("unitname")), command.getLocationOption("position"));
+        }catch (CommandException e){
+            e.print();
+        }
+    }
+
+    private void cheatGold(Command command) {
+        try {
+            command.abbreviate("amount","a");
+            command.assertOptions(List.of("amount"));
+            command.assertOptionType("amount","integer");
+            CheatCodeController.getInstance().increaseGold(Integer.parseInt(command.getOption("amount")));
+        }catch (CommandException e){
+            e.print();
+        }
+    }
+    private void cheatCityFood(Command command)  {
+        try {
+            command.abbreviate("amount","a");
+            command.abbreviate("cityname","n");
+            command.assertOptions(List.of("amount"));
+            command.assertOptionType("amount","integer");
+            CheatCodeController.getInstance().increaseFood(Integer.parseInt(command.getOption("amount")), command.getOption("cityname"));
+        }catch (CommandException e){
+            e.print();
         }
     }
 

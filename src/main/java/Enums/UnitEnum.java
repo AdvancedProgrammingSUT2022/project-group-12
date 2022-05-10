@@ -1,5 +1,8 @@
 package Enums;
 
+import Utils.CommandException;
+import Utils.CommandResponse;
+
 public enum UnitEnum {
     ARCHER(70, CombatTypeEnum.ARCHERY, 4, 6, 2, 2.0f, ResourceEnum.RESET, TechnologyEnum.ARCHERY),
 
@@ -116,5 +119,13 @@ public enum UnitEnum {
 
     public TechnologyEnum getRequiredTech() {
         return this.requiredTech;
+    }
+    public static UnitEnum getUnitEnumByThisName(String name) throws CommandException {
+        for (UnitEnum unitEnum : UnitEnum.values()) {
+            if(name.equals(valueOf(String.valueOf(unitEnum)))){
+                return unitEnum;
+            }
+        }
+        throw new CommandException(CommandResponse.WRONG_UNIT);
     }
 }

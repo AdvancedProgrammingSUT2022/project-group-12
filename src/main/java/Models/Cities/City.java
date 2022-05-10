@@ -1,9 +1,7 @@
 package Models.Cities;
 
 import Controllers.CheatCodeController;
-import Enums.BuildingEnum;
-import Enums.CityTypeEnum;
-import Enums.ResourceEnum;
+import Enums.*;
 import Models.Buildings.Building;
 import Models.Citizen;
 import Models.Civilization;
@@ -34,6 +32,7 @@ public class City {
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;
+    private int foodFromBuildings;
     private int goldProductionValue;
     private double production;
     private int food;
@@ -57,7 +56,7 @@ public class City {
         this.combatStrength = 10;
         this.isCapital = isCapital;
         this.citizensCount = 1;
-        this.food = tile.calculateFoodCount();
+        this.food = 1;
         this.localHappiness = 10;
         this.buildings = new ArrayList<>();
         this.civilization = civ;
@@ -68,6 +67,7 @@ public class City {
         //TODO : check the range of the city and the combat strength of that
         this.productionQueue = new ArrayList<>();
         this.happinessFromBuildings = 0;
+        this.foodFromBuildings = 1;
     }
 
     static int AffectCityFeatures(City city) {
@@ -348,6 +348,10 @@ public class City {
         }
     }
 
+    public int getFoodFromBuildings() {
+        return foodFromBuildings;
+    }
+
     public Tile getTile() {
         return this.cityTile;
     }
@@ -370,5 +374,42 @@ public class City {
                 size = productionQueue.size();
             }
         }
+    }
+    public int calculateFood(){
+        int food = this.getFoodFromBuildings() + 2;
+        food += getFoodFromTiles();
+        food -= this.citizensCount * 2;
+        food = settlerEffectOnFoods(food);
+        if(food < 0){
+            //todo kill citizen
+        }
+        if(food > 0 ){
+           food = checkForHappinessState(food);
+        }
+        return food;
+    }
+
+    private int checkForHappinessState(int food) {
+        if(this.civilization.getHappinessType() != HappinessTypeEnum.HAPPY){
+          return   food * 2 / 3;
+        }
+        return food;
+    }
+
+    private int settlerEffectOnFoods(int food) {
+        if(productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0 ){
+            food = 0;
+        }
+        return food;
+    }
+    private int getFoodFromTiles() {
+        int food = 0;
+        for (Tile tile:
+             this.getTiles()) {
+            if(tile.getCitizen() != null){
+                food += tile.calculateFoodCount();
+            }
+        }
+        return food;
     }
 }
