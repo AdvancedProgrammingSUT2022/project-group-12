@@ -27,7 +27,7 @@ public enum CommandResponse {
     RAILROAD_EXISTS("there is already railroad"),
     IMPROVEMENT_EXISTS("this improvement is already exists"),
     NOT_HAVING_UNIT("this unit isn't belong to you"),
-    IMPOSSIBLE_CITY("building city is impossible here"),
+    CLOSE_TO_A_CITY("minimum distance of two cities is 4 tiles"),
     CITY_DOES_NOT_EXISTS("there isn't any city here"),
     COMMAND_MISSING_REQUIRED_OPTION("Required option is missing"),
     NICKNAME_ALREADY_EXISTS("user with nickname already exists"),
@@ -64,7 +64,7 @@ public enum CommandResponse {
     COMBAT_UNIT_ALREADY_ON_TILE("a combat unit is already on tile"),
     NONCOMBAT_UNIT_ALREADY_ON_TILE("a non combat unit is already on tile"),
     UNIT_IS_ALREADY_ON_TILE("unit is already on the tile"),
-    NO_SETTLER_ON_TILE("no settler is on the tile");
+    ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities");
 
     private String message;
 

@@ -98,6 +98,10 @@ public class GameMenu extends Menu {
     }
 
     private void city(Command command) {
+        if (this.selectedCity == null) {
+            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            return;
+        }
         switch (command.getSubCategory()) {
             case "citizen" -> cityCitizen(command);
             case "build" -> cityBuild(command);
@@ -121,7 +125,6 @@ public class GameMenu extends Menu {
 
     private void cityBuildUnit(Command command) {
         command.abbreviate("unit", "u");
-        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
@@ -145,7 +148,6 @@ public class GameMenu extends Menu {
 
     private void cityBuyUnit(Command command) {
         command.abbreviate("unit", "u");
-        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
@@ -161,7 +163,6 @@ public class GameMenu extends Menu {
 
     private void cityBuyTile(Command command) {
         command.abbreviate("position", "p");
-        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
@@ -183,12 +184,7 @@ public class GameMenu extends Menu {
     }
 
     private void cityCitizenChangeLock(Command command, boolean lock) {
-        if (this.selectedCity == null) {
-            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
-            return;
-        }
         command.abbreviate("position", "p");
-        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
@@ -409,15 +405,11 @@ public class GameMenu extends Menu {
     }
 
     private void foundCity(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
-        }
         try {
             if (!command.getSubSubCategory().equals("city")) {
                 System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
             }
-            City city = getUnitFuncs().foundCity(this.selectedUnit.getLocation());
+            City city = GameController.foundCity(this.selectedUnit);
             System.out.println("city found successfully: " + city.getName());
         } catch (CommandException e) {
             e.print();
@@ -447,12 +439,7 @@ public class GameMenu extends Menu {
     }
 
     private void cityCitizenModify(Command command, boolean isAssigning) {
-        if (this.selectedCity == null) {
-            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
-            return;
-        }
         command.abbreviate("position", "p");
-        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
@@ -493,10 +480,6 @@ public class GameMenu extends Menu {
     }
 
     public void unitBuildImprovement(ImprovementEnum improvement) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
-        }
         GameController.buildImprovement(this.selectedUnit, improvement);
     }
 }

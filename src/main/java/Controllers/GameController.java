@@ -98,26 +98,36 @@ public class GameController {
     public static void cancelMissionUnit(Unit unit) {
     }
 
-    public static City foundCity(Civilization civ, Location location) throws CommandException {
-        checkConditionsForCity(location, civ, game.getTileGrid().getTile(location));
-        Tile currentTile = game.getTileGrid().getTile(location);
-        int cityProduction = 1 + currentTile.calculateProductionCount();
-        int food = 2 + currentTile.calculateFoodCount();
+    public static City foundCity(Unit unit) throws CommandException {
+        Location location = unit.getLocation();
+        Civilization civ = unit.getCivilization();
+        Tile tile = getGame().getTileGrid().getTile(location);
+        if (unit.getType() != UnitEnum.SETTLER) {
+            throw new CommandException(CommandResponse.ONLY_SETTLERS_CAN_FOUND_CITY);
+        }
+        if (GameController.tileIsNearAnotherCity(tile)) {
+            throw new CommandException(CommandResponse.CLOSE_TO_A_CITY);
+        }
+        int cityProduction = 1 + tile.calculateProductionCount();
+        int food = 2 + tile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
-        ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
-        City city = new City("City1", territoryTiles, civ, currentTile, isCapital);
-        for (Tile tile : territoryTiles) tile.setCivilization(civ);
-        currentTile.setCity(city);
+        ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
+        City city = new City("City1", territoryTiles, civ, tile, isCapital);
+        for (Tile neighbor : territoryTiles) neighbor.setCivilization(civ);
+        tile.setCity(city);
         civ.addCity(city);
-        Unit settler = currentTile.getNonCombatUnit();
+        Unit settler = tile.getNonCombatUnit();
         GameController.deleteUnit(settler);
         if (isCapital) civ.setCapital(city);
-        checkForResource(currentTile, city, civ);
+        checkForResource(tile, city, civ);
         return city;
     }
 
-    private static void checkConditionsForCity(Location location, Civilization civilization, Tile tile) throws CommandException {
-        checkForHavingEnoughTiles(location, civilization, tile);
+    private static boolean tileIsNearAnotherCity(Tile tile) {
+        for (Tile neighbor : GameController.getGame().getTileGrid().getAllTilesInRadius(tile, Constants.CITY_DISTANCE)) {
+            if (neighbor.getCity() != null) return true;
+        }
+        return false;
     }
 
     private static void checkForResource(Tile tile, City newCity, Civilization civ) {
@@ -128,15 +138,6 @@ public class GameController {
                 newCity.getResources().add(cityResource);
             } else {
                 newCity.setReservedResource(cityResource);
-            }
-        }
-    }
-
-    private static void checkForHavingEnoughTiles(Location location, Civilization civilization, Tile cityTile) throws CommandException {
-        ArrayList<Tile> checkTiles = game.getTileGrid().getAllTilesInRadius(cityTile, 4);
-        for (Tile tile : checkTiles) {
-            if (tile.getCity() != null) {
-                throw new CommandException(CommandResponse.TILE_IS_FULL);
             }
         }
     }

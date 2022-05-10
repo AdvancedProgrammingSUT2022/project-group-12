@@ -4,7 +4,6 @@ import Controllers.GameController;
 import Enums.ImprovementEnum;
 import Enums.TerrainEnum;
 import Enums.UnitEnum;
-import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;
 import Models.Tiles.Tile;
@@ -14,7 +13,6 @@ import Models.Units.Unit;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
-import Utils.Constants;
 
 import java.util.ArrayList;
 
@@ -46,23 +44,6 @@ public class UnitFuncs {
     private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
 //        return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
         return true;
-    }
-
-    private void validateTileForFoundingCity(Tile currentTile, Civilization civilization) throws CommandException {
-        if (currentTile.getNonCombatUnit() == null || currentTile.getNonCombatUnit().getType() != UnitEnum.SETTLER) {
-            throw new CommandException(CommandResponse.NO_SETTLER_ON_TILE);
-        }
-        if (!isPossibleToBuildCity(currentTile)) {
-            throw new CommandException(CommandResponse.IMPOSSIBLE_CITY);
-        }
-    }
-
-    private boolean isPossibleToBuildCity(Tile tile) {
-        for (Tile neighbor : GameController.getGame().getTileGrid().getAllTilesInRadius(tile, Constants.CITY_DISTANCE)) {
-            if (neighbor.getCity() != null) return false;
-        }
-        return true;
-
     }
 
 //    public void unitGarrison(Command command) {
@@ -173,12 +154,5 @@ public class UnitFuncs {
             return CommandResponse.ROUTE_DOES_NOT_EXISTS;
         }
         return CommandResponse.OK;
-    }
-
-    public City foundCity(Location location) throws CommandException {
-        Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
-        Tile tile = GameController.getGame().getTileGrid().getTile(location);
-        validateTileForFoundingCity(tile, currentCivilization);
-        return GameController.foundCity(currentCivilization, currentCivilization.getCurrentGridLocation());
     }
 }
