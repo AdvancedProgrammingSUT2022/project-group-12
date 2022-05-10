@@ -3,7 +3,6 @@ package Controllers;
 import Enums.UnitEnum;
 import Enums.VisibilityEnum;
 import Models.Civilization;
-import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -13,11 +12,7 @@ import Utils.CommandException;
 
 import java.util.*;
 
-public class MovingController extends GameController {
-
-    public MovingController(Game newGame) {
-        super(newGame);
-    }
+public class MovingController {
 
     public static String moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile, unit);
@@ -31,28 +26,28 @@ public class MovingController extends GameController {
 
     public static void moveToNextTile(Unit unit) {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
-            TileGrid gameTileGrid = game.getTileGrid();
+            TileGrid tileGrid = GameController.getGame().getTileGrid();
             Location location = unit.getPathShouldCross().get(0).getLocation();
             calculateMoveMentCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
-            gameTileGrid.getTile(unit.getLocation()).setNullUnit(unit);
+            tileGrid.getTile(unit.getLocation()).setNullUnit(unit);
             unit.setLocation(location);
-            gameTileGrid.getTile(unit.getLocation()).setUnit(unit);
-            game.updateRevealedTileGrid(unit.getCivilization());
+            tileGrid.getTile(unit.getLocation()).setUnit(unit);
+            GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
             unit.getCivilization().setCurrentSelectedGridLocation(location);
             unit.getPathShouldCross().remove(0);
         }
     }
 
     private static boolean checkForEnemy(Location nextLocation, Unit unit) {
-        Tile currentTile = game.getTileGrid().getTile(nextLocation);
-        if (isEnemyExists(nextLocation, unit.getCivilization())) {
+        Tile currentTile = GameController.getGame().getTileGrid().getTile(nextLocation);
+        if (GameController.isEnemyExists(nextLocation, unit.getCivilization())) {
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;
         }
-        if (isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
-            CaptureTheNonCombatUnit(game.getTileGrid().getTile(nextLocation), unit.getCivilization());
+        if (GameController.isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
+            CaptureTheNonCombatUnit(GameController.getGame().getTileGrid().getTile(nextLocation), unit.getCivilization());
             return false;
         }
         return false;
@@ -83,20 +78,20 @@ public class MovingController extends GameController {
             unit.setAvailableMoveCount(0);
             return;
         }
-        if (checkForRivers(game.getTileGrid().getTile(location), game.getTileGrid().getTile(location))) {
+        if (GameController.checkForRivers(GameController.getGame().getTileGrid().getTile(location), GameController.getGame().getTileGrid().getTile(location))) {
             unit.setAvailableMoveCount(0);
             return;
         }
-        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - game.getTileGrid().getTile(location).getTerrain().getMovementCost());
+        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - GameController.getGame().getTileGrid().getTile(location).getTerrain().getMovementCost());
     }
 
 
     private static boolean checkForZOC(Location location, Location location1, Unit unit) {
-        return checkForZOCOnTile(game.getTileGrid().getTile(location), unit) && checkForZOCOnTile(game.getTileGrid().getTile(location1), unit);
+        return checkForZOCOnTile(GameController.getGame().getTileGrid().getTile(location), unit) && checkForZOCOnTile(GameController.getGame().getTileGrid().getTile(location1), unit);
     }
 
     private static boolean checkForZOCOnTile(Tile tile, Unit unit) {
-        ArrayList<Tile> tiles = game.getTileGrid().getNeighborsOf(tile);
+        ArrayList<Tile> tiles = GameController.getGame().getTileGrid().getNeighborsOf(tile);
         Civilization unitCiv = unit.getCivilization();
         for (Tile tempTile : tiles) {
             if (tempTile.getCombatUnit() != null && tempTile.getCombatUnit().getCivilization() != unitCiv) {
@@ -117,7 +112,7 @@ public class MovingController extends GameController {
         // Dijkstra algorithm for shortest path
         int targetRow = location.getRow();
         int targetCol = location.getCol();
-        TileGrid tileGrid = game.getTileGrid();
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
         ArrayList<Tile> parent = new ArrayList<>();
         HashMap<Tile, Integer> distance = new HashMap<>();
         ArrayList<Tile> heap = new ArrayList<>(List.of(sourceTile));

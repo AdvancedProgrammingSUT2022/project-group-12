@@ -5,7 +5,6 @@ import Enums.CombatTypeEnum;
 import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
-import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -22,18 +21,13 @@ import java.util.Random;
 
 import static Controllers.MovingController.findTheShortestPath;
 
-public class CityCombatController extends CombatController {
-
-
-    public CityCombatController(Game newGame) {
-        super(newGame);
-    }
+public class CityCombatController {
 
     protected static String AttackToCity(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, City city) {
         if (currentTile.getCombatUnit() instanceof RangedUnit) {
-            return AttackRangedUnitToCity(location, game.getTileGrid(), currentTile, civilization, (RangedUnit) currentTile.getCombatUnit());
+            return AttackRangedUnitToCity(location, GameController.getGame().getTileGrid(), currentTile, civilization, (RangedUnit) currentTile.getCombatUnit());
         } else {
-            return AttackNonRangedUnitToCity(location, game.getTileGrid(), currentTile, civilization, (NonRangedUnit) currentTile.getCombatUnit());
+            return AttackNonRangedUnitToCity(location, GameController.getGame().getTileGrid(), currentTile, civilization, (NonRangedUnit) currentTile.getCombatUnit());
         }
     }
 

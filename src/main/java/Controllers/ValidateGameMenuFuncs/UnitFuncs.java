@@ -99,10 +99,6 @@ public class UnitFuncs {
         throw new CommandException(CommandResponse.INVALID_COMMAND);
     }
 
-    public String unitAlert(Unit selectedUnit) throws CommandException {
-        return GameController.AlertUnit(selectedUnit);
-    }
-
     public String unitMoveTo(Location location, Unit selectedUnit) throws CommandException {
         Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();

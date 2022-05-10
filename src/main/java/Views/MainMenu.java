@@ -1,6 +1,8 @@
 package Views;
 
+import Controllers.GameController;
 import Controllers.MainMenuController;
+import Models.Game;
 import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
@@ -43,7 +45,8 @@ public class MainMenu extends Menu {
             usernames.add(username);
         }
         try {
-            MainMenuController.startNewGame(usernames);
+            Game game = MainMenuController.startNewGame(usernames);
+            GameController.setGame(game);
         } catch (CommandException e) {
             e.print();
             return;

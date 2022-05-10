@@ -3,7 +3,6 @@ package Controllers;
 import Enums.CombatTypeEnum;
 import Enums.UnitStates;
 import Models.Civilization;
-import Models.Game;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -18,10 +17,7 @@ import static Controllers.MovingController.findTheShortestPath;
 import static Models.Units.NonRangedUnit.calculateDamage;
 import static Models.Units.Unit.calculateCombatStrength;
 
-public class UnitCombatController extends CombatController {
-    public UnitCombatController(Game newGame) {
-        super(newGame);
-    }
+public class UnitCombatController {
 
     protected static String AttackNonRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
         ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
@@ -36,7 +32,7 @@ public class UnitCombatController extends CombatController {
     protected static String AttackRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, RangedUnit rangedUnit) {
         ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
         if (rangedUnit.getType().getRange() >= path.size()) {
-            if (isEnemyExists(location, civilization)) {
+            if (GameController.isEnemyExists(location, civilization)) {
                 return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
             } else {
                 return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getNonCombatUnit(), currentTile, tileGrid.getTile(location));

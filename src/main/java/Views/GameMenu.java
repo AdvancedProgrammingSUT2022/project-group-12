@@ -2,7 +2,6 @@ package Views;
 
 import Controllers.CombatController;
 import Controllers.GameController;
-import Controllers.UnitCombatController;
 import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
@@ -17,6 +16,7 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.GameException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class GameMenu extends Menu {
@@ -102,6 +102,7 @@ public class GameMenu extends Menu {
             case "citizen" -> cityCitizen(command);
             case "build" -> cityBuild(command);
             case "buy" -> cityBuy(command);
+            case "attack" -> cityAttack(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -270,22 +271,39 @@ public class GameMenu extends Menu {
     }
 
     private void unit(Command command) {
-
+        // watch for method names carefully
         switch (command.getSubCategory().trim()) {
-            case "move" -> unitMove(command);
-            case "sleep" -> unitSleep(command);
-            case "alert" -> unitAlert();
-            case "fortify" -> unitFortify(command);
-            case "setup" -> unitSetup(command);
-            case "attack" -> unitAttack(command);
-            case "found" -> foundCity(command);
-            case "cancel" -> unitCancel(command);
-            case "wake" -> unitWake(command);
-            case "delete" -> unitDelete(command);
-            case "build" -> unitBuild(command);
-            case "remove" -> unitRemove(command);
-            case "repair" -> unitRepair(command);
+            case "move" -> this.unitMove(command);
+            case "found" -> this.foundCity(command);
+            case "build" -> this.unitBuild(command);
+            case "remove" -> this.unitRemove(command);
+            case "attack" -> this.unitAttack(command);
+            case "fortify" -> this.unitFortify(command);
+            case "sleep" -> this.applyCommandOnSelectedUnit("sleepUnit", "unit slept successfully");
+            case "alert" -> this.applyCommandOnSelectedUnit("alertUnit", "unit alerted successfully");
+            case "wake" -> this.applyCommandOnSelectedUnit("wakeUpUnit", "unit waked up successfully");
+            case "delete" -> this.applyCommandOnSelectedUnit("deleteUnit", "unit deleted successfully");
+            case "repair" -> this.applyCommandOnSelectedUnit("unitRepairTile", "tile repaired successfully");
+            case "cancel" -> this.applyCommandOnSelectedUnit("cancelMissionUnit", "unit mission canceled successfully");
+            case "setup" -> this.applyCommandOnSelectedUnit("setupUnit", "siege unit has set up successfully");
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
+        }
+    }
+
+    public void applyCommandOnSelectedUnit(String controllerMethodName, String successMessage) {
+        if (this.selectedUnit == null) {
+            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            return;
+        }
+        try {
+            GameController.class.getMethod(controllerMethodName, Unit.class).invoke(null, this.selectedUnit);
+            System.out.println(successMessage);
+        } catch (InvocationTargetException e) {
+            if (e.getCause() instanceof CommandException eCommand) {
+                eCommand.print();
+            }
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -414,15 +432,6 @@ public class GameMenu extends Menu {
         }
     }
 
-    private void unitDelete(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
-        }
-        GameController.deleteUnit(this.selectedUnit);
-        System.out.println("unit deleted successfully");
-    }
-
     public void cityAttack(Command command) {
         command.abbreviate("position", "p");
         try {
@@ -454,76 +463,4 @@ public class GameMenu extends Menu {
         }
         GameController.buildImprovement(this.selectedUnit, improvement);
     }
-
-    public void unitWake(Command command) {
-        try {
-            if (this.selectedUnit == null) {
-                new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-                return;
-            }
-            GameController.wakeUpUnit(this.selectedUnit);
-        } catch (CommandException e) {
-            e.print();
-            return;
-        }
-        System.out.println("unit waked up successfully");
-    }
-
-    public void unitCancel(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
-        }
-        GameController.CancelMissionUnit(this.selectedUnit);
-        System.out.println("unit mission canceled successfully");
-    }
-
-    public void unitSetup(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
-        }
-        try {
-            UnitCombatController.setupUnit(this.selectedUnit);
-            System.out.println("siege unit has set up successfully");
-        } catch (CommandException e) {
-            e.print();
-        }
-    }
-
-    public void unitSleep(Command command) {
-        try {
-            if (this.selectedUnit == null) {
-                new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-                return;
-            }
-            GameController.sleepUnit(this.selectedUnit);
-            System.out.println("unit slept successfully");
-        } catch (CommandException e) {
-            e.print();
-        }
-    }
-
-    public void unitAlert() {
-        try {
-            System.out.println(unitFuncs.unitAlert(selectedUnit));
-        } catch (CommandException e) {
-            e.print();
-        }
-    }
-
-    public void unitRepair(Command command) {
-        if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
-            return;
-        }
-        try {
-            GameController.unitRepairTile(this.selectedUnit);
-            System.out.println("tile repaired successfully");
-        } catch (CommandException e) {
-            e.print();
-        }
-    }
-
-
 }

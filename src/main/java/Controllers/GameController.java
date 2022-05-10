@@ -26,6 +26,10 @@ import java.util.Map;
 public class GameController {
     protected static Game game;
 
+    public static void setGame(Game game) {
+        GameController.game = game;
+    }
+
     public GameController(Game newGame) {
         game = newGame;
     }
@@ -96,7 +100,7 @@ public class GameController {
         throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
     }
 
-    public static void CancelMissionUnit(Unit unit) {
+    public static void cancelMissionUnit(Unit unit) {
     }
 
     public static City foundCity(Civilization civ, Location location) throws CommandException {
@@ -171,7 +175,7 @@ public class GameController {
         return "unit fortified successfully";
     }
 
-    public static String AlertUnit(Unit unit) throws CommandException {
+    public static void alertUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
@@ -180,7 +184,6 @@ public class GameController {
         }
         unit.setPathShouldCross(null);
         unit.setState(UnitStates.ALERT);
-        return "unit alerted successfully";
     }
 
     public static String sleepUnit(Unit unit) throws CommandException {

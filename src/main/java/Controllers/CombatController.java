@@ -1,14 +1,10 @@
 package Controllers;
 
 import Models.Cities.City;
-import Models.Game;
 import Models.Location;
 import Models.Units.Unit;
 
-public class CombatController extends GameController {
-    public CombatController(Game newGame) {
-        super(newGame);
-    }
+public class CombatController {
 
     public static void AttackUnit(Unit unit, Location location) {
 //        if (isAttackToCity(location.getRow(), location.getCol(), civilization)) {
