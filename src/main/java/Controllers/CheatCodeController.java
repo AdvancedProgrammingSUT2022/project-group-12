@@ -32,18 +32,20 @@ public class CheatCodeController {
         else
             newUnit = new NonCombatUnit(unit, GameController.getGame().getCurrentCivilization(), location);
         GameController.getGame().getCurrentCivilization().addUnit(newUnit);
-        if (newUnit instanceof CombatUnit){
+        if (newUnit instanceof CombatUnit) {
             if (GameController.getGame().getTileGrid().getTile(location).getCombatUnit() != null)
                 GameController.getGame().getTileGrid().getTile(location).setUnit(newUnit);
-        }
-        else {
-            if(GameController.getGame().getTileGrid().getTile(location).getNonCombatUnit() != null)
+        } else {
+            if (GameController.getGame().getTileGrid().getTile(location).getNonCombatUnit() != null)
                 GameController.getGame().getTileGrid().getTile(location).setUnit(newUnit);
         }
     }
 
-    public void finishProducts(City city){
+    public void finishProducts(City city) {
         city.finishProducts();
     }
 
+    public void increaseProduction(City city, int amount) {
+        city.setProduction(city.getProduction() + amount);
+    }
 }
