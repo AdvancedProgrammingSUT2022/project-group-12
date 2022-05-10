@@ -73,6 +73,7 @@ public class TileGrid {
         return tiles;
     }
 
+    // todo: duplicate source in output
     public ArrayList<Tile> getAllTilesInRadius(Tile sourceTile, int rad) {
         ArrayList<Tile> tiles = new ArrayList<>();
         HashMap<Tile, Integer> dist = new HashMap<>();

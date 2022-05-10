@@ -142,6 +142,14 @@ public class Game {
                 civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
             }
         }
+        for (City city : civilization.getCities()) {
+            Tile tile = tileGrid.getTile(city.getLocation());
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
+                TileGrid civTileGrid = civilization.getRevealedTileGrid();
+                civTileGrid.setVisible(neighbor.getLocation());
+                civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
+            }
+        }
     }
 
     public TileGrid getTileGrid() {

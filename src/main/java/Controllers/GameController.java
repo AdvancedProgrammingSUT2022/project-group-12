@@ -359,14 +359,14 @@ public class GameController {
             throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
         }
         Tile tile = GameController.getGame().getTileGrid().getTile(location);
-        if (tile.getCity() != city) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
         tile.setCitizen(new Citizen(city));
     }
 
     public static void cityUnassignCitizen(City city, Location location) throws CommandException {
         Tile tile = GameController.getGame().getTileGrid().getTile(location);
-        if (tile.getCity() != city) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.setCitizen(null);
     }

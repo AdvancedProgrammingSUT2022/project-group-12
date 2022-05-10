@@ -49,8 +49,8 @@ public class UnitFuncs {
     }
 
     private void validateTileForFoundingCity(Tile currentTile, Civilization civilization) throws CommandException {
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.SETTLER)) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+        if (currentTile.getNonCombatUnit() == null || currentTile.getNonCombatUnit().getType() != UnitEnum.SETTLER) {
+            throw new CommandException(CommandResponse.NO_SETTLER_ON_TILE);
         }
         if (!isPossibleToBuildCity(currentTile)) {
             throw new CommandException(CommandResponse.IMPOSSIBLE_CITY);
