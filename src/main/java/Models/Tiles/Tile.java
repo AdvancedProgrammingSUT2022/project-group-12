@@ -10,6 +10,7 @@ import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import org.jetbrains.annotations.NotNull;
 
 public class Tile {
     private final int row;
@@ -129,15 +130,6 @@ public class Tile {
         this.city = city;
     }
 
-    public NonCombatUnit getNonCombatUnit() {
-        return nonCombatUnit;
-    }
-
-    public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
-        this.nonCombatUnit = nonCombatUnit;
-
-    }
-
     public Terrain getTerrain() {
         return terrain;
     }
@@ -146,8 +138,25 @@ public class Tile {
         return combatUnit;
     }
 
-    public void setCombatUnit(CombatUnit combatUnit) {
+    public NonCombatUnit getNonCombatUnit() {
+        return nonCombatUnit;
+    }
+
+    private void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
+    }
+
+    private void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
+        this.nonCombatUnit = nonCombatUnit;
+    }
+
+    // @NotNull reminds not to set tile units to null, directly
+    public void setUnit(@NotNull Unit unit) {
+        if (unit instanceof CombatUnit combatUnit) {
+            setCombatUnit(combatUnit);
+        } else if (unit instanceof NonCombatUnit nonCombatUnit) {
+            setNonCombatUnit(nonCombatUnit);
+        }
     }
 
     public Civilization getCivilization() {
@@ -167,14 +176,6 @@ public class Tile {
             setCombatUnit(null);
         } else {
             setNonCombatUnit(null);
-        }
-    }
-
-    public void setUnit(Unit unit) {
-        if (unit instanceof CombatUnit) {
-            setCombatUnit((CombatUnit) unit);
-        } else {
-            setNonCombatUnit((NonCombatUnit) unit);
         }
     }
 

@@ -289,11 +289,7 @@ public class City {
                 this.getCivilization().addUnit(unit);
                 // todo: already a unit on city tile
                 unit.getCivilization().addUnit(unit);
-                if (production instanceof CombatUnit combatUnit) {
-                    this.cityTile.setCombatUnit(combatUnit);
-                } else if (production instanceof NonCombatUnit nonCombatUnit) {
-                    this.cityTile.setNonCombatUnit(nonCombatUnit);
-                }
+                this.cityTile.setUnit(unit);
             }
         }
     }

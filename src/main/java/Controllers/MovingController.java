@@ -64,7 +64,7 @@ public class MovingController {
             /***
              * nonCombat has killed
              */
-            tile.setNonCombatUnit(null);
+            GameController.deleteUnit(tile.getNonCombatUnit());
         }
     }
 

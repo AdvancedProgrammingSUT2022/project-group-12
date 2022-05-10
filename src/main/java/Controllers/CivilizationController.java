@@ -19,13 +19,13 @@ public class CivilizationController {
             return "";
         }
         StringBuilder unitInfo = new StringBuilder("Unit info:\n");
-        for (Unit units : civilization.getUnits()) {
-            unitInfo.append("- <").append(units)
-                    .append("> Tile: <").append(units.getAssignedTile().getTerrain().getTerrainType())
-                    .append("> Movement: <").append(units.getAvailableMoveCount())
-                    .append("> Health: <").append(units.getHealthBar())
-                    .append("> Has work to do: <").append(units.isWorking())
-                    .append("> Current location: <").append(units.getLocation().toString());
+        for (Unit unit : civilization.getUnits()) {
+            unitInfo.append("- <").append(unit)
+                    .append("> Tile: <").append(GameController.getGame().getTileGrid().getTile(unit.getLocation()).getTerrain().getTerrainType())
+                    .append("> Movement: <").append(unit.getAvailableMoveCount())
+                    .append("> Health: <").append(unit.getHealthBar())
+                    .append("> Has work to do: <").append(unit.isWorking())
+                    .append("> Current location: <").append(unit.getLocation().toString());
         }
         return unitInfo.toString();
     }

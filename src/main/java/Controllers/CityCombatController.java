@@ -122,11 +122,10 @@ public class CityCombatController {
 
     private static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) {
         if (unit.getHealthBar() <= 0) {
+            GameController.deleteUnit(unit);
             if (unit instanceof CombatUnit) {
-                unitTile.setCombatUnit(null);
                 return "combat unit has killed";
             } else {
-                unitTile.setNonCombatUnit(null);
                 return "unit has killed";
             }
         }
@@ -135,8 +134,8 @@ public class CityCombatController {
                 city.setHitPoint(1);
                 return "you can't destroy city by ranged unit !!";
             } else if (unit instanceof NonRangedUnit) {
-                cityTile.setCombatUnit((CombatUnit) unit);
-                unitTile.setCombatUnit(null);
+                cityTile.setUnit(unit);
+                unitTile.setNullUnit(unit);
                 return captureTheCity(unit.getCivilization(), unit, city, cityTile, city.getCivilization());
             } else {
                 city.setHitPoint(0);

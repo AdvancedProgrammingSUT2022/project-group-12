@@ -304,7 +304,7 @@ public class Civilization {
         return color;
     }
 
-    public void deleteUnit(Unit unit) {
+    public void removeUnit(Unit unit) {
         this.units.remove(unit);
     }
 

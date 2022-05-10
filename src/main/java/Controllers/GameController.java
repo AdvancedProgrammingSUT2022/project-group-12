@@ -104,13 +104,13 @@ public class GameController {
         int cityProduction = 1 + currentTile.calculateProductionCount();
         int food = 2 + currentTile.calculateFoodCount();
         boolean isCapital = civ.getCapital() == null;
-        //todo : get a name for city from user
         ArrayList<Tile> assignedTiles = game.getTileGrid().getAllTilesInRadius(currentTile, 1);
         City city = new City("City1", assignedTiles, civ, currentTile, isCapital);
         for (Tile tile : assignedTiles) tile.setCivilization(civ);
         currentTile.setCity(city);
         civ.addCity(city);
-        currentTile.setNonCombatUnit(null);
+        Unit settler = currentTile.getNonCombatUnit();
+        GameController.deleteUnit(settler);
         if (isCapital) civ.setCapital(city);
         checkForResource(currentTile, city, civ);
         return city;
@@ -374,7 +374,7 @@ public class GameController {
     public static void deleteUnit(Unit unit) {
         Tile tile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
         tile.deleteUnit(unit);
-        unit.getCivilization().deleteUnit(unit);
+        unit.getCivilization().removeUnit(unit);
     }
 
     public static void cityCitizenSetLock(City city, Location location, boolean lock) throws CommandException {
@@ -416,13 +416,13 @@ public class GameController {
             if (tile.getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
             }
-            tile.setCombatUnit(combatUnit);
+            tile.setUnit(combatUnit);
         } else {
             NonCombatUnit nonCombatUnit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
             if (tile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getType().name());
             }
-            tile.setNonCombatUnit(nonCombatUnit);
+            tile.setUnit(nonCombatUnit);
         }
     }
 

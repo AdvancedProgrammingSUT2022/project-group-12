@@ -6,7 +6,10 @@ import Models.Civilization;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.*;
+import Models.Units.CombatUnit;
+import Models.Units.NonRangedUnit;
+import Models.Units.RangedUnit;
+import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
@@ -64,21 +67,17 @@ public class UnitCombatController {
         boolean isHaveKill = false;
         if (combatUnit.getHealthBar() <= 0) {
             isHaveKill = true;
-            combatUnitTile.setCombatUnit(null);
+            GameController.deleteUnit(combatUnitTile.getCombatUnit());
             combatUnit = null;
         }
 
         if (unitEnemy.getHealthBar() <= 0) {
             isHaveKill = true;
-            if (unitEnemy instanceof NonCombatUnit) {
-                unitEnemyTile.setNonCombatUnit(null);
-            } else {
-                unitEnemyTile.setCombatUnit(null);
-            }
+            GameController.deleteUnit(unitEnemy);
 
             if (combatUnit instanceof NonRangedUnit) {
-                combatUnitTile.setCombatUnit(null);
-                unitEnemyTile.setCombatUnit(combatUnit);
+                combatUnitTile.setNullUnit(combatUnit);
+                unitEnemyTile.setUnit(combatUnit);
             }
         }
         if (isHaveKill) return "Unit was killed";

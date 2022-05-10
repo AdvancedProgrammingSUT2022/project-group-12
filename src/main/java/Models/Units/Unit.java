@@ -16,8 +16,6 @@ import static java.lang.Math.exp;
 public abstract class Unit extends Production {
     protected UnitEnum type;
     protected Civilization civ;
-    protected Tile assignedTile;
-    protected int cost;
     protected double availableMoveCount;
     protected Location location;
     protected int healthBar;
@@ -32,7 +30,6 @@ public abstract class Unit extends Production {
         this.resetMovementCount();
         this.location = location;
         civ.addUnit(this);
-        assignedTile = null;
         state = UnitStates.AWAKED;
     }
 
@@ -43,7 +40,6 @@ public abstract class Unit extends Production {
         this.pathShouldCross = new ArrayList<>();
         this.resetMovementCount();
         this.location = location;
-        assignedTile = null;
         state = UnitStates.AWAKED;
     }
 
@@ -80,10 +76,6 @@ public abstract class Unit extends Production {
         return this.isWorking;
     }
 
-    public Tile getAssignedTile() {
-        return assignedTile;
-    }
-
     public void keepWorking(boolean work) {
         this.isWorking = work;
     }
@@ -118,10 +110,6 @@ public abstract class Unit extends Production {
 
     public void setHealthBar(int healthBar) {
         this.healthBar = healthBar;
-    }
-
-    public void garrison() {
-
     }
 
     public UnitStates getState() {

@@ -43,7 +43,7 @@ public class Game {
             }
 
             NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerTile.getLocation());
-            settlerTile.setNonCombatUnit(settler);
+            settlerTile.setUnit(settler);
             updateRevealedTileGrid(civ);
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
@@ -57,8 +57,7 @@ public class Game {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
         //todo : complete
-        for (Unit unit :
-                civ.getUnits()) {
+        for (Unit unit : civ.getUnits()) {
             switch (unit.getState()) {
                 case ALERT -> {
                     checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
