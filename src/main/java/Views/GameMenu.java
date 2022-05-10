@@ -368,7 +368,9 @@ public class GameMenu extends Menu {
         command.abbreviate("position", "p");
         try {
             command.assertOptions(List.of("position"));
-            System.out.println(getUnitFuncs().unitMoveTo((command.getLocationOption("position")), selectedUnit));
+            Location location = command.getLocationOption("position");
+            getUnitFuncs().unitMoveTo(selectedUnit, location);
+            System.out.println("unit moved to " + location + " successfully");
             getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
             e.print();

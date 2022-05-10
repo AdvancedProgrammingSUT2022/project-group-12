@@ -62,7 +62,8 @@ public enum CommandResponse {
     ALREADY_FOR_A_CITY("tile is already for a city"),
     INVALID_UNIT_NAME("unit name not recognized"),
     COMBAT_UNIT_ALREADY_ON_TILE("a combat unit is already on tile"),
-    NONCOMBAT_UNIT_ALREADY_ON_TILE("a non combat unit is already on tile");
+    NONCOMBAT_UNIT_ALREADY_ON_TILE("a non combat unit is already on tile"),
+    UNIT_IS_ALREADY_ON_TILE("unit is already on the tile");
 
     private String message;
 

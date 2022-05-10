@@ -14,14 +14,13 @@ import java.util.*;
 
 public class MovingController {
 
-    public static String moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
+    public static void moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile, unit);
         if (shortestPath == null) {
             throw new CommandException("move is impossible");
         }
         unit.setPathShouldCross(shortestPath);
         moveToNextTile(unit);
-        return "unit moved successfully";
     }
 
     public static void moveToNextTile(Unit unit) {

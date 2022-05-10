@@ -26,10 +26,6 @@ import java.util.Map;
 public class GameController {
     protected static Game game;
 
-    public static void setGame(Game game) {
-        GameController.game = game;
-    }
-
     public GameController(Game newGame) {
         game = newGame;
     }
@@ -55,7 +51,6 @@ public class GameController {
     public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
         return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
     }
-
 
     public static boolean isEnemyExists(int row, int col, Civilization civilization) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
@@ -136,7 +131,6 @@ public class GameController {
             }
         }
     }
-
 
     private static void checkForHavingEnoughTiles(Location location, Civilization civilization, Tile cityTile) throws CommandException {
         ArrayList<Tile> checkTiles = game.getTileGrid().getAllTilesInRadius(cityTile, 4);
@@ -339,7 +333,6 @@ public class GameController {
         return null;
     }
 
-
     public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
         // todo, dummy function
     }
@@ -355,6 +348,10 @@ public class GameController {
 
     public static Game getGame() {
         return game;
+    }
+
+    public static void setGame(Game game) {
+        GameController.game = game;
     }
 
     public static void cityAssignCitizen(City city, Location location) throws CommandException {

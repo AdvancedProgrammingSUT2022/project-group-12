@@ -99,18 +99,19 @@ public class UnitFuncs {
         throw new CommandException(CommandResponse.INVALID_COMMAND);
     }
 
-    public String unitMoveTo(Location location, Unit selectedUnit) throws CommandException {
+    public void unitMoveTo(Unit unit, Location location) throws CommandException {
         Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
-        validateTileForMovingUnit(location, selectedUnit);
-        return moveUnit(location, currentTile, currentCivilization, selectedUnit);
+        validateTileForMovingUnit(location, unit);
+        moveUnit(location, currentTile, currentCivilization, unit);
     }
 
     private void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {
         if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }
+        if (location == unit.getLocation()) throw new CommandException(CommandResponse.UNIT_IS_ALREADY_ON_TILE);
         Tile nextTile = GameController.getGame().getTileGrid().getTile(location);
         if (unit instanceof NonCombatUnit && nextTile.getNonCombatUnit() != null ||
                 unit instanceof CombatUnit && nextTile.getCombatUnit() != null) {
