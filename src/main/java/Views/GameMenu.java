@@ -100,8 +100,37 @@ public class GameMenu extends Menu {
     private void city(Command command) {
         switch (command.getSubCategory()) {
             case "citizen" -> cityCitizen(command);
+            case "build" -> cityBuild(command);
             case "buy" -> cityBuy(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityBuild(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "unit" -> cityBuildUnit(command);
+            case "building" -> cityBuildBuilding(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityBuildBuilding(Command command) {
+
+    }
+
+    private void cityBuildUnit(Command command) {
+        command.abbreviate("unit", "u");
+        if (selectedCity == null) new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+        try {
+            command.assertOptions(List.of("unit"));
+            String unitName = command.getOption("unit");
+            UnitEnum unit = UnitEnum.valueOf(unitName);
+            GameController.cityBuildUnit(selectedCity, unit);
+            System.out.println(unitName + " added to production queue of " + this.selectedCity.getName());
+        } catch (CommandException e) {
+            e.print();
+        } catch (IllegalArgumentException e) {
+            new CommandException(CommandResponse.INVALID_UNIT_NAME).print();
         }
     }
 

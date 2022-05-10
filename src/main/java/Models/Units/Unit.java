@@ -31,7 +31,6 @@ public abstract class Unit extends Production {
         this.pathShouldCross = null;
         this.resetMovementCount();
         this.location = location;
-        this.availableMoveCount = 10;
         civ.addUnit(this);
         assignedTile = null;
         state = UnitStates.AWAKED;

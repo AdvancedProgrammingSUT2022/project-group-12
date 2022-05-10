@@ -424,4 +424,18 @@ public class GameController {
             tile.setNonCombatUnit(nonCombatUnit);
         }
     }
+
+    public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
+        if (city.getCivilization().getGold() < unitEnum.getCost()) {
+            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+        }
+        Unit unit;
+        if (unitEnum.isACombatUnit()) {
+            unit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
+        } else {
+            unit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
+        }
+        // todo: number of turns
+        city.addToProductionQueue(unit);
+    }
 }
