@@ -132,18 +132,6 @@ public class TileGrid {
         return new Tile(new Terrain(values.get(randomSelection)), x, y);
     }
 
-    private TerrainEnum givePlayerATile(int x, int y) {
-        ArrayList<TerrainEnum> values = new ArrayList<>();
-        values.add(TerrainEnum.DESERT);
-        values.add(TerrainEnum.HILL);
-        values.add(TerrainEnum.MOUNTAIN);
-        values.add(TerrainEnum.GRASSLAND);
-        values.add(TerrainEnum.PLAIN);
-        values.add(TerrainEnum.SNOW);
-        values.add(TerrainEnum.TUNDRA);
-        int randomSelection = random.nextInt(7);
-        return values.get(randomSelection);
-    }
 
     private boolean newTile(int x, int y) {
         for (Location usedLocation : this.usedLocations) {

@@ -1,5 +1,6 @@
 package Models.Cities;
 
+import Controllers.CheatCodeController;
 import Enums.BuildingEnum;
 import Enums.CityTypeEnum;
 import Enums.ResourceEnum;
@@ -353,5 +354,21 @@ public class City {
 
     public void addTile(Tile tile) {
         this.tiles.add(tile);
+    }
+
+    public void finishProducts() {
+        if (productionQueue.isEmpty())
+            return;
+        int size = productionQueue.size();
+        while (!productionQueue.isEmpty()) {
+            Production product = productionQueue.get(0);
+            advanceProductionQueue();
+            if (productionQueue.size() < size) {
+                if (product instanceof Unit) {
+                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), getLocation());
+                }
+                size = productionQueue.size();
+            }
+        }
     }
 }
