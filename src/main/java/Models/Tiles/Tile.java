@@ -1,5 +1,6 @@
 package Models.Tiles;
 
+import Enums.ImprovementEnum;
 import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
 import Models.Cities.City;
@@ -12,6 +13,9 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.zip.CheckedOutputStream;
+
 public class Tile {
     private final int row;
     private final int col;
@@ -23,7 +27,9 @@ public class Tile {
     private Civilization civilization;
     private City city;
     private boolean hasRoad;
+    private boolean hasRailRoad;
     private boolean hasRiver;
+    protected ArrayList<ImprovementEnum> improvements;
     private VisibilityEnum state;
     private Citizen citizen = null;
 
@@ -67,6 +73,7 @@ public class Tile {
         this.state = that.state;
         this.civilization = that.civilization;
         this.citizen = that.citizen;
+        this.improvements = new ArrayList<>();
     }
 
     public boolean hasRoad() {
@@ -179,9 +186,11 @@ public class Tile {
         }
     }
 
-    public int calculateMovementCost() {
-        int cost = terrain.getMovementCost();
-        if (hasRoad) {
+    public double calculateMovementCost() {
+        double cost = terrain.getMovementCost();
+        if (this.improvements.contains(ImprovementEnum.ROAD)) {
+           cost *= (2 / 3);
+        }else if(this.improvements.contains(ImprovementEnum.RAILROAD)){
             cost /= 2;
         }
         return cost;
@@ -215,6 +224,9 @@ public class Tile {
         } else {
             this.combatUnit = null;
         }
+    }
+    public ArrayList<ImprovementEnum> getImprovements() {
+        return this.improvements;
     }
 
     public void clearLand() {
