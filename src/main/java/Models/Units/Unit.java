@@ -30,7 +30,7 @@ public abstract class Unit extends Production {
         this.resetMovementCount();
         this.location = location;
         civ.addUnit(this);
-        state = UnitStates.AWAKED;
+        state = UnitStates.AWAKE;
     }
 
     public Unit(UnitEnum type, Civilization civ, Location location, int productionCost) {
@@ -40,7 +40,7 @@ public abstract class Unit extends Production {
         this.pathShouldCross = new ArrayList<>();
         this.resetMovementCount();
         this.location = location;
-        state = UnitStates.AWAKED;
+        state = UnitStates.AWAKE;
     }
 
     public static void calculateDamage(Unit unit, int strengthDiff, Random random) {

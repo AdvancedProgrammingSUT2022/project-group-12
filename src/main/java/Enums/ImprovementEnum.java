@@ -90,8 +90,8 @@ public enum ImprovementEnum {
     }}),
     STONE_MINE(new ArrayList<>() {{
         add(ResourceEnum.MARBLE);
-    }}, new ArrayList<>() {{
-    }}, new ArrayList<>() {{
+    }}, new ArrayList<>() {
+    }, new ArrayList<>() {{
         add(TerrainEnum.DESERT);
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.GRASSLAND);

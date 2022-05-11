@@ -262,7 +262,7 @@ public class Civilization {
         if (happiness > -10) {
             return HappinessTypeEnum.UNHAPPY;
         }
-        return HappinessTypeEnum.VERYUNHAPPY;
+        return HappinessTypeEnum.VERY_UNHAPPY;
     }
 
     public double calculateHappiness() {

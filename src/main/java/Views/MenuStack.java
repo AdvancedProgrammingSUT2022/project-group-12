@@ -44,6 +44,7 @@ public class MenuStack {
     }
 
     public void pushMenu(Menu menu) {
+        if (this.getTopMenu() != null) this.getTopMenu().resetShowName();
         this.getMenus().add(menu);
     }
 
@@ -51,8 +52,8 @@ public class MenuStack {
         this.getMenus().remove(this.getMenus().size() - 1);
     }
 
-    public void runTopMenu() {
-        this.getMenus().get(this.getMenus().size() - 1).run();
+    public Menu getTopMenu() {
+        return this.getMenus().isEmpty() ? null : this.getMenus().get(this.getMenus().size() - 1);
     }
 
     public User getUser() {

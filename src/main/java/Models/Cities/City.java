@@ -12,6 +12,7 @@ import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -360,7 +361,7 @@ public class City {
         this.tiles.add(tile);
     }
 
-    public void finishProducts() {
+    public void finishProducts() throws CommandException {
         if (productionQueue.isEmpty())
             return;
         int size = productionQueue.size();

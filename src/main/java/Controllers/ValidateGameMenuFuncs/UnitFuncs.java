@@ -71,11 +71,13 @@ public class UnitFuncs {
 //
 //    }
 
-    public String unitFortify(Unit selectedUnit, Command command) throws CommandException {
+    public void unitFortify(Unit selectedUnit, Command command) throws CommandException {
         if (command.getSubSubCategory().equals("heal")) {
-            return GameController.fortifyHealUnit(selectedUnit);
+            GameController.fortifyHealUnit(selectedUnit);
+            return;
         } else if (command.getSubSubCategory().trim().equals("")) {
-            return GameController.fortifyUnit(selectedUnit);
+            GameController.fortifyUnit(selectedUnit);
+            return;
         }
         throw new CommandException(CommandResponse.INVALID_COMMAND);
     }

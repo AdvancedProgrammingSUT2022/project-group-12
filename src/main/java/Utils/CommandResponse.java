@@ -36,8 +36,8 @@ public enum CommandResponse {
     PASSWORD_CHANGED("password changed successfully"),
     TILE_IS_FULL("this tile is full"),
     NOT_HAVING_CITY("this city is not belong to you"),
-    UNIT_ISNOT_SIEGE("this unit isn't siege unit"),
-    UNIT_HAS_ALREADY_SETTED_UP("this unit has already setted up"),
+    UNIT_IS_NOT_SIEGE("this unit isn't siege unit"),
+    UNIT_HAS_ALREADY_SAT_UP("this unit has already sat up"),
     NOT_ENOUGH_MOVEMENT_COST("there isn't enough movement cost"),
     DUPLICATE_OPTION_KEY("duplicate option key"),
     INVALID_COMMAND_FORMAT("command format is invalid"),
@@ -66,15 +66,10 @@ public enum CommandResponse {
     UNIT_IS_ALREADY_ON_TILE("unit is already on the tile"),
     ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities");
 
-    private String message;
+    private final String message;
 
     CommandResponse(String message) {
         this.message = message;
-    }
-
-    public CommandResponse nicknameExists(String nickname) {
-        this.message = "user with nickname " + nickname + " already exists";
-        return null;
     }
 
     @Override

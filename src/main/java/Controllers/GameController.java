@@ -48,7 +48,7 @@ public class GameController {
         return "Jungle removed successfully";
     }
 
-    public static String BuildImprovment(Tile currentTile, ImprovementEnum improvementEnum) {
+    public static String BuildImprovement(Tile currentTile, ImprovementEnum improvementEnum) {
         return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
     }
 
@@ -90,7 +90,7 @@ public class GameController {
 
     public static void wakeUpUnit(Unit unit) throws CommandException {
         if (unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY) {
-            unit.setState(UnitStates.AWAKED);
+            unit.setState(UnitStates.AWAKE);
         }
         throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
     }
@@ -142,10 +142,6 @@ public class GameController {
         }
     }
 
-    public static String garrisonUnit(Tile currentTile, Civilization civilization) {
-        return "unit garrisoned successfully";
-    }
-
     public static String fortifyUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
@@ -181,7 +177,7 @@ public class GameController {
         unit.setState(UnitStates.ALERT);
     }
 
-    public static String sleepUnit(Unit unit) throws CommandException {
+    public static void sleepUnit(Unit unit) throws CommandException {
         if (!(unit instanceof NonCombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
@@ -190,7 +186,6 @@ public class GameController {
         }
         unit.setPathShouldCross(null);
         unit.setState(UnitStates.SLEEP);
-        return "unit slept successfully";
     }
 
     public static StringBuilder showCity(City city) {
@@ -299,7 +294,7 @@ public class GameController {
         return null;
     }
 
-    public static StringBuilder showNotifInfo(Tile currentTile, Civilization currentCivilization) {
+    public static StringBuilder showNotificationInfo(Tile currentTile, Civilization currentCivilization) {
         return null;
     }
 
@@ -318,7 +313,7 @@ public class GameController {
         StringBuilder diplomaticInfo = new StringBuilder();
         ArrayList<Civilization> inWarWith = currentCivilization.getIsInWarWith();
         ArrayList<Civilization> economicPartnership = currentCivilization.economicRelations();
-        for (Civilization civ : game.getCivs()) {
+        for (Civilization civ : game.getCivilizations()) {
             if (civ == currentCivilization) continue;
             diplomaticInfo.append("civilization name : ").append(civ.getName()).append(" state : ");
             if (currentCivilization.isInWarWith(civ)) {
@@ -412,19 +407,19 @@ public class GameController {
         }
         city.getCivilization().addGold(-unitEnum.calculateGoldCost());
         Tile tile = city.getTile();
+        Unit unit;
         if (unitEnum.isACombatUnit()) {
-            CombatUnit combatUnit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
             if (tile.getCombatUnit() != null) {
                 throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
             }
-            tile.setUnit(combatUnit);
+            unit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
         } else {
-            NonCombatUnit nonCombatUnit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
             if (tile.getNonCombatUnit() != null) {
                 throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getType().name());
             }
-            tile.setUnit(nonCombatUnit);
+            unit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
         }
+        tile.setUnit(unit);
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {

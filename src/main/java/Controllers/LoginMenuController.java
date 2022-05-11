@@ -8,7 +8,7 @@ import Utils.InputRegex;
 import Views.MenuStack;
 
 public class LoginMenuController {
-    public void createUser(String username, String nickname, String password) throws CommandException {
+    public static void createUser(String username, String nickname, String password) throws CommandException {
         Database database = Database.getInstance();
         if (database.checkForUsername(username)) {
             throw new CommandException(CommandResponse.USERNAME_ALREADY_EXISTS.toString());
@@ -21,7 +21,7 @@ public class LoginMenuController {
         }
     }
 
-    public void loginUser(String username, String password) throws CommandException {
+    public static void loginUser(String username, String password) throws CommandException {
         Database database = Database.getInstance();
         User user;
         if (!database.checkForUsername(username)) {
@@ -33,7 +33,7 @@ public class LoginMenuController {
         }
     }
 
-    private boolean weakPassword(String password) {
+    private static boolean weakPassword(String password) {
         return InputRegex.getMatcher(password, InputRegex.CONTAINS_DIGIT) != null &&
                 InputRegex.getMatcher(password, InputRegex.CONTAINS_UPPERCASE_ALPHABET) != null &&
                 InputRegex.getMatcher(password, InputRegex.CONTAINS_LOWERCASE_ALPHABET) != null &&

@@ -3,6 +3,6 @@ package Enums;
 public enum HappinessTypeEnum {
     HAPPY,
     UNHAPPY,
-    VERYUNHAPPY
+    VERY_UNHAPPY
 
 }

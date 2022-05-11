@@ -154,8 +154,8 @@ public class CityCombatController {
     }
 
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-        //todo : complete capturing type aaaaaaaaaaaaaaaaaa
-        String message = MenuStack.getInstance().getOption("enter your capture type : Puppet / Annexed / Destroy(if city isn't captial or Puppet)");
+        //todo : complete capturing type
+        String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy(if city isn't capital or Puppet)");
         GetMessageLoop:
         while (true) {
             switch (message) {
@@ -186,7 +186,7 @@ public class CityCombatController {
         city.setCivilization(civ);
         Random random;
         for (Building building : city.getBuildings()) {
-            //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
+            //todo : if a building is a military is destroyed else with probability 33 percent it will be destroy
         }
         setNewCivForCityTiles(city, cityTile, civ);
     }
@@ -201,7 +201,7 @@ public class CityCombatController {
         city.setCivilization(civ);
         Random random;
         for (Building building : city.getBuildings()) {
-            //todo : if a building is a military is destroyed else with probality 33 percent it will be destory
+            //todo : if a building is a military is destroyed else with probability 33 percent it will be destroy
         }
         setNewCivForCityTiles(city, cityTile, civ);
     }

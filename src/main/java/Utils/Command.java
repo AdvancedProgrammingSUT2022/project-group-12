@@ -147,4 +147,12 @@ public class Command {
             throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
         }
     }
+
+    public int getIntOption(String key) throws CommandException {
+        try {
+            return Integer.parseInt(this.getOption(key));
+        } catch (Exception e) {
+            throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
+        }
+    }
 }

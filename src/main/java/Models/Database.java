@@ -16,9 +16,9 @@ import java.util.List;
 public class Database {
     private static Database instance = null;
     private final Gson gson;
-    private HashMap<String, User> users;
-    private ArrayList<User> usersList;
-    private ArrayList<Game> games;
+    private final HashMap<String, User> users;
+    private final ArrayList<User> usersList;
+    private final ArrayList<Game> games;
 
     private Database() {
         this.gson = new Gson();
