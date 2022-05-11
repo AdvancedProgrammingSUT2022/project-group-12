@@ -140,7 +140,7 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("unit", "position"));
             Location location = command.getLocationOption("position");
             String unitName = command.getOption("unit");
-            UnitEnum unit = UnitEnum.valueOf(unitName);
+            UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
             CheatCodeController.getInstance().spawnUnit(unit, location);
             System.out.println(unitName + " spawned at " + location + " successfully");
         } catch (CommandException e) {
@@ -269,7 +269,7 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
-            UnitEnum unit = UnitEnum.valueOf(unitName);
+            UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
             GameController.cityBuildUnit(selectedCity, unit);
             System.out.println(unitName + " added to production queue of " + this.selectedCity.getName());
         } catch (CommandException e) {
@@ -292,7 +292,7 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
-            UnitEnum unit = UnitEnum.valueOf(unitName);
+            UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
             GameController.cityBuyUnit(selectedCity, unit);
             System.out.println(unitName + " bought and added at " + this.selectedCity.getName());
         } catch (CommandException e) {
@@ -519,17 +519,16 @@ public class GameMenu extends Menu {
         command.abbreviate("amount", "a");
         try {
             command.assertOptions(List.of("amount"));
-            command.assertOptionType("amount", "integer");
+            int amount = command.getIntOption("amount");
+            if (!List.of("right", "left", "up", "down").contains(command.getSubSubCategory())) {
+                new CommandException(CommandResponse.INVALID_DIRECTION).print();
+                return;
+            }
+            getMapFuncs().moveMapByDirection(command.getSubSubCategory(), amount);
+            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
             e.print();
-            return;
         }
-        if (!List.of("right", "left", "up", "down").contains(command.getSubSubCategory())) {
-            System.out.println(CommandResponse.INVALID_DIRECTION);
-            return;
-        }
-        getMapFuncs().moveMapByDirection(command, command.getSubSubCategory());
-        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
     }
 
     private void unitMove(Command command) {

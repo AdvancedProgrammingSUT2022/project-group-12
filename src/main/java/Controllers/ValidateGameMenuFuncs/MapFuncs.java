@@ -30,8 +30,7 @@ public class MapFuncs {
         System.out.print(output);
     }
 
-    public void moveMapByDirection(Command command, String direction) {
-        int amount = Integer.parseInt(command.getOption("amount"));
+    public void moveMapByDirection(String direction, int amount) {
         Location currentGridLocation = new Location(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         switch (direction) {
             case "down" -> currentGridLocation.addRow(amount);
