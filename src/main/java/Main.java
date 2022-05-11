@@ -12,7 +12,8 @@ public class Main {
         menuStack.setScanner(scanner);
         menuStack.gotoLoginMenu();
         while (!menuStack.isEmpty()) {
-            menuStack.runTopMenu();
+            System.out.println(menuStack.getTopMenu().getName());
+            menuStack.getTopMenu().run();
         }
 
 //        Database.getInstance().serialize();

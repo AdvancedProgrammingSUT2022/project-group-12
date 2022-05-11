@@ -8,7 +8,6 @@ import Utils.CommandResponse;
 import java.util.List;
 
 public class LoginMenu extends Menu {
-    private final LoginMenuController controller = new LoginMenuController();
 
     @Override
     protected void handleCommand(Command command) {
@@ -35,7 +34,7 @@ public class LoginMenu extends Menu {
         String nickname = command.getOption("nickname");
         String password = command.getOption("password");
         try {
-            this.controller.createUser(username, nickname, password);
+            LoginMenuController.createUser(username, nickname, password);
         } catch (CommandException e) {
             e.print();
             return;
@@ -55,7 +54,7 @@ public class LoginMenu extends Menu {
         String username = command.getOption("username");
         String password = command.getOption("password");
         try {
-            this.controller.loginUser(username, password);
+            LoginMenuController.loginUser(username, password);
         } catch (CommandException e) {
             e.print();
             return;

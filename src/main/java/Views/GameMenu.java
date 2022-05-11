@@ -218,17 +218,25 @@ public class GameMenu extends Menu {
 
     private void end(Command command) {
         switch (command.getSubCategory()) {
-            case "turn" -> {
-                try {
-                    GameController.getGame().endCurrentTurn();
-                } catch (GameException e) {
-                    e.print();
-                    break;
-                }
-                this.startNewTurn();
-            }
+            case "turn" -> this.endTurn();
+            case "game" -> this.endGame();
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void endGame() {
+        MenuStack.getInstance().popMenu();
+        System.out.println("game ended successfully");
+    }
+
+    private void endTurn() {
+        try {
+            GameController.getGame().endCurrentTurn();
+        } catch (GameException e) {
+            e.print();
+            return;
+        }
+        this.startNewTurn();
     }
 
     private void startNewTurn() {
