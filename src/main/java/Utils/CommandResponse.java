@@ -66,15 +66,10 @@ public enum CommandResponse {
     UNIT_IS_ALREADY_ON_TILE("unit is already on the tile"),
     ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities");
 
-    private String message;
+    private final String message;
 
     CommandResponse(String message) {
         this.message = message;
-    }
-
-    public CommandResponse nicknameExists(String nickname) {
-        this.message = "user with nickname " + nickname + " already exists";
-        return null;
     }
 
     @Override

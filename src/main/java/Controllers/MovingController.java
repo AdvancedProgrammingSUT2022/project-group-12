@@ -10,7 +10,10 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 public class MovingController {
 
@@ -121,15 +124,9 @@ public class MovingController {
         Tile p;
         Tile first;
         Tile second;
-        Comparator compareTiles = new Comparator<Tile>() {
-            @Override
-            public int compare(Tile o1, Tile o2) {
-                return distance.get(o1).compareTo(distance.get(o2));
-            }
-        };
 
         while (true) {
-            Collections.sort(heap, compareTiles);
+            heap.sort(Comparator.comparing(distance::get));
             first = heap.get(0);
             heap.remove(0);
             if (first.getRow() == targetRow && first.getCol() == targetCol) {

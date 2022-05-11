@@ -483,12 +483,8 @@ public class GameMenu extends Menu {
         System.out.println("siege unit has set up successfully");
     }
 
-    private void unitFortify(Command command) {
-        try {
-            unitFuncs.unitFortify(selectedUnit, command);
-        } catch (CommandException e) {
-            e.print();
-        }
+    private void unitFortify(Command command) throws CommandException {
+        unitFuncs.unitFortify(selectedUnit, command);
     }
 
     private void unitBuild(Command command) {

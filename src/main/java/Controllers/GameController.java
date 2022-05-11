@@ -142,10 +142,6 @@ public class GameController {
         }
     }
 
-    public static String garrisonUnit(Tile currentTile, Civilization civilization) {
-        return "unit garrisoned successfully";
-    }
-
     public static String fortifyUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
@@ -181,7 +177,7 @@ public class GameController {
         unit.setState(UnitStates.ALERT);
     }
 
-    public static String sleepUnit(Unit unit) throws CommandException {
+    public static void sleepUnit(Unit unit) throws CommandException {
         if (!(unit instanceof NonCombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
@@ -190,7 +186,6 @@ public class GameController {
         }
         unit.setPathShouldCross(null);
         unit.setState(UnitStates.SLEEP);
-        return "unit slept successfully";
     }
 
     public static StringBuilder showCity(City city) {

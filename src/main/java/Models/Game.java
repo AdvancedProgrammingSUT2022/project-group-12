@@ -59,16 +59,12 @@ public class Game {
         //todo : complete
         for (Unit unit : civ.getUnits()) {
             switch (unit.getState()) {
-                case ALERT -> {
-                    checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
-                }
+                case ALERT -> checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
                 case AWAKE -> {
                     checkForMultipleMoves(unit);
                     checkForMovementCost(unit);
                 }
-                case FORTIFY_UNTIL_HEAL -> {
-                    checkForFortifyHealUnit(unit, tileGrid.getTile(unit.getLocation()));
-                }
+                case FORTIFY_UNTIL_HEAL -> checkForFortifyHealUnit(unit, tileGrid.getTile(unit.getLocation()));
                 default -> {
                 }
             }
