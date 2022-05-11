@@ -1,5 +1,6 @@
 package Views;
 
+import Controllers.CheatCodeController;
 import Controllers.CombatController;
 import Controllers.GameController;
 import Controllers.UnitCombatController;
@@ -70,8 +71,148 @@ public class GameMenu extends Menu {
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
             case "city" -> this.city(command);
+            case "cheat" -> this.cheat(command);
             case "end" -> this.end(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheat(Command command) {
+        switch (command.getSubCategory()) {
+            case "increase" -> this.cheatIncrease(command);
+            case "spawn" -> this.cheatSpawn(command);
+            case "map" -> this.cheatMap(command);
+            case "finish" -> this.cheatFinish(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatFinish(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "products" -> this.cheatFinishProducts();
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatFinishProducts() {
+        if (this.selectedCity == null) {
+            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            return;
+        }
+        try {
+            CheatCodeController.getInstance().finishProducts(this.selectedCity);
+            System.out.println("production of " + this.selectedCity.getName() + " finished successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    private void cheatMap(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "reveal" -> this.cheatMapReveal(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatMapReveal(Command command) {
+        command.abbreviate("position", "p");
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            CheatCodeController.getInstance().revealTile(location);
+            System.out.println("tile " + location + " revealed successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    private void cheatSpawn(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "unit" -> this.cheatSpawnUnit(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatSpawnUnit(Command command) {
+        command.abbreviate("unit", "u");
+        command.abbreviate("position", "p");
+        try {
+            command.assertOptions(List.of("unit", "position"));
+            Location location = command.getLocationOption("position");
+            String unitName = command.getOption("unit");
+            UnitEnum unit = UnitEnum.valueOf(unitName);
+            CheatCodeController.getInstance().spawnUnit(unit, location);
+            System.out.println(unitName + " spawned at " + location + " successfully");
+        } catch (CommandException e) {
+            e.print();
+        } catch (IllegalArgumentException e) {
+            new CommandException(CommandResponse.INVALID_UNIT_NAME).print();
+        }
+    }
+
+    private void cheatIncrease(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "gold" -> this.cheatIncreaseGold(command);
+            case "production" -> this.cheatIncreaseProduction(command);
+            case "food" -> this.cheatIncreaseFood(command);
+            case "happiness" -> this.cheatIncreaseHappiness(command);
+            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatIncreaseHappiness(Command command) {
+        command.abbreviate("amount", "a");
+        try {
+            command.assertOptions(List.of("amount"));
+            int amount = command.getIntOption("amount");
+            CheatCodeController.getInstance().increaseHappiness(amount);
+            System.out.println("happiness increased " + amount + " units successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    private void cheatIncreaseGold(Command command) {
+        command.abbreviate("amount", "a");
+        try {
+            command.assertOptions(List.of("amount"));
+            int amount = command.getIntOption("amount");
+            CheatCodeController.getInstance().increaseGold(amount);
+            System.out.println(amount + " gold added successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    private void cheatIncreaseProduction(Command command) {
+        if (this.selectedCity == null) {
+            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            return;
+        }
+        command.abbreviate("amount", "a");
+        try {
+            command.assertOptions(List.of("amount"));
+            int amount = command.getIntOption("amount");
+            CheatCodeController.getInstance().increaseProduction(this.selectedCity, amount);
+            System.out.println(amount + " production added to " + this.selectedCity.getName() + " successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
+    }
+
+    private void cheatIncreaseFood(Command command) {
+        if (this.selectedCity == null) {
+            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            return;
+        }
+        command.abbreviate("amount", "a");
+        try {
+            command.assertOptions(List.of("amount"));
+            int amount = command.getIntOption("amount");
+            CheatCodeController.getInstance().increaseFood(this.selectedCity, amount);
+            System.out.println(amount + " food added to " + this.selectedCity.getName() + " successfully");
+        } catch (CommandException e) {
+            e.print();
         }
     }
 
