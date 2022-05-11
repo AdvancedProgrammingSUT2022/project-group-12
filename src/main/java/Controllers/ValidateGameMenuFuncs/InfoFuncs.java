@@ -25,10 +25,10 @@ public class InfoFuncs {
 //        Civilization currentCivilization = getCurrentCivilization();
     }
 
-    public void notifInfo() {
+    public void notificationInfo() {
 //        Tile currentTile = getCurrentTile();
 //        Civilization currentCivilization = getCurrentCivilization();
-//        GameController.showNotifInfo(currentTile, currentCivilization);
+//        GameController.showNotificationInfo(currentTile, currentCivilization);
     }
 
     public void demographicsInfo() {

@@ -86,11 +86,11 @@ public class UnitCombatController {
 
     public static void setupUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit combatUnit) || combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE) {
-            throw new CommandException(CommandResponse.UNIT_ISNOT_SIEGE);
+            throw new CommandException(CommandResponse.UNIT_IS_NOT_SIEGE);
         }
 
         if (combatUnit.isSetup()) {
-            throw new CommandException(CommandResponse.UNIT_HAS_ALREADY_SETTED_UP);
+            throw new CommandException(CommandResponse.UNIT_HAS_ALREADY_SAT_UP);
         }
         if (combatUnit.getAvailableMoveCount() < 1) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COST);

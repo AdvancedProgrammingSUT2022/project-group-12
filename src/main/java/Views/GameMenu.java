@@ -356,7 +356,7 @@ public class GameMenu extends Menu {
             case "diplomacy" -> getInfoFuncs().diplomacyInfo();
             case "victory" -> getInfoFuncs().victoryInfo();
             case "demographics" -> getInfoFuncs().demographicsInfo();
-            case "notifications" -> getInfoFuncs().notifInfo();
+            case "notifications" -> getInfoFuncs().notificationInfo();
             case "military" -> getInfoFuncs().militaryInfo();
             case "economic" -> getInfoFuncs().ecoInfo();
             case "diplomatic" -> getInfoFuncs().diplomaticInfo();

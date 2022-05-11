@@ -5,6 +5,6 @@ public enum UnitStates {
     ALERT,
     FORTIFY,
     SETUP,
-    AWAKED,
+    AWAKE,
     FORTIFY_UNTIL_HEAL;
 }

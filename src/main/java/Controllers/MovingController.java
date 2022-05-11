@@ -27,7 +27,7 @@ public class MovingController {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid tileGrid = GameController.getGame().getTileGrid();
             Location location = unit.getPathShouldCross().get(0).getLocation();
-            calculateMoveMentCost(unit, location);
+            calculateMovementCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
             tileGrid.getTile(unit.getLocation()).setNullUnit(unit);
             unit.setLocation(location);
@@ -68,7 +68,7 @@ public class MovingController {
         }
     }
 
-    private static void calculateMoveMentCost(Unit unit, Location location) {
+    private static void calculateMovementCost(Unit unit, Location location) {
         if (unit.getType() == UnitEnum.SCOUT) {
             unit.setAvailableMoveCount(unit.getAvailableMoveCount() - 1);
             return;

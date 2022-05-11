@@ -20,12 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Game {
-    private final ArrayList<Civilization> civs;
+    private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
     private int gameTurn;
 
     public Game(ArrayList<User> users) {
-        this.civs = new ArrayList<>();
+        this.civilizations = new ArrayList<>();
         this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         ArrayList<Tile> availableTiles = this.tileGrid.getFlatTiles();
         Collections.shuffle(availableTiles);
@@ -33,7 +33,7 @@ public class Game {
         for (int index = 0; index < users.size(); index++) {
             TerrainColor color = colors.get(index % colors.size());
             Civilization civ = new Civilization(users.get(index), color);
-            civs.add(civ);
+            civilizations.add(civ);
             // for easier testing
             Tile settlerTile = this.getTileGrid().getTile(new Location(10, 10));
 
@@ -50,7 +50,7 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
-        return civs.get(this.gameTurn % civs.size());
+        return civilizations.get(this.gameTurn % civilizations.size());
     }
 
     public void endCurrentTurn() throws GameException {
@@ -62,7 +62,7 @@ public class Game {
                 case ALERT -> {
                     checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
                 }
-                case AWAKED -> {
+                case AWAKE -> {
                     checkForMultipleMoves(unit);
                     checkForMovementCost(unit);
                 }
@@ -104,7 +104,7 @@ public class Game {
         ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
         Civilization unitCiv = unit.getCivilization();
         if (checkForEnemy(tiles, unitCiv)) {
-            unit.setState(UnitStates.AWAKED);
+            unit.setState(UnitStates.AWAKE);
             checkForMovementCost(unit);
         }
     }
@@ -127,7 +127,7 @@ public class Game {
             city.advanceProductionQueue();
         }
         civ.resetMoveCount();
-        if (this.gameTurn / civs.size() > 25) {
+        if (this.gameTurn / civilizations.size() > 25) {
             //TODO: end game
         }
     }
@@ -156,8 +156,8 @@ public class Game {
         return this.tileGrid;
     }
 
-    public ArrayList<Civilization> getCivs() {
-        return civs;
+    public ArrayList<Civilization> getCivilizations() {
+        return civilizations;
     }
 
     public Unit getSelectedUnit(Civilization currentCivilization, Location location, boolean isCombatUnit) throws CommandException {
