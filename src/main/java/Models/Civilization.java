@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.CivilizationController;
 import Enums.*;
 import Models.Cities.City;
 import Models.Terrains.Terrain;
@@ -8,18 +9,18 @@ import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
+import Utils.CommandResponse;
 import Utils.Constants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Civilization {
 
     private final User user;
     private final String name;
     private final TerrainColor color;
+    private final CivilizationController controller;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
@@ -30,8 +31,9 @@ public class Civilization {
     private final ArrayList<Civilization> isInWarWith;
     private final ArrayList<Civilization> isInEconomicRelation;
     private final HappinessTypeEnum happinessType;
-    private final int production;
     private int gold;
+    private final int production;
+    private int food;
     private int beaker;
     private int happiness;
     private TechnologyEnum researchingTechnology;
@@ -42,7 +44,8 @@ public class Civilization {
     private Location currentSelectedGridLocation = new Location(0, 0);
 
     public Civilization(User user, TerrainColor color) {
-        this.color = color;
+        List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
+        this.color = colors.get(new Random().nextInt(colors.size()));
         this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;
@@ -52,6 +55,7 @@ public class Civilization {
         this.isInWarWith = new ArrayList<>();
         this.name = user.getUsername();
         this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.controller = new CivilizationController(this);
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
@@ -100,7 +104,6 @@ public class Civilization {
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
     }
-
     public boolean isFriendWith(Civilization civilization) {
         return this.isInEconomicRelation.contains(civilization);
     }
@@ -185,6 +188,10 @@ public class Civilization {
         return this.name.substring(0, Math.min(5, this.name.length()));
     }
 
+    public CivilizationController getController() {
+        return this.controller;
+    }
+
     public ArrayList<City> getCities() {
         return cities;
     }
@@ -201,11 +208,15 @@ public class Civilization {
         return notificationList;
     }
 
+    public HappinessTypeEnum getHappinessType() {
+        return happinessType;
+    }
+
     public void sendMessage(String message) {
         this.notifications.add(message);
     }
 
-    public User getUser() {
+    public User civUser() {
         return this.user;
     }
 
@@ -320,5 +331,29 @@ public class Civilization {
         for (Unit unit : this.getUnits()) {
             unit.setAvailableMoveCount(unit.getType().getMovement());
         }
+    }
+
+    public int getFood() {
+        return food;
+    }
+    public City getCityByName(String name) throws CommandException {
+        for (City city:
+             this.getCities()) {
+            if(city.getName().equals(name)){
+                return city;
+            }
+        }
+        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+    }
+
+    public int calculateCivilizationFood()
+    {
+        int food = 0;
+        for (City city:
+             this.getCities()) {
+            food += city.calculateFood();
+        }
+        this.food = food;
+        return food;
     }
 }

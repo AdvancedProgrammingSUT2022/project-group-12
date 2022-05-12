@@ -17,7 +17,7 @@ public class Terrain {
     private final int movementCost;
     private final ResourceEnum resource;
     private final TerrainColor color;
-    protected ArrayList<ImprovementEnum> improvements;
+
     private ArrayList<TerrainEnum> features;
 
     public Terrain(TerrainEnum type) {
@@ -129,9 +129,7 @@ public class Terrain {
         }
     }
 
-    public ArrayList<ImprovementEnum> getImprovements() {
-        return this.improvements;
-    }
+
 
     public int getCombatModifier() {
         return this.combatModifier;
