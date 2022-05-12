@@ -12,7 +12,6 @@ public class Main {
         menuStack.setScanner(scanner);
         menuStack.gotoLoginMenu();
         while (!menuStack.isEmpty()) {
-            System.out.println(menuStack.getTopMenu().getName());
             menuStack.getTopMenu().run();
         }
 

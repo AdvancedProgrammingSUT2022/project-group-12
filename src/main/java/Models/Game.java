@@ -35,9 +35,9 @@ public class Game {
             Civilization civ = new Civilization(users.get(index), color);
             civilizations.add(civ);
             // for easier testing
-            Tile settlerTile = this.getTileGrid().getTile(new Location(10, 10));
+//            Tile settlerTile = this.getTileGrid().getTile(new Location(10, 10));
 
-//            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
+            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
                 availableTiles.remove(tile);
             }
@@ -62,7 +62,8 @@ public class Game {
                 case ALERT -> checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
                 case AWAKE -> {
                     checkForMultipleMoves(unit);
-                    checkForMovementCost(unit);
+                    // for test
+//                    checkForMovementCost(unit);
                 }
                 case FORTIFY_UNTIL_HEAL -> checkForFortifyHealUnit(unit, tileGrid.getTile(unit.getLocation()));
                 default -> {
@@ -133,19 +134,21 @@ public class Game {
         for (Unit unit : civilization.getUnits()) {
             Tile tile = tileGrid.getTile(unit.getLocation());
             for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
-                TileGrid civTileGrid = civilization.getRevealedTileGrid();
-                civTileGrid.setVisible(neighbor.getLocation());
-                civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
+                revealTileFor(civilization, neighbor);
             }
         }
         for (City city : civilization.getCities()) {
             Tile tile = tileGrid.getTile(city.getLocation());
             for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
-                TileGrid civTileGrid = civilization.getRevealedTileGrid();
-                civTileGrid.setVisible(neighbor.getLocation());
-                civTileGrid.setTile(neighbor.getLocation(), neighbor.deepCopy());
+                revealTileFor(civilization, neighbor);
             }
         }
+    }
+
+    public void revealTileFor(Civilization civilization, Tile tile) {
+        TileGrid civTileGrid = civilization.getRevealedTileGrid();
+        civTileGrid.setVisible(tile.getLocation());
+        civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
     public TileGrid getTileGrid() {

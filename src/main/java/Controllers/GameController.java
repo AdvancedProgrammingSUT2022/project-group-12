@@ -434,4 +434,24 @@ public class GameController {
         }
         city.addToProductionQueue(unit);
     }
+
+    public static City selectCityByPosition(Civilization civ, Location location) throws CommandException {
+        if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
+            throw new CommandException(CommandResponse.INVALID_POSITION);
+        }
+        City city = GameController.getGame().getTileGrid().getTile(location).getCity();
+        if (city == null || city.getCivilization() != civ) {
+            throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+        }
+        return city;
+    }
+
+    public static City selectCityByName(Civilization civ, String name) throws CommandException {
+        for (City city : civ.getCities()) {
+            if (city.getName().equals(name)) {
+                return city;
+            }
+        }
+        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+    }
 }

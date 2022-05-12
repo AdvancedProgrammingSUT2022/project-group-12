@@ -8,6 +8,7 @@ import java.util.Scanner;
 public abstract class Menu {
 
     private boolean showName = true;
+    private boolean isFirstRun = true;
 
     public void run() {
         if (showName) {
@@ -15,6 +16,10 @@ public abstract class Menu {
             String str = "Entered " + this.getName();
             System.out.println(str);
             System.out.println("-".repeat(str.length()));
+        }
+        if (isFirstRun) {
+            this.isFirstRun = false;
+            this.firstRun();
         }
         Scanner scanner = MenuStack.getInstance().getScanner();
         String line = scanner.nextLine().trim();
@@ -25,6 +30,10 @@ public abstract class Menu {
         } catch (CommandException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void firstRun() {
+
     }
 
     protected abstract void handleCommand(Command command);

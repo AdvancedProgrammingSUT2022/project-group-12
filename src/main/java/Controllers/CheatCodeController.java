@@ -60,6 +60,6 @@ public class CheatCodeController {
     }
 
     public void revealTile(Location location) {
-        GameController.getGame().getCurrentCivilization().getRevealedTileGrid().setVisible(location);
+        GameController.getGame().revealTileFor(GameController.getGame().getCurrentCivilization(), GameController.getGame().getTileGrid().getTile(location));
     }
 }
