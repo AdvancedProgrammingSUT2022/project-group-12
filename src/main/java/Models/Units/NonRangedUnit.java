@@ -3,20 +3,12 @@ package Models.Units;
 import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
-import Models.Tiles.Tile;
 
 public class NonRangedUnit extends CombatUnit {
 
 
     public NonRangedUnit(UnitEnum type, Civilization civ, Location location) {
         super(type, civ, location);
-    }
-
-    private static int calculateCombatStrength(NonRangedUnit nonRangedUnit, Tile itsTile) {
-        int strength = nonRangedUnit.getType().getCombatStrength();
-        strength = AffectTerrainFeatures(strength, itsTile);
-        strength = HealthBarAffect(strength, nonRangedUnit);
-        return strength;
     }
 
     private void horseman() {

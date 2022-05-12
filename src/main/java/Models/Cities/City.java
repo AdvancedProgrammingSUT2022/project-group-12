@@ -83,7 +83,7 @@ public class City {
         return 0;
     }
 
-    public static void calculateDamage(City city, int strengthDiff, Random random) {
+    public static void calculateDamage(City city, double strengthDiff, Random random) {
         double random_number = random.nextInt(50) + 75;
         random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
