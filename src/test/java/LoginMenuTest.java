@@ -55,7 +55,7 @@ public class LoginMenuTest {
     @Test
     public void invalidPassword() throws CommandException {
         new User("Ap", "P", "nname");
-        String inputString = "user login -u Ap -p1P! password";
+        String inputString = "user login -u Ap -p Pass1!";
         Command command = Command.parseCommand(inputString);
         setLoginCreds(command);
         Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.loginUser(username, password));
