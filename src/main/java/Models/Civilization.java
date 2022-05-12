@@ -106,6 +106,7 @@ public class Civilization {
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
     }
+
     public boolean isFriendWith(Civilization civilization) {
         return this.isInEconomicRelation.contains(civilization);
     }
@@ -343,10 +344,11 @@ public class Civilization {
     public int getFood() {
         return food;
     }
+
     public City getCityByName(String name) throws CommandException {
-        for (City city:
-             this.getCities()) {
-            if(city.getName().equals(name)){
+        for (City city :
+                this.getCities()) {
+            if (city.getName().equals(name)) {
                 return city;
             }
         }
@@ -361,14 +363,19 @@ public class Civilization {
         return happinessFromCheat;
     }
 
-    public int calculateCivilizationFood()
-    {
+    public int calculateCivilizationFood() {
         int food = 0;
-        for (City city:
-             this.getCities()) {
+        for (City city :
+                this.getCities()) {
             food += city.calculateFood();
         }
         this.food = food;
         return food;
+    }
+
+    public int calculateSuccess() {
+        return gold + cities.size() + units.size() + technologies.size() + happiness
+                + isInEconomicRelation.size() - isInWarWith.size() + beaker +
+                + ownedTiles.size();
     }
 }
