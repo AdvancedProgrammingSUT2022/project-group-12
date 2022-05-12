@@ -1,12 +1,9 @@
 package Models;
 
-import Controllers.CivilizationController;
 import Enums.*;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
-import Models.Units.CombatUnit;
-import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
@@ -22,7 +19,6 @@ public class Civilization {
     private final User user;
     private final String name;
     private final TerrainColor color;
-    private final CivilizationController controller;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
     private final ArrayList<Tile> ownedTiles;
@@ -45,8 +41,6 @@ public class Civilization {
     private int happinessFromCheat;
     private TechnologyEnum researchingTechnology;
     private TechnologyEnum currentTech;
-    private ArrayList<CombatUnit> combatUnits;
-    private ArrayList<NonCombatUnit> nonCombatUnits;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
 
@@ -62,7 +56,6 @@ public class Civilization {
         this.isInWarWith = new ArrayList<>();
         this.name = user.getUsername();
         this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
-        this.controller = new CivilizationController(this);
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.ownedTiles = null;
@@ -71,7 +64,7 @@ public class Civilization {
         this.isInEconomicRelation = new ArrayList<>();
         this.happinessFromCheat = 0;
         this.goldFromCheat = 0;
-        this.beaker = capital.getCitizensCount();
+        this.beaker = calculateScience();
         this.cheatBeaker = 0;
         this.beakerFromBuildings = 0;
         this.beakerRatioFromBuildings = 0;
@@ -119,18 +112,13 @@ public class Civilization {
         return notificationList;
     }
 
-
     public void sendMessage(String message) {
         this.notifications.add(message);
     }
 
-
     public void addCity(City city) {
         this.cities.add(city);
     }
-
-
-
 
     public void applyNotes() {
         this.setBeakerFromBuildings(0);
@@ -193,10 +181,6 @@ public class Civilization {
         return resources;
     }
 
-    public TerrainColor getColor() {
-        return color;
-    }
-
     public void removeUnit(Unit unit) {
         this.units.remove(unit);
     }
@@ -232,7 +216,7 @@ public class Civilization {
         this.food = food;
         return food;
     }
-    public int calculateCivilizationGold() throws CommandException {
+    public int calculateCivilizationGold() {
         int gold = this.getGoldFromCheat();
         for (City city :
              this.getCities()) {
@@ -242,7 +226,7 @@ public class Civilization {
         return gold;
     }
 
-    public int calculateScience() throws CommandException {
+    public int calculateScience() {
         int beaker = 0;
         beaker += beakerFromBuildings;
         beaker *= beakerRatioFromBuildings;
@@ -313,14 +297,6 @@ public class Civilization {
         return this.technologies;
     }
 
-    public ArrayList<CombatUnit> getCombatUnits() {
-        return combatUnits;
-    }
-
-    public ArrayList<NonCombatUnit> getNonCombatUnits() {
-        return nonCombatUnits;
-    }
-
     public ArrayList<Tile> getOwnedTiles() {
         return this.ownedTiles;
     }
@@ -355,10 +331,6 @@ public class Civilization {
 
     public String getAbbreviation() {
         return this.name.substring(0, Math.min(5, this.name.length()));
-    }
-
-    public CivilizationController getController() {
-        return this.controller;
     }
 
     public ArrayList<City> getCities() {
@@ -457,5 +429,11 @@ public class Civilization {
 
     public double getBeakerRatioFromBuildings() {
         return beakerRatioFromBuildings;
+    }
+
+    public int calculateSuccess() {
+        return gold + cities.size() + units.size() + technologies.size() + happiness
+                + isInEconomicRelation.size() - isInWarWith.size() + beaker +
+                + ownedTiles.size();
     }
 }

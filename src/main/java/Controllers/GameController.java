@@ -109,7 +109,7 @@ public class GameController {
             throw new CommandException(CommandResponse.CLOSE_TO_A_CITY);
         }
         int cityProduction = 1 + tile.calculateProductionCount();
-        int food = 2 + tile.calculateFoodCount();
+        int food = 2 + tile.calculateSources("food");
         boolean isCapital = civ.getCapital() == null;
         ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
         City city = new City("City1", territoryTiles, civ, tile, isCapital);
@@ -236,10 +236,11 @@ public class GameController {
 
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
         StringBuilder unitsInfo = new StringBuilder();
-        ArrayList<CombatUnit> combatUnits = currentCivilization.getCombatUnits();
-        ArrayList<NonCombatUnit> nonCombatUnits = currentCivilization.getNonCombatUnits();
-        showCombatUnits(unitsInfo, combatUnits);
-        showNonCombatUnits(unitsInfo, nonCombatUnits);
+        // todo: fix
+//        ArrayList<CombatUnit> combatUnits = currentCivilization.getCombatUnits();
+//        ArrayList<NonCombatUnit> nonCombatUnits = currentCivilization.getNonCombatUnits();
+//        showCombatUnits(unitsInfo, combatUnits);
+//        showNonCombatUnits(unitsInfo, nonCombatUnits);
         return unitsInfo;
     }
 
@@ -287,7 +288,8 @@ public class GameController {
 
     public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
         StringBuilder militaryInfo = new StringBuilder();
-        ArrayList<CombatUnit> combatType = currentCivilization.getCombatUnits();
+        // todo: fix
+//        ArrayList<CombatUnit> combatType = currentCivilization.getCombatUnits();
 
         return null;
     }

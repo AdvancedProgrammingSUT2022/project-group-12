@@ -11,8 +11,6 @@ import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
-import Utils.CommandException;
-import Utils.CommandResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -197,7 +195,7 @@ public class Tile {
         return cost;
     }
 
-    public int calculateSources(String name) throws CommandException {
+    public int calculateSources(String name) {
         int production = this.terrain.getProductsCount();
         int food = this.terrain.getFoodCount();
         int gold = this.terrain.getGoldCount();
@@ -207,12 +205,12 @@ public class Tile {
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
         }
-        switch (name){
-            case "gold" -> {return gold;}
-            case "food" -> {return food;}
-            case "production" -> {return gold;}
-        }
-        throw new CommandException(CommandResponse.INVALID_NAME);
+        return switch (name){
+            case "gold" -> gold;
+            case "food" -> food;
+            case "production" -> production;
+            default -> 0;
+        };
     }
 
 
@@ -227,11 +225,17 @@ public class Tile {
             this.combatUnit = null;
         }
     }
+
     public ArrayList<ImprovementEnum> getImprovements() {
         return this.improvements;
     }
 
     public void clearLand() {
         this.terrain.clearLands();
+    }
+
+    public int calculateProductionCount() {
+        // todo
+        return 0;
     }
 }

@@ -10,7 +10,6 @@ import Models.Production;
 import Models.Tiles.Tile;
 import Models.Units.Unit;
 import Utils.CommandException;
-import Utils.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +46,6 @@ public class City {
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
         this.tiles.add(tile);
-        this.production = 1 + tile.calculateProductionCount();
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateSources("production");
         this.hitPoint = 2000;
@@ -225,7 +223,7 @@ public class City {
         }
     }
 
-    public int calculateGold() throws CommandException {
+    public int calculateGold() {
         int gold = 0;
         gold *= this.goldRatioFromBuildings;
         gold += this.goldFromBuildings;
@@ -276,7 +274,7 @@ public class City {
         return food;
     }
 
-    private double getSourcesFromTiles(String foodOrProductionOrGold) throws CommandException {
+    private double getSourcesFromTiles(String foodOrProductionOrGold) {
         double production = 0;
         double food = 0;
         double gold = 0;
@@ -298,8 +296,8 @@ public class City {
             case "gold" -> {
                 return gold;
             }
+            default -> {throw new RuntimeException();}
         }
-        throw new CommandException(CommandResponse.INVALID_NAME);
     }
 
 
@@ -316,6 +314,7 @@ public class City {
             case "gold" -> gold;
             case "production" -> production;
             case "food" -> food;
+            default -> 0;
         };
     }
 
