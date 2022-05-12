@@ -29,9 +29,9 @@ public class Civilization {
     private final ArrayList<Civilization> isInWarWith;
     private final ArrayList<Civilization> isInEconomicRelation;
     private final HappinessTypeEnum happinessType;
+    private final int production;
     private int gold;
     private int goldFromCheat;
-    private final int production;
     private int food;
     private int beaker;
     private int cheatBeaker;
@@ -70,6 +70,55 @@ public class Civilization {
         this.beakerRatioFromBuildings = 0;
     }
 
+    public HappinessTypeEnum detectHappinessState(double happiness) {
+        if (happiness > 0) {
+            return HappinessTypeEnum.HAPPY;
+        }
+        if (happiness > -10) {
+            return HappinessTypeEnum.UNHAPPY;
+        }
+        return HappinessTypeEnum.VERY_UNHAPPY;
+    }
+
+    public int calculateScience() {
+        int beaker = 0;
+        beaker += beakerFromBuildings;
+        beaker *= beakerRatioFromBuildings;
+        beaker += cheatBeaker;
+        for (City city:
+             this.getCities()) {
+            beaker += city.getCitizensCount();
+        }
+        if(calculateCivilizationGold() < 0 ){beaker -= this.getGold();}
+        return beaker;
+    }
+
+    public ArrayList<City> getCities() {
+        return cities;
+    }
+
+    public int calculateCivilizationGold() {
+        int gold = this.getGoldFromCheat();
+        for (City city :
+             this.getCities()) {
+            gold += city.calculateGold();
+        }
+        this.gold = gold;
+        return gold;
+    }
+
+    public int getGold() {
+        return this.gold;
+    }
+
+    public int getGoldFromCheat() {
+        return goldFromCheat;
+    }
+
+    public void setGoldFromCheat(int goldFromCheat) {
+        this.goldFromCheat = goldFromCheat;
+    }
+
     public void researchTech() {
         if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
             if (technologies.containsKey(researchingTechnology)) {
@@ -102,7 +151,6 @@ public class Civilization {
             this.researchingTechnologies.put(tech, tech.getCost());
         }
     }
-
 
     public StringBuilder getNotifications() {
         StringBuilder notificationList = new StringBuilder();
@@ -146,17 +194,6 @@ public class Civilization {
         this.units.add(unit);
     }
 
-
-    public HappinessTypeEnum detectHappinessState(double happiness) {
-        if (happiness > 0) {
-            return HappinessTypeEnum.HAPPY;
-        }
-        if (happiness > -10) {
-            return HappinessTypeEnum.UNHAPPY;
-        }
-        return HappinessTypeEnum.VERY_UNHAPPY;
-    }
-
     public double calculateHappiness() {
         this.happiness = 0;
         this.happiness += this.happinessFromCheat;
@@ -189,13 +226,22 @@ public class Civilization {
         this.gold += value;
     }
 
-
     public void resetMoveCount() {
         for (Unit unit : this.getUnits()) {
             unit.setAvailableMoveCount(unit.getType().getMovement());
         }
     }
 
+    /***
+     * setter and getters
+     */
+
+
+
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
 
     public City getCityByName(String name) throws CommandException {
         for (City city:
@@ -216,47 +262,17 @@ public class Civilization {
         this.food = food;
         return food;
     }
-    public int calculateCivilizationGold() {
-        int gold = this.getGoldFromCheat();
-        for (City city :
-             this.getCities()) {
-            gold += city.calculateGold();
-        }
-        this.gold = gold;
-        return gold;
-    }
 
-    public int calculateScience() {
-        int beaker = 0;
-        beaker += beakerFromBuildings;
-        beaker *= beakerRatioFromBuildings;
-        beaker += cheatBeaker;
-        for (City city:
-             this.getCities()) {
-            beaker += city.getCitizensCount();
-        }
-        if(calculateCivilizationGold() < 0 ){beaker -= this.getGold();}
-        return beaker;
-
-
-    }
-
-
-
-    /***
-     * setter and getters
-     */
-
-
-
-
-    public ArrayList<Unit> getUnits() {
-        return units;
+    public int calculateSuccess() {
+        return gold + cities.size() + units.size() + technologies.size() + happiness
+                + isInEconomicRelation.size() - isInWarWith.size() + beaker +
+                + ownedTiles.size();
     }
 
     public boolean isInWarWith(Civilization civilization) {
         return this.isInWarWith.contains(civilization);
     }
+
     public boolean isFriendWith(Civilization civilization) {
         return this.isInEconomicRelation.contains(civilization);
     }
@@ -281,12 +297,12 @@ public class Civilization {
         return researchingTechnologies;
     }
 
-    public int getGold() {
-        return this.gold;
-    }
-
     public int getBeaker() {
         return this.beaker;
+    }
+
+    public void setBeaker(int beaker) {
+        this.beaker = beaker;
     }
 
     public int getProduction() {
@@ -333,25 +349,14 @@ public class Civilization {
         return this.name.substring(0, Math.min(5, this.name.length()));
     }
 
-    public ArrayList<City> getCities() {
-        return cities;
-    }
-
     public HashMap<TechnologyEnum, Integer> getResearch() {
         return this.researchingTechnologies;
-    }
-
-    public void setGoldFromCheat(int goldFromCheat) {
-        this.goldFromCheat = goldFromCheat;
-    }
-
-    public int getGoldFromCheat() {
-        return goldFromCheat;
     }
 
     public HappinessTypeEnum getHappinessType() {
         return happinessType;
     }
+
     public User civUser() {
         return this.user;
     }
@@ -363,6 +368,7 @@ public class Civilization {
     public void setCurrentSelectedGridLocation(Location currentSelectedGridLocation) {
         this.currentSelectedGridLocation = currentSelectedGridLocation;
     }
+
     public Location getCurrentGridLocation() {
         return this.currentSelectedGridLocation;
     }
@@ -375,36 +381,28 @@ public class Civilization {
         return this.isInEconomicRelation;
     }
 
-    public void setHappinessFromCheat(int happinessFromCheat) {
-        this.happinessFromCheat = happinessFromCheat;
-    }
-
     public int getHappinessFromCheat() {
         return happinessFromCheat;
+    }
+
+    public void setHappinessFromCheat(int happinessFromCheat) {
+        this.happinessFromCheat = happinessFromCheat;
     }
 
     public int getFood() {
         return food;
     }
 
-    public void setCheatBeaker(int cheatBeaker) {
-        this.cheatBeaker = cheatBeaker;
-    }
-
-    public void setBeaker(int beaker) {
-        this.beaker = beaker;
-    }
-
     public void setFood(int food) {
         this.food = food;
     }
 
-    public void setBeakerFromBuildings(int beakerFromBuildings) {
-        this.beakerFromBuildings = beakerFromBuildings;
-    }
-
     public int getCheatBeaker() {
         return cheatBeaker;
+    }
+
+    public void setCheatBeaker(int cheatBeaker) {
+        this.cheatBeaker = cheatBeaker;
     }
 
     public ArrayList<Civilization> getIsInEconomicRelation() {
@@ -419,21 +417,20 @@ public class Civilization {
         return beakerFromBuildings;
     }
 
-    public TechnologyEnum getCurrentTech() {
-        return currentTech;
+    public void setBeakerFromBuildings(int beakerFromBuildings) {
+        this.beakerFromBuildings = beakerFromBuildings;
     }
 
-    public void setBeakerRatioFromBuildings(double beakerRationFromBuildings) {
-        this.beakerRatioFromBuildings = beakerRationFromBuildings;
+    public TechnologyEnum getCurrentTech() {
+        return currentTech;
     }
 
     public double getBeakerRatioFromBuildings() {
         return beakerRatioFromBuildings;
     }
 
-    public int calculateSuccess() {
-        return gold + cities.size() + units.size() + technologies.size() + happiness
-                + isInEconomicRelation.size() - isInWarWith.size() + beaker +
-                + ownedTiles.size();
+    public void setBeakerRatioFromBuildings(double beakerRationFromBuildings) {
+        this.beakerRatioFromBuildings = beakerRationFromBuildings;
     }
+
 }

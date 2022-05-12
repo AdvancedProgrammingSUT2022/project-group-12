@@ -62,20 +62,25 @@ public class GameController {
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
-    protected static boolean isEnemyIsReadyForAttack(int row, int col, Civilization civilization, CombatUnit combatUnit) {
-        CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
-        NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
+    public static boolean isEnemyIsReadyForAttack(Location location, Civilization civilization, CombatUnit combatUnit) {
+        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
+        NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
 
         if (combatUnit instanceof RangedUnit) {
-            return isEnemyExists(row, col, civilization) || isNonCombatEnemyExists(row, col, civilization);
+            return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
         } else {
-            return isEnemyExists(row, col, civilization);
+            return isEnemyExists(location, civilization);
         }
     }
+    public static boolean isEnemyIsReadyForAttack(Location location, Civilization civilization, City city) {
+        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
+        NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
+            return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
+    }
 
-    protected static boolean isAttackToCity(int row, int col, Civilization civilization) {
-        City enemyCity = game.getTileGrid().getTile(row, col).getCity();
-        return enemyCity != null;
+    public static boolean isAttackToCity(Location location, Civilization civilization) {
+        City enemyCity = game.getTileGrid().getTile(location).getCity();
+        return (enemyCity != null && enemyCity.getCivilization() != civilization);
     }
 
     public static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
@@ -108,7 +113,7 @@ public class GameController {
         if (GameController.tileIsNearAnotherCity(tile)) {
             throw new CommandException(CommandResponse.CLOSE_TO_A_CITY);
         }
-        int cityProduction = 1 + tile.calculateProductionCount();
+        int cityProduction = 1 + tile.calculateSources("production");
         int food = 2 + tile.calculateSources("food");
         boolean isCapital = civ.getCapital() == null;
         ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
@@ -128,6 +133,7 @@ public class GameController {
         }
         return false;
     }
+
 
     public static String fortifyUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
@@ -181,8 +187,8 @@ public class GameController {
         for (Building building : city.getBuildings()) {
             message.append("city building : " + building.getType().toString().toLowerCase() + '\n');
         }
-        message.append("city combat unit : " + city.getTile().getCombatUnit() + '\n');
-        message.append("city nonCombat unit : " + city.getTile().getNonCombatUnit() + '\n');
+//        message.append("city combat unit : " + city.getCombatUnit() + '\n');
+//        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
         for (Tile cityTile : city.getTiles()) {
             if (cityTile.getCitizen() != null) {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');

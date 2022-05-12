@@ -49,8 +49,26 @@ public class Game {
         }
     }
 
-    public Civilization getCurrentCivilization() {
-        return civilizations.get(this.gameTurn % civilizations.size());
+    public void updateRevealedTileGrid(Civilization civilization) {
+        tileGrid.setFogOfWarForAll();
+        for (Unit unit : civilization.getUnits()) {
+            Tile tile = tileGrid.getTile(unit.getLocation());
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
+                revealTileFor(civilization, neighbor);
+            }
+        }
+        for (City city : civilization.getCities()) {
+            Tile tile = tileGrid.getTile(city.getLocation());
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
+                revealTileFor(civilization, neighbor);
+            }
+        }
+    }
+
+    public void revealTileFor(Civilization civilization, Tile tile) {
+        TileGrid civTileGrid = civilization.getRevealedTileGrid();
+        civTileGrid.setVisible(tile.getLocation());
+        civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
     public void endCurrentTurn() throws GameException {
@@ -79,6 +97,19 @@ public class Game {
         }
     }
 
+    public Civilization getCurrentCivilization() {
+        return civilizations.get(this.gameTurn % civilizations.size());
+    }
+
+    private void checkForAlertUnit(Unit unit, Tile unitTile) throws GameException {
+        ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
+        Civilization unitCiv = unit.getCivilization();
+        if (checkForEnemy(tiles, unitCiv)) {
+            unit.setState(UnitStates.AWAKE);
+            checkForMovementCost(unit);
+        }
+    }
+
     private void checkForMultipleMoves(Unit unit) {
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
             MovingController.moveToNextTile(unit);
@@ -91,10 +122,13 @@ public class Game {
         }
     }
 
-    private void setPlayersScores() {
-        for (Civilization civilization : this.civilizations) {
-            civilization.civUser().setScore(civilization.calculateSuccess() / 100);
+    private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {
+        for (Tile tile : tiles) {
+            if (GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)) {
+                return true;
+            }
         }
+        return false;
     }
 
     private void checkForMovementCost(Unit unit) throws GameException {
@@ -103,22 +137,10 @@ public class Game {
         }
     }
 
-    private void checkForAlertUnit(Unit unit, Tile unitTile) throws GameException {
-        ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
-        Civilization unitCiv = unit.getCivilization();
-        if (checkForEnemy(tiles, unitCiv)) {
-            unit.setState(UnitStates.AWAKE);
-            checkForMovementCost(unit);
+    private void setPlayersScores() {
+        for (Civilization civilization : this.civilizations) {
+            civilization.civUser().setScore(civilization.calculateSuccess() / 100);
         }
-    }
-
-    private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {
-        for (Tile tile : tiles) {
-            if (GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void startNextTurn() {
@@ -133,28 +155,6 @@ public class Game {
         if (this.gameTurn / civilizations.size() > 25) {
             //TODO: end game
         }
-    }
-
-    public void updateRevealedTileGrid(Civilization civilization) {
-        tileGrid.setFogOfWarForAll();
-        for (Unit unit : civilization.getUnits()) {
-            Tile tile = tileGrid.getTile(unit.getLocation());
-            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
-                revealTileFor(civilization, neighbor);
-            }
-        }
-        for (City city : civilization.getCities()) {
-            Tile tile = tileGrid.getTile(city.getLocation());
-            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
-                revealTileFor(civilization, neighbor);
-            }
-        }
-    }
-
-    public void revealTileFor(Civilization civilization, Tile tile) {
-        TileGrid civTileGrid = civilization.getRevealedTileGrid();
-        civTileGrid.setVisible(tile.getLocation());
-        civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
     public TileGrid getTileGrid() {

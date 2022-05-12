@@ -65,7 +65,10 @@ public enum CommandResponse {
     NONCOMBAT_UNIT_ALREADY_ON_TILE("a non combat unit is already on tile"),
     UNIT_IS_ALREADY_ON_TILE("unit is already on the tile"),
     ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities"),
-    INVALID_NAME("Invalid input name");
+    INVALID_NAME("Invalid input name"),
+    ENEMY_DOESNT_EXISTS("enemy doesn't exists"), ATTACK_ISNT_POSSIBLE("attack isn't possible"),
+    YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT("you can't destroy city by rangedcombat unit"),
+    YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by rangedcombat unit");
 
     private final String message;
 

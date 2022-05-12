@@ -3,9 +3,8 @@ package Controllers;
 import Enums.CombatTypeEnum;
 import Enums.UnitStates;
 import Models.Civilization;
-import Models.Location;
+import Models.Game;
 import Models.Tiles.Tile;
-import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonRangedUnit;
 import Models.Units.RangedUnit;
@@ -20,25 +19,30 @@ import static Controllers.MovingController.findTheShortestPath;
 import static Models.Units.NonRangedUnit.calculateDamage;
 import static Models.Units.Unit.calculateCombatStrength;
 
-public class UnitCombatController {
+public class UnitCombatController extends CombatController {
 
-    protected static String AttackNonRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, NonRangedUnit nonRangedUnit) {
-        ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
+    public UnitCombatController(Game newGame) {
+        super(newGame);
+    }
+
+
+    protected static String AttackNonRangedUnit(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) {
+        ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
         if (nonRangedUnit.getAvailableMoveCount() >= path.size()) {
-            return calculateNonRangeAttack(nonRangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
+            return calculateNonRangeAttack(nonRangedUnit, enemyUnit, currentTile, enemyTile);
         } else {
             return "Attack is not possible";
         }
 
     }
 
-    protected static String AttackRangedUnit(Location location, TileGrid tileGrid, Tile currentTile, Civilization civilization, RangedUnit rangedUnit) {
-        ArrayList<Tile> path = findTheShortestPath(location, currentTile, currentTile.getCombatUnit());
-        if (rangedUnit.getType().getRange() >= path.size()) {
-            if (GameController.isEnemyExists(location, civilization)) {
-                return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getCombatUnit(), currentTile, tileGrid.getTile(location));
+    protected static String AttackRangedUnit(RangedUnit ownRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) {
+        ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
+        if (ownRangedUnit.getType().getRange() >= path.size()) {
+            if (GameController.isEnemyExists(enemyUnit.getLocation(), civilization)) {
+                return calculateRangeAttack(ownRangedUnit, enemyUnit, currentTile, enemyTile);
             } else {
-                return calculateRangeAttack(rangedUnit, tileGrid.getTile(location).getNonCombatUnit(), currentTile, tileGrid.getTile(location));
+                return calculateRangeAttack(ownRangedUnit,enemyUnit, currentTile, enemyTile);
             }
         } else {
             return "Attack is not possible";

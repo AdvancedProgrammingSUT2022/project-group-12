@@ -625,7 +625,13 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            CombatController.AttackCity(this.selectedCity, location);
+            String combatType;
+            if((combatType=command.getSubSubCategory()).equals("noncombat") || combatType.equals("combat")){
+                CombatController.AttackCity(this.selectedCity, location, combatType);
+            } else {
+                System.out.println(CommandResponse.INVALID_SUBSUBCOMMAND);
+                return;
+            }
             System.out.println("city attack successful");
         } catch (CommandException e) {
             e.print();

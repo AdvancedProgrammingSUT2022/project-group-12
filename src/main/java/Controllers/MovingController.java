@@ -18,7 +18,7 @@ import java.util.List;
 public class MovingController {
 
     public static void moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
-        ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile, unit);
+        ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile);
         if (shortestPath == null) {
             throw new CommandException("move is impossible");
         }
@@ -110,7 +110,7 @@ public class MovingController {
         });
     }
 
-    protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile, Unit sourceUnit) {
+    protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
         // Dijkstra algorithm for shortest path
         int targetRow = location.getRow();
         int targetCol = location.getCol();
@@ -134,7 +134,7 @@ public class MovingController {
                 break;
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-                if (validateTile(neighbor, sourceUnit)) continue;
+                if (validateTile(neighbor)) continue;
                 // this is only true if weights are on tiles (graph vertexes)
                 int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
                 if (!distance.containsKey(neighbor)) {
@@ -156,7 +156,7 @@ public class MovingController {
         return shortestPath.get(p);
     }
 
-    private static boolean validateTile(Tile tile, Unit sourceUnit) {
+    private static boolean validateTile(Tile tile) {
         return !tile.getTerrain().getTerrainType().canBePassed() || tile.getState() == VisibilityEnum.FOG_OF_WAR;
     }
 }
