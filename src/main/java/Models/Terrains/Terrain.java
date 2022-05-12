@@ -1,6 +1,5 @@
 package Models.Terrains;
 
-import Enums.ImprovementEnum;
 import Enums.ResourceEnum;
 import Enums.TerrainColor;
 import Enums.TerrainEnum;
@@ -135,8 +134,7 @@ public class Terrain {
     }
 
     public StringBuilder getResourcesByName() {
-        StringBuilder resourcesNames = new StringBuilder("contains resource :" + this.resource.toString());
-        return resourcesNames;
+        return new StringBuilder("contains resource :" + this.resource.toString());
     }
 
     public void clearLands() {
