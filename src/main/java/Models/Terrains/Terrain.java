@@ -1,6 +1,5 @@
 package Models.Terrains;
 
-import Enums.ImprovementEnum;
 import Enums.ResourceEnum;
 import Enums.TerrainColor;
 import Enums.TerrainEnum;
@@ -130,17 +129,20 @@ public class Terrain {
     }
 
 
-
     public int getCombatModifier() {
         return this.combatModifier;
     }
 
     public StringBuilder getResourcesByName() {
-        StringBuilder resourcesNames = new StringBuilder("contains resource :" + this.resource.toString());
-        return resourcesNames;
+        return new StringBuilder("contains resource :" + this.resource.toString());
     }
 
     public void clearLands() {
-        this.features = new ArrayList<>();
+        if (this.features.contains(TerrainEnum.JUNGLE))
+            this.features = new ArrayList<>() {{
+                add(TerrainEnum.DESERT);
+            }};
+        else
+            this.features = new ArrayList<>();
     }
 }

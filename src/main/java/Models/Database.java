@@ -77,20 +77,7 @@ public class Database {
         }
     }
 
-    public void deserializeGames() {
-        Game jsonGames = null;
-        try {
-            String jsonFile = new String(Files.readAllBytes(Paths.get("games.json")));
-            jsonGames = new Gson().fromJson(jsonFile, (Type) Game.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (jsonGames != null)
-            GameController.setGame(jsonGames);
-    }
-
     public void deserialize() {
-        deserializeGames();
         deserializeUsers();
     }
 
@@ -107,21 +94,7 @@ public class Database {
         }
     }
 
-    public void serializeGames() {
-        try {
-            File file = new File("games.json");
-            if (!file.exists())
-                file.createNewFile();
-            FileWriter writer = new FileWriter("games.json");
-            writer.write(this.gson.toJson(games));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void serialize() {
-//        serializeGames();
         serializeUsers();
     }
 

@@ -14,7 +14,6 @@ public class Main {
         while (!menuStack.isEmpty()) {
             menuStack.getTopMenu().run();
         }
-
         Database.getInstance().serialize();
     }
 }

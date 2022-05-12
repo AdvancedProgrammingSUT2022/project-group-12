@@ -91,6 +91,12 @@ public class Game {
         }
     }
 
+    private void setPlayersScores() {
+        for (Civilization civilization : this.civilizations) {
+            civilization.civUser().setScore(civilization.calculateSuccess() / 100);
+        }
+    }
+
     private void checkForMovementCost(Unit unit) throws GameException {
         if (unit.getAvailableMoveCount() > 0) {
             throw new GameException(CommandResponse.UNIT_NEED_ORDER);
