@@ -1,9 +1,11 @@
 package Controllers;
 
+import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;
+import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
@@ -45,6 +47,17 @@ public class CheatCodeController {
 
     public void finishProducts(City city) throws CommandException {
         city.finishProducts();
+    }
+    public void increaseBeaker(int amount){
+        Civilization currnetCiv =  GameController.getGame().getCurrentCivilization();
+        currnetCiv.setCheatBeaker(currnetCiv.getCheatBeaker() + amount);
+    }
+    public void teleport(Location location,Unit unit) throws CommandException {
+        UnitFuncs.validateTileForMovingUnit(location, unit);
+        Tile currentTile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
+        Tile destTile = GameController.getGame().getTileGrid().getTile(location);
+        currentTile.setNullUnit(unit);
+        destTile.setUnit(unit);
     }
 
     public void increaseProduction(City city, int amount) {

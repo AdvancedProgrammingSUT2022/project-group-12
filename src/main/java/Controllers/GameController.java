@@ -205,7 +205,7 @@ public class GameController {
         message.append("city food : " + city.getFood() + '\n');
         message.append("city science : " + city.getBeaker() + '\n');
         message.append("city production : " + city.getProduction() + '\n');
-        message.append("city gold : " + city.getGoldProductionValue() + '\n');
+        message.append("city gold : " + city.getGold() + '\n');
         return message;
     }
 
