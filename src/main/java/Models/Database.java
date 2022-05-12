@@ -1,11 +1,9 @@
 package Models;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -61,27 +59,18 @@ public class Database {
     }
 
     public void deserializeUsers() {
+        ArrayList<User> jsonUsers = new ArrayList<>();
         try {
-            File gameFile = new File("users.json");
-            if (!gameFile.exists()) {
-                gameFile.createNewFile();
-            }
-            List<User> list = new ArrayList<>();
-            Reader reader = Files.newBufferedReader(Paths.get("users.json"));
-            User[] usersArray = gson.fromJson(reader, User[].class);
-            if (usersArray != null) {
-                list = Arrays.asList(usersArray);
-            }
-            ArrayList<User> copyingUsers = new ArrayList<>(list);
-            reader.close();
-            this.usersList.addAll(copyingUsers);
+            String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
+            jsonUsers = new Gson().fromJson(jsonFile, new TypeToken<List<User>>() {
+            }.getType());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        if (!this.usersList.isEmpty()) {
-            for (User user : this.usersList) {
-                users.put(user.getUsername(), user);
-            }
+        if (jsonUsers != null)
+            this.usersList.addAll(jsonUsers);
+        for (User user : this.usersList) {
+            this.users.put(user.getUsername(), user);
         }
     }
 
@@ -107,16 +96,18 @@ public class Database {
 
     public void deserialize() {
         deserializeUsers();
-        deserializeGames();
     }
 
     public void serializeUsers() {
         try {
-            Writer writer = Files.newBufferedWriter(Paths.get("users.json"));
-            gson.toJson(usersList, writer);
+            File file = new File("users.json");
+            if (!file.exists())
+                file.createNewFile();
+            FileWriter writer = new FileWriter("users.json");
+            writer.write(new Gson().toJson(usersList));
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -132,7 +123,6 @@ public class Database {
 
     public void serialize() {
         serializeUsers();
-        serializeGames();
     }
 
     public void printUsers() {

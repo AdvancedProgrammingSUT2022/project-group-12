@@ -35,7 +35,7 @@ public class LoginMenuTest {
 
     @Test
     public void weakPassword() throws CommandException {
-        String inputString = "user create -u alireza2 -p password -n nickname2";
+        String inputString = "user create -u alireza2 -p Pass1! -n nickname2";
         Command command = Command.parseCommand(inputString);
         setUserCreds(command);
         Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.createUser(username, nickname, password));
@@ -55,7 +55,7 @@ public class LoginMenuTest {
     @Test
     public void invalidPassword() throws CommandException {
         new User("Ap", "P", "nname");
-        String inputString = "user login -u Ap -p Pass1!";
+        String inputString = "user login -u Ap -p password";
         Command command = Command.parseCommand(inputString);
         setLoginCreds(command);
         Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.loginUser(username, password));
