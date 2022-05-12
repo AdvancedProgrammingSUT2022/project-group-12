@@ -7,7 +7,6 @@ import Models.Citizen;
 import Models.Civilization;
 import Models.Location;
 import Models.Production;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -323,30 +322,6 @@ public class City {
             }
         }
         return false;
-    }
-
-    public double numberOfLuxuryResources() {
-        double counter = 0;
-        checkForReservedResource(this.reservedResource);
-        for (Tile tile :
-                this.getTiles()) {
-            Terrain terrain = tile.getTerrain();
-            ResourceEnum resource = terrain.getResource();
-            if (resource.isLuxury() && terrain.getImprovements().contains(resource.getImprovementNeeded())) {
-                ++counter;
-            }
-        }
-        return counter;
-    }
-
-    private void checkForReservedResource(ResourceEnum reservedResource) {
-        if (reservedResource == null) {
-            return;
-        }
-        if (reservedResource.getImprovementNeeded().hasRequiredTechs(this.civilization.getTechnologies())) {
-            this.resources.add(reservedResource);
-            reservedResource = null;
-        }
     }
 
     public int getFoodFromBuildings() {

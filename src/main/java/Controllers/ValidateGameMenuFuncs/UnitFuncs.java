@@ -151,7 +151,7 @@ public class UnitFuncs {
         if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
             return CommandResponse.WRONG_UNIT;
         }
-        ArrayList<ImprovementEnum> tileImprovements = currentTile.getTerrain().getImprovements();
+        ArrayList<ImprovementEnum> tileImprovements = currentTile.getImprovements();
         if (!tileImprovements.contains(ImprovementEnum.ROAD) && !tileImprovements.contains(ImprovementEnum.RAILROAD)) {
             return CommandResponse.ROUTE_DOES_NOT_EXISTS;
         }

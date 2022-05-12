@@ -293,7 +293,7 @@ public class Civilization {
                 city.getTiles()) {
             Terrain terrain = tile.getTerrain();
             ResourceEnum resource = terrain.getResource();
-            if (resource.isLuxury() && terrain.getImprovements().contains(resource.getImprovementNeeded()) && !tiles.contains(tile)) {
+            if (resource.isLuxury() && tile.getImprovements().contains(resource.getImprovementNeeded()) && !tiles.contains(tile)) {
                 ++counter;
             }
             tiles.add(tile);

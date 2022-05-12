@@ -3,10 +3,10 @@ package Controllers;
 import Enums.UnitEnum;
 import Models.Cities.City;
 import Models.Location;
-import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
 
 
 public class CheatCodeController {
@@ -22,8 +22,7 @@ public class CheatCodeController {
         GameController.getGame().getCurrentCivilization().addGold(amount);
     }
 
-    public void increaseFood(int amount, String name) throws CommandException {
-        City city = GameController.getGame().getCurrentCivilization().getCityByName(name);
+    public void increaseFood(City city, int amount) {
         city.setFood(city.getFood() + amount);
     }
 
@@ -43,12 +42,11 @@ public class CheatCodeController {
         }
     }
 
-    public void finishProducts(City city) {
+    public void finishProducts(City city) throws CommandException {
         city.finishProducts();
     }
 
-    public void increaseProduction(int amount, String name) throws CommandException {
-        City city = GameController.getGame().getCurrentCivilization().getCityByName(name);
+    public void increaseProduction(City city, int amount) {
         city.setProduction(city.getProduction() + amount);
     }
 
