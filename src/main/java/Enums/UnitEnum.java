@@ -122,7 +122,7 @@ public enum UnitEnum {
     }
     public static UnitEnum getUnitEnumByThisName(String name) throws CommandException {
         for (UnitEnum unitEnum : UnitEnum.values()) {
-            if(name.equals(valueOf(String.valueOf(unitEnum)))){
+            if(name.equals(valueOf(String.valueOf(unitEnum))) || name.equals(valueOf(String.valueOf(unitEnum).toLowerCase()))){
                 return unitEnum;
             }
         }

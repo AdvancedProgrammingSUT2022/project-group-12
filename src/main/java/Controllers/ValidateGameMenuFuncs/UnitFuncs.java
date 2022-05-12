@@ -47,7 +47,7 @@ public class UnitFuncs {
         moveUnit(location, currentTile, currentCivilization, unit);
     }
 
-    private void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {
+    public static void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {
         if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }

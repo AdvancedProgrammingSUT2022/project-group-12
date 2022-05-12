@@ -87,7 +87,21 @@ public class GameMenu extends Menu {
             case "spawn" -> this.cheatSpawn(command);
             case "map" -> this.cheatMap(command);
             case "finish" -> this.cheatFinish(command);
+            case "teleport" -> this.cheatTeleport(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatTeleport(Command command) {
+        command.abbreviate("position", "p");
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            CheatCodeController.getInstance().teleport(location,selectedUnit);
+            setCamera(location);
+            System.out.println("unit telported on " + location + "  successfully");
+        } catch (CommandException e) {
+            e.print();
         }
     }
 
@@ -166,7 +180,19 @@ public class GameMenu extends Menu {
             case "production" -> this.cheatIncreaseProduction(command);
             case "food" -> this.cheatIncreaseFood(command);
             case "happiness" -> this.cheatIncreaseHappiness(command);
+            case "science" -> this.cheatIncreaseBeaker(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cheatIncreaseBeaker(Command command) {
+        try {
+            command.assertOptions(List.of("amount"));
+            int amount = command.getIntOption("amount");
+            CheatCodeController.getInstance().increaseBeaker(amount);
+            System.out.println("beaker increased " + amount + " units successfully");
+        } catch (CommandException e) {
+            e.print();
         }
     }
 

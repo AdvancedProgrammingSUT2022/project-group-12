@@ -64,7 +64,8 @@ public enum CommandResponse {
     COMBAT_UNIT_ALREADY_ON_TILE("a combat unit is already on tile"),
     NONCOMBAT_UNIT_ALREADY_ON_TILE("a non combat unit is already on tile"),
     UNIT_IS_ALREADY_ON_TILE("unit is already on the tile"),
-    ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities");
+    ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities"),
+    INVALID_NAME("Invalid input name");
 
     private final String message;
 

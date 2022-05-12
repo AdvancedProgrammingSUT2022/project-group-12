@@ -11,6 +11,8 @@ import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
+import Utils.CommandResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -195,23 +197,24 @@ public class Tile {
         return cost;
     }
 
-    public int calculateProductionCount() {
+    public int calculateSources(String name) throws CommandException {
         int production = this.terrain.getProductsCount();
+        int food = this.terrain.getFoodCount();
+        int gold = this.terrain.getGoldCount();
         for (TerrainEnum feature :
                 terrain.getFeatures()) {
             production += feature.getProductsCount();
+            food += feature.getFoodCount();
+            gold += feature.getGoldCount();
         }
-        return production;
+        switch (name){
+            case "gold" -> {return gold;}
+            case "food" -> {return food;}
+            case "production" -> {return gold;}
+        }
+        throw new CommandException(CommandResponse.INVALID_NAME);
     }
 
-    public int calculateFoodCount() {
-        int food = this.terrain.getFoodCount();
-        for (TerrainEnum feature :
-                terrain.getFeatures()) {
-            food += feature.getFoodCount();
-        }
-        return food;
-    }
 
     public Location getLocation() {
         return new Location(getRow(), getCol());
