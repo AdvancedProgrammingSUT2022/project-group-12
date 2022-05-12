@@ -8,8 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.List;
 
 import static Utils.CommandResponse.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginMenuTest {
     private String username;
@@ -21,6 +20,14 @@ public class LoginMenuTest {
         Database.getInstance().deserializeUsers();
         User user = new User("alireza", "Password123!", "nickname");
         Database.getInstance().addUser(user);
+    }
+
+    @Test
+    public void successfulRegister() throws CommandException {
+        String inputString = "user create -u a1 -p Password1! -n n1";
+        Command command = Command.parseCommand(inputString);
+        setUserCreds(command);
+        assertDoesNotThrow(() -> Controllers.LoginMenuController.createUser(username, nickname, password));
     }
 
     @Test
@@ -70,6 +77,15 @@ public class LoginMenuTest {
         setLoginCreds(command);
         Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.loginUser(username, password));
         assertEquals(USER_DOES_NOT_EXISTS.toString(), exception.getMessage());
+    }
+
+    @Test
+    public void successfulLogin() throws CommandException {
+        new User("Ap", "P", "nname");
+        String inputString = "user login -u Ap -p P";
+        Command command = Command.parseCommand(inputString);
+        setLoginCreds(command);
+        assertDoesNotThrow(() -> Controllers.LoginMenuController.loginUser(username, password));
     }
 
     private void setUserCreds(Command command) {

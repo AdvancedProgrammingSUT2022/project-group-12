@@ -17,7 +17,7 @@ public class LoginMenuController {
         } else if (!weakPassword(password)) {
             throw new CommandException(CommandResponse.WEAK_PASSWORD.toString());
         } else {
-            User newUser = new User(username, password, nickname);
+            new User(username, password, nickname);
         }
     }
 

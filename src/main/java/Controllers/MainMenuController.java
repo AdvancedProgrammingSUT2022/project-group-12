@@ -23,10 +23,6 @@ public class MainMenuController {
         }
         Game game = new Game(users);
         database.addGame(game);
-        for (User user : users) {
-            user.addGame(game);
-            user.setRunningGame(game); // todo: is required?
-        }
         return game;
     }
 }
