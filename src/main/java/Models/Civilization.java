@@ -36,6 +36,7 @@ public class Civilization {
     private int food;
     private int beaker;
     private int happiness;
+    private int happinessFromCheat;
     private TechnologyEnum researchingTechnology;
     private TechnologyEnum currentTech;
     private ArrayList<CombatUnit> combatUnits;
@@ -62,6 +63,7 @@ public class Civilization {
         this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
         this.isInEconomicRelation = new ArrayList<>();
+        this.happinessFromCheat = 0;
     }
 
     public void researchTech() {
@@ -235,6 +237,10 @@ public class Civilization {
     public void applyNotes() {
         for (City city : this.cities) {
             city.setHappinessFromBuildings(0);
+            city.setFoodFromBuildings(0);
+            city.setFoodFromCheat(0);
+            city.setProductionFromCheat(0);
+            city.setProductionFromBuildings(0);
             city.applyBuildingNotes();
         }
     }
@@ -267,6 +273,7 @@ public class Civilization {
 
     public double calculateHappiness() {
         this.happiness = 0;
+        this.happiness += this.happinessFromCheat;
         for (City city : this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
@@ -344,6 +351,14 @@ public class Civilization {
             }
         }
         throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+    }
+
+    public void setHappinessFromCheat(int happinessFromCheat) {
+        this.happinessFromCheat = happinessFromCheat;
+    }
+
+    public int getHappinessFromCheat() {
+        return happinessFromCheat;
     }
 
     public int calculateCivilizationFood()

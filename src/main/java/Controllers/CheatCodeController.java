@@ -2,6 +2,7 @@ package Controllers;
 
 import Enums.UnitEnum;
 import Models.Cities.City;
+import Models.Civilization;
 import Models.Location;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -23,7 +24,7 @@ public class CheatCodeController {
     }
 
     public void increaseFood(City city, int amount) {
-        city.setFood(city.getFood() + amount);
+        city.setFoodFromCheat(city.getFoodFromCheat() + amount);
     }
 
     public void spawnUnit(UnitEnum unit, Location location) {
@@ -47,11 +48,12 @@ public class CheatCodeController {
     }
 
     public void increaseProduction(City city, int amount) {
-        city.setProduction(city.getProduction() + amount);
+        city.setProductionFromCheat(city.getProductionFromCheat() + amount);
     }
 
     public void increaseHappiness(int amount) {
-        GameController.getGame().getCurrentCivilization().setHappiness(amount);
+        Civilization currnetCiv =  GameController.getGame().getCurrentCivilization();
+        currnetCiv.setHappinessFromCheat(currnetCiv.getHappinessFromCheat() + amount);
     }
 
     public void revealTile(Location location) {

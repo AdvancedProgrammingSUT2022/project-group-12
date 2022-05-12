@@ -7,6 +7,7 @@ import Models.Citizen;
 import Models.Civilization;
 import Models.Location;
 import Models.Production;
+import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
@@ -27,14 +28,17 @@ public class City {
     private final Tile cityTile;
     private final ArrayList<Production> productionQueue;
     private final String name;
+    private  double productionFromCheat;
     protected boolean isCapital;
     private Civilization civilization;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;
     private int foodFromBuildings;
+    private int foodFromCheat;
     private int goldProductionValue;
     private double production;
+    private double productionFromBuildings;
     private int food;
     private ArrayList<ResourceEnum> resources;
     private ResourceEnum reservedResource;
@@ -67,7 +71,11 @@ public class City {
         //TODO : check the range of the city and the combat strength of that
         this.productionQueue = new ArrayList<>();
         this.happinessFromBuildings = 0;
-        this.foodFromBuildings = 1;
+        this.foodFromBuildings = 0;
+        this.foodFromCheat = 0;
+        this.productionFromBuildings = 0;
+        this.productionFromCheat = 0;
+
     }
 
     static int AffectCityFeatures(City city) {
@@ -133,6 +141,10 @@ public class City {
         return range;
     }
 
+    public void setProductionFromCheat(double productionFromCheat) {
+        this.productionFromCheat = productionFromCheat;
+    }
+
     public Location getLocation() {
         return this.cityTile.getLocation();
     }
@@ -185,6 +197,14 @@ public class City {
         return this.isCapital;
     }
 
+    public void setProductionFromBuildings(double productionFromBuildings) {
+        this.productionFromBuildings = productionFromBuildings;
+    }
+
+    public double getProductionFromBuildings() {
+        return productionFromBuildings;
+    }
+
     public void setCapital(boolean isCapital) {
         this.isCapital = isCapital;
     }
@@ -195,6 +215,10 @@ public class City {
 
     public void setFood(int food) {
         this.food = food;
+    }
+
+    public void setFoodFromCheat(int foodFromCheat) {
+        this.foodFromCheat = foodFromCheat;
     }
 
     public ArrayList<Tile> getTiles() {
@@ -224,6 +248,7 @@ public class City {
     public void setProduction(double production) {
         this.production = production;
     }
+
 
     public ResourceEnum getReservedResource() {
         return reservedResource;
@@ -324,6 +349,38 @@ public class City {
         return false;
     }
 
+    public double numberOfLuxuryResources() {
+        double counter = 0;
+        checkForReservedResource(this.reservedResource);
+        for (Tile tile :
+                this.getTiles()) {
+            Terrain terrain = tile.getTerrain();
+            ResourceEnum resource = terrain.getResource();
+            if (resource.isLuxury() && tile.getImprovements().contains(resource.getImprovementNeeded())) {
+                ++counter;
+            }
+        }
+        return counter;
+    }
+
+    public int getFoodFromCheat() {
+        return foodFromCheat;
+    }
+
+    public void setFoodFromBuildings(int foodFromBuildings) {
+        this.foodFromBuildings = foodFromBuildings;
+    }
+
+    private void checkForReservedResource(ResourceEnum reservedResource) {
+        if (reservedResource == null) {
+            return;
+        }
+        if (reservedResource.getImprovementNeeded().hasRequiredTechs(this.civilization.getTechnologies())) {
+            this.resources.add(reservedResource);
+            reservedResource = null;
+        }
+    }
+
     public int getFoodFromBuildings() {
         return foodFromBuildings;
     }
@@ -353,7 +410,8 @@ public class City {
     }
     public int calculateFood(){
         int food = this.getFoodFromBuildings() + 2;
-        food += getFoodFromTiles();
+        food += this.foodFromCheat;
+        food += (int)getFoodOrProductionFromTiles("food");
         food -= this.citizensCount * 2;
         food = settlerEffectOnFoods(food);
         if(food < 0){
@@ -372,20 +430,61 @@ public class City {
         return food;
     }
 
+    public double getProductionFromCheat() {
+        return productionFromCheat;
+    }
+
     private int settlerEffectOnFoods(int food) {
         if(productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0 ){
             food = 0;
         }
         return food;
     }
-    private int getFoodFromTiles() {
-        int food = 0;
+    private double getFoodOrProductionFromTiles(String foodOrProduction) {
+        double production = 0;
+        double food = 0;
         for (Tile tile:
              this.getTiles()) {
             if(tile.getCitizen() != null){
                 food += tile.calculateFoodCount();
+                production += tile.calculateProductionCount();
             }
         }
-        return food;
+        if(foodOrProduction.equals("food"))  return food;
+        else return production;
+    }
+
+    private double calculateProduction(){
+        this.production = 1;
+        this.production += this.productionFromBuildings;
+        this.production += getFoodOrProductionFromTiles("production");
+        this.production += getProductionFromCheat();
+        this.production += getFromResource("production");
+        return production;
+
+    }
+
+    private double getFromResource(String name) {
+        double gold = 0;
+        double production = 0;
+        double food = 0;
+        for (ResourceEnum resource:
+             this.resources) {
+            food += resource.getFoodCount();
+            production += resource.getProductCount();
+            gold += resource.getGoldCount();
+        }
+        switch (name){
+            case "gold" -> {
+                return gold;
+            }
+            case "production" -> {
+                return production;
+            }
+            case "food" -> {
+                return food;
+            }
+        }
+        return 0;
     }
 }

@@ -10,7 +10,7 @@ import Models.Units.Unit;
 public enum BuildingNoteEnum {
     BARRACK_NOTE((BuildingNotes<City>) city -> {
     }),
-    GRANARY_NOTE((BuildingNotes<City>) city -> city.setFood(city.getFood() + 2)),
+    GRANARY_NOTE((BuildingNotes<City>) city -> city.setFoodFromBuildings(city.getFoodFromBuildings() + 2)),
     LIBRARY_NOTE((BuildingNotes<City>) city -> city.setBeaker(city.getCitizensCount() / 2 + city.getBeaker())),
     MONUMENT_NOTE((BuildingNotes<City>) city -> {
     }),
@@ -19,7 +19,7 @@ public enum BuildingNoteEnum {
     }),
     WATER_MILLS_NOTE((BuildingNotes<City>) city -> {
         if (city.getTile().hasRiver()) {
-            city.setFood(city.getFood() + 2);
+            city.setFoodFromBuildings(city.getFoodFromBuildings() + 2);
         }
     }),
     ARMORY_NOTE(o -> {
@@ -46,7 +46,7 @@ public enum BuildingNoteEnum {
     }),
     CASTLE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 7.5)),
     FORGE_NOTE((BuildingNotes<City>) city -> {
-        city.setProduction(city.getProduction() + (city.getProduction() * 15.0 / 100.0));
+        city.setProductionFromBuildings(city.getProductionFromBuildings() + (city.getProductionFromBuildings() * 15.0 / 100.0));
     }),
     GARDEN_NOTE(o -> {
     }),
@@ -92,7 +92,7 @@ public enum BuildingNoteEnum {
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
     }),
     THEATER_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
-    WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() * 15.0 / 100.0)),
+    WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + city.getProductionFromBuildings() * 15.0 / 100.0)),
     ARSENAL_NOTE((BuildingNotes<City>) city -> {
         Production production = null;
         if (production instanceof Unit) {
@@ -101,8 +101,8 @@ public enum BuildingNoteEnum {
     }),
     BROADCAST_TOWER_NOTE((BuildingNotes<City>) city -> {
     }),
-    FACTORY_NOTE((BuildingNotes<City>) city -> city.setProduction(city.getProduction() + city.getProduction() / 2)),
-    HOSPITAL_NOTE((BuildingNotes<City>) city -> city.setFood(city.getFood() - city.getFood() / 2)),
+    FACTORY_NOTE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + city.getProductionFromBuildings() / 2)),
+    HOSPITAL_NOTE((BuildingNotes<City>) city -> city.setFoodFromBuildings(city.getFoodFromBuildings() - city.getFoodFromBuildings() / 2)),
     MILITARY_BASE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 12)),
     STOCK_EXCHANGE_NOTE((BuildingNotes<City>) city -> city.setGoldProductionValue(city.getGoldProductionValue() + city.getGoldProductionValue() / 3));
     private final BuildingNotes note;
