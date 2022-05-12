@@ -130,7 +130,6 @@ public class Terrain {
     }
 
 
-
     public int getCombatModifier() {
         return this.combatModifier;
     }
@@ -141,6 +140,11 @@ public class Terrain {
     }
 
     public void clearLands() {
-        this.features = new ArrayList<>();
+        if (this.features.contains(TerrainEnum.JUNGLE))
+            this.features = new ArrayList<>() {{
+                add(TerrainEnum.DESERT);
+            }};
+        else
+            this.features = new ArrayList<>();
     }
 }
