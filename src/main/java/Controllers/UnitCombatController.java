@@ -47,8 +47,8 @@ public class UnitCombatController {
 
     private static String calculateNonRangeAttack(NonRangedUnit nonRangedUnit, CombatUnit combatUnit, Tile nonRangedTile, Tile combatUnitTile) {
         String response = "Attack happened successfully";
-        int combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile);
-        int combatStrength2 = calculateCombatStrength(combatUnit, combatUnitTile);
+        double combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile);
+        double combatStrength2 = calculateCombatStrength(combatUnit, combatUnitTile);
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrength1, combatUnit, combatStrength2);
         response = checkForKill(nonRangedUnit, combatUnit, nonRangedTile, combatUnitTile);
         return null;
@@ -56,8 +56,8 @@ public class UnitCombatController {
 
     private static String calculateRangeAttack(RangedUnit rangedUnit, Unit unit, Tile rangedUnitTile, Tile combatUnitTile) {
         String response = "Attack happened successfully";
-        int strengthRangedUnit = calculateCombatStrength(rangedUnit, rangedUnitTile);
-        int EnemyUnitStrength = calculateCombatStrength(unit, combatUnitTile);
+        double strengthRangedUnit = calculateCombatStrength(rangedUnit, rangedUnitTile);
+        double EnemyUnitStrength = calculateCombatStrength(unit, combatUnitTile);
         calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, unit, EnemyUnitStrength);
         response = checkForKill(rangedUnit, unit, rangedUnitTile, combatUnitTile);
         return response;
@@ -99,15 +99,15 @@ public class UnitCombatController {
         combatUnit.setState(UnitStates.SETUP);
     }
 
-    private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, int combatStrength1, CombatUnit combatUnit, int combatStrength2) {
-        int strengthDiff = combatStrength1 - combatStrength2;
+    private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrength1, CombatUnit combatUnit, double combatStrength2) {
+        double strengthDiff = combatStrength1 - combatStrength2;
         Random random = new Random();
         calculateDamage(nonRangedUnit, -strengthDiff, random);
         calculateDamage(combatUnit, strengthDiff, random);
     }
 
-    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, int strengthRangedUnit, Unit unit, int combatUnitStrength) {
-        int strengthDiff = strengthRangedUnit - combatUnitStrength;
+    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, double strengthRangedUnit, Unit unit, double combatUnitStrength) {
+        double strengthDiff = strengthRangedUnit - combatUnitStrength;
         Random random = new Random();
         calculateDamage(unit, strengthDiff, random);
     }

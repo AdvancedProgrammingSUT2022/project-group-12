@@ -89,7 +89,7 @@ public class CityCombatController {
     private static String calculateCityRangeAttack(CombatUnit enemyUnit, City city, Tile enemyUnitTile, Tile cityTile) {
         String response = "Attack happened successfully";
         int strengthRangedUnit = city.calculateCombatStrength();
-        int EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyUnitTile);
+        double EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyUnitTile);
         calculateRangeAttackDamage(city, strengthRangedUnit, enemyUnit, EnemyUnitStrength);
         response = checkForKill(enemyUnit, city, enemyUnitTile, cityTile);
         return response;
@@ -97,7 +97,7 @@ public class CityCombatController {
 
     private static String calculateRangeAttackToCity(RangedUnit rangedUnit, City city, Tile rangedUnitTile, Tile cityTile) {
         String response = "Attack happened successfully";
-        int strengthRangedUnit = Unit.calculateCombatStrength(rangedUnit, rangedUnitTile);
+        double strengthRangedUnit = Unit.calculateCombatStrength(rangedUnit, rangedUnitTile);
         if (rangedUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
             strengthRangedUnit = bonusForAttackToCity(rangedUnit, strengthRangedUnit);
         }
@@ -107,13 +107,13 @@ public class CityCombatController {
         return response;
     }
 
-    private static int bonusForAttackToCity(RangedUnit rangedUnit, int strengthRangedUnit) {
+    private static int bonusForAttackToCity(RangedUnit rangedUnit, double strengthRangedUnit) {
         return (int) (strengthRangedUnit * 1.5);
     }
 
     private static String calculateNonRangeAttackToCity(NonRangedUnit nonRangedUnit, City city, Tile nonRangedTile, Tile cityTile) {
         String response = "Attack happened successfully";
-        int combatStrengthNonRangedUnit = Unit.calculateCombatStrength(nonRangedUnit, nonRangedTile);
+        double combatStrengthNonRangedUnit = Unit.calculateCombatStrength(nonRangedUnit, nonRangedTile);
         int EnemyCityStrength = city.calculateCombatStrength();
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrengthNonRangedUnit, city, EnemyCityStrength);
         response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
@@ -206,14 +206,14 @@ public class CityCombatController {
         setNewCivForCityTiles(city, cityTile, civ);
     }
 
-    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, int strengthRangedUnit, City city, int combatUnitStrength) {
-        int strengthDiff = strengthRangedUnit - combatUnitStrength;
+    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, double strengthRangedUnit, City city, int combatUnitStrength) {
+        double strengthDiff = strengthRangedUnit - combatUnitStrength;
         Random random = new Random();
         City.calculateDamage(city, strengthDiff, random);
     }
 
-    private static void calculateRangeAttackDamage(City city, int strengthRangedUnit, CombatUnit enemyUnit, int enemyUnitStrength) {
-        int strengthDiff = strengthRangedUnit - enemyUnitStrength;
+    private static void calculateRangeAttackDamage(City city, int strengthRangedUnit, CombatUnit enemyUnit, double enemyUnitStrength) {
+        double strengthDiff = strengthRangedUnit - enemyUnitStrength;
         Random random = new Random();
         Unit.calculateDamage(enemyUnit, enemyUnitStrength, random);
     }
@@ -224,8 +224,8 @@ public class CityCombatController {
         City.calculateDamage(enemyCity, cityStrength, random);
     }
 
-    private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, int combatStrengthNonRangedUnit, City city, int enemyCityStrength) {
-        int strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
+    private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrengthNonRangedUnit, City city, int enemyCityStrength) {
+        double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
         Random random = new Random();
         Unit.calculateDamage(nonRangedUnit, -strengthDiff, random);
         City.calculateDamage(city, strengthDiff, random);

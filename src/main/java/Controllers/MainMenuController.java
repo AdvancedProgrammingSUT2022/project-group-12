@@ -26,18 +26,3 @@ public class MainMenuController {
         return game;
     }
 }
-
-//        if (!checkUsernameValidation(usernames)) {
-//
-//        }
-//        Database database = Database.getInstance();
-//        for (String username : usernames) {
-//            User user = database.getUser(username);
-//            users.add(user);
-//        }
-//        Game game = new Game(users);
-//        database.addGame(game);
-//        for (User user : users) {
-//            user.addGame(game);
-//            user.setRunningGame(game);
-//        }

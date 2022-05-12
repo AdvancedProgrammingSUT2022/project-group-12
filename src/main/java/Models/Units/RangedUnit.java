@@ -3,28 +3,20 @@ package Models.Units;
 import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
-import Models.Tiles.Tile;
 
 public class RangedUnit extends CombatUnit {
-    private int rangedCombat;
-    private int rangedCombatStrength;
+    private double rangedCombat;
+    private double rangedCombatStrength;
 
     public RangedUnit(UnitEnum type, Civilization civ, Location location) {
         super(type, civ, location);
     }
 
-    protected static int calculateCombatStrength(RangedUnit rangedUnit, Tile itsTile) {
-        int strength = rangedUnit.getRangedCombatStrength();
-        strength = AffectTerrainFeatures(strength, itsTile);
-        strength = HealthBarAffect(strength, rangedUnit);
-        return strength;
-    }
-
-    public int getRangedCombat() {
+    public double getRangedCombat() {
         return rangedCombat;
     }
 
-    public int getRangedCombatStrength() {
+    public double getRangedCombatStrength() {
         return rangedCombatStrength;
     }
 

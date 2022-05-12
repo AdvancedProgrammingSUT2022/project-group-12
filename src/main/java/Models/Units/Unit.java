@@ -1,5 +1,6 @@
 package Models.Units;
 
+import Enums.TerrainEnum;
 import Enums.UnitEnum;
 import Enums.UnitStates;
 import Models.Cities.City;
@@ -43,25 +44,29 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
-    public static void calculateDamage(Unit unit, int strengthDiff, Random random) {
-        double random_number = (random.nextInt(50) + 75) / 100;
+    public static void calculateDamage(Unit unit, double strengthDiff, Random random) {
+        double random_number = (double) random.nextInt(75, 125) / 100;
         unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
 
-    public static int calculateCombatStrength(Unit unit, Tile itsTile) {
-        int strength = unit.getType().getCombatStrength();
-        strength = AffectTerrainFeatures(strength, itsTile);
-        strength = HealthBarAffect(strength, unit);
+    public static double calculateCombatStrength(Unit unit, Tile itsTile) {
+        double strength = unit.getType().getCombatStrength();
+        strength *= getTerrainFeaturesEffect(itsTile);
+        strength *= getHealthBarEffect(unit);
         return strength;
     }
 
-    protected static int HealthBarAffect(int strength, Unit unit) {
-        return (unit.getHealthBar() / 100) * strength;
+    protected static double getHealthBarEffect(Unit unit) {
+        return (double) unit.getHealthBar() / 100;
     }
 
-    protected static int AffectTerrainFeatures(int strength, Tile itsTile) {
-        //Todo : affect the terrain features
-        return 0;
+    protected static double getTerrainFeaturesEffect(Tile tile) {
+        double effect = 1;
+        effect *= 1 - (double) tile.getTerrain().getCombatModifier() / 100;
+        for (TerrainEnum terrainEnum : tile.getTerrain().getFeatures()) {
+            effect *= terrainEnum.getCombatModifier();
+        }
+        return effect;
     }
 
     public ArrayList<Tile> getPathShouldCross() {
