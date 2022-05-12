@@ -7,15 +7,11 @@ import Models.Citizen;
 import Models.Civilization;
 import Models.Location;
 import Models.Production;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
-import Models.Units.CombatUnit;
-import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.exp;
@@ -31,8 +27,6 @@ public class City {
     private  double productionFromCheat;
     protected boolean isCapital;
     private Civilization civilization;
-    private CombatUnit combatUnit;
-    private NonCombatUnit nonCombatUnit;
     private double happinessFromBuildings;
     private int foodFromBuildings;
     private int foodFromCheat;
@@ -40,8 +34,6 @@ public class City {
     private double production;
     private double productionFromBuildings;
     private int food;
-    private ArrayList<ResourceEnum> resources;
-    private ResourceEnum reservedResource;
     private int hitPoint;
     private double combatStrength;
     private int beaker;
@@ -51,11 +43,8 @@ public class City {
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
         this.tiles.add(tile);
-        this.combatUnit = null;
-        this.nonCombatUnit = null;
         this.goldProductionValue = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateProductionCount();
-        this.resources = new ArrayList<>(tile.getTerrain().getResource() == null ? List.of() : List.of(tile.getTerrain().getResource()));
         this.hitPoint = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
@@ -121,22 +110,6 @@ public class City {
         }
     }
 
-    public CombatUnit getCombatUnit() {
-        return this.combatUnit;
-    }
-
-    public void setCombatUnit(CombatUnit combatUnit) {
-        this.combatUnit = combatUnit;
-    }
-
-    public NonCombatUnit getNonCombatUnit() {
-        return this.nonCombatUnit;
-    }
-
-    public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
-        this.nonCombatUnit = nonCombatUnit;
-    }
-
     public int getRange() {
         return range;
     }
@@ -158,11 +131,14 @@ public class City {
     }
 
     public ArrayList<ResourceEnum> getResources() {
-        return this.resources;
-    }
-
-    public void setResources(ArrayList<ResourceEnum> resources) {
-        this.resources = resources;
+        ArrayList<ResourceEnum> resources = new ArrayList<>();
+        for (Tile tile : this.getTiles()) {
+            ResourceEnum resource = tile.getTerrain().getResource();
+            if (tile.getImprovements().contains(resource.getImprovementNeeded())) {
+                resources.add(resource);
+            }
+        }
+        return resources;
     }
 
     public int getHitPoint() {
@@ -247,15 +223,6 @@ public class City {
 
     public void setProduction(double production) {
         this.production = production;
-    }
-
-
-    public ResourceEnum getReservedResource() {
-        return reservedResource;
-    }
-
-    public void setReservedResource(ResourceEnum reservedResource) {
-        this.reservedResource = reservedResource;
     }
 
     public boolean hasBuilding(Building buildingName) {
@@ -349,36 +316,12 @@ public class City {
         return false;
     }
 
-    public double numberOfLuxuryResources() {
-        double counter = 0;
-        checkForReservedResource(this.reservedResource);
-        for (Tile tile :
-                this.getTiles()) {
-            Terrain terrain = tile.getTerrain();
-            ResourceEnum resource = terrain.getResource();
-            if (resource.isLuxury() && tile.getImprovements().contains(resource.getImprovementNeeded())) {
-                ++counter;
-            }
-        }
-        return counter;
-    }
-
     public int getFoodFromCheat() {
         return foodFromCheat;
     }
 
     public void setFoodFromBuildings(int foodFromBuildings) {
         this.foodFromBuildings = foodFromBuildings;
-    }
-
-    private void checkForReservedResource(ResourceEnum reservedResource) {
-        if (reservedResource == null) {
-            return;
-        }
-        if (reservedResource.getImprovementNeeded().hasRequiredTechs(this.civilization.getTechnologies())) {
-            this.resources.add(reservedResource);
-            reservedResource = null;
-        }
     }
 
     public int getFoodFromBuildings() {
@@ -468,23 +411,15 @@ public class City {
         double gold = 0;
         double production = 0;
         double food = 0;
-        for (ResourceEnum resource:
-             this.resources) {
+        for (ResourceEnum resource : this.getResources()) {
             food += resource.getFoodCount();
             production += resource.getProductCount();
             gold += resource.getGoldCount();
         }
-        switch (name){
-            case "gold" -> {
-                return gold;
-            }
-            case "production" -> {
-                return production;
-            }
-            case "food" -> {
-                return food;
-            }
-        }
-        return 0;
+        return switch (name) {
+            case "gold" -> gold;
+            case "production" -> production;
+            case "food" -> food;
+        };
     }
 }

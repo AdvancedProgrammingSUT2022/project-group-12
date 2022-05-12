@@ -119,7 +119,6 @@ public class GameController {
         Unit settler = tile.getNonCombatUnit();
         GameController.deleteUnit(settler);
         if (isCapital) civ.setCapital(city);
-        checkForResource(tile, city, civ);
         return city;
     }
 
@@ -128,18 +127,6 @@ public class GameController {
             if (neighbor.getCity() != null) return true;
         }
         return false;
-    }
-
-    private static void checkForResource(Tile tile, City newCity, Civilization civ) {
-        //Todo : fekre bishtar
-        ResourceEnum cityResource = tile.getTerrain().getResource();
-        if (cityResource != null) {
-            if (civ.isPossibleToHaveThisResource(cityResource)) {
-                newCity.getResources().add(cityResource);
-            } else {
-                newCity.setReservedResource(cityResource);
-            }
-        }
     }
 
     public static String fortifyUnit(Unit unit) throws CommandException {
@@ -194,8 +181,8 @@ public class GameController {
         for (Building building : city.getBuildings()) {
             message.append("city building : " + building.getType().toString().toLowerCase() + '\n');
         }
-        message.append("city combat unit : " + city.getCombatUnit() + '\n');
-        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
+        message.append("city combat unit : " + city.getTile().getCombatUnit() + '\n');
+        message.append("city nonCombat unit : " + city.getTile().getNonCombatUnit() + '\n');
         for (Tile cityTile : city.getTiles()) {
             if (cityTile.getCitizen() != null) {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');

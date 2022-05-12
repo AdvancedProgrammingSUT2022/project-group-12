@@ -53,8 +53,7 @@ public enum BuildingNoteEnum {
     MARKET_NOTE((BuildingNotes<City>) city -> city.setGoldProductionValue(city.getGoldProductionValue() + city.getGoldProductionValue() / 4)),
     MINT_NOTE((BuildingNotes<City>) city -> {
         int counter = 0;
-        for (ResourceEnum resource :
-                city.getResources()) {
+        for (ResourceEnum resource : city.getResources()) {
             if (resource == ResourceEnum.GOLD || resource == ResourceEnum.SILVER) {
                 ++counter;
             }

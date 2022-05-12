@@ -126,15 +126,6 @@ public class Command {
         }
     }
 
-    public void assertOptionType(String option, String type) throws CommandException {
-        String value = this.getOption(option);
-        if (type.equals("integer")) {
-            if (!value.matches("^-?\\d+$")) {
-                throw new CommandException(CommandResponse.INVALID_OPTION_TYPE, option + " must be " + type);
-            }
-        }
-    }
-
     public Location getLocationOption(String key) throws CommandException {
         String value = this.getOption(key);
         String[] parts = value.split("\\s+");

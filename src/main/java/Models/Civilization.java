@@ -3,7 +3,6 @@ package Models;
 import Controllers.CivilizationController;
 import Enums.*;
 import Models.Cities.City;
-import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
@@ -13,7 +12,10 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Civilization {
 
@@ -278,45 +280,22 @@ public class Civilization {
         for (City city : this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
-        int numberOfLuxuryResource = (int) this.numberOfLuxuryResources();
+        int numberOfLuxuryResource = this.getAvailableLuxuryResources().size();
         this.happiness += numberOfLuxuryResource * 4;
         detectHappinessState(happiness);
         return happiness;
     }
 
-    public double numberOfLuxuryResources() {
-        double counter = 0;
-        Set<Tile> visitedTiles = new TreeSet<>();
+    public ArrayList<ResourceEnum> getAvailableLuxuryResources() {
+        ArrayList<ResourceEnum> resources = new ArrayList<>();
         for (City city : this.cities) {
-            counter += numberOfCityLuxuryResources(city, visitedTiles);
-        }
-
-        return counter;
-    }
-
-    public double numberOfCityLuxuryResources(City city, Set<Tile> tiles) {
-        double counter = 0;
-        checkForReservedResource(city.getReservedResource(), city);
-        for (Tile tile :
-                city.getTiles()) {
-            Terrain terrain = tile.getTerrain();
-            ResourceEnum resource = terrain.getResource();
-            if (resource.isLuxury() && tile.getImprovements().contains(resource.getImprovementNeeded()) && !tiles.contains(tile)) {
-                ++counter;
+            for (ResourceEnum resource : city.getResources()) {
+                if (resource.isLuxury() && !resources.contains(resource)) {
+                    resources.add(resource);
+                }
             }
-            tiles.add(tile);
         }
-        return counter;
-    }
-
-    private void checkForReservedResource(ResourceEnum reservedResource, City city) {
-        if (reservedResource == null) {
-            return;
-        }
-        if (reservedResource.getImprovementNeeded().hasRequiredTechs(city.getCivilization().getTechnologies())) {
-            city.getResources().add(reservedResource);
-            reservedResource = null;
-        }
+        return resources;
     }
 
     public TerrainColor getColor() {
