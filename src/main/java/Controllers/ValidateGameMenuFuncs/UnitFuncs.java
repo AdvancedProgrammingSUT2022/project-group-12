@@ -28,49 +28,6 @@ public class UnitFuncs {
         return CommandResponse.OK;
     }
 
-    private CommandResponse isPossibleToBuild(Tile currentTile, Civilization currentCivilization, ImprovementEnum improvement) {
-//        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
-//            return CommandResponse.WRONG_UNIT;
-//        }
-//        if (isExists(currentTile, improvement)) {
-//            return CommandResponse.IMPROVEMENT_EXISTS;
-//        }
-//        if (isPossibleToBuildInThisTerrain(currentCivilization, improvement)) {
-//            return CommandResponse.YOU_HAVE_NOT_REQUIRED_OPTIONS;
-//        }
-        return CommandResponse.OK;
-    }
-
-    private boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
-//        return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
-        return true;
-    }
-
-//    public void unitGarrison(Command command) {
-//        Civilization civilization = getCurrentCivilization();
-//        Tile currentTile = getCurrentTile();
-//        CommandResponse response = validateForGarrison(currentTile, civilization);
-//        if (response.isOK()) {
-//            System.out.println(GameController.garrisonUnit(currentTile, civilization));
-//        } else {
-//            System.out.println(response);
-//        }
-//    }
-
-//    private CommandResponse validateForGarrison(Tile currentTile, Civilization civilization) {
-//        if (currentTile.getCombatUnit() == null) {
-//            return CommandResponse.UNIT_DOES_NOT_EXISTS;
-//        }
-//        if (!(civilization.getCurrentTile().getCombatUnit().getCivilization() == civilization)) {
-//            return CommandResponse.NOT_HAVING_UNIT;
-//        }
-//        if (!(civilization.getCurrentTile().getCity() == null)) {
-//            return CommandResponse.CITY_DOES_NOT_EXISTS;
-//        }
-//        return CommandResponse.OK;
-//
-//    }
-
     public void unitFortify(Unit selectedUnit, Command command) throws CommandException {
         if (command.getSubSubCategory().equals("heal")) {
             GameController.fortifyHealUnit(selectedUnit);

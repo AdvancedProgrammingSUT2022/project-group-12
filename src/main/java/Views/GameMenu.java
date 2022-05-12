@@ -619,6 +619,11 @@ public class GameMenu extends Menu {
     }
 
     public void unitBuildImprovement(ImprovementEnum improvement) {
-        GameController.buildImprovement(this.selectedUnit, improvement);
+        try {
+            GameController.buildImprovement(this.selectedUnit, improvement);
+            System.out.println("improvement built on " + this.selectedUnit.getLocation() + " successfully");
+        } catch (CommandException e) {
+            e.print();
+        }
     }
 }

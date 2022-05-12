@@ -329,12 +329,24 @@ public class GameController {
         return null;
     }
 
-    public static void deleteNonCombatUnit(Civilization currentCivilization, Tile currentTile) {
-        // todo, dummy function
+    public static void buildImprovement(Unit unit, ImprovementEnum improvement) throws CommandException {
+        Tile tile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
+        if (unit.getType() != UnitEnum.WORKER) {
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+//        if (improvement.hasRequiredTechs())
+        if (tile.getImprovements().contains(improvement)) {
+            throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
+        }
+//        if (isPossibleToBuildInThisTerrain(currentCivilization, improvement)) {
+//            throw new CommandException(CommandResponse.YOU_HAVE_NOT_REQUIRED_OPTIONS);
+//        }
     }
 
-    public static void buildImprovement(Unit unit, ImprovementEnum improvement) {
-        // todo, validations
+    private static boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
+        // todo: complete
+        //        return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
+        return true;
     }
 
     public static boolean checkForRivers(Tile tile, Tile tile1) {
