@@ -75,8 +75,8 @@ public class GameMenu extends Menu {
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
             case "city" -> this.city(command);
-            case "end" -> this.end(command);
             case "cheat" -> this.cheat(command);
+            case "end" -> this.end(command);
             default -> System.out.println(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -287,7 +287,7 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
-            UnitEnum unit = UnitEnum.valueOf(unitName);
+            UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
             GameController.cityBuildUnit(selectedCity, unit);
             System.out.println(unitName + " added to production queue of " + this.selectedCity.getName());
         } catch (CommandException e) {
@@ -403,7 +403,7 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             GameController.getGame().getTileGrid().assertLocationValid(location);
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
-            GameController.getGame().getCurrentCivilization().setCurrentSelectedGridLocation(selectedUnit.getLocation());
+            setCamera(location);
         } catch (CommandException e) {
             e.print();
             return;
@@ -415,13 +415,15 @@ public class GameMenu extends Menu {
         command.abbreviate("name", "n");
         command.abbreviate("position", "p");
         try {
+            Civilization civ = GameController.getGame().getCurrentCivilization();
             if (command.getOption("position") != null) {
-                this.selectedCity = selectCityByPosition(command.getLocationOption("position"));
+                this.selectedCity = GameController.selectCityByPosition(civ, command.getLocationOption("position"));
             } else if (command.getOption("name") != null) {
-                this.selectedCity = selectCityByName(command.getOption("name"));
+                this.selectedCity = GameController.selectCityByName(civ, command.getOption("name"));
             } else {
                 new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, "name/position").print();
             }
+            setCamera(this.selectedCity.getLocation());
         } catch (CommandException e) {
             e.print();
             return;
@@ -537,17 +539,16 @@ public class GameMenu extends Menu {
         command.abbreviate("amount", "a");
         try {
             command.assertOptions(List.of("amount"));
-            command.assertOptionType("amount", "integer");
+            int amount = command.getIntOption("amount");
+            if (!List.of("right", "left", "up", "down").contains(command.getSubSubCategory())) {
+                new CommandException(CommandResponse.INVALID_DIRECTION).print();
+                return;
+            }
+            getMapFuncs().moveMapByDirection(command.getSubSubCategory(), amount);
+            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         } catch (CommandException e) {
             e.print();
-            return;
         }
-        if (!List.of("right", "left", "up", "down").contains(command.getSubSubCategory())) {
-            System.out.println(CommandResponse.INVALID_DIRECTION);
-            return;
-        }
-        getMapFuncs().moveMapByDirection(command.getSubSubCategory(), Integer.parseInt(command.getOption("amount")) );
-        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
     }
 
     private void unitMove(Command command) {
@@ -574,28 +575,6 @@ public class GameMenu extends Menu {
         } catch (CommandException e) {
             e.print();
         }
-    }
-
-    public City selectCityByPosition(Location location) throws CommandException {
-        if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
-            throw new CommandException(CommandResponse.INVALID_POSITION);
-        }
-        City city = GameController.getGame().getTileGrid().getTile(location).getCity();
-        Civilization civ = GameController.getGame().getCurrentCivilization();
-        if (city == null || city.getCivilization() != civ) {
-            throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
-        }
-        return city;
-    }
-
-    public City selectCityByName(String name) throws CommandException {
-        Civilization civ = GameController.getGame().getCurrentCivilization();
-        for (City city : civ.getCities()) {
-            if (city.getName().equals(name)) {
-                return city;
-            }
-        }
-        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 
     private void cityCitizenModify(Command command, boolean isAssigning) {
