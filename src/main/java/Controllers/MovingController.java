@@ -32,9 +32,7 @@ public class MovingController {
             Location location = unit.getPathShouldCross().get(0).getLocation();
             calculateMovementCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
-            tileGrid.getTile(unit.getLocation()).setNullUnit(unit);
-            unit.setLocation(location);
-            tileGrid.getTile(unit.getLocation()).setUnit(unit);
+            tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(location));
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
             unit.getCivilization().setCurrentSelectedGridLocation(location);
             unit.getPathShouldCross().remove(0);
@@ -58,13 +56,13 @@ public class MovingController {
     private static void CaptureTheNonCombatUnit(Tile tile, Civilization civ) {
         NonCombatUnit capturedUnit = tile.getNonCombatUnit();
         if (capturedUnit.getType() == UnitEnum.WORKER || capturedUnit.getType() == UnitEnum.SETTLER) {
-            /***
-             * non combat unit has captured
+            /*
+             non combat unit has captured
              */
             capturedUnit.setType(UnitEnum.WORKER);
             capturedUnit.setCiv(civ);
         } else {
-            /***
+            /*
              * nonCombat has killed
              */
             GameController.deleteUnit(tile.getNonCombatUnit());
@@ -101,13 +99,6 @@ public class MovingController {
             }
         }
         return false;
-    }
-
-    private static void checkForFogOfWars(TileGrid tileGrid, Tile tile) {
-        ArrayList<Tile> tiles = tileGrid.getNeighborsOf(tile);
-        tiles.forEach(temp_tile -> {
-            if (temp_tile.getState() == VisibilityEnum.FOG_OF_WAR) temp_tile.setState(VisibilityEnum.VISIBLE);
-        });
     }
 
     // todo: move bug found

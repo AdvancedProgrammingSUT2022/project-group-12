@@ -141,8 +141,7 @@ public class CityCombatController extends CombatController{
                 city.setHitPoint(1);
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT);
             } else if (unit instanceof NonRangedUnit) {
-                cityTile.setUnit(unit);
-                unitTile.setNullUnit(unit);
+                unitTile.transferUnitTo(unit, cityTile);
                 return captureTheCity(unit.getCivilization(), unit, city, cityTile, city.getCivilization());
             }
         }

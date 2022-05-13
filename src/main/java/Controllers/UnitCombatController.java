@@ -78,10 +78,8 @@ public class UnitCombatController extends CombatController {
         if (unitEnemy.getHealthBar() <= 0) {
             isHaveKill = true;
             GameController.deleteUnit(unitEnemy);
-
             if (combatUnit instanceof NonRangedUnit) {
-                combatUnitTile.setNullUnit(combatUnit);
-                unitEnemyTile.setUnit(combatUnit);
+                combatUnitTile.transferUnitTo(combatUnit, unitEnemyTile);
             }
         }
         if (isHaveKill) return "Unit was killed";

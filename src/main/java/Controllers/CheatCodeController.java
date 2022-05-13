@@ -60,8 +60,7 @@ public class CheatCodeController {
         UnitFuncs.validateTileForMovingUnit(location, unit);
         Tile currentTile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
         Tile destTile = GameController.getGame().getTileGrid().getTile(location);
-        currentTile.setNullUnit(unit);
-        destTile.setUnit(unit);
+        currentTile.transferUnitTo(unit, destTile);
     }
 
     public void increaseProduction(City city, int amount) {

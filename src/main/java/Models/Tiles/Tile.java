@@ -159,9 +159,9 @@ public class Tile {
     // @NotNull reminds not to set tile units to null, directly
     public void setUnit(@NotNull Unit unit) {
         if (unit instanceof CombatUnit combatUnit) {
-            setCombatUnit(combatUnit);
+            this.setCombatUnit(combatUnit);
         } else if (unit instanceof NonCombatUnit nonCombatUnit) {
-            setNonCombatUnit(nonCombatUnit);
+            this.setNonCombatUnit(nonCombatUnit);
         }
     }
 
@@ -177,18 +177,20 @@ public class Tile {
         return new Tile(this);
     }
 
-    public void setNullUnit(Unit unit) {
-        if (unit instanceof CombatUnit) {
-            setCombatUnit(null);
-        } else {
-            setNonCombatUnit(null);
+    public void transferUnitTo(Unit unit, Tile that) {
+        if (unit instanceof CombatUnit combatUnit) {
+            this.setCombatUnit(null);
+            that.setCombatUnit(combatUnit);
+        } else if (unit instanceof NonCombatUnit nonCombatUnit) {
+            this.setNonCombatUnit(null);
+            that.setNonCombatUnit(nonCombatUnit);
         }
     }
 
     public double calculateMovementCost() {
         double cost = terrain.getMovementCost();
         if (this.improvements.contains(ImprovementEnum.ROAD)) {
-           cost *= (2 / 3);
+           cost *= (2.0 / 3);
         }else if(this.improvements.contains(ImprovementEnum.RAILROAD)){
             cost /= 2;
         }
