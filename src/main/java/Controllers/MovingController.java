@@ -110,6 +110,7 @@ public class MovingController {
         });
     }
 
+    // todo: move bug found
     protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
         // Dijkstra algorithm for shortest path
         int targetRow = location.getRow();
@@ -123,7 +124,6 @@ public class MovingController {
         shortestPath.put(sourceTile, new ArrayList<>(List.of(sourceTile)));
         Tile p;
         Tile first;
-        Tile second;
 
         while (true) {
             heap.sort(Comparator.comparing(distance::get));

@@ -11,8 +11,6 @@ import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
 public class Civilization {
 
@@ -45,8 +43,7 @@ public class Civilization {
     private Location currentSelectedGridLocation = new Location(0, 0);
 
     public Civilization(User user, TerrainColor color) {
-        List<TerrainColor> colors = List.of(TerrainColor.GREEN, TerrainColor.RED);
-        this.color = colors.get(new Random().nextInt(colors.size()));
+        this.color = color;
         this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;

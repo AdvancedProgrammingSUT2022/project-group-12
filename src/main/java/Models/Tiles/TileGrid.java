@@ -55,6 +55,26 @@ public class TileGrid {
         this.tiles[location.getRow()][location.getCol()] = tile;
     }
 
+    public ArrayList<Tile> getAllTilesInRadius(Tile sourceTile, int rad) {
+        Map<Tile, Integer> dist = new HashMap<>();
+        Deque<Tile> queue = new ArrayDeque<>();
+        queue.add(sourceTile);
+        dist.put(sourceTile, 0);
+        while (!queue.isEmpty()) {
+            Tile x = queue.poll();
+            if (dist.get(x) < rad && (!x.getTerrain().getTerrainType().isBlockingView() ||
+                    x == sourceTile || sourceTile.getTerrain().getTerrainType() == TerrainEnum.HILL)) {
+                for (Tile y : this.getNeighborsOf(x)) {
+                    if (!dist.containsKey(y)) {
+                        queue.add(y);
+                        dist.put(y, dist.get(x) + 1);
+                    }
+                }
+            }
+        }
+        return new ArrayList<>(dist.keySet());
+    }
+
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
         int row = tile.getRow(), col = tile.getCol();
         ArrayList<Tile> tiles = new ArrayList<>();
@@ -64,34 +84,9 @@ public class TileGrid {
         } else {
             neighbors = List.of(new Location(-2, 0), new Location(2, 0), new Location(-1, 0), new Location(1, 0), new Location(-1, 1), new Location(1, 1));
         }
-        for (Location location : neighbors) {
-            int nrow = row + location.getRow();
-            int ncol = col + location.getCol();
-            Tile ntile = this.getTile(nrow, ncol);
-            if (ntile != null) tiles.add(ntile);
-        }
-        return tiles;
-    }
-
-    // todo: duplicate source in output
-    public ArrayList<Tile> getAllTilesInRadius(Tile sourceTile, int rad) {
-        ArrayList<Tile> tiles = new ArrayList<>();
-        HashMap<Tile, Integer> dist = new HashMap<>();
-        ArrayDeque<Tile> queue = new ArrayDeque<>();
-        queue.add(sourceTile);
-        dist.put(sourceTile, 0);
-        while (!queue.isEmpty()) {
-            Tile x = queue.poll();
-            tiles.add(x);
-            if (dist.get(x) >= rad || (x != sourceTile && x.getTerrain().getTerrainType().isBlockingView() && sourceTile.getTerrain().getTerrainType() != TerrainEnum.HILL)) {
-                continue;
-            }
-            for (Tile y : this.getNeighborsOf(x)) {
-                if (!dist.containsKey(y)) {
-                    queue.add(y);
-                    dist.put(y, dist.get(x) + 1);
-                }
-            }
+        for (Location adj : neighbors) {
+            Tile neighbor = this.getTile(row + adj.getRow(), col + adj.getCol());
+            if (neighbor != null) tiles.add(neighbor);
         }
         return tiles;
     }
