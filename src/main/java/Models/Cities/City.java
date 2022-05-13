@@ -238,17 +238,14 @@ public class City {
         food += (int) getSourcesFromTiles("food");
         food -= this.citizensCount * 2;
         food = settlerEffectOnFoods(food);
-        if (food < 0) {
-            this.citizensCount -= 1;
-            killCitizen();
-        }
+
         if (food > 0) {
             food = checkForHappinessState(food);
         }
         return food;
     }
 
-    private void killCitizen() {
+    public void killCitizen() {
         Collections.shuffle(this.getTiles());
         for (Tile tile :
                 this.getTiles()) {

@@ -54,7 +54,7 @@ public class CityCombatController extends CombatController{
     }
 
     private static int calculateRangeOfCityAttack(Tile currentTile, City city) {
-        //todo : calculate range of city attack
+
         return 0;
     }
 

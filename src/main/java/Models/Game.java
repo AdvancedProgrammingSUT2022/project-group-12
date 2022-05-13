@@ -71,7 +71,7 @@ public class Game {
         civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
-    public void endCurrentTurn() throws GameException {
+    public void endCurrentTurn() throws GameException, CommandException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
         //todo : complete
@@ -93,6 +93,16 @@ public class Game {
                 throw new GameException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
             } else if (city.getProductionQueue().isEmpty()) {
                 throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
+            }
+        }
+        checkForKillingCiziten(civ);
+    }
+
+    private void checkForKillingCiziten(Civilization civ) throws CommandException {
+        for (City city :
+                civ.getCities()) {
+            if (city.calculateFood() < 0) {
+                city.killCitizen();
             }
         }
     }
