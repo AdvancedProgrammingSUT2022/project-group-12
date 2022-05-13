@@ -22,7 +22,7 @@ import java.util.List;
 public class Game {
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
-    private int gameTurn;
+    private int gameTurn = -1;
 
     public Game(ArrayList<User> users) {
         this.civilizations = new ArrayList<>();
@@ -143,7 +143,7 @@ public class Game {
         }
     }
 
-    public void startNextTurn() {
+    public void startNewTurn() {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         civ.applyNotes();
         this.gameTurn++;
@@ -173,5 +173,9 @@ public class Game {
         } else {
             return unit;
         }
+    }
+
+    public int getGameTurnNumber() {
+        return this.gameTurn;
     }
 }

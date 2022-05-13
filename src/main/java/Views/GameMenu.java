@@ -36,7 +36,7 @@ public class GameMenu extends Menu {
 
     @Override
     public void firstRun() {
-        startOfTurnInfo(GameController.getGame().getCurrentCivilization());
+        this.startNewTurn();
     }
 
     public static void printError(CommandResponse commandResponse) {
@@ -44,7 +44,7 @@ public class GameMenu extends Menu {
     }
 
     public void startOfTurnInfo(Civilization civilization) {
-        System.out.println("turn of: " + civilization.getName());
+        System.out.println("turn " + (GameController.getGame().getGameTurnNumber() + 1) + ", turn of: " + civilization.getName());
     }
 
     public InfoFuncs getInfoFuncs() {
@@ -99,7 +99,7 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             CheatCodeController.getInstance().teleport(location,selectedUnit);
             setCamera(location);
-            System.out.println("unit telported on " + location + "  successfully");
+            System.out.println("unit teleported on " + location + "  successfully");
         } catch (CommandException e) {
             e.print();
         }
@@ -272,13 +272,14 @@ public class GameMenu extends Menu {
             e.print();
             return;
         }
+        System.out.println("end of turn");
+        System.out.println("------------------------------");
         this.startNewTurn();
     }
 
     private void startNewTurn() {
-        System.out.println("end of turn");
-        System.out.println("------------------------------");
-        GameController.getGame().startNextTurn();
+        GameController.getGame().startNewTurn();
+        showTheMap();
         startOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 
@@ -555,7 +556,7 @@ public class GameMenu extends Menu {
 
     private void map(Command command) {
         switch (command.getSubCategory()) {
-            case "show" -> getMapFuncs().showMap(command);
+            case "show" -> this.mapShow(command);
             case "move" -> this.moveMap(command);
             default -> System.out.println(CommandResponse.INVALID_SUBCOMMAND);
         }
@@ -566,12 +567,13 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
-            if (!List.of("right", "left", "up", "down").contains(command.getSubSubCategory())) {
+            String direction = command.getSubSubCategory();
+            if (!List.of("right", "left", "up", "down").contains(direction)) {
                 new CommandException(CommandResponse.INVALID_DIRECTION).print();
                 return;
             }
-            getMapFuncs().moveMapByDirection(command.getSubSubCategory(), amount);
-            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
+            getMapFuncs().moveMapByDirection(direction, amount);
+            System.out.println("map moved " + amount + " unit " + direction + " successfully");
         } catch (CommandException e) {
             e.print();
         }
@@ -583,9 +585,8 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             getUnitFuncs().unitMoveTo(selectedUnit, location);
-            System.out.println("unit moved to " + location + " successfully");
-            getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
             setCamera(location);
+            System.out.println("unit moved to " + location + " successfully");
         } catch (CommandException e) {
             e.print();
         }
@@ -657,5 +658,21 @@ public class GameMenu extends Menu {
         } catch (CommandException e) {
             e.print();
         }
+    }
+
+    public void mapShow(Command command) {
+        if ((command.getOption("position")) != null) {
+            try {
+                Location location = command.getLocationOption("position");
+                setCamera(location);
+            } catch (CommandException e) {
+                e.print();
+            }
+        }
+        showTheMap();
+    }
+
+    private void showTheMap() {
+        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
     }
 }

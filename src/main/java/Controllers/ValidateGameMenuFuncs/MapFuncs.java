@@ -3,25 +3,10 @@ package Controllers.ValidateGameMenuFuncs;
 import Controllers.GameController;
 import Models.Location;
 import Models.Tiles.TileGrid;
-import Utils.Command;
-import Utils.CommandException;
 import Utils.Constants;
 import Views.TileGridPrinter;
 
 public class MapFuncs {
-
-    public void showMap(Command command) {
-        if ((command.getOption("position")) != null) {
-            try {
-                Location location = command.getLocationOption("position");
-                showMapPosition(location);
-            } catch (CommandException e) {
-                e.print();
-            }
-        } else {
-            showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
-        }
-    }
 
     public void showMapPosition(Location location) {
         GameController.getGame().updateRevealedTileGrid(GameController.getGame().getCurrentCivilization());
