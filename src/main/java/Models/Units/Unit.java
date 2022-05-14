@@ -34,6 +34,18 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
+    public static Unit constructUnitFromEnum(UnitEnum unitEnum, Civilization civ, Location location) {
+        if (unitEnum.isACombatUnit()) {
+            if (unitEnum.isRangedUnit()) {
+                return new RangedUnit(unitEnum, civ, location);
+            } else {
+                return new NonRangedUnit(unitEnum, civ, location);
+            }
+        } else {
+            return new NonCombatUnit(unitEnum, civ, location);
+        }
+    }
+
     public void resetMovementCount() {
         this.availableMoveCount = type.getMovement();
     }

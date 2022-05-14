@@ -181,7 +181,8 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             String unitName = command.getOption("unit");
             UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
-            CheatCodeController.getInstance().spawnUnit(unit, location);
+            Civilization civilization = GameController.getGame().getCurrentCivilization();
+            CheatCodeController.getInstance().spawnUnit(unit, civilization, location);
             setCamera(location);
             answer(unitName + " spawned at " + location + " successfully");
         } catch (CommandException e) {

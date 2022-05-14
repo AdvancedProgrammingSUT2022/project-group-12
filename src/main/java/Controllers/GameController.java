@@ -17,10 +17,7 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class GameController {
@@ -126,7 +123,8 @@ public class GameController {
         int food = 2 + tile.calculateSources("food");
         boolean isCapital = civ.getCapital() == null;
         ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
-        City city = new City("City1", territoryTiles, civ, tile, isCapital);
+        String cityName = Constants.CITY_NAMES[new Random().nextInt(Constants.CITY_NAMES.length)];
+        City city = new City(cityName, territoryTiles, civ, tile, isCapital);
         for (Tile neighbor : territoryTiles) neighbor.setCivilization(civ);
         tile.setCity(city);
         civ.addCity(city);
@@ -409,36 +407,22 @@ public class GameController {
 
 
     public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
-        if (city.getCivilization().getGold() < unitEnum.calculateGoldCost()) {
+        Civilization civ = city.getCivilization();
+        if (civ.getGold() < unitEnum.calculateGoldCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
-        city.getCivilization().addGold(-unitEnum.calculateGoldCost());
+        civ.addGold(-unitEnum.calculateGoldCost());
         Tile tile = city.getTile();
-        Unit unit;
-        if (unitEnum.isACombatUnit()) {
-            if (tile.getCombatUnit() != null) {
-                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
-            }
-            unit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation());
-        } else {
-            if (tile.getNonCombatUnit() != null) {
-                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getType().name());
-            }
-            unit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation());
-        }
-        tile.setUnit(unit);
+        Unit unit = Unit.constructUnitFromEnum(unitEnum, civ, city.getLocation());
+        tile.placeUnit(unit);
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
         if (city.getCivilization().getGold() < unitEnum.getProductionCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
-        Unit unit;
-        if (unitEnum.isACombatUnit()) {
-            unit = new CombatUnit(unitEnum, city.getCivilization(), city.getLocation(), unitEnum.getProductionCost());
-        } else {
-            unit = new NonCombatUnit(unitEnum, city.getCivilization(), city.getLocation(), unitEnum.getProductionCost());
-        }
+        Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
+        unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);
     }
 

@@ -81,29 +81,31 @@ public class CombatTest {
     @Test
     public void calculateRangeAttackDamage() {
         String response = "Attack happened successfully";
-        enemyTile.setUnit(enemyUnit);
-        enemyUnit.setHealthBar(10);
-        ownTile.setUnit(myRangedCombatUnit);
+        Assertions.assertDoesNotThrow(() -> {
+            enemyTile.placeUnit(enemyUnit);
+            enemyUnit.setHealthBar(10);
+            ownTile.placeUnit(myRangedCombatUnit);
+        });
         double strengthRangedUnit = Unit.calculateCombatStrength(myRangedCombatUnit, ownTile, "rangedcombatstrength");
         double combatUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
         double strengthDiff = strengthRangedUnit - combatUnitStrength;
         Random random = new Random();
         Unit.calculateDamage(enemyUnit, strengthDiff, random);
-        Assertions.assertTrue(ownTile.getCombatUnit() != null);
+        Assertions.assertNotNull(ownTile.getCombatUnit());
     }
 
     @Test
     public void calculateNonRangeAttack() {
         String response = "Attack happened successfully";
-        enemyTile.setUnit(nonRangedUnitEnemy);
-        ownTile.setUnit(myNonRangedCombatUnit);
+        enemyTile.placeUnit(nonRangedUnitEnemy);
+        ownTile.placeUnit(myNonRangedCombatUnit);
         myNonRangedCombatUnit.setHealthBar(50);
         nonRangedUnitEnemy.setHealthBar(10);
         double combatStrength1 = myNonRangedCombatUnit.calculateCombatStrength(myNonRangedCombatUnit, ownTile, "combatstrength");
         double combatStrength2 = nonRangedUnitEnemy.calculateCombatStrength(nonRangedUnitEnemy, enemyTile, "combatstrength");
         UnitCombatController.calculateNonRangeAttackDamage(myNonRangedCombatUnit, combatStrength1, nonRangedUnitEnemy, combatStrength2);
         response = UnitCombatController.checkForKill(myNonRangedCombatUnit, nonRangedUnitEnemy, ownTile, enemyTile);
-        Assertions.assertTrue(ownTile.getCombatUnit() == null);
+        Assertions.assertNull(ownTile.getCombatUnit());
     }
 
     @Test
@@ -123,8 +125,8 @@ public class CombatTest {
         myCity.setHitPoint(10);
         enemyUnit.setHealthBar(30);
         enemyTile.setCity(myCity);
-        enemyTile.setUnit(myRangedCombatUnit);
-        ownTile.setUnit(enemyUnit);
+        enemyTile.placeUnit(myRangedCombatUnit);
+        ownTile.placeUnit(enemyUnit);
         double strengthRangedUnit = myCity.calculateCombatStrength();
         double EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, ownTile, "combatstrengh");
         CityCombatController.calculateRangeAttackDamage(myCity, strengthRangedUnit, enemyUnit, EnemyUnitStrength);
@@ -136,7 +138,7 @@ public class CombatTest {
     public void calculateNonRangeAttackToCity() throws CommandException {
         String response = "Attack happened successfully";
         myNonRangedCombatUnit.setHealthBar(100);
-        enemyTile.setUnit(nonRangedUnitEnemy);
+        enemyTile.placeUnit(nonRangedUnitEnemy);
         enemyCity.setHitPoint(10);
         double combatStrengthNonRangedUnit = Unit.calculateCombatStrength(myNonRangedCombatUnit, ownTile, "combatstrength");
         double EnemyCityStrength = enemyCity.calculateCombatStrength();
@@ -149,7 +151,7 @@ public class CombatTest {
     public void calculateRangeAttackToCity() throws CommandException {
         String response = "Attack happened successfully";
         myRangedCombatUnit.setHealthBar(100);
-        enemyTile.setUnit(nonRangedUnitEnemy);
+        enemyTile.placeUnit(nonRangedUnitEnemy);
         enemyCity.setHitPoint(10);
         double strengthRangedUnit = Unit.calculateCombatStrength(myRangedCombatUnit, ownTile, "rangedcombatstrength");
         if (myRangedCombatUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
@@ -163,7 +165,7 @@ public class CombatTest {
     @Test
     public void calculateCityRangeAttackToCity() throws CommandException {
         String response = "Attack happened successfully";
-        enemyTile.setUnit(nonRangedUnitEnemy);
+        enemyTile.placeUnit(nonRangedUnitEnemy);
         enemyCity.setHitPoint(10);
         double strengthRangedUnit = enemyCity.calculateCombatStrength();
         double EnemyUnitStrength = myCity.calculateCombatStrength();

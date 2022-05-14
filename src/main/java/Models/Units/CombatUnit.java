@@ -4,7 +4,7 @@ import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
 
-public class CombatUnit extends Unit {
+public abstract class CombatUnit extends Unit {
     protected int combatStrength;
     protected boolean isSetup;
 

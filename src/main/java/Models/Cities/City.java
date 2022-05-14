@@ -174,7 +174,7 @@ public class City {
             advanceProductionQueue();
             if (productionQueue.size() < size) {
                 if (product instanceof Unit) {
-                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), getLocation());
+                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), this.getCivilization(), getLocation());
                 }
                 size = productionQueue.size();
             }
@@ -192,7 +192,12 @@ public class City {
                 this.getCivilization().addUnit(unit);
                 // todo: already a unit on city tile
                 unit.getCivilization().addUnit(unit);
-                this.cityTile.setUnit(unit);
+                try {
+                    this.cityTile.placeUnit(unit);
+                } catch (CommandException e) {
+                    // we should guarantee emptiness of the tile at the last turn
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

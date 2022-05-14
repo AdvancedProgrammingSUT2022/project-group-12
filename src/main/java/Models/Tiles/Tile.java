@@ -11,6 +11,8 @@ import Models.Terrains.Terrain;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
+import Utils.CommandException;
+import Utils.CommandResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -149,10 +151,13 @@ public class Tile {
     }
 
     // @NotNull reminds not to set tile units to null, directly
-    public void setUnit(@NotNull Unit unit) {
+    public void placeUnit(@NotNull Unit unit) throws CommandException {
+        if (unit == null) throw new RuntimeException();
         if (unit instanceof CombatUnit combatUnit) {
+            if (this.getCombatUnit() != null) throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getType().name());
             this.setCombatUnit(combatUnit);
         } else if (unit instanceof NonCombatUnit nonCombatUnit) {
+            if (this.getNonCombatUnit() != null) throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getType().name());
             this.setNonCombatUnit(nonCombatUnit);
         }
     }

@@ -19,6 +19,10 @@ public abstract class Production {
         return remainedProduction;
     }
 
+    public void setRemainedProduction(double remainedProduction) {
+        this.remainedProduction = remainedProduction;
+    }
+
     public void decreaseRemainedProduction(double remainedProductions) {
         this.remainedProduction -= remainedProductions;
     }
