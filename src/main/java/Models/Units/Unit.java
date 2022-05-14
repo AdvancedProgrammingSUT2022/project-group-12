@@ -19,7 +19,7 @@ public abstract class Unit extends Production {
     protected Civilization civ;
     protected double availableMoveCount;
     protected Location location;
-    protected int healthBar;
+    protected int health = 100;
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
     protected UnitStates state;
@@ -60,19 +60,20 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
-    public static void calculateDamage(Unit unit, double strengthDiff, Random random) {
+    public static int calculateDamage(Unit unit, double strengthDiff) {
+        Random random = new Random();
         double random_number = (double) random.nextInt(75, 125) / 100;
         //debug for test
-        random_number = 1.25;
-        unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
+//        random_number = 1.25;
+        return (int) Math.ceil(25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
-    public int getHealthBar() {
-        return healthBar;
+    public int getHealth() {
+        return health;
     }
 
-    public void setHealthBar(int healthBar) {
-        this.healthBar = healthBar;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public static double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh) {
@@ -88,7 +89,7 @@ public abstract class Unit extends Production {
     }
 
     protected static double getHealthBarEffect(Unit unit) {
-        return (double) unit.getHealthBar() / 100;
+        return (double) unit.getHealth() / 100;
     }
 
     protected static double getTerrainFeaturesEffect(Tile tile) {
@@ -159,5 +160,9 @@ public abstract class Unit extends Production {
     @Override
     public void note(City city) {
         //todo : complete
+    }
+
+    public void decreaseHealth(int value) {
+        this.health -= value;
     }
 }

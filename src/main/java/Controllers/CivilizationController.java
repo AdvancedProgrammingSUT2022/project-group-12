@@ -2,10 +2,7 @@ package Controllers;
 
 import Enums.TechnologyEnum;
 import Enums.UnitEnum;
-import Models.Cities.City;
 import Models.Civilization;
-import Models.Game;
-import Models.Units.CombatUnit;
 import Models.Units.Unit;
 
 import java.util.HashMap;
@@ -27,7 +24,7 @@ public class CivilizationController {
             unitInfo.append("- <").append(unit)
                     .append("> Tile: <").append(GameController.getGameTile(unit.getLocation()).getTerrain().getTerrainType())
                     .append("> Movement: <").append(unit.getAvailableMoveCount())
-                    .append("> Health: <").append(unit.getHealthBar())
+                    .append("> Health: <").append(unit.getHealth())
                     .append("> Has work to do: <").append(unit.isWorking())
                     .append("> Current location: <").append(unit.getLocation().toString());
         }

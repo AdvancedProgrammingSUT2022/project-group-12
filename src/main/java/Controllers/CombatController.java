@@ -12,6 +12,10 @@ import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
+import java.util.ArrayList;
+
+import static Controllers.MovingController.findTheShortestPath;
+
 
 public class CombatController extends GameController {
 
@@ -20,22 +24,35 @@ public class CombatController extends GameController {
     }
 
     public static String AttackUnit(Unit unit, Location location) throws CommandException {
-        Civilization civilization = unit.getCivilization();
-        Tile currentTile = GameController.getGameTile(unit.getLocation());
-        Tile enemyTile = GameController.getGameTile(location);
-        if (isAttackToCity(location, civilization)) {
-            unit.setAvailableMoveCount(0);
-            return CityCombatController.AttackToCity((CombatUnit) unit, enemyTile.getCity(), civilization, currentTile, enemyTile);
+        if (!(unit instanceof CombatUnit combatUnit)) {
+            throw new CommandException(CommandResponse.ATTACK_UNIT_IS_NOT_COMBAT);
         }
-        if (!isEnemyIsReadyForAttack(location, civilization, (CombatUnit) unit)) {
+//        if (unit.getAvailableMoveCount() <= 0) {
+//            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
+//        }
+        Civilization civilization = combatUnit.getCivilization();
+        Tile currentTile = GameController.getGameTile(combatUnit.getLocation());
+        Tile enemyTile = GameController.getGameTile(location);
+        if (isAnEnemyCityAt(location, civilization)) {
+            return CityCombatController.AttackToCity(combatUnit, enemyTile.getCity(), civilization, currentTile, enemyTile);
+        }
+        if (!isAttackableEnemyOn(location, civilization, combatUnit)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
-        if (unit instanceof RangedUnit) {
-            unit.setAvailableMoveCount(0);
-            return UnitCombatController.AttackRangedUnit((RangedUnit) unit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
-        } else {
-            unit.setAvailableMoveCount(0);
-            return UnitCombatController.AttackNonRangedUnit((NonRangedUnit) unit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
+        ArrayList<Tile> path = findTheShortestPath(location, currentTile);
+
+        if (combatUnit instanceof RangedUnit rangedUnit) {
+            // todo
+//            return UnitCombatController.AttackRangedUnit(rangedUnit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
+            return null;
+        } else if (combatUnit instanceof NonRangedUnit nonRangedUnit) {
+//            return UnitCombatController.AttackNonRangedUnit(nonRangedUnit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
+            if (unit.getAvailableMoveCount() < path.size()) {
+                throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
+            }
+            return UnitCombatController.affectNonRangeAttack(nonRangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
+        } else { // never
+            return null;
         }
     }
 
@@ -43,10 +60,10 @@ public class CombatController extends GameController {
         Civilization civilization = city.getCivilization();
         Tile currentTile = GameController.getGameTile(city.getLocation());
         Tile enemyTile = GameController.getGameTile(location);
-        if (isAttackToCity(location, civilization)) {
+        if (isAnEnemyCityAt(location, civilization)) {
             return CityCombatController.cityAttackToCity(GameController.getGameTile(location).getCity(), currentTile, civilization, GameController.getGameTile(location).getCity());
         }
-        if (!isEnemyIsReadyForAttack(location, civilization, city)) {
+        if (!isAttackableEnemyOn(location, civilization, city)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         if (enemyTile.getCombatUnit() != null) {

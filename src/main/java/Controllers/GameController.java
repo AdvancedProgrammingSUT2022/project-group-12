@@ -11,15 +11,12 @@ import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
 import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
-import Models.Units.RangedUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
 
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 
 public class GameController {
@@ -59,46 +56,35 @@ public class GameController {
         return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
     }
 
-    public static boolean isEnemyExists(int row, int col, Civilization civilization) {
-        CombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
-    }
-
-    public static boolean isEnemyIsReadyForAttack(Location location, Civilization civilization, CombatUnit combatUnit) {
-        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
-        NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
-
-        if (combatUnit instanceof RangedUnit) {
-            return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
-        } else {
-            return isEnemyExists(location, civilization);
-        }
+    public static boolean isAttackableEnemyOn(Location location, Civilization civilization, CombatUnit combatUnit) {
+        // for now, we assume ranged units CANNOT attack non combats
+        return isEnemyExists(location, civilization);
+//        if (combatUnit instanceof RangedUnit) {
+//            return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
+//        } else {
+//            return isEnemyExists(location, civilization);
+//        }
     }
 
     public static boolean isEnemyExists(Location location, Civilization civilization) {
-        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
+        CombatUnit enemyUnit = GameController.getGameTile(location).getCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
     public static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
-        NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
+        NonCombatUnit enemyUnit = GameController.getGameTile(location).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
-    public static boolean isEnemyIsReadyForAttack(Location location, Civilization civilization, City city) {
-        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
-        NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
+    public static boolean isAttackableEnemyOn(Location location, Civilization civilization, City city) {
+        CombatUnit enemyUnit = GameController.getGameTile(location).getCombatUnit();
+        NonCombatUnit nonCombatEnemyUnit = GameController.getGameTile(location).getNonCombatUnit();
         return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
     }
 
-    public static boolean isAttackToCity(Location location, Civilization civilization) {
-        City enemyCity = game.getTileGrid().getTile(location).getCity();
+    public static boolean isAnEnemyCityAt(Location location, Civilization civilization) {
+        City enemyCity = GameController.getGameTile(location).getCity();
         return (enemyCity != null && enemyCity.getCivilization() != civilization);
-    }
-
-    public static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
-        NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
     public static void wakeUpUnit(Unit unit) throws CommandException {
@@ -169,7 +155,7 @@ public class GameController {
             throw new CommandException(CommandResponse.IMPROVEMENT_DOESNT_EXISTS);
         }
         if(unit.getAvailableMoveCount() < 0){
-            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COST);
+            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
         }
     }
 

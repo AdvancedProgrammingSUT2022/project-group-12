@@ -38,7 +38,7 @@ public enum CommandResponse {
     NOT_HAVING_CITY("this city is not belong to you"),
     UNIT_IS_NOT_SIEGE("this unit isn't siege unit"),
     UNIT_HAS_ALREADY_SAT_UP("this unit has already sat up"),
-    NOT_ENOUGH_MOVEMENT_COST("there isn't enough movement cost"),
+    NOT_ENOUGH_MOVEMENT_COUNT("there isn't enough movement count"),
     DUPLICATE_OPTION_KEY("duplicate option key"),
     INVALID_COMMAND_FORMAT("command format is invalid"),
     MISSING_REQUIRED_OPTION("missing required option"),
@@ -67,11 +67,12 @@ public enum CommandResponse {
     ONLY_SETTLERS_CAN_FOUND_CITY("only settlers can found new cities"),
     INVALID_NAME("Invalid input name"),
     ENEMY_DOESNT_EXISTS("enemy doesn't exists"),
-    ATTACK_ISNT_POSSIBLE("attack isn't possible"),
-    YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT("you can't destroy city by rangedcombat unit"),
-    YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by rangedcombat unit"),
+    ATTACK_ISNT_POSSIBLE("cannot reach tile with current movement count"),
+    YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT("you can't destroy city by ranged combat unit"),
+    YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by ranged combat unit"),
     PLAYER_NUMBER_GAP("there is a gap in number of players"),
-    IMPROVEMENT_DOESNT_EXISTS("improvement doesn't exists");
+    IMPROVEMENT_DOESNT_EXISTS("improvement doesn't exists"),
+    ATTACK_UNIT_IS_NOT_COMBAT("cannot attack with non combat units!");
 
 
     private final String message;

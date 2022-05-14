@@ -146,7 +146,7 @@ public class Game {
     }
 
     private void checkForFortifyHealUnit(Unit unit, Tile tile) throws GameException {
-        if (unit.getHealthBar() == 100) {
+        if (unit.getHealth() == 100) {
             checkForMovementCost(unit);
         }
     }

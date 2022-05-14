@@ -79,7 +79,7 @@ public class CityCombatController extends CombatController {
 
     public static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
         StringBuilder message = new StringBuilder("");
-        if (unit.getHealthBar() <= 0) {
+        if (unit.getHealth() <= 0) {
             if (unit instanceof CombatUnit) {
                 if (city.getHitPoint() <= 0) {
                     city.setHitPoint(1);
@@ -171,7 +171,7 @@ public class CityCombatController extends CombatController {
     public static void calculateRangeAttackDamage(City city, double strengthRangedUnit, Unit enemyUnit, double enemyUnitStrength) {
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
         Random random = new Random();
-        Unit.calculateDamage(enemyUnit, strengthDiff, random);
+        Unit.calculateDamage(enemyUnit, strengthDiff);
     }
 
     protected static String cityAttackToCity(City enemyCity, Tile currentTile, Civilization civilization, City city) throws CommandException {
@@ -216,6 +216,7 @@ public class CityCombatController extends CombatController {
         }
         double EnemyUnitStrength = city.calculateCombatStrength();
         calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, city, EnemyUnitStrength);
+        rangedUnit.setAvailableMoveCount(0);
         response = checkForKill(rangedUnit, city, rangedUnitTile, cityTile);
         return response;
     }
@@ -229,6 +230,7 @@ public class CityCombatController extends CombatController {
         double combatStrengthNonRangedUnit = Unit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double EnemyCityStrength = city.calculateCombatStrength();
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrengthNonRangedUnit, city, EnemyCityStrength);
+        nonRangedUnit.setAvailableMoveCount(0);
         response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
         return response;
     }
@@ -242,7 +244,7 @@ public class CityCombatController extends CombatController {
     public static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrengthNonRangedUnit, City city, double enemyCityStrength) {
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
         Random random = new Random();
-        Unit.calculateDamage(nonRangedUnit, -strengthDiff, random);
+        Unit.calculateDamage(nonRangedUnit, -strengthDiff);
         City.calculateDamage(city, strengthDiff, random);
     }
 

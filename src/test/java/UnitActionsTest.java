@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -53,8 +52,8 @@ public class UnitActionsTest {
 
     @BeforeEach
     public void setUp() {
-        enemyUnit.setHealthBar(100);
-        myRangedCombatUnit.setHealthBar(90);
+        enemyUnit.setHealth(100);
+        myRangedCombatUnit.setHealth(90);
         enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
         enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
