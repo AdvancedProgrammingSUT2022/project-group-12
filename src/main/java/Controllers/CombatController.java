@@ -15,6 +15,7 @@ import Utils.CommandResponse;
 import java.util.ArrayList;
 
 import static Controllers.MovingController.findTheShortestPath;
+import static Controllers.MovingController.moveUnit;
 
 
 public class CombatController extends GameController {
@@ -40,7 +41,6 @@ public class CombatController extends GameController {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         ArrayList<Tile> path = findTheShortestPath(location, currentTile);
-
         if (combatUnit instanceof RangedUnit rangedUnit) {
             // todo
 //            return UnitCombatController.AttackRangedUnit(rangedUnit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
@@ -50,7 +50,8 @@ public class CombatController extends GameController {
             if (unit.getAvailableMoveCount() < path.size()) {
                 throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
             }
-            return UnitCombatController.affectNonRangeAttack(nonRangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
+            moveUnit(location, currentTile, civilization, unit);
+            return UnitCombatController.affectNonRangedAttack(nonRangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
         } else { // never
             return null;
         }

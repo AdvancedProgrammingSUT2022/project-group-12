@@ -18,6 +18,7 @@ import java.util.List;
 public class MovingController {
 
     public static void moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
+        // todo: what if not reachable??
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile);
         if (shortestPath == null) {
             throw new CommandException("move is impossible");

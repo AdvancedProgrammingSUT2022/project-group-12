@@ -25,19 +25,7 @@ public class UnitCombatController extends CombatController {
         super(newGame);
     }
 
-
-    protected static String AttackNonRangedUnit(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) throws CommandException {
-        // todo: not path size, but sum of movement costs
-        ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
-        if (nonRangedUnit.getAvailableMoveCount() >= path.size()) {
-            return affectNonRangeAttack(nonRangedUnit, enemyUnit, currentTile, enemyTile);
-        } else {
-            throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
-        }
-
-    }
-
-    protected static String affectNonRangeAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) {
+    protected static String affectNonRangedAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) {
         String response;
         double combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double combatStrength2 = calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
