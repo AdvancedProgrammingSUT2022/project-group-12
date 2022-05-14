@@ -37,9 +37,10 @@ public class UnitCombatController extends CombatController {
     }
 
     private static String calculateNonRangeAttack(NonRangedUnit nonRangedUnit, CombatUnit combatUnit, Tile nonRangedTile, Tile combatUnitTile) {
-        String response = "Attack happened successfully";
+        String response;
         double combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double combatStrength2 = calculateCombatStrength(combatUnit, combatUnitTile, "combatstrength");
+
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrength1, combatUnit, combatStrength2);
         response = checkForKill(nonRangedUnit, combatUnit, nonRangedTile, combatUnitTile);
         return response;

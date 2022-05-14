@@ -97,8 +97,10 @@ public class CombatTest {
     @Test
     public void calculateNonRangeAttack() {
         String response = "Attack happened successfully";
-        enemyTile.placeUnit(nonRangedUnitEnemy);
-        ownTile.placeUnit(myNonRangedCombatUnit);
+        Assertions.assertDoesNotThrow(() -> {
+            enemyTile.placeUnit(nonRangedUnitEnemy);
+            ownTile.placeUnit(myNonRangedCombatUnit);
+        });
         myNonRangedCombatUnit.setHealthBar(50);
         nonRangedUnitEnemy.setHealthBar(10);
         double combatStrength1 = myNonRangedCombatUnit.calculateCombatStrength(myNonRangedCombatUnit, ownTile, "combatstrength");

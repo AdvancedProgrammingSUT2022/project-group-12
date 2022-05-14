@@ -654,8 +654,9 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            CombatController.AttackUnit(this.selectedUnit, location);
-            answer("unit attack successful");
+            String ans = CombatController.AttackUnit(this.selectedUnit, location);
+            answer(ans);
+//            answer("unit attack successful");
         } catch (CommandException e) {
             answer(e);
         }
