@@ -17,8 +17,9 @@ public class CheatCodeController {
     private static CheatCodeController instance;
 
     public static CheatCodeController getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new CheatCodeController();
+        }
         return instance;
     }
 
@@ -32,31 +33,38 @@ public class CheatCodeController {
 
     public void spawnUnit(UnitEnum unit, Location location) throws CommandException {
         Unit newUnit;
-        if (unit.isACombatUnit())
+        if (unit.isACombatUnit()) {
             newUnit = new CombatUnit(unit, GameController.getGame().getCurrentCivilization(), location);
-        else
+        } else {
             newUnit = new NonCombatUnit(unit, GameController.getGame().getCurrentCivilization(), location);
+        }
         GameController.getGame().getCurrentCivilization().addUnit(newUnit);
         Tile tile = GameController.getGame().getTileGrid().getTile(location);
         if (newUnit instanceof CombatUnit) {
-            if (tile.getCombatUnit() == null)
+            if (tile.getCombatUnit() == null) {
                 tile.setUnit(newUnit);
-            else throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
+            } else {
+                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getType().name());
+            }
         } else {
-            if (tile.getNonCombatUnit() == null)
+            if (tile.getNonCombatUnit() == null) {
                 tile.setUnit(newUnit);
-            else throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getType().name());
+            } else {
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getType().name());
+            }
         }
     }
 
     public void finishProducts(City city) throws CommandException {
         city.finishProducts();
     }
-    public void increaseBeaker(int amount){
-        Civilization currnetCiv =  GameController.getGame().getCurrentCivilization();
+
+    public void increaseBeaker(int amount) {
+        Civilization currnetCiv = GameController.getGame().getCurrentCivilization();
         currnetCiv.setCheatBeaker(currnetCiv.getCheatBeaker() + amount);
     }
-    public void teleport(Location location,Unit unit) throws CommandException {
+
+    public void teleport(Location location, Unit unit) throws CommandException {
         UnitFuncs.validateTileForMovingUnit(location, unit);
         Tile currentTile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
         Tile destTile = GameController.getGame().getTileGrid().getTile(location);
@@ -68,7 +76,7 @@ public class CheatCodeController {
     }
 
     public void increaseHappiness(int amount) {
-        Civilization currnetCiv =  GameController.getGame().getCurrentCivilization();
+        Civilization currnetCiv = GameController.getGame().getCurrentCivilization();
         currnetCiv.setHappinessFromCheat(currnetCiv.getHappinessFromCheat() + amount);
     }
 

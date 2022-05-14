@@ -1,16 +1,14 @@
 package Models;
 
-import Controllers.GameController;
-import Views.MenuStack;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
-import java.lang.reflect.Type;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,6 +59,10 @@ public class Database {
         return false;
     }
 
+    public void deserialize() {
+        deserializeUsers();
+    }
+
     public void deserializeUsers() {
         ArrayList<User> jsonUsers = new ArrayList<>();
         try {
@@ -70,32 +72,30 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (jsonUsers != null)
+        if (jsonUsers != null) {
             this.usersList.addAll(jsonUsers);
+        }
         for (User user : this.usersList) {
             this.users.put(user.getUsername(), user);
         }
     }
 
-    public void deserialize() {
-        deserializeUsers();
+    public void serialize() {
+        serializeUsers();
     }
 
     public void serializeUsers() {
         try {
             File file = new File("users.json");
-            if (!file.exists())
+            if (!file.exists()) {
                 file.createNewFile();
+            }
             FileWriter writer = new FileWriter("users.json");
             writer.write(this.gson.toJson(usersList));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void serialize() {
-        serializeUsers();
     }
 
     public void printUsers() {

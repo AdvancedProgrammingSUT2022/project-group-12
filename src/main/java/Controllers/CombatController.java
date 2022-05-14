@@ -24,15 +24,15 @@ public class CombatController extends GameController {
         Tile currentTile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
         Tile enemyTile = GameController.getGame().getTileGrid().getTile(location);
         if (isAttackToCity(location, civilization)) {
-            return CityCombatController.AttackToCity((CombatUnit) unit,enemyTile.getCity(),civilization ,currentTile ,enemyTile);
+            return CityCombatController.AttackToCity((CombatUnit) unit, enemyTile.getCity(), civilization, currentTile, enemyTile);
         }
-        if (!isEnemyIsReadyForAttack(location , civilization,(CombatUnit)unit)) {
+        if (!isEnemyIsReadyForAttack(location, civilization, (CombatUnit) unit)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         if (unit instanceof RangedUnit) {
-            return UnitCombatController.AttackRangedUnit((RangedUnit) unit,enemyTile.getCombatUnit(),civilization,currentTile,enemyTile);
+            return UnitCombatController.AttackRangedUnit((RangedUnit) unit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
         } else {
-            return UnitCombatController.AttackNonRangedUnit((NonRangedUnit) unit,enemyTile.getCombatUnit(),civilization,currentTile,enemyTile);
+            return UnitCombatController.AttackNonRangedUnit((NonRangedUnit) unit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
         }
     }
 
@@ -41,15 +41,16 @@ public class CombatController extends GameController {
         Tile currentTile = GameController.getGame().getTileGrid().getTile(city.getLocation());
         Tile enemyTile = GameController.getGame().getTileGrid().getTile(location);
         if (isAttackToCity(location, civilization)) {
-            return CityCombatController.cityAttackToCity(GameController.getGame().getTileGrid().getTile(location).getCity(),currentTile, civilization, GameController.getGame().getTileGrid().getTile(location).getCity());
+            return CityCombatController.cityAttackToCity(GameController.getGame().getTileGrid().getTile(location).getCity(), currentTile, civilization, GameController.getGame().getTileGrid().getTile(location).getCity());
         }
-        if (!isEnemyIsReadyForAttack(location , civilization, city)) {
+        if (!isEnemyIsReadyForAttack(location, civilization, city)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
-        if(enemyTile.getCombatUnit() != null)
+        if (enemyTile.getCombatUnit() != null) {
             return CityCombatController.CityAttackRangedUnit(enemyTile.getCombatUnit(), currentTile.getCity(), enemyTile, currentTile);
-        else
-            return CityCombatController.CityAttackRangedUnit(enemyTile.getNonCombatUnit(), currentTile.getCity(),enemyTile,currentTile);
+        } else {
+            return CityCombatController.CityAttackRangedUnit(enemyTile.getNonCombatUnit(), currentTile.getCity(), enemyTile, currentTile);
+        }
     }
-    }
+}
 

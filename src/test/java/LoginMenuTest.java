@@ -30,6 +30,16 @@ public class LoginMenuTest {
         assertDoesNotThrow(() -> Controllers.LoginMenuController.createUser(username, nickname, password));
     }
 
+    private void setUserCreds(Command command) {
+        command.abbreviate("username", "u");
+        command.abbreviate("nickname", "n");
+        command.abbreviate("password", "p");
+        assertDoesNotThrow(() -> command.assertOptions(List.of("username", "nickname", "password")));
+        username = command.getOption("username");
+        nickname = command.getOption("nickname");
+        password = command.getOption("password");
+    }
+
     @Test
     public void invalidUsername() throws CommandException {
         new User("alireza", "password1", "n");
@@ -69,6 +79,14 @@ public class LoginMenuTest {
         assertEquals(PASSWORD_DOES_NOT_MATCH.toString(), exception.getMessage());
     }
 
+    private void setLoginCreds(Command command) {
+        command.abbreviate("username", "u");
+        command.abbreviate("password", "p");
+        assertDoesNotThrow(() -> command.assertOptions(List.of("username", "password")));
+        username = command.getOption("username");
+        password = command.getOption("password");
+    }
+
     @Test
     public void usernameDoesNotExists() throws CommandException {
         new User("AP", "T", "nName");
@@ -86,23 +104,5 @@ public class LoginMenuTest {
         Command command = Command.parseCommand(inputString);
         setLoginCreds(command);
         assertDoesNotThrow(() -> Controllers.LoginMenuController.loginUser(username, password));
-    }
-
-    private void setUserCreds(Command command) {
-        command.abbreviate("username", "u");
-        command.abbreviate("nickname", "n");
-        command.abbreviate("password", "p");
-        assertDoesNotThrow(() -> command.assertOptions(List.of("username", "nickname", "password")));
-        username = command.getOption("username");
-        nickname = command.getOption("nickname");
-        password = command.getOption("password");
-    }
-
-    private void setLoginCreds(Command command) {
-        command.abbreviate("username", "u");
-        command.abbreviate("password", "p");
-        assertDoesNotThrow(() -> command.assertOptions(List.of("username", "password")));
-        username = command.getOption("username");
-        password = command.getOption("password");
     }
 }

@@ -34,17 +34,31 @@ public class GameMenu extends Menu {
         this.unitFuncs = new UnitFuncs();
     }
 
+    public static void printError(CommandResponse commandResponse) {
+        System.out.println(commandResponse);
+    }
+
     @Override
     public void firstRun() {
         this.startNewTurn();
     }
 
-    public static void printError(CommandResponse commandResponse) {
-        System.out.println(commandResponse);
+    private void startNewTurn() {
+        GameController.getGame().startNewTurn();
+        showTheMap();
+        printStartOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 
     public void printStartOfTurnInfo(Civilization civilization) {
         System.out.println("turn " + (GameController.getGame().getGameTurnNumber() + 1) + ", turn of: " + civilization.getName());
+    }
+
+    private void showTheMap() {
+        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
+    }
+
+    public MapFuncs getMapFuncs() {
+        return mapFuncs;
     }
 
     public InfoFuncs getInfoFuncs() {
@@ -53,10 +67,6 @@ public class GameMenu extends Menu {
 
     public UnitFuncs getUnitFuncs() {
         return unitFuncs;
-    }
-
-    public MapFuncs getMapFuncs() {
-        return mapFuncs;
     }
 
     @Override
@@ -104,7 +114,7 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            CheatCodeController.getInstance().teleport(location,selectedUnit);
+            CheatCodeController.getInstance().teleport(location, selectedUnit);
             setCamera(location);
             answer("unit teleported on " + location + "  successfully");
         } catch (CommandException e) {
@@ -282,12 +292,6 @@ public class GameMenu extends Menu {
         System.out.println("end of turn");
         System.out.println("------------------------------");
         this.startNewTurn();
-    }
-
-    private void startNewTurn() {
-        GameController.getGame().startNewTurn();
-        showTheMap();
-        printStartOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 
     private void city(Command command) {
@@ -497,7 +501,6 @@ public class GameMenu extends Menu {
         answer("unit slept successfully");
     }
 
-
     private void unitAlert() throws CommandException {
         GameController.alertUnit(this.selectedUnit);
         answer("unit alerted successfully");
@@ -512,7 +515,6 @@ public class GameMenu extends Menu {
         GameController.deleteUnit(this.selectedUnit);
         answer("unit deleted successfully");
     }
-
 
     private void unitRepairTile() throws CommandException {
         GameController.unitRepairTile(this.selectedUnit);
@@ -634,7 +636,7 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String combatType;
-            if((combatType=command.getSubSubCategory()).equals("noncombat") || combatType.equals("combat")){
+            if ((combatType = command.getSubSubCategory()).equals("noncombat") || combatType.equals("combat")) {
                 CombatController.AttackCity(this.selectedCity, location, combatType);
             } else {
                 answer(CommandResponse.INVALID_SUBSUBCOMMAND);
@@ -677,9 +679,5 @@ public class GameMenu extends Menu {
             }
         }
         showTheMap();
-    }
-
-    private void showTheMap() {
-        getMapFuncs().showMapPosition(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
     }
 }

@@ -82,11 +82,13 @@ public class Civilization {
         beaker += beakerFromBuildings;
         beaker *= beakerRatioFromBuildings;
         beaker += cheatBeaker;
-        for (City city:
-             this.getCities()) {
+        for (City city :
+                this.getCities()) {
             beaker += city.getCitizensCount();
         }
-        if(calculateCivilizationGold() < 0 ){beaker -= this.getGold();}
+        if (calculateCivilizationGold() < 0) {
+            beaker -= this.getGold();
+        }
         return beaker;
     }
 
@@ -97,15 +99,11 @@ public class Civilization {
     public int calculateCivilizationGold() {
         int gold = this.getGoldFromCheat();
         for (City city :
-             this.getCities()) {
+                this.getCities()) {
             gold += city.calculateGold();
         }
         this.gold = gold;
         return gold;
-    }
-
-    public int getGold() {
-        return this.gold;
     }
 
     public int getGoldFromCheat() {
@@ -114,6 +112,10 @@ public class Civilization {
 
     public void setGoldFromCheat(int goldFromCheat) {
         this.goldFromCheat = goldFromCheat;
+    }
+
+    public int getGold() {
+        return this.gold;
     }
 
     public void researchTech() {
@@ -230,21 +232,14 @@ public class Civilization {
         }
     }
 
-    /***
-     * setter and getters
-     */
-
-
-
-
     public ArrayList<Unit> getUnits() {
         return units;
     }
 
     public City getCityByName(String name) throws CommandException {
-        for (City city:
-             this.getCities()) {
-            if(city.getName().equals(name)){
+        for (City city :
+                this.getCities()) {
+            if (city.getName().equals(name)) {
                 return city;
             }
         }
@@ -253,8 +248,8 @@ public class Civilization {
 
     public int calculateCivilizationFood() throws CommandException {
         int food = 0;
-        for (City city:
-             this.getCities()) {
+        for (City city :
+                this.getCities()) {
             food += city.calculateFood();
         }
         this.food = food;
@@ -264,7 +259,7 @@ public class Civilization {
     public int calculateSuccess() {
         return gold + cities.size() + units.size() + technologies.size() + happiness
                 + isInEconomicRelation.size() - isInWarWith.size() + beaker +
-                + ownedTiles.size();
+                +ownedTiles.size();
     }
 
     public boolean isInWarWith(Civilization civilization) {

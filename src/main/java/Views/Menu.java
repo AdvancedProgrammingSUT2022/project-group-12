@@ -42,11 +42,11 @@ public abstract class Menu {
         return this.getClass().getSimpleName();
     }
 
-    protected void resetShowName() {
-        this.showName = true;
-    }
-
     protected void answer(Object message) {
         System.out.println(message);
+    }
+
+    protected void resetShowName() {
+        this.showName = true;
     }
 }

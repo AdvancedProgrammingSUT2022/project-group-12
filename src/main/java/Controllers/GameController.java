@@ -40,6 +40,14 @@ public class GameController {
         // todo : complete
     }
 
+    public static Game getGame() {
+        return game;
+    }
+
+    public static void setGame(Game game) {
+        GameController.game = game;
+    }
+
     public static String RemoveRoute(Tile currentTile, ImprovementEnum improvementEnum) {
         return "route removed successfully";
     }
@@ -57,11 +65,6 @@ public class GameController {
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
-    public static boolean isEnemyExists(Location location, Civilization civilization) {
-        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
-    }
-
     public static boolean isEnemyIsReadyForAttack(Location location, Civilization civilization, CombatUnit combatUnit) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
         NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
@@ -72,10 +75,21 @@ public class GameController {
             return isEnemyExists(location, civilization);
         }
     }
+
+    public static boolean isEnemyExists(Location location, Civilization civilization) {
+        CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
+        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
+    }
+
+    public static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
+        NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
+        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
+    }
+
     public static boolean isEnemyIsReadyForAttack(Location location, Civilization civilization, City city) {
         CombatUnit enemyUnit = game.getTileGrid().getTile(location).getCombatUnit();
         NonCombatUnit nonCombatEnemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
-            return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
+        return isEnemyExists(location, civilization) || isNonCombatEnemyExists(location, civilization);
     }
 
     public static boolean isAttackToCity(Location location, Civilization civilization) {
@@ -85,11 +99,6 @@ public class GameController {
 
     public static boolean isNonCombatEnemyExists(int row, int col, Civilization civilization) {
         NonCombatUnit enemyUnit = game.getTileGrid().getTile(row, col).getNonCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
-    }
-
-    public static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
-        NonCombatUnit enemyUnit = game.getTileGrid().getTile(location).getNonCombatUnit();
         return enemyUnit != null && enemyUnit.getCivilization() != civilization;
     }
 
@@ -134,6 +143,11 @@ public class GameController {
         return false;
     }
 
+    public static void deleteUnit(Unit unit) {
+        Tile tile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
+        tile.deleteUnit(unit);
+        unit.getCivilization().removeUnit(unit);
+    }
 
     public static String fortifyUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
@@ -349,14 +363,6 @@ public class GameController {
         return tile.getTerrain().getFeatures().contains(TerrainEnum.RIVER) && tile1.getTerrain().getFeatures().contains(TerrainEnum.RIVER);
     }
 
-    public static Game getGame() {
-        return game;
-    }
-
-    public static void setGame(Game game) {
-        GameController.game = game;
-    }
-
     public static void cityAssignCitizen(City city, Location location) throws CommandException {
         if (city.getCitizensCount() <= city.getCitizens().size()) {
             throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
@@ -372,12 +378,6 @@ public class GameController {
         if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.setCitizen(null);
-    }
-
-    public static void deleteUnit(Unit unit) {
-        Tile tile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
-        tile.deleteUnit(unit);
-        unit.getCivilization().removeUnit(unit);
     }
 
     public static void cityCitizenSetLock(City city, Location location, boolean lock) throws CommandException {

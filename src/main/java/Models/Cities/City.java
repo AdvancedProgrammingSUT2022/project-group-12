@@ -19,14 +19,14 @@ import static java.lang.Math.exp;
 
 public class City {
     private final ArrayList<Tile> tiles;
-    private int citizensCount;
     private final int range;
     private final ArrayList<Building> buildings;
     private final Tile cityTile;
     private final ArrayList<Production> productionQueue;
     private final String name;
-    private double productionFromCheat;
     protected boolean isCapital;
+    private int citizensCount;
+    private double productionFromCheat;
     private Civilization civilization;
     private double happinessFromBuildings;
     private int foodFromBuildings;
@@ -73,31 +73,41 @@ public class City {
         this.combatStrengthFromBuildings = 0;
     }
 
-    private double AffectCityFeatures(City city) {
-        //todo : affect the citizen and buildings on combat strength
-        this.combatStrength = 10;
-        this.combatStrength += citizensCount;
-        this.combatStrength += combatStrengthFromBuildings;
-        if(city.getTile().getTerrain().getTerrainType() == TerrainEnum.HILL){
-            this.combatStrength *= (4.0/3.0);
-        }
-        if(city.getTile().getCombatUnit() != null){
-            this.combatStrength *= (5.0/4.0);
-        }
-        return this.combatStrength;
-    }
-
     public static void calculateDamage(City city, double strengthDiff, Random random) {
         double random_number = random.nextInt(50) + 75;
         random_number /= 100;
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
 
+    public int getHitPoint() {
+        return this.hitPoint;
+    }
+
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
+    }
+
     public double calculateCombatStrength() {
         return AffectCityFeatures(this);
     }
 
+    private double AffectCityFeatures(City city) {
+        //todo : affect the citizen and buildings on combat strength
+        this.combatStrength = 10;
+        this.combatStrength += citizensCount;
+        this.combatStrength += combatStrengthFromBuildings;
+        if (city.getTile().getTerrain().getTerrainType() == TerrainEnum.HILL) {
+            this.combatStrength *= (4.0 / 3.0);
+        }
+        if (city.getTile().getCombatUnit() != null) {
+            this.combatStrength *= (5.0 / 4.0);
+        }
+        return this.combatStrength;
+    }
 
+    public Tile getTile() {
+        return cityTile;
+    }
 
     public ArrayList<Citizen> getCitizens() {
         ArrayList<Citizen> citizens = new ArrayList<>();
@@ -109,6 +119,9 @@ public class City {
         return citizens;
     }
 
+    public ArrayList<Tile> getTiles() {
+        return tiles;
+    }
 
     private void affectCitizens() throws CommandException {
         for (Tile tile : this.getTiles()) {
@@ -120,17 +133,6 @@ public class City {
         }
     }
 
-    public ArrayList<ResourceEnum> getResources() {
-        ArrayList<ResourceEnum> resources = new ArrayList<>();
-        for (Tile tile : this.getTiles()) {
-            ResourceEnum resource = tile.getTerrain().getResource();
-            if (tile.getImprovements().contains(resource.getImprovementNeeded())) {
-                resources.add(resource);
-            }
-        }
-        return resources;
-    }
-
     public void applyBuildingNotes() {
         for (Building building : this.buildings) {
             building.getNote().note(this); // todo: how to call the note function?
@@ -138,6 +140,13 @@ public class City {
         }
     }
 
+    public int getGoldFromBuildings() {
+        return goldFromBuildings;
+    }
+
+    public void setGoldFromBuildings(int goldFromBuildings) {
+        this.goldFromBuildings = goldFromBuildings;
+    }
 
     public void addToProductionQueue(Production production) {
         this.productionQueue.add(production);
@@ -149,6 +158,27 @@ public class City {
 
     public void removeFromProductionQueue(int index) {
         this.productionQueue.remove(index);
+    }
+
+    public void addTile(Tile tile) {
+        this.tiles.add(tile);
+    }
+
+    public void finishProducts() throws CommandException {
+        if (productionQueue.isEmpty()) {
+            return;
+        }
+        int size = productionQueue.size();
+        while (!productionQueue.isEmpty()) {
+            Production product = productionQueue.get(0);
+            advanceProductionQueue();
+            if (productionQueue.size() < size) {
+                if (product instanceof Unit) {
+                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), getLocation());
+                }
+                size = productionQueue.size();
+            }
+        }
     }
 
     public void advanceProductionQueue() {
@@ -167,35 +197,26 @@ public class City {
         }
     }
 
-
-    private boolean haveCourtHouse() {
-        for (Building building : buildings) {
-            if (building.getType() == BuildingEnum.COURT_HOUSE) {
-                return true;
-            }
-        }
-        return false;
+    public double getProduction() {
+        return production;
     }
 
-    public void addTile(Tile tile) {
-        this.tiles.add(tile);
+    public void setProduction(double production) {
+        this.production = production;
     }
 
-    public void finishProducts() throws CommandException {
-        if (productionQueue.isEmpty())
-            return;
-        int size = productionQueue.size();
-        while (!productionQueue.isEmpty()) {
-            Production product = productionQueue.get(0);
-            advanceProductionQueue();
-            if (productionQueue.size() < size) {
-                if (product instanceof Unit) {
-                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), getLocation());
-                }
-                size = productionQueue.size();
-            }
-        }
+    public Civilization getCivilization() {
+        return civilization;
     }
+
+    public void setCivilization(Civilization civ) {
+        this.civilization = civ;
+    }
+
+    public Location getLocation() {
+        return this.cityTile.getLocation();
+    }
+
     public double calculateCityHappiness() {
 
         /***
@@ -217,6 +238,15 @@ public class City {
         return this.localHappiness <= citizensCount ? this.localHappiness : citizensCount;
     }
 
+    private boolean haveCourtHouse() {
+        for (Building building : buildings) {
+            if (building.getType() == BuildingEnum.COURT_HOUSE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private double calculateProduction() throws CommandException {
         this.production = 1;
         this.production += this.productionFromBuildings;
@@ -228,53 +258,6 @@ public class City {
         } else {
             return production * 2 / 3;
         }
-    }
-
-    public int calculateGold() {
-        int gold = 0;
-        gold *= this.goldRatioFromBuildings;
-        gold += this.goldFromBuildings;
-        gold += getFromResource("gold");
-        gold += getSourcesFromTiles("gold");
-        return gold;
-    }
-
-    public int calculateFood() {
-        int food = this.getFoodFromBuildings() + 2;
-        food += this.foodFromCheat;
-        food += (int) getSourcesFromTiles("food");
-        food -= this.citizensCount * 2;
-        food = settlerEffectOnFoods(food);
-        if (food > 0) {
-            food = checkForHappinessState(food);
-        }
-        return food;
-    }
-
-    public void killCitizen() {
-        Collections.shuffle(this.getTiles());
-        for (Tile tile :
-                this.getTiles()) {
-            if (tile.getCitizen() != null && tile != this.getTile()) {
-                tile.setCitizen(null);
-                return;
-            }
-        }
-    }
-
-    private int checkForHappinessState(int food) {
-        if (this.civilization.getHappinessType() != HappinessTypeEnum.HAPPY) {
-            return food * 2 / 3;
-        }
-        return food;
-    }
-
-
-    private int settlerEffectOnFoods(int food) {
-        if (productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0) {
-            food = 0;
-        }
-        return food;
     }
 
     private double getSourcesFromTiles(String foodOrProductionOrGold) {
@@ -299,10 +282,11 @@ public class City {
             case "gold" -> {
                 return gold;
             }
-            default -> {throw new RuntimeException();}
+            default -> {
+                throw new RuntimeException();
+            }
         }
     }
-
 
     private double getFromResource(String name) {
         double gold = 0;
@@ -321,6 +305,79 @@ public class City {
         };
     }
 
+    public ArrayList<ResourceEnum> getResources() {
+        ArrayList<ResourceEnum> resources = new ArrayList<>();
+        for (Tile tile : this.getTiles()) {
+            ResourceEnum resource = tile.getTerrain().getResource();
+            if (tile.getImprovements().contains(resource.getImprovementNeeded())) {
+                resources.add(resource);
+            }
+        }
+        return resources;
+    }
+
+    public double getProductionFromCheat() {
+        return productionFromCheat;
+    }
+
+    public void setProductionFromCheat(double productionFromCheat) {
+        this.productionFromCheat = productionFromCheat;
+    }
+
+    public int calculateGold() {
+        int gold = 0;
+        gold *= this.goldRatioFromBuildings;
+        gold += this.goldFromBuildings;
+        gold += getFromResource("gold");
+        gold += getSourcesFromTiles("gold");
+        return gold;
+    }
+
+    public int calculateFood() {
+        int food = this.getFoodFromBuildings() + 2;
+        food += this.foodFromCheat;
+        food += (int) getSourcesFromTiles("food");
+        food -= this.citizensCount * 2;
+        food = settlerEffectOnFoods(food);
+        if (food > 0) {
+            food = checkForHappinessState(food);
+        }
+        return food;
+    }
+
+    private int checkForHappinessState(int food) {
+        if (this.civilization.getHappinessType() != HappinessTypeEnum.HAPPY) {
+            return food * 2 / 3;
+        }
+        return food;
+    }
+
+    private int settlerEffectOnFoods(int food) {
+        if (productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0) {
+            food = 0;
+        }
+        return food;
+    }
+
+    public int getFoodFromBuildings() {
+        return foodFromBuildings;
+    }
+
+    public void setFoodFromBuildings(int foodFromBuildings) {
+        this.foodFromBuildings = foodFromBuildings;
+    }
+
+    public void killCitizen() {
+        Collections.shuffle(this.getTiles());
+        for (Tile tile :
+                this.getTiles()) {
+            if (tile.getCitizen() != null && tile != this.getTile()) {
+                tile.setCitizen(null);
+                return;
+            }
+        }
+    }
+
     /***
      * setter and getters
      */
@@ -329,40 +386,28 @@ public class City {
         return productionQueue;
     }
 
-    public void setGoldRatioFromBuildings(int goldRatioFromBuildings) {
-        this.goldRatioFromBuildings = goldRatioFromBuildings;
-    }
-
     public int getGoldRatioFromBuildings() {
         return goldRatioFromBuildings;
+    }
+
+    public void setGoldRatioFromBuildings(int goldRatioFromBuildings) {
+        this.goldRatioFromBuildings = goldRatioFromBuildings;
     }
 
     public int getRange() {
         return range;
     }
 
-    public void setProductionFromCheat(double productionFromCheat) {
-        this.productionFromCheat = productionFromCheat;
-    }
-
-    public Location getLocation() {
-        return this.cityTile.getLocation();
-    }
-
     public int getGold() {
         return this.gold;
     }
 
-    public void setGoldProductionValue(int gold) {
+    public void setGold(int gold) {
         this.gold = gold;
     }
 
-    public int getHitPoint() {
-        return this.hitPoint;
-    }
-
-    public void setHitPoint(int hitPoint) {
-        this.hitPoint = hitPoint;
+    public void setGoldProductionValue(int gold) {
+        this.gold = gold;
     }
 
     public double getCombatStrength() {
@@ -377,6 +422,10 @@ public class City {
         return citizensCount;
     }
 
+    public void setCitizensCount(int citizensCount) {
+        this.citizensCount = citizensCount;
+    }
+
     public int getBeaker() {
         return beaker;
     }
@@ -389,16 +438,16 @@ public class City {
         return this.isCapital;
     }
 
-    public void setProductionFromBuildings(double productionFromBuildings) {
-        this.productionFromBuildings = productionFromBuildings;
+    public void setCapital(boolean isCapital) {
+        this.isCapital = isCapital;
     }
 
     public double getProductionFromBuildings() {
         return productionFromBuildings;
     }
 
-    public void setCapital(boolean isCapital) {
-        this.isCapital = isCapital;
+    public void setProductionFromBuildings(double productionFromBuildings) {
+        this.productionFromBuildings = productionFromBuildings;
     }
 
     public int getFood() {
@@ -407,14 +456,6 @@ public class City {
 
     public void setFood(int food) {
         this.food = food;
-    }
-
-    public void setFoodFromCheat(int foodFromCheat) {
-        this.foodFromCheat = foodFromCheat;
-    }
-
-    public ArrayList<Tile> getTiles() {
-        return tiles;
     }
 
     public double getHappiness() {
@@ -433,14 +474,6 @@ public class City {
         this.cityState = cityState;
     }
 
-    public double getProduction() {
-        return production;
-    }
-
-    public void setProduction(double production) {
-        this.production = production;
-    }
-
     public boolean hasBuilding(Building buildingName) {
         return this.buildings.contains(buildingName);
     }
@@ -449,58 +482,20 @@ public class City {
         this.buildings.add(cityStructure);
     }
 
-
     public String getName() {
         return this.name;
-    }
-
-    public Civilization getCivilization() {
-        return civilization;
-    }
-
-    public void setCivilization(Civilization civ) {
-        this.civilization = civ;
-    }
-
-    public int getFoodFromBuildings() {
-        return foodFromBuildings;
-    }
-
-    public Tile getTile() {
-        return cityTile;
-    }
-
-    public double getProductionFromCheat() {
-        return productionFromCheat;
-    }
-
-
-    public void setCitizensCount(int citizensCount) {
-        this.citizensCount = citizensCount;
-    }
-
-    public int getGoldFromBuildings() {
-        return goldFromBuildings;
-    }
-
-    public void setFoodFromBuildings(int foodFromBuildings) {
-        this.foodFromBuildings = foodFromBuildings;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
     }
 
     public double getLocalHappiness() {
         return localHappiness;
     }
 
-    public void setGoldFromBuildings(int goldFromBuildings) {
-        this.goldFromBuildings = goldFromBuildings;
-    }
-
     public int getFoodFromCheat() {
         return foodFromCheat;
+    }
+
+    public void setFoodFromCheat(int foodFromCheat) {
+        this.foodFromCheat = foodFromCheat;
     }
 
     public double getHappinessFromBuildings() {
@@ -512,11 +507,11 @@ public class City {
         this.happinessFromBuildings = happinessFromBuildings;
     }
 
-    public void setCombatStrengthFromBuildings(double combatStrengthFromBuildings) {
-        this.combatStrengthFromBuildings = combatStrengthFromBuildings;
-    }
-
     public double getCombatStrengthFromBuildings() {
         return combatStrengthFromBuildings;
+    }
+
+    public void setCombatStrengthFromBuildings(double combatStrengthFromBuildings) {
+        this.combatStrengthFromBuildings = combatStrengthFromBuildings;
     }
 }

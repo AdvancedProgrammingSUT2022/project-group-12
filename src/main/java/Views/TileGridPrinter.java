@@ -23,28 +23,6 @@ public class TileGridPrinter {
         screen = new String[height][width];
     }
 
-    private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
-        if (0 <= row && row < this.height && 0 <= col && col < this.width) {
-            screen[row][col] = foreground.toString() + background.toString() + ch + TerrainColor.RESET;
-        }
-    }
-
-    private void setChar(int row, int col, char ch, TerrainColor foreground) {
-        if (0 <= row && row < this.height && 0 <= col && col < this.width) {
-            screen[row][col] = TerrainColor.RESET + foreground.toString() + ch + TerrainColor.RESET;
-        }
-    }
-
-    private void setChar(int row, int col, char ch) {
-        if (0 <= row && row < this.height && 0 <= col && col < this.width) screen[row][col] = String.valueOf(ch);
-    }
-
-    private void writeCentered(int row, int col, String text, TerrainColor foreground, TerrainColor background) {
-        for (int i = 0; i < text.length(); ++i) {
-            this.setChar(row, col - (text.length() - 1) / 2 + i, text.charAt(i), foreground, background);
-        }
-    }
-
     public String print(Location center) {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -116,6 +94,40 @@ public class TileGridPrinter {
         }
     }
 
+    private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
+        if (0 <= row && row < this.height && 0 <= col && col < this.width) {
+            screen[row][col] = foreground.toString() + background.toString() + ch + TerrainColor.RESET;
+        }
+    }
+
+    private void setChar(int row, int col, char ch, TerrainColor foreground) {
+        if (0 <= row && row < this.height && 0 <= col && col < this.width) {
+            screen[row][col] = TerrainColor.RESET + foreground.toString() + ch + TerrainColor.RESET;
+        }
+    }
+
+    private void setChar(int row, int col, char ch) {
+        if (0 <= row && row < this.height && 0 <= col && col < this.width) screen[row][col] = String.valueOf(ch);
+    }
+
+    private void writeCentered(int row, int col, String text, TerrainColor foreground, TerrainColor background) {
+        for (int i = 0; i < text.length(); ++i) {
+            this.setChar(row, col - (text.length() - 1) / 2 + i, text.charAt(i), foreground, background);
+        }
+    }
+
+    public StringBuilder tileInfo(int x, int y) {
+        if (!this.tileGrid.isLocationValid(x, y)) return new StringBuilder("location not valid");
+        Tile selectedTile = this.tileGrid.getTile(x, y);
+        VisibilityEnum selectedTileState = this.tileGrid.tileState(x, y);
+        if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR)) {
+            return new StringBuilder("you have not explored this tile yet");
+        }
+        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCivilization().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
+        if (selectedTile.getState().equals(VisibilityEnum.VISIBLE)) appendTileInfo(selectedTile);
+        return showTileInfo;
+    }
+
     private void appendTileInfo(Tile selected) {
         if (selected.getNonCombatUnit() == null) {
             showTileInfo.append("\ncontains no non combat units");
@@ -133,17 +145,5 @@ public class TileGridPrinter {
         if (selected.getTerrain().getResource() != null) {
             showTileInfo.append(selected.getTerrain().getResourcesByName());
         }
-    }
-
-    public StringBuilder tileInfo(int x, int y) {
-        if (!this.tileGrid.isLocationValid(x, y)) return new StringBuilder("location not valid");
-        Tile selectedTile = this.tileGrid.getTile(x, y);
-        VisibilityEnum selectedTileState = this.tileGrid.tileState(x, y);
-        if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR)) {
-            return new StringBuilder("you have not explored this tile yet");
-        }
-        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCivilization().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
-        if (selectedTile.getState().equals(VisibilityEnum.VISIBLE)) appendTileInfo(selectedTile);
-        return showTileInfo;
     }
 }

@@ -1,7 +1,5 @@
 package Models;
 
-import java.util.ArrayList;
-
 public class User {
     private final String username;
     private String nickname;

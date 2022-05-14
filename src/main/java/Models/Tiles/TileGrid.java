@@ -30,6 +30,35 @@ public class TileGrid {
         }
     }
 
+    private Tile randomAssignment(int x, int y) {
+        if (!newTile(x, y)) {
+            return new Tile(new Terrain(TerrainEnum.OCEAN), x, y);
+        }
+        return randomTerrainType(x, y);
+    }
+
+    private Tile randomTerrainType(int x, int y) {
+        ArrayList<TerrainEnum> values = new ArrayList<>();
+        values.add(TerrainEnum.DESERT);
+        values.add(TerrainEnum.HILL);
+        values.add(TerrainEnum.MOUNTAIN);
+        values.add(TerrainEnum.GRASSLAND);
+        values.add(TerrainEnum.PLAIN);
+        values.add(TerrainEnum.SNOW);
+        values.add(TerrainEnum.TUNDRA);
+        int randomSelection = random.nextInt(7);
+        return new Tile(new Terrain(values.get(randomSelection)), x, y);
+    }
+
+    private boolean newTile(int x, int y) {
+        for (Location usedLocation : this.usedLocations) {
+            if (usedLocation.getRow() == x && usedLocation.getCol() == y) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public TileGrid(Civilization civilization, int height, int width) {
         this.height = height;
         this.width = width;
@@ -49,6 +78,14 @@ public class TileGrid {
     public Location getRandomTileLocation() {
         Random random = new Random();
         return new Location(random.nextInt(this.getHeight()), random.nextInt(this.getWidth()));
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public void setTile(Location location, Tile tile) {
@@ -99,58 +136,16 @@ public class TileGrid {
         }
     }
 
-    public boolean isLocationValid(int r, int c) {
-        return 0 <= r && r < this.getHeight() && 0 <= c && c < this.getWidth();
-    }
-
     public boolean isLocationValid(Location location) {
         return isLocationValid(location.getRow(), location.getCol());
     }
 
-    private Tile randomAssignment(int x, int y) {
-        if (!newTile(x, y)) {
-            return new Tile(new Terrain(TerrainEnum.OCEAN), x, y);
-        }
-        return randomTerrainType(x, y);
-    }
-
-    private Tile randomTerrainType(int x, int y) {
-        ArrayList<TerrainEnum> values = new ArrayList<>();
-        values.add(TerrainEnum.DESERT);
-        values.add(TerrainEnum.HILL);
-        values.add(TerrainEnum.MOUNTAIN);
-        values.add(TerrainEnum.GRASSLAND);
-        values.add(TerrainEnum.PLAIN);
-        values.add(TerrainEnum.SNOW);
-        values.add(TerrainEnum.TUNDRA);
-        int randomSelection = random.nextInt(7);
-        return new Tile(new Terrain(values.get(randomSelection)), x, y);
-    }
-
-
-    private boolean newTile(int x, int y) {
-        for (Location usedLocation : this.usedLocations) {
-            if (usedLocation.getRow() == x && usedLocation.getCol() == y) {
-                return false;
-            }
-        }
-        return true;
+    public boolean isLocationValid(int r, int c) {
+        return 0 <= r && r < this.getHeight() && 0 <= c && c < this.getWidth();
     }
 
     private ArrayList<Location> getUsedLocations() {
         return this.usedLocations;
-    }
-
-    public Tile[][] getGrid() {
-        return this.tiles;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
     }
 
     public Tile[][] getTiles() {
@@ -201,6 +196,10 @@ public class TileGrid {
             }
         }
         return tiles;
+    }
+
+    public Tile[][] getGrid() {
+        return this.tiles;
     }
 
     public ArrayList<Location> getFlatTileLocations() {

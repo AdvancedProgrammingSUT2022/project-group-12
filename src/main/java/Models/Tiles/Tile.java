@@ -19,6 +19,7 @@ public class Tile {
     private final int row;
     private final int col;
     private final Terrain terrain;
+    protected ArrayList<ImprovementEnum> improvements;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private int HP;
@@ -28,7 +29,6 @@ public class Tile {
     private boolean hasRoad;
     private boolean hasRailRoad;
     private boolean hasRiver;
-    protected ArrayList<ImprovementEnum> improvements;
     private VisibilityEnum state;
     private Citizen citizen = null;
 
@@ -120,14 +120,6 @@ public class Tile {
         isDamaged = damaged;
     }
 
-    public int getCol() {
-        return col;
-    }
-
-    public int getRow() {
-        return row;
-    }
-
     public City getCity() {
         return city;
     }
@@ -144,12 +136,12 @@ public class Tile {
         return combatUnit;
     }
 
-    public NonCombatUnit getNonCombatUnit() {
-        return nonCombatUnit;
-    }
-
     private void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
+    }
+
+    public NonCombatUnit getNonCombatUnit() {
+        return nonCombatUnit;
     }
 
     private void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
@@ -190,8 +182,8 @@ public class Tile {
     public double calculateMovementCost() {
         double cost = terrain.getMovementCost();
         if (this.improvements.contains(ImprovementEnum.ROAD)) {
-           cost *= (2.0 / 3);
-        }else if(this.improvements.contains(ImprovementEnum.RAILROAD)){
+            cost *= (2.0 / 3);
+        } else if (this.improvements.contains(ImprovementEnum.RAILROAD)) {
             cost /= 2;
         }
         return cost;
@@ -207,7 +199,7 @@ public class Tile {
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
         }
-        return switch (name){
+        return switch (name) {
             case "gold" -> gold;
             case "food" -> food;
             case "production" -> production;
@@ -215,9 +207,16 @@ public class Tile {
         };
     }
 
-
     public Location getLocation() {
         return new Location(getRow(), getCol());
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     public void deleteUnit(Unit unit) {

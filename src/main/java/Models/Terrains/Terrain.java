@@ -84,12 +84,12 @@ public class Terrain {
         return count;
     }
 
-    public TerrainColor getColor() {
-        return this.color;
-    }
-
     public TerrainEnum getTerrainType() {
         return this.terrainType;
+    }
+
+    public TerrainColor getColor() {
+        return this.color;
     }
 
     public int getFoodCount() {
@@ -138,11 +138,12 @@ public class Terrain {
     }
 
     public void clearLands() {
-        if (this.features.contains(TerrainEnum.JUNGLE))
+        if (this.features.contains(TerrainEnum.JUNGLE)) {
             this.features = new ArrayList<>() {{
                 add(TerrainEnum.DESERT);
             }};
-        else
+        } else {
             this.features = new ArrayList<>();
+        }
     }
 }

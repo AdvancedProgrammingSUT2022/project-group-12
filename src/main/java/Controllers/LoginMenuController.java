@@ -21,6 +21,14 @@ public class LoginMenuController {
         }
     }
 
+    private static boolean weakPassword(String password) {
+        return InputRegex.getMatcher(password, InputRegex.CONTAINS_DIGIT) != null &&
+                InputRegex.getMatcher(password, InputRegex.CONTAINS_UPPERCASE_ALPHABET) != null &&
+                InputRegex.getMatcher(password, InputRegex.CONTAINS_LOWERCASE_ALPHABET) != null &&
+                InputRegex.getMatcher(password, InputRegex.CONTAINS_SPECIAL_CHAR) != null &&
+                password.length() >= 8;
+    }
+
     public static void loginUser(String username, String password) throws CommandException {
         Database database = Database.getInstance();
         User user;
@@ -31,13 +39,5 @@ public class LoginMenuController {
         } else {
             MenuStack.getInstance().setUser(user);
         }
-    }
-
-    private static boolean weakPassword(String password) {
-        return InputRegex.getMatcher(password, InputRegex.CONTAINS_DIGIT) != null &&
-                InputRegex.getMatcher(password, InputRegex.CONTAINS_UPPERCASE_ALPHABET) != null &&
-                InputRegex.getMatcher(password, InputRegex.CONTAINS_LOWERCASE_ALPHABET) != null &&
-                InputRegex.getMatcher(password, InputRegex.CONTAINS_SPECIAL_CHAR) != null &&
-                password.length() >= 8;
     }
 }

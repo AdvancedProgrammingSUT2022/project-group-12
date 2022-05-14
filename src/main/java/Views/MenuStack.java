@@ -35,25 +35,12 @@ public class MenuStack {
         this.scanner = scanner;
     }
 
-    private ArrayList<Menu> getMenus() {
-        return menus;
-    }
-
     public boolean isEmpty() {
         return this.getMenus().isEmpty();
     }
 
-    public void pushMenu(Menu menu) {
-        if (this.getTopMenu() != null) this.getTopMenu().resetShowName();
-        this.getMenus().add(menu);
-    }
-
-    public void popMenu() {
-        this.getMenus().remove(this.getMenus().size() - 1);
-    }
-
-    public Menu getTopMenu() {
-        return this.getMenus().isEmpty() ? null : this.getMenus().get(this.getMenus().size() - 1);
+    private ArrayList<Menu> getMenus() {
+        return menus;
     }
 
     public User getUser() {
@@ -71,6 +58,19 @@ public class MenuStack {
         } else {
             this.popMenu();
         }
+    }
+
+    public void pushMenu(Menu menu) {
+        if (this.getTopMenu() != null) this.getTopMenu().resetShowName();
+        this.getMenus().add(menu);
+    }
+
+    public Menu getTopMenu() {
+        return this.getMenus().isEmpty() ? null : this.getMenus().get(this.getMenus().size() - 1);
+    }
+
+    public void popMenu() {
+        this.getMenus().remove(this.getMenus().size() - 1);
     }
 
     public void gotoMainMenu() {

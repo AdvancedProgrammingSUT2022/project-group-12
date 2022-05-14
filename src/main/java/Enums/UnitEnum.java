@@ -77,6 +77,15 @@ public enum UnitEnum {
         this.isACombatUnit = combatType != CombatTypeEnum.CIVILIAN;
     }
 
+    public static UnitEnum getUnitEnumByThisName(String name) throws CommandException {
+        for (UnitEnum unitEnum : UnitEnum.values()) {
+            if (name.equals(valueOf(String.valueOf(unitEnum))) || name.equals(valueOf(String.valueOf(unitEnum).toLowerCase()))) {
+                return unitEnum;
+            }
+        }
+        throw new CommandException(CommandResponse.WRONG_UNIT);
+    }
+
     public boolean isACombatUnit() {
         return this.isACombatUnit;
     }
@@ -119,13 +128,5 @@ public enum UnitEnum {
 
     public TechnologyEnum getRequiredTech() {
         return this.requiredTech;
-    }
-    public static UnitEnum getUnitEnumByThisName(String name) throws CommandException {
-        for (UnitEnum unitEnum : UnitEnum.values()) {
-            if(name.equals(valueOf(String.valueOf(unitEnum))) || name.equals(valueOf(String.valueOf(unitEnum).toLowerCase()))){
-                return unitEnum;
-            }
-        }
-        throw new CommandException(CommandResponse.WRONG_UNIT);
     }
 }

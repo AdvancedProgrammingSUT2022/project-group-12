@@ -61,7 +61,7 @@ public enum BuildingNoteEnum {
     MONASTERY_NOTE((BuildingNotes<City>) o -> {
     }),
     UNIVERSITY_NOTE((BuildingNotes<City>) city -> {
-        city.getCivilization().setBeakerRatioFromBuildings(city.getCivilization().getBeakerRatioFromBuildings() * (3/2));
+        city.getCivilization().setBeakerRatioFromBuildings(city.getCivilization().getBeakerRatioFromBuildings() * (3 / 2));
         int number = 0;
         for (Tile tile : city.getTiles()) {
             if (tile.getCitizen() != null && tile.getTerrain().getTerrainType() == TerrainEnum.JUNGLE) {
@@ -83,14 +83,14 @@ public enum BuildingNoteEnum {
     }),
     OPERA_HOUSE_NOTE((BuildingNotes<City>) city -> {
     }),
-    PUBLIC_SCHOOL_NOTE((BuildingNotes<City>) city -> city.getCivilization().setBeakerFromBuildings(city.getCivilization().getBeakerFromBuildings() * (3/ 2))),
+    PUBLIC_SCHOOL_NOTE((BuildingNotes<City>) city -> city.getCivilization().setBeakerFromBuildings(city.getCivilization().getBeakerFromBuildings() * (3 / 2))),
     SATRAPS_COURT_NOTE((BuildingNotes<City>) city -> {
         city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 4);
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
     }),
     THEATER_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     //todo : check
-    WINDMILL_NOTE((BuildingNotes<City>) city ->  city.setProductionFromBuildings(city.getProductionFromBuildings() + city.getProductionFromBuildings() * 15.0 / 100.0)),
+    WINDMILL_NOTE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + city.getProductionFromBuildings() * 15.0 / 100.0)),
     ARSENAL_NOTE((BuildingNotes<City>) city -> {
         Production production = null;
         if (production instanceof Unit) {

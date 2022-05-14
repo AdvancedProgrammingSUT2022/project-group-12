@@ -36,34 +36,12 @@ public class UnitCombatController extends CombatController {
 
     }
 
-    protected static String AttackRangedUnit(RangedUnit ownRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) throws CommandException {
-        ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
-        if (ownRangedUnit.getType().getRange() >= path.size()) {
-            if (GameController.isEnemyExists(enemyUnit.getLocation(), civilization)) {
-                return calculateRangeAttack(ownRangedUnit, enemyUnit, currentTile, enemyTile);
-            } else {
-                return calculateRangeAttack(ownRangedUnit,enemyUnit, currentTile, enemyTile);
-            }
-        } else {
-            throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
-        }
-    }
-
     private static String calculateNonRangeAttack(NonRangedUnit nonRangedUnit, CombatUnit combatUnit, Tile nonRangedTile, Tile combatUnitTile) {
         String response = "Attack happened successfully";
         double combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double combatStrength2 = calculateCombatStrength(combatUnit, combatUnitTile, "combatstrength");
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrength1, combatUnit, combatStrength2);
         response = checkForKill(nonRangedUnit, combatUnit, nonRangedTile, combatUnitTile);
-        return response;
-    }
-
-    private static String calculateRangeAttack(RangedUnit rangedUnit, Unit unit, Tile rangedUnitTile, Tile combatUnitTile) {
-        String response = "Attack happened successfully";
-        double strengthRangedUnit = calculateCombatStrength(rangedUnit, rangedUnitTile,"rangedcombatstrength");
-        double EnemyUnitStrength = calculateCombatStrength(unit, combatUnitTile, "combatstrength");
-        calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, unit, EnemyUnitStrength);
-        response = checkForKill(rangedUnit, unit, rangedUnitTile, combatUnitTile);
         return response;
     }
 
@@ -86,6 +64,41 @@ public class UnitCombatController extends CombatController {
         return "both are damaged and attack happened successfully";
     }
 
+    public static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrength1, CombatUnit combatUnit, double combatStrength2) {
+        double strengthDiff = combatStrength1 - combatStrength2;
+        Random random = new Random();
+        calculateDamage(nonRangedUnit, -strengthDiff, random);
+        calculateDamage(combatUnit, strengthDiff, random);
+    }
+
+    protected static String AttackRangedUnit(RangedUnit ownRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) throws CommandException {
+        ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
+        if (ownRangedUnit.getType().getRange() >= path.size()) {
+            if (GameController.isEnemyExists(enemyUnit.getLocation(), civilization)) {
+                return calculateRangeAttack(ownRangedUnit, enemyUnit, currentTile, enemyTile);
+            } else {
+                return calculateRangeAttack(ownRangedUnit, enemyUnit, currentTile, enemyTile);
+            }
+        } else {
+            throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
+        }
+    }
+
+    private static String calculateRangeAttack(RangedUnit rangedUnit, Unit unit, Tile rangedUnitTile, Tile combatUnitTile) {
+        String response = "Attack happened successfully";
+        double strengthRangedUnit = calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
+        double EnemyUnitStrength = calculateCombatStrength(unit, combatUnitTile, "combatstrength");
+        calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, unit, EnemyUnitStrength);
+        response = checkForKill(rangedUnit, unit, rangedUnitTile, combatUnitTile);
+        return response;
+    }
+
+    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, double strengthRangedUnit, Unit unit, double combatUnitStrength) {
+        double strengthDiff = strengthRangedUnit - combatUnitStrength;
+        Random random = new Random();
+        calculateDamage(unit, strengthDiff, random);
+    }
+
     public static void setupUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit combatUnit) || combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE) {
             throw new CommandException(CommandResponse.UNIT_IS_NOT_SIEGE);
@@ -99,19 +112,6 @@ public class UnitCombatController extends CombatController {
         }
         combatUnit.setAvailableMoveCount(combatUnit.getAvailableMoveCount() - 1);
         combatUnit.setState(UnitStates.SETUP);
-    }
-
-    public static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrength1, CombatUnit combatUnit, double combatStrength2) {
-        double strengthDiff = combatStrength1 - combatStrength2;
-        Random random = new Random();
-        calculateDamage(nonRangedUnit, -strengthDiff, random);
-        calculateDamage(combatUnit, strengthDiff, random);
-    }
-
-    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, double strengthRangedUnit, Unit unit, double combatUnitStrength) {
-        double strengthDiff = strengthRangedUnit - combatUnitStrength;
-        Random random = new Random();
-        calculateDamage(unit, strengthDiff, random);
     }
 
 }

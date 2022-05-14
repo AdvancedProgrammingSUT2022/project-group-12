@@ -15,18 +15,6 @@ public class Command {
         this.type = type;
     }
 
-    private static String removeWhiteSpaces(String str) {
-        str = str.trim();
-        StringBuilder stringBuilder = new StringBuilder();
-        boolean space = false;
-        for (int i = 0; i < str.length(); ++i) {
-            boolean isSpace = Character.isWhitespace(str.charAt(i));
-            if (!space || !isSpace) stringBuilder.append(str.charAt(i));
-            space = isSpace;
-        }
-        return stringBuilder.toString();
-    }
-
     public static Command parseCommand(String input) throws CommandException {
         int idx = input.indexOf('-');
         if (idx == -1) idx = input.length();
@@ -66,6 +54,18 @@ public class Command {
         return command;
     }
 
+    private static String removeWhiteSpaces(String str) {
+        str = str.trim();
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean space = false;
+        for (int i = 0; i < str.length(); ++i) {
+            boolean isSpace = Character.isWhitespace(str.charAt(i));
+            if (!space || !isSpace) stringBuilder.append(str.charAt(i));
+            space = isSpace;
+        }
+        return stringBuilder.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -84,8 +84,13 @@ public class Command {
         }
     }
 
-    public String getType() {
-        return type;
+    public String getOption(String key) {
+        return this.options.get(key);
+    }
+
+    public String getCategory() {
+        if (getPartOfType(0) != null) return getPartOfType(0);
+        return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 
     private String getPartOfType(int idx) {
@@ -93,9 +98,8 @@ public class Command {
         return parts.length > idx ? parts[idx] : "";
     }
 
-    public String getCategory() {
-        if (getPartOfType(0) != null) return getPartOfType(0);
-        return String.valueOf(CommandResponse.INVALID_COMMAND);
+    public String getType() {
+        return type;
     }
 
     public String getSubCategory() {
@@ -110,10 +114,6 @@ public class Command {
 
     public HashMap<String, String> getOptions() {
         return options;
-    }
-
-    public String getOption(String key) {
-        return this.options.get(key);
     }
 
     public void assertOptions(List<String> requiredKeys) throws CommandException {

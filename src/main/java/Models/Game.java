@@ -71,7 +71,7 @@ public class Game {
         civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
-    public void endCurrentTurn() throws GameException{
+    public void endCurrentTurn() throws GameException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
         //todo : complete
@@ -120,18 +120,6 @@ public class Game {
         }
     }
 
-    private void checkForMultipleMoves(Unit unit) {
-        if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
-            MovingController.moveToNextTile(unit);
-        }
-    }
-
-    private void checkForFortifyHealUnit(Unit unit, Tile tile) throws GameException {
-        if (unit.getHealthBar() == 100) {
-            checkForMovementCost(unit);
-        }
-    }
-
     private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {
         for (Tile tile : tiles) {
             if (GameController.isEnemyExists(tile.getLocation(), unitCiv) || GameController.isNonCombatEnemyExists(tile.getLocation(), unitCiv)) {
@@ -144,6 +132,18 @@ public class Game {
     private void checkForMovementCost(Unit unit) throws GameException {
         if (unit.getAvailableMoveCount() > 0) {
             throw new GameException(CommandResponse.UNIT_NEED_ORDER);
+        }
+    }
+
+    private void checkForMultipleMoves(Unit unit) {
+        if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
+            MovingController.moveToNextTile(unit);
+        }
+    }
+
+    private void checkForFortifyHealUnit(Unit unit, Tile tile) throws GameException {
+        if (unit.getHealthBar() == 100) {
+            checkForMovementCost(unit);
         }
     }
 

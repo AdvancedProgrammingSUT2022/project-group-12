@@ -34,6 +34,10 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
+    public void resetMovementCount() {
+        this.availableMoveCount = type.getMovement();
+    }
+
     public Unit(UnitEnum type, Civilization civ, Location location, int productionCost) {
         super(productionCost);
         this.type = type;
@@ -49,6 +53,14 @@ public abstract class Unit extends Production {
         //debug for test
         random_number = 1.25;
         unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
+    }
+
+    public int getHealthBar() {
+        return healthBar;
+    }
+
+    public void setHealthBar(int healthBar) {
+        this.healthBar = healthBar;
     }
 
     public static double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh) {
@@ -69,11 +81,19 @@ public abstract class Unit extends Production {
 
     protected static double getTerrainFeaturesEffect(Tile tile) {
         double effect = 1;
-        effect *= (1.0 +  ((double)tile.getTerrain().getTerrainType().getCombatModifier() / 100.0));
+        effect *= (1.0 + ((double) tile.getTerrain().getTerrainType().getCombatModifier() / 100.0));
         for (TerrainEnum terrainEnum : tile.getTerrain().getFeatures()) {
-            effect *= (1.0 + ((double)terrainEnum.getCombatModifier())/100.0);
+            effect *= (1.0 + ((double) terrainEnum.getCombatModifier()) / 100.0);
         }
         return effect;
+    }
+
+    public UnitEnum getType() {
+        return this.type;
+    }
+
+    public void setType(UnitEnum type) {
+        this.type = type;
     }
 
     public ArrayList<Tile> getPathShouldCross() {
@@ -100,28 +120,12 @@ public abstract class Unit extends Production {
         this.availableMoveCount = availableMoveCount;
     }
 
-    public UnitEnum getType() {
-        return this.type;
-    }
-
-    public void setType(UnitEnum type) {
-        this.type = type;
-    }
-
     public Location getLocation() {
         return location;
     }
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public int getHealthBar() {
-        return healthBar;
-    }
-
-    public void setHealthBar(int healthBar) {
-        this.healthBar = healthBar;
     }
 
     public UnitStates getState() {
@@ -138,10 +142,6 @@ public abstract class Unit extends Production {
 
     public void setCiv(Civilization civ) {
         this.civ = civ;
-    }
-
-    public void resetMovementCount() {
-        this.availableMoveCount = type.getMovement();
     }
 
     @Override
