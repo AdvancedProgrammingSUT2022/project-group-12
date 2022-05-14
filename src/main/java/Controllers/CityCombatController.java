@@ -181,7 +181,7 @@ public class CityCombatController extends CombatController {
         double range = city.getRange();
         range = calculateRangeOfCityAttack(currentTile, city);
         if (city.getRange() >= path.size()) {
-            return calculateCityRangeAttack(city, enemyCity, currentTile, GameController.getGame().getTileGrid().getTile(enemyCity.getLocation()));
+            return calculateCityRangeAttack(city, enemyCity, currentTile, GameController.getGameTile(enemyCity.getLocation()));
         } else {
             throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
         }

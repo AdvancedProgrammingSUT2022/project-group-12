@@ -52,7 +52,7 @@ public class UnitFuncs {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }
         if (location == unit.getLocation()) throw new CommandException(CommandResponse.UNIT_IS_ALREADY_ON_TILE);
-        Tile nextTile = GameController.getGame().getTileGrid().getTile(location);
+        Tile nextTile = GameController.getGameTile(location);
         if (unit instanceof NonCombatUnit && nextTile.getNonCombatUnit() != null ||
                 unit instanceof CombatUnit && nextTile.getCombatUnit() != null) {
             throw new CommandException(CommandResponse.TILE_IS_FULL);

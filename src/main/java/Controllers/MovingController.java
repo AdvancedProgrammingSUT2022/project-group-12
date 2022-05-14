@@ -40,14 +40,14 @@ public class MovingController {
     }
 
     private static boolean checkForEnemy(Location nextLocation, Unit unit) {
-        Tile currentTile = GameController.getGame().getTileGrid().getTile(nextLocation);
+        Tile currentTile = GameController.getGameTile(nextLocation);
         if (GameController.isEnemyExists(nextLocation, unit.getCivilization())) {
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);
             return true;
         }
         if (GameController.isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
-            CaptureTheNonCombatUnit(GameController.getGame().getTileGrid().getTile(nextLocation), unit.getCivilization());
+            CaptureTheNonCombatUnit(GameController.getGameTile(nextLocation), unit.getCivilization());
             return false;
         }
         return false;
@@ -78,16 +78,16 @@ public class MovingController {
             unit.setAvailableMoveCount(0);
             return;
         }
-        if (GameController.checkForRivers(GameController.getGame().getTileGrid().getTile(location), GameController.getGame().getTileGrid().getTile(location))) {
+        if (GameController.checkForRivers(GameController.getGameTile(location), GameController.getGameTile(location))) {
             unit.setAvailableMoveCount(0);
             return;
         }
-        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - GameController.getGame().getTileGrid().getTile(location).getTerrain().getMovementCost());
+        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - GameController.getGameTile(location).getTerrain().getMovementCost());
     }
 
 
     private static boolean checkForZOC(Location location, Location location1, Unit unit) {
-        return checkForZOCOnTile(GameController.getGame().getTileGrid().getTile(location), unit) && checkForZOCOnTile(GameController.getGame().getTileGrid().getTile(location1), unit);
+        return checkForZOCOnTile(GameController.getGameTile(location), unit) && checkForZOCOnTile(GameController.getGameTile(location1), unit);
     }
 
     private static boolean checkForZOCOnTile(Tile tile, Unit unit) {

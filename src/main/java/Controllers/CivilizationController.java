@@ -21,7 +21,7 @@ public class CivilizationController {
         StringBuilder unitInfo = new StringBuilder("Unit info:\n");
         for (Unit unit : civilization.getUnits()) {
             unitInfo.append("- <").append(unit)
-                    .append("> Tile: <").append(GameController.getGame().getTileGrid().getTile(unit.getLocation()).getTerrain().getTerrainType())
+                    .append("> Tile: <").append(GameController.getGameTile(unit.getLocation()).getTerrain().getTerrainType())
                     .append("> Movement: <").append(unit.getAvailableMoveCount())
                     .append("> Health: <").append(unit.getHealthBar())
                     .append("> Has work to do: <").append(unit.isWorking())

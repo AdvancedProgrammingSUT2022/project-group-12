@@ -21,8 +21,8 @@ public class CombatController extends GameController {
 
     public static String AttackUnit(Unit unit, Location location) throws CommandException {
         Civilization civilization = unit.getCivilization();
-        Tile currentTile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
-        Tile enemyTile = GameController.getGame().getTileGrid().getTile(location);
+        Tile currentTile = GameController.getGameTile(unit.getLocation());
+        Tile enemyTile = GameController.getGameTile(location);
         if (isAttackToCity(location, civilization)) {
             return CityCombatController.AttackToCity((CombatUnit) unit, enemyTile.getCity(), civilization, currentTile, enemyTile);
         }
@@ -38,10 +38,10 @@ public class CombatController extends GameController {
 
     public static String AttackCity(City city, Location location, String combatType) throws CommandException {
         Civilization civilization = city.getCivilization();
-        Tile currentTile = GameController.getGame().getTileGrid().getTile(city.getLocation());
-        Tile enemyTile = GameController.getGame().getTileGrid().getTile(location);
+        Tile currentTile = GameController.getGameTile(city.getLocation());
+        Tile enemyTile = GameController.getGameTile(location);
         if (isAttackToCity(location, civilization)) {
-            return CityCombatController.cityAttackToCity(GameController.getGame().getTileGrid().getTile(location).getCity(), currentTile, civilization, GameController.getGame().getTileGrid().getTile(location).getCity());
+            return CityCombatController.cityAttackToCity(GameController.getGameTile(location).getCity(), currentTile, civilization, GameController.getGameTile(location).getCity());
         }
         if (!isEnemyIsReadyForAttack(location, civilization, city)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);

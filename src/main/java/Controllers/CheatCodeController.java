@@ -39,7 +39,7 @@ public class CheatCodeController {
             newUnit = new NonCombatUnit(unit, GameController.getGame().getCurrentCivilization(), location);
         }
         GameController.getGame().getCurrentCivilization().addUnit(newUnit);
-        Tile tile = GameController.getGame().getTileGrid().getTile(location);
+        Tile tile = GameController.getGameTile(location);
         if (newUnit instanceof CombatUnit) {
             if (tile.getCombatUnit() == null) {
                 tile.setUnit(newUnit);
@@ -66,8 +66,8 @@ public class CheatCodeController {
 
     public void teleport(Location location, Unit unit) throws CommandException {
         UnitFuncs.validateTileForMovingUnit(location, unit);
-        Tile currentTile = GameController.getGame().getTileGrid().getTile(unit.getLocation());
-        Tile destTile = GameController.getGame().getTileGrid().getTile(location);
+        Tile currentTile = GameController.getGameTile(unit.getLocation());
+        Tile destTile = GameController.getGameTile(location);
         currentTile.transferUnitTo(unit, destTile);
     }
 
@@ -81,6 +81,6 @@ public class CheatCodeController {
     }
 
     public void revealTile(Location location) {
-        GameController.getGame().revealTileFor(GameController.getGame().getCurrentCivilization(), GameController.getGame().getTileGrid().getTile(location));
+        GameController.getGame().revealTileFor(GameController.getGame().getCurrentCivilization(), GameController.getGameTile(location));
     }
 }
