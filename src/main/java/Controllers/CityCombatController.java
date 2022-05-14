@@ -53,14 +53,13 @@ public class CityCombatController extends CombatController{
         }
     }
 
-    private static int calculateRangeOfCityAttack(Tile currentTile, City city) {
-
-        return 0;
+    private static double calculateRangeOfCityAttack(Tile currentTile, City city) {
+        return city.getRange();
     }
 
     protected static String CityAttackRangedUnit(Unit unit, City city, Tile enemyTile, Tile currentTile) throws CommandException {
         ArrayList<Tile> path = findTheShortestPath(unit.getLocation(), currentTile);
-        int range = city.getRange();
+        double range = city.getRange();
         range = calculateRangeOfCityAttack(currentTile, city);
         if (city.getRange() >= path.size()) {
             return calculateCityRangeAttack(currentTile.getCombatUnit(), city, enemyTile , currentTile);
@@ -71,7 +70,7 @@ public class CityCombatController extends CombatController{
 
     protected static String cityAttackToCity(City enemyCity, Tile currentTile, Civilization civilization, City city) throws CommandException {
         ArrayList<Tile> path = findTheShortestPath(enemyCity.getLocation(), currentTile);
-        int range = city.getRange();
+        double range = city.getRange();
         range = calculateRangeOfCityAttack(currentTile, city);
         if (city.getRange() >= path.size()) {
             return calculateCityRangeAttack(city, enemyCity, currentTile, GameController.getGame().getTileGrid().getTile(enemyCity.getLocation()));
@@ -82,8 +81,8 @@ public class CityCombatController extends CombatController{
 
     private static String calculateCityRangeAttack(City city, City enemyCity, Tile cityTile, Tile enemyCityTile) throws CommandException {
         String response = "Attack happened successfully";
-        int strengthRangedUnit = enemyCity.calculateCombatStrength();
-        int EnemyUnitStrength = city.calculateCombatStrength();
+        double strengthRangedUnit = enemyCity.calculateCombatStrength();
+        double EnemyUnitStrength = city.calculateCombatStrength();
         calculateRangeAttackDamage(enemyCity, strengthRangedUnit, city, EnemyUnitStrength);
         response = checkForKill(city, enemyCity, enemyCityTile, cityTile);
         return response;
@@ -92,8 +91,8 @@ public class CityCombatController extends CombatController{
 
     private static String calculateCityRangeAttack(CombatUnit enemyUnit, City city, Tile enemyUnitTile, Tile cityTile) throws CommandException {
         String response = new String("");
-        int strengthRangedUnit = city.calculateCombatStrength();
-        double EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyUnitTile);
+        double strengthRangedUnit = city.calculateCombatStrength();
+        double EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyUnitTile, "combatstrength");
         calculateRangeAttackDamage(city, strengthRangedUnit, enemyUnit, EnemyUnitStrength);
         response = checkForKill(enemyUnit, city, enemyUnitTile, cityTile);
         return response;
@@ -101,30 +100,30 @@ public class CityCombatController extends CombatController{
 
     private static String calculateRangeAttackToCity(RangedUnit rangedUnit, City city, Tile rangedUnitTile, Tile cityTile) throws CommandException {
         String response = "Attack happened successfully";
-        double strengthRangedUnit = Unit.calculateCombatStrength(rangedUnit, rangedUnitTile);
+        double strengthRangedUnit = Unit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
         if (rangedUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
             strengthRangedUnit = bonusForAttackToCity(rangedUnit, strengthRangedUnit);
         }
-        int EnemyUnitStrength = city.calculateCombatStrength();
+        double EnemyUnitStrength = city.calculateCombatStrength();
         calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, city, EnemyUnitStrength);
         response = checkForKill(rangedUnit, city, rangedUnitTile, cityTile);
         return response;
     }
 
-    private static int bonusForAttackToCity(RangedUnit rangedUnit, double strengthRangedUnit) {
-        return (int) (strengthRangedUnit * 1.5);
+    public static double bonusForAttackToCity(RangedUnit rangedUnit, double strengthRangedUnit) {
+        return (double) (strengthRangedUnit * 1.5);
     }
 
     private static String calculateNonRangeAttackToCity(NonRangedUnit nonRangedUnit, City city, Tile nonRangedTile, Tile cityTile) throws CommandException {
         String response = "Attack happened successfully";
-        double combatStrengthNonRangedUnit = Unit.calculateCombatStrength(nonRangedUnit, nonRangedTile);
-        int EnemyCityStrength = city.calculateCombatStrength();
+        double combatStrengthNonRangedUnit = Unit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
+        double EnemyCityStrength = city.calculateCombatStrength();
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrengthNonRangedUnit, city, EnemyCityStrength);
         response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
         return response;
     }
 
-    private static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
+    public static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
         StringBuilder message = new StringBuilder("");
         if (unit.getHealthBar() <= 0) {
             if (unit instanceof CombatUnit) {
@@ -148,7 +147,7 @@ public class CityCombatController extends CombatController{
         return "both are damaged !!";
     }
 
-    private static String checkForKill(City city, City enemyCity, Tile enemyCityTile, Tile cityTile) throws CommandException {
+    public static String checkForKill(City city, City enemyCity, Tile enemyCityTile, Tile cityTile) throws CommandException {
         if (enemyCity.getHitPoint() <= 0) {
             enemyCity.setHitPoint(1);
             throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_CITY);
@@ -157,8 +156,9 @@ public class CityCombatController extends CombatController{
     }
 
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-        //todo : complete capturing type
-        String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy(if city isn't capital or Pppet)");
+      //  String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy");"
+        //test
+        String message = new String("Destroy");
         GetMessageLoop:
         while (true) {
             switch (message) {
@@ -185,11 +185,17 @@ public class CityCombatController extends CombatController{
 
     private static void destroyCity(City city, Tile cityTile, Civilization civ) {
         city.setCivilization(civ);
-        Random random;
+        Random random = new Random();
         for (Building building : city.getBuildings()) {
-            //todo : if a building is a military is destroyed else with probability 33 percent it will be destroy
+           city.getBuildings().remove(building);
         }
-        setNewCivForCityTiles(city, cityTile, civ);
+        for (Tile tile:
+             city.getTiles()) {
+            if(tile.getCitizen() != null){tile.setCitizen(null);}
+            tile.getImprovements().removeAll(tile.getImprovements());
+        }
+        setNewCivForCityTiles(city, cityTile, null);
+        city.getTile().setCity(null);
     }
 
     private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
@@ -200,32 +206,38 @@ public class CityCombatController extends CombatController{
 
     private static void makeCityAnnexed(City city, Tile cityTile, Civilization civ) {
         city.setCivilization(civ);
-        Random random;
+        Random random = new Random();
         for (Building building : city.getBuildings()) {
-            //todo : if a building is a military is destroyed else with probability 33 percent it will be destroy
-        }
+            if (building.getType().iscombatBuilding()) {
+                city.getBuildings().remove(building);
+            } else {
+                if (random.nextInt(3) > 2) {
+                    city.getBuildings().remove(building);
+                }
+            }
+         }
         setNewCivForCityTiles(city, cityTile, civ);
     }
 
-    private static void calculateRangeAttackDamage(RangedUnit rangedUnit, double strengthRangedUnit, City city, int combatUnitStrength) {
+    public static void calculateRangeAttackDamage(RangedUnit rangedUnit, double strengthRangedUnit, City city, double combatUnitStrength) {
         double strengthDiff = strengthRangedUnit - combatUnitStrength;
         Random random = new Random();
         City.calculateDamage(city, strengthDiff, random);
     }
 
-    private static void calculateRangeAttackDamage(City city, int strengthRangedUnit, CombatUnit enemyUnit, double enemyUnitStrength) {
+    public static void calculateRangeAttackDamage(City city, double strengthRangedUnit, Unit enemyUnit, double enemyUnitStrength) {
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
         Random random = new Random();
-        Unit.calculateDamage(enemyUnit, enemyUnitStrength, random);
+        Unit.calculateDamage(enemyUnit, strengthDiff, random);
     }
 
-    private static void calculateRangeAttackDamage(City enemyCity, int enemyCityStrength, City city, int cityStrength) {
-        int strengthDiff = cityStrength - enemyCityStrength;
+    public static void calculateRangeAttackDamage(City enemyCity, double enemyCityStrength, City city, double cityStrength) {
+        double strengthDiff = cityStrength - enemyCityStrength;
         Random random = new Random();
         City.calculateDamage(enemyCity, cityStrength, random);
     }
 
-    private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrengthNonRangedUnit, City city, int enemyCityStrength) {
+    public static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrengthNonRangedUnit, City city, double enemyCityStrength) {
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
         Random random = new Random();
         Unit.calculateDamage(nonRangedUnit, -strengthDiff, random);

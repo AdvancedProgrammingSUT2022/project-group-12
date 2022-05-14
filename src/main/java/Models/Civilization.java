@@ -175,6 +175,7 @@ public class Civilization {
             city.setFoodFromCheat(0);
             city.setProductionFromCheat(0);
             city.setProductionFromBuildings(0);
+            city.setCombatStrengthFromBuildings(0);
             city.applyBuildingNotes();
         }
     }

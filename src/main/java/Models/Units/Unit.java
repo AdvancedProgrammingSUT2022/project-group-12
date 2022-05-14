@@ -46,11 +46,18 @@ public abstract class Unit extends Production {
 
     public static void calculateDamage(Unit unit, double strengthDiff, Random random) {
         double random_number = (double) random.nextInt(75, 125) / 100;
+        //debug for test
+        random_number = 1.25;
         unit.setHealthBar(unit.getHealthBar() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
 
-    public static double calculateCombatStrength(Unit unit, Tile itsTile) {
-        double strength = unit.getType().getCombatStrength();
+    public static double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh) {
+        double strength;
+        if (combatstrengh.equals("combatstrength")) {
+            strength = unit.getType().getCombatStrength();
+        } else {
+            strength = unit.getType().getRangedCombatStrength();
+        }
         strength *= getTerrainFeaturesEffect(itsTile);
         strength *= getHealthBarEffect(unit);
         return strength;
@@ -62,9 +69,9 @@ public abstract class Unit extends Production {
 
     protected static double getTerrainFeaturesEffect(Tile tile) {
         double effect = 1;
-        effect *= 1 - (double) tile.getTerrain().getCombatModifier() / 100;
+        effect *= (1.0 +  ((double)tile.getTerrain().getTerrainType().getCombatModifier() / 100.0));
         for (TerrainEnum terrainEnum : tile.getTerrain().getFeatures()) {
-            effect *= terrainEnum.getCombatModifier();
+            effect *= (1.0 + ((double)terrainEnum.getCombatModifier())/100.0);
         }
         return effect;
     }

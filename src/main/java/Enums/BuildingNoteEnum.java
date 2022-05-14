@@ -15,7 +15,7 @@ public enum BuildingNoteEnum {
     MONUMENT_NOTE((BuildingNotes<City>) city -> {
     }),
     WALLS_NOTE((BuildingNotes<City>) city -> {
-        city.setCombatStrength(5.0f);
+        city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f);
     }),
     WATER_MILLS_NOTE((BuildingNotes<City>) city -> {
         if (city.getTile().hasRiver()) {
@@ -42,7 +42,7 @@ public enum BuildingNoteEnum {
     }),
     TEMPLE_NOTE((BuildingNotes<City>) city -> {
     }),
-    CASTLE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 7.5)),
+    CASTLE_NOTE((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 7.5)),
     FORGE_NOTE((BuildingNotes<City>) city -> {
         city.setProductionFromBuildings(city.getProductionFromBuildings() + (city.getProductionFromBuildings() * 15.0 / 100.0));
     }),
@@ -101,7 +101,7 @@ public enum BuildingNoteEnum {
     }),
     FACTORY_NOTE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + city.getProductionFromBuildings() / 2)),
     HOSPITAL_NOTE((BuildingNotes<City>) city -> city.setFoodFromBuildings(city.getFoodFromBuildings() - city.getFoodFromBuildings() / 2)),
-    MILITARY_BASE_NOTE((BuildingNotes<City>) city -> city.setCombatStrength(city.getCombatStrength() + 12)),
+    MILITARY_BASE_NOTE((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 12)),
     STOCK_EXCHANGE_NOTE((BuildingNotes<City>) city -> city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 3));
     private final BuildingNotes note;
 

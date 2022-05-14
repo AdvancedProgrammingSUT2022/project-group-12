@@ -39,6 +39,7 @@ public class City {
     private int food;
     private int hitPoint;
     private double combatStrength;
+    private double combatStrengthFromBuildings;
     private int beaker;
     private double localHappiness;
     private CityTypeEnum cityState;
@@ -69,12 +70,21 @@ public class City {
         this.productionFromCheat = 0;
         this.goldFromBuildings = 0;
         this.goldRatioFromBuildings = 1;
-
+        this.combatStrengthFromBuildings = 0;
     }
 
-    static int AffectCityFeatures(City city) {
+    private double AffectCityFeatures(City city) {
         //todo : affect the citizen and buildings on combat strength
-        return 0;
+        this.combatStrength = 10;
+        this.combatStrength += citizensCount;
+        this.combatStrength += combatStrengthFromBuildings;
+        if(city.getTile().getTerrain().getTerrainType() == TerrainEnum.HILL){
+            this.combatStrength *= (4.0/3.0);
+        }
+        if(city.getTile().getCombatUnit() != null){
+            this.combatStrength *= (5.0/4.0);
+        }
+        return this.combatStrength;
     }
 
     public static void calculateDamage(City city, double strengthDiff, Random random) {
@@ -83,13 +93,10 @@ public class City {
         city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
     }
 
-    public int calculateCombatStrength() {
-        return HealthBarAffect(AffectCityFeatures(this));
+    public double calculateCombatStrength() {
+        return AffectCityFeatures(this);
     }
 
-    protected int HealthBarAffect(int strength) {
-        return (this.getHitPoint() / 2000) * strength;
-    }
 
 
     public ArrayList<Citizen> getCitizens() {
@@ -232,13 +239,12 @@ public class City {
         return gold;
     }
 
-    public int calculateFood() throws CommandException {
+    public int calculateFood() {
         int food = this.getFoodFromBuildings() + 2;
         food += this.foodFromCheat;
         food += (int) getSourcesFromTiles("food");
         food -= this.citizensCount * 2;
         food = settlerEffectOnFoods(food);
-
         if (food > 0) {
             food = checkForHappinessState(food);
         }
@@ -504,5 +510,13 @@ public class City {
 
     public void setHappinessFromBuildings(double happinessFromBuildings) {
         this.happinessFromBuildings = happinessFromBuildings;
+    }
+
+    public void setCombatStrengthFromBuildings(double combatStrengthFromBuildings) {
+        this.combatStrengthFromBuildings = combatStrengthFromBuildings;
+    }
+
+    public double getCombatStrengthFromBuildings() {
+        return combatStrengthFromBuildings;
     }
 }

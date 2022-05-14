@@ -49,7 +49,7 @@ public class CombatController extends GameController {
         if(enemyTile.getCombatUnit() != null)
             return CityCombatController.CityAttackRangedUnit(enemyTile.getCombatUnit(), currentTile.getCity(), enemyTile, currentTile);
         else
-            return CityCombatController.CityAttackRangedUnit(enemyTile.getCombatUnit(), currentTile.getCity(),enemyTile,currentTile);
+            return CityCombatController.CityAttackRangedUnit(enemyTile.getNonCombatUnit(), currentTile.getCity(),enemyTile,currentTile);
     }
     }
 

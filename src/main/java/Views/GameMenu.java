@@ -98,6 +98,7 @@ public class GameMenu extends Menu {
             case "map" -> this.cheatMap(command);
             case "finish" -> this.cheatFinish(command);
             case "teleport" -> this.cheatTeleport(command);
+            case "reveal" -> this.cheatMapReveal(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -281,9 +282,6 @@ public class GameMenu extends Menu {
         } catch (GameException e) {
             answer(e.getMessage());
             return;
-        } catch (CommandException e) {
-            answer(e.getMessage());
-            return;
         }
         System.out.println("end of turn");
         System.out.println("------------------------------");
@@ -338,7 +336,7 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuy(Command command) {
-        switch (command.getSubSubCategory()) {
+        switch (command.getSubSubCategory().trim()) {
             case "tile" -> cityBuyTile(command);
             case "unit" -> cityBuyUnit(command);
             default -> answer(CommandResponse.INVALID_COMMAND);

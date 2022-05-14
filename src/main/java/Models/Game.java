@@ -22,7 +22,7 @@ import java.util.List;
 public class Game {
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
-    private int gameTurn = -1;
+    private int gameTurn = 0;
 
     public Game(ArrayList<User> users) {
         this.civilizations = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Game {
         civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
-    public void endCurrentTurn() throws GameException, CommandException {
+    public void endCurrentTurn() throws GameException{
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
         //todo : complete
@@ -98,7 +98,7 @@ public class Game {
         checkForKillingCiziten(civ);
     }
 
-    private void checkForKillingCiziten(Civilization civ) throws CommandException {
+    private void checkForKillingCiziten(Civilization civ) {
         for (City city :
                 civ.getCities()) {
             if (city.calculateFood() < 0) {

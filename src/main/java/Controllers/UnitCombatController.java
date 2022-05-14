@@ -26,17 +26,17 @@ public class UnitCombatController extends CombatController {
     }
 
 
-    protected static String AttackNonRangedUnit(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) {
+    protected static String AttackNonRangedUnit(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) throws CommandException {
         ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
         if (nonRangedUnit.getAvailableMoveCount() >= path.size()) {
             return calculateNonRangeAttack(nonRangedUnit, enemyUnit, currentTile, enemyTile);
         } else {
-            return "Attack is not possible";
+            throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
         }
 
     }
 
-    protected static String AttackRangedUnit(RangedUnit ownRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) {
+    protected static String AttackRangedUnit(RangedUnit ownRangedUnit, CombatUnit enemyUnit, Civilization civilization, Tile currentTile, Tile enemyTile) throws CommandException {
         ArrayList<Tile> path = findTheShortestPath(enemyUnit.getLocation(), currentTile);
         if (ownRangedUnit.getType().getRange() >= path.size()) {
             if (GameController.isEnemyExists(enemyUnit.getLocation(), civilization)) {
@@ -45,29 +45,29 @@ public class UnitCombatController extends CombatController {
                 return calculateRangeAttack(ownRangedUnit,enemyUnit, currentTile, enemyTile);
             }
         } else {
-            return "Attack is not possible";
+            throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
         }
     }
 
     private static String calculateNonRangeAttack(NonRangedUnit nonRangedUnit, CombatUnit combatUnit, Tile nonRangedTile, Tile combatUnitTile) {
         String response = "Attack happened successfully";
-        double combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile);
-        double combatStrength2 = calculateCombatStrength(combatUnit, combatUnitTile);
+        double combatStrength1 = calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
+        double combatStrength2 = calculateCombatStrength(combatUnit, combatUnitTile, "combatstrength");
         calculateNonRangeAttackDamage(nonRangedUnit, combatStrength1, combatUnit, combatStrength2);
         response = checkForKill(nonRangedUnit, combatUnit, nonRangedTile, combatUnitTile);
-        return null;
+        return response;
     }
 
     private static String calculateRangeAttack(RangedUnit rangedUnit, Unit unit, Tile rangedUnitTile, Tile combatUnitTile) {
         String response = "Attack happened successfully";
-        double strengthRangedUnit = calculateCombatStrength(rangedUnit, rangedUnitTile);
-        double EnemyUnitStrength = calculateCombatStrength(unit, combatUnitTile);
+        double strengthRangedUnit = calculateCombatStrength(rangedUnit, rangedUnitTile,"rangedcombatstrength");
+        double EnemyUnitStrength = calculateCombatStrength(unit, combatUnitTile, "combatstrength");
         calculateRangeAttackDamage(rangedUnit, strengthRangedUnit, unit, EnemyUnitStrength);
         response = checkForKill(rangedUnit, unit, rangedUnitTile, combatUnitTile);
         return response;
     }
 
-    private static String checkForKill(CombatUnit combatUnit, Unit unitEnemy, Tile combatUnitTile, Tile unitEnemyTile) {
+    public static String checkForKill(CombatUnit combatUnit, Unit unitEnemy, Tile combatUnitTile, Tile unitEnemyTile) {
         boolean isHaveKill = false;
         if (combatUnit.getHealthBar() <= 0) {
             isHaveKill = true;
@@ -101,7 +101,7 @@ public class UnitCombatController extends CombatController {
         combatUnit.setState(UnitStates.SETUP);
     }
 
-    private static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrength1, CombatUnit combatUnit, double combatStrength2) {
+    public static void calculateNonRangeAttackDamage(NonRangedUnit nonRangedUnit, double combatStrength1, CombatUnit combatUnit, double combatStrength2) {
         double strengthDiff = combatStrength1 - combatStrength2;
         Random random = new Random();
         calculateDamage(nonRangedUnit, -strengthDiff, random);

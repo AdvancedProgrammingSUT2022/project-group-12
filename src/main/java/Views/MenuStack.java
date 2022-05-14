@@ -14,7 +14,7 @@ public class MenuStack {
     private Scanner scanner;
     private User currentUser;
 
-    private MenuStack() {
+    public MenuStack() {
 
     }
 
