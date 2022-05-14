@@ -12,9 +12,9 @@ public class ProfileMenu extends Menu {
         switch (command.getType()) {
             case "change nickname" -> this.changeNickname(command);
             case "change password" -> this.changePassword(command);
-            case "show current menu" -> System.out.println("Profile Menu");
+            case "show current menu" -> answer(this.getName());
             case "menu exit" -> MenuStack.getInstance().popMenu();
-            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+            default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -24,10 +24,10 @@ public class ProfileMenu extends Menu {
         try {
             ProfileMenuController.changeNickname(nickname);
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
-        System.out.println("nickname changed successfully");
+        answer("nickname changed successfully");
     }
 
     private void changePassword(Command command) {
@@ -38,9 +38,9 @@ public class ProfileMenu extends Menu {
         try {
             ProfileMenuController.changePassword(oldPassword, newPassword);
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
-        System.out.println("password changed successfully");
+        answer("password changed successfully");
     }
 }

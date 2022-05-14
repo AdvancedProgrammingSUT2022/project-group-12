@@ -28,7 +28,7 @@ public abstract class Menu {
             Command command = Command.parseCommand(line);
             handleCommand(command);
         } catch (CommandException e) {
-            System.out.println(e.getMessage());
+            answer(e);
         }
     }
 
@@ -42,7 +42,11 @@ public abstract class Menu {
         return this.getClass().getSimpleName();
     }
 
-    public void resetShowName() {
+    protected void resetShowName() {
         this.showName = true;
+    }
+
+    protected void answer(Object message) {
+        System.out.println(message);
     }
 }

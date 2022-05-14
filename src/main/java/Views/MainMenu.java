@@ -18,9 +18,9 @@ public class MainMenu extends Menu {
             case "play game" -> this.playGame(command);
             case "logout" -> MenuStack.getInstance().gotoLoginMenu();
             case "goto profile menu" -> MenuStack.getInstance().gotoProfileMenu();
-            case "show current menu" -> System.out.println("Main Menu");
+            case "show current menu" -> answer(this.getName());
             case "menu exit" -> MenuStack.getInstance().popMenu();
-            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+            default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -33,13 +33,13 @@ public class MainMenu extends Menu {
                     playerNumbers.add(Integer.valueOf(option.substring("player".length())));
                 }
             } catch (NumberFormatException e) {
-                System.out.println(CommandResponse.INVALID_COMMAND_FORMAT);
+                answer(new CommandException(CommandResponse.INVALID_COMMAND_FORMAT));
             }
         }
         for (int i = 1; i <= playerNumbers.size(); ++i) {
             String username = command.getOption("player" + i);
             if (username == null) {
-                System.out.println("there is a gap in number of players, player " + i + "not entered");
+                answer(new CommandException(CommandResponse.PLAYER_NUMBER_GAP, String.valueOf(i)));
                 return;
             }
             usernames.add(username);
@@ -48,10 +48,10 @@ public class MainMenu extends Menu {
             Game game = MainMenuController.startNewGame(usernames);
             GameController.setGame(game);
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
-        System.out.println("game started");
+        answer("game started");
         MenuStack.getInstance().pushMenu(new GameMenu());
     }
 

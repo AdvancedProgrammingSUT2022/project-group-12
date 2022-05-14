@@ -155,6 +155,7 @@ public class CityCombatController extends CombatController{
         return "city is damaged!";
     }
 
+    // todo: integrate with view
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
       //  String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy");"
         //test

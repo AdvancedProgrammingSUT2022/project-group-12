@@ -68,7 +68,8 @@ public enum CommandResponse {
     INVALID_NAME("Invalid input name"),
     ENEMY_DOESNT_EXISTS("enemy doesn't exists"), ATTACK_ISNT_POSSIBLE("attack isn't possible"),
     YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT("you can't destroy city by rangedcombat unit"),
-    YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by rangedcombat unit");
+    YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by rangedcombat unit"),
+    PLAYER_NUMBER_GAP("there is a gap in number of players");
 
     private final String message;
 

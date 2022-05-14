@@ -14,9 +14,9 @@ public class LoginMenu extends Menu {
         switch (command.getType()) {
             case "user create" -> createUser(command);
             case "user login" -> loginUser(command);
-            case "show current menu" -> System.out.println("Login Menu");
+            case "show current menu" -> answer(this.getName());
             case "menu exit" -> MenuStack.getInstance().popMenu();
-            default -> System.out.println(CommandResponse.INVALID_COMMAND);
+            default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
 
@@ -27,7 +27,7 @@ public class LoginMenu extends Menu {
         try {
             command.assertOptions(List.of("username", "nickname", "password"));
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
         String username = command.getOption("username");
@@ -36,7 +36,7 @@ public class LoginMenu extends Menu {
         try {
             LoginMenuController.createUser(username, nickname, password);
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
         System.out.println("user created successfully");
@@ -48,7 +48,7 @@ public class LoginMenu extends Menu {
         try {
             command.assertOptions(List.of("username", "password"));
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
         String username = command.getOption("username");
@@ -56,7 +56,7 @@ public class LoginMenu extends Menu {
         try {
             LoginMenuController.loginUser(username, password);
         } catch (CommandException e) {
-            e.print();
+            answer(e);
             return;
         }
         System.out.println("user logged in successfully");

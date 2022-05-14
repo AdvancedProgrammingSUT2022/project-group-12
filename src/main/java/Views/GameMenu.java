@@ -43,7 +43,7 @@ public class GameMenu extends Menu {
         System.out.println(commandResponse);
     }
 
-    public void startOfTurnInfo(Civilization civilization) {
+    public void printStartOfTurnInfo(Civilization civilization) {
         System.out.println("turn " + (GameController.getGame().getGameTurnNumber() + 1) + ", turn of: " + civilization.getName());
     }
 
@@ -62,20 +62,16 @@ public class GameMenu extends Menu {
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
-            case "show current menu" -> System.out.println("Game Menu");
+            case "show current menu" -> answer(this.getName());
             case "menu exit" -> MenuStack.getInstance().popMenu();
             default -> this.findCategory(command);
         }
     }
 
-    private void answer(String message) {
+    @Override
+    protected void answer(Object message) {
         showTheMap();
         System.out.println(message);
-    }
-
-    private void answer(CommandResponse response) {
-        showTheMap();
-        System.out.println(response);
     }
 
     private void findCategory(Command command) {
@@ -112,7 +108,7 @@ public class GameMenu extends Menu {
             setCamera(location);
             answer("unit teleported on " + location + "  successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -125,14 +121,14 @@ public class GameMenu extends Menu {
 
     private void cheatFinishProducts() {
         if (this.selectedCity == null) {
-            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
         try {
             CheatCodeController.getInstance().finishProducts(this.selectedCity);
             answer("production of " + this.selectedCity.getName() + " finished successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -152,7 +148,7 @@ public class GameMenu extends Menu {
             setCamera(location);
             answer("tile " + location + " revealed successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -179,9 +175,9 @@ public class GameMenu extends Menu {
             setCamera(location);
             answer(unitName + " spawned at " + location + " successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         } catch (IllegalArgumentException e) {
-            new CommandException(CommandResponse.INVALID_UNIT_NAME).print();
+            answer(new CommandException(CommandResponse.INVALID_UNIT_NAME));
         }
     }
 
@@ -203,7 +199,7 @@ public class GameMenu extends Menu {
             CheatCodeController.getInstance().increaseBeaker(amount);
             answer("beaker increased " + amount + " units successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -215,7 +211,7 @@ public class GameMenu extends Menu {
             CheatCodeController.getInstance().increaseHappiness(amount);
             answer("happiness increased " + amount + " units successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -227,13 +223,13 @@ public class GameMenu extends Menu {
             CheatCodeController.getInstance().increaseGold(amount);
             answer(amount + " gold added successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
     private void cheatIncreaseProduction(Command command) {
         if (this.selectedCity == null) {
-            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
         command.abbreviate("amount", "a");
@@ -243,13 +239,13 @@ public class GameMenu extends Menu {
             CheatCodeController.getInstance().increaseProduction(this.selectedCity, amount);
             answer(amount + " production added to " + this.selectedCity.getName() + " successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
     private void cheatIncreaseFood(Command command) {
         if (this.selectedCity == null) {
-            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
         command.abbreviate("amount", "a");
@@ -259,7 +255,7 @@ public class GameMenu extends Menu {
             CheatCodeController.getInstance().increaseFood(this.selectedCity, amount);
             answer(amount + " food added to " + this.selectedCity.getName() + " successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -280,7 +276,7 @@ public class GameMenu extends Menu {
         try {
             GameController.getGame().endCurrentTurn();
         } catch (GameException e) {
-            answer(e.getMessage());
+            answer(e);
             return;
         }
         System.out.println("end of turn");
@@ -291,12 +287,12 @@ public class GameMenu extends Menu {
     private void startNewTurn() {
         GameController.getGame().startNewTurn();
         showTheMap();
-        startOfTurnInfo(GameController.getGame().getCurrentCivilization());
+        printStartOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }
 
     private void city(Command command) {
         if (this.selectedCity == null) {
-            new CommandException(CommandResponse.CITY_NOT_SELECTED).print();
+            answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
         switch (command.getSubCategory()) {
@@ -329,9 +325,9 @@ public class GameMenu extends Menu {
             GameController.cityBuildUnit(selectedCity, unit);
             answer(unitName + " added to production queue of " + this.selectedCity.getName());
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         } catch (IllegalArgumentException e) {
-            new CommandException(CommandResponse.INVALID_UNIT_NAME).print();
+            answer(new CommandException(CommandResponse.INVALID_UNIT_NAME));
         }
     }
 
@@ -352,9 +348,9 @@ public class GameMenu extends Menu {
             GameController.cityBuyUnit(selectedCity, unit);
             answer(unitName + " bought and added at " + this.selectedCity.getName());
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         } catch (IllegalArgumentException e) {
-            new CommandException(CommandResponse.INVALID_UNIT_NAME).print();
+            answer(new CommandException(CommandResponse.INVALID_UNIT_NAME));
         }
     }
 
@@ -366,7 +362,7 @@ public class GameMenu extends Menu {
             GameController.cityBuyTile(selectedCity, location);
             answer("tile " + location + " bought for " + this.selectedCity.getName());
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -392,7 +388,7 @@ public class GameMenu extends Menu {
                 answer("citizen successfully unlocked from " + location);
             }
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -426,7 +422,7 @@ public class GameMenu extends Menu {
         try {
             command.assertOptions(List.of("position"));
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
             return;
         }
         switch (command.getSubSubCategory()) {
@@ -443,7 +439,7 @@ public class GameMenu extends Menu {
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
             setCamera(location);
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
             return;
         }
         answer("unit selected: " + selectedUnit.getType().name());
@@ -459,11 +455,11 @@ public class GameMenu extends Menu {
             } else if (command.getOption("name") != null) {
                 this.selectedCity = GameController.selectCityByName(civ, command.getOption("name"));
             } else {
-                new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, "name/position").print();
+                answer(new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, "name/position"));
             }
             setCamera(this.selectedCity.getLocation());
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
             return;
         }
         answer("city selected: " + selectedCity.getName());
@@ -471,7 +467,7 @@ public class GameMenu extends Menu {
 
     private void unit(Command command) {
         if (this.selectedUnit == null) {
-            new CommandException(CommandResponse.UNIT_NOT_SELECTED).print();
+            answer(new CommandException(CommandResponse.UNIT_NOT_SELECTED));
             return;
         }
         try {
@@ -492,7 +488,7 @@ public class GameMenu extends Menu {
                 default -> answer(CommandResponse.INVALID_SUBCOMMAND);
             }
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -537,7 +533,7 @@ public class GameMenu extends Menu {
         try {
             unitFuncs.unitFortify(selectedUnit, command);
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -580,13 +576,13 @@ public class GameMenu extends Menu {
             int amount = command.getIntOption("amount");
             String direction = command.getSubSubCategory();
             if (!List.of("right", "left", "up", "down").contains(direction)) {
-                new CommandException(CommandResponse.INVALID_DIRECTION).print();
+                answer(new CommandException(CommandResponse.INVALID_DIRECTION));
                 return;
             }
             getMapFuncs().moveMapByDirection(direction, amount);
             answer("map moved " + amount + " unit " + direction + " successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -599,7 +595,7 @@ public class GameMenu extends Menu {
             setCamera(location);
             answer("unit moved to " + location + " successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -611,7 +607,7 @@ public class GameMenu extends Menu {
             City city = GameController.foundCity(this.selectedUnit);
             answer("city found successfully: " + city.getName());
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -628,7 +624,7 @@ public class GameMenu extends Menu {
                 answer("citizen successfully unassigned from " + location);
             }
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -646,7 +642,7 @@ public class GameMenu extends Menu {
             }
             answer("city attack successful");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -658,7 +654,7 @@ public class GameMenu extends Menu {
             CombatController.AttackUnit(this.selectedUnit, location);
             answer("unit attack successful");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -667,7 +663,7 @@ public class GameMenu extends Menu {
             GameController.buildImprovement(this.selectedUnit, improvement);
             answer("improvement built on " + this.selectedUnit.getLocation() + " successfully");
         } catch (CommandException e) {
-            answer(e.getMessage());
+            answer(e);
         }
     }
 
@@ -677,7 +673,7 @@ public class GameMenu extends Menu {
                 Location location = command.getLocationOption("position");
                 setCamera(location);
             } catch (CommandException e) {
-                answer(e.getMessage());
+                answer(e);
             }
         }
         showTheMap();

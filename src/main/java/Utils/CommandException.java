@@ -14,11 +14,7 @@ public class CommandException extends Exception {
     }
 
     @Override
-    public String getMessage() {
+    public String toString() {
         return "Error, " + super.getMessage();
-    }
-
-    public void print() {
-        System.out.println(this.getMessage());
     }
 }

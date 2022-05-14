@@ -13,7 +13,9 @@ public class GameException extends Exception {
         super(commandResponse.toString() + ": " + item);
     }
 
-    public void print() {
-        System.out.println("Wait, " + this.getMessage());
+    @Override
+    public String toString() {
+        return "Wait, " + super.getMessage();
     }
+
 }
