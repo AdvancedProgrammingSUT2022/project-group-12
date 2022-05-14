@@ -490,9 +490,18 @@ public class GameMenu extends Menu {
                 case "repair" -> this.unitRepairTile();
                 case "cancel" -> this.unitCancel();
                 case "setup" -> this.unitSetup();
+                case "pillage" -> this.unitPillage();
                 default -> answer(CommandResponse.INVALID_SUBCOMMAND);
             }
         } catch (CommandException e) {
+            answer(e);
+        }
+    }
+
+    private void unitPillage() throws CommandException {
+        try {
+            GameController.pillageUnit(this.selectedUnit);
+        }catch (CommandException e){
             answer(e);
         }
     }

@@ -18,6 +18,8 @@ import Utils.CommandResponse;
 import Utils.Constants;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 
 public class GameController {
@@ -157,6 +159,18 @@ public class GameController {
         unit.setPathShouldCross(null);
         unit.setState(UnitStates.FORTIFY);
         return "unit fortified successfully";
+    }
+    public static void pillageUnit(Unit unit) throws CommandException {
+        if (!(unit instanceof CombatUnit)) {
+            throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        Tile unitTile = GameController.getGameTile(unit.getLocation());
+        if(unitTile.getImprovementsExceptRoadOrRailRoad().size() != 0){
+            throw new CommandException(CommandResponse.IMPROVEMENT_DOESNT_EXISTS);
+        }
+        if(unit.getAvailableMoveCount() < 0){
+            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COST);
+        }
     }
 
     public static String fortifyHealUnit(Unit unit) throws CommandException {
@@ -449,4 +463,6 @@ public class GameController {
     public static Tile getGameTile(Location location) {
         return GameController.getGame().getTileGrid().getTile(location);
     }
+
+
 }
