@@ -86,5 +86,13 @@ cheat increase movement -a 10
 unit attack -p 5 5
 cheat heal unit
 cheat increase movement -a 10
-
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
  */

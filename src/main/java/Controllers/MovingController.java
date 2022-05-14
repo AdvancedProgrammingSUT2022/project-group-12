@@ -38,7 +38,6 @@ public class MovingController {
             unit.setLocation(location);
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
             unit.getCivilization().setCurrentSelectedGridLocation(location);
-
             unit.getPathShouldCross().remove(0);
         }
     }
