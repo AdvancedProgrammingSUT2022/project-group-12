@@ -451,4 +451,10 @@ public class GameController {
     }
 
 
+    public static boolean isEnemyCityExists(Location nextLocation, Civilization civilization) {
+        if (GameController.getGameTile(nextLocation).getCity() != null && GameController.getGameTile(nextLocation).getCity().getCivilization() != civilization) {
+            return true;
+        }
+        return false;
+    }
 }

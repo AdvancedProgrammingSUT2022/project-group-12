@@ -42,6 +42,11 @@ public class MovingController {
 
     private static boolean checkForEnemy(Location nextLocation, Unit unit) {
         Tile currentTile = GameController.getGameTile(nextLocation);
+        if(GameController.isEnemyCityExists(nextLocation,unit.getCivilization())){
+            unit.setAvailableMoveCount(0);
+            unit.setPathShouldCross(null);
+            return true;
+        }
         if (GameController.isEnemyExists(nextLocation, unit.getCivilization())) {
             unit.setAvailableMoveCount(0);
             unit.setPathShouldCross(null);

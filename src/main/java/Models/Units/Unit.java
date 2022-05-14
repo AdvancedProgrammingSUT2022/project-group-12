@@ -60,7 +60,7 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
-    public static int calculateDamage(Unit unit, double strengthDiff) {
+    public int calculateDamage(Unit unit, double strengthDiff) {
         Random random = new Random();
         double random_number = (double) random.nextInt(75, 125) / 100;
         //debug for test

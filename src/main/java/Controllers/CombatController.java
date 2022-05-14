@@ -28,33 +28,29 @@ public class CombatController extends GameController {
         if (!(unit instanceof CombatUnit combatUnit)) {
             throw new CommandException(CommandResponse.ATTACK_UNIT_IS_NOT_COMBAT);
         }
-//        if (unit.getAvailableMoveCount() <= 0) {
-//            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
-//        }
+        if (unit.getAvailableMoveCount() <= 0) {
+            throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
+        }
         Civilization civilization = combatUnit.getCivilization();
         Tile currentTile = GameController.getGameTile(combatUnit.getLocation());
         Tile enemyTile = GameController.getGameTile(location);
         if (isAnEnemyCityAt(location, civilization)) {
-            return CityCombatController.AttackToCity(combatUnit, enemyTile.getCity(), civilization, currentTile, enemyTile);
+            return CityCombatController.affectAttackToCity(combatUnit, enemyTile.getCity(), civilization, currentTile, enemyTile);
         }
         if (!isAttackableEnemyOn(location, civilization, combatUnit)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
-        ArrayList<Tile> path = findTheShortestPath(location, currentTile);
         if (combatUnit instanceof RangedUnit rangedUnit) {
-            // todo
-//            return UnitCombatController.AttackRangedUnit(rangedUnit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
-            return null;
+            if (checkForDistance(rangedUnit, location, currentTile))
+                return UnitCombatController.affectRangeAttack(rangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
         } else if (combatUnit instanceof NonRangedUnit nonRangedUnit) {
-//            return UnitCombatController.AttackNonRangedUnit(nonRangedUnit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
-            if (unit.getAvailableMoveCount() < path.size()) {
-                throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
+            if (checkForDistance(nonRangedUnit, location, currentTile)) {
+                moveUnit(location, currentTile, civilization, unit);
+                return UnitCombatController.affectNonRangedAttack(nonRangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
             }
-            moveUnit(location, currentTile, civilization, unit);
-            return UnitCombatController.affectNonRangedAttack(nonRangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
-        } else { // never
-            return null;
         }
+        //never
+        return null;
     }
 
     public static String AttackCity(City city, Location location, String combatType) throws CommandException {
@@ -62,16 +58,38 @@ public class CombatController extends GameController {
         Tile currentTile = GameController.getGameTile(city.getLocation());
         Tile enemyTile = GameController.getGameTile(location);
         if (isAnEnemyCityAt(location, civilization)) {
-            return CityCombatController.cityAttackToCity(GameController.getGameTile(location).getCity(), currentTile, civilization, GameController.getGameTile(location).getCity());
+           if (checkForDistance(city,location,currentTile)) {
+                return CityCombatController.affectCityAttackToCity(city, GameController.getGameTile(location).getCity());
+            }
         }
         if (!isAttackableEnemyOn(location, civilization, city)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         if (enemyTile.getCombatUnit() != null) {
-            return CityCombatController.CityAttackRangedUnit(enemyTile.getCombatUnit(), currentTile.getCity(), enemyTile, currentTile);
+            return CityCombatController.affectCityAttackToUnit(currentTile.getCity(),enemyTile.getCombatUnit(), currentTile, enemyTile);
         } else {
-            return CityCombatController.CityAttackRangedUnit(enemyTile.getNonCombatUnit(), currentTile.getCity(), enemyTile, currentTile);
+            return CityCombatController.affectCityAttackToUnit(currentTile.getCity(),enemyTile.getNonCombatUnit(), currentTile, enemyTile);
         }
+    }
+    public static boolean checkForDistance(CombatUnit combatUnit,Location destLocation,Tile currentTile) throws CommandException {
+        ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile);
+        if(combatUnit instanceof  RangedUnit) {
+            if (((RangedUnit) combatUnit).getRangedCombat() < path.size()) {
+                throw new CommandException(CommandResponse.NOT_ENOUGH_RANGE_ATTACK_COUNT);
+            }
+        }else{
+            if (combatUnit.getAvailableMoveCount() < path.size()) {
+                throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
+            }
+        }
+        return true;
+    }
+    public static boolean checkForDistance(City city,Location destLocation,Tile currentTile) throws CommandException {
+        ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile);
+        if (city.getRange() < path.size()) {
+            throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
+        }
+        return true;
     }
 }
 

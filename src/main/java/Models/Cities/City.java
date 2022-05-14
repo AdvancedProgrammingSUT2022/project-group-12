@@ -37,7 +37,7 @@ public class City {
     private double production;
     private double productionFromBuildings;
     private int food;
-    private int hitPoint;
+    private int health;
     private double combatStrength;
     private double combatStrengthFromBuildings;
     private int beaker;
@@ -49,7 +49,7 @@ public class City {
         this.tiles.add(tile);
         this.gold = tile.getTerrain().getGoldCount();
         this.production = 1 + tile.calculateSources("production");
-        this.hitPoint = 2000;
+        this.health = 2000;
         this.combatStrength = 10;
         this.isCapital = isCapital;
         this.citizensCount = 1;
@@ -73,19 +73,9 @@ public class City {
         this.combatStrengthFromBuildings = 0;
     }
 
-    public static void calculateDamage(City city, double strengthDiff, Random random) {
-        double random_number = random.nextInt(50) + 75;
-        random_number /= 100;
-        city.setHitPoint(city.getHitPoint() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
-    }
 
-    public int getHitPoint() {
-        return this.hitPoint;
-    }
 
-    public void setHitPoint(int hitPoint) {
-        this.hitPoint = hitPoint;
-    }
+
 
     public double calculateCombatStrength() {
         return AffectCityFeatures(this);
@@ -103,6 +93,12 @@ public class City {
             this.combatStrength *= (5.0 / 4.0);
         }
         return this.combatStrength;
+    }
+    public  int calculateDamage(City city, double strengthDiff) {
+        Random random = new Random();
+        double random_number = random.nextInt(50) + 75;
+        random_number /= 100;
+        return (int) (25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
     public Tile getTile() {
@@ -519,6 +515,9 @@ public class City {
     public void setCombatStrengthFromBuildings(double combatStrengthFromBuildings) {
         this.combatStrengthFromBuildings = combatStrengthFromBuildings;
     }
+    public void decreaseHealth(int value) {
+        this.health -= value;
+    }
 
     @Override
     public String toString() {
@@ -527,4 +526,12 @@ public class City {
                 .append(civilization.getName()).append("> and its citizens are as happy as much as [").append(localHappiness).append("\n");
         return cityInfo.toString();
     }
+    public int getHealth() {
+        return this.health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
 }
