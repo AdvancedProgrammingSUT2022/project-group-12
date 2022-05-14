@@ -105,9 +105,7 @@ public class CityCombatController extends CombatController {
 
     // todo: integrate with view
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-        //  String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy");"
-        //test
-        String message = new String("Destroy");
+          String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy");
         GetMessageLoop:
         while (true) {
             switch (message) {

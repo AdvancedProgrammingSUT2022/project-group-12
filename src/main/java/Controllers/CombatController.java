@@ -24,14 +24,17 @@ public class CombatController extends GameController {
         Tile currentTile = GameController.getGameTile(unit.getLocation());
         Tile enemyTile = GameController.getGameTile(location);
         if (isAttackToCity(location, civilization)) {
+            unit.setAvailableMoveCount(0);
             return CityCombatController.AttackToCity((CombatUnit) unit, enemyTile.getCity(), civilization, currentTile, enemyTile);
         }
         if (!isEnemyIsReadyForAttack(location, civilization, (CombatUnit) unit)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         if (unit instanceof RangedUnit) {
+            unit.setAvailableMoveCount(0);
             return UnitCombatController.AttackRangedUnit((RangedUnit) unit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
         } else {
+            unit.setAvailableMoveCount(0);
             return UnitCombatController.AttackNonRangedUnit((NonRangedUnit) unit, enemyTile.getCombatUnit(), civilization, currentTile, enemyTile);
         }
     }

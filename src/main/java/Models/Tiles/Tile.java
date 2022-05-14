@@ -16,6 +16,7 @@ import Utils.CommandResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Tile {
     private final int row;
@@ -245,4 +246,17 @@ public class Tile {
         return 0;
     }
 
+    public void setImprovements(ArrayList<ImprovementEnum> improvements) {
+        this.improvements = improvements;
+    }
+    public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad(){
+        List<ImprovementEnum> improvementEnums =  improvements.stream().filter(improvementEnum -> {
+            if (improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD) {
+                return true;
+            }
+            return false;
+        }).toList();
+
+         return improvementEnums;
+    }
 }
