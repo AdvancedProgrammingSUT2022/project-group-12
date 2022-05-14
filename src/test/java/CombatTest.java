@@ -1,33 +1,38 @@
 import Controllers.CityCombatController;
 import Controllers.GameController;
 import Controllers.UnitCombatController;
-import Enums.*;
-import Models.*;
+import Enums.CombatTypeEnum;
+import Enums.TerrainColor;
+import Enums.TerrainEnum;
+import Enums.UnitEnum;
 import Models.Cities.City;
+import Models.Civilization;
+import Models.Game;
+import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
-import Models.Units.*;
-import Utils.Command;
+import Models.Units.NonCombatUnit;
+import Models.Units.NonRangedUnit;
+import Models.Units.RangedUnit;
+import Models.Units.Unit;
+import Models.User;
 import Utils.CommandException;
 import Views.MenuStack;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.*;
-
-import static Models.Units.Unit.calculateCombatStrength;
-import static Models.Units.Unit.calculateDamage;
-import static Utils.CommandResponse.*;
-import static java.lang.Math.exp;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+import static Utils.CommandResponse.YOU_CANT_DESTROY_CITY_BY_CITY;
+import static java.lang.Math.exp;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CombatTest {
@@ -128,7 +133,7 @@ public class CombatTest {
         double EnemyCityStrength = enemyCity.calculateCombatStrength();
         CityCombatController.calculateNonRangeAttackDamage(myNonRangedCombatUnit, combatStrengthNonRangedUnit, enemyCity, EnemyCityStrength);
         CityCombatController.checkForKill(myNonRangedCombatUnit,enemyCity,ownTile,enemyTile);
-        Assertions.assertTrue(enemyCity == null && ownTile.getCombatUnit() == null && enemyTile.g);
+        Assertions.assertTrue(enemyCity == null && ownTile.getCombatUnit() == null);
     }
     @Test
     public void calculateRangeAttackToCity() throws CommandException {

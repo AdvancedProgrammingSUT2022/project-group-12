@@ -13,7 +13,12 @@ public class CommandException extends Exception {
         super(commandResponse.toString() + ": " + item);
     }
 
+    @Override
+    public String getMessage() {
+        return "Error, " + super.getMessage();
+    }
+
     public void print() {
-        System.out.println("Error, " + this.getMessage());
+        System.out.println(this.getMessage());
     }
 }
