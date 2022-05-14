@@ -9,6 +9,7 @@ import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
+import Views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,8 +35,10 @@ public class MovingController {
             calculateMovementCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
             tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(location));
+            unit.setLocation(location);
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
             unit.getCivilization().setCurrentSelectedGridLocation(location);
+
             unit.getPathShouldCross().remove(0);
         }
     }

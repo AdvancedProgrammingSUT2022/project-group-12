@@ -740,4 +740,8 @@ public class GameMenu extends Menu {
         }
         showTheMap();
     }
+
+    public void setSelectedUnit(Unit selectedUnit) {
+        this.selectedUnit = selectedUnit;
+    }
 }
