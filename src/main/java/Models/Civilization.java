@@ -22,6 +22,7 @@ public class Civilization {
     private final ArrayList<Tile> ownedTiles;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
+    private final HashMap<UnitEnum, Integer> unitCountByCategory;
     private final HashMap<TechnologyEnum, Integer> technologies;
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> isInWarWith;
@@ -65,6 +66,7 @@ public class Civilization {
         this.cheatBeaker = 0;
         this.beakerFromBuildings = 0;
         this.beakerRatioFromBuildings = 0;
+        this.unitCountByCategory = new HashMap<>();
     }
 
     public HappinessTypeEnum detectHappinessState(double happiness) {
@@ -192,6 +194,16 @@ public class Civilization {
 
     public void addUnit(Unit unit) {
         this.units.add(unit);
+        if (this.unitCountByCategory.containsKey(unit.getType())) {
+            int count = unitCountByCategory.get(unit.getType());
+            unitCountByCategory.remove(unit.getType());
+            unitCountByCategory.put(unit.getType(), count);
+        } else
+            unitCountByCategory.put(unit.getType(), 1);
+    }
+
+    public HashMap<UnitEnum,Integer> getUnitCountByCategory(){
+        return unitCountByCategory;
     }
 
     public double calculateHappiness() {

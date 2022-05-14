@@ -514,4 +514,12 @@ public class City {
     public void setCombatStrengthFromBuildings(double combatStrengthFromBuildings) {
         this.combatStrengthFromBuildings = combatStrengthFromBuildings;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder cityInfo = new StringBuilder();
+        cityInfo.append("- ").append(name).append(" has [").append(citizensCount).append("] citizens, currently belongs to <")
+                .append(civilization.getName()).append("> and its citizens are as happy as much as [").append(localHappiness).append("\n");
+        return cityInfo.toString();
+    }
 }
