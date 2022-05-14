@@ -111,6 +111,10 @@ public class Command {
         if (getPartOfType(2) != null) return getPartOfType(2);
         return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
+    public String getSubSubSubCategory() {
+        if (getPartOfType(3) != null) return getPartOfType(3);
+        return String.valueOf(CommandResponse.INVALID_COMMAND);
+    }
 
     public HashMap<String, String> getOptions() {
         return options;

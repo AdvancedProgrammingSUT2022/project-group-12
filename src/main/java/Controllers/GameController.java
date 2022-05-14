@@ -414,13 +414,15 @@ public class GameController {
         civ.addGold(-unitEnum.calculateGoldCost());
         Tile tile = city.getTile();
         Unit unit = Unit.constructUnitFromEnum(unitEnum, civ, city.getLocation());
+        civ.addUnit(unit);
         tile.placeUnit(unit);
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
-        if (city.getCivilization().getGold() < unitEnum.getProductionCost()) {
-            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
-        }
+        //todo : what is that comments
+//        if (city.getCivilization().getGold() < unitEnum.getProductionCost()) {
+//            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+//        }
         Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
         unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);

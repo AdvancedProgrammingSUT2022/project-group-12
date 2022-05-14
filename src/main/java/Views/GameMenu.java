@@ -7,6 +7,7 @@ import Controllers.UnitCombatController;
 import Controllers.ValidateGameMenuFuncs.InfoFuncs;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
+import javafx.util.Pair;
 import Enums.ImprovementEnum;
 import Enums.UnitEnum;
 import Models.Cities.City;
@@ -105,9 +106,20 @@ public class GameMenu extends Menu {
             case "finish" -> this.cheatFinish(command);
             case "teleport" -> this.cheatTeleport(command);
             case "reveal" -> this.cheatMapReveal(command);
+            case "heal" -> this.cheatHeal(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
+
+    private void cheatHeal(Command command) {
+        switch (command.getSubSubCategory()){
+            case "city" -> this.cheatHealCity(command);
+            case "unit" -> this.cheatHealUnit(command);
+            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+        }
+    }
+
+
 
     private void cheatTeleport(Command command) {
         command.abbreviate("position", "p");
@@ -199,11 +211,48 @@ public class GameMenu extends Menu {
             case "food" -> this.cheatIncreaseFood(command);
             case "happiness" -> this.cheatIncreaseHappiness(command);
             case "science" -> this.cheatIncreaseBeaker(command);
+            case "movement" -> this.cheatIncreaseMovementCost(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
 
+
+
+    private void cheatHealCity(Command command) {
+        if(selectedCity == null){
+            answer(CommandResponse.CITY_NOT_SELECTED);
+            return;
+        }
+        CheatCodeController.getInstance().healCity(selectedCity);
+        answer("city healed successfully !");
+    }
+    private void cheatHealUnit(Command command) {
+        if(selectedCity == null){
+            answer(CommandResponse.UNIT_NOT_SELECTED);
+            return;
+        }
+        CheatCodeController.getInstance().healUnit(selectedUnit);
+        answer("unit healed successfully !");
+    }
+
+    private void cheatIncreaseMovementCost(Command command) {
+        if(selectedUnit == null){
+            answer(CommandResponse.UNIT_NOT_SELECTED);
+            return;
+        }
+        command.abbreviate("amount","a");
+        try {
+            command.assertOptions(List.of("amount"));
+            int amount = command.getIntOption("amount");
+            CheatCodeController.getInstance().increaseMovement(selectedUnit,amount);
+            answer("unit movement increased " + amount + " successfully");
+        } catch (CommandException e) {
+            answer(e);
+        }
+    }
+
     private void cheatIncreaseBeaker(Command command) {
+        command.abbreviate("amount","a");
         try {
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");

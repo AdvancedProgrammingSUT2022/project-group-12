@@ -31,6 +31,7 @@ public class CheatCodeController {
     public void spawnUnit(UnitEnum unitEnum, Civilization civilization, Location location) throws CommandException {
         Tile tile = GameController.getGameTile(location);
         Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civilization, location);
+        civilization.addUnit(newUnit);
         tile.placeUnit(newUnit);
     }
 
@@ -61,5 +62,14 @@ public class CheatCodeController {
 
     public void revealTile(Location location) {
         GameController.getGame().revealTileFor(GameController.getGame().getCurrentCivilization(), GameController.getGameTile(location));
+    }
+    public void increaseMovement(Unit unit,int amount){
+        unit.setAvailableMoveCount(unit.getAvailableMoveCount() + amount);
+    }
+    public void healCity(City city){
+        city.setHealth(2000);
+    }
+    public void healUnit(Unit unit){
+        unit.setHealth(100);
     }
 }

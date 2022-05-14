@@ -22,13 +22,52 @@ user create --username alireza2 --password Password123? --nickname ali2
 user login -p Password123? -u alireza
 play game --player1 alireza --player2 alireza2
 map show
-select unit noncombat -p 49 29
+cheat spawn unit -p 5 5 -u settler
+select unit noncombat -p 5 5
 unit found city
-select city -p 49 30
-cheat spawn unit -p 51 29 -u warrior
-cheat increase gold -a 100
+select city -p 5 5
+city citizen assign -p 6 6
 city build unit -u warrior
-city citizen assign -p 48 29
-unit move
-unit fortify
+end turn
+cheat spawn unit -p 5 6 -u PANZER
+select unit combat -p 5 6
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
+unit attack -p 5 5
+cheat heal unit
+cheat increase movement -a 10
  */

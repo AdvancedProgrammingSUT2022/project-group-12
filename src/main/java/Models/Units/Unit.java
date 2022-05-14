@@ -76,7 +76,7 @@ public abstract class Unit extends Production {
         this.health = health;
     }
 
-    public static double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh) {
+    public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh) {
         double strength;
         if (combatstrengh.equals("combatstrength")) {
             strength = unit.getType().getCombatStrength();
