@@ -167,4 +167,9 @@ public enum TerrainEnum {
     public String getAbbreviation() {
         return abbreviation;
     }
+
+    public boolean isReachable() {
+        return !this.getFeatures().contains(TerrainEnum.ICE) &&
+                this != TerrainEnum.MOUNTAIN && this != TerrainEnum.OCEAN;
+    }
 }

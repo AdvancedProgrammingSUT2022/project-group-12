@@ -27,8 +27,15 @@ public class Game {
     public Game(ArrayList<User> users) {
         this.civilizations = new ArrayList<>();
         this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
-        ArrayList<Tile> availableTiles = this.tileGrid.getFlatTiles();
+
+        ArrayList<Tile> availableTiles = new ArrayList<>();
+        for (Tile tile : this.tileGrid.getFlatTiles()) {
+            if (tile.getTerrain().getTerrainType().isReachable()) {
+                availableTiles.add(tile);
+            }
+        }
         Collections.shuffle(availableTiles);
+
         List<TerrainColor> colors = List.of(TerrainColor.GREEN_BOLD, TerrainColor.RED_BOLD, TerrainColor.YELLOW_BOLD, TerrainColor.CYAN_BOLD, TerrainColor.WHITE_BOLD);
         for (int index = 0; index < users.size(); index++) {
             TerrainColor color = colors.get(index % colors.size());
