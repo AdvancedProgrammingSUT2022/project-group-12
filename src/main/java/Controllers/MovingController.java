@@ -9,7 +9,6 @@ import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
-import Views.GameMenu;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -61,6 +60,7 @@ public class MovingController {
         return false;
     }
 
+    // todo: refactor
     private static void CaptureTheNonCombatUnit(Tile tile, Civilization civ) {
         NonCombatUnit capturedUnit = tile.getNonCombatUnit();
         if (capturedUnit.getType() == UnitEnum.WORKER || capturedUnit.getType() == UnitEnum.SETTLER) {

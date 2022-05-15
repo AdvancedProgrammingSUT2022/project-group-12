@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.CivilizationController;
 import Enums.*;
 import Models.Cities.City;
 import Models.Tiles.Tile;
@@ -42,6 +43,7 @@ public class Civilization {
     private TechnologyEnum currentTech;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
+    private final CivilizationController controller = new CivilizationController(this);
 
     public Civilization(User user, TerrainColor color) {
         this.color = color;
@@ -438,4 +440,7 @@ public class Civilization {
         this.beakerRatioFromBuildings = beakerRationFromBuildings;
     }
 
+    public CivilizationController getController() {
+        return controller;
+    }
 }

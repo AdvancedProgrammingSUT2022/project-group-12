@@ -15,7 +15,7 @@ public class CivilizationController {
         this.civilization = civilization;
     }
 
-    public String unitPanel() {
+    public String unitsPanel() {
         if (civilization.getUnits().isEmpty()) {
             return "";
         }
@@ -118,7 +118,7 @@ public class CivilizationController {
         StringBuilder economicInfo = new StringBuilder();
         economicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> that are: ").append(citiesPanel()).append("and [")
                 .append(civilization.getOwnedTiles().size()).append("] owned tiles. It has [").append(civilization.getUnits().size())
-                .append("] <units> that are").append(unitPanel()).append("and has [").append(civilization.getGold()).append("] <golds>. It is <In War With> [").append(civilization.getIsInWarWith().size())
+                .append("] <units> that are").append(unitsPanel()).append("and has [").append(civilization.getGold()).append("] <golds>. It is <In War With> [").append(civilization.getIsInWarWith().size())
                 .append("] civilization(s) and has <Economic Relations with> [").append(civilization.getIsInEconomicRelation().size())
                 .append("] civilization(s). Its citizens <Happiness> is as high as [").append(civilization.getHappiness())
                 .append("] and it is working (researching) on [").append(civilization.getResearch().size()).append("] <technologies> that are: \n");
@@ -130,13 +130,5 @@ public class CivilizationController {
             }
         }
         return economicInfo.toString();
-    }
-
-    public void setTurn() {
-
-    }
-
-    public void applyCheatSheet() {
-
     }
 }
