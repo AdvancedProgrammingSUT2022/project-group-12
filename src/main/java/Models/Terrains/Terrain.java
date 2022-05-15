@@ -33,14 +33,15 @@ public class Terrain {
     }
 
     private ResourceEnum featureResources() {
+        Random random = new Random();
         ArrayList<ResourceEnum> resources = new ArrayList<>(terrainType.getResources());
         if (!features.isEmpty()) {
             for (TerrainEnum feature : this.features) {
                 resources.addAll(feature.getResources());
             }
         }
-        if (resources.isEmpty()) return null;
-        int chooseResource = new Random().nextInt(resources.size());
+        if (resources.isEmpty() || random.nextInt(2) != 0) return null;
+        int chooseResource = random.nextInt(resources.size());
         return resources.get(chooseResource);
     }
 

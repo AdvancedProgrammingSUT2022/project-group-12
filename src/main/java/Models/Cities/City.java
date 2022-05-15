@@ -337,10 +337,13 @@ public class City {
         food += this.foodFromCheat;
         food += (int) getSourcesFromTiles("food");
         food -= this.citizensCount * 2;
-        food = settlerEffectOnFoods(food);
-        if (food > 0) {
-            food = checkForHappinessState(food);
+        // todo: just affects on citizen birth, move there
+        if (productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0) {
+            food = 0;
         }
+//        if (food > 0) {
+//            food = checkForHappinessState(food);
+//        }
         return food;
     }
 
@@ -352,9 +355,7 @@ public class City {
     }
 
     private int settlerEffectOnFoods(int food) {
-        if (productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0) {
-            food = 0;
-        }
+
         return food;
     }
 

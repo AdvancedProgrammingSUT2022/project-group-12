@@ -116,8 +116,7 @@ public class GameController {
         for (Tile neighbor : territoryTiles) neighbor.setCivilization(civ);
         tile.setCity(city);
         civ.addCity(city);
-        Unit settler = tile.getNonCombatUnit();
-        GameController.deleteUnit(settler);
+        GameController.deleteUnit(unit);
         if (isCapital) civ.setCapital(city);
         return city;
     }

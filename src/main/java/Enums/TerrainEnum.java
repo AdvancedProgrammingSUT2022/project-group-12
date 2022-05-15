@@ -22,6 +22,7 @@ public enum TerrainEnum {
     }}),
     OASIS("OASIS", TerrainColor.RESET, 3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
     RIVER("RIVER", TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>()),
+    // todo: add Jolge (flood plains), different from plain
 
     GRASSLAND("GRSLD", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(TerrainEnum.FOREST);
@@ -71,7 +72,6 @@ public enum TerrainEnum {
     }}),
     DESERT("DSERT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(TerrainEnum.OASIS);
-        add(TerrainEnum.PLAIN);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
         add(ResourceEnum.GOLD);

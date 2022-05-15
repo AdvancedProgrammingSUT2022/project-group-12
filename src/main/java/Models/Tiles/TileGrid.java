@@ -75,11 +75,6 @@ public class TileGrid {
         this.tiles[location.getRow()][location.getCol()].setState(VisibilityEnum.VISIBLE);
     }
 
-    public Location getRandomTileLocation() {
-        Random random = new Random();
-        return new Location(random.nextInt(this.getHeight()), random.nextInt(this.getWidth()));
-    }
-
     public int getHeight() {
         return height;
     }
@@ -150,20 +145,6 @@ public class TileGrid {
 
     public Tile[][] getTiles() {
         return this.tiles;
-    }
-
-    public void replaceTile(Tile replacement) {
-        this.tiles[replacement.getRow()][replacement.getCol()] = replacement;
-    }
-
-    public VisibilityEnum[][] gridState() {
-        VisibilityEnum[][] state = new VisibilityEnum[width][height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                state[i][j] = tiles[i][j].getState();
-            }
-        }
-        return state;
     }
 
     public VisibilityEnum tileState(int x, int y) {

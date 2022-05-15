@@ -79,7 +79,8 @@ public class CivilizationController {
                 cities.append("* ");
             cities.append(civilization.getCities().get(i).getName()).append(" is on: ")
                     .append(civilization.getCities().get(i).getTile().getTerrain().getTerrainType().name())
-                    .append(" and has ").append(civilization.getCities().get(i).getCitizens().size()).append(" citizens\n");
+                    .append(" and has ").append(civilization.getCities().get(i).getCitizens().size()).append(" citizens\n")
+                    .append("food production = ").append(civilization.getCities().get(i).calculateFood()).append("\n");
         }
         return cities.toString();
     }

@@ -656,12 +656,14 @@ public class GameMenu extends Menu {
     }
 
     private void unitMove(Command command) {
+        // bug: unit not going in the shortest path
+        // bug: unit not continue its move each turn
         try {
             command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             getUnitFuncs().unitMoveTo(selectedUnit, location);
-            setCamera(location);
+            setCamera(this.selectedUnit.getLocation());
             answer("unit moved to " + location + " successfully");
         } catch (CommandException e) {
             answer(e);
