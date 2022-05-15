@@ -98,9 +98,22 @@ public class GameMenu extends Menu {
             case "finish" -> this.cheatFinish(command);
             case "teleport" -> this.cheatTeleport(command);
             case "reveal" -> this.cheatMapReveal(command);
+            case "unlock" -> this.cheatUnlock(command);
             case "heal" -> this.cheatHeal(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void cheatUnlock(Command command) {
+        switch (command.getSubSubCategory()){
+            case "technologies" -> this.cheatUnlockTechnologies(command);
+            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+        }
+    }
+
+    private void cheatUnlockTechnologies(Command command) {
+        CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
+        answer("all technologies unlocked for you");
     }
 
     private void cheatHeal(Command command) {
@@ -110,8 +123,6 @@ public class GameMenu extends Menu {
             default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
-
-
 
     private void cheatTeleport(Command command) {
         try {
@@ -595,16 +606,17 @@ public class GameMenu extends Menu {
 
     private void unitBuild(Command command) {
         switch (command.getSubSubCategory()) {
-            case "road" -> this.unitBuildImprovement(ImprovementEnum.ROAD);
-            case "railRoad" -> this.unitBuildImprovement(ImprovementEnum.RAILROAD);
-            case "farm" -> this.unitBuildImprovement(ImprovementEnum.FARM);
-            case "mine" -> this.unitBuildImprovement(ImprovementEnum.MINE);
-            case "tradingPost" -> this.unitBuildImprovement(ImprovementEnum.TRADING_POST);
-            case "lumberMill" -> this.unitBuildImprovement(ImprovementEnum.LUMBER_MILL);
-            case "pasture" -> this.unitBuildImprovement(ImprovementEnum.PASTURE);
-            case "camp" -> this.unitBuildImprovement(ImprovementEnum.CAMP);
-            case "plantation" -> this.unitBuildImprovement(ImprovementEnum.CULTIVATION);
-            case "quarry" -> this.unitBuildImprovement(ImprovementEnum.STONE_MINE);
+//            case "road" -> this.unitBuildImprovement(ImprovementEnum.ROAD);
+//            case "railRoad" -> this.unitBuildImprovement(ImprovementEnum.RAILROAD);
+            case "improvement" -> this.unitBuildImprovement(this.selectedUnit);
+//            case "farm" -> this.unitBuildImprovement(ImprovementEnum.FARM);
+//            case "mine" -> this.unitBuildImprovement(ImprovementEnum.MINE);
+//            case "tradingPost" -> this.unitBuildImprovement(ImprovementEnum.TRADING_POST);
+//            case "lumberMill" -> this.unitBuildImprovement(ImprovementEnum.LUMBER_MILL);
+//            case "pasture" -> this.unitBuildImprovement(ImprovementEnum.PASTURE);
+//            case "camp" -> this.unitBuildImprovement(ImprovementEnum.CAMP);
+//            case "plantation" -> this.unitBuildImprovement(ImprovementEnum.CULTIVATION);
+//            case "quarry" -> this.unitBuildImprovement(ImprovementEnum.STONE_MINE);
             default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
@@ -730,10 +742,10 @@ public class GameMenu extends Menu {
         }
     }
 
-    public void unitBuildImprovement(ImprovementEnum improvement) {
+    public void unitBuildImprovement(Unit selectedUnit) {
         try {
-            GameController.buildImprovement(this.selectedUnit, improvement);
-            answer("improvement built on " + this.selectedUnit.getLocation() + " successfully");
+            ImprovementEnum improvement = GameController.buildImprovement(selectedUnit);
+            answer("improvement " + improvement + " built on " + this.selectedUnit.getLocation() + " successfully");
         } catch (CommandException e) {
             answer(e);
         }

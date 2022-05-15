@@ -1,6 +1,7 @@
 package Controllers;
 
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
+import Enums.TechnologyEnum;
 import Enums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
@@ -71,5 +72,11 @@ public class CheatCodeController {
     }
     public void healUnit(Unit unit){
         unit.setHealth(100);
+    }
+
+    public void unlockTechnologies(Civilization civ) {
+        for (TechnologyEnum technology : TechnologyEnum.values()) {
+            civ.addTechnology(technology);
+        }
     }
 }

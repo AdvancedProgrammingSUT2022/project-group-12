@@ -1,6 +1,7 @@
 package Models.Tiles;
 
 import Enums.ImprovementEnum;
+import Enums.ResourceEnum;
 import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
 import Models.Cities.City;
@@ -22,7 +23,7 @@ public class Tile {
     private final int row;
     private final int col;
     private final Terrain terrain;
-    protected ArrayList<ImprovementEnum> improvements;
+    protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private int HP;
@@ -48,20 +49,6 @@ public class Tile {
         this.state = VisibilityEnum.FOG_OF_WAR;
     }
 
-    public Tile(Civilization civilization, Terrain terrain, int x, int y) {
-        this.civilization = civilization;
-        this.row = x;
-        this.col = y;
-        this.terrain = terrain;
-        this.combatUnit = null;
-        this.nonCombatUnit = null;
-        this.HP = 0;
-        this.isDamaged = false;
-        this.city = null;
-        this.hasRoad = false;
-        this.state = VisibilityEnum.VISIBLE;
-    }
-
     private Tile(Tile that) {
         this.row = that.row;
         this.col = that.col;
@@ -75,7 +62,7 @@ public class Tile {
         this.state = that.state;
         this.civilization = that.civilization;
         this.citizen = that.citizen;
-        this.improvements = new ArrayList<>();
+        this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
     }
@@ -201,8 +188,14 @@ public class Tile {
         int production = this.terrain.getProductsCount();
         int food = this.terrain.getFoodCount();
         int gold = this.terrain.getGoldCount();
-        for (TerrainEnum feature :
-                terrain.getFeatures()) {
+        ResourceEnum resourceEnum = this.getTerrain().getResource();
+        if (resourceEnum != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
+                && (this.getCity() != null || this.getImprovements().contains(resourceEnum.getImprovementNeeded())) ) {
+            production += resourceEnum.getProductsCount();
+            food += resourceEnum.getFoodCount();
+            gold += resourceEnum.getGoldCount();
+        }
+        for (TerrainEnum feature : terrain.getFeatures()) {
             production += feature.getProductsCount();
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
@@ -248,9 +241,10 @@ public class Tile {
         return 0;
     }
 
-    public void setImprovements(ArrayList<ImprovementEnum> improvements) {
-        this.improvements = improvements;
+    public void addImprovement(ImprovementEnum improvement) {
+        this.getImprovements().add(improvement);
     }
+
     public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad(){
         List<ImprovementEnum> improvementEnums =  improvements.stream().filter(improvementEnum -> {
             if (improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD) {

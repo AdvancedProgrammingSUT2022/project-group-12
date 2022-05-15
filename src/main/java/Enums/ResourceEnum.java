@@ -68,7 +68,7 @@ public enum ResourceEnum {
         return this.foodCount;
     }
 
-    public int getProductCount() {
+    public int getProductsCount() {
         return this.productCount;
     }
 
@@ -94,5 +94,10 @@ public enum ResourceEnum {
 
     public ImprovementEnum getImprovementNeeded() {
         return improvementNeeded;
+    }
+
+    public String getAbbreviation() {
+        // todo
+        return this.name();
     }
 }

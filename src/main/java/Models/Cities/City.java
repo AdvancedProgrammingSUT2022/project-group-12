@@ -293,7 +293,7 @@ public class City {
         double food = 0;
         for (ResourceEnum resource : this.getResources()) {
             food += resource.getFoodCount();
-            production += resource.getProductCount();
+            production += resource.getProductsCount();
             gold += resource.getGoldCount();
         }
         return switch (name) {

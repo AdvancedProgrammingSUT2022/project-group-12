@@ -65,15 +65,15 @@ public class UnitActionsTest {
     }
    @Test
     void test(){
-        ownTile.setImprovements(new ArrayList<>(){{add(ImprovementEnum.ROAD);}});
-       ArrayList<ImprovementEnum> improvements = new ArrayList<>(ownTile.getImprovements());
-       List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
-           if (improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD) {
-               return false;
-           }
-           return true;
-       }).toList();
-       Assertions.assertTrue(improvementEnums.size() == 0);
+        ownTile.addImprovement(ImprovementEnum.ROAD);
+        ArrayList<ImprovementEnum> improvements = new ArrayList<>(ownTile.getImprovements());
+        List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
+            if (improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD) {
+                return false;
+            }
+            return true;
+        }).toList();
+        Assertions.assertTrue(improvementEnums.size() == 0);
    }
 
 

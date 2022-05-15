@@ -120,9 +120,9 @@ public class Civilization {
 
     public void advanceResearchTech() {
         if (researchingTechnologies.get(researchingTechnology) >= researchingTechnology.getCost()) {
-            this.technologies.add(researchingTechnology);
+            this.addTechnology(researchingTechnology);
             researchingTechnologies.remove(researchingTechnology);
-            researchingTechnology = null;
+            setResearchingTechnology(null);
         } else {
             int temp = researchingTechnologies.get(researchingTechnology) + beaker;
             researchingTechnologies.remove(researchingTechnology);
@@ -416,5 +416,9 @@ public class Civilization {
 
     public CivilizationController getController() {
         return controller;
+    }
+
+    public void addTechnology(TechnologyEnum technology) {
+        this.getTechnologies().add(technology);
     }
 }

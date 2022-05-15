@@ -52,10 +52,6 @@ public class GameController {
         return "Jungle removed successfully";
     }
 
-    public static String BuildImprovement(Tile currentTile, ImprovementEnum improvementEnum) {
-        return ImprovementEnum.valueOf(improvementEnum.name()).toString().toLowerCase() + " built successfully";
-    }
-
     public static boolean isAttackableEnemyOn(Location location, Civilization civilization, CombatUnit combatUnit) {
         // for now, we assume ranged units CANNOT attack non combats
         return isEnemyExists(location, civilization);
@@ -335,7 +331,7 @@ public class GameController {
         return null;
     }
 
-    public static void buildImprovement(Unit unit, ImprovementEnum improvement) throws CommandException {
+    public static ImprovementEnum buildImprovement(Unit unit) throws CommandException {
         Tile tile = GameController.getGameTile(unit.getLocation());
         if (unit.getType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
@@ -343,6 +339,7 @@ public class GameController {
         if (tile.getTerrain().getResource() == null) {
             throw new CommandException(CommandResponse.NO_RESOURCE_ON_TILE);
         }
+        ImprovementEnum improvement = tile.getTerrain().getResource().getImprovementNeeded();
         if (tile.getImprovements().contains(improvement)) {
             throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
         }
@@ -352,7 +349,8 @@ public class GameController {
                 throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY, tech.name());
             }
         }
-
+        tile.addImprovement(improvement);
+        return improvement;
     }
 
     private static boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
