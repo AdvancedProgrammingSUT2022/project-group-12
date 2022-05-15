@@ -1,7 +1,6 @@
 package Enums;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public enum TechnologyEnum {
@@ -57,32 +56,27 @@ public enum TechnologyEnum {
 
     private final int cost;
     private final ArrayList<TechnologyEnum> prerequisiteTechs;
-    private final ArrayList<TechnologyEnum> leadsToTechs;
+
+    public ArrayList<TechnologyEnum> getPrerequisiteTechs() {
+        return prerequisiteTechs;
+    }
 
     TechnologyEnum(int cost, ArrayList<TechnologyEnum> prerequisiteTechs) {
         this.cost = cost;
         this.prerequisiteTechs = prerequisiteTechs;
-        this.leadsToTechs = new ArrayList<>();
     }
 
     public int getCost() {
         return this.cost;
     }
 
-    public boolean hasPrerequisiteTechs(HashMap<TechnologyEnum, Integer> techs) {
-        for (TechnologyEnum list : this.prerequisiteTechs) {
-            if (!techs.containsKey(list) || techs.get(list) == 0) {
-                return false;
+    public ArrayList<TechnologyEnum> leadsToTech() {
+        ArrayList<TechnologyEnum> techs = new ArrayList<>();
+        for (TechnologyEnum tech : TechnologyEnum.values()) {
+            if (tech.prerequisiteTechs.contains(this)) {
+                techs.add(tech);
             }
         }
-        return true;
-    }
-
-    public ArrayList<TechnologyEnum> leadsToTech() {
-        for (TechnologyEnum tech : TechnologyEnum.values()) {
-            if (tech != this && tech.prerequisiteTechs.contains(this))
-                leadsToTechs.add(tech);
-        }
-        return this.leadsToTechs;
+        return techs;
     }
 }

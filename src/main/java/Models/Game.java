@@ -108,6 +108,9 @@ public class Game {
                 throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }
         }
+        if (civ.getResearchingTechnology() == null) {
+            throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
+        }
         checkForKillingCiziten(civ);
     }
 
@@ -171,6 +174,8 @@ public class Game {
         Civilization civ = this.getCurrentCivilization();
         civ.applyNotes();
         updateRevealedTileGrid(civ);
+        // todo: beaker is 0 now
+        civ.advanceResearchTech();
         for (City city : civ.getCities()) {
             city.advanceProductionQueue();
         }

@@ -7,6 +7,7 @@ import Controllers.UnitCombatController;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.ImprovementEnum;
+import Enums.TechnologyEnum;
 import Enums.UnitEnum;
 import Models.Cities.City;
 import Models.Civilization;
@@ -84,9 +85,25 @@ public class GameMenu extends Menu {
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
             case "city" -> this.city(command);
+            case "research" -> this.research(command);
             case "cheat" -> this.cheat(command);
             case "end" -> this.end(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void research(Command command) {
+        try {
+            command.abbreviate("technology", 't');
+            command.assertOptions(List.of("technology"));
+            String technologyName = command.getOption("technology");
+            TechnologyEnum technology = TechnologyEnum.valueOf(technologyName.toUpperCase());
+            GameController.getGame().getCurrentCivilization().startResearchOnTech(technology);
+            answer("started to research on " + technology.name());
+        } catch (CommandException e) {
+            answer(e);
+        } catch (IllegalArgumentException e) {
+            answer(new CommandException(CommandResponse.INVALID_TECHNOLOGY_NAME));
         }
     }
 
@@ -106,12 +123,12 @@ public class GameMenu extends Menu {
 
     private void cheatUnlock(Command command) {
         switch (command.getSubSubCategory()){
-            case "technologies" -> this.cheatUnlockTechnologies(command);
+            case "technologies" -> this.cheatUnlockTechnologies();
             default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
     }
 
-    private void cheatUnlockTechnologies(Command command) {
+    private void cheatUnlockTechnologies() {
         CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
         answer("all technologies unlocked for you");
     }

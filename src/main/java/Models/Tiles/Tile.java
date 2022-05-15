@@ -189,8 +189,8 @@ public class Tile {
         int food = this.terrain.getFoodCount();
         int gold = this.terrain.getGoldCount();
         ResourceEnum resourceEnum = this.getTerrain().getResource();
-        if (resourceEnum != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
-                && (this.getCity() != null || this.getImprovements().contains(resourceEnum.getImprovementNeeded())) ) {
+        if (resourceEnum != null && this.getCivilization() != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
+                && (this.getCity() != null || this.getImprovements().contains(resourceEnum.getImprovementNeeded()))) {
             production += resourceEnum.getProductsCount();
             food += resourceEnum.getFoodCount();
             gold += resourceEnum.getGoldCount();
@@ -247,10 +247,7 @@ public class Tile {
 
     public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad(){
         List<ImprovementEnum> improvementEnums =  improvements.stream().filter(improvementEnum -> {
-            if (improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD) {
-                return true;
-            }
-            return false;
+            return improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD;
         }).toList();
 
          return improvementEnums;

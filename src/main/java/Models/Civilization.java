@@ -77,19 +77,20 @@ public class Civilization {
         return HappinessTypeEnum.VERY_UNHAPPY;
     }
 
-    public int calculateScience() {
-        int beaker = 0;
-        beaker += beakerFromBuildings;
-        beaker *= beakerRatioFromBuildings;
-        beaker += cheatBeaker;
-        for (City city :
-                this.getCities()) {
-            beaker += city.getCitizensCount();
+    public void advanceResearchTech() {
+        if (this.researchingTechnology == null) return;
+
+        this.beaker = calculateScience();
+        int temp = researchingTechnologies.get(researchingTechnology) + this.beaker;
+        researchingTechnologies.remove(researchingTechnology);
+        researchingTechnologies.put(researchingTechnology, temp);
+        this.beaker = 0;
+
+        if (researchingTechnologies.get(researchingTechnology) >= researchingTechnology.getCost()) {
+            this.addTechnology(researchingTechnology);
+            researchingTechnologies.remove(researchingTechnology);
+            setResearchingTechnology(null);
         }
-        if (calculateCivilizationGold() < 0) {
-            beaker -= this.getGold();
-        }
-        return beaker;
     }
 
     public ArrayList<City> getCities() {
@@ -118,23 +119,30 @@ public class Civilization {
         return this.gold;
     }
 
-    public void advanceResearchTech() {
-        if (researchingTechnologies.get(researchingTechnology) >= researchingTechnology.getCost()) {
-            this.addTechnology(researchingTechnology);
-            researchingTechnologies.remove(researchingTechnology);
-            setResearchingTechnology(null);
-        } else {
-            int temp = researchingTechnologies.get(researchingTechnology) + beaker;
-            researchingTechnologies.remove(researchingTechnology);
-            researchingTechnologies.put(researchingTechnology, temp);
-            beaker = 0;
+    public int calculateScience() {
+        int beaker = 0;
+        beaker += beakerFromBuildings;
+        beaker *= beakerRatioFromBuildings;
+        beaker += cheatBeaker;
+        for (City city : this.getCities()) {
+            beaker += city.getCitizensCount();
         }
+        // todo: fix
+//        if (calculateCivilizationGold() < 0) {
+//            beaker -= this.getGold();
+//        }
+        return beaker;
     }
 
-    public void startResearchOnTech(TechnologyEnum tech) {
-        this.researchingTechnology = tech;
-        if (!researchingTechnologies.containsKey(tech)) {
-            this.researchingTechnologies.put(tech, 0);
+    public void startResearchOnTech(TechnologyEnum technology) throws CommandException {
+        for (TechnologyEnum tech : technology.getPrerequisiteTechs()) {
+            if (!this.getTechnologies().contains(tech)) {
+                throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY, tech.name());
+            }
+        }
+        this.researchingTechnology = technology;
+        if (!researchingTechnologies.containsKey(technology)) {
+            this.researchingTechnologies.put(technology, 0);
         }
     }
 
@@ -420,5 +428,9 @@ public class Civilization {
 
     public void addTechnology(TechnologyEnum technology) {
         this.getTechnologies().add(technology);
+    }
+
+    public int getResearchAdvancement(TechnologyEnum technology) {
+        return this.researchingTechnologies.getOrDefault(technology, 0);
     }
 }

@@ -103,8 +103,6 @@ public class GameController {
         if (GameController.tileIsNearAnotherCity(tile)) {
             throw new CommandException(CommandResponse.CLOSE_TO_A_CITY);
         }
-        int cityProduction = 1 + tile.calculateSources("production");
-        int food = 2 + tile.calculateSources("food");
         boolean isCapital = civ.getCapital() == null;
         ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
         String cityName = Constants.CITY_NAMES[new Random().nextInt(Constants.CITY_NAMES.length)];
@@ -457,9 +455,6 @@ public class GameController {
 
 
     public static boolean isEnemyCityExists(Location nextLocation, Civilization civilization) {
-        if (GameController.getGameTile(nextLocation).getCity() != null && GameController.getGameTile(nextLocation).getCity().getCivilization() != civilization) {
-            return true;
-        }
-        return false;
+        return GameController.getGameTile(nextLocation).getCity() != null && GameController.getGameTile(nextLocation).getCity().getCivilization() != civilization;
     }
 }

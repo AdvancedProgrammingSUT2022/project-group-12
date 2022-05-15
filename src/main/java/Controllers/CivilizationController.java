@@ -57,15 +57,16 @@ public class CivilizationController {
     }
 
     public String researchPanel() {
-        if (civilization.getResearch().isEmpty())
+        if (civilization.getResearch().isEmpty()) {
             return "you are not doing any research at the moment";
+        }
         StringBuilder research = new StringBuilder();
         TechnologyEnum researchingTech = civilization.getResearchingTechnology();
         research.append("Researching on: ").append(researchingTech.name()).append("\n")
-                .append("Turns to complete: ").append(civilization.getResearch().get(researchingTech)).append("\n")
+                .append("Turns to complete: ").append(researchingTech.getCost() - civilization.getResearchAdvancement(researchingTech)).append("\n")
                 .append("This research may lead to: ");
-        for (int i = 0; i < researchingTech.leadsToTech().size(); i++) {
-            research.append("\n").append(researchingTech.leadsToTech().get(i).name());
+        for (TechnologyEnum tech : researchingTech.leadsToTech()) {
+            research.append("\n").append(tech.name());
         }
         return research.toString();
     }
