@@ -22,7 +22,6 @@ import java.util.Random;
 
 import static Controllers.MovingController.findTheShortestPath;
 import static Controllers.MovingController.moveUnit;
-import static java.lang.Math.decrementExact;
 
 public class CityCombatController extends CombatController {
 
@@ -46,18 +45,15 @@ public class CityCombatController extends CombatController {
 
 
     protected static String affectCityAttackToUnit(City city, Unit enemyUnit, Tile currentTile, Tile enemyUnitTile) throws CommandException {
-        String response = new String("");
         double cityStrength = city.calculateCombatStrength();
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyUnitTile, "combatstrength");
         double strengthDiff = cityStrength - enemyUnitStrength;
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(enemyUnit,strengthDiff));
-        response = checkForKill(enemyUnit, city, enemyUnitTile, currentTile);
-        return response;
+        return checkForKill(enemyUnit, city, enemyUnitTile, currentTile);
     }
 
 
     public static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
-        StringBuilder message = new StringBuilder("");
         if (unit.getHealth() <= 0) {
             if (unit instanceof CombatUnit) {
                 if (city.getHealth() <= 0) {

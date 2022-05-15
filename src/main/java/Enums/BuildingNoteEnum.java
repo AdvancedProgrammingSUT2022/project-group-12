@@ -14,9 +14,7 @@ public enum BuildingNoteEnum {
     LIBRARY_NOTE((BuildingNotes<City>) city -> city.getCivilization().setBeakerFromBuildings(city.getCitizensCount() / 2 + city.getCivilization().getBeakerFromBuildings())),
     MONUMENT_NOTE((BuildingNotes<City>) city -> {
     }),
-    WALLS_NOTE((BuildingNotes<City>) city -> {
-        city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f);
-    }),
+    WALLS_NOTE((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f)),
     WATER_MILLS_NOTE((BuildingNotes<City>) city -> {
         if (city.getTile().hasRiver()) {
             city.setFoodFromBuildings(city.getFoodFromBuildings() + 2);
@@ -24,12 +22,8 @@ public enum BuildingNoteEnum {
     }),
     ARMORY_NOTE(o -> {
     }),
-    BURIAL_TOMB_NOTE((BuildingNotes<City>) city -> {
-        city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
-    }),
-    CIRCUS_NOTE((BuildingNotes<City>) city -> {
-        city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0);
-    }),
+    BURIAL_TOMB_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0)),
+    CIRCUS_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0)),
     COLOSSEUM_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     COURTHOUSE_NOTE((BuildingNotes<City>) city -> {
 
@@ -43,9 +37,7 @@ public enum BuildingNoteEnum {
     TEMPLE_NOTE((BuildingNotes<City>) city -> {
     }),
     CASTLE_NOTE((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 7.5)),
-    FORGE_NOTE((BuildingNotes<City>) city -> {
-        city.setProductionFromBuildings(city.getProductionFromBuildings() + (city.getProductionFromBuildings() * 15.0 / 100.0));
-    }),
+    FORGE_NOTE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + (city.getProductionFromBuildings() * 15.0 / 100.0))),
     GARDEN_NOTE(o -> {
     }),
     MARKET_NOTE((BuildingNotes<City>) city -> city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 4)),

@@ -84,12 +84,14 @@ public class CivilizationController {
         return cities.toString();
     }
 
-    public String demographicPanel() {
+        public String demographicPanel() {
         StringBuilder demographicInfo = new StringBuilder();
-        demographicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> and [").append(civilization.getOwnedTiles().size()).append("] owned tiles.\n" +
-                        "It has [").append(civilization.getUnits().size()).append("] <units> and has [").append(civilization.getGold()).append("] <golds>.\n" +
-                        "It is <In War With> [").append(civilization.getIsInWarWith().size()).append("] civilization(s) and has <Economic Relations with> [").append(civilization.getIsInEconomicRelation().size()).append("] civilization(s).\n" +
-                        "Its citizens <Happiness> is as high as [").append(civilization.getHappiness()).append("] and it is working (researching) on [").append(civilization.getResearch().size()).append("] <technologies>. ");
+        demographicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> and [")
+                .append(civilization.getOwnedTiles().size()).append("] owned tiles. It has [").append(civilization.getUnits().size())
+                .append("] <units> and has [").append(civilization.getGold()).append("] <golds>. It is <In War With> [").append(civilization.getIsInWarWith().size())
+                .append("] civilization(s) and has <Economic Relations with> [").append(civilization.getIsInEconomicRelation().size())
+                .append("] civilization(s). Its citizens <Happiness> is as high as [").append(civilization.getHappiness())
+                .append("] and it is working (researching) on [").append(civilization.getResearch().size()).append("] <technologies>. ");
         return demographicInfo.toString();
     }
 
@@ -114,7 +116,7 @@ public class CivilizationController {
 
     public String economicOverview() {
         StringBuilder economicInfo = new StringBuilder();
-        economicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> that are:").append(citiesPanel()).append("and [")
+        economicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> that are: ").append(citiesPanel()).append("and [")
                 .append(civilization.getOwnedTiles().size()).append("] owned tiles. It has [").append(civilization.getUnits().size())
                 .append("] <units> that are").append(unitsPanel()).append("and has [").append(civilization.getGold()).append("] <golds>. It is <In War With> [").append(civilization.getIsInWarWith().size())
                 .append("] civilization(s) and has <Economic Relations with> [").append(civilization.getIsInEconomicRelation().size())

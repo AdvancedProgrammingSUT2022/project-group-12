@@ -49,7 +49,7 @@ public enum BuildingEnum {
     private final List<TechnologyEnum> requiredTechs;
     private final List<BuildingEnum> requiredBuildings;
     private final BuildingNotes note;
-    private boolean iscombatBuilding;
+    private final boolean iscombatBuilding;
 
 
     BuildingEnum(int cost, int maintenance, List<TechnologyEnum> requiredTechs, List<BuildingEnum> requiredBuildings, BuildingNotes buildingNotes, boolean iscombatBuilding) {

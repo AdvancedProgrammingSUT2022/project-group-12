@@ -283,9 +283,7 @@ public class City {
             case "gold" -> {
                 return gold;
             }
-            default -> {
-                throw new RuntimeException();
-            }
+            default -> throw new RuntimeException();
         }
     }
 

@@ -81,14 +81,6 @@ public class MenuStack {
         this.pushMenu(this.profileMenu);
     }
 
-    public String getOption(String firstMessage, String secondMessage) {
-        String message;
-        System.out.println(firstMessage);
-        message = this.scanner.nextLine();
-        System.out.println(secondMessage);
-        return message;
-    }
-
     public String getOption(String firstMessage) {
         System.out.println(firstMessage);
         return this.scanner.nextLine();

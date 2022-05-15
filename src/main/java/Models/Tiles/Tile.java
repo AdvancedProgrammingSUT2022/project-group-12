@@ -76,6 +76,8 @@ public class Tile {
         this.civilization = that.civilization;
         this.citizen = that.citizen;
         this.improvements = new ArrayList<>();
+        this.hasRiver = that.hasRiver;
+        this.hasRailRoad = that.hasRailRoad;
     }
 
     public boolean hasRoad() {
