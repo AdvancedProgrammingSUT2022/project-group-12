@@ -17,7 +17,7 @@ public enum CommandResponse {
     INVALID_DIRECTION("invalid direction"),
     NOT_HAVING_TILE("this tile is not yours"),
     UNIT_DOES_NOT_EXISTS("unit doesn't exists"),
-    WRONG_UNIT("the unit is wrong!"),
+    WRONG_UNIT("wrong unit, you need"),
     NOT_DAMAGED("the tile is undamaged!"),
     ROUTE_DOES_NOT_EXISTS("there isn't any route here"),
     JUNGLE_DOES_NOT_EXISTS("there isn't any jungle here"),
@@ -73,7 +73,9 @@ public enum CommandResponse {
     PLAYER_NUMBER_GAP("there is a gap in number of players"),
     IMPROVEMENT_DOESNT_EXISTS("improvement doesn't exists"),
     ATTACK_UNIT_IS_NOT_COMBAT("cannot attack with non combat units!"), NOT_ENOUGH_RANGE_ATTACK_COUNT("your range for ranged unit isn't enough"),
-    INVALID_COMMAND_KEY_FORMAT("command key format is invalid");
+    INVALID_COMMAND_KEY_FORMAT("command key format is invalid"),
+    NO_RESOURCE_ON_TILE("there is no resource on the tile"),
+    DO_NOT_HAVE_REQUIRED_TECHNOLOGY("you don't have required technology");
 
 
     private final String message;

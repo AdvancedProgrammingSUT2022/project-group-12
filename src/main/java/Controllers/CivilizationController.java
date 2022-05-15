@@ -36,8 +36,8 @@ public class CivilizationController {
             return "";
         }
         StringBuilder techs = new StringBuilder();
-        for (Map.Entry<TechnologyEnum, Integer> tech : civilization.getTechnologies().entrySet()) {
-            techs.append("- <").append(tech.getKey().name()).append("> Count: <").append(tech.getValue()).append(">");
+        for (TechnologyEnum tech : civilization.getTechnologies()) {
+            techs.append("- <").append(tech.name()).append(">");
         }
         return techs.toString();
     }

@@ -1,7 +1,6 @@
 package Enums;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public enum ImprovementEnum {
     RESET(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
@@ -142,15 +141,6 @@ public enum ImprovementEnum {
         this.isRequiredBy = isRequiredBy;
         this.requiredTechs = requiredTechs;
         this.canBeBuiltOn = canBeBuiltOn;
-    }
-
-    public boolean hasRequiredTechs(HashMap<TechnologyEnum, Integer> techs) {
-        for (TechnologyEnum list : this.requiredTechs) {
-            if (!techs.containsKey(list) || techs.get(list) == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public ArrayList<ResourceEnum> getIsRequiredBy() {

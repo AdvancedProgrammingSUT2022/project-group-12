@@ -338,15 +338,21 @@ public class GameController {
     public static void buildImprovement(Unit unit, ImprovementEnum improvement) throws CommandException {
         Tile tile = GameController.getGameTile(unit.getLocation());
         if (unit.getType() != UnitEnum.WORKER) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
         }
-//        if (improvement.hasRequiredTechs())
+        if (tile.getTerrain().getResource() == null) {
+            throw new CommandException(CommandResponse.NO_RESOURCE_ON_TILE);
+        }
         if (tile.getImprovements().contains(improvement)) {
             throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
         }
-//        if (isPossibleToBuildInThisTerrain(currentCivilization, improvement)) {
-//            throw new CommandException(CommandResponse.YOU_HAVE_NOT_REQUIRED_OPTIONS);
-//        }
+        Civilization civ = unit.getCivilization();
+        for (TechnologyEnum tech : improvement.getRequiredTechs()) {
+            if (!civ.getTechnologies().contains(tech)) {
+                throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY, tech.name());
+            }
+        }
+
     }
 
     private static boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {

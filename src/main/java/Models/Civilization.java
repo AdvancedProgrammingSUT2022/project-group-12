@@ -20,11 +20,10 @@ public class Civilization {
     private final TerrainColor color;
     private final ArrayList<City> cities;
     private final ArrayList<String> notifications;
-    private final ArrayList<Tile> ownedTiles;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
-    private final HashMap<TechnologyEnum, Integer> technologies;
+    private final ArrayList<TechnologyEnum> technologies = new ArrayList<>();
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> isInWarWith;
     private final ArrayList<Civilization> isInEconomicRelation;
@@ -40,14 +39,12 @@ public class Civilization {
     private int happiness;
     private int happinessFromCheat;
     private TechnologyEnum researchingTechnology;
-    private TechnologyEnum currentTech;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
     private final CivilizationController controller = new CivilizationController(this);
 
     public Civilization(User user, TerrainColor color) {
         this.color = color;
-        this.technologies = new HashMap<>();
         this.researchingTechnology = null;
         this.user = user;
         this.units = new ArrayList<>();
@@ -58,7 +55,6 @@ public class Civilization {
         this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
-        this.ownedTiles = null;
         this.researchingTechnologies = new HashMap<>();
         this.happinessType = this.detectHappinessState(this.happiness);
         this.isInEconomicRelation = new ArrayList<>();
@@ -122,15 +118,10 @@ public class Civilization {
         return this.gold;
     }
 
-    public void researchTech() {
-        if (researchingTechnologies.get(researchingTechnology) == researchingTechnology.getCost()) {
-            if (technologies.containsKey(researchingTechnology)) {
-                int count = technologies.get(researchingTechnology) + 1;
-                technologies.remove(researchingTechnology);
-                technologies.put(researchingTechnology, count);
-            }
+    public void advanceResearchTech() {
+        if (researchingTechnologies.get(researchingTechnology) >= researchingTechnology.getCost()) {
+            this.technologies.add(researchingTechnology);
             researchingTechnologies.remove(researchingTechnology);
-            checkLeadsToTech();
             researchingTechnology = null;
         } else {
             int temp = researchingTechnologies.get(researchingTechnology) + beaker;
@@ -140,18 +131,10 @@ public class Civilization {
         }
     }
 
-    public void checkLeadsToTech() {
-        ArrayList<TechnologyEnum> techs = researchingTechnology.leadsToTech();
-        for (TechnologyEnum tech : techs) {
-            if (!tech.hasPrerequisiteTechs(this.technologies)) {
-                researchingTechnologies.put(tech, tech.getCost());
-            }
-        }
-    }
-
     public void startResearchOnTech(TechnologyEnum tech) {
+        this.researchingTechnology = tech;
         if (!researchingTechnologies.containsKey(tech)) {
-            this.researchingTechnologies.put(tech, tech.getCost());
+            this.researchingTechnologies.put(tech, 0);
         }
     }
 
@@ -184,14 +167,6 @@ public class Civilization {
             city.setCombatStrengthFromBuildings(0);
             city.applyBuildingNotes();
         }
-    }
-
-    public boolean isPossibleToHaveThisResource(ResourceEnum sourceResourceEnum) {
-        ImprovementEnum requiredImprovement = sourceResourceEnum.improvementNeeded();
-        for (TechnologyEnum technology : requiredImprovement.getRequiredTechs()) {
-            if (this.technologies.containsKey(technology)) return true;
-        }
-        return false;
     }
 
     public void addUnit(Unit unit) {
@@ -315,7 +290,7 @@ public class Civilization {
         return this.production;
     }
 
-    public HashMap<TechnologyEnum, Integer> getTechnologies() {
+    public ArrayList<TechnologyEnum> getTechnologies() {
         return this.technologies;
     }
 
@@ -429,10 +404,6 @@ public class Civilization {
 
     public void setBeakerFromBuildings(int beakerFromBuildings) {
         this.beakerFromBuildings = beakerFromBuildings;
-    }
-
-    public TechnologyEnum getCurrentTech() {
-        return currentTech;
     }
 
     public double getBeakerRatioFromBuildings() {
