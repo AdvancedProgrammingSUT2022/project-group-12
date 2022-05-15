@@ -40,14 +40,16 @@ public class Command {
                 key = input.substring(idx + 2, idx2);
             } else { // single dash
                 key = String.valueOf(input.charAt(idx2));
+                if (!Character.isLetter(key.charAt(0))) throw new CommandException(CommandResponse.INVALID_COMMAND_KEY_FORMAT);
                 ++idx2;
                 if (idx2 == input.length() || input.charAt(idx2) != ' ') { // like "move -amount"
                     throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
                 }
             }
             idx = idx2 + 1;
-            idx2 = input.indexOf(' ', idx);
+            idx2 = input.indexOf('-', idx);
             if (idx2 == -1) idx2 = input.length();
+            else --idx2;
             String value = input.substring(idx, idx2);
             idx = idx2 + 1;
             if (options.containsKey(key)) {

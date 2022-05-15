@@ -72,7 +72,8 @@ public enum CommandResponse {
     YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by ranged combat unit"),
     PLAYER_NUMBER_GAP("there is a gap in number of players"),
     IMPROVEMENT_DOESNT_EXISTS("improvement doesn't exists"),
-    ATTACK_UNIT_IS_NOT_COMBAT("cannot attack with non combat units!"), NOT_ENOUGH_RANGE_ATTACK_COUNT("your range for ranged unit isn't enough");
+    ATTACK_UNIT_IS_NOT_COMBAT("cannot attack with non combat units!"), NOT_ENOUGH_RANGE_ATTACK_COUNT("your range for ranged unit isn't enough"),
+    INVALID_COMMAND_KEY_FORMAT("command key format is invalid");
 
 
     private final String message;
