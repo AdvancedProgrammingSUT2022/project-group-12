@@ -40,14 +40,13 @@ public class Command {
             } else { // single dash
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
-                if (input.charAt(idx2) != ' ') { // like "move -amount"
+                if (idx2 == input.length() || input.charAt(idx2) != ' ') { // like "move -amount"
                     throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
                 }
             }
             idx = idx2 + 1;
-            idx2 = input.indexOf('-', idx);
+            idx2 = input.indexOf(' ', idx);
             if (idx2 == -1) idx2 = input.length();
-            else idx2--;
             String value = input.substring(idx, idx2);
             idx = idx2 + 1;
             if (options.containsKey(key)) {
@@ -80,10 +79,11 @@ public class Command {
         return stringBuilder.toString();
     }
 
-    public void abbreviate(String key, char abbr) {
+    public void abbreviate(String key, char abbr) throws CommandException {
         String value = this.getOption(String.valueOf(abbr));
         if (value != null) {
             this.options.remove(String.valueOf(abbr));
+            if (this.options.containsKey(key)) throw new CommandException(CommandResponse.DUPLICATE_OPTION_KEY, key);
             this.options.put(key, value);
         }
     }

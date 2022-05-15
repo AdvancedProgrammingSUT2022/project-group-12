@@ -5,6 +5,8 @@ import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
 
+import java.util.List;
+
 public class ProfileMenu extends Menu {
 
     @Override
@@ -19,9 +21,10 @@ public class ProfileMenu extends Menu {
     }
 
     private void changeNickname(Command command) {
-        command.abbreviate("nickname", 'n');
-        String nickname = command.getOption("nickname");
         try {
+            command.abbreviate("nickname", 'n');
+            command.assertOptions(List.of("nickname"));
+            String nickname = command.getOption("nickname");
             ProfileMenuController.changeNickname(nickname);
         } catch (CommandException e) {
             answer(e);
@@ -31,11 +34,12 @@ public class ProfileMenu extends Menu {
     }
 
     private void changePassword(Command command) {
-        command.abbreviate("oldPassword", 'o');
-        command.abbreviate("newPassword", 'n');
-        String oldPassword = command.getOption("oldPassword");
-        String newPassword = command.getOption("newPassword");
         try {
+            command.abbreviate("oldPassword", 'o');
+            command.abbreviate("newPassword", 'n');
+            command.assertOptions(List.of("oldPassword", "newPassword"));
+            String oldPassword = command.getOption("oldPassword");
+            String newPassword = command.getOption("newPassword");
             ProfileMenuController.changePassword(oldPassword, newPassword);
         } catch (CommandException e) {
             answer(e);

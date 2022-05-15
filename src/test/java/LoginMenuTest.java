@@ -31,10 +31,12 @@ public class LoginMenuTest {
     }
 
     private void setUserCreds(Command command) {
-        command.abbreviate("username", 'u');
-        command.abbreviate("nickname", 'n');
-        command.abbreviate("password", 'p');
-        assertDoesNotThrow(() -> command.assertOptions(List.of("username", "nickname", "password")));
+        assertDoesNotThrow(() -> {
+            command.abbreviate("username", 'u');
+            command.abbreviate("nickname", 'n');
+            command.abbreviate("password", 'p');
+            command.assertOptions(List.of("username", "nickname", "password"));
+        });
         username = command.getOption("username");
         nickname = command.getOption("nickname");
         password = command.getOption("password");
@@ -80,9 +82,11 @@ public class LoginMenuTest {
     }
 
     private void setLoginCreds(Command command) {
-        command.abbreviate("username", 'u');
-        command.abbreviate("password", 'p');
-        assertDoesNotThrow(() -> command.assertOptions(List.of("username", "password")));
+        assertDoesNotThrow(() -> {
+            command.abbreviate("username", 'u');
+            command.abbreviate("password", 'p');
+            command.assertOptions(List.of("username", "password"));
+        });
         username = command.getOption("username");
         password = command.getOption("password");
     }

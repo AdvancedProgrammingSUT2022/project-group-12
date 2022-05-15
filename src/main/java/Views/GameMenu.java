@@ -114,8 +114,8 @@ public class GameMenu extends Menu {
 
 
     private void cheatTeleport(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             CheatCodeController.getInstance().teleport(location, selectedUnit);
@@ -154,8 +154,8 @@ public class GameMenu extends Menu {
     }
 
     private void cheatMapReveal(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             CheatCodeController.getInstance().revealTile(location);
@@ -178,9 +178,9 @@ public class GameMenu extends Menu {
     }
 
     private void cheatSpawnUnit(Command command) {
-        command.abbreviate("unit", 'u');
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("unit", 'u');
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("unit", "position"));
             Location location = command.getLocationOption("position");
             String unitName = command.getOption("unit");
@@ -232,8 +232,8 @@ public class GameMenu extends Menu {
             answer(CommandResponse.UNIT_NOT_SELECTED);
             return;
         }
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             CheatCodeController.getInstance().increaseMovement(selectedUnit,amount);
@@ -244,8 +244,8 @@ public class GameMenu extends Menu {
     }
 
     private void cheatIncreaseBeaker(Command command) {
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             CheatCodeController.getInstance().increaseBeaker(amount);
@@ -256,8 +256,8 @@ public class GameMenu extends Menu {
     }
 
     private void cheatIncreaseHappiness(Command command) {
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             CheatCodeController.getInstance().increaseHappiness(amount);
@@ -268,8 +268,8 @@ public class GameMenu extends Menu {
     }
 
     private void cheatIncreaseGold(Command command) {
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             CheatCodeController.getInstance().increaseGold(amount);
@@ -284,8 +284,8 @@ public class GameMenu extends Menu {
             answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             CheatCodeController.getInstance().increaseProduction(this.selectedCity, amount);
@@ -300,8 +300,8 @@ public class GameMenu extends Menu {
             answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             CheatCodeController.getInstance().increaseFood(this.selectedCity, amount);
@@ -364,8 +364,8 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuildUnit(Command command) {
-        command.abbreviate("unit", 'u');
         try {
+            command.abbreviate("unit", 'u');
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
             UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
@@ -387,8 +387,8 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuyUnit(Command command) {
-        command.abbreviate("unit", 'u');
         try {
+            command.abbreviate("unit", 'u');
             command.assertOptions(List.of("unit"));
             String unitName = command.getOption("unit");
             UnitEnum unit = UnitEnum.valueOf(unitName.toUpperCase());
@@ -402,8 +402,8 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuyTile(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             GameController.cityBuyTile(selectedCity, location);
@@ -424,8 +424,8 @@ public class GameMenu extends Menu {
     }
 
     private void cityCitizenChangeLock(Command command, boolean lock) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             GameController.cityCitizenSetLock(selectedCity, location, lock);
@@ -466,8 +466,8 @@ public class GameMenu extends Menu {
     }
 
     private void selectUnit(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
         } catch (CommandException e) {
             answer(e);
@@ -494,9 +494,9 @@ public class GameMenu extends Menu {
     }
 
     private void selectCity(Command command) {
-        command.abbreviate("name", 'n');
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("name", 'n');
+            command.abbreviate("position", 'p');
             Civilization civ = GameController.getGame().getCurrentCivilization();
             if (command.getOption("position") != null) {
                 this.selectedCity = GameController.selectCityByPosition(civ, command.getLocationOption("position"));
@@ -627,8 +627,8 @@ public class GameMenu extends Menu {
     }
 
     private void mapInfo(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             setCamera(location);
@@ -639,8 +639,8 @@ public class GameMenu extends Menu {
     }
 
     private void mapMove(Command command) {
-        command.abbreviate("amount", 'a');
         try {
+            command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
             String direction = command.getSubSubCategory();
@@ -656,8 +656,8 @@ public class GameMenu extends Menu {
     }
 
     private void unitMove(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             getUnitFuncs().unitMoveTo(selectedUnit, location);
@@ -681,8 +681,8 @@ public class GameMenu extends Menu {
     }
 
     private void cityCitizenModify(Command command, boolean isAssigning) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             if (isAssigning) {
@@ -698,8 +698,8 @@ public class GameMenu extends Menu {
     }
 
     public void cityAttack(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String combatType;
@@ -716,8 +716,8 @@ public class GameMenu extends Menu {
     }
 
     public void unitAttack(Command command) {
-        command.abbreviate("position", 'p');
         try {
+            command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String ans = CombatController.AttackUnit(this.selectedUnit, location);
