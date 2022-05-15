@@ -259,4 +259,9 @@ public class Tile {
 
          return improvementEnums;
     }
+
+    // todo
+    public String getInfo() {
+        return null;
+    }
 }

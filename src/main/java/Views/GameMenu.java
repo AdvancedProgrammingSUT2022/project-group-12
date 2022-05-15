@@ -346,6 +346,7 @@ public class GameMenu extends Menu {
             case "build" -> cityBuild(command);
             case "buy" -> cityBuy(command);
             case "attack" -> cityAttack(command);
+            case "info" -> answer(this.selectedCity.getInfo());
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -533,6 +534,7 @@ public class GameMenu extends Menu {
                 case "cancel" -> this.unitCancel();
                 case "setup" -> this.unitSetup();
                 case "pillage" -> this.unitPillage();
+                case "info" -> answer(this.selectedUnit.getInfo());
                 default -> answer(CommandResponse.INVALID_SUBCOMMAND);
             }
         } catch (CommandException e) {
@@ -618,12 +620,25 @@ public class GameMenu extends Menu {
     private void map(Command command) {
         switch (command.getSubCategory()) {
             case "show" -> this.mapShow(command);
-            case "move" -> this.moveMap(command);
+            case "move" -> this.mapMove(command);
+            case "info" -> this.mapInfo(command);
             default -> answer(CommandResponse.INVALID_SUBCOMMAND);
         }
     }
 
-    private void moveMap(Command command) {
+    private void mapInfo(Command command) {
+        command.abbreviate("position", "p");
+        try {
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            setCamera(location);
+            answer(GameController.getGameTile(location).getInfo());
+        } catch (CommandException e) {
+            answer(e);
+        }
+    }
+
+    private void mapMove(Command command) {
         command.abbreviate("amount", "a");
         try {
             command.assertOptions(List.of("amount"));

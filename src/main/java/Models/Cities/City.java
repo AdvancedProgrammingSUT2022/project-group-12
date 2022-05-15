@@ -534,4 +534,8 @@ public class City {
         this.health = health;
     }
 
+    // todo
+    public String getInfo() {
+        return null;
+    }
 }

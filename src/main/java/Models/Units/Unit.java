@@ -165,4 +165,9 @@ public abstract class Unit extends Production {
     public void decreaseHealth(int value) {
         this.health -= value;
     }
+
+    // todo
+    public String getInfo() {
+        return null;
+    }
 }
