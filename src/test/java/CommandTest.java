@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import static Utils.CommandResponse.DUPLICATE_OPTION_KEY;
 import static Utils.CommandResponse.INVALID_COMMAND_FORMAT;
 
 public class CommandTest {
@@ -19,6 +20,11 @@ public class CommandTest {
 
     private void assertThrowFor(CommandResponse response, String input) {
         CommandException exception = Assertions.assertThrows(CommandException.class, getParseExecutable(input));
+        Assertions.assertEquals(exception.getResponse(), response);
+    }
+
+    private void assertThrowA(CommandResponse response, Executable executable) {
+        CommandException exception = Assertions.assertThrows(CommandException.class, executable);
         Assertions.assertEquals(exception.getResponse(), response);
     }
 
@@ -75,6 +81,35 @@ public class CommandTest {
 
     @Test
     public void duplicateKey() {
-        assertThrowFor(CommandResponse.DUPLICATE_OPTION_KEY, "login --user alireza --pass 123 --user alireza");
+        assertThrowFor(DUPLICATE_OPTION_KEY, "login --user alireza --pass 123 --user alireza");
+    }
+
+    @Test
+    public void abbreviateOption() {
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("login -u alireza");
+            command.abbreviate("username", 'u');
+            Assertions.assertNotNull(command.getOption("username"));
+        });
+        assertThrowA(DUPLICATE_OPTION_KEY, () -> {
+            Command command = Command.parseCommand("login -u ali --username reza");
+            command.abbreviate("username", 'u');
+        });
+    }
+
+    @Test
+    public void categorizing() {
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("one   two three   four  ");
+            Assertions.assertEquals("one two three four", command.getType());
+            Assertions.assertEquals("one", command.getCategory());
+            Assertions.assertEquals("two", command.getSubCategory());
+            Assertions.assertEquals("three", command.getSubSubCategory());
+        });
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("one  ");
+            Assertions.assertEquals("", command.getSubCategory());
+            Assertions.assertEquals("", command.getSubSubCategory());
+        });
     }
 }

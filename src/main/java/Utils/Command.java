@@ -1,6 +1,7 @@
 package Utils;
 
 import Models.Location;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -93,10 +94,10 @@ public class Command {
     }
 
     public String getCategory() {
-        if (getPartOfType(0) != null) return getPartOfType(0);
-        return String.valueOf(CommandResponse.INVALID_COMMAND);
+        return getPartOfType(0);
     }
 
+    @NotNull
     private String getPartOfType(int idx) {
         String[] parts = this.getType().split(" ");
         return parts.length > idx ? parts[idx] : "";
@@ -107,13 +108,11 @@ public class Command {
     }
 
     public String getSubCategory() {
-        if (getPartOfType(1) != null) return getPartOfType(1);
-        return String.valueOf(CommandResponse.INVALID_COMMAND);
+        return getPartOfType(1);
     }
 
     public String getSubSubCategory() {
-        if (getPartOfType(2) != null) return getPartOfType(2);
-        return String.valueOf(CommandResponse.INVALID_COMMAND);
+        return getPartOfType(2);
     }
 
     public HashMap<String, String> getOptions() {
