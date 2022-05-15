@@ -100,13 +100,13 @@ public class Civilization {
         return cities;
     }
 
+    // todo: check
     public int calculateCivilizationGold() {
         int gold = this.getGoldFromCheat();
-        for (City city :
-                this.getCities()) {
+        for (City city : this.getCities()) {
             gold += city.calculateGold();
         }
-        this.gold = gold;
+//        this.gold = gold;
         return gold;
     }
 
@@ -272,8 +272,7 @@ public class Civilization {
 
     public int calculateSuccess() {
         return gold + cities.size() + units.size() + technologies.size() + happiness
-                + isInEconomicRelation.size() - isInWarWith.size() + beaker +
-                +ownedTiles.size();
+                + isInEconomicRelation.size() - isInWarWith.size() + beaker + this.getOwnedTiles().size();
     }
 
     public boolean isInWarWith(Civilization civilization) {
@@ -321,7 +320,11 @@ public class Civilization {
     }
 
     public ArrayList<Tile> getOwnedTiles() {
-        return this.ownedTiles;
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (City city : this.getCities()) {
+            tiles.addAll(city.getTiles());
+        }
+        return tiles;
     }
 
     public TileGrid getRevealedTileGrid() {

@@ -42,9 +42,9 @@ public class Game {
             Civilization civ = new Civilization(users.get(index), color);
             civilizations.add(civ);
             // for easier testing
-//            Tile settlerTile = this.getTileGrid().getTile(new Location(10, 10));
+            Tile settlerTile = this.getTileGrid().getTile(new Location(10, 10));
 
-            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
+//            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
                 availableTiles.remove(tile);
             }
