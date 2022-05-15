@@ -16,42 +16,46 @@ public class Command {
     }
 
     public static Command parseCommand(String input) throws CommandException {
+        if (input.isBlank()) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
+        input = removeWhiteSpaces(input);
         int idx = input.indexOf('-');
         if (idx == -1) idx = input.length();
-        String cmd = removeWhiteSpaces(input.substring(0, idx)).toLowerCase();
+        else idx--;
+        if (idx < 0) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
+        String cmd = input.substring(0, idx).toLowerCase();
+        ++idx;
         HashMap<String, String> options = new HashMap<>();
         while (idx < input.length()) {
             String key;
             int idx2 = idx + 1;
             if (idx2 >= input.length()) { // like "move -"
-                throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT, String.valueOf(idx2));
+                throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
             }
             if (input.charAt(idx2) == '-') { // double dash
                 idx2 = input.indexOf(' ', idx);
                 if (idx2 == -1) { // like "move --amount"
-                    throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT, String.valueOf(idx2));
+                    throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
                 }
                 key = input.substring(idx + 2, idx2);
             } else { // single dash
                 key = String.valueOf(input.charAt(idx2));
                 ++idx2;
                 if (input.charAt(idx2) != ' ') { // like "move -amount"
-                    throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT, String.valueOf(idx2));
+                    throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
                 }
             }
             idx = idx2 + 1;
             idx2 = input.indexOf('-', idx);
             if (idx2 == -1) idx2 = input.length();
-            String value = removeWhiteSpaces(input.substring(idx, idx2));
-            idx = idx2;
+            else idx2--;
+            String value = input.substring(idx, idx2);
+            idx = idx2 + 1;
             if (options.containsKey(key)) {
                 throw new CommandException(CommandResponse.DUPLICATE_OPTION_KEY, key);
             }
             options.put(key, value);
         }
-        Command command = new Command(cmd, options);
-//        System.out.println(command);
-        return command;
+        return new Command(cmd, options);
     }
 
     private static String removeWhiteSpaces(String str) {
@@ -76,10 +80,10 @@ public class Command {
         return stringBuilder.toString();
     }
 
-    public void abbreviate(String key, String abbr) {
-        String value = this.getOption(abbr);
+    public void abbreviate(String key, char abbr) {
+        String value = this.getOption(String.valueOf(abbr));
         if (value != null) {
-            this.options.remove(abbr);
+            this.options.remove(String.valueOf(abbr));
             this.options.put(key, value);
         }
     }
@@ -109,10 +113,6 @@ public class Command {
 
     public String getSubSubCategory() {
         if (getPartOfType(2) != null) return getPartOfType(2);
-        return String.valueOf(CommandResponse.INVALID_COMMAND);
-    }
-    public String getSubSubSubCategory() {
-        if (getPartOfType(3) != null) return getPartOfType(3);
         return String.valueOf(CommandResponse.INVALID_COMMAND);
     }
 

@@ -11,11 +11,11 @@ public class LoginMenuController {
     public static void createUser(String username, String nickname, String password) throws CommandException {
         Database database = Database.getInstance();
         if (database.checkForUsername(username)) {
-            throw new CommandException(CommandResponse.USERNAME_ALREADY_EXISTS.toString());
+            throw new CommandException(CommandResponse.USERNAME_ALREADY_EXISTS);
         } else if (database.nicknameAlreadyExists(nickname)) {
-            throw new CommandException(CommandResponse.NICKNAME_ALREADY_EXISTS.toString());
+            throw new CommandException(CommandResponse.NICKNAME_ALREADY_EXISTS);
         } else if (!weakPassword(password)) {
-            throw new CommandException(CommandResponse.WEAK_PASSWORD.toString());
+            throw new CommandException(CommandResponse.WEAK_PASSWORD);
         } else {
             new User(username, password, nickname);
         }

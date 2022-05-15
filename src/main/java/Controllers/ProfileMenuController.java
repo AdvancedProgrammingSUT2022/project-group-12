@@ -2,15 +2,16 @@ package Controllers;
 
 import Models.Database;
 import Utils.CommandException;
+import Utils.CommandResponse;
 import Views.MenuStack;
 
 public class ProfileMenuController {
 
     public static void changePassword(String oldPassword, String newPassword) throws CommandException {
         if (!MenuStack.getInstance().getUser().passwordMatchCheck(oldPassword)) {
-            throw new CommandException("password is incorrect");
+            throw new CommandException(CommandResponse.INVALID_PASSWORD);
         } else if (oldPassword.equals(newPassword)) {
-            throw new CommandException("new password is the same as old one");
+            throw new CommandException(CommandResponse.REPEATED_PASSWORD);
         } else {
             MenuStack.getInstance().getUser().changePassword(newPassword);
         }
@@ -19,7 +20,7 @@ public class ProfileMenuController {
     public static void changeNickname(String nickname) throws CommandException {
         Database database = Database.getInstance();
         if (database.nicknameAlreadyExists(nickname)) {
-            throw new CommandException("nickname already used: " + nickname);
+            throw new CommandException(CommandResponse.NICKNAME_ALREADY_EXISTS, nickname);
         } else {
             MenuStack.getInstance().getUser().changeNickname(nickname);
         }

@@ -19,7 +19,7 @@ public class ProfileMenu extends Menu {
     }
 
     private void changeNickname(Command command) {
-        command.abbreviate("nickname", "n");
+        command.abbreviate("nickname", 'n');
         String nickname = command.getOption("nickname");
         try {
             ProfileMenuController.changeNickname(nickname);
@@ -31,8 +31,8 @@ public class ProfileMenu extends Menu {
     }
 
     private void changePassword(Command command) {
-        command.abbreviate("oldPassword", "o");
-        command.abbreviate("newPassword", "n");
+        command.abbreviate("oldPassword", 'o');
+        command.abbreviate("newPassword", 'n');
         String oldPassword = command.getOption("oldPassword");
         String newPassword = command.getOption("newPassword");
         try {

@@ -9,6 +9,7 @@ import Models.Tiles.TileGrid;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
+import Utils.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,7 +22,7 @@ public class MovingController {
         // todo: what if not reachable??
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile);
         if (shortestPath == null) {
-            throw new CommandException("move is impossible");
+            throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
         }
         unit.setPathShouldCross(shortestPath);
         moveToNextTile(unit);
