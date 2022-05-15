@@ -174,7 +174,6 @@ public class Game {
         Civilization civ = this.getCurrentCivilization();
         civ.applyNotes();
         updateRevealedTileGrid(civ);
-        // todo: beaker is 0 now
         civ.advanceResearchTech();
         for (City city : civ.getCities()) {
             city.advanceProductionQueue();

@@ -420,10 +420,7 @@ public class GameController {
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
-        //todo : what is that comments
-//        if (city.getCivilization().getGold() < unitEnum.getProductionCost()) {
-//            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
-//        }
+        //todo : what is that comments -> check required things (tech, maintenance...)
         Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
         unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);
