@@ -24,6 +24,9 @@ public class MovingController {
         if (shortestPath == null) {
             throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
         }
+        System.out.println("shortestPath = ");
+        for (Tile tile : shortestPath) System.out.print(tile.getLocation() + " ");
+        System.out.println();
         unit.setPathShouldCross(shortestPath);
         moveToNextTile(unit);
     }

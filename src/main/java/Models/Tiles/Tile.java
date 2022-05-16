@@ -233,7 +233,7 @@ public class Tile {
     }
 
     public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad(){
-        List<ImprovementEnum> improvementEnums =  improvements.stream().filter(improvementEnum -> {
+        List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
             return improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD;
         }).toList();
 

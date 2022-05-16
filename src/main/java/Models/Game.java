@@ -26,7 +26,7 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         this.civilizations = new ArrayList<>();
-        this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
 
         ArrayList<Tile> availableTiles = new ArrayList<>();
         for (Tile tile : this.tileGrid.getFlatTiles()) {
@@ -152,6 +152,8 @@ public class Game {
     }
 
     private void checkForMultipleMoves(Unit unit) {
+        System.out.println("reached here");
+        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
             MovingController.moveToNextTile(unit);
         }
@@ -177,6 +179,10 @@ public class Game {
         civ.advanceResearchTech();
         for (City city : civ.getCities()) {
             city.advanceProductionQueue();
+        }
+        for (Unit unit : civ.getUnits()) {
+            System.out.println("unit.getType().name() = " + unit.getType().name());
+            System.out.println("unit.getLocation() = " + unit.getLocation());
         }
         civ.resetMoveCount();
         if (this.gameTurn / civilizations.size() > 25) {

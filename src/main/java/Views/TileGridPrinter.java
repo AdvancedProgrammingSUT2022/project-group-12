@@ -1,7 +1,6 @@
 package Views;
 
 import Enums.TerrainColor;
-import Enums.VisibilityEnum;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
@@ -79,7 +78,7 @@ public class TileGridPrinter {
         if (tile.getCity() != null) {
             this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivilization().getColor(), tileColor);
         }
-        this.writeCentered(row, col, tile.getRow() + "," + tile.getCol(), TerrainColor.BLACK, tileColor);
+        this.writeCentered(row, col, tile.getLocation().getRow() + "," + tile.getLocation().getCol() + " " + (int) tile.calculateMovementCost(), TerrainColor.BLACK, tileColor);
         if (tile.getCivilization() != null) {
             this.writeCentered(row - 1, col, tile.getCivilization().getAbbreviation(), tile.getCivilization().getColor(), tileColor);
         }
@@ -116,17 +115,17 @@ public class TileGridPrinter {
         }
     }
 
-    public StringBuilder tileInfo(int x, int y) {
-        if (!this.tileGrid.isLocationValid(x, y)) return new StringBuilder("location not valid");
-        Tile selectedTile = this.tileGrid.getTile(x, y);
-        VisibilityEnum selectedTileState = this.tileGrid.tileState(x, y);
-        if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR)) {
-            return new StringBuilder("you have not explored this tile yet");
-        }
-        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCivilization().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
-        if (selectedTile.getState().equals(VisibilityEnum.VISIBLE)) appendTileInfo(selectedTile);
-        return showTileInfo;
-    }
+//    public StringBuilder tileInfo(int x, int y) {
+//        if (!this.tileGrid.isLocationValid(new Location(x, y))) return new StringBuilder("location not valid");
+//        Tile selectedTile = this.tileGrid.getTile(x, y);
+//        VisibilityEnum selectedTileState = this.tileGrid.tileState(x, y);
+//        if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR)) {
+//            return new StringBuilder("you have not explored this tile yet");
+//        }
+//        showTileInfo = new StringBuilder("Civilization: ").append(selectedTile.getCivilization().getName()).append("\nType: ").append(selectedTile.getTerrain().getTerrainType());
+//        if (selectedTile.getState().equals(VisibilityEnum.VISIBLE)) appendTileInfo(selectedTile);
+//        return showTileInfo;
+//    }
 
     private void appendTileInfo(Tile selected) {
         if (selected.getNonCombatUnit() == null) {
