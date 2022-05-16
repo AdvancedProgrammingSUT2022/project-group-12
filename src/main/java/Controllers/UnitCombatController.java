@@ -22,33 +22,18 @@ public class UnitCombatController extends CombatController {
         super(newGame);
     }
 
-    protected static String affectNonRangedAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) {
-        String response;
+    public static String affectNonRangedAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) {
         double combatStrength = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double enemyCombatStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
-
         double strengthDiff = combatStrength - enemyCombatStrength;
-
-        System.out.println("strengthDiff = " + strengthDiff);
-        
-        System.out.println(nonRangedUnit.getHealth());
-        System.out.println(enemyUnit.getHealth());
-
-        System.out.println(nonRangedUnit.calculateDamage(nonRangedUnit, -strengthDiff));
-        System.out.println(enemyUnit.calculateDamage(enemyUnit, strengthDiff));
 
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(nonRangedUnit, -strengthDiff));
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(enemyUnit, strengthDiff));
-
-        System.out.println(nonRangedUnit.getHealth());
-        System.out.println(enemyUnit.getHealth());
-
         nonRangedUnit.setAvailableMoveCount(0);
-        response = checkForKill(nonRangedUnit, enemyUnit, nonRangedTile, enemyTile);
-        return response;
+        return checkForKill(nonRangedUnit, enemyUnit, nonRangedTile, enemyTile);
     }
 
-    public static String checkForKill(CombatUnit combatUnit, Unit unitEnemy, Tile combatUnitTile, Tile unitEnemyTile) {
+    private static String checkForKill(CombatUnit combatUnit, Unit unitEnemy, Tile combatUnitTile, Tile unitEnemyTile) {
         boolean isHaveKill = false;
         if (combatUnit.getHealth() <= 0) {
             isHaveKill = true;
@@ -70,14 +55,12 @@ public class UnitCombatController extends CombatController {
 
 
     public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) {
-        String response;
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(enemyUnit, strengthDiff));
         rangedUnit.setAvailableMoveCount(0);
-        response = checkForKill(rangedUnit, enemyUnit, rangedUnitTile, enemyTile);
-        return response;
+        return checkForKill(rangedUnit, enemyUnit, rangedUnitTile, enemyTile);
     }
 
 

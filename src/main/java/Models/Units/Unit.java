@@ -8,6 +8,7 @@ import Models.Civilization;
 import Models.Location;
 import Models.Production;
 import Models.Tiles.Tile;
+import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,7 +20,7 @@ public abstract class Unit extends Production {
     protected Civilization civ;
     protected double availableMoveCount;
     protected Location location;
-    protected int health = 100;
+    protected int health = Constants.UNIT_FULL_HEALTH;
     protected ArrayList<Tile> pathShouldCross;
     protected boolean isWorking;
     protected UnitStates state;

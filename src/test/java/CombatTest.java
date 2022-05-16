@@ -1,61 +1,66 @@
-import Controllers.CityCombatController;
-import Controllers.GameController;
-import Controllers.UnitCombatController;
-import Enums.CombatTypeEnum;
-import Enums.TerrainColor;
-import Enums.TerrainEnum;
-import Enums.UnitEnum;
+import Controllers.*;
+import Enums.*;
+import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
 import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
-import Models.Units.NonCombatUnit;
-import Models.Units.NonRangedUnit;
-import Models.Units.RangedUnit;
-import Models.Units.Unit;
+import Models.Units.*;
 import Models.User;
+import Utils.Command;
 import Utils.CommandException;
+import Utils.CommandResponse;
 import Utils.Constants;
 import Views.MenuStack;
+import org.junit.Rule;
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicReference;
 
-import static Utils.CommandResponse.YOU_CANT_DESTROY_CITY_BY_CITY;
-import static java.lang.Math.exp;
+import static Controllers.CityCombatController.checkForKill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CombatTest {
+    @Rule
+    public final TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
 
     User user = new User("alireza", "!aA12345678", "james");
     User enemyUser = new User("asghar", "!a122344A", "jo");
     Game gameInstance;
     GameController gameController = new GameController(getGame());
+
     Civilization myCivilization = new Civilization(user, TerrainColor.BLUE_BACKGROUND);
-    Unit enemyUnit = new NonCombatUnit(UnitEnum.SETTLER, myCivilization, new Location(20, 21));
-    RangedUnit myRangedCombatUnit = new RangedUnit(UnitEnum.ARCHER, myCivilization, new Location(20, 22));
-    NonRangedUnit myNonRangedCombatUnit = new NonRangedUnit(UnitEnum.WARRIOR, myCivilization, new Location(20, 22));
+    Unit enemyUnit = new NonCombatUnit(UnitEnum.SETTLER, myCivilization, new Location(5, 5));
+    RangedUnit myRangedCombatUnit = new RangedUnit(UnitEnum.ARCHER, myCivilization, new Location(4, 5));
+    NonRangedUnit myNonRangedCombatUnit = new NonRangedUnit(UnitEnum.WARRIOR, myCivilization, new Location(4, 5));
     Civilization enemyCivilization = new Civilization(enemyUser, TerrainColor.BROWN_BACKGROUND);
-    NonRangedUnit nonRangedUnitEnemy = new NonRangedUnit(UnitEnum.SCOUT, enemyCivilization, new Location(20, 21));
+    NonRangedUnit nonRangedUnitEnemy = new NonRangedUnit(UnitEnum.SCOUT, enemyCivilization, new Location(5, 5));
     City myCity;
-    City enemyCity;
+    City enemyCityDestroying;
+    City enemyCityAnnexing;
     Terrain ownTerrain = new Terrain(TerrainEnum.GRASSLAND);
     Tile ownTile;
     Terrain enemyTerrain = new Terrain(TerrainEnum.HILL);
     Tile enemyTile;
-    MenuStack menuStack = new MenuStack();
-    Scanner scanner = new Scanner(System.in);
+    Tile enemyTile2;
+    Scanner AnnexedScanner;
+    Scanner DestroyScanner;
 
     public Game getGame() {
         if (gameInstance == null) {
@@ -64,116 +69,122 @@ public class CombatTest {
         }
         return gameInstance;
     }
+    @Mock
+    MenuStack menuStack;
 
-//    @BeforeEach
-//    public void setUp() {
-//        enemyUnit.setHealth(100);
-//        myRangedCombatUnit.setHealth(90);
-//        enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
-//        enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
-//        ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
-//        ownTerrain.getFeatures().add(TerrainEnum.MARSH);
-//        ownTile = new Tile(ownTerrain, 20, 22);
-//        enemyTile = new Tile(enemyTerrain, 20, 21);
-//        myCity = new City("mycity", new ArrayList<Tile>(List.of(ownTile)), myCivilization, ownTile, true);
-//        enemyCity = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
-//    }
+    @BeforeEach
+    public void setUp() {
+        AnnexedScanner = new Scanner("Annexed");
+        DestroyScanner = new Scanner("Destroy");
+        MenuStack.getInstance().setScanner(AnnexedScanner);
+        enemyUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+        myRangedCombatUnit.setHealth(90);
+        enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
+        enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
+        ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
+        ownTerrain.getFeatures().add(TerrainEnum.MARSH);
+        ownTile = new Tile(ownTerrain, 4, 5);
+        enemyTile = new Tile(enemyTerrain, 5, 5);
+        enemyTile2  = new Tile(enemyTerrain,4,3);
+        myCity = new City("mycity", new ArrayList<Tile>(List.of(ownTile)), myCivilization, ownTile, true);
+        enemyCityDestroying = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
+        enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.CASTLE)); enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.BARRACK));
+        enemyCityAnnexing = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
+        enemyCityAnnexing.getBuildings().add(new Building(BuildingEnum.CASTLE)); enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.BARRACK));
+    }
+
+    @Test
+    public void affectRangeAttack() {
+        String response = "Attack happened successfully";
+        Assertions.assertDoesNotThrow(() -> {
+            enemyUnit.setHealth(10);
+            enemyTile.placeUnit(enemyUnit);
+            ownTile.placeUnit(myRangedCombatUnit);
+        });
+        UnitCombatController.affectRangeAttack(myRangedCombatUnit,enemyUnit,ownTile,enemyTile);
+        Assertions.assertNotNull(ownTile.getCombatUnit());
+        Assertions.assertTrue(enemyUnit.getHealth() < 0);
+    }
 //
-//    @Test
-//    public void calculateRangeAttackDamage() {
-//        String response = "Attack happened successfully";
-//        Assertions.assertDoesNotThrow(() -> {
-//            enemyTile.placeUnit(enemyUnit);
-//            enemyUnit.setHealth(10);
-//            ownTile.placeUnit(myRangedCombatUnit);
-//        });
-//        double strengthRangedUnit = Unit.calculateCombatStrength(myRangedCombatUnit, ownTile, "rangedcombatstrength");
-//        double combatUnitStrength = Unit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
-//        double strengthDiff = strengthRangedUnit - combatUnitStrength;
-//        Random random = new Random();
-//        Unit.calculateDamage(enemyUnit, strengthDiff);
-//        Assertions.assertNotNull(ownTile.getCombatUnit());
-//    }
+    @Test
+    public void affectNonRangedAttack() {
+        String response;
+        Assertions.assertDoesNotThrow(() -> {
+            nonRangedUnitEnemy.setHealth(10);
+            enemyTile.placeUnit(nonRangedUnitEnemy);
+            ownTile.placeUnit(myNonRangedCombatUnit);
+        });
+        UnitCombatController.affectNonRangedAttack(myNonRangedCombatUnit, nonRangedUnitEnemy,ownTile,enemyTile);
+        Assertions.assertNull(ownTile.getCombatUnit());
+        Assertions.assertTrue(nonRangedUnitEnemy.getHealth() < 0);
+        Assertions.assertTrue(enemyTile.getCombatUnit() != null);
+    }
+    @Test
+    public void affectCityAttackToUnit() throws CommandException {
+        Assertions.assertDoesNotThrow(() -> {
+            enemyUnit.setHealth(10);
+            enemyTile.placeUnit(enemyUnit);
+            ownTile.setCity(myCity);
+        });
+        AtomicReference<String> response = new AtomicReference<>("");
+        Assertions.assertDoesNotThrow(() -> {
+            response.set(CityCombatController.affectCityAttackToUnit(myCity, enemyUnit, ownTile, enemyTile));
+        });
+        Assertions.assertEquals("unit has killed",response.toString());
+    }
 //
-//    @Test
-//    public void calculateNonRangeAttack() {
-//        String response = "Attack happened successfully";
-//        Assertions.assertDoesNotThrow(() -> {
-//            enemyTile.placeUnit(nonRangedUnitEnemy);
-//            ownTile.placeUnit(myNonRangedCombatUnit);
-//        });
-//        myNonRangedCombatUnit.setHealth(50);
-//        nonRangedUnitEnemy.setHealth(10);
-//        double combatStrength1 = myNonRangedCombatUnit.calculateCombatStrength(myNonRangedCombatUnit, ownTile, "combatstrength");
-//        double combatStrength2 = nonRangedUnitEnemy.calculateCombatStrength(nonRangedUnitEnemy, enemyTile, "combatstrength");
-//        UnitCombatController.calculateNonRangeAttackDamage(myNonRangedCombatUnit, combatStrength1, nonRangedUnitEnemy, combatStrength2);
-//        response = UnitCombatController.checkForKill(myNonRangedCombatUnit, nonRangedUnitEnemy, ownTile, enemyTile);
-//        Assertions.assertTrue(enemyTile.getCombatUnit() == myNonRangedCombatUnit);
-//    }
-//
-//    @Test
-//    public void calculateDamage() {
-//        double strengthDiff = 12.3;
-//        double random_number = 1.25;
-//        enemyUnit.setHealth(enemyUnit.getHealth() - (int) (25 * exp(strengthDiff / (25.0 * random_number))));
-//        Assertions.assertEquals((100 - (int) (25 * exp(strengthDiff / (25.0 * random_number)))), enemyUnit.getHealth());
-//    }
-//
-//    @Test
-//    public void calculateCityRangeAttack() throws CommandException {
-//        String response = new String("");
-//        /***
-//         * we want to test city on hill so i choose enemytile for our city
-//         */
-//        myCity.setHealth(10);
-//        enemyUnit.setHealth(30);
-//        enemyTile.setCity(myCity);
-//        enemyTile.placeUnit(myRangedCombatUnit);
-//        ownTile.placeUnit(enemyUnit);
-//        double strengthRangedUnit = myCity.calculateCombatStrength();
-//        double EnemyUnitStrength = Unit.calculateCombatStrength(enemyUnit, ownTile, "combatstrengh");
-//        CityCombatController.calculateRangeAttackDamage(myCity, strengthRangedUnit, enemyUnit, EnemyUnitStrength);
-//        response = CityCombatController.checkForKill(enemyUnit, myCity, ownTile, enemyTile);
-//        Assertions.assertTrue(myCity.getHealth() > 0);
-//    }
-//
-//    @Test
-//    public void calculateNonRangeAttackToCity() throws CommandException {
-//        String response = "Attack happened successfully";
-//        myNonRangedCombatUnit.setHealth(100);
-//        enemyTile.placeUnit(nonRangedUnitEnemy);
-//        enemyCity.setHealth(10);
-//        double combatStrengthNonRangedUnit = Unit.calculateCombatStrength(myNonRangedCombatUnit, ownTile, "combatstrength");
-//        double EnemyCityStrength = enemyCity.calculateCombatStrength();
-//        CityCombatController.calculateNonRangeAttackDamage(myNonRangedCombatUnit, combatStrengthNonRangedUnit, enemyCity, EnemyCityStrength);
-//        CityCombatController.checkForKill(myNonRangedCombatUnit, enemyCity, ownTile, enemyTile);
-//        Assertions.assertTrue(enemyCity == null && ownTile.getCombatUnit() == null);
-//    }
-//
-//    @Test
-//    public void calculateRangeAttackToCity() throws CommandException {
-//        String response = "Attack happened successfully";
-//        myRangedCombatUnit.setHealth(100);
-//        enemyTile.placeUnit(nonRangedUnitEnemy);
-//        enemyCity.setHealth(10);
-//        double strengthRangedUnit = Unit.calculateCombatStrength(myRangedCombatUnit, ownTile, "rangedcombatstrength");
-//        if (myRangedCombatUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
-//            strengthRangedUnit *= Constants.SIEGE_BONUS;
-//        }
-//        double EnemyUnitStrength = enemyCity.calculateCombatStrength();
-//        CityCombatController.calculateRangeAttackDamage(myRangedCombatUnit, strengthRangedUnit, enemyCity, EnemyUnitStrength);
-//        Assertions.assertTrue(enemyCity.getHealth() < 0);
-//    }
-//
-//    @Test
-//    public void calculateCityRangeAttackToCity() throws CommandException {
-//        String response = "Attack happened successfully";
-//        enemyTile.placeUnit(nonRangedUnitEnemy);
-//        enemyCity.setHealth(10);
-//        double strengthRangedUnit = enemyCity.calculateCombatStrength();
-//        double EnemyUnitStrength = myCity.calculateCombatStrength();
-//        CityCombatController.calculateRangeAttackDamage(enemyCity, strengthRangedUnit, myCity, EnemyUnitStrength);
-//        Throwable exception = assertThrows(CommandException.class, () -> CityCombatController.checkForKill(myCity, enemyCity, ownTile, enemyTile));
-//        assertEquals(YOU_CANT_DESTROY_CITY_BY_CITY.toString(), exception.getMessage());
-//    }
+    @Test
+    public void affectCityAttackToCity() throws CommandException {
+        Assertions.assertDoesNotThrow(() -> {
+            myCity.setHealth(Constants.CITY_FULL_HEALTH);
+            enemyCityDestroying.setHealth(10);
+            enemyTile.setCity(enemyCityDestroying);
+            ownTile.setCity(myCity);
+        });
+        Assertions.assertThrows(CommandException.class,()->CityCombatController.affectCityAttackToCity(myCity,enemyCityDestroying));
+    }
+   @Test
+    public void affectAttackRangedToCity() throws CommandException {
+        Assertions.assertDoesNotThrow(() -> {
+            myRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+            myNonRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+            enemyCityDestroying.setHealth(10);
+            enemyTile.setCity(enemyCityDestroying);
+            ownTile.placeUnit(myRangedCombatUnit);
+        });
+        Throwable exception = Assertions.assertThrows(CommandException.class,() -> CityCombatController.affectAttackToCity(myRangedCombatUnit,enemyCityDestroying,myCivilization,ownTile,enemyTile));
+        Assertions.assertEquals(CommandResponse.YOU_CANT_DESTROY_CITY_BY_CITY.toString(),exception.getMessage());
+    }
+
+     @Test
+    public void affectAttackNonRangedToCityAndMakeCityAnnexed() throws CommandException {
+        Assertions.assertDoesNotThrow(() -> {
+            MenuStack.getInstance().setScanner(AnnexedScanner);
+            myRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+            myNonRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+            enemyCityAnnexing.setHealth(10);
+            enemyTile.setCity(enemyCityAnnexing);
+            enemyCityAnnexing.getBuildings().add(new Building(BuildingEnum.CASTLE)); enemyCityAnnexing.getBuildings().add(new Building(BuildingEnum.BARRACK));
+            ownTile.placeUnit(myNonRangedCombatUnit);
+        });
+         System.out.println("enemyCityAnnexing = " + enemyCityAnnexing.getBuildings().size());
+         Assertions.assertEquals("wow you have captured the city", CityCombatController.affectAttackToCity(myNonRangedCombatUnit, enemyCityAnnexing, myCivilization, ownTile, enemyTile));
+         Assertions.assertSame(enemyCityAnnexing.getCityState(), CityTypeEnum.ANNEXED);
+         assertEquals(0, enemyCityAnnexing.getBuildings().size());
+    }
+   @Test
+    public void affectAttackNonRangedToCityAndDestroyCity() throws CommandException {
+        Assertions.assertDoesNotThrow(() -> {
+            MenuStack.getInstance().setScanner(DestroyScanner);
+            myRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+            myNonRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
+            enemyCityDestroying.setHealth(10);
+            enemyTile.setCity(enemyCityDestroying);
+            ownTile.placeUnit(myRangedCombatUnit);
+        });
+        Assertions.assertEquals("wow you have captured the city",CityCombatController.affectAttackToCity(myNonRangedCombatUnit,enemyCityDestroying,myCivilization,ownTile,enemyTile));
+        Assertions.assertNull(enemyTile.getCity());
+        assertEquals(0, enemyCityDestroying.getBuildings().size());
+        Assertions.assertNull(ownTile.getCombatUnit());
+    }
 }

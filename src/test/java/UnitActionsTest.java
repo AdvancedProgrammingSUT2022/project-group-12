@@ -14,6 +14,7 @@ import Models.Units.NonRangedUnit;
 import Models.Units.RangedUnit;
 import Models.Units.Unit;
 import Models.User;
+import Utils.Constants;
 import Views.MenuStack;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +53,7 @@ public class UnitActionsTest {
 
     @BeforeEach
     public void setUp() {
-        enemyUnit.setHealth(100);
+        enemyUnit.setHealth(Constants.UNIT_FULL_HEALTH);
         myRangedCombatUnit.setHealth(90);
         enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
         enemyTerrain.getFeatures().add(TerrainEnum.FOREST);

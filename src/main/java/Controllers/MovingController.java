@@ -35,7 +35,6 @@ public class MovingController {
             calculateMovementCost(unit, location);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
             tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(location));
-            unit.setLocation(location);
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
             unit.getCivilization().setCurrentSelectedGridLocation(location);
             unit.getPathShouldCross().remove(0);
@@ -111,7 +110,7 @@ public class MovingController {
     }
 
     // todo: move bug found
-    protected static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
+    public static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
         // Dijkstra algorithm for shortest path
         int targetRow = location.getRow();
         int targetCol = location.getCol();
