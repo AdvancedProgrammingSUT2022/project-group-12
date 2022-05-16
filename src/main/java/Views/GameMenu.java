@@ -363,6 +363,8 @@ public class GameMenu extends Menu {
             answer(e);
             return;
         }
+        this.selectedUnit = null;
+        this.selectedCity = null;
         System.out.println("end of turn");
         System.out.println("------------------------------");
         this.startNewTurn();

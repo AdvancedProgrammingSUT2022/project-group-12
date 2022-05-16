@@ -1,7 +1,6 @@
 package Controllers;
 
 import Enums.UnitEnum;
-import Enums.VisibilityEnum;
 import Models.Civilization;
 import Models.Location;
 import Models.Tiles.Tile;
@@ -12,10 +11,7 @@ import Utils.CommandException;
 import Utils.CommandResponse;
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.TreeSet;
+import java.util.*;
 
 public class MovingController {
 
@@ -136,15 +132,16 @@ public class MovingController {
         Tile p = null;
         while (!heap.isEmpty()) {
             Tile first = heap.pollFirst().getValue();
+            System.out.println("first.getLocation() = " + first.getLocation());
             if (first.getLocation().equals(target)) {
                 p = first;
                 break;
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-                if (validateTile(neighbor)) continue;
+                if (!neighbor.getTerrain().getTerrainType().isReachable()) continue;
                 // this is true because weights are on tiles (on graph vertexes)
                 if (!distance.containsKey(neighbor)) {
-                    int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
+                    int dist = (int) (distance.get(first) + neighbor.calculateMovementCost());
                     distance.put(neighbor, dist);
                     heap.add(new Pair<>(dist, neighbor));
                     parent.put(neighbor, first);
@@ -159,10 +156,7 @@ public class MovingController {
             path.add(p);
             p = parent.get(p);
         }
+        Collections.reverse(path);
         return path;
-    }
-
-    private static boolean validateTile(Tile tile) {
-        return !tile.getTerrain().getTerrainType().canBePassed() || tile.getState() == VisibilityEnum.FOG_OF_WAR;
     }
 }
