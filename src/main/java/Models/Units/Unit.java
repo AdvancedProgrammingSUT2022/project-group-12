@@ -168,6 +168,9 @@ public abstract class Unit extends Production {
 
     // todo
     public String getInfo() {
-        return null;
+        return "Tile = " + this.getLocation() + '\n' +
+                "Remaining movement = " + this.getAvailableMoveCount() + '\n' +
+                "Health = " + this.getHealth() + '\n' +
+                "Has work to do: " + this.isWorking() + '\n';
     }
 }
