@@ -149,7 +149,7 @@ public class CityCombatController extends CombatController {
         double strengthRangedUnit = city.calculateCombatStrength();
         double enemyUnitStrength = enemyCity.calculateCombatStrength();
         double strengthDiff =  strengthRangedUnit - enemyUnitStrength;
-        enemyCity.decreaseHealth(enemyCity.calculateDamage(enemyCity,-strengthDiff));
+        enemyCity.decreaseHealth(enemyCity.calculateDamage(-strengthDiff));
         String response = checkForKill(city, enemyCity, city.getTile(), enemyCity.getTile());
         return response;
     }
@@ -169,7 +169,7 @@ public class CityCombatController extends CombatController {
         }
         double enemyCityStrength = enemyCity.calculateCombatStrength();
         double strengthDiff = strengthRangedUnit - enemyCityStrength;
-        enemyCity.decreaseHealth(enemyCity.calculateDamage(enemyCity,strengthDiff));
+        enemyCity.decreaseHealth(enemyCity.calculateDamage(strengthDiff));
         rangedUnit.setAvailableMoveCount(0);
         String response = checkForKill(rangedUnit, enemyCity, rangedUnitTile, cityTile);
         return response;
@@ -179,8 +179,8 @@ public class CityCombatController extends CombatController {
         double combatStrengthNonRangedUnit = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double enemyCityStrength = city.calculateCombatStrength();
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
-        city.decreaseHealth(city.calculateDamage(city,strengthDiff));
-        nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(nonRangedUnit,-strengthDiff));
+        city.decreaseHealth(city.calculateDamage(strengthDiff));
+        nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(nonRangedUnit, -strengthDiff));
         nonRangedUnit.setAvailableMoveCount(0);
         String response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
         return response;

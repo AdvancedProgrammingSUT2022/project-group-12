@@ -132,7 +132,6 @@ public class MovingController {
         Tile p = null;
         while (!heap.isEmpty()) {
             Tile first = heap.pollFirst().getValue();
-            System.out.println("first.getLocation() = " + first.getLocation());
             if (first.getLocation().equals(target)) {
                 p = first;
                 break;

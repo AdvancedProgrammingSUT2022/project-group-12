@@ -380,9 +380,40 @@ public class GameMenu extends Menu {
             case "build" -> cityBuild(command);
             case "buy" -> cityBuy(command);
             case "attack" -> cityAttack(command);
+            case "queue" -> cityQueue(command);
             case "info" -> answer(this.selectedCity.getInfo());
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void cityQueue(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "show" -> cityQueueShow();
+            case "remove" -> cityQueueRemove(command);
+            default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityQueueRemove(Command command) {
+        try {
+            command.abbreviate("number", 'n');
+            int index = 0;
+            if (command.getOption("number") != null) {
+                index = command.getIntOption("number") - 1;
+            }
+            this.getSelectedCity().removeFromProductionQueue(index);
+            System.out.println("production number " + (index + 1) + " removed successfully");
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void cityQueueShow() {
+        answer(this.getSelectedCity().getQueueInfo());
+    }
+
+    private City getSelectedCity() {
+        return this.selectedCity;
     }
 
     private void cityBuild(Command command) {

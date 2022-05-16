@@ -95,10 +95,10 @@ public class City {
         }
         return this.combatStrength;
     }
-    public  int calculateDamage(City city, double strengthDiff) {
+
+    public int calculateDamage(double strengthDiff) {
         Random random = new Random();
-        double random_number = random.nextInt(50) + 75;
-        random_number /= 100;
+        double random_number = (double) random.nextInt(75, 125) / 100;
         return (int) (25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
@@ -379,163 +379,172 @@ public class City {
         }
     }
 
-    /***
-     * setter and getters
-     */
+    public int getGoldRatioFromBuildings() {
+        return goldRatioFromBuildings;
+    }
 
-        public ArrayList<Production> getProductionQueue () {
-            return productionQueue;
-        }
-        public int getGoldRatioFromBuildings () {
-            return goldRatioFromBuildings;
-        }
+    public void setGoldRatioFromBuildings(int goldRatioFromBuildings) {
+        this.goldRatioFromBuildings = goldRatioFromBuildings;
+    }
 
-        public void setGoldRatioFromBuildings ( int goldRatioFromBuildings){
-            this.goldRatioFromBuildings = goldRatioFromBuildings;
-        }
+    public int getRange() {
+        return range;
+    }
 
-        public int getRange () {
-            return range;
-        }
+    public int getGold() {
+        return this.gold;
+    }
 
-        public int getGold () {
-            return this.gold;
-        }
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
 
-        public void setGold ( int gold){
-            this.gold = gold;
-        }
+    public void setGoldProductionValue(int gold) {
+        this.gold = gold;
+    }
 
-        public void setGoldProductionValue ( int gold){
-            this.gold = gold;
-        }
+    public double getCombatStrength() {
+        return this.combatStrength;
+    }
 
-        public double getCombatStrength () {
-            return this.combatStrength;
-        }
+    public void setCombatStrength(double combatStrength) {
+        this.combatStrength = combatStrength;
+    }
 
-        public void setCombatStrength ( double combatStrength){
-            this.combatStrength = combatStrength;
-        }
+    public int getCitizensCount() {
+        return citizensCount;
+    }
 
-        public int getCitizensCount () {
-            return citizensCount;
-        }
+    public void setCitizensCount(int citizensCount) {
+        this.citizensCount = citizensCount;
+    }
 
-        public void setCitizensCount ( int citizensCount){
-            this.citizensCount = citizensCount;
-        }
+    public int getBeaker() {
+        return beaker;
+    }
 
-        public int getBeaker () {
-            return beaker;
-        }
+    public void setBeaker(int beaker) {
+        this.beaker = beaker;
+    }
 
-        public void setBeaker ( int beaker){
-            this.beaker = beaker;
-        }
+    public boolean isCapital() {
+        return this.isCapital;
+    }
 
-        public boolean isCapital () {
-            return this.isCapital;
-        }
+    public void setCapital(boolean isCapital) {
+        this.isCapital = isCapital;
+    }
 
-        public void setCapital ( boolean isCapital){
-            this.isCapital = isCapital;
-        }
+    public double getProductionFromBuildings() {
+        return productionFromBuildings;
+    }
 
-        public double getProductionFromBuildings () {
-            return productionFromBuildings;
-        }
+    public void setProductionFromBuildings(double productionFromBuildings) {
+        this.productionFromBuildings = productionFromBuildings;
+    }
 
-        public void setProductionFromBuildings ( double productionFromBuildings){
-            this.productionFromBuildings = productionFromBuildings;
-        }
+    public int getFood() {
+        return food;
+    }
 
-        public int getFood () {
-            return food;
-        }
+    public void setFood(int food) {
+        this.food = food;
+    }
 
-        public void setFood ( int food){
-            this.food = food;
-        }
+    public double getHappiness() {
+        return localHappiness;
+    }
 
-        public double getHappiness () {
-            return localHappiness;
-        }
+    public void setHappiness(double happiness) {
+        this.localHappiness = happiness;
+    }
 
-        public void setHappiness ( double happiness){
-            this.localHappiness = happiness;
-        }
+    public CityTypeEnum getCityState() {
+        return cityState;
+    }
 
-        public CityTypeEnum getCityState () {
-            return cityState;
-        }
+    public void setCityState(CityTypeEnum cityState) {
+        this.cityState = cityState;
+    }
 
-        public void setCityState (CityTypeEnum cityState){
-            this.cityState = cityState;
-        }
+    public boolean hasBuilding(Building buildingName) {
+        return this.buildings.contains(buildingName);
+    }
 
-        public boolean hasBuilding (Building buildingName){
-            return this.buildings.contains(buildingName);
-        }
+    public void addBuilding(Building cityStructure) {
+        this.buildings.add(cityStructure);
+    }
 
-        public void addBuilding (Building cityStructure){
-            this.buildings.add(cityStructure);
-        }
+    public String getName() {
+        return this.name;
+    }
 
-        public String getName () {
-            return this.name;
-        }
+    public double getLocalHappiness() {
+        return localHappiness;
+    }
 
-        public double getLocalHappiness () {
-            return localHappiness;
-        }
+    public int getFoodFromCheat() {
+        return foodFromCheat;
+    }
 
-        public int getFoodFromCheat () {
-            return foodFromCheat;
-        }
+    public void setFoodFromCheat(int foodFromCheat) {
+        this.foodFromCheat = foodFromCheat;
+    }
 
-        public void setFoodFromCheat ( int foodFromCheat){
-            this.foodFromCheat = foodFromCheat;
-        }
+    public double getHappinessFromBuildings() {
+        return happinessFromBuildings;
+    }
 
-        public double getHappinessFromBuildings () {
-            return happinessFromBuildings;
-        }
+    public void setHappinessFromBuildings(double happinessFromBuildings) {
+        this.happinessFromBuildings = happinessFromBuildings;
+    }
 
+    public double getCombatStrengthFromBuildings() {
+        return combatStrengthFromBuildings;
+    }
 
-        public void setHappinessFromBuildings ( double happinessFromBuildings){
-            this.happinessFromBuildings = happinessFromBuildings;
-        }
+    public void setCombatStrengthFromBuildings(double combatStrengthFromBuildings) {
+        this.combatStrengthFromBuildings = combatStrengthFromBuildings;
+    }
 
-        public double getCombatStrengthFromBuildings () {
-            return combatStrengthFromBuildings;
-        }
+    public void decreaseHealth(int value) {
+        this.health -= value;
+    }
 
-        public void setCombatStrengthFromBuildings ( double combatStrengthFromBuildings){
-            this.combatStrengthFromBuildings = combatStrengthFromBuildings;
-        }
-        public void decreaseHealth ( int value){
-            this.health -= value;
-        }
+    @Override
+    public String toString() {
+        StringBuilder cityInfo = new StringBuilder();
+        cityInfo.append("- ").append(name).append(" has [").append(citizensCount).append("] citizens, currently belongs to <")
+                .append(civilization.getName()).append("> and its citizens are as happy as much as [").append(localHappiness).append("\n");
+        return cityInfo.toString();
+    }
 
-        @Override
-        public String toString () {
-            StringBuilder cityInfo = new StringBuilder();
-            cityInfo.append("- ").append(name).append(" has [").append(citizensCount).append("] citizens, currently belongs to <")
-                    .append(civilization.getName()).append("> and its citizens are as happy as much as [").append(localHappiness).append("\n");
-            return cityInfo.toString();
-        }
-        public int getHealth () {
-            return this.health;
-        }
+    public int getHealth() {
+        return this.health;
+    }
 
-        public void setHealth ( int health){
-            this.health = health;
-        }
+    public void setHealth(int health) {
+        this.health = health;
+    }
 
-        // todo
-        public String getInfo () {
-            return null;
-        }
+    // todo
+    public String getInfo() {
+        return null;
+    }
 
+    public String getQueueInfo() {
+        if (this.getProductionQueue().isEmpty()) return "queue is empty";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < this.getProductionQueue().size(); i++) {
+            Production production = this.getProductionQueue().get(i);
+            if (production instanceof Unit unit) { // todo: buildings
+                stringBuilder.append(i + 1 + ". " + unit.getType().name() + ", remained " + unit.getRemainedProduction() + " production\n");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    public ArrayList<Production> getProductionQueue() {
+        return productionQueue;
+    }
 }
