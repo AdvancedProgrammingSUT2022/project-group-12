@@ -42,7 +42,11 @@ public class GameMenu extends Menu {
     }
 
     private void startNewTurn() {
-        GameController.getGame().startNewTurn();
+        try {
+            GameController.getGame().startNewTurn();
+        } catch (GameException e) { // game ended
+            endGame();
+        }
         showTheMap();
         printStartOfTurnInfo(GameController.getGame().getCurrentCivilization());
     }

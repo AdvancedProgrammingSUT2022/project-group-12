@@ -19,8 +19,7 @@ import java.util.TreeSet;
 
 public class MovingController {
 
-    public static void moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
-        // todo: what if not reachable??
+    public static void moveUnit(Location location, Tile currentTile, Unit unit) throws CommandException {
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile);
         System.out.println("shortestPath = ");
         for (Tile tile : shortestPath) System.out.print(tile.getLocation() + " ");
@@ -118,52 +117,6 @@ public class MovingController {
         return false;
     }
 
-//    // todo: move bug found
-//    public static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
-//        // Dijkstra algorithm for shortest path
-//        int targetRow = location.getRow();
-//        int targetCol = location.getCol();
-//        TileGrid tileGrid = GameController.getGame().getTileGrid();
-//        ArrayList<Tile> parent = new ArrayList<>();
-//        HashMap<Tile, Integer> distance = new HashMap<>();
-//        ArrayList<Tile> heap = new ArrayList<>(List.of(sourceTile));
-//        HashMap<Tile, ArrayList<Tile>> shortestPath = new HashMap<>();
-//        distance.put(sourceTile, 0);
-//        shortestPath.put(sourceTile, new ArrayList<>(List.of(sourceTile)));
-//        Tile p;
-//        Tile first;
-//
-//        while (true) {
-//            heap.sort(Comparator.comparing(distance::get));
-//            first = heap.get(0);
-//            heap.remove(0);
-//            if (first.getLocation().getRow() == targetRow && first.getLocation().getCol() == targetCol) {
-//                p = first;
-//                break;
-//            }
-//            for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-//                if (validateTile(neighbor)) continue;
-//                // this is only true if weights are on tiles (graph vertexes)
-//                int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
-//                if (!distance.containsKey(neighbor)) {
-//                    distance.put(neighbor, dist);
-//                    heap.add(neighbor);
-//                    shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
-//                    shortestPath.get(neighbor).add(neighbor);
-//                } else if (!parent.contains(neighbor) && dist <= distance.get(neighbor)) {
-//                    heap.remove(neighbor);
-//                    distance.put(neighbor, dist);
-//                    heap.add(neighbor);
-//                    shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
-//                    shortestPath.get(neighbor).add(neighbor);
-//                }
-//            }
-//            parent.add(first);
-//        }
-//        shortestPath.get(p).remove(0);
-//        return shortestPath.get(p);
-//    }
-
     protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile) throws CommandException {
         // Dijkstra algorithm for shortest path
         TileGrid tileGrid = GameController.getGame().getTileGrid();
@@ -189,7 +142,7 @@ public class MovingController {
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
                 if (validateTile(neighbor)) continue;
-                // this is only true if weights are on tiles (graph vertexes)
+                // this is true because weights are on tiles (on graph vertexes)
                 if (!distance.containsKey(neighbor)) {
                     int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
                     distance.put(neighbor, dist);

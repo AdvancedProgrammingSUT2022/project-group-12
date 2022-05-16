@@ -80,7 +80,8 @@ public enum CommandResponse {
     NO_RESEARCHING_TECHNOLOGY("no technology is being researched!"),
     INVALID_TECHNOLOGY_NAME("technology name not recognized"),
     CANNOT_SPAWN_ON_TILE("can't spawn on this tile"),
-    TARGET_NOT_REACHABLE("target location is not reachable");
+    TARGET_NOT_REACHABLE("target location is not reachable"),
+    END_OF_GAME("game ended");
 
 
     private final String message;

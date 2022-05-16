@@ -36,7 +36,7 @@ public class CityCombatController extends CombatController {
                 return affectRangeAttackToCity(rangedUnit, enemyCity, currentTile, enemyTile);
         } else if(combatUnit instanceof  NonRangedUnit nonRangedUnit){
             if (checkForDistance(nonRangedUnit,enemyCity.getLocation(),currentTile)){
-                moveUnit(enemyCity.getLocation(), currentTile, currentCiv, combatUnit);
+                moveUnit(enemyCity.getLocation(), currentTile, combatUnit);
                 return affectNonRangeAttackToCity(nonRangedUnit, enemyCity, currentTile, enemyTile);
             }
         }

@@ -171,7 +171,7 @@ public class Game {
         }
     }
 
-    public void startNewTurn() {
+    public void startNewTurn() throws GameException {
         this.gameTurn++;
         Civilization civ = this.getCurrentCivilization();
         civ.applyNotes();
@@ -186,7 +186,7 @@ public class Game {
         }
         civ.resetMoveCount();
         if (this.gameTurn / civilizations.size() > 25) {
-            //TODO: end game
+            throw new GameException(CommandResponse.END_OF_GAME);
         }
     }
 

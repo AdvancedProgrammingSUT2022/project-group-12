@@ -44,7 +44,7 @@ public class UnitFuncs {
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
         validateTileForMovingUnit(location, unit);
-        moveUnit(location, currentTile, currentCivilization, unit);
+        moveUnit(location, currentTile, unit);
     }
 
     public static void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {

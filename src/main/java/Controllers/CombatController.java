@@ -45,7 +45,7 @@ public class CombatController extends GameController {
                 return UnitCombatController.affectRangeAttack(rangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
         } else if (combatUnit instanceof NonRangedUnit nonRangedUnit) {
             if (checkForDistance(nonRangedUnit, location, currentTile)) {
-                moveUnit(location, currentTile, civilization, unit);
+                moveUnit(location, currentTile, unit);
                 return UnitCombatController.affectNonRangedAttack(nonRangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
             }
         }
