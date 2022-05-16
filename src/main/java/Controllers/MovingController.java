@@ -10,11 +10,13 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
+import Utils.GameException;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
+import java.util.TreeSet;
 
 public class MovingController {
 
@@ -112,50 +114,95 @@ public class MovingController {
         return false;
     }
 
-    // todo: move bug found
-    public static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
-        // Dijkstra algorithm for shortest path
-        int targetRow = location.getRow();
-        int targetCol = location.getCol();
-        TileGrid tileGrid = GameController.getGame().getTileGrid();
-        ArrayList<Tile> parent = new ArrayList<>();
-        HashMap<Tile, Integer> distance = new HashMap<>();
-        ArrayList<Tile> heap = new ArrayList<>(List.of(sourceTile));
-        HashMap<Tile, ArrayList<Tile>> shortestPath = new HashMap<>();
-        distance.put(sourceTile, 0);
-        shortestPath.put(sourceTile, new ArrayList<>(List.of(sourceTile)));
-        Tile p;
-        Tile first;
+//    // todo: move bug found
+//    public static ArrayList<Tile> findTheShortestPath(Location location, Tile sourceTile) {
+//        // Dijkstra algorithm for shortest path
+//        int targetRow = location.getRow();
+//        int targetCol = location.getCol();
+//        TileGrid tileGrid = GameController.getGame().getTileGrid();
+//        ArrayList<Tile> parent = new ArrayList<>();
+//        HashMap<Tile, Integer> distance = new HashMap<>();
+//        ArrayList<Tile> heap = new ArrayList<>(List.of(sourceTile));
+//        HashMap<Tile, ArrayList<Tile>> shortestPath = new HashMap<>();
+//        distance.put(sourceTile, 0);
+//        shortestPath.put(sourceTile, new ArrayList<>(List.of(sourceTile)));
+//        Tile p;
+//        Tile first;
+//
+//        while (true) {
+//            heap.sort(Comparator.comparing(distance::get));
+//            first = heap.get(0);
+//            heap.remove(0);
+//            if (first.getLocation().getRow() == targetRow && first.getLocation().getCol() == targetCol) {
+//                p = first;
+//                break;
+//            }
+//            for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
+//                if (validateTile(neighbor)) continue;
+//                // this is only true if weights are on tiles (graph vertexes)
+//                int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
+//                if (!distance.containsKey(neighbor)) {
+//                    distance.put(neighbor, dist);
+//                    heap.add(neighbor);
+//                    shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
+//                    shortestPath.get(neighbor).add(neighbor);
+//                } else if (!parent.contains(neighbor) && dist <= distance.get(neighbor)) {
+//                    heap.remove(neighbor);
+//                    distance.put(neighbor, dist);
+//                    heap.add(neighbor);
+//                    shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
+//                    shortestPath.get(neighbor).add(neighbor);
+//                }
+//            }
+//            parent.add(first);
+//        }
+//        shortestPath.get(p).remove(0);
+//        return shortestPath.get(p);
+//    }
 
-        while (true) {
-            heap.sort(Comparator.comparing(distance::get));
-            first = heap.get(0);
-            heap.remove(0);
-            if (first.getLocation().getRow() == targetRow && first.getLocation().getCol() == targetCol) {
+    protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile) throws GameException {
+        // Dijkstra algorithm for shortest path
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
+        HashMap<Tile, Tile> parent = new HashMap<>();
+        HashMap<Tile, Integer> distance = new HashMap<>();
+        Comparator<Pair<Integer, Tile>> comparator = (a, b) -> {
+            Integer r1 = a.getValue().getLocation().getRow(), c1 = a.getValue().getLocation().getCol();
+            Integer r2 = b.getValue().getLocation().getRow(), c2 = b.getValue().getLocation().getCol();
+            int comp1 = a.getKey().compareTo(b.getKey());
+            int comp2 = r1.compareTo(r2);
+            int comp3 = c1.compareTo(c2);
+            return comp1 != 0 ? comp1 : comp2 != 0 ? comp2 : comp3;
+        };
+        TreeSet<Pair<Integer, Tile>> heap = new TreeSet<>(comparator);
+        distance.put(sourceTile, 0);
+        heap.add(new Pair<>(0, sourceTile));
+        Tile p = null;
+        while (!heap.isEmpty()) {
+            Tile first = heap.pollFirst().getValue();
+            if (first.getLocation().equals(target)) {
                 p = first;
                 break;
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
                 if (validateTile(neighbor)) continue;
                 // this is only true if weights are on tiles (graph vertexes)
-                int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
                 if (!distance.containsKey(neighbor)) {
+                    int dist = distance.get(first) + neighbor.getTerrain().getMovementCost();
                     distance.put(neighbor, dist);
-                    heap.add(neighbor);
-                    shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
-                    shortestPath.get(neighbor).add(neighbor);
-                } else if (!parent.contains(neighbor) && dist <= distance.get(neighbor)) {
-                    heap.remove(neighbor);
-                    distance.put(neighbor, dist);
-                    heap.add(neighbor);
-                    shortestPath.put(neighbor, (ArrayList<Tile>) shortestPath.get(first).clone());
-                    shortestPath.get(neighbor).add(neighbor);
+                    heap.add(new Pair<>(dist, neighbor));
+                    parent.put(neighbor, first);
                 }
             }
-            parent.add(first);
         }
-        shortestPath.get(p).remove(0);
-        return shortestPath.get(p);
+        if (p == null) {
+            throw new GameException(CommandResponse.TARGET_NOT_REACHABLE);
+        }
+        ArrayList<Tile> path = new ArrayList<>();
+        while (p != sourceTile) {
+            path.add(p);
+            p = parent.get(p);
+        }
+        return path;
     }
 
     private static boolean validateTile(Tile tile) {

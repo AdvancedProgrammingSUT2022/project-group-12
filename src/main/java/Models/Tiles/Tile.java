@@ -211,8 +211,12 @@ public class Tile {
         return location;
     }
 
-    public void deleteUnit(Unit unit) {
-
+    public void setUnitNull(Unit unit) {
+        if (unit instanceof CombatUnit) {
+            this.setCombatUnit(null);
+        } else {
+            this.setNonCombatUnit(null);
+        }
     }
 
     public ArrayList<ImprovementEnum> getImprovements() {

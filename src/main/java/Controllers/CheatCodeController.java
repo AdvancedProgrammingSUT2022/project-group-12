@@ -9,6 +9,7 @@ import Models.Location;
 import Models.Tiles.Tile;
 import Models.Units.Unit;
 import Utils.CommandException;
+import Utils.CommandResponse;
 import Utils.Constants;
 
 
@@ -32,6 +33,9 @@ public class CheatCodeController {
 
     public void spawnUnit(UnitEnum unitEnum, Civilization civilization, Location location) throws CommandException {
         Tile tile = GameController.getGameTile(location);
+        if (!tile.getTerrain().getTerrainType().isReachable()) {
+            throw new CommandException(CommandResponse.CANNOT_SPAWN_ON_TILE, tile.getTerrain().getTerrainType().name());
+        }
         Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civilization, location);
         civilization.addUnit(newUnit);
         tile.placeUnit(newUnit);

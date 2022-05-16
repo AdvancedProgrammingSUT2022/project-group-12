@@ -521,6 +521,7 @@ public class GameMenu extends Menu {
         answer("unit selected: " + selectedUnit.getType().name());
     }
 
+    // might require to set null every time
     private void selectCity(Command command) {
         try {
             command.abbreviate("name", 'n');
@@ -565,6 +566,7 @@ public class GameMenu extends Menu {
                 case "info" -> answer(this.selectedUnit.getInfo());
                 default -> answer(CommandResponse.INVALID_SUBCOMMAND);
             }
+            this.selectedUnit = null;
         } catch (CommandException e) {
             answer(e);
         }

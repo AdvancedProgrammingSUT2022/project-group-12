@@ -78,7 +78,9 @@ public enum CommandResponse {
     NO_RESOURCE_ON_TILE("there is no resource on the tile"),
     DO_NOT_HAVE_REQUIRED_TECHNOLOGY("you don't have required technology"),
     NO_RESEARCHING_TECHNOLOGY("no technology is being researched!"),
-    INVALID_TECHNOLOGY_NAME("technology name not recognized");
+    INVALID_TECHNOLOGY_NAME("technology name not recognized"),
+    CANNOT_SPAWN_ON_TILE("can't spawn on this tile"),
+    TARGET_NOT_REACHABLE("target location is not reachable");
 
 
     private final String message;

@@ -124,7 +124,7 @@ public class GameController {
 
     public static void deleteUnit(Unit unit) {
         Tile tile = GameController.getGameTile(unit.getLocation());
-        tile.deleteUnit(unit);
+        tile.setUnitNull(unit);
         unit.getCivilization().removeUnit(unit);
     }
 
