@@ -52,7 +52,9 @@ public class CityCombatController extends CombatController {
     }
 
 
-    public static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
+    p
+
+    static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
         if (unit.getHealth() <= 0) {
             if (unit instanceof CombatUnit) {
                 if (city.getHealth() <= 0) {
@@ -153,7 +155,7 @@ public class CityCombatController extends CombatController {
         return response;
     }
 
-    public static String checkForKill(City city, City enemyCity, Tile enemyCityTile, Tile cityTile) throws CommandException {
+    private static String checkForKill(City city, City enemyCity, Tile enemyCityTile, Tile cityTile) throws CommandException {
         if (enemyCity.getHealth() <= 0) {
             enemyCity.setHealth(1);
             throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_CITY);
