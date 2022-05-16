@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @ExtendWith(MockitoExtension.class)
 public class CombatTest {
     @Rule
@@ -77,9 +75,9 @@ public class CombatTest {
         enemyUnit.setHealth(Constants.UNIT_FULL_HEALTH);
         myRangedCombatUnit.setHealth(90);
         enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
-        enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
+        enemyTerrain.getFeatures().add(FeatureEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
-        ownTerrain.getFeatures().add(TerrainEnum.MARSH);
+        ownTerrain.getFeatures().add(FeatureEnum.MARSH);
         ownTile = new Tile(ownTerrain, new Location(4, 5));
         enemyTile = new Tile(enemyTerrain, new Location(5, 5));
         enemyTile2 = new Tile(enemyTerrain, new Location(4, 3));
@@ -175,7 +173,7 @@ public class CombatTest {
         System.out.println("enemyCityAnnexing = " + enemyCityAnnexing.getBuildings().size());
         Assertions.assertEquals("wow you have captured the city", CombatController.AttackUnit(myNonRangedCombatUnit, enemyTile.getLocation()));
         Assertions.assertSame(enemyCityAnnexing.getCityState(), CityTypeEnum.ANNEXED);
-         assertEquals(0, enemyCityAnnexing.getBuildings().size());
+        assertEquals(0, enemyCityAnnexing.getBuildings().size());
     }
    @Test
     public void affectAttackNonRangedToCityAndDestroyCity() throws CommandException {

@@ -58,9 +58,9 @@ public class CombatController extends GameController {
         Tile currentTile = GameController.getGameTile(city.getLocation());
         Tile enemyTile = GameController.getGameTile(location);
         if (isAnEnemyCityAt(location, civilization)) {
-            if (checkForDistance(city, location, currentTile)) {
-                return CityCombatController.affectCityAttackToCity(city, GameController.getGameTile(location).getCity());
-            }
+           if (checkForDistance(city, location, currentTile)) {
+               return CityCombatController.affectCityAttackToCity(city, GameController.getGameTile(location).getCity());
+           }
         }
         if (!isAttackableEnemyOn(location, civilization, city)) {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
