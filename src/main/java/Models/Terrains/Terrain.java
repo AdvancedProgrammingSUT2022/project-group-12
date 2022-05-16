@@ -1,5 +1,6 @@
 package Models.Terrains;
 
+import Enums.FeatureEnum;
 import Enums.ResourceEnum;
 import Enums.TerrainColor;
 import Enums.TerrainEnum;
@@ -17,7 +18,7 @@ public class Terrain {
     private final ResourceEnum resource;
     private final TerrainColor color;
 
-    private ArrayList<TerrainEnum> features;
+    private ArrayList<FeatureEnum> features;
 
     public Terrain(TerrainEnum type) {
         this.terrainType = type;
@@ -34,10 +35,10 @@ public class Terrain {
 
     private ResourceEnum featureResources() {
         Random random = new Random();
-        ArrayList<ResourceEnum> resources = new ArrayList<>(terrainType.getResources());
+        ArrayList<ResourceEnum> resources = new ArrayList<>(terrainType.getPossibleResources());
         if (!features.isEmpty()) {
-            for (TerrainEnum feature : this.features) {
-                resources.addAll(feature.getResources());
+            for (FeatureEnum feature : this.features) {
+                resources.addAll(feature.getPossibleResources());
             }
         }
         if (resources.isEmpty() || random.nextInt(2) != 0) return null;
@@ -48,7 +49,7 @@ public class Terrain {
     private int featureMovementCost() {
         int count = getTerrainType().getMovementCost();
         if (!features.isEmpty()) {
-            for (TerrainEnum feature : features) {
+            for (FeatureEnum feature : features) {
                 count += feature.getMovementCost();
             }
         }
@@ -58,7 +59,7 @@ public class Terrain {
     private int featureCombatModifier() {
         int count = getTerrainType().getCombatModifier();
         if (!features.isEmpty()) {
-            for (TerrainEnum feature : features) {
+            for (FeatureEnum feature : features) {
                 count += feature.getCombatModifier();
             }
         }
@@ -68,7 +69,7 @@ public class Terrain {
     private int featureProducts() {
         int count = getTerrainType().getProductsCount();
         if (!features.isEmpty()) {
-            for (TerrainEnum feature : features) {
+            for (FeatureEnum feature : features) {
                 count += feature.getProductsCount();
             }
         }
@@ -78,7 +79,7 @@ public class Terrain {
     private int featureFood() {
         int count = getTerrainType().getFoodCount();
         if (!features.isEmpty()) {
-            for (TerrainEnum feature : features) {
+            for (FeatureEnum feature : features) {
                 count += feature.getFoodCount();
             }
         }
@@ -113,15 +114,15 @@ public class Terrain {
         return this.resource;
     }
 
-    public ArrayList<TerrainEnum> getFeatures() {
+    public ArrayList<FeatureEnum> getFeatures() {
         return this.features;
     }
 
-    private void setFeatures(ArrayList<TerrainEnum> possibleTerrainFeatures) {
+    private void setFeatures(ArrayList<FeatureEnum> possibleTerrainFeatures) {
         if (possibleTerrainFeatures.isEmpty()) return;
         int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
         for (int i = 0; i < chooseRandom; i++) {
-            TerrainEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
+            FeatureEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
             while (this.features.contains(feature)) {
                 feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
             }
@@ -139,10 +140,11 @@ public class Terrain {
     }
 
     public void clearLands() {
-        if (this.features.contains(TerrainEnum.JUNGLE)) {
-            this.features = new ArrayList<>() {{
-                add(TerrainEnum.DESERT);
-            }};
+        if (this.features.contains(FeatureEnum.JUNGLE)) {
+            // todo: check
+//            this.features = new ArrayList<>() {{
+//                add(TerrainEnum.DESERT);
+//            }};
         } else {
             this.features = new ArrayList<>();
         }

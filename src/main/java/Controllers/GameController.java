@@ -359,7 +359,7 @@ public class GameController {
 
     public static boolean checkForRivers(Tile tile, Tile tile1) {
         //TODO : check if is there a river or not
-        return tile.getTerrain().getFeatures().contains(TerrainEnum.RIVER) && tile1.getTerrain().getFeatures().contains(TerrainEnum.RIVER);
+        return tile.getTerrain().getFeatures().contains(FeatureEnum.RIVER) && tile1.getTerrain().getFeatures().contains(FeatureEnum.RIVER);
     }
 
     public static void cityAssignCitizen(City city, Location location) throws CommandException {

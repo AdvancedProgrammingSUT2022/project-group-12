@@ -53,14 +53,14 @@ public enum BuildingNoteEnum {
     MONASTERY_NOTE((BuildingNotes<City>) o -> {
     }),
     UNIVERSITY_NOTE((BuildingNotes<City>) city -> {
-        city.getCivilization().setBeakerRatioFromBuildings(city.getCivilization().getBeakerRatioFromBuildings() * (3 / 2));
+        city.getCivilization().setBeakerRatioFromBuildings(city.getCivilization().getBeakerRatioFromBuildings() * 1.5);
         int number = 0;
         for (Tile tile : city.getTiles()) {
-            if (tile.getCitizen() != null && tile.getTerrain().getTerrainType() == TerrainEnum.JUNGLE) {
-                ++number;
+            if (tile.getCitizen() != null && tile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE)) {
+                number += 2;
             }
         }
-        city.getCivilization().setBeakerFromBuildings(city.getCivilization().getBeakerFromBuildings() + 2 * number);
+        city.getCivilization().setBeakerFromBuildings(city.getCivilization().getBeakerFromBuildings() + number);
     }),
     WORKSHOP_NOTE(o -> {
         Production production = null;

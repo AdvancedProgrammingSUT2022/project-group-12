@@ -1,6 +1,6 @@
 package Models.Units;
 
-import Enums.TerrainEnum;
+import Enums.FeatureEnum;
 import Enums.UnitEnum;
 import Enums.UnitStates;
 import Models.Cities.City;
@@ -96,8 +96,8 @@ public abstract class Unit extends Production {
     protected static double getTerrainFeaturesEffect(Tile tile) {
         double effect = 1;
         effect *= (1.0 + ((double) tile.getTerrain().getTerrainType().getCombatModifier() / 100.0));
-        for (TerrainEnum terrainEnum : tile.getTerrain().getFeatures()) {
-            effect *= (1.0 + ((double) terrainEnum.getCombatModifier()) / 100.0);
+        for (FeatureEnum feature : tile.getTerrain().getFeatures()) {
+            effect *= (1.0 + ((double) feature.getCombatModifier()) / 100.0);
         }
         return effect;
     }

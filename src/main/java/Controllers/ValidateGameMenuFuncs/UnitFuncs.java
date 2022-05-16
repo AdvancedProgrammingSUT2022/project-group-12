@@ -1,8 +1,8 @@
 package Controllers.ValidateGameMenuFuncs;
 
 import Controllers.GameController;
+import Enums.FeatureEnum;
 import Enums.ImprovementEnum;
-import Enums.TerrainEnum;
 import Enums.UnitEnum;
 import Models.Civilization;
 import Models.Location;
@@ -85,7 +85,7 @@ public class UnitFuncs {
 
     private boolean isJungleExists(Tile currentTile) {
         //TODO : complete
-        return currentTile.getTerrain().getFeatures().contains(TerrainEnum.JUNGLE);
+        return currentTile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE);
     }
 
     public void unitRemoveRoute() {

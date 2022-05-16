@@ -3,30 +3,11 @@ package Enums;
 import java.util.ArrayList;
 
 public enum TerrainEnum {
-    UNKNOWN("N/A", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, true, false, new ArrayList<>(), new ArrayList<>()),
-    FALLOUT("FLOUT", TerrainColor.RESET, -3, -3, -3, -33, 2, true, false, new ArrayList<>(), new ArrayList<>()),
-    FOREST("FORST", TerrainColor.RESET, 1, 1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
-        add(ResourceEnum.DEER);
-        add(ResourceEnum.FUR);
-        add(ResourceEnum.DYES);
-        add(ResourceEnum.SILK);
-    }}),
-    ICE("ICE", TerrainColor.RESET, 0, 0, 0, 0, 0, false, false, new ArrayList<>(), new ArrayList<>()),
-    JUNGLE("JNGLE", TerrainColor.RESET, 1, -1, 0, 25, 2, true, true, new ArrayList<>(), new ArrayList<>() {{
-        add(ResourceEnum.BANANA);
-        add(ResourceEnum.GEMSTONE);
-        add(ResourceEnum.DYES);
-    }}),
-    MARSH("MARSH", TerrainColor.RESET, -1, 0, 0, -33, 2, true, false, new ArrayList<>(), new ArrayList<>() {{
-        add(ResourceEnum.SUGAR);
-    }}),
-    OASIS("OASIS", TerrainColor.RESET, 3, 0, 1, -33, 1, true, false, new ArrayList<>(), new ArrayList<>()),
-    RIVER("RIVER", TerrainColor.RESET, 0, 0, 1, 0, 999999, true, false, new ArrayList<>(), new ArrayList<>()),
-    // todo: add Jolge (flood plains), different from plain
+    UNKNOWN("?", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, true, false, new ArrayList<>(), new ArrayList<>()),
 
     GRASSLAND("GRSLD", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.MARSH);
+        add(FeatureEnum.FOREST);
+        add(FeatureEnum.MARSH);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
         add(ResourceEnum.HORSE);
@@ -38,8 +19,8 @@ public enum TerrainEnum {
         add(ResourceEnum.SHEEP);
     }}),
     HILL("HIL", TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.JUNGLE);
+        add(FeatureEnum.FOREST);
+        add(FeatureEnum.JUNGLE);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
         add(ResourceEnum.COAL);
@@ -52,11 +33,11 @@ public enum TerrainEnum {
     }}),
     MOUNTAIN("MOUNT", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
     OCEAN("OCEAN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
-        add(TerrainEnum.ICE);
+        add(FeatureEnum.ICE);
     }}, new ArrayList<>()),
     PLAIN("PLAIN", TerrainColor.GREEN_BACKGROUND, 1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(TerrainEnum.FOREST);
-        add(TerrainEnum.JUNGLE);
+        add(FeatureEnum.FOREST);
+        add(FeatureEnum.JUNGLE);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
         add(ResourceEnum.HORSE);
@@ -71,7 +52,7 @@ public enum TerrainEnum {
         add(ResourceEnum.SHEEP);
     }}),
     DESERT("DSERT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(TerrainEnum.OASIS);
+        add(FeatureEnum.OASIS);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
         add(ResourceEnum.GOLD);
@@ -86,7 +67,7 @@ public enum TerrainEnum {
         add(ResourceEnum.IRON);
     }}),
     TUNDRA("TNDRA", TerrainColor.DARKRED_BACKGROUND, 1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
-        add(TerrainEnum.FOREST);
+        add(FeatureEnum.FOREST);
     }}, new ArrayList<>() {{
         add(ResourceEnum.IRON);
         add(ResourceEnum.HORSE);
@@ -102,7 +83,7 @@ public enum TerrainEnum {
     private final int goldCount;
     private final int combatModifier;
     private final int movementCost;
-    private final ArrayList<TerrainEnum> possibleTerrainFeatures;
+    private final ArrayList<FeatureEnum> possibleTerrainFeatures;
     private final ArrayList<ResourceEnum> possibleResources;
     private final boolean canPass;
     private final boolean blocksView;
@@ -110,7 +91,7 @@ public enum TerrainEnum {
 
     private final String abbreviation;
 
-    TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<TerrainEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
+    TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<FeatureEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
         this.foodCount = foodCount;
         this.productsCount = productsCount;
         this.goldCount = goldCount;
@@ -152,12 +133,13 @@ public enum TerrainEnum {
         return movementCost;
     }
 
-    public ArrayList<TerrainEnum> getFeatures() {
-        return possibleTerrainFeatures;
+    public ArrayList<ResourceEnum> getPossibleResources() {
+        return possibleResources;
     }
 
-    public ArrayList<ResourceEnum> getResources() {
-        return possibleResources;
+    public boolean isReachable() {
+        return !this.getFeatures().contains(FeatureEnum.ICE) &&
+                this != TerrainEnum.MOUNTAIN && this != TerrainEnum.OCEAN;
     }
 
     public boolean isBlockingView() {
@@ -168,8 +150,7 @@ public enum TerrainEnum {
         return abbreviation;
     }
 
-    public boolean isReachable() {
-        return !this.getFeatures().contains(TerrainEnum.ICE) &&
-                this != TerrainEnum.MOUNTAIN && this != TerrainEnum.OCEAN;
+    public ArrayList<FeatureEnum> getFeatures() {
+        return possibleTerrainFeatures;
     }
 }

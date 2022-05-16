@@ -1,8 +1,8 @@
 package Models.Tiles;
 
+import Enums.FeatureEnum;
 import Enums.ImprovementEnum;
 import Enums.ResourceEnum;
-import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
 import Models.Cities.City;
 import Models.Citizen;
@@ -194,7 +194,7 @@ public class Tile {
             food += resourceEnum.getFoodCount();
             gold += resourceEnum.getGoldCount();
         }
-        for (TerrainEnum feature : terrain.getFeatures()) {
+        for (FeatureEnum feature : terrain.getFeatures()) {
             production += feature.getProductsCount();
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
