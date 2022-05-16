@@ -59,8 +59,8 @@ public class UnitActionsTest {
         enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
         ownTerrain.getFeatures().add(TerrainEnum.MARSH);
-        ownTile = new Tile(ownTerrain, 20, 22);
-        enemyTile = new Tile(enemyTerrain, 20, 21);
+        ownTile = new Tile(ownTerrain, new Location(20, 22));
+        enemyTile = new Tile(enemyTerrain, new Location(20, 21));
         myCity = new City("mycity", new ArrayList<Tile>(List.of(ownTile)), myCivilization, ownTile, true);
         enemyCity = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
     }
@@ -69,10 +69,7 @@ public class UnitActionsTest {
         ownTile.addImprovement(ImprovementEnum.ROAD);
         ArrayList<ImprovementEnum> improvements = new ArrayList<>(ownTile.getImprovements());
         List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
-            if (improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD) {
-                return false;
-            }
-            return true;
+            return improvementEnum != ImprovementEnum.ROAD && improvementEnum != ImprovementEnum.RAILROAD;
         }).toList();
         Assertions.assertTrue(improvementEnums.size() == 0);
    }

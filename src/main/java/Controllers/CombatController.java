@@ -78,7 +78,7 @@ public class CombatController extends GameController {
                 throw new CommandException(CommandResponse.NOT_ENOUGH_RANGE_ATTACK_COUNT);
             }
         }else{
-            if (combatUnit.getAvailableMoveCount() < MovingController.findPathLength(path)) {
+            if (combatUnit.getAvailableMoveCount() <= (MovingController.findPathLength(path) - path.get(path.size() - 1).calculateMovementCost())) {
                 throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
             }
         }
