@@ -10,7 +10,6 @@ import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
-import Utils.GameException;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -23,9 +22,6 @@ public class MovingController {
     public static void moveUnit(Location location, Tile currentTile, Civilization currentCivilization, Unit unit) throws CommandException {
         // todo: what if not reachable??
         ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile);
-        if (shortestPath == null) {
-            throw new CommandException(CommandResponse.IMPOSSIBLE_MOVE);
-        }
         System.out.println("shortestPath = ");
         for (Tile tile : shortestPath) System.out.print(tile.getLocation() + " ");
         System.out.println();
@@ -33,15 +29,23 @@ public class MovingController {
         moveToNextTile(unit);
     }
 
+    public static int findPathLength(ArrayList<Tile> shortestPath) {
+        int pathLength = 0;
+        for (Tile tile : shortestPath) {
+            pathLength += tile.calculateMovementCost();
+        }
+        return pathLength;
+    }
+
     public static void moveToNextTile(Unit unit) {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid tileGrid = GameController.getGame().getTileGrid();
-            Location location = unit.getPathShouldCross().get(0).getLocation();
-            calculateMovementCost(unit, location);
-            if (unit.getPathShouldCross().size() == 1 && checkForEnemy(location, unit)) break;
-            tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(location));
+            Location nextLocation = unit.getPathShouldCross().get(0).getLocation();
+            calculateMovementCost(unit, nextLocation);
+            if (unit.getPathShouldCross().size() == 1 && checkForEnemy(nextLocation, unit)) break;
+            tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(nextLocation));
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
-            unit.getCivilization().setCurrentSelectedGridLocation(location);
+            unit.getCivilization().setCurrentSelectedGridLocation(nextLocation);
             unit.getPathShouldCross().remove(0);
         }
     }
@@ -160,7 +164,7 @@ public class MovingController {
 //        return shortestPath.get(p);
 //    }
 
-    protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile) throws GameException {
+    protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile) throws CommandException {
         // Dijkstra algorithm for shortest path
         TileGrid tileGrid = GameController.getGame().getTileGrid();
         HashMap<Tile, Tile> parent = new HashMap<>();
@@ -195,7 +199,7 @@ public class MovingController {
             }
         }
         if (p == null) {
-            throw new GameException(CommandResponse.TARGET_NOT_REACHABLE);
+            throw new CommandException(CommandResponse.TARGET_NOT_REACHABLE);
         }
         ArrayList<Tile> path = new ArrayList<>();
         while (p != sourceTile) {

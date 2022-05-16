@@ -74,11 +74,11 @@ public class CombatController extends GameController {
     public static boolean checkForDistance(CombatUnit combatUnit,Location destLocation,Tile currentTile) throws CommandException {
         ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile);
         if(combatUnit instanceof  RangedUnit) {
-            if (((RangedUnit) combatUnit).getType().getRange() < path.size()) {
+            if (combatUnit.getType().getRange() < path.size()) {
                 throw new CommandException(CommandResponse.NOT_ENOUGH_RANGE_ATTACK_COUNT);
             }
         }else{
-            if (combatUnit.getAvailableMoveCount() < path.size()) {
+            if (combatUnit.getAvailableMoveCount() < MovingController.findPathLength(path)) {
                 throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
             }
         }
