@@ -87,6 +87,10 @@ public class Game {
     public void endCurrentTurn() throws GameException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
+        /***
+         * add gold to civ
+         */
+        civ.addGold(civ.calculateCivilizationGold());
         //todo : complete
         for (Unit unit : civ.getUnits()) {
             switch (unit.getState()) {
