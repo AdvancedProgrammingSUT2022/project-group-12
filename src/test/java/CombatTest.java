@@ -77,9 +77,9 @@ public class CombatTest {
         enemyUnit.setHealth(Constants.UNIT_FULL_HEALTH);
         myRangedCombatUnit.setHealth(90);
         enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
-        enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
+        enemyTerrain.getFeatures().add(FeatureEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
-        ownTerrain.getFeatures().add(TerrainEnum.MARSH);
+        ownTerrain.getFeatures().add(FeatureEnum.MARSH);
         ownTile = new Tile(ownTerrain, new Location(4, 5));
         enemyTile = new Tile(enemyTerrain, new Location(5, 5));
         enemyTile2 = new Tile(enemyTerrain, new Location(4, 3));

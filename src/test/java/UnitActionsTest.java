@@ -1,8 +1,5 @@
 import Controllers.GameController;
-import Enums.ImprovementEnum;
-import Enums.TerrainColor;
-import Enums.TerrainEnum;
-import Enums.UnitEnum;
+import Enums.*;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Game;
@@ -56,9 +53,9 @@ public class UnitActionsTest {
         enemyUnit.setHealth(Constants.UNIT_FULL_HEALTH);
         myRangedCombatUnit.setHealth(90);
         enemyTerrain.getFeatures().removeAll(enemyTerrain.getFeatures());
-        enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
+        enemyTerrain.getFeatures().add(FeatureEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
-        ownTerrain.getFeatures().add(TerrainEnum.MARSH);
+        ownTerrain.getFeatures().add(FeatureEnum.MARSH);
         ownTile = new Tile(ownTerrain, new Location(20, 22));
         enemyTile = new Tile(enemyTerrain, new Location(20, 21));
         myCity = new City("mycity", new ArrayList<Tile>(List.of(ownTile)), myCivilization, ownTile, true);
