@@ -47,12 +47,12 @@ public class CityCombatController extends CombatController {
         double cityStrength = city.calculateCombatStrength();
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyUnitTile, "combatstrength");
         double strengthDiff = cityStrength - enemyUnitStrength;
-        enemyUnit.decreaseHealth(enemyUnit.calculateDamage(enemyUnit, strengthDiff));
+        enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
         return checkForKill(enemyUnit, city, enemyUnitTile, currentTile);
     }
 
 
-    p
+
 
     static String checkForKill(Unit unit, City city, Tile unitTile, Tile cityTile) throws CommandException {
         if (unit.getHealth() <= 0) {
@@ -150,7 +150,7 @@ public class CityCombatController extends CombatController {
         double strengthRangedUnit = city.calculateCombatStrength();
         double enemyUnitStrength = enemyCity.calculateCombatStrength();
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
-        enemyCity.decreaseHealth(enemyCity.calculateDamage(enemyCity, -strengthDiff));
+        enemyCity.decreaseHealth(enemyCity.calculateDamage(strengthDiff));
         String response = checkForKill(city, enemyCity, city.getTile(), enemyCity.getTile());
         return response;
     }
@@ -170,7 +170,7 @@ public class CityCombatController extends CombatController {
         }
         double enemyCityStrength = enemyCity.calculateCombatStrength();
         double strengthDiff = strengthRangedUnit - enemyCityStrength;
-        enemyCity.decreaseHealth(enemyCity.calculateDamage(enemyCity, strengthDiff));
+        enemyCity.decreaseHealth(enemyCity.calculateDamage(strengthDiff));
         rangedUnit.setAvailableMoveCount(0);
         String response = checkForKill(rangedUnit, enemyCity, rangedUnitTile, cityTile);
         return response;
@@ -180,8 +180,8 @@ public class CityCombatController extends CombatController {
         double combatStrengthNonRangedUnit = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double enemyCityStrength = city.calculateCombatStrength();
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
-        city.decreaseHealth(city.calculateDamage(city, strengthDiff));
-        nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(nonRangedUnit, -strengthDiff));
+        city.decreaseHealth(city.calculateDamage(strengthDiff));
+        nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
         nonRangedUnit.setAvailableMoveCount(0);
         String response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
         return response;

@@ -2,7 +2,6 @@ package Controllers;
 
 import Enums.CombatTypeEnum;
 import Enums.UnitStates;
-import Models.Civilization;
 import Models.Game;
 import Models.Tiles.Tile;
 import Models.Units.CombatUnit;
@@ -11,9 +10,6 @@ import Models.Units.RangedUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 
 public class UnitCombatController extends CombatController {
@@ -27,8 +23,8 @@ public class UnitCombatController extends CombatController {
         double enemyCombatStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
         double strengthDiff = combatStrength - enemyCombatStrength;
 
-        nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(nonRangedUnit, -strengthDiff));
-        enemyUnit.decreaseHealth(enemyUnit.calculateDamage(enemyUnit, strengthDiff));
+        nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
+        enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
         nonRangedUnit.setAvailableMoveCount(0);
         return checkForKill(nonRangedUnit, enemyUnit, nonRangedTile, enemyTile);
     }
@@ -58,7 +54,7 @@ public class UnitCombatController extends CombatController {
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
-        enemyUnit.decreaseHealth(enemyUnit.calculateDamage(enemyUnit, strengthDiff));
+        enemyUnit.decreaseHealth(enemyUnit.calculateDamage(-strengthDiff));
         rangedUnit.setAvailableMoveCount(0);
         return checkForKill(rangedUnit, enemyUnit, rangedUnitTile, enemyTile);
     }

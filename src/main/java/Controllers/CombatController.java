@@ -53,12 +53,12 @@ public class CombatController extends GameController {
         return null;
     }
 
-    public static String AttackCity(City city, Location location, String combatType) throws CommandException {
+    public static String AttackCity(City city, Location location) throws CommandException {
         Civilization civilization = city.getCivilization();
         Tile currentTile = GameController.getGameTile(city.getLocation());
         Tile enemyTile = GameController.getGameTile(location);
         if (isAnEnemyCityAt(location, civilization)) {
-           if (checkForDistance(city,location,currentTile)) {
+            if (checkForDistance(city, location, currentTile)) {
                 return CityCombatController.affectCityAttackToCity(city, GameController.getGameTile(location).getCity());
             }
         }

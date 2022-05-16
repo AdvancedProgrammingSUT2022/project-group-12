@@ -774,7 +774,7 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             String combatType;
             if ((combatType = command.getSubSubCategory()).equals("noncombat") || combatType.equals("combat")) {
-                CombatController.AttackCity(this.selectedCity, location, combatType);
+                CombatController.AttackCity(this.selectedCity, location);
             } else {
                 answer(CommandResponse.INVALID_SUBSUBCOMMAND);
                 return;
