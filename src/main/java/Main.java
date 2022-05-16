@@ -22,7 +22,9 @@ user create --username alireza2 --password Password123? --nickname ali2
 user login -p Password123? -u alireza
 play game --player1 alireza --player2 alireza2
 map show
-cheat spawn unit -p 5 5 -u settler
+cheat spawn unit -p 5 5 -u worker
+unit
+
 select unit noncombat -p 5 5
 unit found city
 select city -p 5 5
