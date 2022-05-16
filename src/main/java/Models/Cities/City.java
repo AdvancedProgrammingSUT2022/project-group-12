@@ -339,9 +339,9 @@ public class City {
         food += (int) getSourcesFromTiles("food");
         food -= this.citizensCount * 2;
         // todo: just affects on citizen birth, move there
-        if (productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0) {
-            food = 0;
-        }
+//        if (productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER && food > 0) {
+//            food = 0;
+//        }
 //        if (food > 0) {
 //            food = checkForHappinessState(food);
 //        }
