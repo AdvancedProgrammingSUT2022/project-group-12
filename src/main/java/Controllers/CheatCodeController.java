@@ -9,6 +9,7 @@ import Models.Location;
 import Models.Tiles.Tile;
 import Models.Units.Unit;
 import Utils.CommandException;
+import Utils.Constants;
 
 
 public class CheatCodeController {
@@ -68,10 +69,10 @@ public class CheatCodeController {
         unit.setAvailableMoveCount(unit.getAvailableMoveCount() + amount);
     }
     public void healCity(City city){
-        city.setHealth(2000);
+        city.setHealth(Constants.CITY_FULL_HEALTH);
     }
     public void healUnit(Unit unit){
-        unit.setHealth(100);
+        unit.setHealth(Constants.UNIT_FULL_HEALTH);
     }
 
     public void unlockTechnologies(Civilization civ) {

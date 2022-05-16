@@ -29,12 +29,12 @@ select city -p 5 5
 city citizen assign -p 6 6
 city build unit -u warrior
 end turn
-cheat spawn unit -p 4 7 -u PANZER
-cheat increase movement -a 10
-select unit combat -p 4 7
+cheat spawn unit -p 3 9 -u PANZER
+cheat increase movement -a 100
+select unit combat -p 3 9
 unit attack -p 5 5
 cheat heal unit
-cheat increase movement -a 10
+cheat increase movement -a 100
 unit attack -p 5 5
 cheat heal unit
 cheat increase movement -a 10

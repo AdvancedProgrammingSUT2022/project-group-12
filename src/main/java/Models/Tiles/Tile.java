@@ -172,6 +172,7 @@ public class Tile {
             this.setNonCombatUnit(null);
             that.setNonCombatUnit(nonCombatUnit);
         }
+        unit.setLocation(that.getLocation());
     }
 
     public double calculateMovementCost() {
