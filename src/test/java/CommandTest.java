@@ -73,6 +73,7 @@ public class CommandTest {
         assertThrowFor(INVALID_COMMAND_FORMAT, "login -user ali");
 
         assertDoesNotThrowFor("login --user ali");
+        assertDoesNotThrowFor("login --pass a--l-i");
         assertDoesNotThrowFor("login --pass -");
         assertDoesNotThrowFor("login -p -");
         assertDoesNotThrowFor("login -p - -u ali");

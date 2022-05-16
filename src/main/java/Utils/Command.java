@@ -19,11 +19,11 @@ public class Command {
     public static Command parseCommand(String input) throws CommandException {
         if (input.isBlank()) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
         input = removeWhiteSpaces(input);
-        int idx = input.indexOf('-');
+        int idx = input.indexOf(" -");
         if (idx == -1) idx = input.length();
-        else idx--;
         if (idx < 0) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
         String cmd = input.substring(0, idx).toLowerCase();
+        if (!cmd.matches("[A-z ]+")) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
         ++idx;
         HashMap<String, String> options = new HashMap<>();
         while (idx < input.length()) {
@@ -39,6 +39,7 @@ public class Command {
                 }
                 key = input.substring(idx + 2, idx2);
             } else { // single dash
+                if (idx2 >= input.length()) throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
                 key = String.valueOf(input.charAt(idx2));
                 if (!Character.isLetter(key.charAt(0))) throw new CommandException(CommandResponse.INVALID_COMMAND_KEY_FORMAT);
                 ++idx2;
@@ -47,9 +48,8 @@ public class Command {
                 }
             }
             idx = idx2 + 1;
-            idx2 = input.indexOf('-', idx);
+            idx2 = input.indexOf(" -", idx);
             if (idx2 == -1) idx2 = input.length();
-            else --idx2;
             String value = input.substring(idx, idx2);
             idx = idx2 + 1;
             if (options.containsKey(key)) {
