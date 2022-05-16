@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @ExtendWith(MockitoExtension.class)
 public class CombatTest {
     @Rule
@@ -175,7 +173,7 @@ public class CombatTest {
         System.out.println("enemyCityAnnexing = " + enemyCityAnnexing.getBuildings().size());
         Assertions.assertEquals("wow you have captured the city", CombatController.AttackUnit(myNonRangedCombatUnit, enemyTile.getLocation()));
         Assertions.assertSame(enemyCityAnnexing.getCityState(), CityTypeEnum.ANNEXED);
-         assertEquals(0, enemyCityAnnexing.getBuildings().size());
+        assertEquals(0, enemyCityAnnexing.getBuildings().size());
     }
    @Test
     public void affectAttackNonRangedToCityAndDestroyCity() throws CommandException {
