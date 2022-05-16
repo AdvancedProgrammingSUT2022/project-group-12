@@ -33,7 +33,8 @@ public class GameController {
         if (!GameController.getGameTile(unit.getLocation()).isDamaged()) {
             throw new CommandException(CommandResponse.NOT_DAMAGED);
         }
-        // todo : complete
+        // todo : 3 turns is required
+        GameController.getGameTile(unit.getLocation()).setDamaged(false);
     }
 
     public static Game getGame() {
@@ -199,7 +200,6 @@ public class GameController {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
             }
         }
-        //todo : calculate food science production gold
         message.append("city food : " + city.getFood() + '\n');
         message.append("city science : " + city.getBeaker() + '\n');
         message.append("city production : " + city.getProduction() + '\n');
@@ -247,7 +247,6 @@ public class GameController {
 
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
         StringBuilder unitsInfo = new StringBuilder();
-        // todo: fix
 //        ArrayList<CombatUnit> combatUnits = currentCivilization.getCombatUnits();
 //        ArrayList<NonCombatUnit> nonCombatUnits = currentCivilization.getNonCombatUnits();
 //        showCombatUnits(unitsInfo, combatUnits);
@@ -279,34 +278,6 @@ public class GameController {
             StringBuilder movementPoint = new StringBuilder("MovementPoint : " + combatEnum.getAvailableMoveCount() + "/" + combatEnum.getType().getMovement());
             unitsInfo.append(combatName + " " + combatStrength + " " + movementPoint + '\n');
         }
-    }
-
-    public static StringBuilder showDiplomacyInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
-    }
-
-    public static StringBuilder showVictoryInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
-    }
-
-    public static StringBuilder showDemographicsInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
-    }
-
-    public static StringBuilder showNotificationInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
-    }
-
-    public static StringBuilder showMilitaryInfo(Tile currentTile, Civilization currentCivilization) {
-        StringBuilder militaryInfo = new StringBuilder();
-        // todo: fix
-//        ArrayList<CombatUnit> combatType = currentCivilization.getCombatUnits();
-
-        return null;
-    }
-
-    public static StringBuilder showEcoInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
     }
 
     public static StringBuilder showDiplomaticInfo(Game game, Civilization currentCivilization) {
@@ -351,14 +322,8 @@ public class GameController {
         return improvement;
     }
 
-    private static boolean isPossibleToBuildInThisTerrain(Civilization civilization, ImprovementEnum improvement) {
-        // todo: complete
-        //        return improvement.canBeBuiltOn(civilization.getCurrentTile().getTerrain().getFeatures()) && improvement.hasRequiredTechs(civilization.getTechnologies());
-        return true;
-    }
-
     public static boolean checkForRivers(Tile tile, Tile tile1) {
-        //TODO : check if is there a river or not
+        // TODOLater : check if is there a river or not
         return tile.getTerrain().getFeatures().contains(FeatureEnum.RIVER) && tile1.getTerrain().getFeatures().contains(FeatureEnum.RIVER);
     }
 
@@ -420,7 +385,9 @@ public class GameController {
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
-        //todo : what is that comments -> check required things (tech, maintenance...)
+        if (!city.getCivilization().getTechnologies().contains(unitEnum.getRequiredTech())) {
+            throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
+        }
         Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
         unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);

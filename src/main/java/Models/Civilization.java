@@ -97,13 +97,11 @@ public class Civilization {
         return cities;
     }
 
-    // todo: check
     public int calculateCivilizationGold() {
         int gold = this.getGoldFromCheat();
         for (City city : this.getCities()) {
             gold += city.calculateGold();
         }
-//        this.gold = gold;
         return gold;
     }
 
@@ -120,9 +118,7 @@ public class Civilization {
     }
 
     public int calculateScience() {
-        int beaker = 0;
-        beaker += beakerFromBuildings;
-        beaker *= beakerRatioFromBuildings;
+        int beaker = (int) (beakerFromBuildings * beakerRatioFromBuildings);
         beaker += cheatBeaker;
         for (City city : this.getCities()) {
             beaker += city.getCitizensCount();

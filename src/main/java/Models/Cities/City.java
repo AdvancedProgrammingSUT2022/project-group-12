@@ -83,7 +83,6 @@ public class City {
     }
 
     private double AffectCityFeatures(City city) {
-        //todo : affect the citizen and buildings on combat strength
         this.combatStrength = 10;
         this.combatStrength += citizensCount;
         this.combatStrength += combatStrengthFromBuildings;
@@ -132,7 +131,7 @@ public class City {
 
     public void applyBuildingNotes() {
         for (Building building : this.buildings) {
-            building.getNote().note(this); // todo: how to call the note function?
+            building.getNote().note(this); // todoLater: how to call the note function?
             this.setGoldFromBuildings(getGoldFromBuildings() - building.getType().getMaintenance());
         }
     }
@@ -537,7 +536,7 @@ public class City {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < this.getProductionQueue().size(); i++) {
             Production production = this.getProductionQueue().get(i);
-            if (production instanceof Unit unit) { // todo: buildings
+            if (production instanceof Unit unit) { // todoLater: buildings
                 stringBuilder.append(i + 1 + ". " + unit.getType().name() + ", remained " + unit.getRemainedProduction() + " production\n");
             }
         }

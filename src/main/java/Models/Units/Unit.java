@@ -35,6 +35,7 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
+    // todo: integrate unit newing with Civ class
     public static Unit constructUnitFromEnum(UnitEnum unitEnum, Civilization civ, Location location) {
         if (unitEnum.isACombatUnit()) {
             if (unitEnum.isRangedUnit()) {
@@ -160,7 +161,7 @@ public abstract class Unit extends Production {
 
     @Override
     public void note(City city) {
-        //todo : complete
+        // todoLater : complete
     }
 
     public void decreaseHealth(int value) {

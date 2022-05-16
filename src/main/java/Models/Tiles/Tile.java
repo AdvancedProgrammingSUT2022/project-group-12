@@ -227,11 +227,6 @@ public class Tile {
         this.terrain.clearLands();
     }
 
-    public int calculateProductionCount() {
-        // todo
-        return 0;
-    }
-
     public void addImprovement(ImprovementEnum improvement) {
         this.getImprovements().add(improvement);
     }

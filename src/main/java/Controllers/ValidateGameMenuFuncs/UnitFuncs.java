@@ -77,15 +77,10 @@ public class UnitFuncs {
         if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
             return CommandResponse.WRONG_UNIT;
         }
-        if (!isJungleExists(currentTile)) {
+        if (!currentTile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE)) {
             return CommandResponse.JUNGLE_DOES_NOT_EXISTS;
         }
         return CommandResponse.OK;
-    }
-
-    private boolean isJungleExists(Tile currentTile) {
-        //TODO : complete
-        return currentTile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE);
     }
 
     public void unitRemoveRoute() {

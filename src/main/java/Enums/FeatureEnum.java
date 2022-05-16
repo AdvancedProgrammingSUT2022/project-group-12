@@ -22,7 +22,6 @@ public enum FeatureEnum {
     OASIS("OASIS", TerrainColor.RESET, 3, 0, 1, -33, 1, new ArrayList<>()),
     RIVER("RIVER", TerrainColor.RESET, 0, 0, 1, 0, 999999, new ArrayList<>()),
     FLOODPLAIN("FDPLN", TerrainColor.RESET, 2, 0, 0, -33, 1, new ArrayList<>());
-    // todo: add Jolge (flood plains), different from plain
 
     private final int foodCount;
     private final int productsCount;
