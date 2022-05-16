@@ -38,7 +38,7 @@ public class MovingController {
             TileGrid tileGrid = GameController.getGame().getTileGrid();
             Location nextLocation = unit.getPathShouldCross().get(0).getLocation();
             calculateMovementCost(unit, nextLocation);
-            assertLastMove(nextLocation, unit);
+            if (unit.getAvailableMoveCount() < 0) assertLastMove(nextLocation, unit);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(nextLocation, unit)) break;
             tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(nextLocation));
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
