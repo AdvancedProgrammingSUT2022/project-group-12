@@ -5,6 +5,7 @@ import Models.Civilization;
 import Models.Location;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
+import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
@@ -32,11 +33,12 @@ public class MovingController {
         return pathLength;
     }
 
-    public static void moveToNextTile(Unit unit) {
+    public static void moveToNextTile(Unit unit) throws CommandException {
         while (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() != 0) {
             TileGrid tileGrid = GameController.getGame().getTileGrid();
             Location nextLocation = unit.getPathShouldCross().get(0).getLocation();
             calculateMovementCost(unit, nextLocation);
+            assertLastMove(nextLocation, unit);
             if (unit.getPathShouldCross().size() == 1 && checkForEnemy(nextLocation, unit)) break;
             tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(nextLocation));
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
@@ -94,7 +96,8 @@ public class MovingController {
             unit.setAvailableMoveCount(0);
             return;
         }
-        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - GameController.getGameTile(location).getTerrain().getMovementCost());
+        int movementCost = GameController.getGameTile(location).getTerrain().getMovementCost();
+        unit.setAvailableMoveCount(unit.getAvailableMoveCount() - movementCost);
     }
 
 
@@ -112,6 +115,30 @@ public class MovingController {
         }
         return false;
     }
+
+    private static void assertLastMove(Location location, Unit unit) throws CommandException {
+        Tile destTile = GameController.getGameTile(location);
+        if (unit instanceof CombatUnit && destTile.getCombatUnit() != null) {
+            location = findNewTile(destTile, "combatunit", unit);
+            unit.setPathShouldCross(findTheShortestPath(location, unit.getPathShouldCross().get(unit.getPathShouldCross().size() - 1)));
+        } else if (unit instanceof NonCombatUnit && destTile.getNonCombatUnit() != null) {
+            location = findNewTile(destTile, "noncombatunit", unit);
+            unit.setPathShouldCross(findTheShortestPath(location, unit.getPathShouldCross().get(unit.getPathShouldCross().size() - 1)));
+        }
+    }
+
+    private static Location findNewTile(Tile destTile, String combatType, Unit unit) {
+        ArrayList<Tile> neighbors = GameController.getGame().getTileGrid().getAllTilesInRadius(destTile, 1);
+        for (Tile tile : neighbors) {
+            if (combatType.equals("combatunit") && tile.getCombatUnit() == null) {
+                return tile.getLocation();
+            } else if (combatType.equals("noncombatunit") && tile.getNonCombatUnit() == null) {
+                return tile.getLocation();
+            }
+        }
+        return unit.getLocation();
+    }
+
 
     protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile) throws CommandException {
         // Dijkstra algorithm for shortest path

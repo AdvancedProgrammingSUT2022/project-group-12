@@ -84,7 +84,7 @@ public class Game {
         civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
     }
 
-    public void endCurrentTurn() throws GameException {
+    public void endCurrentTurn() throws GameException, CommandException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
         /***
@@ -160,7 +160,7 @@ public class Game {
         }
     }
 
-    private void checkForMultipleMoves(Unit unit) {
+    private void checkForMultipleMoves(Unit unit) throws CommandException {
         System.out.println("reached here");
         System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {

@@ -359,7 +359,7 @@ public class GameMenu extends Menu {
     private void endTurn() {
         try {
             GameController.getGame().endCurrentTurn();
-        } catch (GameException e) {
+        } catch (GameException | CommandException e) {
             answer(e);
             return;
         }
