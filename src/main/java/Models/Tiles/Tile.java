@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
-    private final int row;
-    private final int col;
+    private final Location location;
     private final Terrain terrain;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private CombatUnit combatUnit;
@@ -36,9 +35,8 @@ public class Tile {
     private VisibilityEnum state;
     private Citizen citizen = null;
 
-    public Tile(Terrain terrain, int x, int y) {
-        this.row = x;
-        this.col = y;
+    public Tile(Terrain terrain, Location tileLocation) {
+        this.location = tileLocation;
         this.terrain = terrain;
         this.combatUnit = null;
         this.nonCombatUnit = null;
@@ -50,8 +48,7 @@ public class Tile {
     }
 
     private Tile(Tile that) {
-        this.row = that.row;
-        this.col = that.col;
+        this.location = that.getLocation();
         this.terrain = that.terrain;
         this.combatUnit = that.combatUnit;
         this.nonCombatUnit = that.nonCombatUnit;
@@ -152,6 +149,7 @@ public class Tile {
         }
     }
 
+
     public Civilization getCivilization() {
         return this.civilization;
     }
@@ -210,23 +208,11 @@ public class Tile {
     }
 
     public Location getLocation() {
-        return new Location(getRow(), getCol());
-    }
-
-    public int getCol() {
-        return col;
-    }
-
-    public int getRow() {
-        return row;
+        return location;
     }
 
     public void deleteUnit(Unit unit) {
-        if (unit instanceof NonCombatUnit) {
-            this.nonCombatUnit = null;
-        } else {
-            this.combatUnit = null;
-        }
+
     }
 
     public ArrayList<ImprovementEnum> getImprovements() {

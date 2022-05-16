@@ -780,6 +780,10 @@ public class GameMenu extends Menu {
         showTheMap();
     }
 
+    public Unit getSelectedUnit() {
+        return selectedUnit;
+    }
+
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
     }

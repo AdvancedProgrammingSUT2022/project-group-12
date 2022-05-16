@@ -1,4 +1,6 @@
-import Controllers.*;
+import Controllers.CityCombatController;
+import Controllers.GameController;
+import Controllers.UnitCombatController;
 import Enums.*;
 import Models.Buildings.Building;
 import Models.Cities.City;
@@ -7,9 +9,11 @@ import Models.Game;
 import Models.Location;
 import Models.Terrains.Terrain;
 import Models.Tiles.Tile;
-import Models.Units.*;
+import Models.Units.NonCombatUnit;
+import Models.Units.NonRangedUnit;
+import Models.Units.RangedUnit;
+import Models.Units.Unit;
 import Models.User;
-import Utils.Command;
 import Utils.CommandException;
 import Utils.CommandResponse;
 import Utils.Constants;
@@ -17,23 +21,18 @@ import Views.MenuStack;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static Controllers.CityCombatController.checkForKill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CombatTest {
@@ -83,14 +82,16 @@ public class CombatTest {
         enemyTerrain.getFeatures().add(TerrainEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
         ownTerrain.getFeatures().add(TerrainEnum.MARSH);
-        ownTile = new Tile(ownTerrain, 4, 5);
-        enemyTile = new Tile(enemyTerrain, 5, 5);
-        enemyTile2  = new Tile(enemyTerrain,4,3);
+        ownTile = new Tile(ownTerrain, new Location(4, 5));
+        enemyTile = new Tile(enemyTerrain, new Location(5, 5));
+        enemyTile2 = new Tile(enemyTerrain, new Location(4, 3));
         myCity = new City("mycity", new ArrayList<Tile>(List.of(ownTile)), myCivilization, ownTile, true);
         enemyCityDestroying = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
-        enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.CASTLE)); enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.BARRACK));
+        enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.CASTLE));
+        enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.BARRACK));
         enemyCityAnnexing = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
-        enemyCityAnnexing.getBuildings().add(new Building(BuildingEnum.CASTLE)); enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.BARRACK));
+        enemyCityAnnexing.getBuildings().add(new Building(BuildingEnum.CASTLE));
+        enemyCityDestroying.getBuildings().add(new Building(BuildingEnum.BARRACK));
     }
 
     @Test

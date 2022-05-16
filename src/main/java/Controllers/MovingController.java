@@ -128,7 +128,7 @@ public class MovingController {
             heap.sort(Comparator.comparing(distance::get));
             first = heap.get(0);
             heap.remove(0);
-            if (first.getRow() == targetRow && first.getCol() == targetCol) {
+            if (first.getLocation().getRow() == targetRow && first.getLocation().getCol() == targetCol) {
                 p = first;
                 break;
             }
