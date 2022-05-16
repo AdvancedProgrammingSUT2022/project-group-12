@@ -518,6 +518,21 @@ public class City {
         return null;
     }
 
+    public void addToProductionQueue(Production production) {
+        this.productionQueue.add(production);
+    }
+
+    public ArrayList<Building> getBuildings() {
+        return buildings;
+    }
+
+    public void removeFromProductionQueue(int index) {
+        this.productionQueue.remove(index);
+    }
+
+    public void addTile(Tile tile) {
+        this.tiles.add(tile);
+    }
 
     public ArrayList<Production> getProductionQueue() {
         return productionQueue;

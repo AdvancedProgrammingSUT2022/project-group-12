@@ -87,22 +87,10 @@ public class Game {
     public void endCurrentTurn() throws GameException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
-        /***
-         * add gold to civ
-         */
-        civ.addGold(civ.calculateCivilizationGold());
-        //todo : complete
         for (Unit unit : civ.getUnits()) {
-            switch (unit.getState()) {
-                case ALERT -> checkForAlertUnit(unit, tileGrid.getTile(unit.getLocation()));
-                case AWAKE -> {
-                    checkForMultipleMoves(unit);
-                    // for test
-//                    checkForMovementCost(unit);
-                }
-                case FORTIFY_UNTIL_HEAL -> checkForFortifyHealUnit(unit, tileGrid.getTile(unit.getLocation()));
-                default -> {
-                }
+            if (unit.getState() == UnitStates.AWAKE) {
+                checkForMultipleMoves(unit);
+                checkForMovementCost(unit);
             }
         }
         for (City city : civ.getCities()) {
@@ -131,12 +119,25 @@ public class Game {
         return civilizations.get(this.gameTurn % civilizations.size());
     }
 
-    private void checkForAlertUnit(Unit unit, Tile unitTile) throws GameException {
-        ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
-        Civilization unitCiv = unit.getCivilization();
-        if (checkForEnemy(tiles, unitCiv)) {
-            unit.setState(UnitStates.AWAKE);
-            checkForMovementCost(unit);
+    public void startNewTurn() throws GameException {
+        this.gameTurn++;
+        Civilization civ = this.getCurrentCivilization();
+        civ.applyNotes();
+        updateRevealedTileGrid(civ);
+        civ.advanceResearchTech();
+        for (City city : civ.getCities()) {
+            city.checkCitizenBirth();
+            city.advanceProductionQueue();
+        }
+        for (Unit unit : civ.getUnits()) {
+            checkForAlertUnit(unit);
+            checkForFortifyHealUnit(unit);
+            System.out.println("unit.getType().name() = " + unit.getType().name());
+            System.out.println("unit.getLocation() = " + unit.getLocation());
+        }
+        civ.resetMoveCount();
+        if (this.gameTurn / civilizations.size() > 25) {
+            throw new GameException(CommandResponse.END_OF_GAME);
         }
     }
 
@@ -163,9 +164,12 @@ public class Game {
         }
     }
 
-    private void checkForFortifyHealUnit(Unit unit, Tile tile) throws GameException {
-        if (unit.getHealth() == 100) {
-            checkForMovementCost(unit);
+    private void checkForAlertUnit(Unit unit) {
+        Tile unitTile = GameController.getGameTile(unit.getLocation());
+        ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
+        Civilization unitCiv = unit.getCivilization();
+        if (checkForEnemy(tiles, unitCiv)) {
+            unit.setState(UnitStates.AWAKE);
         }
     }
 
@@ -175,23 +179,9 @@ public class Game {
         }
     }
 
-    public void startNewTurn() throws GameException {
-        this.gameTurn++;
-        Civilization civ = this.getCurrentCivilization();
-        civ.applyNotes();
-        updateRevealedTileGrid(civ);
-        civ.advanceResearchTech();
-        for (City city : civ.getCities()) {
-            city.checkCitizenBirth();
-            city.advanceProductionQueue();
-        }
-        for (Unit unit : civ.getUnits()) {
-            System.out.println("unit.getType().name() = " + unit.getType().name());
-            System.out.println("unit.getLocation() = " + unit.getLocation());
-        }
-        civ.resetMoveCount();
-        if (this.gameTurn / civilizations.size() > 25) {
-            throw new GameException(CommandResponse.END_OF_GAME);
+    private void checkForFortifyHealUnit(Unit unit) {
+        if (unit.getHealth() == Constants.UNIT_FULL_HEALTH) {
+            unit.setState(UnitStates.AWAKE);
         }
     }
 
