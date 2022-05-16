@@ -126,6 +126,7 @@ public class Game {
         updateRevealedTileGrid(civ);
         civ.advanceResearchTech();
         for (City city : civ.getCities()) {
+            city.checkCitizenBirth();
             city.advanceProductionQueue();
         }
         for (Unit unit : civ.getUnits()) {
