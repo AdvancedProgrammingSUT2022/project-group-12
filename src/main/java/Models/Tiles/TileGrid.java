@@ -2,7 +2,6 @@ package Models.Tiles;
 
 import Enums.TerrainEnum;
 import Enums.VisibilityEnum;
-import Models.Civilization;
 import Models.Location;
 import Models.Terrains.Terrain;
 import Utils.CommandException;
@@ -11,8 +10,6 @@ import Utils.CommandResponse;
 import java.util.*;
 
 public class TileGrid {
-    private final ArrayList<Location> usedLocations;
-    private final Random random = new Random();
     private final int height;
     private final int width;
     private final Tile[][] tiles;
@@ -20,24 +17,25 @@ public class TileGrid {
     public TileGrid(int height, int width) {
         this.height = height;
         this.width = width;
-        tiles = new Tile[height][width];
-        this.usedLocations = new ArrayList<>();
+        this.tiles = new Tile[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                tiles[i][j] = this.randomAssignment(i, j);
-                tiles[i][j].setState(VisibilityEnum.VISIBLE);
+                tiles[i][j] = new Tile(new Terrain(TerrainEnum.UNKNOWN), new Location(i, j));
             }
         }
     }
 
-    private Tile randomAssignment(int x, int y) {
-        if (!newTile(x, y)) {
-            return new Tile(new Terrain(TerrainEnum.OCEAN), x, y);
+    public static TileGrid generateRandomTileGrid(int height, int width) {
+        TileGrid tileGrid = new TileGrid(height, width);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                tileGrid.tiles[i][j] = new Tile(generateRandomTerrain(), new Location(i, j));
+            }
         }
-        return randomTerrainType(x, y);
+        return tileGrid;
     }
 
-    private Tile randomTerrainType(int x, int y) {
+    private static Terrain generateRandomTerrain() {
         ArrayList<TerrainEnum> values = new ArrayList<>();
         values.add(TerrainEnum.DESERT);
         values.add(TerrainEnum.HILL);
@@ -46,29 +44,7 @@ public class TileGrid {
         values.add(TerrainEnum.PLAIN);
         values.add(TerrainEnum.SNOW);
         values.add(TerrainEnum.TUNDRA);
-        int randomSelection = random.nextInt(7);
-        return new Tile(new Terrain(values.get(randomSelection)), x, y);
-    }
-
-    private boolean newTile(int x, int y) {
-        for (Location usedLocation : this.usedLocations) {
-            if (usedLocation.getRow() == x && usedLocation.getCol() == y) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public TileGrid(Civilization civilization, int height, int width) {
-        this.height = height;
-        this.width = width;
-        tiles = new Tile[height][width];
-        this.usedLocations = new ArrayList<>();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                tiles[i][j] = new Tile(new Terrain(TerrainEnum.UNKNOWN), i, j);
-            }
-        }
+        return new Terrain(values.get(new Random().nextInt(values.size())));
     }
 
     public void setVisible(Location location) {
@@ -108,7 +84,7 @@ public class TileGrid {
     }
 
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
-        int row = tile.getRow(), col = tile.getCol();
+        int row = tile.getLocation().getRow(), col = tile.getLocation().getCol();
         ArrayList<Tile> tiles = new ArrayList<>();
         List<Location> neighbors;
         if (row % 2 == 0) {
@@ -131,16 +107,10 @@ public class TileGrid {
         }
     }
 
-    public boolean isLocationValid(Location location) {
-        return isLocationValid(location.getRow(), location.getCol());
-    }
-
-    public boolean isLocationValid(int r, int c) {
-        return 0 <= r && r < this.getHeight() && 0 <= c && c < this.getWidth();
-    }
-
-    private ArrayList<Location> getUsedLocations() {
-        return this.usedLocations;
+    public void assertLocationValid(Location location) throws CommandException {
+        if (!isLocationValid(location)) {
+            throw new CommandException(CommandResponse.INVALID_POSITION);
+        }
     }
 
     public Tile[][] getTiles() {
@@ -151,10 +121,9 @@ public class TileGrid {
         return this.tiles[x][y].getState();
     }
 
-    public void assertLocationValid(Location location) throws CommandException {
-        if (!isLocationValid(location.getRow(), location.getCol())) {
-            throw new CommandException(CommandResponse.INVALID_POSITION);
-        }
+    public boolean isLocationValid(Location location) {
+        int r = location.getRow(), c = location.getCol();
+        return 0 <= r && r < this.getHeight() && 0 <= c && c < this.getWidth();
     }
 
     public Tile getTile(Location location) {

@@ -52,7 +52,7 @@ public class Civilization {
         this.production = 0;
         this.isInWarWith = new ArrayList<>();
         this.name = user.getUsername();
-        this.revealedTileGrid = new TileGrid(this, Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.revealedTileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.researchingTechnologies = new HashMap<>();
