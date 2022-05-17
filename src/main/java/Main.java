@@ -5,6 +5,13 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        System.err.println("salam man az hafte pish gushimo dadam ta'mir");
+        System.err.println("az unjayi emshab k deadline hast age chiZ hanuz munde k baEd midunam bashe lotfan begid");
+        System.err.println("qarar bud diruz gushimo tahVl begiram vali engar hanuz okay nashode");
+        System.err.println("bebakhshid k zudtar natunestam etela bedam");
+        System.err.println("age kari hast vase phase 1 begid lotfan");
+        System.err.println("-alireza 3");
+        System.err.println("ps: lotfan az hamin tariq begin jalase emruz kaay dashte bashim b nazaretun?");
         //     Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
