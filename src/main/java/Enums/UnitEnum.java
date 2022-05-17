@@ -113,11 +113,9 @@ public enum UnitEnum {
         return this.requiredTech;
     }
 
-    // todo: affect: can attack over obstacles (like hills) if visible
     public boolean canFireIndirectly() {
         return this == ARTILLERY;
     }
-
 
     public boolean hasLimitedVisibility() {
         return this.getCombatType() == CombatTypeEnum.SIEGE || this == UnitEnum.PANZER;
@@ -155,6 +153,5 @@ public enum UnitEnum {
     }
 
     // todo: what if target of archer is on hill?
-    // todo: select single unit on a tile
     // todo: reveal bug
 }

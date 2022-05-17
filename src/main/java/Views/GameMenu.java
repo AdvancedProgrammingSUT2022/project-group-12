@@ -538,14 +538,18 @@ public class GameMenu extends Menu {
             answer(e);
             return;
         }
-        switch (command.getSubSubCategory()) {
-            case "combat" -> this.setSelectedUnit(command, true);
-            case "noncombat" -> this.setSelectedUnit(command, false);
-            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+        if (command.getSubSubCategory().isBlank()) {
+            this.setSelectedUnit(command, null);
+        } else {
+            switch (command.getSubSubCategory()) {
+                case "combat" -> this.setSelectedUnit(command, true);
+                case "noncombat" -> this.setSelectedUnit(command, false);
+                default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+            }
         }
     }
 
-    private void setSelectedUnit(Command command, boolean isCombatUnit) {
+    private void setSelectedUnit(Command command, Boolean isCombatUnit) {
         try {
             Location location = command.getLocationOption("position");
             GameController.getGame().getTileGrid().assertLocationValid(location);
