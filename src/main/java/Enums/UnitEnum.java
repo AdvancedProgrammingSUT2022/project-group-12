@@ -122,11 +122,11 @@ public enum UnitEnum {
     }
 
     public boolean hasLimitedVisibility() {
-        return this == UnitEnum.CATAPULT || this == UnitEnum.TREBUCHET || this == UnitEnum.PANZER || this == ARTILLERY;
+        return List.of(CATAPULT, TREBUCHET, PANZER, ARTILLERY).contains(this);
     }
 
     public boolean canMoveAfterAttack() {
-        return this == UnitEnum.HORSEMAN || this == UnitEnum.KNIGHT || this == UnitEnum.CAVALRY || this == UnitEnum.LANCER || this == UnitEnum.PANZER || this == UnitEnum.TANK;
+        return List.of(HORSEMAN, KNIGHT, CAVALRY, PANZER, TANK).contains(this);
     }
 
     public boolean hasTerrainDefensiveBonusPenalty() {
