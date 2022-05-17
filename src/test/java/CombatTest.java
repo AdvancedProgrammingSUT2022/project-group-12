@@ -173,7 +173,7 @@ public class CombatTest {
         System.out.println("enemyCityAnnexing = " + enemyCityAnnexing.getBuildings().size());
         Assertions.assertEquals("wow you have captured the city", CombatController.AttackUnit(myNonRangedCombatUnit, enemyTile.getLocation()));
         Assertions.assertSame(enemyCityAnnexing.getCityState(), CityTypeEnum.ANNEXED);
-        assertEquals(0, enemyCityAnnexing.getBuildings().size());
+        Assertions.assertEquals(0, enemyCityAnnexing.getBuildings().size());
     }
    @Test
     public void affectAttackNonRangedToCityAndDestroyCity() throws CommandException {
@@ -189,7 +189,7 @@ public class CombatTest {
        });
        Assertions.assertEquals("wow you have captured the city", CombatController.AttackUnit(myNonRangedCombatUnit, new Location(5, 5)));
        Assertions.assertNull(enemyTile.getCity());
-       assertEquals(0, enemyCityDestroying.getBuildings().size());
+       Assertions.assertEquals(0, enemyCityDestroying.getBuildings().size());
        Assertions.assertNull(ownTile.getCombatUnit());
    }
 
@@ -205,7 +205,7 @@ public class CombatTest {
         });
         Assertions.assertEquals("wow you have captured the city", CombatController.AttackUnit(myNonRangedCombatUnit, enemyTile.getLocation()));
         Assertions.assertNull(enemyTile.getCity());
-        assertEquals(0, enemyCityDestroying.getBuildings().size());
+        Assertions.assertEquals(0, enemyCityDestroying.getBuildings().size());
         Assertions.assertNull(ownTile.getCombatUnit());
     }
 }
