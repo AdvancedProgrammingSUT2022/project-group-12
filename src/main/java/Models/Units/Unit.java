@@ -86,6 +86,8 @@ public abstract class Unit extends Production {
             strength = unit.getType().getRangedCombatStrength();
         }
         if (!unit.getType().hasTerrainDefensiveBonusPenalty()) strength *= getTerrainFeaturesEffect(itsTile);
+        if (unit.getType().hasStrengthBonusForCity()) strength *= 1.1;
+        if (unit.getType().hasStrengthPenaltyForCity()) strength *= 0.9;
         strength *= getHealthBarEffect(unit);
         return strength;
     }
