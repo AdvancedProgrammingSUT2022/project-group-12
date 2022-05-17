@@ -73,7 +73,7 @@ public enum CommandResponse {
     PLAYER_NUMBER_GAP("there is a gap in number of players"),
     IMPROVEMENT_DOESNT_EXISTS("improvement doesn't exists"),
     ATTACK_UNIT_IS_NOT_COMBAT("cannot attack with non combat units!"),
-    NOT_ENOUGH_RANGE_ATTACK_COUNT("your range for ranged unit isn't enough"),
+    TARGET_OUT_OF_UNIT_RANGE("target is out of range for this unit"),
     INVALID_COMMAND_KEY_FORMAT("command key format is invalid"),
     NO_RESOURCE_ON_TILE("there is no resource on the tile"),
     DO_NOT_HAVE_REQUIRED_TECHNOLOGY("you don't have required technology"),
@@ -83,7 +83,10 @@ public enum CommandResponse {
     TARGET_NOT_REACHABLE("target location is not reachable"),
     END_OF_GAME("game ended"),
     UNIT_CAN_ATTACK_ONCE("unit can attack just once"),
-    DO_NOT_HAVE_REQUIRED_RESOURCE("you don't have required resource");
+    DO_NOT_HAVE_REQUIRED_RESOURCE("you don't have required resource"),
+    IMPASSABLE_TILE_BETWEEN_UNIT_AND_TARGET("an impassable tile is between this unit and the target"),
+    NO_CITY_FOUNDED("you don't have any city"),
+    SIEGE_NOT_SETUP("siege is not setup");
 
 
     private final String message;

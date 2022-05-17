@@ -56,8 +56,10 @@ public class UnitCombatController extends CombatController {
     }
 
 
-
-    public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) {
+    public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) throws CommandException {
+        if (rangedUnit.getType().requiresSetup() && !rangedUnit.isSetup()) {
+            throw new CommandException(CommandResponse.SIEGE_NOT_SETUP);
+        }
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength", enemyUnit);
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength", enemyUnit);
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;

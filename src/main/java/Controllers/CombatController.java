@@ -41,7 +41,6 @@ public class CombatController extends GameController {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         if (combatUnit instanceof RangedUnit rangedUnit) {
-            // todo: canFireIndirectly
             if (checkForDistance(rangedUnit, location, currentTile))
                 return UnitCombatController.affectRangeAttack(rangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
         } else if (combatUnit instanceof NonRangedUnit nonRangedUnit) {
@@ -74,9 +73,12 @@ public class CombatController extends GameController {
     }
     public static boolean checkForDistance(CombatUnit combatUnit,Location destLocation,Tile currentTile) throws CommandException {
         ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile);
+        int distance = GameController.getGame().getTileGrid().calculateStraightDistanceWith(currentTile, GameController.getGameTile(destLocation));
         if(combatUnit instanceof  RangedUnit) {
-            if (combatUnit.getType().getRange() < path.size()) {
-                throw new CommandException(CommandResponse.NOT_ENOUGH_RANGE_ATTACK_COUNT);
+            if (combatUnit.getType().getRange() < distance) {
+                throw new CommandException(CommandResponse.TARGET_OUT_OF_UNIT_RANGE);
+            } else if (path.size() > distance && !combatUnit.getType().canFireIndirectly()) {
+                throw new CommandException(CommandResponse.IMPASSABLE_TILE_BETWEEN_UNIT_AND_TARGET);
             }
         }else{
             if (combatUnit.getAvailableMoveCount() <= (MovingController.findPathLength(path) - path.get(path.size() - 1).calculateMovementCost())) {

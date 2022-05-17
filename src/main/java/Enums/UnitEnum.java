@@ -131,12 +131,11 @@ public enum UnitEnum {
         return List.of(TANK, PANZER, ARTILLERY, LANCER, CAVALRY, CANON, TREBUCHET, KNIGHT, HORSEMAN, CATAPULT, CHARIOT_ARCHER).contains(this);
     }
 
-    // todo: affect
     public boolean requiresSetup() {
         return this.getCombatType() == CombatTypeEnum.SIEGE;
     }
 
-    // todo: affect
+    // todo?: affect
     public boolean cannotMeleeAttack() {
         return this.isRangedUnit();
     }
@@ -154,4 +153,8 @@ public enum UnitEnum {
         else if (this.getCombatType() == CombatTypeEnum.MOUNTED && this != CHARIOT_ARCHER) return -33;
         else return 0;
     }
+
+    // todo: what if target of archer is on hill?
+    // todo: select single unit on a tile
+    // todo: reveal bug
 }
