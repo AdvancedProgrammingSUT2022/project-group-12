@@ -188,8 +188,7 @@ public class Tile {
         int food = this.terrain.getFoodCount();
         int gold = this.terrain.getGoldCount();
         ResourceEnum resourceEnum = this.getTerrain().getResource();
-        if (resourceEnum != null && this.getCivilization() != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
-                && (this.getCity() != null || this.getImprovements().contains(resourceEnum.getImprovementNeeded()))) {
+        if (this.isResourceAchieved(resourceEnum)) {
             production += resourceEnum.getProductsCount();
             food += resourceEnum.getFoodCount();
             gold += resourceEnum.getGoldCount();
@@ -205,6 +204,11 @@ public class Tile {
             case "production" -> production;
             default -> 0;
         };
+    }
+
+    public boolean isResourceAchieved(ResourceEnum resourceEnum) {
+        return resourceEnum != null && this.getCivilization() != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
+                && (this.getCity() != null || this.getImprovements().contains(resourceEnum.getImprovementNeeded()));
     }
 
     public Location getLocation() {

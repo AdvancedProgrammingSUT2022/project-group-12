@@ -202,7 +202,7 @@ public class Civilization {
     public ArrayList<ResourceEnum> getAvailableLuxuryResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>();
         for (City city : this.cities) {
-            for (ResourceEnum resource : city.getResources()) {
+            for (ResourceEnum resource : city.getAchievedResources()) {
                 if (resource.isLuxury() && !resources.contains(resource)) {
                     resources.add(resource);
                 }

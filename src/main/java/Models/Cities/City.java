@@ -250,11 +250,20 @@ public class City {
         }
     }
 
+    public int calculateGold() {
+        int gold = 0;
+        gold += this.goldFromBuildings;
+        gold += getFromResource("gold");
+        gold += getSourcesFromTiles("gold");
+        gold *= this.goldRatioFromBuildings;
+        return gold;
+    }
+
     private double getFromResource(String name) {
         double gold = 0;
         double production = 0;
         double food = 0;
-        for (ResourceEnum resource : this.getResources()) {
+        for (ResourceEnum resource : this.getAchievedResources()) {
             food += resource.getFoodCount();
             production += resource.getProductsCount();
             gold += resource.getGoldCount();
@@ -267,24 +276,15 @@ public class City {
         };
     }
 
-    public ArrayList<ResourceEnum> getResources() {
+    public ArrayList<ResourceEnum> getAchievedResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>();
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
-            if (tile.getImprovements().contains(resource.getImprovementNeeded())) {
+            if (tile.isResourceAchieved(resource)) {
                 resources.add(resource);
             }
         }
         return resources;
-    }
-
-    public int calculateGold() {
-        int gold = 0;
-        gold *= this.goldRatioFromBuildings;
-        gold += this.goldFromBuildings;
-        gold += getFromResource("gold");
-        gold += getSourcesFromTiles("gold");
-        return gold;
     }
 
     public int calculateFood() {
