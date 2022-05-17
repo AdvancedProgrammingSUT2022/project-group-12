@@ -7,6 +7,7 @@ import Models.Location;
 public abstract class CombatUnit extends Unit {
     protected int combatStrength;
     protected boolean isSetup;
+    protected boolean hasAttack;
 
     public CombatUnit(UnitEnum type, Civilization civilization, Location location) {
         super(type, civilization, location);
@@ -16,6 +17,7 @@ public abstract class CombatUnit extends Unit {
     public CombatUnit(UnitEnum type, Civilization civilization, Location location, int productionCost) {
         super(type, civilization, location, productionCost);
         isSetup = false;
+        hasAttack = false;
     }
 
     public UnitEnum getType() {
@@ -34,4 +36,11 @@ public abstract class CombatUnit extends Unit {
         isSetup = setup;
     }
 
+    public boolean isHasAttack() {
+        return hasAttack;
+    }
+
+    public void setHasAttack(boolean hasAttack) {
+        this.hasAttack = hasAttack;
+    }
 }

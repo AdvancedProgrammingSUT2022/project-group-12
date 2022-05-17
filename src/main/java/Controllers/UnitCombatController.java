@@ -19,7 +19,10 @@ public class UnitCombatController extends CombatController {
         super(newGame);
     }
 
-    public static String affectNonRangedAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) {
+    public static String affectNonRangedAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) throws CommandException {
+        if (nonRangedUnit.isHasAttack()) {
+            throw new CommandException(CommandResponse.UNIT_CAN_ATTACK_ONCE);
+        }
         double combatStrength = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double enemyCombatStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
         if (nonRangedUnit.getType() == UnitEnum.SPEARMAN && enemyUnit.getType().getCombatType() == CombatTypeEnum.MOUNTED) {
@@ -28,8 +31,12 @@ public class UnitCombatController extends CombatController {
         double strengthDiff = combatStrength - enemyCombatStrength;
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
-//        if ()  todo: fix
+        if (nonRangedUnit.getType().canMoveAfterAttack()) {
+            nonRangedUnit.setHasAttack(true);
+            nonRangedUnit.setAvailableMoveCount(nonRangedUnit.getAvailableMoveCount() - 1);
+        } else {
             nonRangedUnit.setAvailableMoveCount(0);
+        }
         return checkForKill(nonRangedUnit, enemyUnit, nonRangedTile, enemyTile);
     }
 

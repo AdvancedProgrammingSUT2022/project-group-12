@@ -81,7 +81,8 @@ public enum CommandResponse {
     INVALID_TECHNOLOGY_NAME("technology name not recognized"),
     CANNOT_SPAWN_ON_TILE("can't spawn on this tile"),
     TARGET_NOT_REACHABLE("target location is not reachable"),
-    END_OF_GAME("game ended");
+    END_OF_GAME("game ended"),
+    UNIT_CAN_ATTACK_ONCE("unit can attack just once");
 
 
     private final String message;

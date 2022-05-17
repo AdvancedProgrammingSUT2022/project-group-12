@@ -8,6 +8,7 @@ import Enums.UnitStates;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
+import Models.Units.CombatUnit;
 import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
@@ -88,10 +89,7 @@ public class Game {
     public void endCurrentTurn() throws GameException, CommandException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
-        /***
-         * add gold
-         */
-        civ.addGold(civ.calculateCivilizationGold());
+
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
                 checkForMultipleMoves(unit);
@@ -109,7 +107,13 @@ public class Game {
             throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
         checkForKillingCiziten(civ);
+        /***
+         * add gold
+         */
+        civ.addGold(civ.calculateCivilizationGold());
+
     }
+
 
     private void checkForKillingCiziten(Civilization civ) {
         for (City city :
@@ -141,6 +145,12 @@ public class Game {
             System.out.println("unit.getLocation() = " + unit.getLocation());
         }
         civ.resetMoveCount();
+        /***
+         * set has attack false for units which they can move after attack
+         */
+        civ.getUnits().forEach((unit) -> {
+            if (unit instanceof CombatUnit) ((CombatUnit) unit).setHasAttack(false);
+        });
         if (this.gameTurn / civilizations.size() > 25) {
             throw new GameException(CommandResponse.END_OF_GAME);
         }
