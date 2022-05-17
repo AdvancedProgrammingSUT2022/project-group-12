@@ -388,6 +388,9 @@ public class GameController {
         if (!city.getCivilization().getTechnologies().contains(unitEnum.getRequiredTech())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
+        if (!city.getCivilization().getAchievedResources().contains(unitEnum.getRequiredResource())) {
+            throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_RESOURCE);
+        }
         Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
         unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);

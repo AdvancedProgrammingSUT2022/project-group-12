@@ -193,17 +193,27 @@ public class Civilization {
         for (City city : this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
-        int numberOfLuxuryResource = this.getAvailableLuxuryResources().size();
+        int numberOfLuxuryResource = this.getAchievedLuxuryResources().size();
         this.happiness += numberOfLuxuryResource * 4;
         detectHappinessState(happiness);
         return happiness;
     }
 
-    public ArrayList<ResourceEnum> getAvailableLuxuryResources() {
+    public ArrayList<ResourceEnum> getAchievedLuxuryResources() {
+        ArrayList<ResourceEnum> resources = new ArrayList<>();
+        for (ResourceEnum resource : this.getAchievedResources()) {
+            if (resource.getType() == ResourceTypeEnum.LUXURY) {
+                resources.add(resource);
+            }
+        }
+        return resources;
+    }
+
+    public ArrayList<ResourceEnum> getAchievedResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>();
         for (City city : this.cities) {
             for (ResourceEnum resource : city.getAchievedResources()) {
-                if (resource.getType() == ResourceTypeEnum.LUXURY && !resources.contains(resource)) {
+                if (!resources.contains(resource)) {
                     resources.add(resource);
                 }
             }

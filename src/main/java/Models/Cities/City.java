@@ -76,10 +76,6 @@ public class City {
         this.remainedFoodForCitizen = 0;
     }
 
-
-
-
-
     public double calculateCombatStrength() {
         return AffectCityFeatures(this);
     }

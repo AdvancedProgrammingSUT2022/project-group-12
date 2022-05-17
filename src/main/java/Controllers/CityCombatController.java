@@ -45,7 +45,7 @@ public class CityCombatController extends CombatController {
 
     protected static String affectCityAttackToUnit(City city, Unit enemyUnit, Tile currentTile, Tile enemyUnitTile) throws CommandException {
         double cityStrength = city.calculateCombatStrength();
-        double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyUnitTile, "combatstrength");
+        double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyUnitTile, "combatstrength", null);
         double strengthDiff = cityStrength - enemyUnitStrength;
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
         return checkForKill(enemyUnit, city, enemyUnitTile, currentTile);
@@ -164,7 +164,7 @@ public class CityCombatController extends CombatController {
     }
 
     private static String affectRangeAttackToCity(RangedUnit rangedUnit, City enemyCity, Tile rangedUnitTile, Tile cityTile) throws CommandException {
-        double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
+        double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength", null);
         if (rangedUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
             strengthRangedUnit *= Constants.SIEGE_BONUS;
         }
@@ -180,7 +180,7 @@ public class CityCombatController extends CombatController {
         if (nonRangedUnit.isHasAttack()) {
             throw new CommandException(CommandResponse.UNIT_CAN_ATTACK_ONCE);
         }
-        double combatStrengthNonRangedUnit = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
+        double combatStrengthNonRangedUnit = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength", null);
         double enemyCityStrength = city.calculateCombatStrength();
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
         city.decreaseHealth(city.calculateDamage(strengthDiff));

@@ -105,7 +105,6 @@ public enum UnitEnum {
         return this.movement;
     }
 
-    // todo: affect
     public ResourceEnum getRequiredResource() {
         return this.requiredResource;
     }
@@ -128,7 +127,6 @@ public enum UnitEnum {
         return List.of(HORSEMAN, LANCER, KNIGHT, CAVALRY, PANZER, TANK).contains(this);
     }
 
-    // todo: affect
     public boolean hasTerrainDefensiveBonusPenalty() {
         return List.of(TANK, PANZER, ARTILLERY, LANCER, CAVALRY, CANON, TREBUCHET, KNIGHT, HORSEMAN, CATAPULT, CHARIOT_ARCHER).contains(this);
     }
@@ -147,18 +145,11 @@ public enum UnitEnum {
         return this.range > 0;
     }
 
-    // todo: direct if
-    public boolean hasBonusVsTanks() {
-        return List.of(ANTI_TANK_GUN).contains(this);
-    }
-
-    // todo: affect
     public int getBonusVsMounted() {
         return List.of(PIKE_MAN, SPEARMAN).contains(this) ? 50 : 0;
     }
 
-    // todo: affect
-    public int getCityCombatBonus() {
+    public int getBonusVsCity() {
         if (this.getCombatType() == CombatTypeEnum.SIEGE) return 200;
         else if (this.getCombatType() == CombatTypeEnum.MOUNTED && this != CHARIOT_ARCHER) return -33;
         else return 0;

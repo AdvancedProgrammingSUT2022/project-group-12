@@ -1,5 +1,6 @@
 package Models.Units;
 
+import Enums.CombatTypeEnum;
 import Enums.FeatureEnum;
 import Enums.UnitEnum;
 import Enums.UnitStates;
@@ -78,20 +79,21 @@ public abstract class Unit extends Production {
         this.health = health;
     }
 
-    public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh) {
+    public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh, Unit enemyUnit) {
         double strength;
+        UnitEnum unitType = unit.getType();
         if (combatstrengh.equals("combatstrength")) {
-            strength = unit.getType().getCombatStrength();
+            strength = unitType.getCombatStrength();
         } else {
-            strength = unit.getType().getRangedCombatStrength();
+            strength = unitType.getRangedCombatStrength();
         }
-//        if (!unit.getType().hasTerrainDefensiveBonusPenalty()) strength *= getTerrainFeaturesEffect(itsTile);
-        strength *= getHealthBarEffect(unit);
+        if (!unitType.hasTerrainDefensiveBonusPenalty()) strength *= getTerrainFeaturesEffect(itsTile);
+        if (enemyUnit == null) strength *= 1 + unitType.getBonusVsCity() / 100.0;
+        else if (enemyUnit.getType() == UnitEnum.TANK && unitType == UnitEnum.ANTI_TANK_GUN) strength *= 2;
+        else if (enemyUnit.getType().getCombatType() == CombatTypeEnum.MOUNTED)
+            strength *= 1 + unitType.getBonusVsMounted() / 100.0;
+        strength *= unit.getHealth() / 100.0;
         return strength;
-    }
-
-    protected static double getHealthBarEffect(Unit unit) {
-        return (double) unit.getHealth() / 100;
     }
 
     protected static double getTerrainFeaturesEffect(Tile tile) {

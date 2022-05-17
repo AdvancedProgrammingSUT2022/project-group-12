@@ -23,8 +23,8 @@ public class UnitCombatController extends CombatController {
         if (nonRangedUnit.isHasAttack()) {
             throw new CommandException(CommandResponse.UNIT_CAN_ATTACK_ONCE);
         }
-        double combatStrength = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
-        double enemyCombatStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
+        double combatStrength = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength", enemyUnit);
+        double enemyCombatStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength", nonRangedUnit);
         if (nonRangedUnit.getType() == UnitEnum.SPEARMAN && enemyUnit.getType().getCombatType() == CombatTypeEnum.MOUNTED) {
             combatStrength *= (4.0 / 3);
         }
@@ -62,8 +62,8 @@ public class UnitCombatController extends CombatController {
 
 
     public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) {
-        double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
-        double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
+        double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength", enemyUnit);
+        double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength", enemyUnit);
         if (rangedUnit.getType() == UnitEnum.CHARIOT_ARCHER && enemyTile.getTerrain().isRoughTerrain()) { // todo: penalty is on movement
             strengthRangedUnit *= (2.0 / 3);
         }

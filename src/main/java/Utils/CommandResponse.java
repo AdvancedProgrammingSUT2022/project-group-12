@@ -82,7 +82,8 @@ public enum CommandResponse {
     CANNOT_SPAWN_ON_TILE("can't spawn on this tile"),
     TARGET_NOT_REACHABLE("target location is not reachable"),
     END_OF_GAME("game ended"),
-    UNIT_CAN_ATTACK_ONCE("unit can attack just once");
+    UNIT_CAN_ATTACK_ONCE("unit can attack just once"),
+    DO_NOT_HAVE_REQUIRED_RESOURCE("you don't have required resource");
 
 
     private final String message;
