@@ -88,7 +88,8 @@ public enum CommandResponse {
     NO_CITY_FOUNDED("you don't have any city"),
     SIEGE_NOT_SETUP("siege is not setup"),
     AMBIGUOUS_UNIT_SELECTION("please select combat or noncombat"),
-    WORKER_IS_ALREADY_WORKING("worker is already working");
+    WORKER_IS_ALREADY_WORKING("worker is already working"),
+    NO_BUILDING_WITH_THIS_NAME("there is no building with this name");
 
 
     private final String message;
