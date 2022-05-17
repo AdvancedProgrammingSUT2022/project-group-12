@@ -1,5 +1,7 @@
 package Enums;
 
+import java.util.List;
+
 public enum UnitEnum {
     ARCHER(70, CombatTypeEnum.ARCHERY, 4, 6, 2, 2.0f, ResourceEnum.RESET, TechnologyEnum.ARCHERY),
 
@@ -124,5 +126,9 @@ public enum UnitEnum {
 
     public boolean canMoveAfterAttack() {
         return this == UnitEnum.HORSEMAN || this == UnitEnum.KNIGHT || this == UnitEnum.CAVALRY || this == UnitEnum.LANCER || this == UnitEnum.PANZER || this == UnitEnum.TANK;
+    }
+
+    public boolean hasTerrainDefensiveBonusPenalty() {
+        return List.of(TANK, PANZER, ARTILLERY, LANCER, CAVALRY, CANON, TREBUCHET, KNIGHT, HORSEMAN, CATAPULT, CHARIOT_ARCHER).contains(this);
     }
 }

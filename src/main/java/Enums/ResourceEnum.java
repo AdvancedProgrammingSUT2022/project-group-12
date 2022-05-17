@@ -45,9 +45,6 @@ public enum ResourceEnum {
     private final int productCount;
     private final int goldCount;
     private final ImprovementEnum improvementNeeded;
-    private final boolean isLuxury;
-    private final boolean isBonus;
-    private final boolean isStrategic;
 
     ResourceEnum(ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ImprovementEnum improvementNeeded) {
         this.type = type;
@@ -55,9 +52,6 @@ public enum ResourceEnum {
         this.productCount = productCount;
         this.goldCount = goldCount;
         this.improvementNeeded = improvementNeeded;
-        this.isLuxury = type.equals(ResourceTypeEnum.LUXURY);
-        this.isStrategic = type.equals(ResourceTypeEnum.STRATEGIC);
-        this.isBonus = type.equals(ResourceTypeEnum.BONUS);
     }
 
     public ResourceTypeEnum getType() {
@@ -74,22 +68,6 @@ public enum ResourceEnum {
 
     public int getGoldCount() {
         return this.goldCount;
-    }
-
-    public ImprovementEnum improvementNeeded() {
-        return this.improvementNeeded;
-    }
-
-    public boolean isLuxury() {
-        return this.isLuxury;
-    }
-
-    public boolean isBonus() {
-        return this.isBonus;
-    }
-
-    public boolean isStrategic() {
-        return this.isStrategic;
     }
 
     public ImprovementEnum getImprovementNeeded() {

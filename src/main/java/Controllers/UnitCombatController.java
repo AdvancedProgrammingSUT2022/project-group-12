@@ -28,7 +28,7 @@ public class UnitCombatController extends CombatController {
         double strengthDiff = combatStrength - enemyCombatStrength;
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
-        if ()
+//        if ()  todo: fix
             nonRangedUnit.setAvailableMoveCount(0);
         return checkForKill(nonRangedUnit, enemyUnit, nonRangedTile, enemyTile);
     }
