@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import static Utils.CommandResponse.DUPLICATE_OPTION_KEY;
-import static Utils.CommandResponse.INVALID_COMMAND_FORMAT;
+import java.util.List;
+
+import static Utils.CommandResponse.*;
 
 public class CommandTest {
 
@@ -111,6 +112,76 @@ public class CommandTest {
             Command command = Command.parseCommand("one  ");
             Assertions.assertEquals("", command.getSubCategory());
             Assertions.assertEquals("", command.getSubSubCategory());
+        });
+    }
+
+    @Test
+    public void assertOptions() {
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("login --username alireza --password 1234");
+            command.assertOptions(List.of("username", "password"));
+        });
+        assertThrowA(MISSING_REQUIRED_OPTION, () -> {
+            Command command = Command.parseCommand("login --username alireza");
+            command.assertOptions(List.of("username", "password"));
+        });
+    }
+
+    @Test
+    public void getOption() {
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("login --number 1234");
+            String value = command.getOption("number");
+            Assertions.assertEquals(value, "1234");
+        });
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("login --value   fe%$123fe-w4 ");
+            String value = command.getOption("value");
+            Assertions.assertEquals(value, "fe%$123fe-w4");
+        });
+    }
+
+    @Test
+    public void getIntOption() {
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("login --number 1234");
+            command.getIntOption("number");
+        });
+        assertThrowA(INVALID_COMMAND_FORMAT, () -> {
+            Command command = Command.parseCommand("login --number ali");
+            command.getIntOption("number");
+        });
+        assertThrowA(INVALID_COMMAND_FORMAT, () -> {
+            Command command = Command.parseCommand("login --number 123kef3");
+            command.getIntOption("number");
+        });
+    }
+
+    @Test
+    public void getLocationOption() {
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("goto --position 10 10");
+            command.getLocationOption("position");
+        });
+        Assertions.assertDoesNotThrow(() -> {
+            Command command = Command.parseCommand("goto --position   10    10  ");
+            command.getLocationOption("position");
+        });
+        assertThrowA(INVALID_COMMAND_FORMAT, () -> {
+            Command command = Command.parseCommand("goto --position   4afe    10  ");
+            command.getLocationOption("position");
+        });
+        assertThrowA(INVALID_COMMAND_FORMAT, () -> {
+            Command command = Command.parseCommand("goto --position   10, rg  ");
+            command.getLocationOption("position");
+        });
+        assertThrowA(INVALID_COMMAND_FORMAT, () -> {
+            Command command = Command.parseCommand("goto --position 5  10, rg  ");
+            command.getLocationOption("position");
+        });
+        assertThrowA(INVALID_COMMAND_FORMAT, () -> {
+            Command command = Command.parseCommand("goto --position one  ");
+            command.getLocationOption("position");
         });
     }
 }

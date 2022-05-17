@@ -125,8 +125,6 @@ public class Command {
         for (String key : requiredKeys) {
             if (this.getOption(key) == null) {
                 throw new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, key);
-            } else if (!requiredKeys.contains(key)) {
-                throw new CommandException(CommandResponse.UNRECOGNIZED_OPTION, key);
             }
         }
     }
