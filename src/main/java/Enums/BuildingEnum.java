@@ -1,7 +1,10 @@
 package Enums;
 
+import Models.Buildings.Building;
 import Models.Buildings.BuildingNotes;
 import Models.Cities.City;
+import Utils.CommandException;
+import Utils.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,5 +95,15 @@ public enum BuildingEnum {
 
     public BuildingNotes<City> getNote() {
         return note;
+    }
+
+    public static Building getBuildingEnumByName(String name) throws CommandException {
+        for (BuildingEnum buildingEnum :
+                BuildingEnum.values()) {
+            if (buildingEnum.toString().equals(name)) {
+                return new Building(buildingEnum);
+            }
+        }
+        throw new CommandException(CommandResponse.NO_BUILDING_WITH_THIS_NAME);
     }
 }

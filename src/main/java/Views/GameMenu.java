@@ -6,6 +6,7 @@ import Controllers.GameController;
 import Controllers.UnitCombatController;
 import Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
+import Enums.BuildingEnum;
 import Enums.ImprovementEnum;
 import Enums.TechnologyEnum;
 import Enums.UnitEnum;
@@ -76,6 +77,7 @@ public class GameMenu extends Menu {
         }
     }
 
+
     @Override
     protected void answer(Object message) {
         showTheMap();
@@ -83,6 +85,13 @@ public class GameMenu extends Menu {
     }
 
     private void findCategory(Command command) {
+        //debug
+        if (selectedCity != null) {
+            System.out.println("selectedCity.calculateFood() = " + selectedCity.calculateFood());
+            System.out.println("selectedCity.calculateCityHappiness() = " + selectedCity.calculateCityHappiness());
+            System.out.println("selectedCity.calculateGold() = " + selectedCity.calculateGold());
+            System.out.println("this.getSelectedCity().getCivilization().calculateScience() = " + this.getSelectedCity().getCivilization().calculateScience());
+        }
         switch (command.getCategory()) {
             case "info" -> this.info(command);
             case "select" -> this.select(command);
@@ -121,12 +130,27 @@ public class GameMenu extends Menu {
             case "reveal" -> this.cheatMapReveal(command);
             case "unlock" -> this.cheatUnlock(command);
             case "heal" -> this.cheatHeal(command);
+            case "build" -> this.cheatAddBuilding(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
 
+    private void cheatAddBuilding(Command command) {
+        if (selectedCity == null) {
+            System.out.println(CommandResponse.CITY_NOT_SELECTED);
+            return;
+        }
+        try {
+            command.abbreviate("name", 'n');
+            String buildingName = command.getOption("name").toUpperCase();
+            CheatCodeController.addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
+        } catch (CommandException e) {
+            answer(e);
+        }
+    }
+
     private void cheatUnlock(Command command) {
-        switch (command.getSubSubCategory()){
+        switch (command.getSubSubCategory()) {
             case "technologies" -> this.cheatUnlockTechnologies();
             default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
         }
@@ -359,6 +383,8 @@ public class GameMenu extends Menu {
     private void endTurn() {
         try {
             GameController.getGame().endCurrentTurn();
+            this.selectedCity = null;
+            this.selectedUnit = null;
         } catch (GameException | CommandException e) {
             answer(e);
             return;

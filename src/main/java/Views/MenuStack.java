@@ -32,7 +32,11 @@ public class MenuStack {
     }
 
     public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
+        if (this.scanner == null) this.scanner = scanner;
+    }
+
+    public void setNullScanner() {
+        this.scanner = null;
     }
 
     public boolean isEmpty() {

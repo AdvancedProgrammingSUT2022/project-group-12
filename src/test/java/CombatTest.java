@@ -163,6 +163,7 @@ public class CombatTest {
     @Test
     public void affectAttackNonRangedToCityAndMakeCityAnnexed() throws CommandException {
         Assertions.assertDoesNotThrow(() -> {
+            MenuStack.getInstance().setNullScanner();
             MenuStack.getInstance().setScanner(AnnexedScanner);
             myRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
             myNonRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
@@ -178,6 +179,7 @@ public class CombatTest {
    @Test
     public void affectAttackNonRangedToCityAndDestroyCity() throws CommandException {
        Assertions.assertDoesNotThrow(() -> {
+           MenuStack.getInstance().setNullScanner();
            MenuStack.getInstance().setScanner(DestroyScanner);
            myRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
            myNonRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
@@ -196,6 +198,7 @@ public class CombatTest {
     @Test
     public void affectAttackUnitToCityAndDestroy() throws CommandException {
         Assertions.assertDoesNotThrow(() -> {
+            MenuStack.getInstance().setNullScanner();
             MenuStack.getInstance().setScanner(DestroyScanner);
             myRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);
             myNonRangedCombatUnit.setHealth(Constants.UNIT_FULL_HEALTH);

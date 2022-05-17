@@ -49,7 +49,7 @@ public class City {
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
         this.tiles.add(tile);
-        this.gold = calculateGold();
+        this.gold = 100;
         this.production = 1 + tile.calculateSources("production");
         this.health = Constants.CITY_FULL_HEALTH;
         this.combatStrength = 10;

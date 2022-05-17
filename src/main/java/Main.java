@@ -99,6 +99,23 @@ cheat increase movement -a 10
 unit attack -p 5 5
 cheat heal unit
 cheat increase movement -a 10
+ */
+
+
+/*
+
+Alireza Mosallanezhad, [5/15/22 8:18 AM]
+
+سلام
+
+من دستور های view رو برای info اضافه کردم
+
+بی زحمت تابع‌های info رو تست کن اگر تغییری لازم بود تکمیلشون کن (اسم دستور‌ها توی GameMenu.info) هست
+
+سه دستور info هم اضافه کردم، برای یه شهر خاص، یه تایل خاص و یه یگان خاص
+
+تابع‌های getInfo اینها رو هم بی زحمت بزن
+
 user create -u alireza -p afepAFE232$#$ -n Parsi
 user login  -u alireza -p afepAFE232$#$
 play game --player1 alireza
@@ -115,4 +132,6 @@ unit alert
 select unit combat -p 10 10
 unit info
 map info -p 10 10
+
+این دستورا هم برای تست می‌تونی استفاده کنی
  */

@@ -133,15 +133,16 @@ public class Civilization {
     }
 
     public int calculateScience() {
-        int beaker = (int) (beakerFromBuildings * beakerRatioFromBuildings);
+        int beaker = beakerFromBuildings;
         beaker += cheatBeaker;
         for (City city : this.getCities()) {
             beaker += city.getCitizensCount();
         }
         // todo: fix
-//        if (calculateCivilizationGold() < 0) {
-//            beaker -= this.getGold();
-//        }
+        beaker *= beakerRatioFromBuildings;
+        if (calculateCivilizationGold() < 0) {
+            beaker -= this.getGold();
+        }
         return beaker;
     }
 

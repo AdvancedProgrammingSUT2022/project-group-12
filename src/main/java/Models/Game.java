@@ -112,6 +112,7 @@ public class Game {
          */
         civ.addGold(civ.calculateCivilizationGold());
 
+
     }
 
 

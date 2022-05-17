@@ -3,6 +3,7 @@ package Controllers;
 import Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Enums.TechnologyEnum;
 import Enums.UnitEnum;
+import Models.Buildings.Building;
 import Models.Cities.City;
 import Models.Civilization;
 import Models.Location;
@@ -75,7 +76,8 @@ public class CheatCodeController {
     public void healCity(City city){
         city.setHealth(Constants.CITY_FULL_HEALTH);
     }
-    public void healUnit(Unit unit){
+
+    public void healUnit(Unit unit) {
         unit.setHealth(Constants.UNIT_FULL_HEALTH);
     }
 
@@ -83,5 +85,10 @@ public class CheatCodeController {
         for (TechnologyEnum technology : TechnologyEnum.values()) {
             civ.addTechnology(technology);
         }
+    }
+
+    public static void addBuilding(Building building, City city) {
+        city.getBuildings().add(building);
+        building.note(city);
     }
 }
