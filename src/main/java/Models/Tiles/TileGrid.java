@@ -83,6 +83,24 @@ public class TileGrid {
         return new ArrayList<>(dist.keySet());
     }
 
+    public int calculateStraightDistanceWith(Tile sourceTile, Tile targetTile) {
+        Map<Tile, Integer> dist = new HashMap<>();
+        Deque<Tile> queue = new ArrayDeque<>();
+        queue.add(sourceTile);
+        dist.put(sourceTile, 0);
+        while (!queue.isEmpty()) {
+            Tile x = queue.poll();
+            for (Tile y : this.getNeighborsOf(x)) {
+                if (!dist.containsKey(y)) {
+                    queue.add(y);
+                    dist.put(y, dist.get(x) + 1);
+                    if (y == targetTile) return dist.get(y);
+                }
+            }
+        }
+        throw new RuntimeException("target tile not found on source's tileGrid");
+    }
+
     public ArrayList<Tile> getNeighborsOf(Tile tile) {
         int row = tile.getLocation().getRow(), col = tile.getLocation().getCol();
         ArrayList<Tile> tiles = new ArrayList<>();

@@ -131,6 +131,9 @@ public class Civilization {
     }
 
     public void startResearchOnTech(TechnologyEnum technology) throws CommandException {
+        if (this.getCities().isEmpty()) {
+            throw new CommandException(CommandResponse.NO_CITY_FOUNDED);
+        }
         for (TechnologyEnum tech : technology.getPrerequisiteTechs()) {
             if (!this.getTechnologies().contains(tech)) {
                 throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY, tech.name());

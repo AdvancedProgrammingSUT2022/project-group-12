@@ -103,7 +103,7 @@ public class Game {
                 throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }
         }
-        if (civ.getResearchingTechnology() == null) {
+        if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
             throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
         checkForKillingCiziten(civ);
@@ -167,7 +167,7 @@ public class Game {
 
     private void checkForMovementCost(Unit unit) throws GameException {
         if (unit.getAvailableMoveCount() > 0) {
-            throw new GameException(CommandResponse.UNIT_NEED_ORDER);
+            throw new GameException(CommandResponse.UNIT_NEED_ORDER, unit.getType().name() + " at " + unit.getLocation());
         }
     }
 
