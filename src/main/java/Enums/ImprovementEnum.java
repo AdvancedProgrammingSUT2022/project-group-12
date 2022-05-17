@@ -10,7 +10,6 @@ public enum ImprovementEnum {
     ROAD(new ArrayList<>(List.of(TechnologyEnum.THE_WHEEL)),
             new ArrayList<>(List.of(FeatureEnum.JUNGLE, FeatureEnum.MARSH, FeatureEnum.FOREST, FeatureEnum.RIVER)),
             new ArrayList<>(List.of(TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.GRASSLAND, TerrainEnum.TUNDRA, TerrainEnum.HILL, TerrainEnum.SNOW))),
-    // todo: rethink about
     RAILROAD(new ArrayList<>(List.of(TechnologyEnum.RAILROAD)),
             new ArrayList<>(List.of(FeatureEnum.JUNGLE, FeatureEnum.MARSH, FeatureEnum.FOREST, FeatureEnum.RIVER)),
             new ArrayList<>(List.of(TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.GRASSLAND, TerrainEnum.TUNDRA, TerrainEnum.HILL, TerrainEnum.SNOW))),
