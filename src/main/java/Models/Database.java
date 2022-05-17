@@ -81,24 +81,15 @@ public class Database {
     }
 
     public void serialize() {
-        serializeUsers();
-    }
-
-    public void serializeUsers() {
         try {
             File file = new File("users.json");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+            file.delete();
+            file.createNewFile();
             FileWriter writer = new FileWriter("users.json");
             writer.write(this.gson.toJson(usersList));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void printUsers() {
-        System.out.println(this.users);
     }
 }

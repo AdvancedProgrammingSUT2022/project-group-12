@@ -13,6 +13,7 @@ public class User {
         this.score = 0;
         Database data = Database.getInstance();
         data.addUser(this);
+        data.serialize();
     }
 
     public String getUsername() {
@@ -38,14 +39,17 @@ public class User {
 
     public void setScore(int newScore) {
         this.score = newScore;
+        Database.getInstance().serialize();
     }
 
     public void changePassword(String newPass) {
         this.password = newPass;
+        Database.getInstance().serialize();
     }
 
     public void changeNickname(String newNickname) {
         this.nickname = newNickname;
+        Database.getInstance().serialize();
     }
 
     @Override
