@@ -1,6 +1,7 @@
 package Controllers;
 
 import Enums.CombatTypeEnum;
+import Enums.UnitEnum;
 import Enums.UnitStates;
 import Models.Game;
 import Models.Tiles.Tile;
@@ -21,11 +22,14 @@ public class UnitCombatController extends CombatController {
     public static String affectNonRangedAttack(NonRangedUnit nonRangedUnit, CombatUnit enemyUnit, Tile nonRangedTile, Tile enemyTile) {
         double combatStrength = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double enemyCombatStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
+        if (nonRangedUnit.getType() == UnitEnum.SPEARMAN && enemyUnit.getType().getCombatType() == CombatTypeEnum.MOUNTED) {
+            combatStrength *= (4.0 / 3);
+        }
         double strengthDiff = combatStrength - enemyCombatStrength;
-
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
-        nonRangedUnit.setAvailableMoveCount(0);
+        if ()
+            nonRangedUnit.setAvailableMoveCount(0);
         return checkForKill(nonRangedUnit, enemyUnit, nonRangedTile, enemyTile);
     }
 
@@ -53,6 +57,9 @@ public class UnitCombatController extends CombatController {
     public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) {
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
+        if (rangedUnit.getType() == UnitEnum.ARCHER && enemyTile.getTerrain().isRoughTerrain()) {
+            strengthRangedUnit *= (2.0 / 3);
+        }
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(-strengthDiff));
         rangedUnit.setAvailableMoveCount(0);

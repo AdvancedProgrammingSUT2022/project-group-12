@@ -117,4 +117,12 @@ public enum UnitEnum {
     public TechnologyEnum getRequiredTech() {
         return this.requiredTech;
     }
+
+    public boolean hasLimitedVisibility() {
+        return this == UnitEnum.CATAPULT || this == UnitEnum.TREBUCHET || this == UnitEnum.PANZER;
+    }
+
+    public boolean canMoveAfterAttack() {
+        return this == UnitEnum.HORSEMAN || this == UnitEnum.KNIGHT || this == UnitEnum.CAVALRY || this == UnitEnum.LANCER || this == UnitEnum.PANZER || this == UnitEnum.TANK;
+    }
 }

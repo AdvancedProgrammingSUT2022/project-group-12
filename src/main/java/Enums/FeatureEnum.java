@@ -75,4 +75,8 @@ public enum FeatureEnum {
     public ArrayList<ResourceEnum> getPossibleResources() {
         return possibleResources;
     }
+
+    public boolean isRough() {
+        return this == FeatureEnum.FOREST || this == FeatureEnum.JUNGLE;
+    }
 }

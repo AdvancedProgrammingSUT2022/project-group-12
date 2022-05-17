@@ -142,6 +142,10 @@ public enum TerrainEnum {
                 this != TerrainEnum.MOUNTAIN && this != TerrainEnum.OCEAN;
     }
 
+    public boolean isRough() {
+        return this == TerrainEnum.HILL;
+    }
+
     public boolean isBlockingView() {
         return this.blocksView;
     }

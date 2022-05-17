@@ -66,7 +66,8 @@ public class Game {
         tileGrid.setFogOfWarForAll();
         for (Unit unit : civilization.getUnits()) {
             Tile tile = tileGrid.getTile(unit.getLocation());
-            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, Constants.UNIT_VISION_RADIUS)) {
+            int visibilityRange = unit.getType().hasLimitedVisibility() ? Constants.UNIT_LIMITED_VISION_RADIUS : Constants.UNIT_VISION_RADIUS;
+            for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, visibilityRange)) {
                 revealTileFor(civilization, neighbor);
             }
         }

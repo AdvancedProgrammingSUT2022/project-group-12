@@ -149,4 +149,17 @@ public class Terrain {
             this.features = new ArrayList<>();
         }
     }
+
+    public boolean isRoughTerrain() {
+        if (this.terrainType.isRough()) {
+            return true;
+        }
+        for (FeatureEnum feature : this.features) {
+            if (feature.isRough()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
