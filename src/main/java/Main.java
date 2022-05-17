@@ -11,7 +11,7 @@ public class Main {
         System.err.println("bebakhshid k zudtar natunestam etela bedam");
         System.err.println("age kari hast vase phase 1 begid lotfan");
         System.err.println("-alireza 3");
-        System.err.println("ps: lotfan az hamin tariq begin jalase emruz dashte bashim b nazaretun ya na?");
+        System.err.println("ps: lotfan az hamin tariq begin jalase emruz kaay dashte bashim b nazaretun?");
         //     Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
