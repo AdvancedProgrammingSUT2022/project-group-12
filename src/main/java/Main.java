@@ -5,20 +5,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        System.err.println("salam man az hafte pish gushimo dadam ta'mir");
-        System.err.println("az unjayi emshab k deadline hast age chiZ hanuz munde k baEd midunam bashe lotfan begid");
-        System.err.println("qarar bud diruz gushimo tahVl begiram vali engar hanuz okay nashode");
-        System.err.println("bebakhshid k zudtar natunestam etela bedam");
-        System.err.println("age kari hast vase phase 1 begid lotfan");
-        System.err.println("-alireza 3");
-        System.err.println("ps: lotfan az hamin tariq begin jalase emruz kaay dashte bashim b nazaretun?");
-
-
-        System.err.println("salam, khoobi? baba negaranet shodim!!");
-        System.err.println("kare proje taghriban tamoome, agar vaght kaafi bezarim emrooz");
-        System.err.println("alan agar mitoone info ha ro takmil kon (payeen comment kardam payamesh ro)");
-        System.err.println("ye rah e ertebati khareje inja ham bede lotfan :)");
-
+        System.err.println("salame mojadad");
+        System.err.println("vaseye in k in commit ha mimune... man alan tu qarar hastam");
 
         //     Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
