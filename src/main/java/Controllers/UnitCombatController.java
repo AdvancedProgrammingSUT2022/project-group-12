@@ -57,7 +57,7 @@ public class UnitCombatController extends CombatController {
     public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) {
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength");
         double enemyUnitStrength = enemyUnit.calculateCombatStrength(enemyUnit, enemyTile, "combatstrength");
-        if (rangedUnit.getType() == UnitEnum.ARCHER && enemyTile.getTerrain().isRoughTerrain()) {
+        if (rangedUnit.getType() == UnitEnum.CHARIOT_ARCHER && enemyTile.getTerrain().isRoughTerrain()) { // todo: penalty is on movement
             strengthRangedUnit *= (2.0 / 3);
         }
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;

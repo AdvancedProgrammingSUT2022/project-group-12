@@ -1,7 +1,6 @@
 package Enums;
 
 import java.util.List;
-import java.util.Objects;
 
 public enum UnitEnum {
     ARCHER(70, CombatTypeEnum.ARCHERY, 4, 6, 2, 2.0f, ResourceEnum.RESET, TechnologyEnum.ARCHERY),
@@ -63,8 +62,6 @@ public enum UnitEnum {
     private final ResourceEnum requiredResource;
     private final TechnologyEnum requiredTech;
 
-    private final boolean isACombatUnit;
-
     UnitEnum(int productionCost, CombatTypeEnum combatType, int combatStrength, int rangedCombatStrength, int range, double movement, ResourceEnum requiredResource, TechnologyEnum requiredTech) {
         this.productionCost = productionCost;
         this.combatType = combatType;
@@ -74,15 +71,14 @@ public enum UnitEnum {
         this.movement = movement;
         this.requiredResource = requiredResource;
         this.requiredTech = requiredTech;
-        this.isACombatUnit = combatType != CombatTypeEnum.CIVILIAN;
     }
 
     public boolean isACombatUnit() {
-        return this.isACombatUnit;
+        return combatType != CombatTypeEnum.CIVILIAN;
     }
 
-    public boolean isRangedUnit() {
-        return this.range != 0;
+    public boolean hasLimitedVisibility() {
+        return this == UnitEnum.CATAPULT || this == UnitEnum.TREBUCHET || this == UnitEnum.PANZER || this == ARTILLERY || this == CANON;
     }
 
     public int getProductionCost() {
@@ -121,8 +117,9 @@ public enum UnitEnum {
         return this.requiredTech;
     }
 
-    public boolean hasLimitedVisibility() {
-        return this == UnitEnum.CATAPULT || this == UnitEnum.TREBUCHET || this == UnitEnum.PANZER || this == ARTILLERY;
+    // todo: affect: can attack over obstacles (like hills) if visible
+    public boolean canFireIndirectly() {
+        return List.of(ARTILLERY).contains(this);
     }
 
     public boolean canMoveAfterAttack() {
@@ -133,34 +130,34 @@ public enum UnitEnum {
         return List.of(TANK, PANZER, ARTILLERY, LANCER, CAVALRY, CANON, TREBUCHET, KNIGHT, HORSEMAN, CATAPULT, CHARIOT_ARCHER).contains(this);
     }
 
-    public boolean hasStrengthBonusForCity() {
-        return List.of(CATAPULT, TREBUCHET, CANON, ARTILLERY).contains(this);
-    }
-
-    // in chart
-    public boolean hasStrengthPenaltyForCity() {
-        return Objects.equals(TANK, this);
-    }
-
     // todo: affect
     public boolean requiresSetup() {
         return this.getCombatType() == CombatTypeEnum.SIEGE;
     }
 
-    // todo: affect: can attack over obstacles (like hills) if visible
-    public boolean canFireIndirectly() {
-        return Objects.equals(ARTILLERY, this);
-    }
-
     // todo: affect
     public boolean cannotMeleeAttack() {
-        return Objects.equals(ARTILLERY, this);
+        return this.isRangedUnit();
+    }
+
+    public boolean isRangedUnit() {
+        return this.range > 0;
     }
 
     // todo: affect
     public boolean hasBonusVsTanks() {
-        return Objects.equals(ANTI_TANK_GUN, this);
+        return List.of(ANTI_TANK_GUN).contains(this);
     }
 
-    // lancer has -33 penalty for city
+    public int getBonusVsMounted() {
+        return List.of(PIKE_MAN, SPEARMAN).contains(this) ? 50 : 0;
+    }
+
+    public int getCityCombatBonus() {
+        if (this.getCombatType() == CombatTypeEnum.SIEGE) return 200;
+        else if (this.getCombatType() == CombatTypeEnum.MOUNTED && this != CHARIOT_ARCHER) return -33;
+        else return 0;
+    }
+
+    // SCOUT IGNORE TERRAIN MOVEMENT COST
 }
