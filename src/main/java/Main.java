@@ -12,6 +12,14 @@ public class Main {
         System.err.println("age kari hast vase phase 1 begid lotfan");
         System.err.println("-alireza 3");
         System.err.println("ps: lotfan az hamin tariq begin jalase emruz kaay dashte bashim b nazaretun?");
+
+
+        System.err.println("salam, khoobi? baba negaranet shodim!!");
+        System.err.println("kare proje taghriban tamoome, agar vaght kaafi bezarim emrooz");
+        System.err.println("alan agar mitoone info ha ro takmil kon (payeen comment kardam payamesh ro)");
+        System.err.println("ye rah e ertebati khareje inja ham bede lotfan :)");
+
+
         //     Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
@@ -105,4 +113,39 @@ cheat increase movement -a 10
 unit attack -p 5 5
 cheat heal unit
 cheat increase movement -a 10
+ */
+
+
+/*
+
+Alireza Mosallanezhad, [5/15/22 8:18 AM]
+
+سلام
+
+من دستور های view رو برای info اضافه کردم
+
+بی زحمت تابع‌های info رو تست کن اگر تغییری لازم بود تکمیلشون کن (اسم دستور‌ها توی GameMenu.info) هست
+
+سه دستور info هم اضافه کردم، برای یه شهر خاص، یه تایل خاص و یه یگان خاص
+
+تابع‌های getInfo اینها رو هم بی زحمت بزن
+
+user create -u alireza -p afepAFE232$#$ -n Parsi
+user login  -u alireza -p afepAFE232$#$
+play game --player1 alireza
+select unit noncombat -p 10 10
+unit found city
+select city -p 10 10
+city citizen assign -p 11 10
+cheat spawn unit -u SETTLER -p 10 10
+cheat spawn unit -u ARCHER -p 10 10
+city buy tile -p 12 11
+city info
+select unit combat -p 10 10
+unit alert
+select unit combat -p 10 10
+unit info
+map info -p 10 10
+
+این دستورا هم برای تست می‌تونی استفاده کنی
  */

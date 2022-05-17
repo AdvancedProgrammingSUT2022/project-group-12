@@ -48,7 +48,7 @@ public class Civilization {
         this.researchingTechnology = null;
         this.user = user;
         this.units = new ArrayList<>();
-        this.gold = 0;
+        this.gold = 1000;
         this.production = 0;
         this.isInWarWith = new ArrayList<>();
         this.name = user.getUsername();
