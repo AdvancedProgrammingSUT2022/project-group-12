@@ -137,8 +137,8 @@ public class MovingController {
                 p = first;
                 break;
             }
+            if (!reachableTiles.isReachable(first)) continue;
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-                if (!reachableTiles.isReachable(neighbor)) continue;
                 // this is true because weights are on tiles (on graph vertexes)
                 if (!distance.containsKey(neighbor)) {
                     int dist = (int) (distance.get(first) + neighbor.calculateMovementCost());
