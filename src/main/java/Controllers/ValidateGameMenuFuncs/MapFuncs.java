@@ -9,9 +9,9 @@ import Views.TileGridPrinter;
 public class MapFuncs {
 
     public void showMapPosition(Location location) {
-        GameController.getGame().updateRevealedTileGrid(GameController.getGame().getCurrentCivilization());
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-//        TileGrid tileGrid = GameController.getGame().getTileGrid();
+//        GameController.getGame().updateRevealedTileGrid(GameController.getGame().getCurrentCivilization());
+//        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
         String output = new TileGridPrinter(tileGrid, Constants.TERMINAL_HEIGHT, Constants.TERMINAL_WIDTH).print(location);
         System.out.print(output);
     }

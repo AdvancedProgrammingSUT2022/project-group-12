@@ -78,18 +78,21 @@ public class TileGridPrinter {
         if (tile.getCity() != null) {
             this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivilization().getColor(), tileColor);
         }
-        this.writeCentered(row, col, tile.getLocation().getRow() + "," + tile.getLocation().getCol() + " " + (int) tile.calculateMovementCost(), TerrainColor.BLACK, tileColor);
+        String movementText = tile.calculateMovementCost() == 0 ? "∞" : String.valueOf((int) tile.calculateMovementCost());
+        this.writeCentered(row, col, tile.getLocation().getRow() + "," + tile.getLocation().getCol() + " " + movementText, TerrainColor.BLACK, tileColor);
         if (tile.getCivilization() != null) {
             this.writeCentered(row - 1, col, tile.getCivilization().getAbbreviation(), tile.getCivilization().getColor(), tileColor);
         }
         if (tile.getNonCombatUnit() != null) {
-            this.setChar(row + 1, col - 1, tile.getNonCombatUnit().getType().name().charAt(0), tile.getNonCombatUnit().getCivilization().getColor());
+            String name = tile.getNonCombatUnit().getType().name().charAt(0) + String.valueOf(tile.getNonCombatUnit().getType().name().charAt(1)).toLowerCase();
+            this.writeCentered(row + 1, col - 2, name, tile.getNonCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
         }
         if (tile.getCombatUnit() != null) {
-            this.setChar(row + 1, col + 1, tile.getCombatUnit().getType().name().charAt(0), tile.getCombatUnit().getCivilization().getColor());
+            String name = tile.getCombatUnit().getType().name().charAt(0) + String.valueOf(tile.getCombatUnit().getType().name().charAt(1)).toLowerCase();
+            this.writeCentered(row + 1, col + 1, name, tile.getCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
         }
         if (tile.getTerrain().getResource() != null) {
-            this.writeCentered(row + 2, col, tile.getTerrain().getResource().name(), TerrainColor.BLACK, tileColor);
+            this.writeCentered(row + 2, col, tile.getTerrain().getResource().getAbbreviation(), TerrainColor.BLACK, tileColor);
         }
     }
 
