@@ -208,9 +208,16 @@ public class Game {
         return civilizations;
     }
 
-    public Unit getSelectedUnit(Civilization currentCivilization, Location location, boolean isCombatUnit) throws CommandException {
+    public Unit getSelectedUnit(Civilization currentCivilization, Location location, Boolean isCombatUnit) throws CommandException {
         Tile tile = this.tileGrid.getTile(location);
-        Unit unit = isCombatUnit ? tile.getCombatUnit() : tile.getNonCombatUnit();
+        Unit unit;
+        if (isCombatUnit != null) {
+            unit = isCombatUnit ? tile.getCombatUnit() : tile.getNonCombatUnit();
+        } else if (tile.getCombatUnit() != null && tile.getNonCombatUnit() != null) {
+            throw new CommandException(CommandResponse.AMBIGUOUS_UNIT_SELECTION);
+        } else {
+            unit = tile.getCombatUnit() != null ? tile.getCombatUnit() : tile.getNonCombatUnit();
+        }
         if (unit == null || unit.getCivilization() != currentCivilization) {
             throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         } else {
