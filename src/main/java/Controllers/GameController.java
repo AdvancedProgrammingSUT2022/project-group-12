@@ -241,10 +241,6 @@ public class GameController {
         }
     }
 
-    public static StringBuilder showCitiesInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
-    }
-
     public static StringBuilder showUnitsInfo(Civilization currentCivilization) {
         StringBuilder unitsInfo = new StringBuilder();
 //        ArrayList<CombatUnit> combatUnits = currentCivilization.getCombatUnits();
@@ -296,14 +292,14 @@ public class GameController {
         return diplomaticInfo;
     }
 
-    public static StringBuilder showDealsInfo(Tile currentTile, Civilization currentCivilization) {
-        return null;
-    }
-
     public static ImprovementEnum buildImprovement(Unit unit) throws CommandException {
         Tile tile = GameController.getGameTile(unit.getLocation());
         if (unit.getType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
+        }
+        NonCombatUnit worker = (NonCombatUnit) unit;
+        if (worker.getState() == UnitStates.WORKING) {
+            throw new CommandException(CommandResponse.WORKER_IS_ALREADY_WORKING);
         }
         if (tile.getTerrain().getResource() == null) {
             throw new CommandException(CommandResponse.NO_RESOURCE_ON_TILE);
@@ -312,13 +308,13 @@ public class GameController {
         if (tile.getImprovements().contains(improvement)) {
             throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
         }
-        Civilization civ = unit.getCivilization();
+        Civilization civ = worker.getCivilization();
         for (TechnologyEnum tech : improvement.getRequiredTechs()) {
             if (!civ.getTechnologies().contains(tech)) {
                 throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY, tech.name());
             }
         }
-        tile.addImprovement(improvement);
+        worker.setToBuildImprovement(improvement, tile);
         return improvement;
     }
 

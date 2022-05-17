@@ -23,7 +23,6 @@ public abstract class Unit extends Production {
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;
     protected ArrayList<Tile> pathShouldCross;
-    protected boolean isWorking;
     protected UnitStates state;
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
@@ -122,11 +121,7 @@ public abstract class Unit extends Production {
     }
 
     public boolean isWorking() {
-        return this.isWorking;
-    }
-
-    public void keepWorking(boolean work) {
-        this.isWorking = work;
+        return this.getState() == UnitStates.WORKING;
     }
 
     public double getAvailableMoveCount() {

@@ -1,5 +1,7 @@
 package Enums;
 
+import Models.Terrains.Terrain;
+
 import java.util.ArrayList;
 
 public enum ImprovementEnum {
@@ -125,6 +127,9 @@ public enum ImprovementEnum {
         return canBeBuiltOn;
     }
 
+    public int getImprovementBuildRequiredTime(Terrain terrain) {
+        return 10; // todo
+    }
 }
 
 

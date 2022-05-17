@@ -134,6 +134,7 @@ public class Game {
         civ.applyNotes();
         updateRevealedTileGrid(civ);
         civ.advanceResearchTech();
+        civ.advanceWorkerWorks();
         for (City city : civ.getCities()) {
             city.checkCitizenBirth();
             city.advanceProductionQueue();

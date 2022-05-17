@@ -87,7 +87,8 @@ public enum CommandResponse {
     IMPASSABLE_TILE_BETWEEN_UNIT_AND_TARGET("an impassable tile is between this unit and the target"),
     NO_CITY_FOUNDED("you don't have any city"),
     SIEGE_NOT_SETUP("siege is not setup"),
-    AMBIGUOUS_UNIT_SELECTION("please select combat or noncombat");
+    AMBIGUOUS_UNIT_SELECTION("please select combat or noncombat"),
+    WORKER_IS_ALREADY_WORKING("worker is already working");
 
 
     private final String message;

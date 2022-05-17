@@ -1,10 +1,12 @@
 package Models;
 
 import Controllers.CivilizationController;
+import Controllers.GameController;
 import Enums.*;
 import Models.Cities.City;
 import Models.Tiles.Tile;
 import Models.Tiles.TileGrid;
+import Models.Units.NonCombatUnit;
 import Models.Units.Unit;
 import Utils.CommandException;
 import Utils.CommandResponse;
@@ -90,6 +92,19 @@ public class Civilization {
             this.addTechnology(researchingTechnology);
             researchingTechnologies.remove(researchingTechnology);
             setResearchingTechnology(null);
+        }
+    }
+
+    public void advanceWorkerWorks() {
+        for (Unit unit : this.getUnits()) {
+            if (unit.getType() == UnitEnum.WORKER) {
+                NonCombatUnit worker = (NonCombatUnit) unit;
+                worker.decreaseRemainingTime(1);
+                if (worker.getRemainingTime() <= 0) {
+                    worker.removeWork();
+                    GameController.getGameTile(worker.getLocation()).addImprovement(worker.getCurrentBuildingImprovement());
+                }
+            }
         }
     }
 
