@@ -1,11 +1,13 @@
+import Models.Database;
 import Views.MenuStack;
 
+import javax.xml.crypto.Data;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        //     Database.getInstance().deserialize();
+             Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
         menuStack.setScanner(scanner);
@@ -13,10 +15,11 @@ public class Main {
         while (!menuStack.isEmpty()) {
             menuStack.getTopMenu().run();
         }
-        //     Database.getInstance().serialize();
+             Database.getInstance().serialize();
     }
 }
 /*
+** please check Main.java in previous commits
 user create --username alireza --password Password123? --nickname ali
 user create --username alireza2 --password Password123? --nickname ali2
 user login -p Password123? -u alireza
