@@ -14,6 +14,7 @@ import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Civilization {
 
@@ -25,7 +26,7 @@ public class Civilization {
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
-    private final ArrayList<TechnologyEnum> technologies = new ArrayList<>();
+    private final ArrayList<TechnologyEnum> technologies = new ArrayList<>(List.of(TechnologyEnum.RESET));
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> isInWarWith;
     private final ArrayList<Civilization> isInEconomicRelation;

@@ -66,6 +66,10 @@ public class Database {
     public void deserializeUsers() {
         ArrayList<User> jsonUsers = new ArrayList<>();
         try {
+            File file = new File("users.json");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
             jsonUsers = new Gson().fromJson(jsonFile, new TypeToken<List<User>>() {
             }.getType());

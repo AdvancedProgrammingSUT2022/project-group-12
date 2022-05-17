@@ -14,6 +14,7 @@ import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.exp;
@@ -260,7 +261,7 @@ public class City {
     }
 
     public ArrayList<ResourceEnum> getAchievedResources() {
-        ArrayList<ResourceEnum> resources = new ArrayList<>();
+        ArrayList<ResourceEnum> resources = new ArrayList<>(List.of(ResourceEnum.RESET));
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
             if (tile.isResourceAchieved(resource)) {
