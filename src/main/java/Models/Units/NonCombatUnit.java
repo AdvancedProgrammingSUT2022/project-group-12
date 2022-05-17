@@ -46,4 +46,9 @@ public class NonCombatUnit extends Unit {
         this.currentBuildingImprovement = null;
         this.setState(UnitStates.AWAKE);
     }
+
+    public void setToRepairTile() {
+        this.setState(UnitStates.WORKING);
+        this.remainingTime = 3;
+    }
 }

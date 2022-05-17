@@ -208,7 +208,7 @@ public class Tile {
 
     public boolean isResourceAchieved(ResourceEnum resourceEnum) {
         return resourceEnum != null && this.getCivilization() != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
-                && (this.getCity() != null || this.getImprovements().contains(resourceEnum.getImprovementNeeded()));
+                && (this.getCity() != null || !this.isDamaged && this.getImprovements().contains(resourceEnum.getImprovementNeeded()));
     }
 
     public Location getLocation() {

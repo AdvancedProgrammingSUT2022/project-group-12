@@ -143,8 +143,8 @@ public class Game {
         for (Unit unit : civ.getUnits()) {
             checkForAlertUnit(unit);
             checkForFortifyHealUnit(unit);
-            System.out.println("unit.getType().name() = " + unit.getType().name());
-            System.out.println("unit.getLocation() = " + unit.getLocation());
+//            System.out.println("unit.getType().name() = " + unit.getType().name());
+//            System.out.println("unit.getLocation() = " + unit.getLocation());
         }
         civ.resetMoveCount();
         /***

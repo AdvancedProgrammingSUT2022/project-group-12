@@ -81,7 +81,6 @@ public class City {
     }
 
     private double AffectCityFeatures(City city) {
-        //todo : affect the citizen and buildings on combat strength
         this.combatStrength = 10;
         this.combatStrength += citizensCount;
         this.combatStrength += combatStrengthFromBuildings;
@@ -118,24 +117,12 @@ public class City {
         return tiles;
     }
 
-    private void affectCitizens() throws CommandException {
-        for (Tile tile : this.getTiles()) {
-            if (tile.getCitizen().getCity() == this) {
-                // affect citizen
-                this.food += tile.calculateSources("food");
-                this.production += tile.calculateSources("production");
-            }
-        }
-    }
-
     public void applyBuildingNotes() {
         for (Building building : this.buildings) {
-            building.getNote().note(this); // todo: how to call the note function?
+            building.getNote().note(this);
             this.setGoldFromBuildings(this.getGoldFromBuildings() - building.getType().getMaintenance());
         }
     }
-
-
 
     public void finishProducts() throws CommandException {
         if (productionQueue.isEmpty()) {

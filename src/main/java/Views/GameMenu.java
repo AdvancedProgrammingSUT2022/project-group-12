@@ -685,6 +685,7 @@ public class GameMenu extends Menu {
     private void unitFortify(Command command) {
         try {
             unitFuncs.unitFortify(selectedUnit, command);
+            answer("unit fortified successfully");
         } catch (CommandException e) {
             answer(e);
         }

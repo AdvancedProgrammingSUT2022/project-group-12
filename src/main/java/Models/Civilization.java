@@ -102,7 +102,10 @@ public class Civilization {
                 worker.decreaseRemainingTime(1);
                 if (worker.getRemainingTime() <= 0) {
                     worker.removeWork();
-                    GameController.getGameTile(worker.getLocation()).addImprovement(worker.getCurrentBuildingImprovement());
+                    ImprovementEnum improvement = worker.getCurrentBuildingImprovement();
+                    Tile workerTile = GameController.getGameTile(worker.getLocation());
+                    if (improvement != null) workerTile.addImprovement(improvement);
+                    workerTile.setDamaged(false);
                 }
             }
         }

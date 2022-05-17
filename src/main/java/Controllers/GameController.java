@@ -27,13 +27,17 @@ public class GameController {
     }
 
     public static void unitRepairTile(Unit unit) throws CommandException {
-        if (unit.getType() == UnitEnum.WORKER) {
+        if (unit.getType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
+        }
+        if (unit.getState() != UnitStates.WORKING) {
+            throw new CommandException(CommandResponse.WORKER_IS_ALREADY_WORKING);
         }
         if (!GameController.getGameTile(unit.getLocation()).isDamaged()) {
             throw new CommandException(CommandResponse.NOT_DAMAGED);
         }
-        // todo : 3 turns is required
+        NonCombatUnit worker = (NonCombatUnit) unit;
+        worker.setToRepairTile();
         GameController.getGameTile(unit.getLocation()).setDamaged(false);
     }
 
@@ -129,7 +133,7 @@ public class GameController {
         unit.getCivilization().removeUnit(unit);
     }
 
-    public static String fortifyUnit(Unit unit) throws CommandException {
+    public static void fortifyUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
@@ -138,22 +142,27 @@ public class GameController {
         }
         unit.setPathShouldCross(null);
         unit.setState(UnitStates.FORTIFY);
-        return "unit fortified successfully";
     }
+
     public static void pillageUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
         Tile unitTile = GameController.getGameTile(unit.getLocation());
-        if(unitTile.getImprovementsExceptRoadOrRailRoad().size() != 0){
+        if(unitTile.getImprovementsExceptRoadOrRailRoad().size() == 0){
             throw new CommandException(CommandResponse.IMPROVEMENT_DOESNT_EXISTS);
         }
-        if(unit.getAvailableMoveCount() < 0){
+        if(unit.getAvailableMoveCount() <= 0){
             throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
         }
+        unitTile.setDamaged(true);
+        unit.decreaseAvailableMoveCount(1);
+        int gold = Math.min(unitTile.getCivilization().getGold(), 10);
+        unit.getCivilization().addGold(gold);
+        unitTile.getCivilization().addGold(-gold);
     }
 
-    public static String fortifyHealUnit(Unit unit) throws CommandException {
+    public static void fortifyHealUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
@@ -162,7 +171,6 @@ public class GameController {
         }
         unit.setPathShouldCross(null);
         unit.setState(UnitStates.FORTIFY_UNTIL_HEAL);
-        return "unit fortified successfully";
     }
 
     public static void alertUnit(Unit unit) throws CommandException {

@@ -132,6 +132,10 @@ public abstract class Unit extends Production {
         this.availableMoveCount = availableMoveCount;
     }
 
+    public void decreaseAvailableMoveCount(double value) {
+        this.availableMoveCount -= value;
+    }
+
     public Location getLocation() {
         return location;
     }
