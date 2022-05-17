@@ -151,8 +151,6 @@ public class City {
                 this.buildings.add((Building) production);
             } else if (production instanceof Unit unit) {
                 this.getCivilization().addUnit(unit);
-                // todo: already a unit on city tile
-                unit.getCivilization().addUnit(unit);
                 try {
                     this.cityTile.placeUnit(unit);
                 } catch (CommandException e) {
@@ -264,6 +262,7 @@ public class City {
         ArrayList<ResourceEnum> resources = new ArrayList<>(List.of(ResourceEnum.RESET));
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
+            // todoLater: getResource instead
             if (tile.isResourceAchieved(resource)) {
                 resources.add(resource);
             }

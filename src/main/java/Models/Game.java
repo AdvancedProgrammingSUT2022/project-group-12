@@ -89,7 +89,6 @@ public class Game {
     public void endCurrentTurn() throws GameException, CommandException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         updateRevealedTileGrid(civ);
-
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
                 checkForMultipleMoves(unit);
@@ -174,8 +173,8 @@ public class Game {
     }
 
     private void checkForMultipleMoves(Unit unit) throws CommandException {
-        System.out.println("reached here");
-        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
+//        System.out.println("reached here");
+//        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
             MovingController.moveToNextTile(unit);
         }
