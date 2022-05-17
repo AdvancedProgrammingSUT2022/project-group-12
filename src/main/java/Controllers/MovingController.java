@@ -17,7 +17,7 @@ import java.util.*;
 public class MovingController {
 
     public static void moveUnit(Location location, Tile currentTile, Unit unit) throws CommandException {
-        ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile);
+        ArrayList<Tile> shortestPath = findTheShortestPath(location, currentTile, (tile -> tile.getTerrain().getTerrainType().isReachable()));
         System.out.println("shortestPath = ");
         for (Tile tile : shortestPath) System.out.print(tile.getLocation() + " ");
         System.out.println();
@@ -114,31 +114,7 @@ public class MovingController {
         return false;
     }
 
-    private static void assertLastMove(Location location, Unit unit) throws CommandException {
-        Tile destTile = GameController.getGameTile(location);
-        if (unit instanceof CombatUnit && destTile.getCombatUnit() != null) {
-            location = findNewTile(destTile, "combatunit", unit);
-            unit.setPathShouldCross(findTheShortestPath(location, unit.getPathShouldCross().get(unit.getPathShouldCross().size() - 1)));
-        } else if (unit instanceof NonCombatUnit && destTile.getNonCombatUnit() != null) {
-            location = findNewTile(destTile, "noncombatunit", unit);
-            unit.setPathShouldCross(findTheShortestPath(location, unit.getPathShouldCross().get(unit.getPathShouldCross().size() - 1)));
-        }
-    }
-
-    private static Location findNewTile(Tile destTile, String combatType, Unit unit) {
-        ArrayList<Tile> neighbors = GameController.getGame().getTileGrid().getAllTilesInRadius(destTile, 1);
-        for (Tile tile : neighbors) {
-            if (combatType.equals("combatunit") && tile.getCombatUnit() == null) {
-                return tile.getLocation();
-            } else if (combatType.equals("noncombatunit") && tile.getNonCombatUnit() == null) {
-                return tile.getLocation();
-            }
-        }
-        return unit.getLocation();
-    }
-
-
-    protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile) throws CommandException {
+    protected static ArrayList<Tile> findTheShortestPath(Location target, Tile sourceTile, ReachableTiles reachableTiles) throws CommandException {
         // Dijkstra algorithm for shortest path
         TileGrid tileGrid = GameController.getGame().getTileGrid();
         HashMap<Tile, Tile> parent = new HashMap<>();
@@ -162,7 +138,7 @@ public class MovingController {
                 break;
             }
             for (Tile neighbor : tileGrid.getNeighborsOf(first)) {
-                if (!neighbor.getTerrain().getTerrainType().isReachable()) continue;
+                if (!reachableTiles.isReachable(neighbor)) continue;
                 // this is true because weights are on tiles (on graph vertexes)
                 if (!distance.containsKey(neighbor)) {
                     int dist = (int) (distance.get(first) + neighbor.calculateMovementCost());
@@ -182,5 +158,32 @@ public class MovingController {
         }
         Collections.reverse(path);
         return path;
+    }
+
+    private static Location findNewTile(Tile destTile, String combatType, Unit unit) {
+        ArrayList<Tile> neighbors = GameController.getGame().getTileGrid().getAllTilesInRadius(destTile, 1);
+        for (Tile tile : neighbors) {
+            if (combatType.equals("combatunit") && tile.getCombatUnit() == null) {
+                return tile.getLocation();
+            } else if (combatType.equals("noncombatunit") && tile.getNonCombatUnit() == null) {
+                return tile.getLocation();
+            }
+        }
+        return unit.getLocation();
+    }
+
+    private static void assertLastMove(Location location, Unit unit) throws CommandException {
+        Tile destTile = GameController.getGameTile(location);
+        if (unit instanceof CombatUnit && destTile.getCombatUnit() != null) {
+            location = findNewTile(destTile, "combatunit", unit);
+            unit.setPathShouldCross(findTheShortestPath(location, unit.getPathShouldCross().get(unit.getPathShouldCross().size() - 1), (tile -> tile.getTerrain().getTerrainType().isReachable())));
+        } else if (unit instanceof NonCombatUnit && destTile.getNonCombatUnit() != null) {
+            location = findNewTile(destTile, "noncombatunit", unit);
+            unit.setPathShouldCross(findTheShortestPath(location, unit.getPathShouldCross().get(unit.getPathShouldCross().size() - 1), (tile -> tile.getTerrain().getTerrainType().isReachable())));
+        }
+    }
+
+    public interface ReachableTiles {
+        boolean isReachable(Tile tile);
     }
 }

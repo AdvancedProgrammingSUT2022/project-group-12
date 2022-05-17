@@ -139,11 +139,11 @@ public enum TerrainEnum {
 
     public boolean isReachable() {
         return !this.getFeatures().contains(FeatureEnum.ICE) &&
-                this != TerrainEnum.MOUNTAIN && this != TerrainEnum.OCEAN;
+                this != MOUNTAIN && this != OCEAN;
     }
 
     public boolean isRough() {
-        return this == TerrainEnum.HILL;
+        return this == HILL;
     }
 
     public boolean isBlockingView() {
@@ -156,5 +156,9 @@ public enum TerrainEnum {
 
     public ArrayList<FeatureEnum> getFeatures() {
         return possibleTerrainFeatures;
+    }
+
+    public boolean isRangeAttackable() {
+        return this != HILL && this != MOUNTAIN;
     }
 }

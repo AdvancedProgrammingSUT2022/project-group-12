@@ -16,10 +16,8 @@ import Utils.Constants;
 import Views.GameMenu;
 import Views.MenuStack;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import static Controllers.MovingController.findTheShortestPath;
 import static Controllers.MovingController.moveUnit;
 
 public class CityCombatController extends CombatController {
@@ -29,7 +27,7 @@ public class CityCombatController extends CombatController {
     }
 
     protected static String affectAttackToCity(CombatUnit combatUnit, City enemyCity, Civilization currentCiv, Tile currentTile, Tile enemyTile) throws CommandException {
-        ArrayList<Tile> path = findTheShortestPath(enemyCity.getLocation(), currentTile);
+//        ArrayList<Tile> path = findTheShortestPath(enemyCity.getLocation(), currentTile);
         if (combatUnit instanceof RangedUnit rangedUnit) {
             if (checkForDistance(rangedUnit, enemyCity.getLocation(), currentTile))
                 return affectRangeAttackToCity(rangedUnit, enemyCity, currentTile, enemyTile);

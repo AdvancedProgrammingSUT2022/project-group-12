@@ -72,7 +72,7 @@ public class CombatController extends GameController {
         }
     }
     public static boolean checkForDistance(CombatUnit combatUnit,Location destLocation,Tile currentTile) throws CommandException {
-        ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile);
+        ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile, (tile -> tile.getTerrain().getTerrainType().isRangeAttackable()));
         int distance = GameController.getGame().getTileGrid().calculateStraightDistanceWith(currentTile, GameController.getGameTile(destLocation));
         if(combatUnit instanceof  RangedUnit) {
             if (combatUnit.getType().getRange() < distance) {
@@ -88,7 +88,7 @@ public class CombatController extends GameController {
         return true;
     }
     public static boolean checkForDistance(City city,Location destLocation,Tile currentTile) throws CommandException {
-        ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile);
+        ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile, (tile -> tile.getTerrain().getTerrainType().isRangeAttackable()));
         if (city.getRange() < path.size()) {
             throw new CommandException(CommandResponse.ATTACK_ISNT_POSSIBLE);
         }

@@ -133,11 +133,6 @@ public enum UnitEnum {
         return this.getCombatType() == CombatTypeEnum.SIEGE;
     }
 
-    // todo?: affect
-    public boolean cannotMeleeAttack() {
-        return this.isRangedUnit();
-    }
-
     public boolean isRangedUnit() {
         return this.range > 0;
     }
