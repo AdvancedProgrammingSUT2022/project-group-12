@@ -177,11 +177,20 @@ public class CityCombatController extends CombatController {
     }
 
     private static String affectNonRangeAttackToCity(NonRangedUnit nonRangedUnit, City city, Tile nonRangedTile, Tile cityTile) throws CommandException {
+        if (nonRangedUnit.isHasAttack()) {
+            throw new CommandException(CommandResponse.UNIT_CAN_ATTACK_ONCE);
+        }
         double combatStrengthNonRangedUnit = nonRangedUnit.calculateCombatStrength(nonRangedUnit, nonRangedTile, "combatstrength");
         double enemyCityStrength = city.calculateCombatStrength();
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
         city.decreaseHealth(city.calculateDamage(strengthDiff));
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
+        if (nonRangedUnit.getType().canMoveAfterAttack()) {
+            nonRangedUnit.setHasAttack(true);
+            nonRangedUnit.setAvailableMoveCount(nonRangedUnit.getAvailableMoveCount() - 1);
+        } else {
+            nonRangedUnit.setAvailableMoveCount(0);
+        }
         nonRangedUnit.setAvailableMoveCount(0);
         String response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
         return response;
