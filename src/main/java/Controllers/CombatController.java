@@ -41,6 +41,7 @@ public class CombatController extends GameController {
             throw new CommandException(CommandResponse.ENEMY_DOESNT_EXISTS);
         }
         if (combatUnit instanceof RangedUnit rangedUnit) {
+            // todo: canFireIndirectly
             if (checkForDistance(rangedUnit, location, currentTile))
                 return UnitCombatController.affectRangeAttack(rangedUnit, enemyTile.getCombatUnit(), currentTile, enemyTile);
         } else if (combatUnit instanceof NonRangedUnit nonRangedUnit) {

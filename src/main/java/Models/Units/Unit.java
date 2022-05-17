@@ -36,7 +36,7 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
-    // todo: integrate unit newing with Civ class
+    // todoLater: integrate unit newing with Civ class
     public static Unit constructUnitFromEnum(UnitEnum unitEnum, Civilization civ, Location location) {
         if (unitEnum.isACombatUnit()) {
             if (unitEnum.isRangedUnit()) {
@@ -170,9 +170,9 @@ public abstract class Unit extends Production {
         this.health -= value;
     }
 
-    // todo
     public String getInfo() {
-        return "Tile = " + this.getLocation() + '\n' +
+        return "Type = " + this.getType().name() + '\n' +
+                "Tile = " + this.getLocation() + '\n' +
                 "Remaining movement = " + this.getAvailableMoveCount() + '\n' +
                 "Health = " + this.getHealth() + '\n' +
                 "Has work to do: " + this.isWorking() + '\n';

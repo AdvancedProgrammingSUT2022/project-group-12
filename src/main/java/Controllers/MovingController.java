@@ -88,11 +88,9 @@ public class MovingController {
             unit.setAvailableMoveCount(unit.getAvailableMoveCount() - 1);
             return;
         }
-        if (checkForZOC(unit.getLocation(), location, unit)) {
-            unit.setAvailableMoveCount(0);
-            return;
-        }
-        if (GameController.checkForRivers(GameController.getGameTile(location), GameController.getGameTile(location))) {
+        if (checkForZOC(unit.getLocation(), location, unit) ||
+                unit.getType() == UnitEnum.CHARIOT_ARCHER && GameController.getGameTile(location).getTerrain().isRoughTerrain() ||
+                GameController.checkForRivers(GameController.getGameTile(location), GameController.getGameTile(location))) {
             unit.setAvailableMoveCount(0);
             return;
         }
