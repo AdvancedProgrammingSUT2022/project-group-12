@@ -1,3 +1,4 @@
+import Models.Database;
 import Views.MenuStack;
 
 import java.util.Scanner;
@@ -5,10 +6,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        System.err.println("salame mojadad");
-        System.err.println("vaseye in k in commit ha mimune... man alan tu qarar hastam");
-
-        //     Database.getInstance().deserialize();
+        Database.getInstance().deserialize();
         Scanner scanner = new Scanner(System.in);
         MenuStack menuStack = MenuStack.getInstance();
         menuStack.setScanner(scanner);
@@ -16,7 +14,7 @@ public class Main {
         while (!menuStack.isEmpty()) {
             menuStack.getTopMenu().run();
         }
-        //     Database.getInstance().serialize();
+        Database.getInstance().serialize();
     }
 }
 /*
@@ -101,23 +99,6 @@ cheat increase movement -a 10
 unit attack -p 5 5
 cheat heal unit
 cheat increase movement -a 10
- */
-
-
-/*
-
-Alireza Mosallanezhad, [5/15/22 8:18 AM]
-
-سلام
-
-من دستور های view رو برای info اضافه کردم
-
-بی زحمت تابع‌های info رو تست کن اگر تغییری لازم بود تکمیلشون کن (اسم دستور‌ها توی GameMenu.info) هست
-
-سه دستور info هم اضافه کردم، برای یه شهر خاص، یه تایل خاص و یه یگان خاص
-
-تابع‌های getInfo اینها رو هم بی زحمت بزن
-
 user create -u alireza -p afepAFE232$#$ -n Parsi
 user login  -u alireza -p afepAFE232$#$
 play game --player1 alireza
@@ -134,6 +115,4 @@ unit alert
 select unit combat -p 10 10
 unit info
 map info -p 10 10
-
-این دستورا هم برای تست می‌تونی استفاده کنی
  */

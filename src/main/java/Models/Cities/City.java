@@ -493,13 +493,6 @@ public class City {
         this.health -= value;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder cityInfo = new StringBuilder();
-        cityInfo.append("- ").append(name).append(" has [").append(citizensCount).append("] citizens, currently belongs to <")
-                .append(civilization.getName()).append("> and its citizens are as happy as much as [").append(localHappiness).append("\n");
-        return cityInfo.toString();
-    }
 
     public int getHealth() {
         return this.health;
@@ -509,9 +502,11 @@ public class City {
         this.health = health;
     }
 
-    // todo
     public String getInfo() {
-        return null;
+        return name + "\n" +
+                "tile: " + cityTile.getTerrain().getTerrainType().name() + "\n" +
+                "citizen count " + citizensCount + "\n" +
+                "food production " + food + "\n";
     }
 
     public void addToProductionQueue(Production production) {

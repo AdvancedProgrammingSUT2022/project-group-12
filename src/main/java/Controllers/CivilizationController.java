@@ -21,12 +21,7 @@ public class CivilizationController {
         }
         StringBuilder unitInfo = new StringBuilder("Unit info:\n");
         for (Unit unit : civilization.getUnits()) {
-            unitInfo.append("- <").append(unit)
-                    .append("> Tile: <").append(GameController.getGameTile(unit.getLocation()).getTerrain().getTerrainType())
-                    .append("> Movement: <").append(unit.getAvailableMoveCount())
-                    .append("> Health: <").append(unit.getHealth())
-                    .append("> Has work to do: <").append(unit.isWorking())
-                    .append("> Current location: <").append(unit.getLocation().toString());
+            unitInfo.append(unit.getInfo()).append("===========\n");
         }
         return unitInfo.toString();
     }
@@ -78,22 +73,22 @@ public class CivilizationController {
         for (int i = 0; i < civilization.getCities().size(); i++) {
             if (civilization.getCities().get(i).isCapital())
                 cities.append("* ");
-            cities.append(civilization.getCities().get(i).getName()).append(" is on: ")
-                    .append(civilization.getCities().get(i).getTile().getTerrain().getTerrainType().name())
-                    .append(" and has ").append(civilization.getCities().get(i).getCitizensCount()).append(" citizens\n")
-                    .append("food production = ").append(civilization.getCities().get(i).calculateFood()).append("\n");
+            cities.append(civilization.getCities().get(i).getInfo());
         }
         return cities.toString();
     }
 
-        public String demographicPanel() {
+    public String demographicPanel() {
         StringBuilder demographicInfo = new StringBuilder();
-        demographicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> and [")
-                .append(civilization.getOwnedTiles().size()).append("] owned tiles. It has [").append(civilization.getUnits().size())
-                .append("] <units> and has [").append(civilization.getGold()).append("] <golds>. It is <In War With> [").append(civilization.getIsInWarWith().size())
-                .append("] civilization(s) and has <Economic Relations with> [").append(civilization.getIsInEconomicRelation().size())
-                .append("] civilization(s). Its citizens <Happiness> is as high as [").append(civilization.getHappiness())
-                .append("] and it is working (researching) on [").append(civilization.getResearch().size()).append("] <technologies>. ");
+        demographicInfo.append("cities count: ").append(civilization.getCities().size()).append("\n")
+                .append("owned tiles: ").append(civilization.getOwnedTiles().size()).append("\n")
+                .append("units count: ").append(civilization.getUnits().size()).append("\n")
+                .append("gold count: ").append(civilization.getGold()).append("\n")
+                .append("is in war with [").append(civilization.getIsInWarWith().size()).append("] civilization(s)").append("\n")
+                .append("is trading goods with [").append(civilization.getIsInEconomicRelation().size()).append("] civilization(s)").append("\n")
+                .append("Happiness: ").append(civilization.getHappiness()).append("\n")
+                .append("researching on [").append(civilization.getResearch().size()).append("] items").append("\n")
+                .append("current research: ").append(civilization.getResearchingTechnology().name()).append("\n");
         return demographicInfo.toString();
     }
 
@@ -111,19 +106,23 @@ public class CivilizationController {
             }
         }
         StringBuilder militaryInfo = new StringBuilder();
-        militaryInfo.append("Your civilization contains [").append(count).append("] military units that are as follows: \n")
-                .append(units).append("It also has [").append(civilization.getFood()).append("] amount of food left.");
+        militaryInfo.append("military Units: ").append(count).append("\n")
+                .append("that are: ").append("\n").append(units)
+                .append("food: ").append(civilization.getFood()).append("\n");
         return militaryInfo.toString();
     }
 
     public String economicOverview() {
         StringBuilder economicInfo = new StringBuilder();
-        economicInfo.append("Your civilization has [").append(civilization.getCities().size()).append("] <cities> that are: ").append(citiesPanel()).append("and [")
-                .append(civilization.getOwnedTiles().size()).append("] owned tiles. It has [").append(civilization.getUnits().size())
-                .append("] <units> that are").append(unitsPanel()).append("and has [").append(civilization.getGold()).append("] <golds>. It is <In War With> [").append(civilization.getIsInWarWith().size())
-                .append("] civilization(s) and has <Economic Relations with> [").append(civilization.getIsInEconomicRelation().size())
-                .append("] civilization(s). Its citizens <Happiness> is as high as [").append(civilization.getHappiness())
-                .append("] and it is working (researching) on [").append(civilization.getResearch().size()).append("] <technologies> that are: \n");
+        economicInfo.append("cities count: ").append(civilization.getCities().size()).append("\n").append("that are: ").append("\n")
+                .append(citiesPanel()).append("owned tiles: ").append(civilization.getOwnedTiles().size()).append("\n")
+                .append("unit count: ").append(civilization.getUnits().size()).append("\n")
+                .append("that are: \n").append(unitsPanel())
+                .append("gold count: ").append(civilization.getGold()).append("\n")
+                .append("is in war with [").append(civilization.getIsInWarWith().size()).append("] civilization(s)\n")
+                .append("is trading goods with [").append(civilization.getIsInEconomicRelation().size()).append("] civilization(s)\n")
+                .append("happiness: ").append(civilization.getHappiness()).append("\n")
+                .append("is currently researching on: ").append(civilization.getResearch().size()).append("\n");
         if (civilization.getResearch().isEmpty()) {
             economicInfo.append(":( you are not doing any research at the moment");
         } else {
