@@ -1,0 +1,69 @@
+Button {
+    -fx-pref-width: 230;
+    -fx-pref-height: 31;
+    -fx-border-radius: 5;
+    -fx-background-color: #7300ff;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+
+}
+
+Button:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 230;
+    -fx-pref-height: 31;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-border-color: none;
+    -fx-text-fill: #7300ff;
+}
+
+ImageView:hover {
+    -fx-cursor: hand;
+}
+
+TextField {
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-background-radius: 5;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-font-family: Gayathri;
+}
+
+TextField:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 200;
+    -fx-pref-height: 35;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-font-family: Gayathri;
+}
+
+Label {
+    -fx-font-family: Uroob;
+    -fx-font-size: 50;
+}
+
+Text {
+    -fx-font-size: 15;
+    -fx-font-family: P052;
+    -fx-fill: linear-gradient(darkolivegreen, darkviolet);
+}
+
+.exitButton {
+    -fx-pref-width: 100;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-border-color: none;
+    -fx-text-fill: darkred;
+}
+
+.exitButton:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 100;
+    -fx-border-radius: 5;
+    -fx-background-color: darkred;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+}

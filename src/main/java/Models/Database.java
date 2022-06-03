@@ -98,4 +98,8 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public boolean checkPassword(String username, String password) {
+        return this.users.get(username).passwordMatchCheck(password);
+    }
 }

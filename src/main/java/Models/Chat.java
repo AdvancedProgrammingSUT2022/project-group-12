@@ -13,7 +13,7 @@ public class Chat {
             usersInChat.remove(user);
             user.startChat(name, usersInChat);
         }
-        //todo : improve
+        //todo : requires improvements
     }
 
     public String getName() {

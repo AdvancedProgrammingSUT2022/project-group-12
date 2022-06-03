@@ -12,4 +12,7 @@ module project {
 
     opens Applications to javafx.fxml;
     exports Applications;
+    exports Views;
+    opens Views to javafx.fxml;
+
 }
