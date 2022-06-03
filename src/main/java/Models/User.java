@@ -9,6 +9,7 @@ public class User {
     private String password;
     private int score;
     private HashMap<String, Chat> chats;
+    private Chat currentChat;
 
     public User(String username, String password, String nickname) {
         this.username = username;
@@ -57,8 +58,18 @@ public class User {
             chats.put(name, new Chat(users, name));
     }
 
-    public Chat getChat(String name) {
-        return chats.get(name);
+    public void setCurrentChat(String name) {
+        this.currentChat = chats.get(name);
+    }
+
+    public Chat getChat() {
+        return this.currentChat;
+    }
+
+    public String[] previousChats() {
+        String[] chatNames = new String[chats.keySet().size()];
+        chatNames = chats.keySet().toArray(chatNames);
+        return chatNames;
     }
 
     public void changeNickname(String newNickname) {
@@ -66,11 +77,5 @@ public class User {
         Database.getInstance().serialize();
     }
 
-    @Override
-    public String toString() {
-        return "username : " + username +
-                "\npassword : " + password +
-                "\nnickname : " + nickname +
-                "\nscore : " + score;
-    }
+
 }

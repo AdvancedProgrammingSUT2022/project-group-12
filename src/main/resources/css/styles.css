@@ -40,9 +40,8 @@ TextField:hover {
     -fx-font-family: Gayathri;
 }
 
-Label {
-    -fx-font-family: Uroob;
-    -fx-font-size: 50;
+Label {-fx-font-family: Uroob;
+    -fx-font-size: 15;
 }
 
 Text {

@@ -35,7 +35,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Pane root = loadFXML("LoginPage");
+        Pane root = loadFXML("ChatSelectPage");
         assert root != null;
         Database.getInstance().deserialize();
         App.scene = new Scene(root);

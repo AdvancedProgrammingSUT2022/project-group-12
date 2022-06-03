@@ -19,8 +19,6 @@ public class Database {
     private final ArrayList<User> usersList;
     private final ArrayList<Game> games;
 
-
-
     private Database() {
         this.gson = new Gson();
         this.users = new HashMap<>();
@@ -33,6 +31,17 @@ public class Database {
             instance = new Database();
         }
         return instance;
+    }
+
+    public ArrayList<User> getUsers(){
+        return this.usersList;
+    }
+
+    public ArrayList<String> getAllUsers() {
+        ArrayList<String> users = new ArrayList<>();
+        for (User user : this.usersList)
+            users.add(user.getUsername());
+        return users;
     }
 
     public void addGame(Game game) {
