@@ -91,9 +91,14 @@ public class TileGridPrinter {
             String name = tile.getCombatUnit().getType().name().charAt(0) + String.valueOf(tile.getCombatUnit().getType().name().charAt(1)).toLowerCase();
             this.writeCentered(row + 1, col + 1, name, tile.getCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
         }
+        String str = "";
         if (tile.getTerrain().getResource() != null) {
-            this.writeCentered(row + 2, col, tile.getTerrain().getResource().getAbbreviation(), TerrainColor.BLACK, tileColor);
+            str += tile.getTerrain().getResource().getAbbreviation();
         }
+        if (!tile.getTerrain().getFeatures().isEmpty()) {
+            str += " " + tile.getTerrain().getFeatures().get(0).getAbbreviation().substring(0, 3);
+        }
+        this.writeCentered(row + 2, col, str, TerrainColor.BLACK, tileColor);
     }
 
     private void setChar(int row, int col, char ch, TerrainColor foreground, TerrainColor background) {
