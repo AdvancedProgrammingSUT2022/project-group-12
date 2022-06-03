@@ -36,7 +36,7 @@ public enum InputRegex {
     PLAY_GAME_WITH("[\\s]*play game (?<player>(--player|-p)[0-9]+ [.\\S]+[\\s]*)+"),
     PARSE_PLAY_GAME_WITH("[\\s]*(--player|-p)(?<turn>[0-9]+) (?<username>[.\\S]+)[\\s]*"),
     EXIT("\\s*exit\\s*"),
-    MENU_OPTIONS("Login|Main|Play Game|Profile|login|main|play game|profile"),
+    MENU_OPTIONS("Login|Applications.Main|Play Game|Profile|login|main|play game|profile"),
     BACK("\\s*back|BACK|Back\\s*"),
     LOGOUT("\\s*logout|LOGOUT|Logout\\s*"),
     CURRENT_MENU("\\s*menu show-current\\s*"),

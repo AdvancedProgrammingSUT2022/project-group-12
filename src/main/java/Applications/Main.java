@@ -1,3 +1,5 @@
+package Applications;
+
 import Models.Database;
 import Views.MenuStack;
 

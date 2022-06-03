@@ -19,6 +19,8 @@ public class Database {
     private final ArrayList<User> usersList;
     private final ArrayList<Game> games;
 
+
+
     private Database() {
         this.gson = new Gson();
         this.users = new HashMap<>();

@@ -493,7 +493,7 @@ public class City {
         return name + "\n" +
                 "tile: " + cityTile.getTerrain().getTerrainType().name() + "\n" +
                 "citizen count " + citizensCount + "\n" +
-                "food production " + food + "\n";
+                "food production " + calculateFood() + "\n";
     }
 
     public void addToProductionQueue(Production production) {

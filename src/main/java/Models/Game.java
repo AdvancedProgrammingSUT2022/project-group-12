@@ -58,6 +58,7 @@ public class Game {
             } catch (CommandException e) { // never
                 throw new RuntimeException(e);
             }
+            civ.addUnit(settler);
             updateRevealedTileGrid(civ);
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
@@ -92,7 +93,7 @@ public class Game {
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
                 checkForMultipleMoves(unit);
-                checkForMovementCost(unit);
+//                checkForMovementCost(unit);
             }
         }
         for (City city : civ.getCities()) {

@@ -2,8 +2,8 @@ import Models.Database;
 import Models.User;
 import Utils.Command;
 import Utils.CommandException;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
