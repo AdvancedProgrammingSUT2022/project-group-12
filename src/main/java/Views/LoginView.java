@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
+//todo : improve line 80
 public class LoginView {
 
     @FXML
@@ -59,6 +59,7 @@ public class LoginView {
     private void removeAdditional() {
         username.setStyle("-fx-border-color: none;");
         password.setStyle("-fx-border-color: none;");
+        nickname.setStyle("-fx-border-color: none;");
         if (usernameBox.getChildren().size() > 2)
             usernameBox.getChildren().remove(2);
         if (passwordBox.getChildren().size() > 2)
@@ -117,6 +118,7 @@ public class LoginView {
             new User(username.getText(), password.getText(), nickname.getText());
             username.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
             password.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+            nickname.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
         }
     }
 
@@ -128,6 +130,10 @@ public class LoginView {
         }
         if (password.getText().length() == 0) {
             password.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            isEmpty = true;
+        }
+        if (nickname.getText().length() == 0) {
+            nickname.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
             isEmpty = true;
         }
         return isEmpty;
