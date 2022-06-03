@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/styles.css" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/16"
-            fx:controller="Views.LoginView">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css"
+            xmlns="http://javafx.com/javafx/16" fx:controller="Views.LoginView">
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit"
             textAlignment="CENTER"/>
     <VBox alignment="CENTER" layoutX="69.0" layoutY="115.0" prefWidth="230.0" spacing="10">
@@ -28,4 +26,7 @@
         </HBox>
     </VBox>
     <Label layoutX="403.0" layoutY="14.0" text="Login Page"/>
+    <Text layoutX="378.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="Note : you dont need a valid nickname to login if you already have registered before"
+          textAlignment="CENTER" wrappingWidth="216.239990234375"/>
 </AnchorPane>
