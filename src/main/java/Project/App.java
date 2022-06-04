@@ -1,12 +1,13 @@
 package Project;
 
-import Project.Views.ChatSelectView;
+import Project.Models.Database;
+import Project.Views.Menu;
+import Project.Views.MenuStack;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import Project.Models.Database;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,25 +25,26 @@ public class App extends Application {
         App.scene.setRoot(root);
     }
 
-    @Override
-    public void start(Stage stage) {
-        Pane root = loadFXML("ChatSelectPage");
-        assert root != null;
-        Database.getInstance().deserialize();
-        App.scene = new Scene(root);
-        stage.setScene(App.scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
     private static Pane loadFXML(String address) {
         System.out.println(address);
         try {
-            URL url = new URL(Objects.requireNonNull(App.class.getResource("/Project/fxml/" + address + ".fxml")).toExternalForm());
+            URL url = new URL(Objects.requireNonNull(App.class.getResource("fxml/" + address + ".fxml")).toExternalForm());
             return FXMLLoader.load(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void start(Stage stage) {
+        Database.getInstance().deserialize();
+        App.scene = new Scene(new Pane());
+        stage.setScene(App.scene);
+        stage.setResizable(false);
+
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));
+
+        stage.show();
     }
 }
