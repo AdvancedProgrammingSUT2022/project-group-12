@@ -20,7 +20,6 @@ Button {
     -fx-background-color: #7300ff;
     -fx-border-color: none;
     -fx-text-fill: white;
-
 }
 
 Button:hover {
@@ -33,7 +32,7 @@ Button:hover {
     -fx-text-fill: #7300ff;
 }
 
-.choiceBox {
+.choice-box {
     -fx-background-color: white;
     -fx-cursor: hand;
 }

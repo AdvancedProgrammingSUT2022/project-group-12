@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
             fx:controller="Project.Views.ChatSelectView">
@@ -9,11 +10,6 @@
     <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: "/>
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit"
             textAlignment="CENTER"/>
-    <VBox fx:id="userBox1" layoutX="17.0" layoutY="167.0" prefHeight="200.0" prefWidth="100.0" spacing="2"/>
-    <VBox fx:id="userBox2" layoutX="129.0" layoutY="167.0" prefHeight="200.0" prefWidth="100.0" spacing="2"/>
-    <VBox fx:id="userBox3" layoutX="238.0" layoutY="167.0" prefHeight="200.0" prefWidth="100.0" spacing="2"/>
-    <VBox fx:id="userBox4" layoutX="347.0" layoutY="167.0" prefHeight="200.0" prefWidth="100.0" spacing="2"/>
-    <VBox fx:id="userBox5" layoutX="456.0" layoutY="167.0" prefHeight="200.0" prefWidth="100.0" spacing="2"/>
     <Button layoutX="29.0" layoutY="362.0" onMouseClicked="#backClick" styleClass="smallerButton" text="Back"
             textAlignment="CENTER"/>
     <Button fx:id="acceptButton" layoutX="189.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#acceptClick"
@@ -21,7 +17,13 @@
     <ChoiceBox fx:id="chatSelect" layoutX="254.0" layoutY="50.0" prefWidth="150.0" styleClass="choiceBox"/>
     <Text layoutX="93.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select chat: "/>
     <Text fx:id="chatGroup" layoutX="271.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0"/>
-    <TextField fx:id="groupName" alignment="CENTER" layoutX="433.0" layoutY="90.0" styleClass="smallerField"
-               onKeyReleased="#groupNameEntered" prefHeight="24.0" prefWidth="150.0" promptText="Group Name"/>
+    <TextField fx:id="groupName" alignment="CENTER" layoutX="433.0" layoutY="90.0" onKeyReleased="#groupNameEntered"
+               prefHeight="24.0" prefWidth="150.0" promptText="Group Name" styleClass="smallerField"/>
+    <ScrollPane style="-fx-background-color: transparent;" vbarPolicy="ALWAYS" layoutX="213.0" layoutY="129.0"
+                prefHeight="200.0" prefWidth="175.0">
+        <content>
+            <VBox fx:id="userBox1" prefHeight="185.0" prefWidth="152.0" spacing="2"/>
+        </content>
+    </ScrollPane>
 
 </AnchorPane>

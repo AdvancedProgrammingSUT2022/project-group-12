@@ -24,14 +24,6 @@ public class ChatSelectView implements ViewController {
     private ChoiceBox<String> chatSelect;
     @FXML
     private VBox userBox1;
-    @FXML
-    private VBox userBox2;
-    @FXML
-    private VBox userBox3;
-    @FXML
-    private VBox userBox4;
-    @FXML
-    private VBox userBox5;
 
     private boolean chatSelected;
     private boolean userSelected;
@@ -59,16 +51,7 @@ public class ChatSelectView implements ViewController {
         groupName.setText(chatSelect.getValue());
         MenuStack.getInstance().getUser().setCurrentChat(chatSelect.getValue());
         for (String username : MenuStack.getInstance().getUser().getChat().getUsernames()) {
-            if (userBox1.getChildren().size() < 10)
-                userBox1.getChildren().add(new Text(username));
-            else if (userBox2.getChildren().size() < 10)
-                userBox2.getChildren().add(new Text(username));
-            else if (userBox3.getChildren().size() < 10)
-                userBox3.getChildren().add(new Text(username));
-            else if (userBox4.getChildren().size() < 10)
-                userBox4.getChildren().add(new Text(username));
-            else if (userBox5.getChildren().size() < 10)
-                userBox5.getChildren().add(new Text(username));
+            userBox1.getChildren().add(new Text(username));
         }
     }
 
@@ -76,10 +59,6 @@ public class ChatSelectView implements ViewController {
         groupName.setStyle("-fx-border-color: none;");
         chatGroup.setText("");
         userBox1.getChildren().removeAll(userBox1.getChildren());
-        userBox2.getChildren().removeAll(userBox2.getChildren());
-        userBox3.getChildren().removeAll(userBox3.getChildren());
-        userBox4.getChildren().removeAll(userBox4.getChildren());
-        userBox5.getChildren().removeAll(userBox5.getChildren());
     }
 
     private void getUser(ActionEvent event) {
@@ -92,16 +71,7 @@ public class ChatSelectView implements ViewController {
             return;
         users.add(userSelect.getValue());
         selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
-        if (userBox1.getChildren().size() < 10)
-            userBox1.getChildren().add(new Text(userSelect.getValue()));
-        else if (userBox2.getChildren().size() < 10)
-            userBox2.getChildren().add(new Text(userSelect.getValue()));
-        else if (userBox3.getChildren().size() < 10)
-            userBox3.getChildren().add(new Text(userSelect.getValue()));
-        else if (userBox4.getChildren().size() < 10)
-            userBox4.getChildren().add(new Text(userSelect.getValue()));
-        else if (userBox5.getChildren().size() < 10)
-            userBox5.getChildren().add(new Text(userSelect.getValue()));
+        userBox1.getChildren().add(new Text(userSelect.getValue()));
     }
 
 
