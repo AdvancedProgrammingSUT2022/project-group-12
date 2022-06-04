@@ -1,6 +1,6 @@
 package Project.Controllers.ValidateGameMenuFuncs;
 
-import CommandlineViews.TileGridPrinter;
+import Project.CommandlineViews.TileGridPrinter;
 import Project.Controllers.GameController;
 import Project.Models.Location;
 import Project.Models.Tiles.TileGrid;

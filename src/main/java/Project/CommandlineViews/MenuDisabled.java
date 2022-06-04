@@ -1,4 +1,4 @@
-package CommandlineViews;
+package Project.CommandlineViews;
 
 import Project.Utils.Command;
 import Project.Utils.CommandException;

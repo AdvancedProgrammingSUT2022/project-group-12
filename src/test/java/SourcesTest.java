@@ -1,5 +1,5 @@
-import CommandlineViews.GameMenu;
-import CommandlineViews.MenuStackDisabled;
+import Project.CommandlineViews.GameMenu;
+import Project.CommandlineViews.MenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.BuildingEnum;
 import Project.Enums.FeatureEnum;

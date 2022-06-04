@@ -1,4 +1,4 @@
-package CommandlineViews;
+package Project.CommandlineViews;
 
 import Project.Controllers.CheatCodeController;
 import Project.Controllers.CombatController;

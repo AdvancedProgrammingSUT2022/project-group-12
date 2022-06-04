@@ -1,6 +1,6 @@
 package Project.Controllers;
 
-import CommandlineViews.MenuStackDisabled;
+import Project.CommandlineViews.MenuStackDisabled;
 import Project.Models.Database;
 import Project.Models.User;
 import Project.Utils.CommandException;

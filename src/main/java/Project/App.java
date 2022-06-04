@@ -1,6 +1,8 @@
 package Project;
 
 import Project.Models.Database;
+import Project.Views.Menu;
+import Project.Views.MenuStack;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,7 +28,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Pane root = loadFXML("LoginPage");
-//        MenuStack.getInstance().pushMenu(new Menu("LoginPage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));
         assert root != null;
         Database.getInstance().deserialize();
         App.scene = new Scene(root);

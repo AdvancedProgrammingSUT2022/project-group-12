@@ -1,4 +1,4 @@
-import CommandlineViews.MenuStackDisabled;
+import Project.CommandlineViews.MenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.*;
 import Project.Models.Cities.City;

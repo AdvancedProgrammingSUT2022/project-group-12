@@ -1,6 +1,6 @@
 package Project.Views;
 
-import CommandlineViews.MenuStackDisabled;
+import Project.CommandlineViews.MenuStackDisabled;
 import Project.Models.Message;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
