@@ -32,7 +32,6 @@ public class ChatView {
                     chatBox.getChildren().add(text);
                 }
             }
-            messageTextField.setM
         } catch (Exception e) {
 
         }
