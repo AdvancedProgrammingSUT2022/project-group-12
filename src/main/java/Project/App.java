@@ -1,11 +1,11 @@
 package Project;
 
+import Project.Models.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import Project.Models.Database;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,7 +25,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Pane root = loadFXML("ChatSelectPage");
+        Pane root = loadFXML("LoginPage");
+//        MenuStack.getInstance().pushMenu(new Menu("LoginPage"));
         assert root != null;
         Database.getInstance().deserialize();
         App.scene = new Scene(root);

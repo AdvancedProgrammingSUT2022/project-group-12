@@ -1,12 +1,12 @@
 package Project.Views;
 
+import Project.Models.Database;
+import Project.Models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import Project.Models.Database;
-import Project.Models.User;
 
 //todo : improve line 80
 public class LoginView {
@@ -77,7 +77,7 @@ public class LoginView {
         if (Database.getInstance().checkForUsername(username.getText())) {
             if (Database.getInstance().checkPassword(username.getText(), password.getText())) {
                 MenuStack.getInstance().setUser(Database.getInstance().getUser(username.getText()));
-                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MenuPage")); //todo : login
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage")); //todo : login
             } else {
                 if (passwordBox.getChildren().size() > 2)
                     return;
