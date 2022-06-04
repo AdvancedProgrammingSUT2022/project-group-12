@@ -2,6 +2,7 @@ package Project.Views;
 
 import Project.Models.Message;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -14,7 +15,8 @@ public class ChatView {
     @FXML
     private TextField messageTextField;
     private Message currentEditingMessage = null;
-
+    @FXML
+    Button deleteButton;
 
     public void exitClick() {
         System.exit(0);
@@ -43,13 +45,29 @@ public class ChatView {
             newMessage.getText().setOnMouseClicked(mouseEvent -> {
                 ChatView.this.currentEditingMessage = newMessage;
                 messageTextField.setText(newMessage.getMessage());
+                deleteButton.setDisable(false);
+                deleteButton.setVisible(true);
             });
             chatBox.getChildren().add(newMessage.getText());
         } else {
             currentEditingMessage.editMessage(messageTextField.getText());
             currentEditingMessage = null;
+            disableDeleteButton();
         }
         messageTextField.setText("");
+    }
+
+    @FXML
+    public void deleteMessage() {
+        chatBox.getChildren().remove(currentEditingMessage.getText());
+        disableDeleteButton();
+        messageTextField.setText("");
+        currentEditingMessage = null;
+    }
+
+    public void disableDeleteButton() {
+        deleteButton.setDisable(true);
+        deleteButton.setVisible(false);
     }
 
     public void changeMessage(String message) {
