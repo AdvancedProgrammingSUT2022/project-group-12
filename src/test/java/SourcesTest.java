@@ -1,15 +1,15 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import project.CommandlineViews.GameMenu;
-import project.CommandlineViews.MenuStack;
-import project.Controllers.GameController;
-import project.Enums.BuildingEnum;
-import project.Enums.FeatureEnum;
-import project.Models.Cities.City;
-import project.Models.Game;
-import project.Models.Terrains.Terrain;
-import project.Models.User;
+import Project.CommandlineViews.GameMenu;
+import Project.CommandlineViews.MenuStack;
+import Project.Controllers.GameController;
+import Project.Enums.BuildingEnum;
+import Project.Enums.FeatureEnum;
+import Project.Models.Cities.City;
+import Project.Models.Game;
+import Project.Models.Terrains.Terrain;
+import Project.Models.User;
 
 import java.util.ArrayList;
 import java.util.List;
