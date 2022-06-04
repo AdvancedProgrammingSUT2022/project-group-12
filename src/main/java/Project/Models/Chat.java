@@ -30,6 +30,7 @@ public class Chat {
     public void sendMessage(String message, String username) {
         Message newMessage = new Message(username, message);
         messages.add(newMessage);
+
     }
 
     public ArrayList<Message> getMessages() {
