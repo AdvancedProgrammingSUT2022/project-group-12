@@ -32,6 +32,7 @@ public class ChatView {
                     chatBox.getChildren().add(text);
                 }
             }
+            messageTextField.setM
         } catch (Exception e) {
 
         }
@@ -61,7 +62,6 @@ public class ChatView {
     public void deleteMessage() {
         chatBox.getChildren().remove(currentEditingMessage.getText());
         disableDeleteButton();
-        messageTextField.setText("");
         currentEditingMessage = null;
     }
 
