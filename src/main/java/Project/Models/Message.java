@@ -11,7 +11,11 @@ public class Message {
         this.from = from;
         this.message = message;
         text = new Text(from + " : " + message);
-        text.setWrappingWidth(550);
+        text.setWrappingWidth(500);
+    }
+
+    public String getSender() {
+        return this.from;
     }
 
     @Override

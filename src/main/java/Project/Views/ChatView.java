@@ -28,6 +28,7 @@ public class ChatView implements ViewController {
                 ArrayList<Message> messages = MenuStack.getInstance().getUser().getChat().getMessages();
                 for (Message message : messages) {
                     Text text = new Text(message.toString());
+                    text.maxWidth(475);
                     chatBox.getChildren().add(text);
                 }
             }
@@ -58,6 +59,7 @@ public class ChatView implements ViewController {
 
     @FXML
     public void deleteMessage() {
+        MenuStack.getInstance().getUser().getChat().deleteMessage(currentEditingMessage);
         chatBox.getChildren().remove(currentEditingMessage.getText());
         disableDeleteButton();
         currentEditingMessage = null;

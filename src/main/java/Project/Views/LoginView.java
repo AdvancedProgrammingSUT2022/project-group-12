@@ -44,6 +44,7 @@ public class LoginView implements ViewController {
     private boolean nicknameFieldOn;
 
     public void initialize() {
+        choiceBox.setValue("Login");
         createButton();
         nicknameFieldOn = false;
         choiceBox.getItems().addAll(choiceBoxOptions);
@@ -115,8 +116,6 @@ public class LoginView implements ViewController {
             Text lengthError = new Text("Nickname's Length Can't Be More Than 12");
             lengthError.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
             nicknameBox.getChildren().add(lengthError);
-
-
         }
     }
 

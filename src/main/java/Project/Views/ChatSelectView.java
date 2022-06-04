@@ -110,6 +110,11 @@ public class ChatSelectView implements ViewController {
     }
 
     public void acceptClick() {
+        if (groupName.getText().length() == 0){
+            groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            acceptButton.setDisable(true);
+            return;
+        }
         User user = MenuStack.getInstance().getUser();
         if (user.previousChats().contains(groupName.getText())) {
             user.setCurrentChat(groupName.getText());

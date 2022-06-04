@@ -83,10 +83,9 @@ public class User {
     }
 
     public void startChat(Chat newChat) {
-        System.out.println(chats.keySet());
         if (chats.containsKey(newChat.getName()))
             return;
-        System.out.println(newChat.getName());
+
         chats.put(newChat.getName(),newChat);
     }
 
@@ -99,7 +98,6 @@ public class User {
     }
 
     public ArrayList<String> previousChats() {
-        System.err.println(new ArrayList<>(chats.keySet()));
         return new ArrayList<>(chats.keySet());
     }
 

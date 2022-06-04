@@ -2,24 +2,24 @@ package Project.Views;
 
 import Project.Models.Database;
 import Project.Models.User;
-import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
 public class ScoreboardView implements ViewController {
-    public ImageView userAvatar;
     public VBox box1;
-    public VBox box2;
-    public VBox box3;
-    public VBox box4;
-    @FXML
-    private Text text;
+    public ScrollPane pane;
 
     public void initialize() {
+        box1 = new VBox();
+        box1.setSpacing(10);
         showList(new ArrayList<>(Database.getInstance().getUsers()));
+        box1.setStyle("-fx-background-color: transparent;");
+        pane.setContent(box1);
+        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
     }
 
     private void showList(ArrayList<User> users) {
@@ -33,21 +33,14 @@ public class ScoreboardView implements ViewController {
                 userInfo.append(" *");
             userInfo.append("  ");
             user = new Text(userInfo.toString());
-            user.setStyle("-fx-font-size: 10;");
+            user.setStyle("-fx-font-size: 15;");
             if (i == 0)
-                user.setStyle("-fx-fill: red; -fx-font-size: 10");
+                user.setStyle("-fx-fill: red; -fx-font-size: 15");
             if (i == 1)
-                user.setStyle("-fx-fill: blue; -fx-font-size: 10");
+                user.setStyle("-fx-fill: blue; -fx-font-size: 15");
             if (i == 2)
-                user.setStyle("-fx-fill: green; -fx-font-size: 10");
-            if (i % 5 == 0)
-                box1.getChildren().add(user);
-            else if (i % 5 == 1)
-                box2.getChildren().add(user);
-            else if (i % 5 == 3)
-                box3.getChildren().add(user);
-            else if (i % 5 == 4)
-                box4.getChildren().add(user);
+                user.setStyle("-fx-fill: green; -fx-font-size: 15");
+            box1.getChildren().add(user);
         }
     }
 

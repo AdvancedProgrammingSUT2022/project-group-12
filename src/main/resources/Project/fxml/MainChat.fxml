@@ -5,15 +5,19 @@
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
             fx:controller="Project.Views.ChatView">
-    <ScrollBar layoutX="579.0" layoutY="4.0" orientation="VERTICAL" prefHeight="394.0" prefWidth="15.0"/>
-    <VBox fx:id="chatBox" layoutX="15.0" layoutY="14.0" prefHeight="315.0" prefWidth="552.0" spacing="10"/>
-    <TextField fx:id="messageTextField" layoutX="66.0" layoutY="317.0" prefHeight="51.0" prefWidth="456.0"
+    <TextField fx:id="messageTextField" layoutX="66.0" layoutY="342.0" prefHeight="51.0" prefWidth="456.0"
                promptText="Message" styleClass="chatBox"/>
-    <Button layoutX="526.0" layoutY="344.0" mnemonicParsing="false" onMouseClicked="#sendNewMessage"
-            prefHeight="24.0" prefWidth="50.0" styleClass="sendBtn" text="send"/>
-    <Button fx:id="deleteButton" disable="true" layoutX="526.0" layoutY="317.0" mnemonicParsing="false"
+    <Button layoutX="526.0" layoutY="370.0" mnemonicParsing="false" onMouseClicked="#sendNewMessage" prefHeight="24.0"
+            prefWidth="50.0" styleClass="sendBtn" text="send"/>
+    <Button fx:id="deleteButton" disable="true" layoutX="526.0" layoutY="342.0" mnemonicParsing="false"
             onMouseClicked="#deleteMessage" prefHeight="24.0" prefWidth="50.0" styleClass="sendBtn" text="del"
             visible="false"/>
-    <Button layoutX="14.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#backClick" prefHeight="24.0"
+    <Button layoutX="8.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#backClick" prefHeight="24.0"
             prefWidth="50.0" styleClass="sendBtn" text="Back"/>
+    <ScrollPane style="-fx-background-color: transparent;" layoutX="15.0" layoutY="14.0" prefHeight="315.0"
+                prefWidth="552.0" vbarPolicy="ALWAYS">
+        <content>
+            <VBox fx:id="chatBox" maxWidth="475.0" prefHeight="298.0" prefWidth="510.0" spacing="10"/>
+        </content>
+    </ScrollPane>
 </AnchorPane>
