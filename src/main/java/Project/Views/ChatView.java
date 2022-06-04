@@ -34,9 +34,12 @@ public class ChatView {
         }
     }
 
-
+    @FXML
     public void sendNewMessage() {
-        MenuStack.getInstance().getUser().getChat().sendMessage(MenuStack.getInstance().getUser().getUsername(), message.getText());
-//        chatBox.getChildren().add()
+        System.out.println(message.getText());
+        System.out.println("hellllllllllll");
+        Message newMessage = new Message(MenuStack.getInstance().getUser().getUsername(), message.getText());
+        MenuStack.getInstance().getUser().getChat().sendMessage(newMessage);
+        chatBox.getChildren().add(newMessage.getTextArea());
     }
 }

@@ -1,16 +1,9 @@
 package Project.Models;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Database {
     private static Database instance = null;
@@ -80,37 +73,37 @@ public class Database {
     }
 
     public void deserializeUsers() {
-        ArrayList<User> jsonUsers = new ArrayList<>();
-        try {
-            File file = new File("users.json");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
-            jsonUsers = new Gson().fromJson(jsonFile, new TypeToken<List<User>>() {
-            }.getType());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (jsonUsers != null) {
-            this.usersList.addAll(jsonUsers);
-        }
-        for (User user : this.usersList) {
-            this.users.put(user.getUsername(), user);
-        }
+//        ArrayList<User> jsonUsers = new ArrayList<>();
+//        try {
+//            File file = new File("users.json");
+//            if (!file.exists()) {
+//                file.createNewFile();
+//            }
+//            String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
+//            jsonUsers = new Gson().fromJson(jsonFile, new TypeToken<List<User>>() {
+//            }.getType());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        if (jsonUsers != null) {
+//            this.usersList.addAll(jsonUsers);
+//        }
+//        for (User user : this.usersList) {
+//            this.users.put(user.getUsername(), user);
+//        }
     }
 
     public void serialize() {
-        try {
-            File file = new File("users.json");
-            file.delete();
-            file.createNewFile();
-            FileWriter writer = new FileWriter("users.json");
-            writer.write(this.gson.toJson(usersList));
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            File file = new File("users.json");
+//            file.delete();
+//            file.createNewFile();
+//            FileWriter writer = new FileWriter("users.json");
+//            writer.write(this.gson.toJson(usersList));
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public boolean checkPassword(String username, String password) {
