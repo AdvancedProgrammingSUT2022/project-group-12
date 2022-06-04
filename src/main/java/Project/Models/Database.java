@@ -33,6 +33,11 @@ public class Database {
         return instance;
     }
 
+    public void removeAccount(User user){
+        this.users.remove(user.getUsername());
+        this.usersList.remove(user);
+    }
+
     public ArrayList<User> getUsers(){
         return this.usersList;
     }
