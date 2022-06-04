@@ -31,10 +31,10 @@ public class ChatSelectView {
 
     private boolean newChat;
     private boolean oldChat;
-    private ArrayList<User> selectedUsers = new ArrayList<>();
+    private final ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
-    private ArrayList<String> users = new ArrayList<>();
+    private final ArrayList<String> users = new ArrayList<>();
 
     public void initialize() {
         ArrayList<String> users = Database.getInstance().getAllUsers();
@@ -104,7 +104,7 @@ public class ChatSelectView {
     }
 
     public void acceptClick() {
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatPage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
     }
 
     public void backClick() {

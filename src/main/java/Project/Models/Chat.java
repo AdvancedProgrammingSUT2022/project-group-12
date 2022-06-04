@@ -6,7 +6,7 @@ public class Chat {
     //    private static int counter;
     private final String name;
     private final ArrayList<Message> messages;
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
 
     public Chat(ArrayList<User> usersInChat, String name) {
         this.name = name;
@@ -28,7 +28,8 @@ public class Chat {
     }
 
     public void sendMessage(String message, String username) {
-        messages.add(new Message(username, message));
+        Message newMessage = new Message(username, message);
+        messages.add(newMessage);
     }
 
     public ArrayList<Message> getMessages() {
