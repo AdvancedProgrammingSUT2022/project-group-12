@@ -42,9 +42,7 @@ public class App extends Application {
         App.scene = new Scene(new Pane());
         stage.setScene(App.scene);
         stage.setResizable(false);
-
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));
-
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
         stage.show();
     }
 }

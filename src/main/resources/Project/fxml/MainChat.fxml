@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/18">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18"
+            fx:controller="Project.Views.ChatView">
     <children>
         <ScrollBar layoutX="579.0" layoutY="4.0" orientation="VERTICAL" prefHeight="394.0" prefWidth="15.0"/>
-        <TextField layoutX="31.0" layoutY="337.0" prefHeight="51.0" prefWidth="456.0" promptText="Message"/>
-        <ToggleButton layoutX="495.0" layoutY="350.0" mnemonicParsing="false" text="send"/>
+        <TextField fx:id="message" layoutX="31.0" layoutY="337.0" prefHeight="51.0" prefWidth="456.0"
+                   promptText="Message"/>
+        <ToggleButton layoutX="495.0" layoutY="350.0" mnemonicParsing="false" onKeyPressed="#sendNewMessage"
+                      text="send"/>
     </children>
 </AnchorPane>
