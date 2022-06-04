@@ -21,7 +21,7 @@ import Project.Utils.GameException;
 
 import java.util.List;
 
-public class GameMenu extends MenuDisabled {
+public class GameMenu extends DisabledMenuDisabled {
 
     private final MapFuncs mapFuncs;
     private final UnitFuncs unitFuncs;
@@ -72,7 +72,7 @@ public class GameMenu extends MenuDisabled {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStackDisabled.getInstance().popMenu();
+            case "menu exit" -> DisabledMenuStackDisabled.getInstance().popMenu();
             default -> this.findCategory(command);
         }
     }
@@ -376,7 +376,7 @@ public class GameMenu extends MenuDisabled {
     }
 
     private void endGame() {
-        MenuStackDisabled.getInstance().popMenu();
+        DisabledMenuStackDisabled.getInstance().popMenu();
         answer("game ended successfully");
     }
 

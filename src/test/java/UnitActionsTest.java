@@ -1,4 +1,4 @@
-import Project.CommandlineViews.MenuStackDisabled;
+import Project.CommandlineViews.DisabledMenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.*;
 import Project.Models.Cities.City;
@@ -38,7 +38,7 @@ public class UnitActionsTest {
     Tile ownTile;
     Terrain enemyTerrain = new Terrain(TerrainEnum.HILL);
     Tile enemyTile;
-    MenuStackDisabled menuStackDisabled = new MenuStackDisabled();
+    DisabledMenuStackDisabled disabledMenuStackDisabled = new DisabledMenuStackDisabled();
     Scanner scanner = new Scanner(System.in);
     public Game getGame() {
         if (gameInstance == null) {

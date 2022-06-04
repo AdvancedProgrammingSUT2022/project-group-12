@@ -5,26 +5,26 @@ import Project.Models.User;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MenuStackDisabled {
-    private static MenuStackDisabled instance = null;
-    private final ArrayList<MenuDisabled> menuDisableds = new ArrayList<>();
+public class DisabledMenuStackDisabled {
+    private static DisabledMenuStackDisabled instance = null;
+    private final ArrayList<DisabledMenuDisabled> menuDisableds = new ArrayList<>();
     private final LoginMenu loginMenu = new LoginMenu();
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
     private Scanner scanner;
     private User currentUser;
 
-    public MenuStackDisabled() {
+    public DisabledMenuStackDisabled() {
 
     }
 
-    public static MenuStackDisabled getInstance() {
-        if (instance == null) setInstance(new MenuStackDisabled());
+    public static DisabledMenuStackDisabled getInstance() {
+        if (instance == null) setInstance(new DisabledMenuStackDisabled());
         return instance;
     }
 
-    private static void setInstance(MenuStackDisabled instance) {
-        MenuStackDisabled.instance = instance;
+    private static void setInstance(DisabledMenuStackDisabled instance) {
+        DisabledMenuStackDisabled.instance = instance;
     }
 
     public Scanner getScanner() {
@@ -60,16 +60,16 @@ public class MenuStackDisabled {
         this.currentUser = currentUser;
     }
 
-    public void pushMenu(MenuDisabled menuDisabled) {
+    public void pushMenu(DisabledMenuDisabled menuDisabled) {
         if (this.getTopMenu() != null) this.getTopMenu().resetShowName();
         this.getMenus().add(menuDisabled);
     }
 
-    public MenuDisabled getTopMenu() {
+    public DisabledMenuDisabled getTopMenu() {
         return this.getMenus().isEmpty() ? null : this.getMenus().get(this.getMenus().size() - 1);
     }
 
-    private ArrayList<MenuDisabled> getMenus() {
+    private ArrayList<DisabledMenuDisabled> getMenus() {
         return menuDisableds;
     }
 

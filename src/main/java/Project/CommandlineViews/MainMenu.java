@@ -10,16 +10,16 @@ import Project.Utils.CommandResponse;
 import java.util.ArrayList;
 
 
-public class MainMenu extends MenuDisabled {
+public class MainMenu extends DisabledMenuDisabled {
 
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
-            case "logout" -> MenuStackDisabled.getInstance().gotoLoginMenu();
-            case "goto profile menu" -> MenuStackDisabled.getInstance().gotoProfileMenu();
+            case "logout" -> DisabledMenuStackDisabled.getInstance().gotoLoginMenu();
+            case "goto profile menu" -> DisabledMenuStackDisabled.getInstance().gotoProfileMenu();
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStackDisabled.getInstance().popMenu();
+            case "menu exit" -> DisabledMenuStackDisabled.getInstance().popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -52,7 +52,7 @@ public class MainMenu extends MenuDisabled {
             return;
         }
         answer("game started");
-        MenuStackDisabled.getInstance().pushMenu(new GameMenu());
+        DisabledMenuStackDisabled.getInstance().pushMenu(new GameMenu());
     }
 
 }

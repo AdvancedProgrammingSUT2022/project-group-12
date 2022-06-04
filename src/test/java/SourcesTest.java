@@ -1,5 +1,5 @@
+import Project.CommandlineViews.DisabledMenuStackDisabled;
 import Project.CommandlineViews.GameMenu;
-import Project.CommandlineViews.MenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.BuildingEnum;
 import Project.Enums.FeatureEnum;
@@ -52,8 +52,8 @@ public class SourcesTest {
         Assertions.assertDoesNotThrow(
                 () -> {
                     source = createUser + login + playNewGame + selectUnit + foundCity + selectCity + assignCitizen + cheatAddBuildingLibrary + cheatAddBuildingUniversity + endTurn + "menu exit\n" + "menu exit\n" + "menu exit\n";
-                    MenuStackDisabled.getInstance().setNullScanner();
-                    MenuStackDisabled.getInstance().setScanner(new Scanner(source));
+                    DisabledMenuStackDisabled.getInstance().setNullScanner();
+                    DisabledMenuStackDisabled.getInstance().setScanner(new Scanner(source));
                     String[] mainString = new String[1];
                     mainString[0] = "ali";
 //                    Main.main(mainString);
@@ -78,7 +78,7 @@ public class SourcesTest {
                     Terrain terrain = game.getTileGrid().getTile(12, 10).getTerrain();
                     terrain.getFeatures().removeAll(terrain.getFeatures());
                     source = createUser + login + playNewGame + selectUnit + foundCity + selectCity + assignCitizen + cheatAddBuildingMarket + "menu exit\n" + "menu exit\n" + "menu exit\n";
-                    MenuStackDisabled.getInstance().setScanner(new Scanner(source));
+                    DisabledMenuStackDisabled.getInstance().setScanner(new Scanner(source));
                 }
         );
 

@@ -5,7 +5,7 @@ import Project.Utils.CommandException;
 
 import java.util.Scanner;
 
-public abstract class MenuDisabled {
+public abstract class DisabledMenuDisabled {
 
     private boolean showName = true;
     private boolean isFirstRun = true;
@@ -21,7 +21,7 @@ public abstract class MenuDisabled {
             this.isFirstRun = false;
             this.firstRun();
         }
-        Scanner scanner = MenuStackDisabled.getInstance().getScanner();
+        Scanner scanner = DisabledMenuStackDisabled.getInstance().getScanner();
         String line = scanner.nextLine().trim();
         if (line.isEmpty()) return;
         try {
