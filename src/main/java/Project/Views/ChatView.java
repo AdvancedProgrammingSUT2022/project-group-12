@@ -3,6 +3,7 @@ package Project.Views;
 import Project.Models.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -14,6 +15,8 @@ public class ChatView implements ViewController {
     Button deleteButton;
     @FXML
     private VBox chatBox;
+    @FXML
+    private ScrollBar scrollBar;
     @FXML
     private TextField messageTextField;
     private Message currentEditingMessage = null;
@@ -34,10 +37,16 @@ public class ChatView implements ViewController {
         } catch (Exception e) {
 
         }
+        System.out.println(scrollBar.getMax() + " " + scrollBar.getMin());
+        scrollBar.valueProperty().addListener(event -> {
+            chatBox.setTranslateY(-(double) (scrollBar.getValue() * chatBox.getHeight()) / (scrollBar.getMax()));
+        });
+        chatBox.setMaxHeight(100);
+        chatBox.setMaxWidth(552);
     }
-
     @FXML
     public void sendNewMessage() {
+        System.out.println((scrollBar.getValue() * chatBox.getHeight()) / (scrollBar.getMax()) + " " + chatBox.getLayoutY() + " " + scrollBar.getMax() + " " + chatBox.getTranslateY() + " " + chatBox.getMaxHeight() + " " + chatBox.getScaleY() + " " + chatBox.getPrefHeight() + " " + chatBox.getHeight());
         if (currentEditingMessage == null) {
             Message newMessage = new Message(MenuStack.getInstance().getUser().getUsername(), messageTextField.getText());
             MenuStack.getInstance().getUser().getChat().sendMessage(newMessage);
