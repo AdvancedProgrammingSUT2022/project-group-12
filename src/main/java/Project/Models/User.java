@@ -99,12 +99,8 @@ public class User {
     }
 
     public ArrayList<String> previousChats() {
-        ArrayList<String> names = new ArrayList<>();
-        for (String name:chats.keySet()) {
-            System.out.println(name);
-            names.add(name);
-        }
-        return names;
+        System.err.println(new ArrayList<>(chats.keySet()));
+        return new ArrayList<>(chats.keySet());
     }
 
     public void changeNickname(String newNickname) {

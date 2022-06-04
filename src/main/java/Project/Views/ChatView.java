@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class ChatView implements ViewController {
     @FXML
+    Button deleteButton;
+    @FXML
     private VBox chatBox;
     @FXML
     private TextField messageTextField;
     private Message currentEditingMessage = null;
-    @FXML
-    Button deleteButton;
 
     public void exitClick() {
         System.exit(0);
@@ -74,5 +74,7 @@ public class ChatView implements ViewController {
 
     public void backClick() {
         MenuStack.getInstance().popMenu();
+        MenuStack.getInstance().popMenu();
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatSelectPage"));
     }
 }

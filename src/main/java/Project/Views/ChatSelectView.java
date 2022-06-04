@@ -43,6 +43,7 @@ public class ChatSelectView implements ViewController {
     public void initialize() {
         ArrayList<String> users = Database.getInstance().getAllUsers();
         users.remove(MenuStack.getInstance().getUser().getUsername());
+        chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
         userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(users);
         this.chatSelected = false;
@@ -51,16 +52,11 @@ public class ChatSelectView implements ViewController {
         userSelect.setOnAction(this::getUser);
     }
 
-    @Override
-    public void loadEachTime() {
-        chatSelect.getItems().setAll(MenuStack.getInstance().getUser().previousChats());
-    }
-
     private void getChat(ActionEvent event) {
         clearEverything();
         userSelected = true;
         chatSelected = false;
-        chatGroup.setText(chatSelect.getValue());
+        groupName.setText(chatSelect.getValue());
         MenuStack.getInstance().getUser().setCurrentChat(chatSelect.getValue());
         for (String username : MenuStack.getInstance().getUser().getChat().getUsernames()) {
             if (userBox1.getChildren().size() < 10)
@@ -120,13 +116,11 @@ public class ChatSelectView implements ViewController {
         } else {
             selectedUsers.add(user);
             Chat newChat = new Chat(selectedUsers, groupName.getText());
-            user.startChat(newChat);
-            user.setCurrentChat(groupName.getText());
             for (User eachUser : selectedUsers) {
                 eachUser.startChat(newChat);
             }
+            user.setCurrentChat(groupName.getText());
         }
-        System.out.println(user.getChat().getMessages());
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
     }
 
@@ -135,7 +129,7 @@ public class ChatSelectView implements ViewController {
     }
 
     public void groupNameEntered() {
-        for (User user:selectedUsers) {
+        for (User user : selectedUsers) {
             if (user.previousChats().contains(groupName.getText())) {
                 groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
                 acceptButton.setDisable(true);
