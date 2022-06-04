@@ -12,7 +12,8 @@ public class ChatView {
     @FXML
     private VBox chatBox;
     @FXML
-    private TextField message;
+    private TextField messageTextField;
+    private Message currentEditingMessage = null;
 
 
     public void exitClick() {
@@ -34,9 +35,24 @@ public class ChatView {
         }
     }
 
-
+    @FXML
     public void sendNewMessage() {
-        MenuStack.getInstance().getUser().getChat().sendMessage(MenuStack.getInstance().getUser().getUsername(), message.getText());
-//        chatBox.getChildren().add()
+        if (currentEditingMessage == null) {
+            Message newMessage = new Message(MenuStack.getInstance().getUser().getUsername(), messageTextField.getText());
+            MenuStack.getInstance().getUser().getChat().sendMessage(newMessage);
+            newMessage.getText().setOnMouseClicked(mouseEvent -> {
+                ChatView.this.currentEditingMessage = newMessage;
+                messageTextField.setText(newMessage.getMessage());
+            });
+            chatBox.getChildren().add(newMessage.getText());
+        } else {
+            currentEditingMessage.editMessage(messageTextField.getText());
+            currentEditingMessage = null;
+        }
+        messageTextField.setText("");
+    }
+
+    public void changeMessage(String message) {
+        messageTextField.setText(message);
     }
 }

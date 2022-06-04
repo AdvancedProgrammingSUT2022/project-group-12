@@ -26,10 +26,8 @@ public class Chat {
         return usernames;
     }
 
-    public void sendMessage(String message, String username) {
-        Message newMessage = new Message(username, message);
-        messages.add(newMessage);
-
+    public void sendMessage(Message message) {
+        messages.add(message);
     }
 
     public ArrayList<Message> getMessages() {
