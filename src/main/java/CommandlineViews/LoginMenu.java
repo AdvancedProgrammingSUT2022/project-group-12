@@ -1,4 +1,4 @@
-package Project.CommandlineViews;
+package CommandlineViews;
 
 import Project.Controllers.LoginMenuController;
 import Project.Utils.Command;
@@ -7,7 +7,7 @@ import Project.Utils.CommandResponse;
 
 import java.util.List;
 
-public class LoginMenu extends Menu {
+public class LoginMenu extends MenuDisabled {
 
     @Override
     protected void handleCommand(Command command) {
@@ -15,7 +15,7 @@ public class LoginMenu extends Menu {
             case "user create" -> createUser(command);
             case "user login" -> loginUser(command);
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> MenuStackDisabled.getInstance().popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -60,6 +60,6 @@ public class LoginMenu extends Menu {
             return;
         }
         System.out.println("user logged in successfully");
-        MenuStack.getInstance().pushMenu(new MainMenu());
+        MenuStackDisabled.getInstance().pushMenu(new MainMenu());
     }
 }

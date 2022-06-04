@@ -1,4 +1,4 @@
-package Project.CommandlineViews;
+package CommandlineViews;
 
 import Project.Controllers.GameController;
 import Project.Controllers.MainMenuController;
@@ -10,16 +10,16 @@ import Project.Utils.CommandResponse;
 import java.util.ArrayList;
 
 
-public class MainMenu extends Menu {
+public class MainMenu extends MenuDisabled {
 
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
-            case "logout" -> MenuStack.getInstance().gotoLoginMenu();
-            case "goto profile menu" -> MenuStack.getInstance().gotoProfileMenu();
+            case "logout" -> MenuStackDisabled.getInstance().gotoLoginMenu();
+            case "goto profile menu" -> MenuStackDisabled.getInstance().gotoProfileMenu();
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> MenuStackDisabled.getInstance().popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -52,7 +52,7 @@ public class MainMenu extends Menu {
             return;
         }
         answer("game started");
-        MenuStack.getInstance().pushMenu(new GameMenu());
+        MenuStackDisabled.getInstance().pushMenu(new GameMenu());
     }
 
 }

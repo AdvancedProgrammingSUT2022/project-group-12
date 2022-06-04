@@ -1,8 +1,5 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import Project.CommandlineViews.GameMenu;
-import Project.CommandlineViews.MenuStack;
+import CommandlineViews.GameMenu;
+import CommandlineViews.MenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.BuildingEnum;
 import Project.Enums.FeatureEnum;
@@ -10,6 +7,9 @@ import Project.Models.Cities.City;
 import Project.Models.Game;
 import Project.Models.Terrains.Terrain;
 import Project.Models.User;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +52,8 @@ public class SourcesTest {
         Assertions.assertDoesNotThrow(
                 () -> {
                     source = createUser + login + playNewGame + selectUnit + foundCity + selectCity + assignCitizen + cheatAddBuildingLibrary + cheatAddBuildingUniversity + endTurn + "menu exit\n" + "menu exit\n" + "menu exit\n";
-                    MenuStack.getInstance().setNullScanner();
-                    MenuStack.getInstance().setScanner(new Scanner(source));
+                    MenuStackDisabled.getInstance().setNullScanner();
+                    MenuStackDisabled.getInstance().setScanner(new Scanner(source));
                     String[] mainString = new String[1];
                     mainString[0] = "ali";
 //                    Main.main(mainString);
@@ -78,7 +78,7 @@ public class SourcesTest {
                     Terrain terrain = game.getTileGrid().getTile(12, 10).getTerrain();
                     terrain.getFeatures().removeAll(terrain.getFeatures());
                     source = createUser + login + playNewGame + selectUnit + foundCity + selectCity + assignCitizen + cheatAddBuildingMarket + "menu exit\n" + "menu exit\n" + "menu exit\n";
-                    MenuStack.getInstance().setScanner(new Scanner(source));
+                    MenuStackDisabled.getInstance().setScanner(new Scanner(source));
                 }
         );
 

@@ -1,7 +1,7 @@
 package Project.Controllers;
 
-import Project.CommandlineViews.GameMenu;
-import Project.CommandlineViews.MenuStack;
+import CommandlineViews.GameMenu;
+import CommandlineViews.MenuStackDisabled;
 import Project.Enums.CityTypeEnum;
 import Project.Enums.CombatTypeEnum;
 import Project.Models.Cities.City;
@@ -77,7 +77,7 @@ public class CityCombatController extends CombatController {
 
     // todo: integrate with view
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-          String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy");
+          String message = MenuStackDisabled.getInstance().getOption("enter your capture type : Annexed / Destroy");
         GetMessageLoop:
         while (true) {
             switch (message) {
@@ -88,8 +88,8 @@ public class CityCombatController extends CombatController {
                 }
                 case "Destroy" -> {
                     if (city.isCapital()) {
-                        MenuStack.getInstance().getOption("you can't destroy capital");
-                        message = MenuStack.getInstance().getOption();
+                        MenuStackDisabled.getInstance().getOption("you can't destroy capital");
+                        message = MenuStackDisabled.getInstance().getOption();
                         continue GetMessageLoop;
                     }
                     destroyCity(city, cityTile, civ);
@@ -97,7 +97,7 @@ public class CityCombatController extends CombatController {
                 }
                 default -> {
                     GameMenu.printError(CommandResponse.INVALID_COMMAND);
-                    message = MenuStack.getInstance().getOption();
+                    message = MenuStackDisabled.getInstance().getOption();
                 }
             }
         }
