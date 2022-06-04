@@ -30,34 +30,28 @@ public class ChatSelectView {
     private VBox userBox5;
 
     private boolean newChat;
+    private boolean oldChat;
     private ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
     private ArrayList<String> users = new ArrayList<>();
 
     public void initialize() {
-        User user1 = new User("uname", "password", "nickname");
-        User user2 = new User("uname2", "password", "nickname");
-        User user3 = new User("uname3", "password", "nickname");
-        User user4 = new User("uname4", "password", "nickname");
-        User user5 = new User("uname5", "password", "nickname");
-        user1.startChat("chat1",Database.getInstance().getUsers());
-        user1.startChat("chat2",Database.getInstance().getUsers());
-        user1.startChat("chat3",Database.getInstance().getUsers());
-        user1.startChat("chat4",Database.getInstance().getUsers());
-        MenuStack.getInstance().setUser(user1);
         ArrayList<String> users = Database.getInstance().getAllUsers();
         users.remove(MenuStack.getInstance().getUser().getUsername());
         userSelect.getItems().addAll(users);
         this.newChat = false;
+        this.oldChat = false;
         chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
         chatSelect.setOnAction(this::getChat);
         userSelect.setOnAction(this::getUser);
     }
 
     private void getChat(ActionEvent event) {
-        if (newChat) {
-            clearEverything();
+        if (!oldChat){
+            oldChat = true;
+            newChat = false;
+
         }
         chatGroup.setText(chatSelect.getValue());
         MenuStack.getInstance().getUser().setCurrentChat(chatSelect.getValue());
@@ -80,8 +74,6 @@ public class ChatSelectView {
         ArrayList<String> users = Database.getInstance().getAllUsers();
         users.remove(MenuStack.getInstance().getUser().getUsername());
         userSelect.getItems().addAll(users);
-        newChat = !newChat;
-        System.out.println(newChat);
         chatGroup.setText("");
         userBox1.getChildren().removeAll(userBox1.getChildren());
         userBox2.getChildren().removeAll(userBox2.getChildren());
@@ -91,8 +83,6 @@ public class ChatSelectView {
     }
 
     private void getUser(ActionEvent event) {
-        if (!newChat)
-            clearEverything();
         users.add(userSelect.getValue());
         selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
         if (userBox1.getChildren().size() < 10)
@@ -110,17 +100,14 @@ public class ChatSelectView {
 
 
     public void exitClick() {
-        System.out.println(users);
         System.exit(0);
     }
 
     public void acceptClick() {
-        System.out.println(users);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatPage"));
     }
 
     public void backClick() {
-        System.out.println("back");
         MenuStack.getInstance().popMenu();
     }
 }

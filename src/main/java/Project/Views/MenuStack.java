@@ -1,6 +1,7 @@
 package Project.Views;
 
 import Project.App;
+import Project.Models.Database;
 import Project.Models.User;
 
 import java.util.ArrayList;
@@ -11,7 +12,16 @@ public class MenuStack {
     private User currentUser;
 
     public MenuStack() {
-
+        User user1 = new User("uname", "password", "nickname");
+        new User("uname2", "password", "nickname1");
+        new User("uname3", "password", "nickname2");
+        new User("uname4", "password", "nickname3");
+        new User("uname5", "password", "nickname4");
+        user1.startChat("chat1", Database.getInstance().getUsers());
+        user1.startChat("chat2", Database.getInstance().getUsers());
+        user1.startChat("chat3", Database.getInstance().getUsers());
+        user1.startChat("chat4", Database.getInstance().getUsers());
+        this.setUser(user1);
     }
 
     public static MenuStack getInstance() {
