@@ -4,13 +4,12 @@ import Project.Models.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class ChatView {
+public class ChatView implements ViewController {
     @FXML
     private VBox chatBox;
     @FXML

@@ -3,7 +3,7 @@ package Project.Views;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-public class MainMenuView {
+public class MainMenuView implements ViewController {
 
     @FXML
     public Text welcomeText;

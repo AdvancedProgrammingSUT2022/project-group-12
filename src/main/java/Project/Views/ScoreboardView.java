@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class ScoreboardView {
+public class ScoreboardView implements ViewController {
     public ImageView userAvatar;
     public VBox box1;
     public VBox box2;

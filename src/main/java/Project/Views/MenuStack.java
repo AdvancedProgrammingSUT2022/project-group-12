@@ -1,8 +1,6 @@
 package Project.Views;
 
 import Project.App;
-import Project.Models.Chat;
-import Project.Models.Database;
 import Project.Models.User;
 
 import java.util.ArrayList;
@@ -37,7 +35,10 @@ public class MenuStack {
     }
 
     public void updateScene() {
-        if (this.getTopMenu() != null) App.setRoot(this.getTopMenu().getRoot());
+        if (this.getTopMenu() != null) {
+            App.setRoot(this.getTopMenu().getRoot());
+            this.getTopMenu().getController().loadEachTime();
+        }
     }
 
     public Menu getTopMenu() {

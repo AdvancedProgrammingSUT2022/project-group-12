@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class Menu {
     private final Pane root;
-    private final Object controller;
+    private final ViewController controller;
 
-    private Menu(Pane root, Object controller) {
+    private Menu(Pane root, ViewController controller) {
         this.root = root;
         this.controller = controller;
     }
@@ -19,7 +19,7 @@ public class Menu {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/Project/fxml/" + fxmlName + ".fxml"));
         try {
             Pane root = fxmlLoader.load();
-            Object controller = fxmlLoader.getController();
+            ViewController controller = fxmlLoader.getController();
             return new Menu(root, controller);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -30,7 +30,7 @@ public class Menu {
         return root;
     }
 
-    public Object getController() {
+    public ViewController getController() {
         return controller;
     }
 }

@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class ProfileView {
+public class ProfileView implements ViewController {
     public ImageView userAvatar;
     @FXML
     private Button changeUsername;

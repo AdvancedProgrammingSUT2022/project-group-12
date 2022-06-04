@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class ChatSelectView {
+public class ChatSelectView implements ViewController {
     @FXML
     private Button acceptButton;
     @FXML
@@ -47,9 +47,13 @@ public class ChatSelectView {
         userSelect.getItems().addAll(users);
         this.chatSelected = false;
         this.userSelected = false;
-        chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
         chatSelect.setOnAction(this::getChat);
         userSelect.setOnAction(this::getUser);
+    }
+
+    @Override
+    public void loadEachTime() {
+        chatSelect.getItems().setAll(MenuStack.getInstance().getUser().previousChats());
     }
 
     private void getChat(ActionEvent event) {

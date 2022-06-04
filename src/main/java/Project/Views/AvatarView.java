@@ -1,7 +1,5 @@
 package Project.Views;
 
-import Project.App;
-import Project.Views.MenuStack;
 import Project.Enums.AvatarURLEnum;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -12,7 +10,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
-public class AvatarView {
+public class AvatarView implements ViewController {
     private final FileChooser fileChooser = new FileChooser();
     @FXML
     private

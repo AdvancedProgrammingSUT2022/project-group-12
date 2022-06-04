@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 //todo : improve line 80
-public class LoginView {
+public class LoginView implements ViewController {
 
     private final String[] choiceBoxOptions = {"Register", "Login"};
     @FXML
