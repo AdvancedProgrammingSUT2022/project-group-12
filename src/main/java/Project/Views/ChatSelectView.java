@@ -87,6 +87,8 @@ public class ChatSelectView {
             chatSelected = true;
             userSelected = false;
         }
+        if (users.contains(userSelect.getValue()))
+            return;
         users.add(userSelect.getValue());
         selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
         if (userBox1.getChildren().size() < 10)
