@@ -82,9 +82,12 @@ public class User {
         Database.getInstance().serialize();
     }
 
-    public void startChat(String name, ArrayList<User> users) {
-        if (!chats.containsKey(name))
-            chats.put(name, new Chat(users, name));
+    public void startChat(Chat newChat) {
+        System.out.println(chats.keySet());
+        if (chats.containsKey(newChat.getName()))
+            return;
+        System.out.println(newChat.getName());
+        chats.put(newChat.getName(),newChat);
     }
 
     public void setCurrentChat(String name) {
@@ -96,7 +99,12 @@ public class User {
     }
 
     public ArrayList<String> previousChats() {
-        return new ArrayList<>(chats.keySet());
+        ArrayList<String> names = new ArrayList<>();
+        for (String name:chats.keySet()) {
+            System.out.println(name);
+            names.add(name);
+        }
+        return names;
     }
 
     public void changeNickname(String newNickname) {

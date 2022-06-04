@@ -4,6 +4,7 @@ import Project.Models.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -23,12 +24,11 @@ public class ChatView {
     }
 
     public void initialize() {
-
         try {
             if (MenuStack.getInstance().getUser().getChat().getMessages() != null) {
                 ArrayList<Message> messages = MenuStack.getInstance().getUser().getChat().getMessages();
                 for (Message message : messages) {
-                    Text text = new Text(messages.toString());
+                    Text text = new Text(message.toString());
                     chatBox.getChildren().add(text);
                 }
             }
@@ -71,5 +71,9 @@ public class ChatView {
 
     public void changeMessage(String message) {
         messageTextField.setText(message);
+    }
+
+    public void backClick() {
+        MenuStack.getInstance().popMenu();
     }
 }

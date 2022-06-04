@@ -20,5 +20,5 @@
         </HBox>
     </VBox>
     <Label layoutX="403.0" layoutY="14.0" prefHeight="46.0" prefWidth="100.0" text="Login Page" textAlignment="CENTER" />
-   <ChoiceBox fx:id="choiceBox" layoutX="95.0" layoutY="45.0" prefHeight="32.0" prefWidth="178.0" />
+   <ChoiceBox styleClass="choiceBox" fx:id="choiceBox" layoutX="95.0" layoutY="45.0" prefHeight="32.0" prefWidth="178.0" />
 </AnchorPane>

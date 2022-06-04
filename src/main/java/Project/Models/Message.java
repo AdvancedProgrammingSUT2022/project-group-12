@@ -16,7 +16,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return from + "\n" + message;
+        return from + " : " + message;
     }
 
     public Text getText() {
@@ -31,4 +31,6 @@ public class Message {
     public String getMessage() {
         return message;
     }
+
+
 }

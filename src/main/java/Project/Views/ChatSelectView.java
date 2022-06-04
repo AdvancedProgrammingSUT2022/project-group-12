@@ -1,5 +1,6 @@
 package Project.Views;
 
+import Project.Models.Chat;
 import Project.Models.Database;
 import Project.Models.User;
 import javafx.event.ActionEvent;
@@ -110,11 +111,16 @@ public class ChatSelectView {
 
     public void acceptClick() {
         User user = MenuStack.getInstance().getUser();
-        if (user.previousChats().contains(chatGroup.getText())) {
-            user.setCurrentChat(chatGroup.getText());
+        if (user.previousChats().contains(groupName.getText())) {
+            user.setCurrentChat(groupName.getText());
         } else {
-            user.startChat(chatGroup.getText(), selectedUsers);
-            user.setCurrentChat(chatGroup.getText());
+            selectedUsers.add(user);
+            Chat newChat = new Chat(selectedUsers, groupName.getText());
+            user.startChat(newChat);
+            user.setCurrentChat(groupName.getText());
+            for (User eachUser : selectedUsers) {
+                eachUser.startChat(newChat);
+            }
         }
         System.out.println(user.getChat().getMessages());
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
@@ -125,6 +131,13 @@ public class ChatSelectView {
     }
 
     public void groupNameEntered() {
+        for (User user:selectedUsers) {
+            if (user.previousChats().contains(groupName.getText())) {
+                groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+                acceptButton.setDisable(true);
+                return;
+            }
+        }
         groupName.setStyle("-fx-border-color: none;");
         acceptButton.setDisable(false);
         if (MenuStack.getInstance().getUser().previousChats().contains(groupName.getText())) {

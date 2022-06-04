@@ -13,7 +13,6 @@ public class Chat {
         this.users = usersInChat;
     }
 
-
     public String getName() {
         return this.name;
     }

@@ -18,6 +18,51 @@ Button:hover {
     -fx-text-fill: #7300ff;
 }
 
+.choiceBox {
+    -fx-background-color: white;
+    -fx-cursor: hand;
+}
+
+.smallerButton {
+    -fx-pref-width: 90;
+    -fx-pref-height: 31;
+    -fx-border-radius: 5;
+    -fx-background-color: #7300ff;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+
+}
+
+.smallerButton:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 90;
+    -fx-pref-height: 31;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-border-color: none;
+    -fx-text-fill: #7300ff;
+}
+
+.sendBtn {
+    -fx-pref-width: 50;
+    -fx-pref-height: 23;
+    -fx-border-radius: 5;
+    -fx-background-color: #7300ff;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+
+}
+
+.sendBtn:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 50;
+    -fx-pref-height: 23;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-border-color: none;
+    -fx-text-fill: #7300ff;
+}
+
 ImageView:hover {
     -fx-cursor: hand;
 }
@@ -39,9 +84,46 @@ TextField:hover {
     -fx-background-color: white;
     -fx-font-family: Gayathri;
 }
+.smallerField {
+    -fx-pref-width: 150;
+    -fx-pref-height: 35;
+    -fx-background-radius: 5;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-font-family: Gayathri;
+}
 
-Label {-fx-font-family: Uroob;
-    -fx-font-size: 28;
+.smallerField:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 150;
+    -fx-pref-height: 35;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-font-family: Gayathri;
+}
+
+.chatBox {
+    -fx-pref-width: 456;
+    -fx-pref-height: 51;
+    -fx-background-radius: 5;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-font-family: Gayathri;
+}
+
+
+.chatBox:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 456;
+    -fx-pref-height: 51;
+    -fx-border-color: none;
+    -fx-background-color: white;
+    -fx-font-family: Gayathri;
+}
+
+Label {
+    -fx-font-family: Uroob;
+    -fx-font-size: 15;
 }
 
 Text {
