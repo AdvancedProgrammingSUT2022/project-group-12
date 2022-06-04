@@ -44,6 +44,7 @@ public class LoginView {
     private boolean nicknameFieldOn;
 
     public void initialize() {
+        createButton();
         nicknameFieldOn = false;
         choiceBox.getItems().addAll(choiceBoxOptions);
         choiceBox.setOnAction(this::choiceBoxAction);
@@ -54,34 +55,33 @@ public class LoginView {
         if (choiceBox.getValue().equals("Login")) {
             mainBox.getChildren().remove(nicknameBox);
             createNicknameField();
-
-            ;
             nicknameFieldOn = false;
-            loginButton = new Button("Login");
-            loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    loginClick();
-                }
-            });
             buttonBox.getChildren().remove(0);
             buttonBox.getChildren().add(loginButton);
         } else if (choiceBox.getValue().equals("Register")) {
-            ;
-
             nicknameFieldOn = true;
             if (!mainBox.getChildren().contains(nicknameBox))
                 mainBox.getChildren().add(1, nicknameBox);
-            registerButton = new Button("Register");
-            registerButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    registerClick();
-                }
-            });
             buttonBox.getChildren().remove(0);
             buttonBox.getChildren().add(registerButton);
         }
+    }
+
+    private void createButton() {
+        loginButton = new Button("Login");
+        loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                loginClick();
+            }
+        });
+        registerButton = new Button("Register");
+        registerButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                registerClick();
+            }
+        });
     }
 
     public void createNicknameField() {
@@ -138,7 +138,6 @@ public class LoginView {
     }
 
     public void loginClick() {
-        System.out.println("clicked");
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
