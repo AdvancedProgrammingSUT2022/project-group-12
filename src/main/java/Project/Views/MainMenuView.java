@@ -12,4 +12,8 @@ public class MainMenuView {
     public void gotoProfileMenu() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ProfilePage"));
     }
+
+    public void gotoChatMenu() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatSelectPage"));
+    }
 }
