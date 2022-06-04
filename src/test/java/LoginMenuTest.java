@@ -1,14 +1,15 @@
-import Models.Database;
-import Models.User;
-import Utils.Command;
-import Utils.CommandException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import project.Controllers.LoginMenuController;
+import project.Models.Database;
+import project.Models.User;
+import project.Utils.Command;
+import project.Utils.CommandException;
 
 import java.util.List;
 
-import static Utils.CommandResponse.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static project.Utils.CommandResponse.*;
 
 public class LoginMenuTest {
     private String username;
@@ -27,7 +28,7 @@ public class LoginMenuTest {
         String inputString = "user create -u a1 -p Password1! -n n1";
         Command command = Command.parseCommand(inputString);
         setUserCreds(command);
-        assertDoesNotThrow(() -> Controllers.LoginMenuController.createUser(username, nickname, password));
+        assertDoesNotThrow(() -> LoginMenuController.createUser(username, nickname, password));
     }
 
     private void setUserCreds(Command command) {
@@ -48,7 +49,7 @@ public class LoginMenuTest {
         String inputString = "user create -u alireza -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
         setUserCreds(command);
-        Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.createUser(username, nickname, password));
+        Throwable exception = assertThrows(CommandException.class, () -> LoginMenuController.createUser(username, nickname, password));
         assertEquals(USERNAME_ALREADY_EXISTS.toString(), exception.getMessage());
     }
 
@@ -57,7 +58,7 @@ public class LoginMenuTest {
         String inputString = "user create -u alireza2 -p Pass1! -n nickname2";
         Command command = Command.parseCommand(inputString);
         setUserCreds(command);
-        Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.createUser(username, nickname, password));
+        Throwable exception = assertThrows(CommandException.class, () -> LoginMenuController.createUser(username, nickname, password));
         assertEquals(WEAK_PASSWORD.toString(), exception.getMessage());
     }
 
@@ -67,7 +68,7 @@ public class LoginMenuTest {
         String inputString = "user create -u alireza1 -p Password1! -n nickname";
         Command command = Command.parseCommand(inputString);
         setUserCreds(command);
-        Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.createUser(username, nickname, password));
+        Throwable exception = assertThrows(CommandException.class, () -> LoginMenuController.createUser(username, nickname, password));
         assertEquals(NICKNAME_ALREADY_EXISTS.toString(), exception.getMessage());
     }
 
@@ -77,7 +78,7 @@ public class LoginMenuTest {
         String inputString = "user login -u Ap -p password";
         Command command = Command.parseCommand(inputString);
         setLoginCreds(command);
-        Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.loginUser(username, password));
+        Throwable exception = assertThrows(CommandException.class, () -> LoginMenuController.loginUser(username, password));
         assertEquals(PASSWORD_DOES_NOT_MATCH.toString(), exception.getMessage());
     }
 
@@ -97,7 +98,7 @@ public class LoginMenuTest {
         String inputString = "user login -u alireza23 -p Password1!";
         Command command = Command.parseCommand(inputString);
         setLoginCreds(command);
-        Throwable exception = assertThrows(CommandException.class, () -> Controllers.LoginMenuController.loginUser(username, password));
+        Throwable exception = assertThrows(CommandException.class, () -> LoginMenuController.loginUser(username, password));
         assertEquals(USER_DOES_NOT_EXISTS.toString(), exception.getMessage());
     }
 
@@ -107,6 +108,6 @@ public class LoginMenuTest {
         String inputString = "user login -u Ap -p P";
         Command command = Command.parseCommand(inputString);
         setLoginCreds(command);
-        assertDoesNotThrow(() -> Controllers.LoginMenuController.loginUser(username, password));
+        assertDoesNotThrow(() -> LoginMenuController.loginUser(username, password));
     }
 }

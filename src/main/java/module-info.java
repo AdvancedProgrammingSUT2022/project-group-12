@@ -7,12 +7,11 @@ module project {
     requires com.google.gson;
     requires annotations;
 
-    opens Models to com.google.gson;
-    exports Models;
-
-    opens Applications to javafx.fxml;
-    exports Applications;
-    exports Views;
-    opens Views to javafx.fxml;
+    opens project.Models to com.google.gson;
+    exports project.Models;
+    opens project.Views to javafx.fxml;
+    exports project.Views;
+    opens project to javafx.fxml;
+    exports project;
 
 }

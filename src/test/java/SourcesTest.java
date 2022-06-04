@@ -1,16 +1,15 @@
-import Applications.Main;
-import Controllers.GameController;
-import Enums.BuildingEnum;
-import Enums.FeatureEnum;
-import Models.Cities.City;
-import Models.Game;
-import Models.Terrains.Terrain;
-import Models.User;
-import Views.GameMenu;
-import Views.MenuStack;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import project.CommandlineViews.GameMenu;
+import project.CommandlineViews.MenuStack;
+import project.Controllers.GameController;
+import project.Enums.BuildingEnum;
+import project.Enums.FeatureEnum;
+import project.Models.Cities.City;
+import project.Models.Game;
+import project.Models.Terrains.Terrain;
+import project.Models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public class SourcesTest {
                     MenuStack.getInstance().setScanner(new Scanner(source));
                     String[] mainString = new String[1];
                     mainString[0] = "ali";
-                    Main.main(mainString);
+//                    Main.main(mainString);
                 }
         );
         City city = GameController.getGame().getCurrentCivilization().getCities().get(0);
