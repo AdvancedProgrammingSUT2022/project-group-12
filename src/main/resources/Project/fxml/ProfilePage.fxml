@@ -3,11 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
             fx:controller="Project.Views.ProfileView"
             prefHeight="400.0" prefWidth="600.0">
-
     <top>
         <VBox alignment="CENTER">
             <Label text="Profile Menu"/>
@@ -21,12 +21,13 @@
             <VBox fx:id="rmAccount" alignment="CENTER" spacing="10">
                 <Button fx:id="removeAccount" onMouseClicked="#removeAccountClick" text="Remove Account"/>
             </VBox>
-            <VBox fx:id="changingUser" alignment="CENTER" spacing="10">
+            <VBox fx:id="changingNickname" alignment="CENTER" spacing="10">
                 <Button fx:id="changeUsername" onMouseClicked="#changeUsernameClick" text="Change Nickname"/>
             </VBox>
             <VBox fx:id="changingPass" alignment="CENTER" spacing="10">
                 <Button fx:id="changePassword" onMouseClicked="#changePasswordClick" text="Change Password"/>
             </VBox>
+            <Button onMouseClicked="#selectAvatarClick" text="Select Avatar"/>
         </VBox>
     </center>
     <bottom>
@@ -39,4 +40,8 @@
             <Text/>
         </VBox>
     </bottom>
+    <right>
+        <ImageView fx:id="userAvatar" fitHeight="142.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true"
+                   BorderPane.alignment="CENTER"/>
+    </right>
 </BorderPane>

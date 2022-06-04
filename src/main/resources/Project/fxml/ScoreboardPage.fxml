@@ -6,10 +6,10 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
             fx:controller="Project.Views.ScoreboardView">
     <children>
-        <VBox layoutX="76.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
-        <VBox layoutX="192.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
-        <VBox layoutX="308.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
-        <VBox layoutX="424.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
+        <VBox fx:id="box1" layoutX="76.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
+        <VBox fx:id="box2" layoutX="192.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
+        <VBox fx:id="box3" layoutX="308.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
+        <VBox fx:id="box4" layoutX="424.0" layoutY="57.0" prefHeight="287.0" prefWidth="100.0"/>
         <Label layoutX="255.0" layoutY="21.0" text="Scoreboard"/>
         <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClicked" styleClass="exitButton" text="Exit"/>
         <Button layoutX="14.0" layoutY="362.0" onMouseClicked="#backClicked" styleClass="backButton" text="Back"/>

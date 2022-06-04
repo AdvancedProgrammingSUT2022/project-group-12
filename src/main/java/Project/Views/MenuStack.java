@@ -61,4 +61,9 @@ public class MenuStack {
     public boolean isEmpty() {
         return this.menus.isEmpty();
     }
+
+    public void popToLogin() {
+        this.menus.remove(this.menus.size() - 1);
+        if (!this.isEmpty()) this.updateScene();
+    }
 }

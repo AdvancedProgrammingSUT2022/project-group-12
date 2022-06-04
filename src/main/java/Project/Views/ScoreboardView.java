@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public class ScoreboardView {
     public ImageView userAvatar;
-    @FXML
-    private VBox leftBox;
-    @FXML
-    private VBox rightBox;
+    public VBox box1;
+    public VBox box2;
+    public VBox box3;
+    public VBox box4;
     @FXML
     private Text text;
 
@@ -24,7 +24,7 @@ public class ScoreboardView {
 
     private void showList(ArrayList<User> users) {
         Text user;
-        for (int i = 0; i < Math.min(10, users.size()); i++) {
+        for (int i = 0; i < Math.min(40, users.size()); i++) {
             StringBuilder userInfo = new StringBuilder("  ");
             if (users.get(i).getUsername().equals(MenuStack.getInstance().getUser().getUsername()))
                 userInfo.append("* ");
@@ -40,11 +40,14 @@ public class ScoreboardView {
                 user.setStyle("-fx-fill: blue; -fx-font-size: 10");
             if (i == 2)
                 user.setStyle("-fx-fill: green; -fx-font-size: 10");
-            if (i % 2 == 0)
-                leftBox.getChildren().add(user);
-            else
-                rightBox.getChildren().add(user);
-
+            if (i % 5 == 0)
+                box1.getChildren().add(user);
+            else if (i % 5 == 1)
+                box2.getChildren().add(user);
+            else if (i % 5 == 3)
+                box3.getChildren().add(user);
+            else if (i % 5 == 4)
+                box4.getChildren().add(user);
         }
     }
 
@@ -53,6 +56,6 @@ public class ScoreboardView {
     }
 
     public void backClicked() {
-        //todo : change to main menu
+        MenuStack.getInstance().popMenu();
     }
 }

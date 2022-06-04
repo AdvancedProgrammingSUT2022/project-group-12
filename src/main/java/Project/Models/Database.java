@@ -26,12 +26,13 @@ public class Database {
         return instance;
     }
 
-    public void removeAccount(User user){
+    public void removeAccount(User user) {
         this.users.remove(user.getUsername());
         this.usersList.remove(user);
     }
 
-    public ArrayList<User> getUsers(){
+    public ArrayList<User> getUsers() {
+        usersList.sort(User::comparator);
         return this.usersList;
     }
 
