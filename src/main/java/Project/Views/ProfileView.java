@@ -1,6 +1,5 @@
 package Project.Views;
 
-import Project.App;
 import Project.Models.Database;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -11,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class ProfileView {
+    public ImageView userAvatar;
     @FXML
     private Button changeUsername;
     @FXML
@@ -24,21 +24,26 @@ public class ProfileView {
     @FXML
     private VBox rmAccount;
     @FXML
-    private VBox changingUser;
+    private VBox changingNickname;
     @FXML
     private VBox changingPass;
-    @FXML
-    private ImageView userAvatar;
     private TextField changeUser;
     private TextField changePass;
+    private TextField oldPass;
     private Button userAcceptButton;
     private Button passAcceptButton;
     private boolean passFieldIsOn = false;
     private boolean userFieldIsOn = false;
     private boolean removeFieldIsOn = false;
     private boolean removingAccount = false;
+    private boolean isOldPass = false;
+
+    public void selectAvatarClick() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("AvatarPage"));
+    }
 
     public void initialize() {
+        this.userAvatar.setImage(MenuStack.getInstance().getUser().getImage());
         this.username.setText("-" + MenuStack.getInstance().getUser().getUsername());
     }
 
@@ -56,12 +61,12 @@ public class ProfileView {
             userFieldIsOn = true;
             changeUser = returnChangeField(true);
             userAcceptButton = returnAcceptButton(true);
-            changingUser.getChildren().add(changeUser);
-            changingUser.getChildren().add(userAcceptButton);
+            changingNickname.getChildren().add(changeUser);
+            changingNickname.getChildren().add(userAcceptButton);
         } else {
             userFieldIsOn = false;
-            changingUser.getChildren().remove(changeUser);
-            changingUser.getChildren().remove(userAcceptButton);
+            changingNickname.getChildren().remove(changeUser);
+            changingNickname.getChildren().remove(userAcceptButton);
         }
     }
 
@@ -69,8 +74,11 @@ public class ProfileView {
         removeOtherLevelBoxes(2);
         if (!passFieldIsOn) {
             passFieldIsOn = true;
+            isOldPass = true;
+            oldPass = returnChangeField(false);
             changePass = returnChangeField(false);
             passAcceptButton = returnAcceptButton(false);
+            changingPass.getChildren().add(oldPass);
             changingPass.getChildren().add(changePass);
             changingPass.getChildren().add(passAcceptButton);
         } else {
@@ -100,14 +108,18 @@ public class ProfileView {
 
     private TextField returnChangeField(boolean isUsername) {
         TextField field = new TextField();
-        if (isUsername) {
+        if (isOldPass) {
+            field.setAlignment(Pos.CENTER);
+            field.setPromptText("Old Password");
+        } else if (isUsername) {
             field.setAlignment(Pos.CENTER);
             field.setPromptText("Username");
         } else {
             field.setAlignment(Pos.CENTER);
-            field.setPromptText("Password");
+            field.setPromptText("New Password");
         }
         field.prefWidth(100);
+        isOldPass = false;
         return field;
     }
 
@@ -132,7 +144,8 @@ public class ProfileView {
         if (MenuStack.getInstance().getUser().passwordMatchCheck(changePass.getText())) {
             changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
             Database.getInstance().removeAccount(MenuStack.getInstance().getUser());
-            // todo : go to login page
+            MenuStack.getInstance().popToLogin();
+            //todo : go back to login page
         } else {
             changePass.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
         }
@@ -148,8 +161,16 @@ public class ProfileView {
     }
 
     private void passwordAboutToChange() {
-        changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
-        MenuStack.getInstance().getUser().changePassword(changePass.getText());
+        if (MenuStack.getInstance().getUser().passwordMatchCheck(oldPass.getText())) {
+            changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+            MenuStack.getInstance().getUser().changePassword(changePass.getText());
+        } else {
+            oldPass.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            Text incorrectPassword = new Text("Incorrect Password !!");
+            incorrectPassword.setStyle("-fx-fill: #ff0066; -fx-font-size: 10;");
+            changingPass.getChildren().add(incorrectPassword);
+            changePassword.setDisable(true);
+        }
     }
 
     private void removeOtherLevelBoxes(int currentLevel) {
@@ -157,7 +178,7 @@ public class ProfileView {
             rmAccount.getChildren().remove(rmAccount.getChildren().size() - 1);
         while (currentLevel != 2 && changingPass.getChildren().size() > 1)
             changingPass.getChildren().remove(changingPass.getChildren().size() - 1);
-        while (currentLevel != 1 && changingUser.getChildren().size() > 1)
-            changingUser.getChildren().remove(changingUser.getChildren().size() - 1);
+        while (currentLevel != 1 && changingNickname.getChildren().size() > 1)
+            changingNickname.getChildren().remove(changingNickname.getChildren().size() - 1);
     }
 }
