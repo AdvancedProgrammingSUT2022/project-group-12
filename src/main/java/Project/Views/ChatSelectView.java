@@ -117,7 +117,7 @@ public class ChatSelectView {
             user.setCurrentChat(chatGroup.getText());
         }
         System.out.println(user.getChat().getMessages());
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatPage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
     }
 
     public void backClick() {
