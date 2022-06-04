@@ -1,6 +1,17 @@
 package Project.Views;
 
+import javafx.fxml.FXML;
+import javafx.scene.text.Text;
+
 public class MainMenuView {
+
+    @FXML
+    public Text welcomeText;
+
+    public void initialize() {
+        welcomeText.setText("Welcome, " + MenuStack.getInstance().getUser().getNickname());
+    }
+
     public void logout() {
         MenuStack.getInstance().popMenu();
     }
