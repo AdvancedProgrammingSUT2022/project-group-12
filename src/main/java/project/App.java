@@ -19,13 +19,13 @@ public class App extends Application {
         launch(args);
     }
 
-    public static void setScene(String address) {
-        App.scene.setRoot(loadFXML(address));
+    public static void setRoot(Pane root) {
+        App.scene.setRoot(root);
     }
 
     @Override
     public void start(Stage stage) {
-        Pane root = loadFXML("ChatSelectPage");
+        Pane root = loadFXML("LoginPage");
         assert root != null;
         Database.getInstance().deserialize();
         App.scene = new Scene(root);

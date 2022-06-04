@@ -5,8 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import project.App;
-import project.CommandlineViews.MenuStack;
 import project.Models.Database;
 import project.Models.User;
 
@@ -79,7 +77,7 @@ public class LoginView {
         if (Database.getInstance().checkForUsername(username.getText())) {
             if (Database.getInstance().checkPassword(username.getText(), password.getText())) {
                 MenuStack.getInstance().setUser(Database.getInstance().getUser(username.getText()));
-                App.setScene("MenuPage"); //todo : login
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MenuPage")); //todo : login
             } else {
                 if (passwordBox.getChildren().size() > 2)
                     return;
