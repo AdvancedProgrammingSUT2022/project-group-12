@@ -28,7 +28,7 @@ public class App extends Application {
     private static Pane loadFXML(String address) {
         System.out.println(address);
         try {
-            URL url = new URL(Objects.requireNonNull(App.class.getResource("fxml/" + address + ".fxml")).toExternalForm());
+            URL url = new URL(Objects.requireNonNull(App.class.getResource("fxml/" + "ProfilePage" + ".fxml")).toExternalForm());
             return FXMLLoader.load(url);
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,7 +42,7 @@ public class App extends Application {
         App.scene = new Scene(new Pane());
         stage.setScene(App.scene);
         stage.setResizable(false);
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
         stage.show();
     }
 }

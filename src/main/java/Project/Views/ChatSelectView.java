@@ -4,6 +4,7 @@ import Project.Models.Database;
 import Project.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -12,6 +13,8 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class ChatSelectView {
+    @FXML
+    private Button acceptButton;
     @FXML
     private Text chatGroup;
     @FXML
@@ -29,30 +32,29 @@ public class ChatSelectView {
     @FXML
     private VBox userBox5;
 
-    private boolean newChat;
-    private boolean oldChat;
-    private final ArrayList<User> selectedUsers = new ArrayList<>();
+    private boolean chatSelected;
+    private boolean userSelected;
+    private ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
-    private final ArrayList<String> users = new ArrayList<>();
+    private ArrayList<String> users = new ArrayList<>();
 
     public void initialize() {
         ArrayList<String> users = Database.getInstance().getAllUsers();
         users.remove(MenuStack.getInstance().getUser().getUsername());
+        userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(users);
-        this.newChat = false;
-        this.oldChat = false;
+        this.chatSelected = false;
+        this.userSelected = false;
         chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
         chatSelect.setOnAction(this::getChat);
         userSelect.setOnAction(this::getUser);
     }
 
     private void getChat(ActionEvent event) {
-        if (!oldChat){
-            oldChat = true;
-            newChat = false;
-
-        }
+        clearEverything();
+        userSelected = true;
+        chatSelected = false;
         chatGroup.setText(chatSelect.getValue());
         MenuStack.getInstance().getUser().setCurrentChat(chatSelect.getValue());
         for (String username : MenuStack.getInstance().getUser().getChat().getUsernames()) {
@@ -70,10 +72,7 @@ public class ChatSelectView {
     }
 
     private void clearEverything() {
-        userSelect.getItems().removeAll(userSelect.getItems());
-        ArrayList<String> users = Database.getInstance().getAllUsers();
-        users.remove(MenuStack.getInstance().getUser().getUsername());
-        userSelect.getItems().addAll(users);
+        groupName.setStyle("-fx-border-color: none;");
         chatGroup.setText("");
         userBox1.getChildren().removeAll(userBox1.getChildren());
         userBox2.getChildren().removeAll(userBox2.getChildren());
@@ -83,6 +82,13 @@ public class ChatSelectView {
     }
 
     private void getUser(ActionEvent event) {
+        if (!chatSelected) {
+            clearEverything();
+            chatSelected = true;
+            userSelected = false;
+        }
+        if (users.contains(userSelect.getValue()))
+            return;
         users.add(userSelect.getValue());
         selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
         if (userBox1.getChildren().size() < 10)
@@ -95,7 +101,6 @@ public class ChatSelectView {
             userBox4.getChildren().add(new Text(userSelect.getValue()));
         else if (userBox5.getChildren().size() < 10)
             userBox5.getChildren().add(new Text(userSelect.getValue()));
-        userSelect.getItems().remove(userSelect.getValue());
     }
 
 
@@ -104,10 +109,26 @@ public class ChatSelectView {
     }
 
     public void acceptClick() {
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
+        User user = MenuStack.getInstance().getUser();
+        if (user.previousChats().contains(chatGroup.getText())) {
+            user.setCurrentChat(chatGroup.getText());
+        } else {
+            user.startChat(chatGroup.getText(), selectedUsers);
+            user.setCurrentChat(chatGroup.getText());
+        }
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatPage"));
     }
 
     public void backClick() {
         MenuStack.getInstance().popMenu();
+    }
+
+    public void groupNameEntered() {
+        groupName.setStyle("-fx-border-color: none;");
+        acceptButton.setDisable(false);
+        if (MenuStack.getInstance().getUser().previousChats().contains(groupName.getText())) {
+            groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            acceptButton.setDisable(true);
+        }
     }
 }

@@ -17,6 +17,8 @@ public class User {
         this.password = password;
         this.chats = new HashMap<>();
         this.score = 0;
+        if (Database.getInstance().getAllUsers().contains(username))
+            return;
         Database data = Database.getInstance();
         data.addUser(this);
         data.serialize();
@@ -66,10 +68,8 @@ public class User {
         return this.currentChat;
     }
 
-    public String[] previousChats() {
-        String[] chatNames = new String[chats.keySet().size()];
-        chatNames = chats.keySet().toArray(chatNames);
-        return chatNames;
+    public ArrayList<String> previousChats() {
+        return new ArrayList<>(chats.keySet());
     }
 
     public void changeNickname(String newNickname) {
