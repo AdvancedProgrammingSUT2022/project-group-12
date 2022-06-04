@@ -22,7 +22,7 @@
                 <Button fx:id="removeAccount" onMouseClicked="#removeAccountClick" text="Remove Account"/>
             </VBox>
             <VBox fx:id="changingUser" alignment="CENTER" spacing="10">
-                <Button fx:id="changeUsername" onMouseClicked="#changeUsernameClick" text="Change Username"/>
+                <Button fx:id="changeUsername" onMouseClicked="#changeUsernameClick" text="Change Nickname"/>
             </VBox>
             <VBox fx:id="changingPass" alignment="CENTER" spacing="10">
                 <Button fx:id="changePassword" onMouseClicked="#changePasswordClick" text="Change Password"/>
@@ -40,5 +40,3 @@
         </VBox>
     </bottom>
 </BorderPane>
-
-        </BorderPane>

@@ -3,7 +3,6 @@ package Project.Models;
 import java.util.ArrayList;
 
 public class Chat {
-    //    private static int counter;
     private final String name;
     private final ArrayList<Message> messages;
     private ArrayList<User> users;

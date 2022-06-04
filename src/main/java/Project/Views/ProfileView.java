@@ -47,7 +47,7 @@ public class ProfileView {
     }
 
     public void backClick() {
-        //todo : back to menu page
+        MenuStack.getInstance().popMenu();
     }
 
     public void changeUsernameClick() {
