@@ -27,11 +27,11 @@ public class MenuStack {
     }
 
     public void pushMenu(Menu menu) {
-        this.getMenus().add(menu);
+        this.menus.add(menu);
         this.updateScene();
     }
 
-    private ArrayList<Menu> getMenus() {
+    public ArrayList<Menu> getMenus() {
         return menus;
     }
 
@@ -40,15 +40,15 @@ public class MenuStack {
     }
 
     public Menu getTopMenu() {
-        return this.getMenus().isEmpty() ? null : this.getMenus().get(this.getMenus().size() - 1);
+        return this.menus.isEmpty() ? null : this.menus.get(this.menus.size() - 1);
     }
 
     public void popMenu() {
-        this.getMenus().remove(this.getMenus().size() - 1);
-        if (!this.isEmpty()) updateScene();
+        this.menus.remove(this.menus.size() - 1);
+        if (!this.isEmpty()) this.updateScene();
     }
 
     public boolean isEmpty() {
-        return this.getMenus().isEmpty();
+        return this.menus.isEmpty();
     }
 }

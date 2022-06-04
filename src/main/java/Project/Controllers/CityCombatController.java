@@ -1,7 +1,7 @@
 package Project.Controllers;
 
-import CommandlineViews.GameMenu;
-import CommandlineViews.MenuStackDisabled;
+import Project.CommandlineViews.GameMenu;
+import Project.CommandlineViews.MenuStackDisabled;
 import Project.Enums.CityTypeEnum;
 import Project.Enums.CombatTypeEnum;
 import Project.Models.Cities.City;
