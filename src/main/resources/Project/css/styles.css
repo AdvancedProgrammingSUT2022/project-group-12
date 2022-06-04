@@ -1,3 +1,7 @@
+.root {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 90%, #ffffff 0%, #cc3399 100%);
+}
+
 Button {
     -fx-pref-width: 230;
     -fx-pref-height: 31;
