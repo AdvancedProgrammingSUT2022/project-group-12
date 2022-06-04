@@ -36,17 +36,27 @@ public class ChatSelectView {
     private ArrayList<String> users = new ArrayList<>();
 
     public void initialize() {
+        User user1 = new User("uname", "password", "nickname");
+        User user2 = new User("uname2", "password", "nickname");
+        User user3 = new User("uname3", "password", "nickname");
+        User user4 = new User("uname4", "password", "nickname");
+        User user5 = new User("uname5", "password", "nickname");
+        user1.startChat("chat1",Database.getInstance().getUsers());
+        user1.startChat("chat2",Database.getInstance().getUsers());
+        user1.startChat("chat3",Database.getInstance().getUsers());
+        user1.startChat("chat4",Database.getInstance().getUsers());
+        MenuStack.getInstance().setUser(user1);
+        ArrayList<String> users = Database.getInstance().getAllUsers();
+        users.remove(MenuStack.getInstance().getUser().getUsername());
+        userSelect.getItems().addAll(users);
         this.newChat = false;
         chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
-        userSelect.getItems().addAll(Database.getInstance().getAllUsers());
         chatSelect.setOnAction(this::getChat);
         userSelect.setOnAction(this::getUser);
     }
 
     private void getChat(ActionEvent event) {
-        if (newChat){
-            //todo : fix
-            newChat = false;
+        if (newChat) {
             clearEverything();
         }
         chatGroup.setText(chatSelect.getValue());
@@ -66,22 +76,23 @@ public class ChatSelectView {
     }
 
     private void clearEverything() {
+        userSelect.getItems().removeAll(userSelect.getItems());
+        ArrayList<String> users = Database.getInstance().getAllUsers();
+        users.remove(MenuStack.getInstance().getUser().getUsername());
+        userSelect.getItems().addAll(users);
         newChat = !newChat;
         System.out.println(newChat);
         chatGroup.setText("");
-        userBox1.getChildren().removeAll(userBox1);
-        userBox2.getChildren().removeAll(userBox2);
-        userBox3.getChildren().removeAll(userBox3);
-        userBox4.getChildren().removeAll(userBox4);
-        userBox5.getChildren().removeAll(userBox5);
+        userBox1.getChildren().removeAll(userBox1.getChildren());
+        userBox2.getChildren().removeAll(userBox2.getChildren());
+        userBox3.getChildren().removeAll(userBox3.getChildren());
+        userBox4.getChildren().removeAll(userBox4.getChildren());
+        userBox5.getChildren().removeAll(userBox5.getChildren());
     }
 
     private void getUser(ActionEvent event) {
-        //todo : fix
         if (!newChat)
             clearEverything();
-        if (users.contains(userSelect.getValue()))
-            return;
         users.add(userSelect.getValue());
         selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
         if (userBox1.getChildren().size() < 10)
@@ -94,6 +105,7 @@ public class ChatSelectView {
             userBox4.getChildren().add(new Text(userSelect.getValue()));
         else if (userBox5.getChildren().size() < 10)
             userBox5.getChildren().add(new Text(userSelect.getValue()));
+        userSelect.getItems().remove(userSelect.getValue());
     }
 
 

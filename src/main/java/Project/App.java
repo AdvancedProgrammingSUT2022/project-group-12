@@ -1,5 +1,6 @@
 package Project;
 
+import Project.Views.ChatSelectView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,7 +38,7 @@ public class App extends Application {
     private static Pane loadFXML(String address) {
         System.out.println(address);
         try {
-            URL url = new URL(Objects.requireNonNull(App.class.getResource("fxml/" + address + ".fxml")).toExternalForm());
+            URL url = new URL(Objects.requireNonNull(App.class.getResource("/Project/fxml/" + address + ".fxml")).toExternalForm());
             return FXMLLoader.load(url);
         } catch (IOException e) {
             e.printStackTrace();
