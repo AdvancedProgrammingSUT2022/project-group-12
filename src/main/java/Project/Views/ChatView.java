@@ -1,10 +1,10 @@
 package Project.Views;
 
+import CommandlineViews.MenuStackDisabled;
+import Project.Models.Message;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import Project.CommandlineViews.MenuStack;
-import Project.Models.Message;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class ChatView {
     }
 
     public void initialize() {
-        ArrayList<Message> messages = MenuStack.getInstance().getUser().getChat().getMessages();
+        ArrayList<Message> messages = MenuStackDisabled.getInstance().getUser().getChat().getMessages();
         for (Message message : messages) {
             Text text = new Text(messages.toString());
             chatBox.getChildren().add(text);

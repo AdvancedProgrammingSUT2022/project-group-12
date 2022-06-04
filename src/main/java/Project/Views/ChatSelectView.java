@@ -1,14 +1,13 @@
 package Project.Views;
 
+import Project.Models.Database;
+import Project.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import Project.CommandlineViews.MenuStack;
-import Project.Models.Database;
-import Project.Models.User;
 
 import java.util.ArrayList;
 
@@ -105,11 +104,11 @@ public class ChatSelectView {
 
     public void acceptClick() {
         System.out.println(users);
-        //todo : change to chat menu
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatPage"));
     }
 
     public void backClick() {
         System.out.println("back");
-        //todo : change to previous menu
+        MenuStack.getInstance().popMenu();
     }
 }

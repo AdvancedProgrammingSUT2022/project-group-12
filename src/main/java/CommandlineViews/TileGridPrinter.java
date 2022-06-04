@@ -1,4 +1,4 @@
-package Project.CommandlineViews;
+package CommandlineViews;
 
 import Project.Enums.TerrainColor;
 import Project.Models.Location;

@@ -1,6 +1,6 @@
 package Project.Controllers;
 
-import Project.CommandlineViews.MenuStack;
+import CommandlineViews.MenuStackDisabled;
 import Project.Models.Database;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
@@ -8,12 +8,12 @@ import Project.Utils.CommandResponse;
 public class ProfileMenuController {
 
     public static void changePassword(String oldPassword, String newPassword) throws CommandException {
-        if (!MenuStack.getInstance().getUser().passwordMatchCheck(oldPassword)) {
+        if (!MenuStackDisabled.getInstance().getUser().passwordMatchCheck(oldPassword)) {
             throw new CommandException(CommandResponse.INVALID_PASSWORD);
         } else if (oldPassword.equals(newPassword)) {
             throw new CommandException(CommandResponse.REPEATED_PASSWORD);
         } else {
-            MenuStack.getInstance().getUser().changePassword(newPassword);
+            MenuStackDisabled.getInstance().getUser().changePassword(newPassword);
         }
     }
 
@@ -22,7 +22,7 @@ public class ProfileMenuController {
         if (database.nicknameAlreadyExists(nickname)) {
             throw new CommandException(CommandResponse.NICKNAME_ALREADY_EXISTS, nickname);
         } else {
-            MenuStack.getInstance().getUser().changeNickname(nickname);
+            MenuStackDisabled.getInstance().getUser().changeNickname(nickname);
         }
     }
 }

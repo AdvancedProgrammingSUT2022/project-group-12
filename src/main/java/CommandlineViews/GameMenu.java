@@ -1,4 +1,4 @@
-package Project.CommandlineViews;
+package CommandlineViews;
 
 import Project.Controllers.CheatCodeController;
 import Project.Controllers.CombatController;
@@ -21,7 +21,7 @@ import Project.Utils.GameException;
 
 import java.util.List;
 
-public class GameMenu extends Menu {
+public class GameMenu extends MenuDisabled {
 
     private final MapFuncs mapFuncs;
     private final UnitFuncs unitFuncs;
@@ -72,7 +72,7 @@ public class GameMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> MenuStackDisabled.getInstance().popMenu();
             default -> this.findCategory(command);
         }
     }
@@ -376,7 +376,7 @@ public class GameMenu extends Menu {
     }
 
     private void endGame() {
-        MenuStack.getInstance().popMenu();
+        MenuStackDisabled.getInstance().popMenu();
         answer("game ended successfully");
     }
 

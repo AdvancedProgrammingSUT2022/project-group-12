@@ -1,11 +1,11 @@
-package Project.CommandlineViews;
+package CommandlineViews;
 
 import Project.Utils.Command;
 import Project.Utils.CommandException;
 
 import java.util.Scanner;
 
-public abstract class Menu {
+public abstract class MenuDisabled {
 
     private boolean showName = true;
     private boolean isFirstRun = true;
@@ -21,7 +21,7 @@ public abstract class Menu {
             this.isFirstRun = false;
             this.firstRun();
         }
-        Scanner scanner = MenuStack.getInstance().getScanner();
+        Scanner scanner = MenuStackDisabled.getInstance().getScanner();
         String line = scanner.nextLine().trim();
         if (line.isEmpty()) return;
         try {

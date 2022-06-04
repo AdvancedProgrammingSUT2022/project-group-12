@@ -1,8 +1,8 @@
 package Project.Views;
 
+import Project.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import Project.App;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ public class Menu {
     private final Pane root;
     private final Object controller;
 
-    public Menu(Pane root, Object controller) {
+    private Menu(Pane root, Object controller) {
         this.root = root;
         this.controller = controller;
     }

@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import Project.CommandlineViews.MenuStack;
+import CommandlineViews.MenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.*;
 import Project.Models.Cities.City;
@@ -16,6 +13,9 @@ import Project.Models.Units.RangedUnit;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.Constants;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class UnitActionsTest {
     Tile ownTile;
     Terrain enemyTerrain = new Terrain(TerrainEnum.HILL);
     Tile enemyTile;
-    MenuStack menuStack = new MenuStack();
+    MenuStackDisabled menuStackDisabled = new MenuStackDisabled();
     Scanner scanner = new Scanner(System.in);
     public Game getGame() {
         if (gameInstance == null) {
