@@ -61,7 +61,6 @@ public class ChatView {
     public void deleteMessage() {
         chatBox.getChildren().remove(currentEditingMessage.getText());
         disableDeleteButton();
-        messageTextField.setText("");
         currentEditingMessage = null;
     }
 
