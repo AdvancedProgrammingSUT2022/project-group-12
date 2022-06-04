@@ -14,5 +14,4 @@ module project {
     exports Project;
     exports Project.Views;
     opens Project.Views to javafx.fxml;
-
 }
