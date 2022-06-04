@@ -27,13 +27,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Pane root = loadFXML("LoginPage");
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));
-        assert root != null;
         Database.getInstance().deserialize();
-        App.scene = new Scene(root);
+        App.scene = new Scene(new Pane());
         stage.setScene(App.scene);
         stage.setResizable(false);
+
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));
+
         stage.show();
     }
 
