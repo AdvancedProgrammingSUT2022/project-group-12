@@ -14,16 +14,23 @@ public class Message {
     ImageView imageView;
     private String message;
     HBox messageBox = new HBox();
+    Boolean isSeen;
 
     public Message(String from, String message) {
         this.from = from;
         this.message = message;
+        isSeen = false;
         imageView = new ImageView(MenuStack.getInstance().getUser().getImage());
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
         text = new Text("  " + from + " : " + message + " " + getCurrentDate());
         text.setWrappingWidth(500);
+    }
 
+    public void checkSeen(String username) {
+        if (!from.equals(username)) {
+            isSeen = true;
+        }
     }
 
     public String getSender() {
@@ -46,10 +53,7 @@ public class Message {
 
     private String getCurrentDate() {
         Date date = new Date();
-        System.out.println("hello");
-        String s = date.getDay() + " : " + date.getHours();
-        System.out.println(s);
-        return s;
+        return date.getHours() + ":" + date.getMinutes();
     }
 
     public String getMessage() {
@@ -64,7 +68,13 @@ public class Message {
         messageBox.getChildren().removeAll();
         messageBox.getChildren().add(imageView);
         messageBox.setAlignment(Pos.CENTER);
-        messageBox.getChildren().add(this.text);
+        if (isSeen) {
+            this.text.setText(this.text.getText() + " " + "✓✓");
+            messageBox.getChildren().add(this.text);
+        } else {
+            this.text.setText(this.text.getText() + " " + "✓");
+            messageBox.getChildren().add(this.text);
+        }
         return messageBox;
     }
 }
