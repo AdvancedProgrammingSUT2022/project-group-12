@@ -31,7 +31,7 @@ public class User {
     }
 
     private String assignRandomAvatar() {
-        ArrayList<String> filePaths = new ArrayList<>(AvatarURLEnum.IMG01.getPaths());
+        ArrayList<String> filePaths = new ArrayList<>(AvatarURLEnum.IMG0.getPaths());
         int randomNum = new Random().nextInt(filePaths.size()) - 1;
         if (randomNum < 0)
             randomNum = 0;
@@ -40,7 +40,7 @@ public class User {
 
 
     public Image getImage() {
-        if (AvatarURLEnum.IMG01.contains(imageUrl))
+        if (AvatarURLEnum.IMG0.contains(imageUrl))
             return new Image(AvatarURLEnum.valueOf(imageUrl).getUrl());
         else
             return new Image(imageUrl);

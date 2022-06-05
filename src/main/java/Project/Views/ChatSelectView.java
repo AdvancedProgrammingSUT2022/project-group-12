@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class ChatSelectView implements ViewController {
+    private final ArrayList<String> users = new ArrayList<>();
     @FXML
     private Button acceptButton;
     @FXML
@@ -24,20 +25,19 @@ public class ChatSelectView implements ViewController {
     private ChoiceBox<String> chatSelect;
     @FXML
     private VBox userBox1;
-
     private boolean chatSelected;
     private boolean userSelected;
     private ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
-    private ArrayList<String> users = new ArrayList<>();
+    private ArrayList<String> usernames = new ArrayList<>();
 
     public void initialize() {
-        ArrayList<String> users = Database.getInstance().getAllUsers();
-        users.remove(MenuStack.getInstance().getUser().getUsername());
+        usernames = Database.getInstance().getAllUsers();
+        usernames.remove(MenuStack.getInstance().getUser().getUsername());
         chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
         userSelect.getItems().removeAll(userSelect.getItems());
-        userSelect.getItems().addAll(users);
+        userSelect.getItems().addAll(usernames);
         this.chatSelected = false;
         this.userSelected = false;
         chatSelect.setOnAction(this::getChat);
@@ -48,6 +48,8 @@ public class ChatSelectView implements ViewController {
         clearEverything();
         userSelected = true;
         chatSelected = false;
+        userSelect.getItems().removeAll(userSelect.getItems());
+        userSelect.getItems().addAll(usernames);
         groupName.setText(chatSelect.getValue());
         MenuStack.getInstance().getUser().setCurrentChat(chatSelect.getValue());
         for (String username : MenuStack.getInstance().getUser().getChat().getUsernames()) {
@@ -62,7 +64,7 @@ public class ChatSelectView implements ViewController {
     }
 
     private void getUser(ActionEvent event) {
-        if (!chatSelected) {
+        if (userSelected) {
             clearEverything();
             chatSelected = true;
             userSelected = false;
@@ -71,7 +73,18 @@ public class ChatSelectView implements ViewController {
             return;
         users.add(userSelect.getValue());
         selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
-        userBox1.getChildren().add(new Text(userSelect.getValue()));
+        userBox1.getChildren().add(returnText(userSelect.getValue()));
+        userSelect.getItems().remove(userSelect.getValue());
+    }
+
+    private Text returnText(String value) {
+        Text newText = new Text(value);
+        newText.setOnMouseClicked(event -> {
+            userBox1.getChildren().remove(newText);
+            userSelect.getItems().add(value);
+            users.remove(value);
+        });
+        return newText;
     }
 
 
@@ -80,7 +93,7 @@ public class ChatSelectView implements ViewController {
     }
 
     public void acceptClick() {
-        if (groupName.getText().length() == 0){
+        if (groupName.getText().length() == 0) {
             groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
             acceptButton.setDisable(true);
             return;

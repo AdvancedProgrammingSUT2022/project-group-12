@@ -4,6 +4,7 @@ import Project.Models.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -11,6 +12,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class ChatView implements ViewController {
+    public ScrollPane pane;
     @FXML
     Button deleteButton;
     @FXML
@@ -26,6 +28,7 @@ public class ChatView implements ViewController {
     }
 
     public void initialize() {
+        this.scrollBar = new ScrollBar();
         try {
             if (MenuStack.getInstance().getUser().getChat().getMessages() != null) {
                 ArrayList<Message> messages = MenuStack.getInstance().getUser().getChat().getMessages();
@@ -35,16 +38,19 @@ public class ChatView implements ViewController {
                     chatBox.getChildren().add(text);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
-        System.out.println(scrollBar.getMax() + " " + scrollBar.getMin());
+        chatBox.heightProperty().addListener((observable,oldValue, newValue) -> {
+            pane.setVvalue(1);
+        });
         scrollBar.valueProperty().addListener(event -> {
             chatBox.setTranslateY(-(double) (scrollBar.getValue() * chatBox.getHeight()) / (scrollBar.getMax()));
         });
         chatBox.setMaxHeight(100);
         chatBox.setMaxWidth(552);
     }
+
     @FXML
     public void sendNewMessage() {
         System.out.println((scrollBar.getValue() * chatBox.getHeight()) / (scrollBar.getMax()) + " " + chatBox.getLayoutY() + " " + scrollBar.getMax() + " " + chatBox.getTranslateY() + " " + chatBox.getMaxHeight() + " " + chatBox.getScaleY() + " " + chatBox.getPrefHeight() + " " + chatBox.getHeight());

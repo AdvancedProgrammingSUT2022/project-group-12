@@ -145,7 +145,6 @@ public class ProfileView implements ViewController {
             changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
             Database.getInstance().removeAccount(MenuStack.getInstance().getUser());
             MenuStack.getInstance().popToLogin();
-            //todo : go back to login page
         } else {
             changePass.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
         }

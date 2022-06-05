@@ -14,7 +14,7 @@
             visible="false"/>
     <Button layoutX="8.0" layoutY="368.0" mnemonicParsing="false" onMouseClicked="#backClick" prefHeight="24.0"
             prefWidth="50.0" styleClass="sendBtn" text="Back"/>
-    <ScrollPane style="-fx-background-color: transparent;" layoutX="15.0" layoutY="14.0" prefHeight="315.0"
+    <ScrollPane fx:id="pane" style="-fx-background-color: transparent;" layoutX="15.0" layoutY="14.0" prefHeight="315.0"
                 prefWidth="552.0" vbarPolicy="ALWAYS">
         <content>
             <VBox fx:id="chatBox" maxWidth="475.0" prefHeight="298.0" prefWidth="510.0" spacing="10"/>

@@ -2,7 +2,7 @@ package Project.Views;
 
 import Project.Models.Database;
 import Project.Models.User;
-import javafx.geometry.Pos;
+import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -10,21 +10,22 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class ScoreboardView implements ViewController {
-    public VBox box1;
-    public ScrollPane pane;
+    private VBox usersBox;
+    @FXML
+    private ScrollPane pane;
 
     public void initialize() {
-        box1 = new VBox();
-        box1.setSpacing(10);
+        usersBox = new VBox();
+        usersBox.setSpacing(10);
         showList(new ArrayList<>(Database.getInstance().getUsers()));
-        box1.setStyle("-fx-background-color: transparent;");
-        pane.setContent(box1);
+        usersBox.setStyle("-fx-background-color: transparent;");
+        pane.setContent(usersBox);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
     }
 
     private void showList(ArrayList<User> users) {
         Text user;
-        for (int i = 0; i < Math.min(40, users.size()); i++) {
+        for (int i = 0; i < users.size(); i++) {
             StringBuilder userInfo = new StringBuilder("  ");
             if (users.get(i).getUsername().equals(MenuStack.getInstance().getUser().getUsername()))
                 userInfo.append("* ");
@@ -34,13 +35,15 @@ public class ScoreboardView implements ViewController {
             userInfo.append("  ");
             user = new Text(userInfo.toString());
             user.setStyle("-fx-font-size: 15;");
+            if (users.get(i).getUsername().equals(MenuStack.getInstance().getUser().getUsername()))
+                user.setStyle("-fx-fill: white; -fx-font-size: 15;");
             if (i == 0)
-                user.setStyle("-fx-fill: red; -fx-font-size: 15");
+                user.setStyle("-fx-fill: gold; -fx-font-size: 15;");
             if (i == 1)
-                user.setStyle("-fx-fill: blue; -fx-font-size: 15");
+                user.setStyle("-fx-fill: silver; -fx-font-size: 15;");
             if (i == 2)
-                user.setStyle("-fx-fill: green; -fx-font-size: 15");
-            box1.getChildren().add(user);
+                user.setStyle("-fx-fill: brown; -fx-font-size: 15;");
+            usersBox.getChildren().add(user);
         }
     }
 

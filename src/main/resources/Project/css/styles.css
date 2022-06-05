@@ -56,6 +56,25 @@ Button:hover {
     -fx-border-color: none;
     -fx-text-fill: #7300ff;
 }
+.smallButton {
+    -fx-pref-width: 100;
+    -fx-pref-height: 31;
+    -fx-border-radius: 5;
+    -fx-background-color: #000c32;
+    -fx-border-color: none;
+    -fx-text-fill: white;
+
+}
+
+.smallButton:hover {
+    -fx-cursor: hand;
+    -fx-pref-width: 100;
+    -fx-pref-height: 31;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+    -fx-border-color: none;
+    -fx-text-fill: #000c32;
+}
 
 .sendBtn {
     -fx-pref-width: 50;
@@ -145,9 +164,11 @@ Text {
     -fx-font-size: 15;
     -fx-font-family: P052;
     /*-fx-fill: linear-gradient(darkolivegreen, darkviolet);*/
-    -fx-fill: white;
+    -fx-fill: #383838;
     -fx-font-weight: bold;
 }
+
+
 
 .exitButton {
     -fx-pref-width: 100;

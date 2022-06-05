@@ -30,7 +30,6 @@ public class Chat {
     public ArrayList<String> getUsernames() {
         ArrayList<String> usernames = new ArrayList<>();
         for (User user : this.users) {
-
             usernames.add(user.getUsername());
         }
         return usernames;

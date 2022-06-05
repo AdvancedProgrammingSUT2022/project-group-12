@@ -10,5 +10,5 @@
     <Button layoutX="489.0" layoutY="364.0" onMouseClicked="#exitClicked" styleClass="exitButton" text="Exit"/>
     <Button layoutX="14.0" layoutY="362.0" onMouseClicked="#backClicked" styleClass="backButton" text="Back"/>
     <ScrollPane fx:id="pane" layoutX="8.0" layoutY="38.0" prefHeight="317.0" prefWidth="582.0"
-                style="-fx-background-color: transparent;" vbarPolicy="ALWAYS"/>
+                style="-fx-background-color: transparent;" hbarPolicy="NEVER"/>
 </AnchorPane>
