@@ -4,11 +4,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
-            fx:controller="Project.Views.ScoreboardView">
-    <Label layoutX="255.0" layoutY="21.0" text="Scoreboard"/>
-    <Button layoutX="489.0" layoutY="364.0" onMouseClicked="#exitClicked" styleClass="exitButton" text="Exit"/>
-    <Button layoutX="14.0" layoutY="362.0" onMouseClicked="#backClicked" styleClass="backButton" text="Back"/>
-    <ScrollPane fx:id="pane" layoutX="8.0" layoutY="38.0" prefHeight="317.0" prefWidth="582.0"
-                style="-fx-background-color: transparent;" hbarPolicy="NEVER"/>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" fx:controller="Project.Views.ScoreboardView">
+    <Label layoutX="250.0" layoutY="10.0" text="Scoreboard">
+      <font>
+         <Font name="System Bold" size="15.0" />
+      </font></Label>
+    <Button layoutX="489.0" layoutY="364.0" onMouseClicked="#exitClicked" styleClass="exitButton" text="Exit" />
+    <Button layoutX="14.0" layoutY="362.0" onMouseClicked="#backClicked" styleClass="backButton" text="Back" />
+    <ScrollPane fx:id="pane" hbarPolicy="NEVER" layoutX="8.0" layoutY="38.0" prefHeight="317.0" prefWidth="582.0" style="-fx-background-color: transparent;" />
 </AnchorPane>

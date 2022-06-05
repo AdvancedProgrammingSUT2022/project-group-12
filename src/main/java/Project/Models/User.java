@@ -4,6 +4,7 @@ import Project.Enums.AvatarURLEnum;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -14,6 +15,8 @@ public class User {
     private String nickname;
     private String password;
     private int score;
+    private Date lastWinDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
+    private Date lastLoginDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
     private Chat currentChat;
 
     public User(String username, String password, String nickname) {
@@ -123,4 +126,11 @@ public class User {
         }
     }
 
+    public Date getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public Date getLastWinDate() {
+        return lastWinDate;
+    }
 }

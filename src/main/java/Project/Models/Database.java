@@ -32,7 +32,6 @@ public class Database {
     }
 
     public ArrayList<User> getUsers() {
-        usersList.sort(User::comparator);
         return this.usersList;
     }
 
