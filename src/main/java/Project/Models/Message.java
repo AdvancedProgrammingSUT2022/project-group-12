@@ -1,6 +1,5 @@
 package Project.Models;
 
-import Project.Views.MenuStack;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -11,20 +10,19 @@ import java.util.Date;
 public class Message {
     private final String from;
     Text text;
-    ImageView imageView;
     private String message;
-    HBox messageBox = new HBox();
+    HBox messageBox;
     Boolean isSeen;
+    Boolean isFirstTime;
 
     public Message(String from, String message) {
         this.from = from;
         this.message = message;
         isSeen = false;
-        imageView = new ImageView(MenuStack.getInstance().getUser().getImage());
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
+        isFirstTime = false;
         text = new Text("  " + from + " : " + message + " " + getCurrentDate());
         text.setWrappingWidth(500);
+        messageBox = new HBox();
     }
 
     public void checkSeen(String username) {
@@ -60,21 +58,22 @@ public class Message {
         return message;
     }
 
-    public ImageView getImageView() {
-        return imageView;
-    }
+
 
     public HBox getMessageBox() {
-        messageBox.getChildren().removeAll();
+        messageBox = new HBox();
+        ImageView imageView = new ImageView(Database.getInstance().getUser(from).getImage());
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
         messageBox.getChildren().add(imageView);
         messageBox.setAlignment(Pos.CENTER);
-        if (isSeen) {
-            this.text.setText(this.text.getText() + " " + "✓✓");
-            messageBox.getChildren().add(this.text);
-        } else {
-            this.text.setText(this.text.getText() + " " + "✓");
-            messageBox.getChildren().add(this.text);
+        if (isSeen && !isFirstTime) {
+            this.text.setText(text.getText() + "✓");
+            isFirstTime = true;
+        } else if (!isFirstTime) {
+            this.text.setText(text.getText() + " ✓");
         }
+        messageBox.getChildren().add(this.text);
         return messageBox;
     }
 }
