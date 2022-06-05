@@ -16,7 +16,8 @@ import java.io.IOException;
 
 public class AvatarView implements ViewController {
     private final FileChooser fileChooser = new FileChooser();
-    public VBox imageBox;
+    @FXML
+    private VBox imageBox;
     @FXML
     private
     ImageView imageView;
@@ -24,21 +25,20 @@ public class AvatarView implements ViewController {
     private Text userID;
 
     public void initialize() {
-        userID.setText("-" + MenuStack.getInstance().getUser().getUsername());
+        userID.setText("-" + MenuStack.getInstance().getUser().getNickname());
         imageView.setImage(MenuStack.getInstance().getUser().getImage());
         for (int i = 0; i < 52; i += 2) {
-            HBox newBox = new HBox(returnImages(i), returnImages(i + 1));
-            newBox.setSpacing(10);
-            newBox.maxHeight(92);
-            newBox.maxWidth(87);
+            HBox newBox = new HBox();
+            newBox.setSpacing(100);
+            newBox.getChildren().addAll(returnImages(i), returnImages(i + 1));
             imageBox.getChildren().add(newBox);
         }
     }
 
     private ImageView returnImages(int i) {
         ImageView newImageView = new ImageView(AvatarURLEnum.valueOf("IMG" + i).getImage());
-        newImageView.maxHeight(46);
-        newImageView.maxWidth(43.5);
+        newImageView.setFitHeight(92);
+        newImageView.setFitWidth(87);
         newImageView.setOnMouseClicked(event -> {
             imageView.setImage(newImageView.getImage());
             MenuStack.getInstance().getUser().setImageUrl("IMG" + i);

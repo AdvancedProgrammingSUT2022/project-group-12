@@ -1,5 +1,4 @@
 .root {
-    /*-fx-background-color: radial-gradient(center 50% 50%, radius 90%, #ffffff 0%, #cc3399 100%);*/
     -fx-background-image: url("../../images/background/civBackground.jpg");
     -fx-background-color: rgba(0, 0, 0, 0);
     -fx-background-size: cover;
