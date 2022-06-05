@@ -11,9 +11,9 @@
     <Button layoutX="14.0" layoutY="346.0" onMouseClicked="#backClicked" styleClass="smallButton" text="Back" />
     <Button layoutX="456.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#openFileClick" prefWidth="138.0" styleClass="smallButton" text="open file" />
     <ImageView fx:id="imageView" fitHeight="92.0" fitWidth="87.0" layoutX="489.0" layoutY="202.0" pickOnBounds="true" preserveRatio="true" />
-   <ScrollPane layoutX="3.0" layoutY="106.0" prefHeight="226.0" prefWidth="451.0" style="-fx-background-color: transparent;">
+   <ScrollPane hbarPolicy="NEVER" layoutX="3.0" layoutY="106.0" prefHeight="226.0" prefWidth="366.0" style="-fx-background-color: transparent;">
       <content>
-         <VBox fx:id="imageBox" prefWidth="175" maxWidth="175.0" />
+         <VBox fx:id="imageBox" maxWidth="445.0" prefHeight="216.0" prefWidth="351.0" />
       </content>
    </ScrollPane>
     </AnchorPane>
