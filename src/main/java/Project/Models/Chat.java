@@ -7,6 +7,7 @@ public class Chat {
     private final ArrayList<Message> messages;
     private final ArrayList<User> users;
 
+
     public Chat(ArrayList<User> usersInChat, String name) {
         this.name = name;
         this.messages = new ArrayList<>();

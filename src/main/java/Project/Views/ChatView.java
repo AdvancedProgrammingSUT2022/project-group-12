@@ -2,10 +2,12 @@ package Project.Views;
 
 import Project.Models.Message;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -63,7 +65,10 @@ public class ChatView implements ViewController {
                 deleteButton.setDisable(false);
                 deleteButton.setVisible(true);
             });
-            chatBox.getChildren().add(newMessage.getText());
+            HBox hBox = new HBox(newMessage.getImageView());
+            hBox.setAlignment(Pos.CENTER);
+            hBox.getChildren().add(newMessage.getText());
+            chatBox.getChildren().add(hBox);
         } else {
             currentEditingMessage.editMessage(messageTextField.getText());
             currentEditingMessage = null;
@@ -75,7 +80,7 @@ public class ChatView implements ViewController {
     @FXML
     public void deleteMessage() {
         MenuStack.getInstance().getUser().getChat().deleteMessage(currentEditingMessage);
-        chatBox.getChildren().remove(currentEditingMessage.getText());
+        chatBox.getChildren().remove(currentEditingMessage.getMessageBox());
         disableDeleteButton();
         currentEditingMessage = null;
     }
