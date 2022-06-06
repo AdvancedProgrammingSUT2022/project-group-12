@@ -3,6 +3,7 @@ package Project.Views;
 import Project.Models.Database;
 import Project.Models.User;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -19,7 +20,7 @@ public class ScoreboardView implements ViewController {
 
     public void initialize() {
         VBox vBox = new VBox();
-        vBox.setSpacing(10);
+//        vBox.setSpacing(10);
         vBox.setLayoutY(100);
         ArrayList<User> users = new ArrayList<>(Database.getInstance().getUsers());
         users.sort(User::comparator); // todo comparator
@@ -28,6 +29,7 @@ public class ScoreboardView implements ViewController {
             User user = i == -1 ? null : users.get(i);
             HBox hBox = new HBox();
             hBox.setSpacing(5);
+            hBox.setPadding(new Insets(5));
 
             Text rank = new Text(i >= 0 ? String.valueOf(i + 1) : "Rank");
             rank.setWrappingWidth(50);
@@ -60,17 +62,15 @@ public class ScoreboardView implements ViewController {
             loginDate.setWrappingWidth(150);
             hBox.getChildren().add(loginDate);
 
-            vBox.getChildren().add(hBox);
+            double opacity = 0.5;
+            if (i == -1 || user.getUsername().equals(MenuStack.getInstance().getUser().getUsername())) opacity = 0.9;
 
-            // todo: color of 1 2 3 and current user
-            if (i >= 0 && user.getUsername().equals(MenuStack.getInstance().getUser().getUsername()))
-                hBox.setStyle("-fx-fill: white; -fx-font-size: 15;");
-            if (i == 0)
-                hBox.setStyle("-fx-fill: gold; -fx-font-size: 15;");
-            if (i == 1)
-                hBox.setStyle("-fx-fill: silver; -fx-font-size: 15;");
-            if (i == 2)
-                hBox.setStyle("-fx-fill: brown; -fx-font-size: 15;");
+            String color = "255, 255, 255";
+            if (i == 0) color = "255, 215, 0";
+            else if (i == 1) color = "192, 192, 192";
+            else if (i == 2) color = "210, 105, 30";
+            hBox.setStyle("-fx-background-color: rgba(" + color + ", " + opacity + ");");
+            vBox.getChildren().add(hBox);
         }
 //        usersBox.setStyle("-fx-background-color: transparent;");
 //        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
