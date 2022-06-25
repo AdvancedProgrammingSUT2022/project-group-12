@@ -17,14 +17,4 @@
 
     </GridPane>
     </ScrollPane>
-   <Polygon fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE">
-     <points>
-       <Double fx:value="-50.0" />
-       <Double fx:value="40.0" />
-       <Double fx:value="50.0" />
-       <Double fx:value="40.0" />
-       <Double fx:value="0.0" />
-       <Double fx:value="-60.0" />
-     </points>
-   </Polygon>
 </Pane>
