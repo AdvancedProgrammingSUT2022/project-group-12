@@ -43,4 +43,10 @@ public class Chat {
     public ArrayList<Message> getMessages() {
         return this.messages;
     }
+
+    @Override
+    public String toString() {
+        return "name='" + name + '\'' +
+                ", messages=" + messages ;
+    }
 }

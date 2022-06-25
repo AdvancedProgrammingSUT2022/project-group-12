@@ -126,11 +126,27 @@ public class User {
         }
     }
 
+
     public Date getLastLoginDate() {
         return lastLoginDate;
     }
 
     public Date getLastWinDate() {
         return lastWinDate;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", chats=" + chats +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                ", score=" + score +
+                ", lastWinDate=" + lastWinDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", currentChat=" + currentChat +
+                '}';
     }
 }

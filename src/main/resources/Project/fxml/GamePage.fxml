@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.GameView">
+    <ScrollPane layoutX="14.0" prefHeight="400.0" prefWidth="600.0">
+    <GridPane fx:id="tilePane">
+
+    </GridPane>
+    <GridPane fx:id="buildingsPane">
+
+    </GridPane>
+    <GridPane fx:id="unitsPane">
+
+    </GridPane>
+    </ScrollPane>
+   <Polygon fill="DODGERBLUE" stroke="BLACK" strokeType="INSIDE">
+     <points>
+       <Double fx:value="-50.0" />
+       <Double fx:value="40.0" />
+       <Double fx:value="50.0" />
+       <Double fx:value="40.0" />
+       <Double fx:value="0.0" />
+       <Double fx:value="-60.0" />
+     </points>
+   </Polygon>
+</Pane>

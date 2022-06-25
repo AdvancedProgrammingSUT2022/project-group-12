@@ -1,6 +1,5 @@
 package Project.Models.Tiles;
 
-import org.jetbrains.annotations.NotNull;
 import Project.Enums.FeatureEnum;
 import Project.Enums.ImprovementEnum;
 import Project.Enums.ResourceEnum;
@@ -8,6 +7,7 @@ import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
+import Project.Models.Hex;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
@@ -15,11 +15,13 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
+    private final Hex hex;
     private final Location location;
     private final Terrain terrain;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
@@ -36,6 +38,8 @@ public class Tile {
     private Citizen citizen = null;
 
     public Tile(Terrain terrain, Location tileLocation) {
+        //todo : initialize hex
+        this.hex = new Hex();
         this.location = tileLocation;
         this.terrain = terrain;
         this.combatUnit = null;
@@ -48,6 +52,7 @@ public class Tile {
     }
 
     private Tile(Tile that) {
+        this.hex = that.hex;
         this.location = that.getLocation();
         this.terrain = that.terrain;
         this.combatUnit = that.combatUnit;
@@ -62,6 +67,10 @@ public class Tile {
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
+    }
+
+    public Hex getHex() {
+        return hex;
     }
 
     public boolean hasRoad() {
@@ -141,10 +150,12 @@ public class Tile {
     public void placeUnit(@NotNull Unit unit) throws CommandException {
         if (unit == null) throw new RuntimeException();
         if (unit instanceof CombatUnit combatUnit) {
-            if (this.getCombatUnit() != null) throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getType().name());
+            if (this.getCombatUnit() != null)
+                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getType().name());
             this.setCombatUnit(combatUnit);
         } else if (unit instanceof NonCombatUnit nonCombatUnit) {
-            if (this.getNonCombatUnit() != null) throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getType().name());
+            if (this.getNonCombatUnit() != null)
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getType().name());
             this.setNonCombatUnit(nonCombatUnit);
         }
     }
@@ -236,12 +247,12 @@ public class Tile {
         this.getImprovements().add(improvement);
     }
 
-    public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad(){
+    public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad() {
         List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
             return improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD;
         }).toList();
 
-         return improvementEnums;
+        return improvementEnums;
     }
 
     // todo
