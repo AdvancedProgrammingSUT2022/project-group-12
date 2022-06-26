@@ -4,27 +4,36 @@ import javafx.scene.shape.Polygon;
 
 public class Hex extends Polygon {
     private final double multiply;
-    private double w = 10 * Math.sqrt(3);
-    private double h = 15;
-    private double spacing = 5 * Math.sqrt(3);
     private final int i;
     private final int j;
+    private final double w;
+    private final double h;
+    private double spacing;
 
     public Hex(double multiply, int i, int j) {
-        this.i = j;
-        this.j = i;
+        this.i = i;
+        this.j = j;
         this.multiply = multiply;
-        spacing *= multiply;
-        w *= multiply;
-        h *= multiply;
-        if (j % 2 != 0)
+        spacing = 5 * Math.sqrt(3) * multiply;
+        w = 10 * Math.sqrt(3) * multiply;
+        h = 15 * multiply;
+        if (i % 2 != 0)
             spacing = 0;
-        this.getPoints().addAll(5 * Math.sqrt(3) * multiply + w * i + spacing, 0.0 * multiply + h * j,
-                10 * Math.sqrt(3) * multiply + w * i + spacing, 5.0 * multiply + h * j,
-                10 * Math.sqrt(3) * multiply + w * i + spacing, 15.0 * multiply + h * j,
-                5 * Math.sqrt(3) * multiply + w * i + spacing, 20.0 * multiply + h * j,
-                0.0 * multiply + w * i + spacing, 15.0 * multiply + h * j,
-                0.0 * multiply + w * i + spacing, 5.0 * multiply + h * j);
+        this.getPoints().addAll(
+                initX(5 * Math.sqrt(3)), initY(0.0),
+                initX(10 * Math.sqrt(3)), initY(5),
+                initX(10 * Math.sqrt(3)), initY(15.0),
+                initX(5 * Math.sqrt(3)), initY(20.0),
+                initX(0.0), initY(15.0),
+                initX(0.0), initY(5.0));
+    }
+
+    private double initX(double x) {
+        return x * multiply + w * j + spacing;
+    }
+
+    private double initY(double y) {
+        return y * multiply + h * i;
     }
 
     public double getMultiply() {
