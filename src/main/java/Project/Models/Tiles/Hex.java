@@ -40,11 +40,11 @@ public class Hex extends Polygon {
         return multiply;
     }
 
-    public double getW() {
+    public double getWidth() {
         return w;
     }
 
-    public double getH() {
+    public double getHeight() {
         return h;
     }
 
@@ -52,11 +52,11 @@ public class Hex extends Polygon {
         return spacing;
     }
 
-    public int getI() {
+    public int getRow() {
         return i;
     }
 
-    public int getJ() {
+    public int getColumn() {
         return j;
     }
 }
