@@ -44,7 +44,7 @@ public class User {
 
     public Image getImage() {
         if (AvatarURLEnum.IMG0.contains(imageUrl))
-            return new Image(AvatarURLEnum.valueOf(imageUrl).getUrl());
+            return AvatarURLEnum.valueOf(imageUrl).getImage();
         else
             return new Image(imageUrl);
     }
@@ -89,7 +89,7 @@ public class User {
         if (chats.containsKey(newChat.getName()))
             return;
 
-        chats.put(newChat.getName(),newChat);
+        chats.put(newChat.getName(), newChat);
     }
 
     public void setCurrentChat(String name) {

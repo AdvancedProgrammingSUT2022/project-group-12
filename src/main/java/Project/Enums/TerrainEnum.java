@@ -1,9 +1,13 @@
 package Project.Enums;
 
+import Project.App;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 public enum TerrainEnum {
-    UNKNOWN("?", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, true, false, new ArrayList<>(), new ArrayList<>()),
+
+    UNKNOWN("?", TerrainColor.GRAY_BACKGROUND, 0, 0, 0, 0, 0, true, false, new ArrayList<>(), new ArrayList<>(), "-url-"),
 
     GRASSLAND("GRSLD", TerrainColor.LIGHTGREEN_BACKGROUND, 2, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FeatureEnum.FOREST);
@@ -17,7 +21,7 @@ public enum TerrainEnum {
         add(ResourceEnum.GEMSTONE);
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
-    }}),
+    }}, "-url-"),
     HILL("HIL", TerrainColor.DARKGREEN_BACKGROUND, 0, 2, 0, 25, 2, true, true, new ArrayList<>() {{
         add(FeatureEnum.FOREST);
         add(FeatureEnum.JUNGLE);
@@ -30,11 +34,11 @@ public enum TerrainEnum {
         add(ResourceEnum.GEMSTONE);
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.SHEEP);
-    }}),
-    MOUNTAIN("MOUNT", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>()),
+    }}, "-url-"),
+    MOUNTAIN("MOUNT", TerrainColor.DARKBROWN_BACKGROUND, 0, 0, 0, 25, 0, false, true, new ArrayList<>(), new ArrayList<>(), "-url-"),
     OCEAN("OCEAN", TerrainColor.BLUE_BACKGROUND, 1, 0, 1, 0, 1, false, false, new ArrayList<>() {{
         add(FeatureEnum.ICE);
-    }}, new ArrayList<>()),
+    }}, new ArrayList<>(), "-url-"),
     PLAIN("PLAIN", TerrainColor.GREEN_BACKGROUND, 1, 1, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FeatureEnum.FOREST);
         add(FeatureEnum.JUNGLE);
@@ -50,7 +54,7 @@ public enum TerrainEnum {
         add(ResourceEnum.COTTON);
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
-    }}),
+    }}, "-url-"),
     DESERT("DSERT", TerrainColor.BROWN_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FeatureEnum.OASIS);
     }}, new ArrayList<>() {{
@@ -62,10 +66,10 @@ public enum TerrainEnum {
         add(ResourceEnum.COTTON);
         add(ResourceEnum.INCENSE);
         add(ResourceEnum.SHEEP);
-    }}),
+    }}, "-url-"),
     SNOW("SNW", TerrainColor.WHITE_BACKGROUND, 0, 0, 0, -33, 1, true, false, new ArrayList<>(), new ArrayList<>() {{
         add(ResourceEnum.IRON);
-    }}),
+    }}, "-url-"),
     TUNDRA("TNDRA", TerrainColor.DARKRED_BACKGROUND, 1, 0, 0, -33, 1, true, false, new ArrayList<>() {{
         add(FeatureEnum.FOREST);
     }}, new ArrayList<>() {{
@@ -76,7 +80,7 @@ public enum TerrainEnum {
         add(ResourceEnum.GEMSTONE);
         add(ResourceEnum.MARBLE);
         add(ResourceEnum.FUR);
-    }});
+    }}, "-url-");
 
     private final int foodCount;
     private final int productsCount;
@@ -90,8 +94,9 @@ public enum TerrainEnum {
     private final TerrainColor color;
 
     private final String abbreviation;
+    private final String assetUrl;
 
-    TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<FeatureEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources) {
+    TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<FeatureEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources, String assetUrl) {
         this.foodCount = foodCount;
         this.productsCount = productsCount;
         this.goldCount = goldCount;
@@ -103,6 +108,7 @@ public enum TerrainEnum {
         this.color = color;
         this.abbreviation = abbreviation;
         this.possibleTerrainFeatures = possibleTerrainFeatures;
+        this.assetUrl = assetUrl;
     }
 
     public TerrainColor getColor() {
@@ -141,6 +147,11 @@ public enum TerrainEnum {
         return !this.getFeatures().contains(FeatureEnum.ICE) &&
                 this != MOUNTAIN && this != OCEAN;
     }
+
+    public Image getImage() {
+        return new Image(App.class.getResource("/images/assets/terrains/" + assetUrl).toExternalForm());
+    }
+
 
     public boolean isRough() {
         return this == HILL;
