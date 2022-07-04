@@ -31,7 +31,7 @@ public class Game {
     public Game(ArrayList<User> users) {
         this.users = users;
         this.civilizations = new ArrayList<>();
-        this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         ArrayList<Tile> availableTiles = new ArrayList<>();
         for (Tile tile : this.tileGrid.getFlatTiles()) {
             if (tile.getTerrain().getTerrainType().isReachable()) {

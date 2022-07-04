@@ -6,6 +6,7 @@ import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -13,26 +14,51 @@ public class TileGrid {
     private final int height;
     private final int width;
     private final Tile[][] tiles;
-
+    private final ArrayList<Hex> hexes;
     public TileGrid(int height, int width) {
+        hexes = new ArrayList<>();
+        int multiply = 2;
         this.height = height;
         this.width = width;
         this.tiles = new Tile[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                tiles[i][j] = new Tile(new Terrain(TerrainEnum.UNKNOWN), new Location(i, j));
+                Terrain terrain = generateRandomTerrain();
+                tiles[i][j] = new Tile(multiply, terrain, new Location(i, j), getTileColor(terrain));
+                hexes.add(tiles[i][j].getHex());
             }
         }
     }
 
+    public ArrayList<Hex> getHexes() {
+        return hexes;
+    }
+
     public static TileGrid generateRandomTileGrid(int height, int width) {
+        int multiply = 3;
         TileGrid tileGrid = new TileGrid(height, width);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                tileGrid.tiles[i][j] = new Tile(generateRandomTerrain(), new Location(i, j));
+                Terrain terrain = generateRandomTerrain();
+                tileGrid.tiles[i][j] = new Tile(multiply, terrain, new Location(i, j), getTileColor(terrain));
             }
         }
         return tileGrid;
+    }
+
+    private static String getTileColor(Terrain terrainType) {
+        return switch (terrainType.getColor().name()) {
+            case "GREEN_BACKGROUND" -> "GREEN";
+            case "BLUE_BACKGROUND" -> "DARKBLUE";
+            case "GRAY_BACKGROUND" -> "DARKGRAY";
+            case "BROWN_BACKGROUND" -> "SANDYBROWN";
+            case "DARKRED_BACKGROUND" -> "DARKRED";
+            case "DARKGREEN_BACKGROUND" -> "DARKGREEN";
+            case "LIGHTGREEN_BACKGROUND" -> "LIGHTGREEN";
+            case "DARKBROWN_BACKGROUND" -> "BROWN";
+            case "WHITE_BACKGROUND" -> "WHITE";
+            default -> "CORAL";
+        };
     }
 
     private static Terrain generateRandomTerrain() {

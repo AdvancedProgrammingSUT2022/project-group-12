@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Project.Views.GameView">
+    <ScrollPane fx:id="scrollPane" layoutX="14.0" prefHeight="400.0" prefWidth="600.0"
+                style="-fx-background-color: transparent;">
+        <Pane fx:id="tilePane">
+            <Pane fx:id="buildingsPane" style="-fx-background-color: transparent;">
+                <Pane fx:id="unitsPane">
 
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.GameView">
-    <ScrollPane style="-fx-background-color: transparent;" layoutX="14.0" prefHeight="400.0" prefWidth="600.0">
-    <GridPane fx:id="tilePane">
-
-    </GridPane>
-    <GridPane fx:id="buildingsPane">
-
-    </GridPane>
-    <GridPane fx:id="unitsPane">
-
-    </GridPane>
+                </Pane>
+            </Pane>
+        </Pane>
     </ScrollPane>
+    <Button fx:id="btn" onMouseClicked="#click" prefHeight="24.0" prefWidth="242.0"/>
+
 </Pane>

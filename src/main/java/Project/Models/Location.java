@@ -1,5 +1,7 @@
 package Project.Models;
 
+import Project.Models.Tiles.Tile;
+
 import java.util.Objects;
 
 public class Location {

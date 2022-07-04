@@ -1,5 +1,8 @@
 package Project.Models.Tiles;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 public class Hex extends Polygon {
@@ -10,7 +13,7 @@ public class Hex extends Polygon {
     private final double h;
     private double spacing;
 
-    public Hex(double multiply, int i, int j) {
+    public Hex(double multiply, int i, int j, String color) {
         this.i = i;
         this.j = j;
         this.multiply = multiply;
@@ -26,6 +29,14 @@ public class Hex extends Polygon {
                 initX(5 * Math.sqrt(3)), initY(20.0),
                 initX(0.0), initY(15.0),
                 initX(0.0), initY(5.0));
+        this.setFill(Color.valueOf(color));
+        //todo : remove after check
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println(i + " " + j);
+            }
+        });
     }
 
     private double initX(double x) {

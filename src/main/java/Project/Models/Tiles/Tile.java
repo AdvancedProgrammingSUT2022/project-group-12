@@ -7,7 +7,6 @@ import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
-import Project.Models.Hex;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
@@ -37,12 +36,12 @@ public class Tile {
     private VisibilityEnum state;
     private Citizen citizen = null;
 
-    public Tile(Terrain terrain, Location tileLocation) {
+    public Tile(int multiply, Terrain terrain, Location tileLocation, String color) {
         //todo : initialize hex
-        this.hex = new Hex();
         this.location = tileLocation;
         this.terrain = terrain;
         this.combatUnit = null;
+        this.hex = new Hex(multiply, tileLocation.getCol(), tileLocation.getRow(), color);
         this.nonCombatUnit = null;
         this.HP = 0;
         this.isDamaged = false;
@@ -67,6 +66,14 @@ public class Tile {
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
+    }
+
+    public double getXOnMap() {
+        return hex.getLayoutX();
+    }
+
+    public double getYOnMap() {
+        return hex.getLayoutY();
     }
 
     public Hex getHex() {

@@ -87,5 +87,4 @@ public enum AvatarURLEnum {
     public Image getImage() {
         return new Image(App.class.getResource("/images/avatars/"+url).toExternalForm());
     }
-
 }
