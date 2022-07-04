@@ -23,6 +23,7 @@ public class MainMenuController {
         }
         Game game = new Game(users);
         database.addGame(game);
+        GameController.setGame(game);
         return game;
     }
 }

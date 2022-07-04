@@ -1,5 +1,6 @@
 package Project.Views;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
@@ -26,5 +27,10 @@ public class MainMenuView implements ViewController {
 
     public void gotoChatMenu() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatSelectPage"));
+    }
+
+    public void gotoSelectGame() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("StartGamePage"));
+
     }
 }

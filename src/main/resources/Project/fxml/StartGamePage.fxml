@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Project.Views.StartGameView"
+            prefHeight="400.0" prefWidth="600.0">
+    <ChoiceBox fx:id="userSelect" layoutX="254.0" layoutY="90.0" prefWidth="150.0" styleClass="choiceBox"/>
+    <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: "/>
+    <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit"
+            textAlignment="CENTER"/>
+    <Button layoutX="29.0" layoutY="362.0" onMouseClicked="#backClick" styleClass="smallerButton" text="Back"
+            textAlignment="CENTER"/>
+    <Button fx:id="acceptButton" layoutX="189.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#acceptClick"
+            text="Accept And Proceed"/>
+    <ScrollPane style="-fx-background-color: transparent;" hbarPolicy="NEVER" layoutX="213.0" layoutY="129.0"
+                prefHeight="200.0" prefWidth="175.0">
+        <content>
+            <VBox fx:id="userBox1" prefHeight="185.0" prefWidth="152.0" spacing="2"/>
+        </content>
+    </ScrollPane>
+
+</AnchorPane>

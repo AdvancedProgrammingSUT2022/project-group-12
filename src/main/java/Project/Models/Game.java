@@ -15,6 +15,7 @@ import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.GameException;
+import Project.Views.GameView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,12 +24,14 @@ import java.util.List;
 public class Game {
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
+    private final ArrayList<User> users;
+    private GameView panes;
     private int gameTurn = -1;
 
     public Game(ArrayList<User> users) {
+        this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
-
         ArrayList<Tile> availableTiles = new ArrayList<>();
         for (Tile tile : this.tileGrid.getFlatTiles()) {
             if (tile.getTerrain().getTerrainType().isReachable()) {
@@ -64,6 +67,10 @@ public class Game {
         }
     }
 
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
     public void updateRevealedTileGrid(Civilization civilization) {
         tileGrid.setFogOfWarForAll();
         for (Unit unit : civilization.getUnits()) {
@@ -79,6 +86,14 @@ public class Game {
                 revealTileFor(civilization, neighbor);
             }
         }
+    }
+
+    public void SetPage(GameView gameView) {
+        panes = gameView;
+    }
+
+    public GameView getPage() {
+        return this.panes;
     }
 
     public void revealTileFor(Civilization civilization, Tile tile) {
