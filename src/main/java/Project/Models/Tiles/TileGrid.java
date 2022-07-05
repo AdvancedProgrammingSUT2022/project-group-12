@@ -17,7 +17,7 @@ public class TileGrid {
     private final ArrayList<Hex> hexes;
     public TileGrid(int height, int width) {
         hexes = new ArrayList<>();
-        int multiply = 2;
+        int multiply = 5;
         this.height = height;
         this.width = width;
         this.tiles = new Tile[height][width];
