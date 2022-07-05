@@ -37,12 +37,13 @@ public class StartGameView implements ViewController {
     private SpinnerValueFactory<Integer> heightValueFactory;
 
     public void initialize() {
-        currentWidthSize = 0;
+        currentWidthSize = 10;
+        currentHeightSize = 10;
         selectedUsernames = new ArrayList<>();
         widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
-        widthValueFactory.setValue(10);
+        widthValueFactory.setValue(currentWidthSize);
         heightValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
-        heightValueFactory.setValue(10);
+        heightValueFactory.setValue(currentHeightSize);
         gridSizeWidth.setValueFactory(widthValueFactory);
         gridSizeWidth.valueProperty().addListener((observableValue, integer, t1) -> {
             currentWidthSize = gridSizeWidth.getValue();
