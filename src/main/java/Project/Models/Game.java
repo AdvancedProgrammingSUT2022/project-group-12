@@ -52,9 +52,9 @@ public class Game {
             if (users.size() == 1) settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH-1, Constants.TILEGRID_HEIGHT-1));
             else settlerTile = availableTiles.get(availableTiles.size() - 1);
 
-            for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
-                availableTiles.remove(tile);
-            }
+//            for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
+//                availableTiles.remove(tile);
+//            }
 
             NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerTile.getLocation());
             try {

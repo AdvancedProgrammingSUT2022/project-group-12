@@ -14,48 +14,19 @@ import Project.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class GameView implements ViewController {
     private static GameView instance;
-    public Button btn;
-    public MenuItem happinessIncrease;
     @FXML
-    private VBox enterInfoVbox;
-    private int increaseAmount;
+    private MenuBar menuBar;
     @FXML
-    private BorderPane enterInfoPane;
+    private Button btn;
     @FXML
     private Menu cheat;
     @FXML
-    private MenuItem goldIncrease;
-    @FXML
-    private Menu foodIncrease;
-    @FXML
-    private Menu unitSpawn;
-    @FXML
-    private Menu productFinish;
-    @FXML
-    private MenuItem beakerIncrease;
-    @FXML
-    private Menu teleportation;
-    @FXML
-    private Menu productionIncrease;
-    @FXML
-    private MenuItem tileReveal;
-    @FXML
-    private Menu movementIncrease;
-    @FXML
-    private Menu cityHeal;
-    @FXML
-    private Menu unitHeal;
-    @FXML
-    private MenuItem technologiesUnlock;
-    @FXML
-    private Menu buildingsAdd;
+    private Menu info;
     @FXML
     private ScrollPane scrollPane;
     private Game game;
@@ -65,22 +36,259 @@ public class GameView implements ViewController {
     private Pane buildingsPane;
     @FXML
     private Pane unitsPane;
-    private Spinner<Integer> spinner;
-    private SpinnerValueFactory<Integer> valueFactory;
-    private int locationX;
-    private int locationY;
+    @FXML
+    private Pane cheatSelectPane;
+    @FXML
+    private Spinner<Integer> goldSpinner;
+    private SpinnerValueFactory<Integer> goldValueFactory;
+    private int goldAmount;
+    @FXML
+    private Spinner<Integer> foodSpinner;
+    private SpinnerValueFactory<Integer> foodValueFactory;
+    private City foodForCity;
+    private int foodAmount;
+    @FXML
+    private MenuButton foodForCitySelect;
+    @FXML
+    private MenuButton unitEnumSelect;
+    private UnitEnum selectedUnitEnum;
+    @FXML
+    private Spinner<Integer> spawnLocationXSpinner;
+    private SpinnerValueFactory<Integer> spawnLocationXValueFactory;
+    private int locationSpawnX;
+    @FXML
+    private Spinner<Integer> spawnLocationYSpinner;
+    private SpinnerValueFactory<Integer> spawnLocationYValueFactory;
+    private int locationSpawnY;
+    @FXML
+    private Spinner<Integer> tileXSpinner;
+    private SpinnerValueFactory<Integer> tileXValueFactory;
+    private int locationTileX;
+    @FXML
+    private Spinner<Integer> tileYSpinner;
+    private SpinnerValueFactory<Integer> tileYValueFactory;
+    private int locationTileY;
+    @FXML
+    private MenuButton productionIncreaseCityMenu;
+    private City productionIncreaseCity;
+    @FXML
+    private Spinner<Integer> productionIncreaseSpinner;
+    private SpinnerValueFactory<Integer> productionIncreaseValueFactory;
+    private int productIncreaseAmount;
+    @FXML
+    private MenuButton teleportUnit;
+    private Unit teleportingUnit;
+    @FXML
+    private Spinner<Integer> teleportXSpinner;
+    private SpinnerValueFactory<Integer> teleportXValueFactory;
+    private int locationTeleportX;
+    @FXML
+    private Spinner<Integer> teleportYSpinner;
+    private SpinnerValueFactory<Integer> teleportYValueFactory;
+    private int locationTeleportY;
+    @FXML
+    private MenuButton finishProductionCity;
+    private City productionFinishingCity;
+    @FXML
+    private Spinner<Integer> increaseHappinessSpinner;
+    private SpinnerValueFactory<Integer> increaseHappinessValueFactory;
+    private int happinessAmount;
+    @FXML
+    private Spinner<Integer> increaseBeakerSpinner;
+    private SpinnerValueFactory<Integer> increaseBeakerValueFactory;
+    private int beakerAmount;
+    @FXML
+    private MenuButton movementIncreaseUnit;
+    private Unit increasingMovementUnit;
+    @FXML
+    private Spinner<Integer> movementIncreaseSpinner;
+    private SpinnerValueFactory<Integer> movementIncreaseValueFactory;
+    private int movementIncreaseAmount;
+    @FXML
+    private MenuButton cityHealing;
+    private City healingCity;
+    @FXML
+    private MenuButton unitHealing;
+    private Unit healingUnit;
+    @FXML
+    private MenuButton buildingsMenu;
+    private BuildingEnum buildingEnum;
+    @FXML
+    private MenuButton cityForBuildingsMenu;
+    private City cityForBuilding;
+    @FXML
+    private Pane pane;
 
     public static GameView getInstance() {
         return instance;
     }
 
     public void initialize() {
-        valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99);
-        spinner = getSpinner(valueFactory);
         this.game = GameController.getGame();
         GameController.getGame().SetPage(this);
+        initSpinners();
+        initMenus();
         instance = this;
         //todo : initialize
+    }
+
+    private void initMenus() {
+        initCityMenus();
+        initUnitMenus();
+        initBuildings();
+        initUnitEnumMenu();
+    }
+
+    private void initBuildings() {
+        for (BuildingEnum buildingEnums : BuildingEnum.values()) {
+            MenuItem item = new MenuItem(buildingEnums.name());
+            item.setOnAction(actionEvent -> {
+                buildingEnum = buildingEnums;
+                buildingsMenu.setText(buildingEnums.name());
+            });
+            buildingsMenu.getItems().add(item);
+        }
+    }
+
+    private void initCityMenus() {
+        for (City city : GameController.getGame().getCurrentCivilization().getCities()) {
+            MenuItem foodItem = new MenuItem(city.getName());
+            MenuItem productionIncreaseItem = new MenuItem(city.getName());
+            MenuItem productionFinishingItem = new MenuItem(city.getName());
+            MenuItem cityHealItem = new MenuItem(city.getName());
+            MenuItem buildingCity = new MenuItem(city.getName());
+            foodItem.setOnAction(actionEvent -> foodForCity = city);
+            foodForCitySelect.getItems().add(foodItem);
+            productionIncreaseItem.setOnAction(actionEvent -> {
+                productionIncreaseCity = city;
+                productionIncreaseCityMenu.setText(city.getName());
+            });
+            productionIncreaseCityMenu.getItems().add(productionIncreaseItem);
+            productionFinishingItem.setOnAction(actionEvent -> {
+                productionFinishingCity = city;
+                finishProductionCity.setText(city.getName());
+            });
+            finishProductionCity.getItems().add(productionFinishingItem);
+            cityHealItem.setOnAction(actionEvent -> {
+                healingCity = city;
+                cityHealing.setText(city.getName());
+            });
+            cityHealing.getItems().add(cityHealItem);
+            buildingCity.setOnAction(actionEvent -> {
+                cityForBuilding = city;
+                cityForBuildingsMenu.setText(city.getName());
+            });
+            cityForBuildingsMenu.getItems().add(buildingCity);
+        }
+    }
+
+    private void initUnitMenus() {
+        for (Unit unit : GameController.getGame().getCurrentCivilization().getUnits()) {
+            MenuItem teleportUnitItem = new MenuItem(unit.getType().name());
+            MenuItem unitMovementIncreaseItem = new MenuItem(unit.getType().name());
+            MenuItem healingUnitItem = new MenuItem(unit.getType().name());
+            teleportUnitItem.setOnAction(actionEvent -> {
+                teleportingUnit = unit;
+                teleportUnit.setText(unit.getType().name());
+            });
+            teleportUnit.getItems().add(teleportUnitItem);
+            unitMovementIncreaseItem.setOnAction(actionEvent -> {
+                increasingMovementUnit = unit;
+                movementIncreaseUnit.setText(unit.getType().name());
+            });
+            movementIncreaseUnit.getItems().add(unitMovementIncreaseItem);
+            healingUnitItem.setOnAction(actionEvent -> {
+                healingUnit = unit;
+                unitHealing.setText(unit.getType().name());
+            });
+            unitHealing.getItems().add(healingUnitItem);
+        }
+    }
+
+    private void initUnitEnumMenu() {
+        for (UnitEnum unitEnum : UnitEnum.values()) {
+            MenuItem unitEnumItem = new MenuItem(unitEnum.name());
+            unitEnumItem.setOnAction(actionEvent -> {
+                selectedUnitEnum = unitEnum;
+                unitEnumItem.setText(unitEnum.name());
+            });
+            unitEnumSelect.getItems().add(unitEnumItem);
+        }
+    }
+
+    private void initSpinners() {
+        initGoldSpinner();
+        initFoodSpinner();
+        initIncreaseProductionSpinner();
+        initHappinessSpinner();
+        initBeakerSpinner();
+        initMovementIncreaseSpinner();
+        initUnitSpawnSpinner();
+        initTileRevealSpinner();
+        initTeleportationSpinner();
+    }
+
+    private void initGoldSpinner() {
+        goldSpinner = new Spinner<>();
+        goldValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        goldSpinner.valueProperty().addListener((observableValue, integer, t1) -> goldAmount = goldSpinner.getValue());
+    }
+
+    private void initFoodSpinner() {
+        foodSpinner = new Spinner<>();
+        foodValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        foodSpinner.valueProperty().addListener((observableValue, integer, t1) -> foodAmount = foodSpinner.getValue());
+    }
+
+    private void initIncreaseProductionSpinner() {
+        productionIncreaseSpinner = new Spinner<>();
+        productionIncreaseValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        productionIncreaseSpinner.valueProperty().addListener((observableValue, integer, t1) -> productIncreaseAmount = productionIncreaseSpinner.getValue());
+    }
+
+    private void initHappinessSpinner() {
+        increaseHappinessSpinner = new Spinner<>();
+        increaseHappinessValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        increaseHappinessSpinner.valueProperty().addListener((observableValue, integer, t1) -> happinessAmount = increaseHappinessSpinner.getValue());
+    }
+
+    private void initBeakerSpinner() {
+        increaseBeakerSpinner = new Spinner<>();
+        increaseBeakerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        increaseBeakerSpinner.valueProperty().addListener((observableValue, integer, t1) -> beakerAmount = increaseBeakerSpinner.getValue());
+    }
+
+    private void initMovementIncreaseSpinner() {
+        movementIncreaseSpinner = new Spinner<>();
+        movementIncreaseValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        movementIncreaseSpinner.valueProperty().addListener((observableValue, integer, t1) -> movementIncreaseAmount = movementIncreaseSpinner.getValue());
+    }
+
+    private void initUnitSpawnSpinner() {
+        spawnLocationXSpinner = new Spinner<>();
+        spawnLocationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        spawnLocationXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnX = spawnLocationXSpinner.getValue());
+        spawnLocationYSpinner = new Spinner<>();
+        spawnLocationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        spawnLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnY = spawnLocationYSpinner.getValue());
+    }
+
+    private void initTileRevealSpinner() {
+        tileXSpinner = new Spinner<>();
+        tileXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        tileXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileX = tileXSpinner.getValue());
+        tileYSpinner = new Spinner<>();
+        tileYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        tileYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileY = tileYSpinner.getValue());
+    }
+
+    private void initTeleportationSpinner() {
+        teleportXSpinner = new Spinner<>();
+        teleportXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        teleportXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportX = teleportXSpinner.getValue());
+        teleportYSpinner = new Spinner<>();
+        teleportYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        teleportYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportY = teleportYSpinner.getValue());
     }
 
     public Pane getTilePane() {
@@ -106,269 +314,182 @@ public class GameView implements ViewController {
         System.out.print(new TileGridPrinter(game.getTileGrid(), 10, 10).print(new Location(6, 6)));
     }
 
-    public void increaseGold() {
-        enterInfoPane.setVisible(true);
-        Button confirmButton = new Button("confirm");
-        increaseAmount = 1;
-        valueFactory.setValue(increaseAmount);
-        confirmButton.setOnAction(actionEvent -> {
-            CheatCodeController.getInstance().increaseGold(increaseAmount);
-            enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-            enterInfoPane.setVisible(false);
-        });
-        enterInfoVbox.getChildren().add(spinner);
-        enterInfoVbox.getChildren().add(confirmButton);
+
+    public void gotoCheatSelectPage() {
+        cheatSelectPane.setVisible(true);
     }
 
-    private Spinner<Integer> getSpinner(SpinnerValueFactory<Integer> valueFactory) {
-        Spinner<Integer> spinner = new Spinner<>();
-        valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99);
-        spinner.setValueFactory(valueFactory);
-        spinner.valueProperty().addListener((observableValue, integer, t1) -> increaseAmount = spinner.getValue());
-        return spinner;
+    public void increaseGold() {
+        CheatCodeController.getInstance().increaseGold(goldAmount);
+        cheatSelectPane.setVisible(false);
     }
 
     public void increaseFood() {
-        for (City city : game.getCurrentCivilization().getCities()) {
-            MenuItem item = new MenuItem(city.getName());
-            item.setOnAction(actionEvent -> {
-                enterInfoPane.setVisible(true);
-                Button confirmButton = new Button("confirm");
-                increaseAmount = 1;
-                valueFactory.setValue(increaseAmount);
-                confirmButton.setOnAction(actionEvent1 -> {
-                    CheatCodeController.getInstance().increaseFood(city, increaseAmount);
-                    enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-                    enterInfoPane.setVisible(false);
-                });
-                enterInfoVbox.getChildren().add(spinner);
-                enterInfoVbox.getChildren().add(confirmButton);
-            });
-            foodIncrease.getItems().add(item);
-        }
+        if (foodForCity == null)
+            return;
+        CheatCodeController.getInstance().increaseFood(foodForCity, foodAmount);
+        foodForCity = null;
+        foodForCitySelect.setText("City");
+        cheatSelectPane.setVisible(false);
     }
 
     public void spawnUnit() {
-        for (UnitEnum units : UnitEnum.values()) {
-            MenuItem item = new MenuItem(units.name());
-            item.setOnAction(actionEvent -> {
-                enterInfoPane.setVisible(true);
-                Button confirmButton = new Button("confirm");
-                increaseAmount = 1;
-                Text locationXText = new Text("location x:");
-                Text locationYText = new Text("location y:");
-                Spinner<Integer> ySpinner = getSpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT));
-                Spinner<Integer> xSpinner = getSpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH));
-                xSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationX = xSpinner.getValue());
-                ySpinner.valueProperty().addListener((observableValue, integer, t1) -> locationY = ySpinner.getValue());
-                confirmButton.setOnAction(actionEvent1 -> {
-                    try {
-                        CheatCodeController.getInstance().spawnUnit(units, game.getCurrentCivilization(), new Location(locationX--, locationY--));
-                    } catch (CommandException e) {
-                        return;
-                    } finally {
-                        enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-                        enterInfoPane.setVisible(false);
-                    }
-                });
-                enterInfoVbox.getChildren().add(locationXText);
-                enterInfoVbox.getChildren().add(xSpinner);
-                enterInfoVbox.getChildren().add(locationYText);
-                enterInfoVbox.getChildren().add(ySpinner);
-                enterInfoVbox.getChildren().add(confirmButton);
-            });
-            unitSpawn.getItems().add(item);
-        }
-    }
-
-    public void finishProduct() {
-        for (City city : game.getCurrentCivilization().getCities()) {
-            MenuItem item = new MenuItem(city.getName());
-            item.setOnAction(actionEvent -> {
-                try {
-                    CheatCodeController.getInstance().finishProducts(city);
-                } catch (CommandException e) {
-                    System.out.println("couldn't finish products for city: " + city.getName());
-                }
-            });
-            productFinish.getItems().add(item);
-        }
-    }
-
-    public void increaseBeaker() {
-        enterInfoPane.setVisible(true);
-        Button confirmButton = new Button("confirm");
-        increaseAmount = 1;
-        valueFactory.setValue(increaseAmount);
-        confirmButton.setOnAction(actionEvent -> {
-            CheatCodeController.getInstance().increaseBeaker(increaseAmount);
-            enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-            enterInfoPane.setVisible(false);
-        });
-        enterInfoVbox.getChildren().add(spinner);
-        enterInfoVbox.getChildren().add(confirmButton);
-    }
-
-    public void teleport() {
-        for (Unit units : game.getCurrentCivilization().getUnits()) {
-            MenuItem item = new MenuItem(units.getLocation() + " " + units.getType().name());
-            item.setOnAction(actionEvent -> {
-                enterInfoPane.setVisible(true);
-                Button confirmButton = new Button("confirm");
-                increaseAmount = 1;
-                Text locationXText = new Text("location x:");
-                Text locationYText = new Text("location y:");
-                Spinner<Integer> ySpinner = getSpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT));
-                Spinner<Integer> xSpinner = getSpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH));
-                xSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationX = xSpinner.getValue());
-                ySpinner.valueProperty().addListener((observableValue, integer, t1) -> locationY = ySpinner.getValue());
-                confirmButton.setOnAction(actionEvent1 -> {
-                    try {
-                        CheatCodeController.getInstance().teleport(new Location(locationX--, locationY--), units);
-                    } catch (CommandException e) {
-                        return;
-                    } finally {
-                        enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-                        enterInfoPane.setVisible(false);
-                    }
-                });
-                enterInfoVbox.getChildren().add(locationXText);
-                enterInfoVbox.getChildren().add(xSpinner);
-                enterInfoVbox.getChildren().add(locationYText);
-                enterInfoVbox.getChildren().add(ySpinner);
-                enterInfoVbox.getChildren().add(confirmButton);
-            });
-            teleportation.getItems().add(item);
-        }
-    }
-
-    public void increaseProduction() {
-        for (City city : game.getCurrentCivilization().getCities()) {
-            MenuItem item = new MenuItem(city.getName());
-            item.setOnAction(actionEvent -> {
-                enterInfoPane.setVisible(true);
-                Button confirmButton = new Button("confirm");
-                increaseAmount = 1;
-                valueFactory.setValue(increaseAmount);
-                confirmButton.setOnAction(actionEvent1 -> {
-                    CheatCodeController.getInstance().increaseProduction(city, increaseAmount);
-                    enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-                    enterInfoPane.setVisible(false);
-                });
-                enterInfoVbox.getChildren().add(spinner);
-                enterInfoVbox.getChildren().add(confirmButton);
-            });
-            productionIncrease.getItems().add(item);
+        if (selectedUnitEnum == null || locationSpawnX == 0 || locationSpawnY == 0)
+            return;
+        try {
+            CheatCodeController.getInstance().spawnUnit(selectedUnitEnum, GameController.getGame().getCurrentCivilization(), new Location(locationSpawnX--, locationSpawnY--));
+        } catch (CommandException e) {
+            System.out.println("error in game view/ spawn unit");
+        } finally {
+            locationSpawnX = 0;
+            locationSpawnY = 0;
+            selectedUnitEnum = null;
+            unitEnumSelect.setText("Unit");
+            cheatSelectPane.setVisible(false);
         }
     }
 
     public void revealTile() {
-        enterInfoPane.setVisible(true);
-        Button confirmButton = new Button("confirm");
-        increaseAmount = 1;
-        Text locationXText = new Text("location x:");
-        Text locationYText = new Text("location y:");
-        Spinner<Integer> ySpinner = getSpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT));
-        Spinner<Integer> xSpinner = getSpinner(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH));
-        xSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationX = xSpinner.getValue());
-        ySpinner.valueProperty().addListener((observableValue, integer, t1) -> locationY = ySpinner.getValue());
-        confirmButton.setOnAction(actionEvent1 -> {
-            CheatCodeController.getInstance().revealTile(new Location(locationX--, locationY--));
-            enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-            enterInfoPane.setVisible(false);
-        });
-        enterInfoVbox.getChildren().add(locationXText);
-        enterInfoVbox.getChildren().add(xSpinner);
-        enterInfoVbox.getChildren().add(locationYText);
-        enterInfoVbox.getChildren().add(ySpinner);
-        enterInfoVbox.getChildren().add(confirmButton);
+        if (locationTileX == 0 || locationTileY == 0)
+            return;
+        CheatCodeController.getInstance().revealTile(new Location(locationTileX--, locationTileY--));
+        locationTileX = 0;
+        locationTileY = 0;
+        cheatSelectPane.setVisible(false);
+    }
+
+    public void increaseProduction() {
+        if (productionIncreaseCity == null)
+            return;
+        CheatCodeController.getInstance().increaseProduction(productionIncreaseCity, productIncreaseAmount);
+        productIncreaseAmount = 0;
+        productionIncreaseCity = null;
+        productionIncreaseCityMenu.setText("City");
+        cheatSelectPane.setVisible(false);
+    }
+
+    public void teleport() {
+        if (teleportUnit == null || locationTeleportX == 0 || locationTeleportY == 0)
+            return;
+        try {
+            CheatCodeController.getInstance().teleport(new Location(locationTeleportX--, locationTeleportY--), teleportingUnit);
+        } catch (CommandException e) {
+            System.out.println("error in game view/ teleport");
+        } finally {
+            locationTeleportX = 0;
+            locationTeleportY = 0;
+            teleportUnit.setText("Unit");
+            teleportUnit = null;
+            cheatSelectPane.setVisible(false);
+        }
+    }
+
+    public void finishProduction() {
+        if (productionIncreaseCity == null)
+            return;
+        try {
+            CheatCodeController.getInstance().finishProducts(productionFinishingCity);
+        } catch (CommandException e) {
+            System.out.println("error in game view / finish production");
+        } finally {
+            productionIncreaseCity = null;
+            finishProductionCity.setText("City");
+            cheatSelectPane.setVisible(false);
+        }
+    }
+
+    public void increaseHappiness() {
+        CheatCodeController.getInstance().increaseHappiness(happinessAmount);
+        happinessAmount = 0;
+        cheatSelectPane.setVisible(false);
+    }
+
+    public void increaseBeaker() {
+        CheatCodeController.getInstance().increaseBeaker(beakerAmount);
+        beakerAmount = 0;
+        cheatSelectPane.setVisible(false);
     }
 
     public void increaseMovement() {
-        for (Unit units : game.getCurrentCivilization().getUnits()) {
-            MenuItem item = new MenuItem(units.getType().name());
-            item.setOnAction(actionEvent -> {
-                enterInfoPane.setVisible(true);
-                Button confirmButton = new Button("confirm");
-                increaseAmount = 1;
-                valueFactory.setValue(increaseAmount);
-                confirmButton.setOnAction(actionEvent1 -> {
-                    CheatCodeController.getInstance().increaseMovement(units, increaseAmount);
-                    enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-                    enterInfoPane.setVisible(false);
-                });
-                enterInfoVbox.getChildren().add(spinner);
-                enterInfoVbox.getChildren().add(confirmButton);
-            });
-            movementIncrease.getItems().add(item);
-        }
+        if (increasingMovementUnit == null)
+            return;
+        CheatCodeController.getInstance().increaseMovement(increasingMovementUnit, movementIncreaseAmount);
+        increasingMovementUnit = null;
+        movementIncreaseAmount = 0;
+        movementIncreaseUnit.setText("Unit");
+        cheatSelectPane.setVisible(false);
     }
 
     public void healCity() {
-        for (City city : game.getCurrentCivilization().getCities()) {
-            MenuItem item = new MenuItem(city.getName());
-            item.setOnAction(actionEvent -> {
-                CheatCodeController.getInstance().healCity(city);
-            });
-            cityHeal.getItems().add(item);
-        }
+        if (healingCity == null)
+            return;
+        CheatCodeController.getInstance().healCity(healingCity);
+        healingCity = null;
+        cityHealing.setText("City");
+        cheatSelectPane.setVisible(false);
     }
 
     public void healUnit() {
-        for (Unit unit : game.getCurrentCivilization().getUnits()) {
-            MenuItem item = new MenuItem(unit.getLocation() + " " + unit.getType().name());
-            item.setOnAction(actionEvent -> {
-                CheatCodeController.getInstance().healUnit(unit);
-            });
-            unitHeal.getItems().add(item);
-        }
+        if (healingUnit == null)
+            return;
+        CheatCodeController.getInstance().healUnit(healingUnit);
+        healingUnit = null;
+        unitHealing.setText("Unit");
+        cheatSelectPane.setVisible(false);
     }
 
-    public void techsUnlock() {
-        CheatCodeController.getInstance().unlockTechnologies(game.getCurrentCivilization());
+    public void addTechs() {
+        CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
+        cheatSelectPane.setVisible(false);
     }
 
-    public void addBuilding() {
-        for (BuildingEnum buildingEnum : BuildingEnum.values()) {
-            Menu menu = new Menu(buildingEnum.name());
-            menu.setOnAction(actionEvent -> {
-                for (City city : game.getCurrentCivilization().getCities()) {
-                    MenuItem cityName = new MenuItem(city.getName());
-                    cityName.setOnAction(actionEvent1 -> {
-                        try {
-                            CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingEnum.name()), city);
-                        } catch (CommandException e) {
-                            System.out.println("error in handling building");
-                        }
-                    });
-                    menu.getItems().add(cityName);
-                }
-            });
-            buildingsAdd.getItems().add(menu);
+    public void addBuildings() {
+        if (buildingEnum == null || cityForBuildingsMenu == null)
+            return;
+        try {
+            CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingEnum.name()), cityForBuilding);
+        } catch (CommandException e) {
+            System.out.println("error in game view / add buildings");
+        } finally {
+            buildingEnum = null;
+            cityForBuilding = null;
+            buildingsMenu.setText("Building");
+            cityForBuildingsMenu.setText("City");
+            cheatSelectPane.setVisible(false);
         }
     }
 
     public void backToMenu() {
-        //todo : check for errors
-        MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("MainPage"));
+        // todo : go back to menu
     }
 
     public void exit() {
-//        todo : improve for network
         System.exit(0);
+        // todo : check for thread
     }
 
-    public void increaseHappiness() {
-        enterInfoPane.setVisible(true);
-        Button confirmButton = new Button("confirm");
-        increaseAmount = 1;
-        valueFactory.setValue(increaseAmount);
-        confirmButton.setOnAction(actionEvent -> {
-            CheatCodeController.getInstance().increaseHappiness(increaseAmount);
-            enterInfoVbox.getChildren().removeAll(enterInfoVbox.getChildren());
-            enterInfoPane.setVisible(false);
-        });
-        enterInfoVbox.getChildren().add(spinner);
-        enterInfoVbox.getChildren().add(confirmButton);
+    private void freeMenuItems() {
+        unitEnumSelect.getItems().removeAll(unitEnumSelect.getItems());
+        unitHealing.getItems().removeAll(unitHealing.getItems());
+        cityHealing.getItems().removeAll(cityHealing.getItems());
+        buildingsMenu.getItems().removeAll(buildingsMenu.getItems());
+        cityForBuildingsMenu.getItems().removeAll(cityForBuildingsMenu.getItems());
+        foodForCitySelect.getItems().removeAll(foodForCitySelect.getItems());
+        productionIncreaseCityMenu.getItems().removeAll(productionIncreaseCityMenu.getItems());
+        teleportUnit.getItems().removeAll(teleportUnit.getItems());
+        finishProductionCity.getItems().removeAll(finishProductionCity.getItems());
+        movementIncreaseUnit.getItems().removeAll(movementIncreaseUnit.getItems());
+    }
+
+    public void refreshCheatSheet() {
+        freeMenuItems();
+        initMenus();
+        initSpinners();
+    }
+
+    public void exitPane(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getCode().getName());
+        if (keyEvent.getCode().getName().equals("Esc"))
+            cheatSelectPane.setVisible(false);
     }
 }
