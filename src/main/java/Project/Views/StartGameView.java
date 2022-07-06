@@ -4,6 +4,7 @@ import Project.Controllers.MainMenuController;
 import Project.Models.Database;
 import Project.Models.User;
 import Project.Utils.CommandException;
+import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -101,10 +102,11 @@ public class StartGameView implements ViewController {
 
     public void acceptClick() {
         try {
-            //todo : set grid with and height
+            Constants.TILEGRID_WIDTH = currentWidthSize;
+            Constants.TILEGRID_HEIGHT = currentHeightSize;
             MainMenuController.startNewGame(selectedUsernames);
         } catch (CommandException e) {
-            System.err.println("error in start game/ accept click");
+            System.err.println("error in start game / accept click");
             System.err.println(e.getMessage());
             return;
         }
