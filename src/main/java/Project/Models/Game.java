@@ -121,17 +121,16 @@ public class Game {
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
             throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
-        checkForKillingCiziten(civ);
+        checkForKillingCitizen(civ);
         /***
          * add gold
          */
         civ.addGold(civ.calculateCivilizationGold());
 
-
     }
 
 
-    private void checkForKillingCiziten(Civilization civ) {
+    private void checkForKillingCitizen(Civilization civ) {
         for (City city :
                 civ.getCities()) {
             if (city.calculateFood() < 0) {

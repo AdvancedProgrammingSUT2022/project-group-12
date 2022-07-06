@@ -29,7 +29,6 @@ public class StartGameView implements ViewController {
     private ArrayList<String> selectedUsernames;
     @FXML
     private VBox userBox1;
-    private boolean userSelected;
     private ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
@@ -38,9 +37,19 @@ public class StartGameView implements ViewController {
     private SpinnerValueFactory<Integer> heightValueFactory;
 
     public void initialize() {
+        initializeSpinners();
+        selectedUsernames = new ArrayList<>();
+        selectedUsernames.add(MenuStack.getInstance().getUser().getUsername());
+        usernames = Database.getInstance().getAllUsers();
+        usernames.remove(MenuStack.getInstance().getUser().getUsername());
+        userSelect.getItems().removeAll(userSelect.getItems());
+        userSelect.getItems().addAll(usernames);
+        userSelect.setOnAction(this::getUser);
+    }
+
+    private void initializeSpinners() {
         currentWidthSize = 10;
         currentHeightSize = 10;
-        selectedUsernames = new ArrayList<>();
         widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
         widthValueFactory.setValue(currentWidthSize);
         heightValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
@@ -55,12 +64,7 @@ public class StartGameView implements ViewController {
             currentHeightSize = gridSizeHeight.getValue();
             System.out.println(currentHeightSize);
         });
-        usernames = Database.getInstance().getAllUsers();
-        usernames.remove(MenuStack.getInstance().getUser().getUsername());
-        userSelect.getItems().removeAll(userSelect.getItems());
-        userSelect.getItems().addAll(usernames);
-        this.userSelected = false;
-        userSelect.setOnAction(this::getUser);
+
     }
 
     private void getUser(ActionEvent event) {

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class MainMenuController {
 
     public static Game startNewGame(ArrayList<String> usernames) throws CommandException {
+        System.out.println(usernames);
         ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
         for (String username : usernames) {
