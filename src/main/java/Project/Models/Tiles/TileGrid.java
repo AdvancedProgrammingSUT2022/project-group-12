@@ -7,6 +7,7 @@ import Project.Models.Terrains.Terrain;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -89,7 +90,7 @@ public class TileGrid {
         this.tiles[location.getRow()][location.getCol()] = tile;
     }
 
-    public ArrayList<Tile> getAllTilesInRadius(Tile sourceTile, int rad) {
+    public ArrayList<Tile> getAllTilesInRadius(@NotNull Tile sourceTile, int rad) {
         Map<Tile, Integer> dist = new HashMap<>();
         Deque<Tile> queue = new ArrayDeque<>();
         queue.add(sourceTile);

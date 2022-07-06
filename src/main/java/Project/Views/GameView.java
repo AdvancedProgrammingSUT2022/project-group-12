@@ -75,10 +75,10 @@ public class GameView implements ViewController {
     }
 
     public void initialize() {
+        valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99);
         spinner = getSpinner(valueFactory);
         this.game = GameController.getGame();
         GameController.getGame().SetPage(this);
-        System.out.println(GameController.getGame().getCurrentCivilization());
         instance = this;
         //todo : initialize
     }
@@ -354,7 +354,7 @@ public class GameView implements ViewController {
     }
 
     public void exit() {
-        //todo : improve for network
+//        todo : improve for network
         System.exit(0);
     }
 
