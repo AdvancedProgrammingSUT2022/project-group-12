@@ -26,6 +26,8 @@ public class GameView implements ViewController {
         return instance;
     }
 
+
+
     public void initialize() {
         this.game = GameController.getGame();
         GameController.getGame().SetPage(this);

@@ -1,7 +1,9 @@
 package Project;
 
-public class Main {
 
+import javafx.scene.shape.Polygon;
+
+public class Main {
 //    public static void main(String[] args) {
 //        Database.getInstance().deserialize();
 //        Scanner scanner = new Scanner(System.in);
@@ -13,4 +15,5 @@ public class Main {
 //        }
 //        Database.getInstance().serialize();
 //    }
+    Polygon polygon = new Polygon(5,4);
 }

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+fileNames=("$(ls *.png*)");
+echo $fileNames	
+
+
+for file in *.png*
+	do
+	echo $file	
+	newName=$(echo $file | sed "s/man/_man/");
+	echo $newName
+	echo $newName
+
+	mv "$file" "$newName"
+	done
