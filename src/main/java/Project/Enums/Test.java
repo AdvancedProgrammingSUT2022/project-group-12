@@ -3,7 +3,9 @@ package Project.Enums;
 import Project.App;
 import Project.Models.Civilization;
 import Project.Models.Location;
+import Project.Models.Terrains.Terrain;
 import Project.Models.Tiles.Hex;
+import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.RangedUnit;
 import Project.Models.Units.Unit;
@@ -46,7 +48,7 @@ public class Test extends Application {
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
                 //     if(i != 0 && j != 0)
-                mainGroup.getChildren().add(new Hex(5,j,i,"KHAKI"));
+//                mainGroup.getChildren().add(new Hex(new Tile(5,new Terrain()),5,j,i,"KHAKI"));
             }
         }
         createUnitGroup();

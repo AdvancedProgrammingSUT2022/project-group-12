@@ -26,7 +26,7 @@ public class App extends Application {
     public void start(Stage stage) {
         Database.getInstance().deserialize();
         App.scene = new Scene(new Pane());
-        App.scene.getStylesheets().add(Objects.requireNonNull(App.getResourcePath("css/styles.css")));
+//        App.scene.getStylesheets().add(Objects.requireNonNull(App.getResourcePath("css/styles.css")));
         stage.setScene(App.scene);
         stage.setResizable(false);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));

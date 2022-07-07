@@ -1,6 +1,7 @@
 package Project.Models.Tiles;
 
 
+import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
 import javafx.scene.Cursor;
 import javafx.scene.effect.DropShadow;
@@ -18,15 +19,17 @@ public class Hex extends Polygon {
     private final double horizontalSpacing;
     private final double beginningOfLine;
     private final String url;
+    private final Location tileLocation;
 
-    public Hex(double multiply, int i, int j, String url) {
+    public Hex(Tile tile, double multiply, int i, int j, String url) {
+        this.tileLocation = tile.getLocation();
 //        Image image = new Image("-url-");
         this.i = i;
         this.j = j;
         this.url = url;
         this.multiply = multiply;
-        this.verticalSpacing = j * 10 * multiply;
-        this.horizontalSpacing = 5 * Math.sqrt(3) * i * multiply;
+        this.verticalSpacing = j * 10 * multiply + 5;
+        this.horizontalSpacing = 5 * Math.sqrt(3) * i * multiply + 5;
         beginningOfLine = i % 2 == 0 ? 0 : 15 * multiply;
         w = 20 * multiply;
         h = 10 * Math.sqrt(3) * multiply;
@@ -49,6 +52,10 @@ public class Hex extends Polygon {
             this.setEffect(null);
         });
         this.setOnMouseClicked(mouseEvent -> System.out.println(j + " " + i));
+        if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
+            this.setFogOfWar();
+        else if (tile.getState() == VisibilityEnum.VISIBLE)
+            this.setVisible();
     }
 
     private double initX(double x) {
@@ -65,6 +72,14 @@ public class Hex extends Polygon {
 
     public double getWidth() {
         return w;
+    }
+
+    public void setFogOfWar() {
+
+    }
+
+    public void setVisible() {
+
     }
 
     public double getHeight() {
@@ -90,11 +105,13 @@ public class Hex extends Polygon {
     public int getColumn() {
         return j;
     }
-    public double getCenterX(){
+
+    public double getCenterX() {
         return (50 + this.initX(0));
     }
-    public double getCenterY(){
+
+    public double getCenterY() {
         System.out.println("this.getLayoutY() = " + this.getLayoutY());
-        return (12.5 * Math.sqrt(3) +  this.initY(0));
+        return (12.5 * Math.sqrt(3) + this.initY(0));
     }
 }

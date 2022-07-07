@@ -2,21 +2,25 @@ package Project.Views;
 
 import Project.CommandlineViews.TileGridPrinter;
 import Project.Controllers.GameController;
-import Project.Enums.BuildingEnum;
-import Project.Enums.UnitEnum;
-import Project.Models.Cities.City;
 import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
-import javafx.scene.control.*;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
+
+import java.util.ArrayList;
 
 public class GameView implements ViewController {
     private static GameView instance;
+    private ArrayList<Pane> unitsPanes;
+    @FXML
+    private Pane selectionPane;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -40,18 +44,27 @@ public class GameView implements ViewController {
     }
 
     public void initialize() {
+        this.unitsPanes = new ArrayList<>();
         this.game = GameController.getGame();
         GameController.getGame().SetPage(this);
         instance = this;
         //todo : initialize
     }
 
-    public void initializeUnits(TileGrid tileGrid) {
+    public void initializeUnits() {
+        TileGrid tileGrid = GameController.getGame().getTileGrid();
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
                 NonCombatUnit nonCombatUnit = tileGrid.getTile(i, j).getNonCombatUnit();
                 if (nonCombatUnit != null) {
-                    unitsPane.getChildren().add(nonCombatUnit.getGraphicUnit());
+                    Pane newPane = new Pane(nonCombatUnit.getUnitImage());
+//                    newPane.setMaxHeight();
+//                    newPane.setMaxWidth();
+//                    newPane.setLayoutX(tileGrid.getTile(i,j).getHex().getCenterX());
+                    newPane.setLayoutY(tileGrid.getTile(i,j).getHex().getCenterY());
+
+//                    unitsPane.getChildren().add();
+                    unitsPanes.add(newPane);
                 }
             }
         }
@@ -75,7 +88,7 @@ public class GameView implements ViewController {
     }
 
     public void addUnit(Unit unit) {
-        unitsPane.getChildren().add(unit.getGraphicUnit());
+        unitsPane.getChildren().add(unit.getUnitImage());
     }
 
     public void click() {
@@ -83,7 +96,7 @@ public class GameView implements ViewController {
         btn.setVisible(false);
         System.out.println(tilePane.getChildren());
         tilePane.getChildren().addAll(0, game.getTileGrid().getHexes());
-        initializeUnits(game.getTileGrid());
+        initializeUnits();
         System.out.print(new TileGridPrinter(game.getTileGrid(), 10, 10).print(new Location(6, 6)));
     }
 

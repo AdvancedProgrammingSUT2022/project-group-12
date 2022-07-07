@@ -42,18 +42,18 @@ public class Tile {
         this.location = tileLocation;
         this.terrain = terrain;
         this.combatUnit = null;
-        this.hex = new Hex(multiply, tileLocation.getCol(), tileLocation.getRow(), color);
         this.nonCombatUnit = null;
         this.HP = 0;
         this.isDamaged = false;
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
+        this.hex = new Hex(this, multiply, tileLocation.getCol(), tileLocation.getRow(), color);
     }
 
     private Tile(Tile that) {
         this.hex = that.hex;
-        this.location = that.getLocation();
+        this.location = that.location;
         this.terrain = that.terrain;
         this.combatUnit = that.combatUnit;
         this.nonCombatUnit = that.nonCombatUnit;
@@ -68,11 +68,12 @@ public class Tile {
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
     }
-    public void showUnit(Pane pane){
-        if(nonCombatUnit != null){
-           pane.getChildren().add(nonCombatUnit.createUnitGroup());
+
+    public void showUnit(Pane pane) {
+        if (nonCombatUnit != null) {
+            pane.getChildren().add(nonCombatUnit.createUnitGroup());
         }
-        if(combatUnit != null){
+        if (combatUnit != null) {
             pane.getChildren().add(nonCombatUnit.createUnitGroup());
         }
     }
@@ -250,10 +251,11 @@ public class Tile {
             this.setNonCombatUnit(null);
         }
     }
-    public Unit getUnit(){
-        if(combatUnit != null){
+
+    public Unit getUnit() {
+        if (combatUnit != null) {
             return combatUnit;
-        }else if(nonCombatUnit != null){
+        } else if (nonCombatUnit != null) {
             return nonCombatUnit;
         }
         return null;

@@ -12,16 +12,11 @@ import Project.Models.Production;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
 import Project.Utils.Constants;
-import Project.Views.GameView;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -47,6 +42,16 @@ public abstract class Unit extends Production {
         state = UnitStates.AWAKE;
     }
 
+    public Unit(UnitEnum type, Civilization civ, Location location, int productionCost) {
+        super(productionCost);
+        this.type = type;
+        this.civ = civ;
+        this.pathShouldCross = new ArrayList<>();
+        this.resetMovementCount();
+        this.location = location;
+        state = UnitStates.AWAKE;
+    }
+
     // todoLater: integrate unit newing with Civ class
     public static Unit constructUnitFromEnum(UnitEnum unitEnum, Civilization civ, Location location) {
         if (unitEnum.isACombatUnit()) {
@@ -60,18 +65,17 @@ public abstract class Unit extends Production {
         }
     }
 
-    public void resetMovementCount() {
-        this.availableMoveCount = type.getMovement();
+    protected static double getTerrainFeaturesEffect(Tile tile) {
+        double effect = 1;
+        effect *= (1.0 + ((double) tile.getTerrain().getTerrainType().getCombatModifier() / 100.0));
+        for (FeatureEnum feature : tile.getTerrain().getFeatures()) {
+            effect *= (1.0 + ((double) feature.getCombatModifier()) / 100.0);
+        }
+        return effect;
     }
 
-    public Unit(UnitEnum type, Civilization civ, Location location, int productionCost) {
-        super(productionCost);
-        this.type = type;
-        this.civ = civ;
-        this.pathShouldCross = new ArrayList<>();
-        this.resetMovementCount();
-        this.location = location;
-        state = UnitStates.AWAKE;
+    public void resetMovementCount() {
+        this.availableMoveCount = type.getMovement();
     }
 
     public int calculateDamage(double strengthDiff) {
@@ -107,14 +111,6 @@ public abstract class Unit extends Production {
         return strength;
     }
 
-    protected static double getTerrainFeaturesEffect(Tile tile) {
-        double effect = 1;
-        effect *= (1.0 + ((double) tile.getTerrain().getTerrainType().getCombatModifier() / 100.0));
-        for (FeatureEnum feature : tile.getTerrain().getFeatures()) {
-            effect *= (1.0 + ((double) feature.getCombatModifier()) / 100.0);
-        }
-        return effect;
-    }
     public Group createUnitGroup() {
         Hex hex = GameController.getGameTile(this.location).getHex();
         Group group = new Group();
@@ -128,16 +124,14 @@ public abstract class Unit extends Production {
                 group.getChildren().add(imageView);
             }
         }
-        group.setOnMouseEntered((MouseEvent) -> {
+        group.setOnMouseClicked((MouseEvent) -> {
             hex.setEffect(new DropShadow());
-            System.out.println("\"mouseEntered\" = " + "mouseEntered");
             DropShadow hexDropShadow = (DropShadow) hex.getEffect();
             hex.setCursor(Cursor.HAND);
             hexDropShadow.setInput(new GaussianBlur());
         });
         group.setOnMouseExited((MouseEvent) -> {
-            DropShadow effect = (DropShadow) hex.getEffect();
-            effect.setInput(null);
+            hex.setEffect(null);
         });
         return group;
     }
@@ -204,10 +198,20 @@ public abstract class Unit extends Production {
     }
 
     public Group getGraphicUnit() {
-        if(graphicUnit == null){
+        if (graphicUnit == null) {
             graphicUnit = createUnitGroup();
         }
         return graphicUnit;
+    }
+
+    public ImageView getUnitImage() {
+        Hex hex = GameController.getGame().getTileGrid().getTile(location.getRow(),location.getCol()).getHex();
+        ImageView imageView = new ImageView();
+        imageView.setImage(type.getAssetImage());
+        imageView.setLayoutX(hex.getCenterX());
+        imageView.setLayoutY(hex.getCenterY());
+        imageView.setOnMouseClicked(mouseEvent -> System.out.println(type.name()));
+        return imageView;
     }
 
     public void decreaseHealth(int value) {
