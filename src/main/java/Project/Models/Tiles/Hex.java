@@ -5,6 +5,7 @@ import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
 import javafx.scene.Cursor;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
@@ -20,6 +21,7 @@ public class Hex extends Polygon {
     private final double beginningOfLine;
     private final String url;
     private final Location tileLocation;
+    private final Pane pane;
 
     public Hex(Tile tile, double multiply, int i, int j, String url) {
         this.tileLocation = tile.getLocation();
@@ -27,12 +29,15 @@ public class Hex extends Polygon {
         this.i = i;
         this.j = j;
         this.url = url;
+        this.pane = new Pane();
         this.multiply = multiply;
         this.verticalSpacing = j * 10 * multiply + 5;
         this.horizontalSpacing = 5 * Math.sqrt(3) * i * multiply + 5;
         beginningOfLine = i % 2 == 0 ? 0 : 15 * multiply;
         w = 20 * multiply;
         h = 10 * Math.sqrt(3) * multiply;
+        pane.setMaxHeight(h);
+        pane.setMaxWidth(w);
         this.getPoints().addAll(
                 initX(5), initY(0.0),
                 initX(15.0), initY(0.0),
@@ -56,6 +61,10 @@ public class Hex extends Polygon {
             this.setFogOfWar();
         else if (tile.getState() == VisibilityEnum.VISIBLE)
             this.setVisible();
+    }
+
+    public Pane getPane() {
+        return this.pane;
     }
 
     private double initX(double x) {

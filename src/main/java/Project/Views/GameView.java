@@ -4,6 +4,7 @@ import Project.CommandlineViews.TileGridPrinter;
 import Project.Controllers.GameController;
 import Project.Models.Game;
 import Project.Models.Location;
+import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
@@ -57,14 +58,9 @@ public class GameView implements ViewController {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
                 NonCombatUnit nonCombatUnit = tileGrid.getTile(i, j).getNonCombatUnit();
                 if (nonCombatUnit != null) {
-                    Pane newPane = new Pane(nonCombatUnit.getUnitImage());
-//                    newPane.setMaxHeight();
-//                    newPane.setMaxWidth();
-//                    newPane.setLayoutX(tileGrid.getTile(i,j).getHex().getCenterX());
-                    newPane.setLayoutY(tileGrid.getTile(i,j).getHex().getCenterY());
-
-//                    unitsPane.getChildren().add();
-                    unitsPanes.add(newPane);
+                    Hex hex = GameController.getGame().getTileGrid().getTile(i,j).getHex();
+                    hex.getPane().getChildren().add(nonCombatUnit.getGraphicUnit());
+//                    unitsPane.getChildren().add(nonCombatUnit.getGraphicUnit());
                 }
             }
         }
