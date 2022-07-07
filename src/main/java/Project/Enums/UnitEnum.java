@@ -75,7 +75,12 @@ public enum UnitEnum {
         this.movement = movement;
         this.requiredResource = requiredResource;
         this.requiredTech = requiredTech;
-        this.assetImage = new Image(App.class.getResource("/images/units/Units/" + this.name().toLowerCase()).toExternalForm());
+        System.out.println("printing in unit enum: " + this.name().toLowerCase());
+        System.out.println(App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png"));
+        if (App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png") != null)
+            this.assetImage = new Image(App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png").toExternalForm());
+        else
+            this.assetImage = new Image(App.class.getResource("/images/units/Units/impi.png").toExternalForm());
     }
 
     public boolean isACombatUnit() {
@@ -141,8 +146,6 @@ public enum UnitEnum {
     public boolean isRangedUnit() {
         return this.range > 0;
     }
-
-
 
 
     public int getBonusVsMounted() {

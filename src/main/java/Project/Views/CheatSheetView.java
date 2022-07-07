@@ -14,8 +14,11 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.Pane;
 
 public class CheatSheetView implements ViewController {
+    @FXML
+    private Pane pane;
     @FXML
     private Spinner<Integer> goldSpinner;
     private SpinnerValueFactory<Integer> goldValueFactory;
@@ -96,6 +99,7 @@ public class CheatSheetView implements ViewController {
     private City cityForBuilding;
 
     public void initialize() {
+        System.out.println(pane.getStylesheets());
         initSpinners();
         initMenus();
     }
@@ -420,6 +424,7 @@ public class CheatSheetView implements ViewController {
 
     public void back() {
         MenuStack.getInstance().popMenu();
+        System.out.println("back");
     }
 
     public void exit() {

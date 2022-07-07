@@ -82,7 +82,8 @@ public class MenuStack {
 
     public void popMenu() {
         this.menus.remove(this.menus.size() - 1);
-        if (!this.isEmpty()) this.updateScene();
+        if (!this.isEmpty())
+            this.updateScene();
     }
 
     public boolean isEmpty() {
