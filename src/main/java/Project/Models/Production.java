@@ -13,6 +13,10 @@ public abstract class Production<T> {
     public Production(T type) {
     }
 
+    public Production() {
+
+    }
+
     public abstract void note(City city);
 
     public double getRemainedProduction() {

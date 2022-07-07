@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Project.Views.UnitPanelView"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox layoutX="5.0" layoutY="14.0" prefHeight="289.0" prefWidth="590.0">
+
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="unitType" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Civilization"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-------------------------------------------------------------------------"/>
+            <Text fx:id="unitCivilization" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location x:"/>
+            <Text fx:id="unitXLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="--------------------------------------------"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location y:"/>
+            <Text fx:id="unitYLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="unitState" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="170.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Health"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="unitHealth" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="190.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Combat Strength"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-------------------------------------------------------------------------------------"/>
+            <Text fx:id="combatStrength" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Button fx:id="moveUnitBtn" mnemonicParsing="false" onAction="#moveUnit" text="Move"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-------------------------------------------------------------------------"/>
+            <HBox alignment="CENTER" prefHeight="36.0" prefWidth="165.0" spacing="15.0">
+
+                <Spinner prefHeight="24.0" prefWidth="74.0" fx:id="xSpinner"/>
+                <Spinner fx:id="ySpinner" layoutX="10.0" layoutY="10.0" prefHeight="24.0" prefWidth="74.0"/>
+
+            </HBox>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="257.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Button mnemonicParsing="false" onAction="#sleep" text="Sleep"/>
+            <Button mnemonicParsing="false" onAction="#alert" text="Alert"/>
+            <Button mnemonicParsing="false" onAction="#fortify" text="Fortify"/>
+            <Button mnemonicParsing="false" onAction="#awake" text="Awake"/>
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="266.0" prefHeight="100.0"
+              prefWidth="200.0" spacing="100.0">
+
+            <Button mnemonicParsing="false" text="Back"/>
+            <Button mnemonicParsing="false" text="Exit"/>
+        </HBox>
+    </VBox>
+
+
+</AnchorPane>
