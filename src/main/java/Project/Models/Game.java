@@ -48,18 +48,21 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
-            System.out.println(this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH-1, Constants.TILEGRID_HEIGHT-1)));
-            if (users.size() == 1) settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH-1, Constants.TILEGRID_HEIGHT-1));
-            else settlerTile = availableTiles.get(availableTiles.size() - 1);
+            System.out.println(this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1)));
+            if (users.size() == 1)
+                settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1));
+            else
+                settlerTile = availableTiles.get(availableTiles.size() - 1);
 
-            for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
+            for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
-            }
+
             NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerTile.getLocation());
+
             try {
                 settlerTile.placeUnit(settler);
             } catch (CommandException e) { // never
-                throw new RuntimeException(e);
+                System.out.println("error in placing unit in game class");
             }
             civ.addUnit(settler);
             updateRevealedTileGrid(civ);

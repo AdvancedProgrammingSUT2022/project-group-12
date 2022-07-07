@@ -1,49 +1,21 @@
 package Project.Views;
 
-import Project.CommandlineViews.TileGridPrinter;
 import Project.Controllers.CheatCodeController;
 import Project.Controllers.GameController;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
-import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandException;
 import Project.Utils.Constants;
-import Project.Models.Tiles.TileGrid;
-import Project.Models.Units.NonCombatUnit;
-import Project.Models.Units.Unit;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 
-public class GameView implements ViewController {
-    private static GameView instance;
-    @FXML
-    private MenuBar menuBar;
-    @FXML
-    private Button btn;
-    @FXML
-    private Menu cheat;
-    @FXML
-    private Menu info;
-    @FXML
-    private ScrollPane scrollPane;
-    private Game game;
-    @FXML
-    private Pane tilePane;
-    @FXML
-    private Pane buildingsPane;
-    @FXML
-    private Pane unitsPane;
-    @FXML
-    private Pane cheatSelectPane;
+public class CheatSheetView implements ViewController {
     @FXML
     private Spinner<Integer> goldSpinner;
     private SpinnerValueFactory<Integer> goldValueFactory;
@@ -122,30 +94,10 @@ public class GameView implements ViewController {
     @FXML
     private MenuButton cityForBuildingsMenu;
     private City cityForBuilding;
-    @FXML
-    private Pane pane;
-
-    public static GameView getInstance() {
-        return instance;
-    }
 
     public void initialize() {
-        this.game = GameController.getGame();
-        GameController.getGame().SetPage(this);
         initSpinners();
         initMenus();
-        instance = this;
-        //todo : initialize
-    }
-    public void initializeUnits(TileGrid tileGrid){
-        for (int i = 0; i < tileGrid.getHeight(); i++) {
-            for (int j = 0; j < tileGrid.getWidth(); j++) {
-                NonCombatUnit nonCombatUnit = tileGrid.getTile(i, j).getNonCombatUnit();
-                if(nonCombatUnit != null) {
-                    unitsPane.getChildren().add(nonCombatUnit.getGraphicUnit());
-                }
-            }
-        }
     }
 
     private void initMenus() {
@@ -307,42 +259,9 @@ public class GameView implements ViewController {
         teleportYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportY = teleportYSpinner.getValue());
     }
 
-    public Pane getTilePane() {
-        return tilePane;
-    }
-
-    public Pane getBuildingsPane() {
-        return buildingsPane;
-    }
-
-    public Pane getUnitsPane() {
-        return unitsPane;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-    public void addUnit(Unit unit){
-        unitsPane.getChildren().add(unit.getGraphicUnit());
-    }
-
-    public void click() {
-        System.err.println("clicked");
-        btn.setVisible(false);
-        System.out.println(tilePane.getChildren());
-        tilePane.getChildren().addAll(0,game.getTileGrid().getHexes());
-        initializeUnits(game.getTileGrid());
-        System.out.print(new TileGridPrinter(game.getTileGrid(),10,10).print(new Location(6,6)));
-    }
-
-
-    public void gotoCheatSelectPage() {
-        cheatSelectPane.setVisible(true);
-    }
-
     public void increaseGold() {
         CheatCodeController.getInstance().increaseGold(goldAmount);
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void increaseFood() {
@@ -351,7 +270,7 @@ public class GameView implements ViewController {
         CheatCodeController.getInstance().increaseFood(foodForCity, foodAmount);
         foodForCity = null;
         foodForCitySelect.setText("City");
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void spawnUnit() {
@@ -366,7 +285,7 @@ public class GameView implements ViewController {
             locationSpawnY = 0;
             selectedUnitEnum = null;
             unitEnumSelect.setText("Unit");
-            cheatSelectPane.setVisible(false);
+            MenuStack.getInstance().popMenu();
         }
     }
 
@@ -376,7 +295,7 @@ public class GameView implements ViewController {
         CheatCodeController.getInstance().revealTile(new Location(locationTileX--, locationTileY--));
         locationTileX = 0;
         locationTileY = 0;
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void increaseProduction() {
@@ -386,7 +305,7 @@ public class GameView implements ViewController {
         productIncreaseAmount = 0;
         productionIncreaseCity = null;
         productionIncreaseCityMenu.setText("City");
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void teleport() {
@@ -401,7 +320,7 @@ public class GameView implements ViewController {
             locationTeleportY = 0;
             teleportUnit.setText("Unit");
             teleportUnit = null;
-            cheatSelectPane.setVisible(false);
+            MenuStack.getInstance().popMenu();
         }
     }
 
@@ -415,20 +334,20 @@ public class GameView implements ViewController {
         } finally {
             productionIncreaseCity = null;
             finishProductionCity.setText("City");
-            cheatSelectPane.setVisible(false);
+            MenuStack.getInstance().popMenu();
         }
     }
 
     public void increaseHappiness() {
         CheatCodeController.getInstance().increaseHappiness(happinessAmount);
         happinessAmount = 0;
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void increaseBeaker() {
         CheatCodeController.getInstance().increaseBeaker(beakerAmount);
         beakerAmount = 0;
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void increaseMovement() {
@@ -438,7 +357,7 @@ public class GameView implements ViewController {
         increasingMovementUnit = null;
         movementIncreaseAmount = 0;
         movementIncreaseUnit.setText("Unit");
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void healCity() {
@@ -447,7 +366,7 @@ public class GameView implements ViewController {
         CheatCodeController.getInstance().healCity(healingCity);
         healingCity = null;
         cityHealing.setText("City");
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void healUnit() {
@@ -456,12 +375,12 @@ public class GameView implements ViewController {
         CheatCodeController.getInstance().healUnit(healingUnit);
         healingUnit = null;
         unitHealing.setText("Unit");
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void addTechs() {
         CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
-        cheatSelectPane.setVisible(false);
+        MenuStack.getInstance().popMenu();
     }
 
     public void addBuildings() {
@@ -476,17 +395,14 @@ public class GameView implements ViewController {
             cityForBuilding = null;
             buildingsMenu.setText("Building");
             cityForBuildingsMenu.setText("City");
-            cheatSelectPane.setVisible(false);
+            MenuStack.getInstance().popMenu();
         }
     }
 
-    public void backToMenu() {
-        // todo : go back to menu
-    }
-
-    public void exit() {
-        System.exit(0);
-        // todo : check for thread
+    public void refreshCheatSheet() {
+        freeMenuItems();
+        initMenus();
+        initSpinners();
     }
 
     private void freeMenuItems() {
@@ -502,15 +418,11 @@ public class GameView implements ViewController {
         movementIncreaseUnit.getItems().removeAll(movementIncreaseUnit.getItems());
     }
 
-    public void refreshCheatSheet() {
-        freeMenuItems();
-        initMenus();
-        initSpinners();
+    public void back() {
+        MenuStack.getInstance().popMenu();
     }
 
-    public void exitPane(KeyEvent keyEvent) {
-        System.out.println(keyEvent.getCode().getName());
-        if (keyEvent.getCode().getName().equals("Esc"))
-            cheatSelectPane.setVisible(false);
+    public void exit() {
+        System.exit(0);
     }
 }

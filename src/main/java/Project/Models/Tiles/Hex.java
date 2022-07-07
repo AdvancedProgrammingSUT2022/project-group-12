@@ -42,8 +42,6 @@ public class Hex extends Polygon {
         this.setFill(Color.valueOf(url));
         this.setOnMouseEntered(mouseEvent -> {
             setCursor(Cursor.HAND);
-            System.out.println("this.getRow() = " + this.getRow());
-            System.out.println("this.getColumn() = " + this.getColumn());
             this.setEffect(new DropShadow());
         });
         this.setOnMouseExited(mouseEvent -> {

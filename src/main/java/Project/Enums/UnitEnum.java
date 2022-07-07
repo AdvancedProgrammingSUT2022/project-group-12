@@ -75,7 +75,7 @@ public enum UnitEnum {
         this.movement = movement;
         this.requiredResource = requiredResource;
         this.requiredTech = requiredTech;
-        this.assetImage = new Image(App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png").toExternalForm());
+        this.assetImage = new Image(App.class.getResource("/images/units/Units/" + this.name().toLowerCase()).toExternalForm());
     }
 
     public boolean isACombatUnit() {
