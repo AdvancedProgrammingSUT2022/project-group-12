@@ -47,8 +47,8 @@ public class CheatCodeController {
     }
 
     public void increaseBeaker(int amount) {
-        Civilization currnetCiv = GameController.getGame().getCurrentCivilization();
-        currnetCiv.setCheatBeaker(currnetCiv.getCheatBeaker() + amount);
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        currentCiv.setCheatBeaker(currentCiv.getCheatBeaker() + amount);
     }
 
     public void teleport(Location location, Unit unit) throws CommandException {
@@ -63,8 +63,8 @@ public class CheatCodeController {
     }
 
     public void increaseHappiness(int amount) {
-        Civilization currnetCiv = GameController.getGame().getCurrentCivilization();
-        currnetCiv.setHappinessFromCheat(currnetCiv.getHappinessFromCheat() + amount);
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        currentCiv.setHappinessFromCheat(currentCiv.getHappinessFromCheat() + amount);
     }
 
     public void revealTile(Location location) {
@@ -87,7 +87,7 @@ public class CheatCodeController {
         }
     }
 
-    public static void addBuilding(Building building, City city) {
+    public void addBuilding(Building building, City city) {
         city.getBuildings().add(building);
         building.note(city);
     }

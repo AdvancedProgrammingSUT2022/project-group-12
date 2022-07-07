@@ -143,7 +143,7 @@ public class GameMenu extends MenuDisabled {
         try {
             command.abbreviate("name", 'n');
             String buildingName = command.getOption("name").toUpperCase();
-            CheatCodeController.addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
+            CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
         } catch (CommandException e) {
             answer(e);
         }

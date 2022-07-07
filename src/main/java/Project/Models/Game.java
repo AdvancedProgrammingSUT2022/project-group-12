@@ -48,7 +48,8 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
-            if (users.size() == 1) settlerTile = this.getTileGrid().getTile(new Location(0, 0));
+            System.out.println(this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH-1, Constants.TILEGRID_HEIGHT-1)));
+            if (users.size() == 1) settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH-1, Constants.TILEGRID_HEIGHT-1));
             else settlerTile = availableTiles.get(availableTiles.size() - 1);
 
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE)) {
