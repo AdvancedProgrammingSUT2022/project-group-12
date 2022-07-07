@@ -1,7 +1,6 @@
 package Project.Models.Tiles;
 
 
-import Project.Models.Location;
 import javafx.scene.Cursor;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
@@ -90,10 +89,12 @@ public class Hex extends Polygon {
     public int getColumn() {
         return j;
     }
-    public double getCenterX(){
+
+    public double getCenterX() {
         return ((this.getWidth() / 2) + this.getLayoutX());
     }
-    public double getCenterY(){
-        return (12.5 * Math.sqrt(3) +  this.getLayoutY());
+
+    public double getCenterY() {
+        return (12.5 * Math.sqrt(3) + this.getLayoutY());
     }
 }

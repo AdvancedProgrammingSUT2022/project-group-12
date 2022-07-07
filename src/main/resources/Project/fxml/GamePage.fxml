@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.GameView">
+<?import javafx.scene.layout.Pane?>
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Project.Views.GameView">
     <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="352.0">
         <menus>
             <Menu fx:id="cheat" text="Cheat Sheet">
@@ -13,12 +12,13 @@
             <Menu fx:id="info" text="Info Panel">
 
             </Menu>
-            <Menu onAction="#backToMenu" text="Back" />
-            <Menu onAction="#exit" text="Exit" />
+            <Menu onAction="#backToMenu" text="Back"/>
+            <Menu onAction="#exit" text="Exit"/>
 
         </menus>
     </MenuBar>
-    <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0" style="-fx-background-color: transparent;">
+    <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0"
+                style="-fx-background-color: transparent;">
         <Pane fx:id="tilePane">
             <Pane fx:id="buildingsPane" style="-fx-background-color: transparent;">
                 <Pane fx:id="unitsPane">
@@ -27,110 +27,5 @@
             </Pane>
         </Pane>
     </ScrollPane>
-    <Button fx:id="btn" layoutY="50" onMouseClicked="#click" prefHeight="24.0" prefWidth="242.0" />
-    <Pane fx:id="cheatSelectPane" stylesheets="@../css/CheatSheet.css" prefHeight="400" prefWidth="600" visible="false" onKeyReleased="#exitPane">
-
-        <VBox prefHeight="375.0" prefWidth="600.0">
-
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="372">
-
-                <Button mnemonicParsing="false" onAction="#increaseGold" text="Increase Gold" />
-                <Spinner fx:id="goldSpinner" maxWidth="100.0" promptText="amount" />
-
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="298">
-
-                <Button mnemonicParsing="false" onAction="#increaseFood" text="Increase Food" />
-                <HBox spacing="10">
-                    <Spinner fx:id="foodSpinner" maxWidth="100.0" promptText="amount" />
-                    <MenuButton fx:id="foodForCitySelect" text="City" />
-                </HBox>
-
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="205">
-
-                <Button mnemonicParsing="false" onAction="#spawnUnit" text="Spawn Unit" />
-                <HBox spacing="10">
-                    <MenuButton fx:id="unitEnumSelect" text="Unit" />
-                    <Spinner fx:id="spawnLocationXSpinner" maxWidth="100.0" promptText="x" />
-                    <Spinner fx:id="spawnLocationYSpinner" maxWidth="100.0" promptText="y" />
-                </HBox>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="280">
-
-                <Button mnemonicParsing="false" onAction="#revealTile" text="Reveal Tile" />
-                <HBox spacing="10">
-                    <Spinner fx:id="tileXSpinner" maxWidth="100.0" promptText="x" />
-                    <Spinner fx:id="tileYSpinner" maxWidth="100.0" promptText="y" />
-                </HBox>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="202.0" prefHeight="100.0" prefWidth="200.0" spacing="260">
-
-                <Button mnemonicParsing="false" onAction="#increaseProduction" text="Increase Production" />
-                <HBox spacing="10">
-                    <MenuButton fx:id="productionIncreaseCityMenu" text="City" />
-                    <Spinner fx:id="productionIncreaseSpinner" maxWidth="100.0" promptText="amount" />
-                </HBox>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="206.0" prefHeight="100.0" prefWidth="200.0" spacing="224">
-
-                <Button mnemonicParsing="false" onAction="#teleport" text="Teleport" />
-                <HBox spacing="10">
-                    <MenuButton fx:id="teleportUnit" text="Unit" />
-                    <Spinner fx:id="teleportXSpinner" maxWidth="100.0" promptText="x" />
-                    <Spinner fx:id="teleportYSpinner" maxWidth="100.0" promptText="y" />
-                </HBox>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="390">
-
-                <Button mnemonicParsing="false" onAction="#finishProduction" text="Finish Production" />
-                <MenuButton fx:id="finishProductionCity" text="city" />
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="332.0">
-
-                <Button mnemonicParsing="false" onAction="#increaseHappiness" text="Increase Happiness" />
-                <Spinner fx:id="increaseHappinessSpinner" maxWidth="100" promptText="amount" />
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="214.0" prefHeight="100.0" prefWidth="200.0" spacing="352.0">
-
-                <Button mnemonicParsing="false" onAction="#increaseBeaker" text="Increase Beaker" />
-                <Spinner fx:id="increaseBeakerSpinner" maxWidth="100" promptText="amount" />
-
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="220.0" prefHeight="100.0" prefWidth="200.0" spacing="255.0">
-
-                <Button mnemonicParsing="false" onAction="#increaseMovement" text="Increase Movement" />
-                <HBox spacing="10">
-                    <MenuButton fx:id="movementIncreaseUnit" text="Unit" />
-                    <Spinner fx:id="movementIncreaseSpinner" maxWidth="100" promptText="amount" />
-                </HBox>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="199.0" prefHeight="100.0" prefWidth="200.0" spacing="435.0">
-
-                <Button mnemonicParsing="false" onAction="#healCity" text="Heal City" />
-                <MenuButton fx:id="cityHealing" text="City" />
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="231.0" prefHeight="100.0" prefWidth="200.0" spacing="435.0">
-
-                <Button mnemonicParsing="false" onAction="#healUnit" text="Heal Unit" />
-                <MenuButton fx:id="unitHealing" text="Unit" />
-            </HBox>
-            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="274.0" prefHeight="100.0" prefWidth="200.0" spacing="11.0">
-                <Text />
-                <Button mnemonicParsing="false" onAction="#addTechs" text="Unlock All Technologies" />
-
-            </HBox>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="298.0" prefHeight="100.0" spacing="300.0">
-
-                <Button mnemonicParsing="false" onAction="#addBuildings" text="Add Buildings" />
-                <HBox spacing="10">
-                    <MenuButton fx:id="buildingsMenu" text="Buildings" />
-                    <MenuButton fx:id="cityForBuildingsMenu" text="City" />
-                </HBox>
-            </HBox>
-
-        </VBox>
-        <Button layoutX="266.0" layoutY="374.0" text="Refresh" onAction="#refreshCheatSheet"/>
-
-    </Pane>
+    <Button fx:id="btn" layoutY="50" onMouseClicked="#click" prefHeight="24.0" prefWidth="242.0"/>
 </Pane>
