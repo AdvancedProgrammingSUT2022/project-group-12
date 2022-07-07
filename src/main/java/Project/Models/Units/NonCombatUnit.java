@@ -15,12 +15,9 @@ public class NonCombatUnit extends Unit {
         super(type, civilization, location);
     }
 
-    public NonCombatUnit(UnitEnum type, Civilization civilization, Location location, int productionCost) {
-        super(type, civilization, location, productionCost);
-    }
 
 
-    public UnitEnum getType() {
+        public UnitEnum getType() {
         return type;
     }
 

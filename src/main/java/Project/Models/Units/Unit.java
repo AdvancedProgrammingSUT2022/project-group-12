@@ -34,16 +34,7 @@ public abstract class Unit extends Production {
     protected Group graphicUnit;
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
-        this.type = type;
-        this.civ = civ;
-        this.pathShouldCross = new ArrayList<>();
-        this.resetMovementCount();
-        this.location = location;
-        state = UnitStates.AWAKE;
-    }
-
-    public Unit(UnitEnum type, Civilization civ, Location location, int productionCost) {
-        super(productionCost);
+        super(type.getProductionCost());
         this.type = type;
         this.civ = civ;
         this.pathShouldCross = new ArrayList<>();
@@ -116,7 +107,15 @@ public abstract class Unit extends Production {
         Group group = new Group();
         int unitsDistanceVertically = Constants.UNITS_DISTANCE_VERTICALLY;
         int unitDistanceHorizontally = Constants.UNITS_DISTANCE_HORIZONTALLY;
-        for (int i = 2; i >= 0; i--) {
+        int numberOfRowsOfUnits;
+        if(this.getHealth() < Constants.UNIT_FULL_HEALTH / 3){
+            numberOfRowsOfUnits = 1;
+        } else if(this.getHealth() < (Constants.UNIT_FULL_HEALTH  * 2) / 3){
+            numberOfRowsOfUnits = 2;
+        }  else {
+            numberOfRowsOfUnits = 3;
+        }
+        for (int i = numberOfRowsOfUnits - 1; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
                 ImageView imageView = new ImageView(this.getType().getAssetImage());
                 imageView.setLayoutX(hex.getCenterX() + unitDistanceHorizontally - unitDistanceHorizontally * j - imageView.getImage().getWidth() / 2);

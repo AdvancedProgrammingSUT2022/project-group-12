@@ -12,9 +12,6 @@
             fx:controller="Project.Enums.testController"
             prefHeight="400.0" prefWidth="600.0">
         <Pane prefHeight="400" prefWidth="600" >
-            <Rectangle height="200" width="100" fill="aqua">
-
-            </Rectangle>
             <Pane>
               <Rectangle height="100" width="200" fill="black">
 

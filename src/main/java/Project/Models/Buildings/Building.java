@@ -16,6 +16,7 @@ public class Building extends Production {
     private final BuildingNotes note;
 
     public Building(BuildingEnum type) {
+        super(type.getCost());
         this.cost = type.getCost();
         this.maintenance = type.getMaintenance();
         this.requiredTechs = type.getRequiredTechs();

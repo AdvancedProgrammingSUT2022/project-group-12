@@ -12,13 +12,10 @@ public abstract class CombatUnit extends Unit {
     public CombatUnit(UnitEnum type, Civilization civilization, Location location) {
         super(type, civilization, location);
         isSetup = false;
-    }
-
-    public CombatUnit(UnitEnum type, Civilization civilization, Location location, int productionCost) {
-        super(type, civilization, location, productionCost);
-        isSetup = false;
         hasAttack = false;
     }
+
+
 
     public UnitEnum getType() {
         return type;

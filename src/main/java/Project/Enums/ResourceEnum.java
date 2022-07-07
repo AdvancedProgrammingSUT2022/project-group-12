@@ -1,47 +1,48 @@
 package Project.Enums;
 
 import Project.App;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 
 public enum ResourceEnum {
-    RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET, "-url-"),
-    BANANA("bna", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.CULTIVATION, "-url-"),
+    RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),
+    BANANA("bna", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.CULTIVATION),
 
-    CATTLE("ctl", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.PASTURE, "-url-"),
+    CATTLE("ctl", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.PASTURE),
 
-    DEER("der", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.CAMP, "-url-"),
+    DEER("der", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.CAMP),
 
-    SHEEP("shp", ResourceTypeEnum.BONUS, 2, 0, 0, ImprovementEnum.PASTURE, "-url-"),
+    SHEEP("shp", ResourceTypeEnum.BONUS, 2, 0, 0, ImprovementEnum.PASTURE),
 
-    WHEAT("wht", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.FARM, "-url-"),
+    WHEAT("wht", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.FARM),
 
-    COAL("col", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE, "-url-"),
+    COAL("col", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE),
 
-    HORSE("hrs", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.PASTURE, "-url-"),
+    HORSE("hrs", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.PASTURE),
 
-    IRON("irn", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE, "-url-"),
+    IRON("irn", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE),
 
-    COTTON("ctn", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION, "-url-"),
+    COTTON("ctn", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
 
-    DYES("dys", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION, "-url-"),
+    DYES("dys", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
 
-    FUR("fur", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP, "-url-"),
+    FUR("fur", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP),
 
-    GEMSTONE("gst", ResourceTypeEnum.LUXURY, 0, 0, 3, ImprovementEnum.MINE, "-url-"),
+    GEMSTONE("gst", ResourceTypeEnum.LUXURY, 0, 0, 3, ImprovementEnum.MINE),
 
-    GOLD("gld", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE, "-url-"),
+    GOLD("gld", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE),
 
-    INCENSE("inc", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION, "-url-"),
+    INCENSE("inc", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
 
-    IVORY("ivr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP, "-url-"),
+    IVORY("ivr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP),
 
-    MARBLE("mrb", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.STONE_MINE, "-url-"),
+    MARBLE("mrb", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.STONE_MINE),
 
-    SILK("slk", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION, "-url-"),
+    SILK("slk", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
 
-    SILVER("slv", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE, "-url-"),
+    SILVER("slv", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE),
 
-    SUGAR("sgr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION, "-url-");
+    SUGAR("sgr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION);
 
     private final ResourceTypeEnum type;
     private final int foodCount;
@@ -49,20 +50,25 @@ public enum ResourceEnum {
     private final int goldCount;
     private final ImprovementEnum improvementNeeded;
     private final String abbreviation;
-    private final String assetUrl;
+    private final Image resourceImage;
 
-    ResourceEnum(String abbreviation, ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ImprovementEnum improvementNeeded, String assetUrl) {
+    ResourceEnum(String abbreviation, ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ImprovementEnum improvementNeeded) {
         this.type = type;
         this.foodCount = foodCount;
         this.productCount = productCount;
         this.goldCount = goldCount;
         this.improvementNeeded = improvementNeeded;
         this.abbreviation = abbreviation;
-        this.assetUrl = assetUrl;
+
+        System.out.println("/images/assets/resources/" + this.name().toLowerCase() + ".png");
+        if(this.name() != "RESET")
+        this.resourceImage = new Image(App.class.getResource("/images/resources/" +  this.name().toLowerCase() + ".png").toExternalForm());
+        else this.resourceImage = null;
+        System.out.println("/images/assets/resources/" + this.name());
     }
 
     public Image getImage() {
-        return new Image(App.class.getResource("/images/assets/resources/" + assetUrl).toExternalForm());
+        return resourceImage;
     }
 
     public ResourceTypeEnum getType() {

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for name in *.png
+do 
+
+newName=$(echo $name | tr '[:upper:]' '[:lower:]');
+echo $newName;
+mv $name $newName
+done

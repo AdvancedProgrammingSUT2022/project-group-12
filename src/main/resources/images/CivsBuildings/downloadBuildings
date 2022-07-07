@@ -1,0 +1,15 @@
+#!/bin/bash
+
+buildingName=$(echo $1 | tr '[:upper:]' '[:lower:]')
+buildingName+=".png"
+echo $buildingName
+curl https://civilization.fandom.com/wiki/$1_\(Civ5\) > response.html
+
+token=$(cat response.html | grep -m 1 "https://static.wikia.nocookie.net/civilization/images/");
+echo $token
+token=${token#*content=\"}
+token=${token::-3}
+echo $token
+
+curl  $token -o $buildingName
+

@@ -95,6 +95,7 @@ public enum TerrainEnum {
 
     private final String abbreviation;
     private final String assetUrl;
+    private final Image terrainImage;
 
     TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<FeatureEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources, String assetUrl) {
         this.foodCount = foodCount;
@@ -109,6 +110,11 @@ public enum TerrainEnum {
         this.abbreviation = abbreviation;
         this.possibleTerrainFeatures = possibleTerrainFeatures;
         this.assetUrl = assetUrl;
+        System.out.println("/images/assets/resources/" + this.name());
+        if(this.name() != "UNKNOWN")
+            this.terrainImage = new Image(App.class.getResource("/images/resources/" +  this.name().toLowerCase() + ".png").toExternalForm());
+        else this.terrainImage = null;
+        System.out.println("/images/assets/resources/" + this.name());
     }
 
     public TerrainColor getColor() {
