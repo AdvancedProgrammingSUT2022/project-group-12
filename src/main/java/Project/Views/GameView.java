@@ -331,9 +331,9 @@ public class GameView implements ViewController {
         System.out.println(tilePane.getChildren());
         tilePane.getChildren().addAll(0,game.getTileGrid().getHexes());
         initializeUnits(game.getTileGrid());
+        tilePane.requestFocus();
         System.out.print(new TileGridPrinter(game.getTileGrid(),10,10).print(new Location(6,6)));
     }
-
 
     public void gotoCheatSelectPage() {
         cheatSelectPane.setVisible(true);

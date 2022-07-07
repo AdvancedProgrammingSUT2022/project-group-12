@@ -42,6 +42,8 @@ public class Hex extends Polygon {
         this.setFill(Color.valueOf(url));
         this.setOnMouseEntered(mouseEvent -> {
             setCursor(Cursor.HAND);
+            System.out.println("this.getRow() = " + this.getRow());
+            System.out.println("this.getColumn() = " + this.getColumn());
             this.setEffect(new DropShadow());
         });
         this.setOnMouseExited(mouseEvent -> {
@@ -91,9 +93,10 @@ public class Hex extends Polygon {
         return j;
     }
     public double getCenterX(){
-        return ((this.getWidth() / 2) + this.getLayoutX());
+        return (50 + this.initX(0));
     }
     public double getCenterY(){
-        return (12.5 * Math.sqrt(3) +  this.getLayoutY());
+        System.out.println("this.getLayoutY() = " + this.getLayoutY());
+        return (12.5 * Math.sqrt(3) +  this.initY(0));
     }
 }

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for file in *.png
+do
+
+convert $file -crop 16x32+16+0 $file
+
+done
+

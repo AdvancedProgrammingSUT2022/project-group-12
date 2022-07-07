@@ -14,6 +14,7 @@ import Project.Models.Tiles.Tile;
 import Project.Utils.Constants;
 import Project.Views.GameView;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
@@ -122,14 +123,16 @@ public abstract class Unit extends Production {
         for (int i = 2; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
                 ImageView imageView = new ImageView(this.getType().getAssetImage());
-                imageView.setLayoutX(hex.getCenterX() + unitDistanceHorizontally - unitDistanceHorizontally * j);
+                imageView.setLayoutX(hex.getCenterX() + unitDistanceHorizontally - unitDistanceHorizontally * j - imageView.getImage().getWidth() / 2);
                 imageView.setLayoutY(hex.getCenterY() + unitsDistanceVertically - unitsDistanceVertically * i);
                 group.getChildren().add(imageView);
             }
         }
         group.setOnMouseEntered((MouseEvent) -> {
             hex.setEffect(new DropShadow());
+            System.out.println("\"mouseEntered\" = " + "mouseEntered");
             DropShadow hexDropShadow = (DropShadow) hex.getEffect();
+            hex.setCursor(Cursor.HAND);
             hexDropShadow.setInput(new GaussianBlur());
         });
         group.setOnMouseExited((MouseEvent) -> {

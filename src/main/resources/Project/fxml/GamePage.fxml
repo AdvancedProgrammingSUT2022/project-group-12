@@ -21,7 +21,7 @@
     <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0" style="-fx-background-color: transparent;">
         <Pane fx:id="tilePane">
             <Pane fx:id="buildingsPane" style="-fx-background-color: transparent;">
-                <Pane fx:id="unitsPane">
+                <Pane fx:id="unitsPane" style="-fx-background-color: transparent;">
 
                 </Pane>
             </Pane>
