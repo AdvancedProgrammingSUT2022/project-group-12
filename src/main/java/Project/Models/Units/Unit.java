@@ -1,5 +1,6 @@
 package Project.Models.Units;
 
+import Project.Controllers.GameController;
 import Project.Enums.CombatTypeEnum;
 import Project.Enums.FeatureEnum;
 import Project.Enums.UnitEnum;
@@ -8,8 +9,18 @@ import Project.Models.Cities.City;
 import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Production;
+import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
 import Project.Utils.Constants;
+import Project.Views.GameView;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,6 +35,7 @@ public abstract class Unit extends Production {
     protected int health = Constants.UNIT_FULL_HEALTH;
     protected ArrayList<Tile> pathShouldCross;
     protected UnitStates state;
+    protected Group graphicUnit;
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
         this.type = type;
@@ -102,6 +114,30 @@ public abstract class Unit extends Production {
         }
         return effect;
     }
+    public Group createUnitGroup() {
+        Hex hex = GameController.getGameTile(this.location).getHex();
+        Group group = new Group();
+        int unitsDistanceVertically = Constants.UNITS_DISTANCE_VERTICALLY;
+        int unitDistanceHorizontally = Constants.UNITS_DISTANCE_HORIZONTALLY;
+        for (int i = 2; i >= 0; i--) {
+            for (int j = 0; j < 3; j++) {
+                ImageView imageView = new ImageView(this.getType().getAssetImage());
+                imageView.setLayoutX(hex.getCenterX() + unitDistanceHorizontally - unitDistanceHorizontally * j);
+                imageView.setLayoutY(hex.getCenterY() + unitsDistanceVertically - unitsDistanceVertically * i);
+                group.getChildren().add(imageView);
+            }
+        }
+        group.setOnMouseEntered((MouseEvent) -> {
+            hex.setEffect(new DropShadow());
+            DropShadow hexDropShadow = (DropShadow) hex.getEffect();
+            hexDropShadow.setInput(new GaussianBlur());
+        });
+        group.setOnMouseExited((MouseEvent) -> {
+            DropShadow effect = (DropShadow) hex.getEffect();
+            effect.setInput(null);
+        });
+        return group;
+    }
 
     public UnitEnum getType() {
         return this.type;
@@ -162,6 +198,13 @@ public abstract class Unit extends Production {
     @Override
     public void note(City city) {
         // todoLater : complete
+    }
+
+    public Group getGraphicUnit() {
+        if(graphicUnit == null){
+            graphicUnit = createUnitGroup();
+        }
+        return graphicUnit;
     }
 
     public void decreaseHealth(int value) {

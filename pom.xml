@@ -87,12 +87,12 @@
             <groupId>eu.hansolo</groupId>
             <artifactId>tilesfx</artifactId>
             <version>11.48</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.openjfx</groupId>-->
+<!--                    <artifactId>*</artifactId>-->
+<!--                </exclusion>•••••••••••••••••-->
+<!--            </exclusions>-->
         </dependency>
         <dependency>
             <groupId>com.github.almasb</groupId>

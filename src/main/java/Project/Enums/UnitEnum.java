@@ -155,6 +155,9 @@ public enum UnitEnum {
         else return 0;
     }
 
+    public Image getAssetImage() {
+        return assetImage;
+    }
     // todo: what if target of archer is on hill?
     // todo: reveal bug
 }

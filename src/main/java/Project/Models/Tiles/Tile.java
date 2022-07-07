@@ -14,6 +14,7 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
+import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -66,6 +67,14 @@ public class Tile {
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
+    }
+    public void showUnit(Pane pane){
+        if(nonCombatUnit != null){
+           pane.getChildren().add(nonCombatUnit.createUnitGroup());
+        }
+        if(combatUnit != null){
+            pane.getChildren().add(nonCombatUnit.createUnitGroup());
+        }
     }
 
     public double getXOnMap() {
@@ -240,6 +249,14 @@ public class Tile {
         } else {
             this.setNonCombatUnit(null);
         }
+    }
+    public Unit getUnit(){
+        if(combatUnit != null){
+            return combatUnit;
+        }else if(nonCombatUnit != null){
+            return nonCombatUnit;
+        }
+        return null;
     }
 
     public ArrayList<ImprovementEnum> getImprovements() {
