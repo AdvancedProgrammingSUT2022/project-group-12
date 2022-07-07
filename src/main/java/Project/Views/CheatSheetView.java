@@ -201,65 +201,80 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initGoldSpinner() {
-        goldSpinner = new Spinner<>();
         goldValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        goldValueFactory.setValue(goldAmount);
+        goldSpinner.setValueFactory(goldValueFactory);
         goldSpinner.valueProperty().addListener((observableValue, integer, t1) -> goldAmount = goldSpinner.getValue());
     }
 
     private void initFoodSpinner() {
-        foodSpinner = new Spinner<>();
         foodValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        foodValueFactory.setValue(foodAmount);
+        foodSpinner.setValueFactory(foodValueFactory);
         foodSpinner.valueProperty().addListener((observableValue, integer, t1) -> foodAmount = foodSpinner.getValue());
     }
 
     private void initIncreaseProductionSpinner() {
-        productionIncreaseSpinner = new Spinner<>();
         productionIncreaseValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        productionIncreaseValueFactory.setValue(productIncreaseAmount);
+        productionIncreaseSpinner.setValueFactory(productionIncreaseValueFactory);
         productionIncreaseSpinner.valueProperty().addListener((observableValue, integer, t1) -> productIncreaseAmount = productionIncreaseSpinner.getValue());
     }
 
     private void initHappinessSpinner() {
-        increaseHappinessSpinner = new Spinner<>();
         increaseHappinessValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        increaseHappinessValueFactory.setValue(happinessAmount);
+        increaseHappinessSpinner.setValueFactory(increaseHappinessValueFactory);
         increaseHappinessSpinner.valueProperty().addListener((observableValue, integer, t1) -> happinessAmount = increaseHappinessSpinner.getValue());
     }
 
     private void initBeakerSpinner() {
-        increaseBeakerSpinner = new Spinner<>();
         increaseBeakerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        increaseBeakerValueFactory.setValue(beakerAmount);
+        increaseBeakerSpinner.setValueFactory(increaseBeakerValueFactory);
         increaseBeakerSpinner.valueProperty().addListener((observableValue, integer, t1) -> beakerAmount = increaseBeakerSpinner.getValue());
     }
 
     private void initMovementIncreaseSpinner() {
-        movementIncreaseSpinner = new Spinner<>();
         movementIncreaseValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100);
+        movementIncreaseValueFactory.setValue(movementIncreaseAmount);
+        movementIncreaseSpinner.setValueFactory(movementIncreaseValueFactory);
         movementIncreaseSpinner.valueProperty().addListener((observableValue, integer, t1) -> movementIncreaseAmount = movementIncreaseSpinner.getValue());
     }
 
     private void initUnitSpawnSpinner() {
-        spawnLocationXSpinner = new Spinner<>();
         spawnLocationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        spawnLocationXValueFactory.setValue(locationSpawnX);
+        spawnLocationXSpinner.setValueFactory(spawnLocationXValueFactory);
         spawnLocationXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnX = spawnLocationXSpinner.getValue());
-        spawnLocationYSpinner = new Spinner<>();
+
         spawnLocationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        spawnLocationYValueFactory.setValue(locationSpawnY);
+        spawnLocationYSpinner.setValueFactory(spawnLocationYValueFactory);
         spawnLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnY = spawnLocationYSpinner.getValue());
     }
 
     private void initTileRevealSpinner() {
-        tileXSpinner = new Spinner<>();
         tileXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        tileXValueFactory.setValue(locationTileX);
+        tileXSpinner.setValueFactory(tileXValueFactory);
         tileXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileX = tileXSpinner.getValue());
-        tileYSpinner = new Spinner<>();
+
         tileYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        tileYValueFactory.setValue(locationTileY);
+        tileYSpinner.setValueFactory(tileYValueFactory);
         tileYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileY = tileYSpinner.getValue());
     }
 
     private void initTeleportationSpinner() {
-        teleportXSpinner = new Spinner<>();
         teleportXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        teleportXValueFactory.setValue(locationTeleportX);
+        teleportXSpinner.setValueFactory(teleportXValueFactory);
         teleportXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportX = teleportXSpinner.getValue());
-        teleportYSpinner = new Spinner<>();
+
         teleportYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        teleportYValueFactory.setValue(locationTeleportY);
+        teleportYSpinner.setValueFactory(teleportYValueFactory);
         teleportYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportY = teleportYSpinner.getValue());
     }
 

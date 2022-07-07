@@ -32,6 +32,7 @@ public class Civilization {
     private final ArrayList<Civilization> isInEconomicRelation;
     private final HappinessTypeEnum happinessType;
     private final int production;
+    private final CivilizationController controller = new CivilizationController(this);
     private int gold;
     private int goldFromCheat;
     private int food;
@@ -44,7 +45,7 @@ public class Civilization {
     private TechnologyEnum researchingTechnology;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
-    private final CivilizationController controller = new CivilizationController(this);
+    private City selectedCity;
 
     public Civilization(User user, TerrainColor color) {
         this.color = color;
@@ -70,6 +71,13 @@ public class Civilization {
         this.unitCountByCategory = new HashMap<>();
     }
 
+    public void setSelectedCity(City city) {
+        this.selectedCity = city;
+    }
+
+    public City getSelectedCity() {
+        return this.selectedCity;
+    }
     public HappinessTypeEnum detectHappinessState(double happiness) {
         if (happiness > 0) {
             return HappinessTypeEnum.HAPPY;
@@ -206,7 +214,7 @@ public class Civilization {
             unitCountByCategory.put(unit.getType(), 1);
     }
 
-    public HashMap<UnitEnum,Integer> getUnitCountByCategory(){
+    public HashMap<UnitEnum, Integer> getUnitCountByCategory() {
         return unitCountByCategory;
     }
 

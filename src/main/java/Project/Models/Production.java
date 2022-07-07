@@ -2,15 +2,15 @@ package Project.Models;
 
 import Project.Models.Cities.City;
 
-public abstract class Production {
+public abstract class Production<T> {
+    T type;
     private double remainedProduction;
 
     public Production(int remainedProduction) {
         this.remainedProduction = remainedProduction;
     }
 
-    public Production() {
-
+    public Production(T type) {
     }
 
     public abstract void note(City city);
@@ -25,5 +25,11 @@ public abstract class Production {
 
     public void decreaseRemainedProduction(double remainedProductions) {
         this.remainedProduction -= remainedProductions;
+    }
+
+    @Override
+    public String toString() {
+        return "type=" + type +
+                ", remainedProduction=" + remainedProduction;
     }
 }

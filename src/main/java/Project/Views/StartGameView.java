@@ -57,12 +57,10 @@ public class StartGameView implements ViewController {
         gridSizeWidth.setValueFactory(widthValueFactory);
         gridSizeWidth.valueProperty().addListener((observableValue, integer, t1) -> {
             currentWidthSize = gridSizeWidth.getValue();
-            System.out.println(currentWidthSize);
         });
         gridSizeHeight.setValueFactory(heightValueFactory);
         gridSizeHeight.valueProperty().addListener((observableValue, integer, t1) -> {
             currentHeightSize = gridSizeHeight.getValue();
-            System.out.println(currentHeightSize);
         });
 
     }
