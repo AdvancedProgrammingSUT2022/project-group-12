@@ -12,9 +12,10 @@ import Project.Models.Production;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
 import Project.Utils.Constants;
+import Project.Views.Menu;
+import Project.Views.MenuStack;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -107,11 +108,11 @@ public abstract class Unit extends Production {
         int unitsDistanceVertically = Constants.UNITS_DISTANCE_VERTICALLY;
         int unitDistanceHorizontally = Constants.UNITS_DISTANCE_HORIZONTALLY;
         int numberOfRowsOfUnits;
-        if(this.getHealth() < Constants.UNIT_FULL_HEALTH / 3){
+        if (this.getHealth() < Constants.UNIT_FULL_HEALTH / 3) {
             numberOfRowsOfUnits = 1;
-        } else if(this.getHealth() < (Constants.UNIT_FULL_HEALTH  * 2) / 3){
+        } else if (this.getHealth() < (Constants.UNIT_FULL_HEALTH * 2) / 3) {
             numberOfRowsOfUnits = 2;
-        }  else {
+        } else {
             numberOfRowsOfUnits = 3;
         }
         for (int i = numberOfRowsOfUnits - 1; i >= 0; i--) {
@@ -128,7 +129,8 @@ public abstract class Unit extends Production {
             group.setScaleY(1.1);
         });
         group.setOnMouseClicked((MouseEvent) -> {
-            group.setEffect(new DropShadow());
+            GameController.getGame().getCurrentCivilization().setSelectedUnit(this);
+            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
         });
         group.setOnMouseExited((MouseEvent) -> {
             group.setScaleX(1);
@@ -200,14 +202,14 @@ public abstract class Unit extends Production {
     }
 
     public Group getGraphicUnit() {
-        if (graphicUnit == null) {
+        if (graphicUnit == null)
             graphicUnit = createUnitGroup();
-        }
+
         return graphicUnit;
     }
 
     public ImageView getUnitImage() {
-        Hex hex = GameController.getGame().getTileGrid().getTile(location.getRow(),location.getCol()).getHex();
+        Hex hex = GameController.getGame().getTileGrid().getTile(location.getRow(), location.getCol()).getHex();
         ImageView imageView = new ImageView();
         imageView.setImage(type.getAssetImage());
         imageView.setLayoutX(hex.getCenterX());

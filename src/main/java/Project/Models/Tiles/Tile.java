@@ -48,7 +48,7 @@ public class Tile {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.hex = new Hex(this, multiply, tileLocation.getCol(), tileLocation.getRow(), color);
+        this.hex = new Hex(this, multiply, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
     }
 
     private Tile(Tile that) {

@@ -55,8 +55,8 @@
 
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-                <Spinner fx:id="buyTileLocationXSpinner" prefHeight="24.0" prefWidth="108.0"/>
-                <Spinner fx:id="buyTileLocationYSpinner" prefHeight="24.0" prefWidth="101.0"/>
+                <Spinner fx:id="buyTileLocationXSpinner" promptText="x" prefHeight="24.0" prefWidth="108.0"/>
+                <Spinner fx:id="buyTileLocationYSpinner" promptText="y" prefHeight="24.0" prefWidth="101.0"/>
 
             </HBox>
             <Button fx:id="buyTileBtn" mnemonicParsing="false" onAction="#BuyTile" text="Buy Tile"/>

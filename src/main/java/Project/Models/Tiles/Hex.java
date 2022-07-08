@@ -5,9 +5,12 @@ import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 
 public class Hex {
@@ -25,9 +28,9 @@ public class Hex {
     private final Location tileLocation;
     private final Group group;
 
-    public Hex(Tile tile, double multiply, int i, int j, String url) {
+    public Hex(Tile tile, double multiply, int j, int i, String url) {
         this.tileLocation = tile.getLocation();
-//        Image image = new Image("-url-");
+        Image image = new Image(url);
         this.i = i;
         this.j = j;
         this.url = url;
@@ -48,17 +51,17 @@ public class Hex {
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
         // TODO: change after adding tile images
-        // this.setFill(new ImagePattern(image));
-        this.polygon.setFill(Color.valueOf(url));
-//      this.polygon.setCursor(Cursor.HAND);
+        polygon.setFill(new ImagePattern(image));
         this.group.setOnMouseEntered(mouseEvent -> {
+            this.polygon.setCursor(Cursor.HAND);
             this.group.toFront();
             this.polygon.setEffect(new DropShadow(20, Color.BLACK));
         });
         this.group.setOnMouseExited(mouseEvent -> {
+            this.polygon.setCursor(Cursor.DEFAULT);
             this.polygon.setEffect(null);
         });
-        this.group.setOnMouseClicked(mouseEvent -> System.out.println(j + " " + i));
+        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
             this.setFogOfWar();
         else if (tile.getState() == VisibilityEnum.VISIBLE)

@@ -3,6 +3,7 @@ package Project.Views;
 import Project.Controllers.GameController;
 import Project.Enums.UnitStates;
 import Project.Models.Location;
+import Project.Models.Tiles.Hex;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.text.Text;
 
 public class UnitPanelView implements ViewController {
 
+    @FXML
+    private Text name;
     @FXML
     private Button moveUnitBtn;
     @FXML
@@ -42,6 +45,7 @@ public class UnitPanelView implements ViewController {
     public void initialize() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         initializeSpinners();
+        name.setText(unit.getType().name());
         unitType.setText(unit.getType().name());
         unitCivilization.setText(unit.getCivilization().getName());
         unitXLocation.setText(String.valueOf(unit.getLocation().getRow() + 1));
@@ -77,9 +81,13 @@ public class UnitPanelView implements ViewController {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
 //            return;
 //        }
-        unit.setLocation(new Location(locationX--, locationY--));
-        unitXLocation.setText(String.valueOf(unit.getLocation().getRow() + 1));
-        unitYLocation.setText(String.valueOf(unit.getLocation().getCol() + 1));
+        unit.setLocation(new Location(locationX - 1, locationY - 1));
+        String command = "unit move -p" + (locationX - 1) + " " + (locationY - 1);
+        Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
+        unit.getGraphicUnit().setLayoutX(hex.getCenterX());
+        unit.getGraphicUnit().setLayoutY(hex.getCenterY());
+        unitXLocation.setText(String.valueOf(locationX));
+        unitYLocation.setText(String.valueOf(locationY));
     }
 
     public void sleep() {
