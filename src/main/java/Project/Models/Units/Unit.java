@@ -129,8 +129,6 @@ public abstract class Unit extends Production {
         });
         group.setOnMouseClicked((MouseEvent) -> {
             group.setEffect(new DropShadow());
-//            DropShadow hexDropShadow = (DropShadow) group.getPolygon().getEffect();
-//            hexDropShadow.setInput(new GaussianBlur());
         });
         group.setOnMouseExited((MouseEvent) -> {
             group.setScaleX(1);

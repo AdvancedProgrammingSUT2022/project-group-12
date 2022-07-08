@@ -3,6 +3,7 @@ package Project.Models.Tiles;
 
 import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
+import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
@@ -49,13 +50,12 @@ public class Hex {
         // TODO: change after adding tile images
         // this.setFill(new ImagePattern(image));
         this.polygon.setFill(Color.valueOf(url));
+//      this.polygon.setCursor(Cursor.HAND);
         this.group.setOnMouseEntered(mouseEvent -> {
-//            this.polygon.setCursor(Cursor.HAND);
             this.group.toFront();
             this.polygon.setEffect(new DropShadow(20, Color.BLACK));
         });
         this.group.setOnMouseExited(mouseEvent -> {
-//            this.polygon.setCursor(Cursor.DEFAULT);
             this.polygon.setEffect(null);
         });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(j + " " + i));
@@ -132,6 +132,9 @@ public class Hex {
     }
 
     public void setUnit(Unit unit) {
-        this.group.getChildren().add(unit.getGraphicUnit());
+        Group graphicUnit = unit.getGraphicUnit();
+        this.group.getChildren().add(graphicUnit);
+        graphicUnit.setTranslateY(10);
+        graphicUnit.setTranslateX(unit instanceof NonCombatUnit ? 15 : -15);
     }
 }

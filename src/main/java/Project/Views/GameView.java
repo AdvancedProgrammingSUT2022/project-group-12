@@ -5,6 +5,7 @@ import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.TileGrid;
+import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,11 +61,13 @@ public class GameView implements ViewController {
                 Hex hex = GameController.getGameTile(new Location(i, j)).getHex();
                 hexPane.getChildren().add(hex.getGroup());
                 NonCombatUnit nonCombatUnit = tileGrid.getTile(i, j).getNonCombatUnit();
+                CombatUnit combatUnit = tileGrid.getTile(i, j).getCombatUnit();
                 if (nonCombatUnit != null) {
                     hex.setUnit(nonCombatUnit);
                 }
-                System.out.println("HP: " + hex.getGroup().getLayoutX() + ' ' + hex.getGroup().getLayoutY());
-//                System.out.println("HP: " + hex.getGroup().getWidth() + ' ' + hex.getGroup().getHeight());
+                if (combatUnit != null) {
+                    hex.setUnit(combatUnit);
+                }
             }
         }
     }

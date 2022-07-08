@@ -10,6 +10,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
+import Project.Models.Units.NonRangedUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
@@ -58,13 +59,16 @@ public class Game {
                 availableTiles.remove(tile);
 
             NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerTile.getLocation());
+            CombatUnit warrior = new NonRangedUnit(UnitEnum.WARRIOR, civ, settlerTile.getLocation());
 
             try {
                 settlerTile.placeUnit(settler);
+                settlerTile.placeUnit(warrior);
             } catch (CommandException e) { // never
-                System.out.println("error in placing unit in game class");
+                System.out.println("error in placing initial units at game class");
             }
             civ.addUnit(settler);
+            civ.addUnit(warrior);
             updateRevealedTileGrid(civ);
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
