@@ -49,9 +49,8 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
-            System.out.println(this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1)));
             if (users.size() == 1)
-                settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1));
+                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
             else
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
 
@@ -148,8 +147,7 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
-        //Todo : fix
-        return civilizations.get(this.gameTurn % civilizations.size() + 1);
+        return civilizations.get(this.gameTurn % civilizations.size());
     }
 
     public void startNewTurn() throws GameException {
