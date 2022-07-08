@@ -79,11 +79,11 @@ public class Tile {
     }
 
     public double getXOnMap() {
-        return hex.getLayoutX();
+        return hex.getPolygon().getLayoutX();
     }
 
     public double getYOnMap() {
-        return hex.getLayoutY();
+        return hex.getPolygon().getLayoutY();
     }
 
     public Hex getHex() {

@@ -15,7 +15,6 @@ import Project.Utils.Constants;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -123,14 +122,20 @@ public abstract class Unit extends Production {
                 group.getChildren().add(imageView);
             }
         }
+        group.setCursor(Cursor.HAND);
+        group.setOnMouseEntered(mouseEvent -> {
+            group.setScaleX(1.1);
+            group.setScaleY(1.1);
+        });
         group.setOnMouseClicked((MouseEvent) -> {
-            hex.setEffect(new DropShadow());
-            DropShadow hexDropShadow = (DropShadow) hex.getEffect();
-            hex.setCursor(Cursor.HAND);
-            hexDropShadow.setInput(new GaussianBlur());
+            group.setEffect(new DropShadow());
+//            DropShadow hexDropShadow = (DropShadow) group.getPolygon().getEffect();
+//            hexDropShadow.setInput(new GaussianBlur());
         });
         group.setOnMouseExited((MouseEvent) -> {
-            hex.setEffect(null);
+            group.setScaleX(1);
+            group.setScaleY(1);
+            group.setEffect(null);
         });
         return group;
     }

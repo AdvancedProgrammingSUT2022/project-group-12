@@ -1,13 +1,11 @@
 package Project.Views;
 
-import Project.CommandlineViews.TileGridPrinter;
 import Project.Controllers.GameController;
 import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
-import Project.Models.Units.Unit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -15,11 +13,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
-
 public class GameView implements ViewController {
     private static GameView instance;
-    private ArrayList<Pane> unitsPanes;
     @FXML
     private Pane selectionPane;
     @FXML
@@ -32,68 +27,46 @@ public class GameView implements ViewController {
     private Menu info;
     @FXML
     private ScrollPane scrollPane;
-    private Game game;
     @FXML
-    private Pane tilePane;
+    private Pane hexPane;
     @FXML
-    private Pane buildingsPane;
-    @FXML
-    private Pane unitsPane;
 
     public static GameView getInstance() {
         return instance;
     }
 
     public void initialize() {
-        this.unitsPanes = new ArrayList<>();
-        this.game = GameController.getGame();
         GameController.getGame().SetPage(this);
         instance = this;
         //todo : initialize
     }
 
-    public void initializeUnits() {
+    public Game getGame() {
+        return GameController.getGame();
+    }
+
+    public void showGameMap() {
+        btn.setVisible(false);
+//        System.out.println(hexPane.getChildren());
+//        hexPane.getChildren().addAll(0, GameController.getGame().getTileGrid().getHexes());
+        initializeHexPane();
+//        System.out.print(new TileGridPrinter(game.getTileGrid(), 10, 10).print(new Location(6, 6)));
+    }
+
+    public void initializeHexPane() {
         TileGrid tileGrid = GameController.getGame().getTileGrid();
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
+                Hex hex = GameController.getGameTile(new Location(i, j)).getHex();
+                hexPane.getChildren().add(hex.getGroup());
                 NonCombatUnit nonCombatUnit = tileGrid.getTile(i, j).getNonCombatUnit();
                 if (nonCombatUnit != null) {
-                    Hex hex = GameController.getGame().getTileGrid().getTile(i,j).getHex();
-                    hex.getPane().getChildren().add(nonCombatUnit.getGraphicUnit());
-//                    unitsPane.getChildren().add(nonCombatUnit.getGraphicUnit());
+                    hex.setUnit(nonCombatUnit);
                 }
+                System.out.println("HP: " + hex.getGroup().getLayoutX() + ' ' + hex.getGroup().getLayoutY());
+//                System.out.println("HP: " + hex.getGroup().getWidth() + ' ' + hex.getGroup().getHeight());
             }
         }
-    }
-
-
-    public Pane getTilePane() {
-        return tilePane;
-    }
-
-    public Pane getBuildingsPane() {
-        return buildingsPane;
-    }
-
-    public Pane getUnitsPane() {
-        return unitsPane;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void addUnit(Unit unit) {
-        unitsPane.getChildren().add(unit.getUnitImage());
-    }
-
-    public void click() {
-        System.err.println("clicked");
-        btn.setVisible(false);
-        System.out.println(tilePane.getChildren());
-        tilePane.getChildren().addAll(0, game.getTileGrid().getHexes());
-        initializeUnits();
-        System.out.print(new TileGridPrinter(game.getTileGrid(), 10, 10).print(new Location(6, 6)));
     }
 
 

@@ -3,14 +3,15 @@ package Project.Models.Tiles;
 
 import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
-import javafx.scene.Cursor;
+import Project.Models.Units.Unit;
+import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
-public class Hex extends Polygon {
+public class Hex {
 
+    private final Polygon polygon;
     private final double multiply;
     private final int i;
     private final int j;
@@ -21,7 +22,7 @@ public class Hex extends Polygon {
     private final double beginningOfLine;
     private final String url;
     private final Location tileLocation;
-    private final Pane pane;
+    private final Group group;
 
     public Hex(Tile tile, double multiply, int i, int j, String url) {
         this.tileLocation = tile.getLocation();
@@ -29,16 +30,16 @@ public class Hex extends Polygon {
         this.i = i;
         this.j = j;
         this.url = url;
-        this.pane = new Pane();
+        this.group = new Group();
         this.multiply = multiply;
         this.verticalSpacing = j * 10 * multiply + 5;
         this.horizontalSpacing = 5 * Math.sqrt(3) * i * multiply + 5;
         beginningOfLine = i % 2 == 0 ? 0 : 15 * multiply;
         w = 20 * multiply;
         h = 10 * Math.sqrt(3) * multiply;
-        pane.setMaxHeight(h);
-        pane.setMaxWidth(w);
-        this.getPoints().addAll(
+//        group.setMaxHeight(h);
+//        group.setMaxWidth(w);
+        this.polygon = new Polygon(
                 initX(5), initY(0.0),
                 initX(15.0), initY(0.0),
                 initX(20.0), initY(5 * Math.sqrt(3)),
@@ -47,24 +48,30 @@ public class Hex extends Polygon {
                 initX(0.0), initY(5 * Math.sqrt(3)));
         // TODO: change after adding tile images
         // this.setFill(new ImagePattern(image));
-        this.setFill(Color.valueOf(url));
-        this.setOnMouseEntered(mouseEvent -> {
-            setCursor(Cursor.HAND);
-            this.setEffect(new DropShadow());
+        this.polygon.setFill(Color.valueOf(url));
+        this.group.setOnMouseEntered(mouseEvent -> {
+//            this.polygon.setCursor(Cursor.HAND);
+            this.group.toFront();
+            this.polygon.setEffect(new DropShadow(20, Color.BLACK));
         });
-        this.setOnMouseExited(mouseEvent -> {
-            setCursor(Cursor.DEFAULT);
-            this.setEffect(null);
+        this.group.setOnMouseExited(mouseEvent -> {
+//            this.polygon.setCursor(Cursor.DEFAULT);
+            this.polygon.setEffect(null);
         });
-        this.setOnMouseClicked(mouseEvent -> System.out.println(j + " " + i));
+        this.group.setOnMouseClicked(mouseEvent -> System.out.println(j + " " + i));
         if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
             this.setFogOfWar();
         else if (tile.getState() == VisibilityEnum.VISIBLE)
             this.setVisible();
+        this.group.getChildren().add(polygon);
     }
 
-    public Pane getPane() {
-        return this.pane;
+    public Polygon getPolygon() {
+        return polygon;
+    }
+
+    public Group getGroup() {
+        return this.group;
     }
 
     private double initX(double x) {
@@ -120,7 +127,11 @@ public class Hex extends Polygon {
     }
 
     public double getCenterY() {
-        System.out.println("this.getLayoutY() = " + this.getLayoutY());
+//        System.out.println("this.getLayoutY() = " + this.getLayoutY());
         return (12.5 * Math.sqrt(3) + this.initY(0));
+    }
+
+    public void setUnit(Unit unit) {
+        this.group.getChildren().add(unit.getGraphicUnit());
     }
 }

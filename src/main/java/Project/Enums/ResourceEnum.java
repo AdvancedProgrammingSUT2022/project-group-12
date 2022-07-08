@@ -1,7 +1,6 @@
 package Project.Enums;
 
 import Project.App;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 
 public enum ResourceEnum {
@@ -60,11 +59,11 @@ public enum ResourceEnum {
         this.improvementNeeded = improvementNeeded;
         this.abbreviation = abbreviation;
 
-        System.out.println("/images/assets/resources/" + this.name().toLowerCase() + ".png");
+//        System.out.println("/images/assets/resources/" + this.name().toLowerCase() + ".png");
         if(this.name() != "RESET")
         this.resourceImage = new Image(App.class.getResource("/images/resources/" +  this.name().toLowerCase() + ".png").toExternalForm());
         else this.resourceImage = null;
-        System.out.println("/images/assets/resources/" + this.name());
+//        System.out.println("/images/assets/resources/" + this.name());
     }
 
     public Image getImage() {
