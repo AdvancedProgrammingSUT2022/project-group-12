@@ -4,7 +4,6 @@ module project {
     requires javafx.graphics;
     requires javafx.controls;
     requires com.google.gson;
-    requires org.jetbrains.annotations;
 
     opens Project to javafx.fxml;
     exports Project;

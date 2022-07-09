@@ -96,12 +96,12 @@ public class Game {
         }
     }
 
-    public void setPage(GameView gameView) {
-        panes = gameView;
-    }
-
     public GameView getPage() {
         return this.panes;
+    }
+
+    public void setPage(GameView gameView) {
+        panes = gameView;
     }
 
     public void revealTileFor(Civilization civilization, Tile tile) {
@@ -148,7 +148,9 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
-        return civilizations.get(this.gameTurn % civilizations.size());
+        if (civilizations.size() == 1)
+            return civilizations.get(0);
+        return civilizations.get(this.gameTurn % civilizations.size() + 1);
     }
 
     public void startNewTurn() throws GameException {

@@ -13,7 +13,7 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +133,7 @@ public class Tile implements Notifier<Tile> {
     }
 
     // @NotNull reminds not to set tile units to null, directly
-    public void placeUnit(@NotNull Unit unit) throws CommandException {
+    public void placeUnit( Unit unit) throws CommandException {
         if (unit == null) throw new RuntimeException();
         if (unit instanceof CombatUnit combatUnit) {
             if (this.getCombatUnit() != null)

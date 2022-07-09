@@ -1,6 +1,6 @@
 package Project.Utils;
 
-import org.jetbrains.annotations.NotNull;
+
 import Project.Models.Location;
 
 import java.util.HashMap;
@@ -99,7 +99,6 @@ public class Command {
         return getPartOfType(0);
     }
 
-    @NotNull
     private String getPartOfType(int idx) {
         String[] parts = this.getType().split(" ");
         return parts.length > idx ? parts[idx] : "";

@@ -18,7 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-import org.jetbrains.annotations.NotNull;
+
 
 public class TechnologyPanelController implements ViewController {
     @FXML
@@ -63,7 +63,7 @@ public class TechnologyPanelController implements ViewController {
         return hBox;
     }
 
-    @NotNull
+
     private VBox getTechBox(TechnologyEnum technologyEnum,Boolean isCurrentTech) {
         VBox vBox = new VBox();
         if(!isCurrentTech) {
@@ -119,7 +119,7 @@ public class TechnologyPanelController implements ViewController {
         });
     }
 
-    @NotNull
+
     private ImageView getTechImageView(TechnologyEnum technologyEnum) {
         ImageView imageView = new ImageView(technologyEnum.getImage());
         imageView.setFitWidth(50);
@@ -127,7 +127,7 @@ public class TechnologyPanelController implements ViewController {
         return imageView;
     }
 
-    @NotNull
+
     private ProgressBar getProgressBar(TechnologyEnum technologyEnum,int progress) {
         ProgressBar progressBar = new ProgressBar();
         progressBar.setTranslateX(100);
