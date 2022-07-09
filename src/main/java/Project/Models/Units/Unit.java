@@ -208,16 +208,6 @@ public abstract class Unit extends Production {
         return graphicUnit;
     }
 
-    public ImageView getUnitImage() {
-        Hex hex = GameController.getGame().getTileGrid().getTile(location.getRow(), location.getCol()).getHex();
-        ImageView imageView = new ImageView();
-        imageView.setImage(type.getAssetImage());
-        imageView.setLayoutX(hex.getCenterX());
-        imageView.setLayoutY(hex.getCenterY());
-        imageView.setOnMouseClicked(mouseEvent -> System.out.println(type.name()));
-        return imageView;
-    }
-
     public void decreaseHealth(int value) {
         this.health -= value;
     }

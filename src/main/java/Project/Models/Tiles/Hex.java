@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 
 public class Hex implements Observer<Tile> {
 
@@ -29,6 +30,7 @@ public class Hex implements Observer<Tile> {
     private final String url;
     private final Location tileLocation;
     private final Group group;
+    private final Text positionText;
 
     public Hex(Tile tile, double multiply, int j, int i, String url) {
         this.tileLocation = tile.getLocation();
@@ -61,6 +63,9 @@ public class Hex implements Observer<Tile> {
             this.polygon.setEffect(null);
         });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
+        this.positionText = new Text(i + ", " + j);
+        this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
+        this.positionText.setLayoutY(this.getCenterY());
     }
 
     public Polygon getPolygon() {
@@ -124,7 +129,6 @@ public class Hex implements Observer<Tile> {
     }
 
     public double getCenterY() {
-//        System.out.println("this.getLayoutY() = " + this.getLayoutY());
         return (12.5 * Math.sqrt(3) + this.initY(0));
     }
 
@@ -150,6 +154,7 @@ public class Hex implements Observer<Tile> {
         CombatUnit combatUnit = tile.getCombatUnit();
         this.group.getChildren().clear();
         this.group.getChildren().add(this.polygon);
+        this.group.getChildren().add(this.positionText);
         if (nonCombatUnit != null) {
             this.addUnitToGroup(nonCombatUnit);
         }
