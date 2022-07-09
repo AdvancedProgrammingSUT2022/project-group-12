@@ -1,7 +1,9 @@
 package Project.Models.Tiles;
 
 
+import Project.App;
 import Project.Enums.VisibilityEnum;
+import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
@@ -12,6 +14,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -32,6 +35,8 @@ public class Hex implements Observer<Tile> {
     private final Location tileLocation;
     private final Group group;
     private final Text positionText;
+    private final ImageView cityImageView;
+    private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
 
     public Hex(Tile tile, int j, int i, String url) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -67,7 +72,10 @@ public class Hex implements Observer<Tile> {
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.positionText = new Text(i + ", " + j);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
-        this.positionText.setLayoutY(this.getCenterY());
+        this.positionText.setLayoutY(this.getCenterY() - this.multiply * 3);
+        this.cityImageView = new ImageView(cityImage);
+        this.cityImageView.setLayoutX(this.getCenterX() - cityImageView.getBoundsInLocal().getWidth() / 2);
+        this.cityImageView.setLayoutY(this.getCenterY() - this.multiply * 3);
     }
 
     public Polygon getPolygon() {
@@ -137,8 +145,8 @@ public class Hex implements Observer<Tile> {
     private void addUnitToGroup(Unit unit) {
         Group graphicUnit = unit.getGraphicUnit();
         this.group.getChildren().add(graphicUnit);
-        graphicUnit.setTranslateY(this.getCenterY() + multiply * 3);
-        graphicUnit.setTranslateX(this.getCenterX() + multiply * (unit instanceof NonCombatUnit ? 3 : -3));
+        graphicUnit.setTranslateY(this.getCenterY() + multiply * 4);
+        graphicUnit.setTranslateX(this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));
     }
 
     @Override
@@ -154,14 +162,22 @@ public class Hex implements Observer<Tile> {
             this.setVisible();
         NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
         CombatUnit combatUnit = tile.getCombatUnit();
+        City city = tile.getCity();
         this.group.getChildren().clear();
         this.group.getChildren().add(this.polygon);
-        this.group.getChildren().add(this.positionText);
         if (nonCombatUnit != null) {
             this.addUnitToGroup(nonCombatUnit);
         }
         if (combatUnit != null) {
             this.addUnitToGroup(combatUnit);
         }
+        if (true || tile.getCity() != null) {
+            this.addCityToGroup(city);
+        }
+        this.group.getChildren().add(this.positionText);
+    }
+
+    private void addCityToGroup(City ignoredCity) {
+        this.group.getChildren().add(this.cityImageView);
     }
 }
