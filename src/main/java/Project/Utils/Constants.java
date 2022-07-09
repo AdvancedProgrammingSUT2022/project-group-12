@@ -1,6 +1,7 @@
 package Project.Utils;
 
 public class Constants {
+    public static final int HEX_SIZE_MULTIPLY = 7;
     public static int TILEGRID_HEIGHT ;
     public static int TILEGRID_WIDTH;
     public static final int TERMINAL_HEIGHT = 30;

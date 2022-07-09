@@ -32,7 +32,7 @@ public class Game {
     public Game(ArrayList<User> users) {
         this.users = users;
         this.civilizations = new ArrayList<>();
-        this.tileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         ArrayList<Tile> availableTiles = new ArrayList<>();
         for (Tile tile : this.tileGrid.getFlatTiles()) {
             if (tile.getTerrain().getTerrainType().isReachable()) {
@@ -49,9 +49,8 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
-            System.out.println(this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1)));
             if (users.size() == 1)
-                settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1));
+                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
             else
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
 
