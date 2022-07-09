@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.UnitPanelView">
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -17,7 +25,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type"/>
             <Text strokeType="OUTSIDE" strokeWidth="0.0"
                   text="-----------------------------------------------------------------------------------------------"/>
-            <Text fx:id="unitType" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text fx:id="unitType" sButtonTypetrokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -49,7 +57,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Health"/>
             <Text strokeType="OUTSIDE" strokeWidth="0.0"
                   text="-----------------------------------------------------------------------------------------------"/>
-            <Text fx:id="unitHealth" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text fx:id="unitHealth" strokeType="OUTSIDE" stroButtonTypekeWidth="0.0" text="Text"/>
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="190.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -74,12 +82,24 @@
             </HBox>
 
         </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button fx:id="attackUnitBtn1" mnemonicParsing="false" onAction="#attackUnit" text="Attack" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------" />
+            <HBox alignment="CENTER" prefHeight="36.0" prefWidth="165.0" spacing="15.0">
+               <children>
+                  <Spinner prefHeight="24.0" prefWidth="74.0" promptText="x" fx:id="xAttackSpinner" />
+                  <Spinner fx:id="yAttackSpinner" layoutX="10.0" layoutY="10.0" prefHeight="24.0" prefWidth="74.0" promptText="y" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="257.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Button mnemonicParsing="false" onAction="#sleep" text="Sleep"/>
-            <Button mnemonicParsing="false" onAction="#alert" text="Alert"/>
-            <Button mnemonicParsing="false" onAction="#fortify" text="Fortify"/>
-            <Button mnemonicParsing="false" onAction="#awake" text="Awake"/>
+            <Button mnemonicParsing="false" onAction="#sleep" text="Sleep" />
+            <Button mnemonicParsing="false" onAction="#alert" text="Alert" />
+            <Button mnemonicParsing="false" onAction="#fortify" text="Fortify" />
+            <Button mnemonicParsing="false" onAction="#awake" text="Awake" />
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="266.0" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
 

@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.effect.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
@@ -42,6 +43,7 @@ public class Test extends Application {
         AnchorPane root = new FXMLLoader(App.class.getResource("/Project/fxml/technologyMenu.fxml")).load();
         Scene scene = new Scene(root);
         System.out.println(scene.getWidth() + " " + scene.getHeight());
+
 
         stage.setScene(scene);
         stage.show();
