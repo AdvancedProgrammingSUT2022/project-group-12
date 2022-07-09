@@ -83,6 +83,8 @@ public class UnitPanelView implements ViewController {
 //        }
         unit.setLocation(new Location(locationX - 1, locationY - 1));
         String command = "unit move -p" + (locationX - 1) + " " + (locationY - 1);
+//        RequestHandler.getInstance().handle(command);
+        System.out.println(unit.getLocation());
         Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
         unit.getGraphicUnit().setLayoutX(hex.getCenterX());
         unit.getGraphicUnit().setLayoutY(hex.getCenterY());

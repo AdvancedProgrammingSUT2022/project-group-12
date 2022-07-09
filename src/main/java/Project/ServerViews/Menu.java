@@ -1,11 +1,12 @@
-package Project.CommandlineViews;
+package Project.ServerViews;
 
 import Project.Utils.Command;
 import Project.Utils.CommandException;
+import Project.Utils.CommandResponse;
 
 import java.util.Scanner;
 
-public abstract class MenuDisabled {
+public abstract class Menu {
 
     private boolean showName = true;
     private boolean isFirstRun = true;
@@ -21,7 +22,7 @@ public abstract class MenuDisabled {
             this.isFirstRun = false;
             this.firstRun();
         }
-        Scanner scanner = MenuStackDisabled.getInstance().getScanner();
+        Scanner scanner = MenuStack.getInstance().getScanner();
         String line = scanner.nextLine().trim();
         if (line.isEmpty()) return;
         try {
@@ -30,6 +31,16 @@ public abstract class MenuDisabled {
         } catch (CommandException e) {
             answer(e);
         }
+    }
+
+    public CommandResponse runCommand(String line) {
+        try {
+            Command command = Command.parseCommand(line);
+            handleCommand(command);
+        } catch (CommandException e) {
+            answer(e);
+        }
+        return CommandResponse.OK;
     }
 
     public void firstRun() {

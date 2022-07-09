@@ -41,8 +41,6 @@ public class Hex {
         beginningOfLine = i % 2 == 0 ? 0 : 15 * multiply;
         w = 20 * multiply;
         h = 10 * Math.sqrt(3) * multiply;
-//        group.setMaxHeight(h);
-//        group.setMaxWidth(w);
         this.polygon = new Polygon(
                 initX(5), initY(0.0),
                 initX(15.0), initY(0.0),
@@ -50,7 +48,6 @@ public class Hex {
                 initX(15.0), initY(10 * Math.sqrt(3)),
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
-        // TODO: change after adding tile images
         polygon.setFill(new ImagePattern(image));
         this.group.setOnMouseEntered(mouseEvent -> {
             this.polygon.setCursor(Cursor.HAND);

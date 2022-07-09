@@ -1,8 +1,8 @@
 package Project.Controllers;
 
-import Project.CommandlineViews.MenuStackDisabled;
 import Project.Models.Database;
 import Project.Models.User;
+import Project.ServerViews.MenuStack;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.InputRegex;
@@ -37,7 +37,7 @@ public class LoginMenuController {
         } else if (!(user = database.getUser(username)).passwordMatchCheck(password)) {
             throw new CommandException(CommandResponse.PASSWORD_DOES_NOT_MATCH);
         } else {
-            MenuStackDisabled.getInstance().setUser(user);
+            MenuStack.getInstance().setUser(user);
         }
     }
 }

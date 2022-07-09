@@ -1,30 +1,31 @@
-package Project.CommandlineViews;
+package Project.ServerViews;
 
 import Project.Models.User;
+import Project.Utils.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MenuStackDisabled {
-    private static MenuStackDisabled instance = null;
-    private final ArrayList<MenuDisabled> menuDisableds = new ArrayList<>();
+public class MenuStack {
+    private static MenuStack instance = null;
+    private final ArrayList<Menu> menus = new ArrayList<>();
     private final LoginMenu loginMenu = new LoginMenu();
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
     private Scanner scanner;
     private User currentUser;
 
-    public MenuStackDisabled() {
+    public MenuStack() {
 
     }
 
-    public static MenuStackDisabled getInstance() {
-        if (instance == null) setInstance(new MenuStackDisabled());
+    public static MenuStack getInstance() {
+        if (instance == null) setInstance(new MenuStack());
         return instance;
     }
 
-    private static void setInstance(MenuStackDisabled instance) {
-        MenuStackDisabled.instance = instance;
+    private static void setInstance(MenuStack instance) {
+        MenuStack.instance = instance;
     }
 
     public Scanner getScanner() {
@@ -45,11 +46,15 @@ public class MenuStackDisabled {
 
     public void gotoLoginMenu() {
         this.currentUser = null;
-        if (this.menuDisableds.isEmpty()) {
+        if (this.menus.isEmpty()) {
             this.pushMenu(this.loginMenu);
         } else {
             this.popMenu();
         }
+    }
+
+    public CommandResponse runCommand(String line) {
+        return this.getTopMenu().runCommand(line);
     }
 
     public User getUser() {
@@ -60,17 +65,17 @@ public class MenuStackDisabled {
         this.currentUser = currentUser;
     }
 
-    public void pushMenu(MenuDisabled menuDisabled) {
+    public void pushMenu(Menu menu) {
         if (this.getTopMenu() != null) this.getTopMenu().resetShowName();
-        this.getMenus().add(menuDisabled);
+        this.getMenus().add(menu);
     }
 
-    public MenuDisabled getTopMenu() {
+    public Menu getTopMenu() {
         return this.getMenus().isEmpty() ? null : this.getMenus().get(this.getMenus().size() - 1);
     }
 
-    private ArrayList<MenuDisabled> getMenus() {
-        return menuDisableds;
+    private ArrayList<Menu> getMenus() {
+        return menus;
     }
 
     public void popMenu() {

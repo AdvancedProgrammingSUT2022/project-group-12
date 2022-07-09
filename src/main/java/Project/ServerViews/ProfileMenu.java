@@ -1,4 +1,4 @@
-package Project.CommandlineViews;
+package Project.ServerViews;
 
 import Project.Controllers.ProfileMenuController;
 import Project.Utils.Command;
@@ -7,7 +7,7 @@ import Project.Utils.CommandResponse;
 
 import java.util.List;
 
-public class ProfileMenu extends MenuDisabled {
+public class ProfileMenu extends Menu {
 
     @Override
     protected void handleCommand(Command command) {
@@ -15,7 +15,7 @@ public class ProfileMenu extends MenuDisabled {
             case "change nickname" -> this.changeNickname(command);
             case "change password" -> this.changePassword(command);
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStackDisabled.getInstance().popMenu();
+            case "menu exit" -> MenuStack.getInstance().popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
