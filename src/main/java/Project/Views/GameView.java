@@ -4,6 +4,7 @@ import Project.Controllers.GameController;
 import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
+import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -56,8 +57,11 @@ public class GameView implements ViewController {
         TileGrid tileGrid = GameController.getGame().getTileGrid();
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
-                Hex hex = tileGrid.getTile(new Location(i, j)).getHex();
+                Tile tile = tileGrid.getTile(new Location(i, j));
+                Hex hex = tile.getHex();
                 hexPane.getChildren().add(hex.getGroup());
+                tile.addObserver(tile.getHex());
+                hex.updateHex(tile);
             }
         }
     }

@@ -13,7 +13,6 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
-import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class Tile implements Notifier<Tile> {
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
-    private int HP;
     private boolean isDamaged;
     private Civilization civilization;
     private City city;
@@ -43,7 +41,6 @@ public class Tile implements Notifier<Tile> {
         this.terrain = terrain;
         this.combatUnit = null;
         this.nonCombatUnit = null;
-        this.HP = 0;
         this.isDamaged = false;
         this.city = null;
         this.hasRoad = false;
@@ -57,7 +54,6 @@ public class Tile implements Notifier<Tile> {
         this.terrain = that.terrain;
         this.combatUnit = that.combatUnit;
         this.nonCombatUnit = that.nonCombatUnit;
-        this.HP = that.HP;
         this.isDamaged = that.isDamaged;
         this.city = that.city;
         this.hasRoad = that.hasRoad;
@@ -79,23 +75,6 @@ public class Tile implements Notifier<Tile> {
         this.notifierUtil.notifyObservers();
     }
 
-    public void showUnit(Pane pane) {
-        if (nonCombatUnit != null) {
-            pane.getChildren().add(nonCombatUnit.createUnitGroup());
-        }
-        if (combatUnit != null) {
-            pane.getChildren().add(nonCombatUnit.createUnitGroup());
-        }
-    }
-
-    public double getXOnMap() {
-        return hex.getPolygon().getLayoutX();
-    }
-
-    public double getYOnMap() {
-        return hex.getPolygon().getLayoutY();
-    }
-
     public Hex getHex() {
         return hex;
     }
@@ -112,21 +91,13 @@ public class Tile implements Notifier<Tile> {
         this.hasRoad = true;
     }
 
-
-    public int getHP() {
-        return HP;
-    }
-
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-
     public Citizen getCitizen() {
         return citizen;
     }
 
     public void setCitizen(Citizen citizen) {
         this.citizen = citizen;
+        this.notifyObservers();
     }
 
     public VisibilityEnum getState() {
@@ -135,6 +106,7 @@ public class Tile implements Notifier<Tile> {
 
     public void setState(VisibilityEnum state) {
         this.state = state;
+        this.notifyObservers();
     }
 
     public boolean isDamaged() {
@@ -143,6 +115,7 @@ public class Tile implements Notifier<Tile> {
 
     public void setDamaged(boolean damaged) {
         isDamaged = damaged;
+        this.notifyObservers();
     }
 
     public City getCity() {
@@ -151,6 +124,7 @@ public class Tile implements Notifier<Tile> {
 
     public void setCity(City city) {
         this.city = city;
+        this.notifyObservers();
     }
 
     public Terrain getTerrain() {
@@ -163,6 +137,7 @@ public class Tile implements Notifier<Tile> {
 
     private void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
+        this.notifyObservers();
     }
 
     public NonCombatUnit getNonCombatUnit() {
@@ -171,6 +146,7 @@ public class Tile implements Notifier<Tile> {
 
     private void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
+        this.notifyObservers();
     }
 
     // @NotNull reminds not to set tile units to null, directly
@@ -187,13 +163,13 @@ public class Tile implements Notifier<Tile> {
         }
     }
 
-
     public Civilization getCivilization() {
         return this.civilization;
     }
 
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
+        this.notifyObservers();
     }
 
     public Tile deepCopy() {
@@ -260,6 +236,7 @@ public class Tile implements Notifier<Tile> {
         } else {
             this.setNonCombatUnit(null);
         }
+        this.notifyObservers();
     }
 
     public Unit getUnit() {
@@ -277,10 +254,12 @@ public class Tile implements Notifier<Tile> {
 
     public void clearLand() {
         this.terrain.clearLands();
+        this.notifyObservers();
     }
 
     public void addImprovement(ImprovementEnum improvement) {
         this.getImprovements().add(improvement);
+        this.notifyObservers();
     }
 
     public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad() {
