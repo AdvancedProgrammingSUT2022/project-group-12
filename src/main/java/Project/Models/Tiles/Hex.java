@@ -1,6 +1,7 @@
 package Project.Models.Tiles;
 
 
+import Project.Enums.TerrainEnum;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
@@ -27,14 +28,13 @@ public class Hex implements Observer<Tile> {
     private final double verticalSpacing;
     private final double horizontalSpacing;
     private final double beginningOfLine;
-    private final String url;
+    private final Image url;
     private final Location tileLocation;
     private final Group group;
     private final Text positionText;
 
-    public Hex(Tile tile, double multiply, int j, int i, String url) {
+    public Hex(Tile tile, double multiply, int j, int i, Image url) {
         this.tileLocation = tile.getLocation();
-        Image image = new Image(url);
         this.i = i;
         this.j = j;
         this.url = url;
@@ -52,20 +52,28 @@ public class Hex implements Observer<Tile> {
                 initX(15.0), initY(10 * Math.sqrt(3)),
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
-        polygon.setFill(new ImagePattern(image));
         this.group.setOnMouseEntered(mouseEvent -> {
             this.polygon.setCursor(Cursor.HAND);
             this.group.toFront();
             this.polygon.setEffect(new DropShadow(20, Color.BLACK));
         });
+        polygon.setFill(new ImagePattern(url));
         this.group.setOnMouseExited(mouseEvent -> {
             this.polygon.setCursor(Cursor.DEFAULT);
             this.polygon.setEffect(null);
         });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
-        this.positionText = new Text(i + ", " + j);
+        this.positionText = new Text(i + 1 + ", " + j + 1);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
         this.positionText.setLayoutY(this.getCenterY());
+    }
+
+    public Location getTileLocation() {
+        return tileLocation;
+    }
+
+    public Text getPositionText() {
+        return positionText;
     }
 
     public Polygon getPolygon() {
@@ -93,11 +101,11 @@ public class Hex implements Observer<Tile> {
     }
 
     public void setFogOfWar() {
-
+        polygon.setFill(new ImagePattern(TerrainEnum.HILL.getFogOfWarImage()));
     }
 
     public void setVisible() {
-
+        polygon.setFill(new ImagePattern(url));
     }
 
     public double getHeight() {
