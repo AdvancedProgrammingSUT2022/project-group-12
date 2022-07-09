@@ -26,7 +26,7 @@
               </content>
             </ScrollPane>
          </children></VBox>
-      <Button layoutX="430.0" layoutY="320.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="136.0" text="Technology Tree" />
+      <Button layoutX="430.0" layoutY="320.0" fx:id="techTree" onAction="#gotoTechTree" mnemonicParsing="false" prefHeight="24.0" prefWidth="136.0" text="Technology Tree" />
       <VBox fx:id="currentTechBox" layoutX="439.0" layoutY="84.0" prefHeight="200.0" prefWidth="100.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Technology" textAlignment="CENTER" wrappingWidth="100.7294921875">
