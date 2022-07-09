@@ -33,6 +33,7 @@ public class Civilization {
     private final HappinessTypeEnum happinessType;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
+    private Tile selectedTile;
     private Unit selectedUnit;
     private int gold;
     private int goldFromCheat;
@@ -69,6 +70,14 @@ public class Civilization {
         this.beakerFromBuildings = 0;
         this.beakerRatioFromBuildings = 0;
         this.unitCountByCategory = new HashMap<>();
+    }
+
+    public Tile getSelectedTile() {
+        return selectedTile;
+    }
+
+    public void setSelectedTile(Tile selectedTile) {
+        this.selectedTile = selectedTile;
     }
 
     public Unit getSelectedUnit() {
@@ -479,7 +488,7 @@ public class Civilization {
         return this.researchingTechnologies.getOrDefault(technology, 0);
     }
 
-    public void addResearchingTechnology(TechnologyEnum technologyEnum){
-        this.getResearchingTechnologies().put(technologyEnum,technologyEnum.getCost());
+    public void addResearchingTechnology(TechnologyEnum technologyEnum) {
+        this.getResearchingTechnologies().put(technologyEnum, technologyEnum.getCost());
     }
 }

@@ -4,7 +4,6 @@ package Project.Models.Tiles;
 import Project.App;
 import Project.Controllers.GameController;
 import Project.Models.Cities.City;
-import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
@@ -13,12 +12,14 @@ import Project.Utils.Constants;
 import Project.Utils.Observer;
 import Project.Views.Menu;
 import Project.Views.MenuStack;
+import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -64,7 +65,10 @@ public class Hex implements Observer<Tile> {
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
         setSelectShadowEffect(this.group);
-        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
+        this.group.setOnMouseClicked(mouseEvent -> {
+            GameController.getGame().getCurrentCivilization().setSelectedTile(tile);
+            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
+        });
         this.positionText = new Text(i + ", " + j);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
         this.positionText.setLayoutY(this.getCenterY() - this.multiply * 3);

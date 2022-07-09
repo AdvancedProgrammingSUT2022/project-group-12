@@ -3,6 +3,7 @@ package Project.Views;
 import Project.App;
 import Project.Controllers.GameController;
 import Project.Enums.UnitStates;
+import Project.Models.Tiles.Hex;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
