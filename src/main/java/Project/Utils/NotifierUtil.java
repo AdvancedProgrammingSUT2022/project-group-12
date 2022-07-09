@@ -19,7 +19,7 @@ public class NotifierUtil<T> implements Notifier<T> {
 
     @Override
     public void notifyObservers() {
-        System.out.println("notify");
+//        System.out.println("notify");
         for (Observer<T> observer : observers) {
             observer.getNotified(subject);
         }

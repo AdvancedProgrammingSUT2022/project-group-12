@@ -31,7 +31,6 @@ public class Hex implements Observer<Tile> {
     private final Group group;
 
     public Hex(Tile tile, double multiply, int j, int i, String url) {
-        tile.addObserver(this);
         this.tileLocation = tile.getLocation();
         Image image = new Image(url);
         this.i = i;
@@ -62,7 +61,6 @@ public class Hex implements Observer<Tile> {
             this.polygon.setEffect(null);
         });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
-        this.updateHex(tile);
     }
 
     public Polygon getPolygon() {
@@ -133,16 +131,17 @@ public class Hex implements Observer<Tile> {
     private void addUnitToGroup(Unit unit) {
         Group graphicUnit = unit.getGraphicUnit();
         this.group.getChildren().add(graphicUnit);
-        graphicUnit.setTranslateY(10);
-        graphicUnit.setTranslateX(unit instanceof NonCombatUnit ? 15 : -15);
+        graphicUnit.setTranslateY(this.getCenterY() + 10);
+        graphicUnit.setTranslateX(this.getCenterX() + (unit instanceof NonCombatUnit ? 15 : -15));
     }
 
     @Override
     public void getNotified(Tile tile) {
+//        System.out.println(tile.getLocation() + "got notified");
         updateHex(tile);
     }
 
-    private void updateHex(Tile tile) {
+    public void updateHex(Tile tile) {
         if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
             this.setFogOfWar();
         else if (tile.getState() == VisibilityEnum.VISIBLE)
