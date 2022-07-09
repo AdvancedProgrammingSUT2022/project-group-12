@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,12 +24,18 @@ public class TechnologyPanelController implements ViewController {
     public VBox techsBox;
     @FXML
     public VBox currentTechBox;
+    public ScrollPane techScrollPane;
     @FXML
     VBox technologyShow;
 
 
+
      public void initialize(){
      Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+         techScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+         techScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+         techScrollPane.setStyle("-fx-background-color:transparent;");
+         techScrollPane.setContent(techsBox);
          technologyShow.setSpacing(20);
          techsBox.setSpacing(20);
          currentTechBox.setSpacing(20);

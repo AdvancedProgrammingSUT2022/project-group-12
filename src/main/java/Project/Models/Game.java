@@ -46,9 +46,12 @@ public class Game {
         for (int index = 0; index < users.size(); index++) {
             TerrainColor color = colors.get(index % colors.size());
             Civilization civ = new Civilization(users.get(index), color);
+            //for easier testing
             civ.addResearchingTechnology(TechnologyEnum.AGRICULTURE);
             civ.addResearchingTechnology(TechnologyEnum.MINING);
             civ.addResearchingTechnology(TechnologyEnum.ANIMAL_HUSBANDRY);
+            civ.addResearchingTechnology(TechnologyEnum.WRITING);
+            civ.addResearchingTechnology(TechnologyEnum.TRAPPING);
             civilizations.add(civ);
 
 
