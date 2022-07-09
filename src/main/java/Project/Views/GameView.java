@@ -87,4 +87,8 @@ public class GameView implements ViewController {
     public void researchInfo(ActionEvent actionEvent) {
         MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("technologyMenu"));
     }
+
+    public void gotoCivPanel() {
+        MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("CivilizationPanelPage"));
+    }
 }
