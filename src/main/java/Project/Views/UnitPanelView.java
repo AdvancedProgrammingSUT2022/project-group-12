@@ -84,7 +84,6 @@ public class UnitPanelView implements ViewController {
 //        }
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
-        System.out.println(String.valueOf(unit.getType()) + ' ' + unit.getLocation());
         String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
         String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
         RequestHandler.getInstance().handle(command);
