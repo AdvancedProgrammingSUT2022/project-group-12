@@ -6,8 +6,6 @@ import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.NonCombatUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,7 +37,7 @@ public class GameView implements ViewController {
     }
 
     public void initialize() {
-        GameController.getGame().SetPage(this);
+        GameController.getGame().setPage(this);
         instance = this;
         //todo : initialize
     }

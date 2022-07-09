@@ -5,6 +5,7 @@ import Project.Controllers.MovingController;
 import Project.Enums.TerrainColor;
 import Project.Enums.UnitEnum;
 import Project.Enums.UnitStates;
+import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -33,8 +34,9 @@ public class Game {
         this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.tileGrid.setAllStatesTo(VisibilityEnum.VISIBLE);
         ArrayList<Tile> availableTiles = new ArrayList<>();
-        for (Tile tile : this.tileGrid.getFlatTiles()) {
+        for (Tile tile : this.tileGrid.getFlatCopyOfTiles()) {
             if (tile.getTerrain().getTerrainType().isReachable()) {
                 availableTiles.add(tile);
             }
@@ -78,7 +80,7 @@ public class Game {
     }
 
     public void updateRevealedTileGrid(Civilization civilization) {
-        tileGrid.setFogOfWarForAll();
+        civilization.getRevealedTileGrid().changeVisibleTilesToRevealed();
         for (Unit unit : civilization.getUnits()) {
             Tile tile = tileGrid.getTile(unit.getLocation());
             int visibilityRange = unit.getType().hasLimitedVisibility() ? Constants.UNIT_LIMITED_VISION_RADIUS : Constants.UNIT_VISION_RADIUS;
@@ -94,7 +96,7 @@ public class Game {
         }
     }
 
-    public void SetPage(GameView gameView) {
+    public void setPage(GameView gameView) {
         panes = gameView;
     }
 
@@ -104,8 +106,7 @@ public class Game {
 
     public void revealTileFor(Civilization civilization, Tile tile) {
         TileGrid civTileGrid = civilization.getRevealedTileGrid();
-        civTileGrid.setVisible(tile.getLocation());
-        civTileGrid.setTile(tile.getLocation(), tile.deepCopy());
+        civTileGrid.getTile(tile.getLocation()).copyPropertiesFrom(tile);
     }
 
     public void endCurrentTurn() throws GameException, CommandException {

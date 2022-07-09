@@ -3,8 +3,8 @@ package Project.Models.Tiles;
 
 import Project.App;
 import Project.Controllers.GameController;
+import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
-import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
@@ -16,6 +16,7 @@ import Project.Views.MenuStack;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,11 +42,11 @@ public class Hex implements Observer<Tile> {
     private final Group group;
     private final Text positionText;
     private final ImageView cityImageView;
+    private final ColorAdjust groupColorAdjust = new ColorAdjust();
 
     public Hex(Tile tile, int j, int i, String url) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
         this.tileLocation = tile.getLocation();
-
         this.i = i;
         this.j = j;
         this.url = url;
@@ -63,7 +64,14 @@ public class Hex implements Observer<Tile> {
                 initX(15.0), initY(10 * Math.sqrt(3)),
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
-        setSelectShadowEffect(this.group);
+        this.group.setCursor(Cursor.HAND);
+        this.group.setOnMouseEntered(mouseEvent -> {
+            this.group.toFront();
+            this.groupColorAdjust.setInput(new DropShadow(20, Color.BLACK));
+        });
+        this.group.setOnMouseExited(mouseEvent -> {
+            this.groupColorAdjust.setInput(null);
+        });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.positionText = new Text(i + ", " + j);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
@@ -72,17 +80,7 @@ public class Hex implements Observer<Tile> {
         this.cityImageView.setLayoutX(this.getCenterX() - cityImageView.getBoundsInLocal().getWidth() / 2);
         this.cityImageView.setLayoutY(this.getCenterY() - this.multiply * 3);
         setSelectScaleEffect(this.cityImageView);
-    }
-
-    private static void setSelectShadowEffect(Node node) {
-        node.setCursor(Cursor.HAND);
-        node.setOnMouseEntered(mouseEvent -> {
-            node.toFront();
-            node.setEffect(new DropShadow(20, Color.BLACK));
-        });
-        node.setOnMouseExited(mouseEvent -> {
-            node.setEffect(null);
-        });
+        this.group.setEffect(this.groupColorAdjust);
     }
 
     private static void setSelectScaleEffect(Node node) {
@@ -162,11 +160,13 @@ public class Hex implements Observer<Tile> {
 
     @Override
     public void getNotified(Tile tile) {
-        updateHex(GameController.getGame().getCurrentCivilization().getRevealedTileGrid().getTile(tile.getLocation()));
+        System.out.println(tile.getLocation() + " got notified");
+        updateHex(tile);
     }
 
     public void updateHex(Tile tile) {
         polygon.setFill(new ImagePattern(tile.getTerrain().getTerrainType().getTerrainImage()));
+        this.groupColorAdjust.setBrightness(tile.getState() == VisibilityEnum.VISIBLE ? 0 : -0.5);
         NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
         CombatUnit combatUnit = tile.getCombatUnit();
         City city = tile.getCity();

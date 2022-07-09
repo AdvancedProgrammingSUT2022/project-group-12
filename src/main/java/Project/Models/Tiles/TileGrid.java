@@ -69,16 +69,20 @@ public class TileGrid {
         this.tiles[location.getRow()][location.getCol()].setState(VisibilityEnum.VISIBLE);
     }
 
+    public void setAllStatesTo(VisibilityEnum state) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                this.tiles[i][j].setState(state);
+            }
+        }
+    }
+
     public int getHeight() {
         return height;
     }
 
     public int getWidth() {
         return width;
-    }
-
-    public void setTile(Location location, Tile tile) {
-        this.tiles[location.getRow()][location.getCol()] = tile;
     }
 
     public ArrayList<Tile> getAllTilesInRadius(@NotNull Tile sourceTile, int rad) {
@@ -162,15 +166,15 @@ public class TileGrid {
         return getTile(location.getRow(), location.getCol());
     }
 
-    public void setFogOfWarForAll() {
+    public void changeVisibleTilesToRevealed() {
         for (int i = 0; i < this.getHeight(); ++i) {
             for (int j = 0; j < this.getWidth(); ++j) {
-                tiles[i][j].setState(tiles[i][j].getState() == VisibilityEnum.FOG_OF_WAR ? VisibilityEnum.FOG_OF_WAR : VisibilityEnum.VISIBLE);
+                tiles[i][j].setState(tiles[i][j].getState() == VisibilityEnum.FOG_OF_WAR ? VisibilityEnum.FOG_OF_WAR : VisibilityEnum.REVEALED);
             }
         }
     }
 
-    public ArrayList<Tile> getFlatTiles() {
+    public ArrayList<Tile> getFlatCopyOfTiles() {
         ArrayList<Tile> tiles = new ArrayList<>();
         for (int i = 0; i < this.getHeight(); ++i) {
             for (int j = 0; j < this.getWidth(); ++j) {

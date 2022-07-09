@@ -13,7 +13,6 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
-import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.List;
 public class Tile implements Notifier<Tile> {
     private final Hex hex;
     private final Location location;
-    private final Terrain terrain;
+    private Terrain terrain;
     private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private CombatUnit combatUnit;
@@ -35,7 +34,6 @@ public class Tile implements Notifier<Tile> {
     private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
-    private Image image;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         //todo : initialize hex
@@ -46,26 +44,8 @@ public class Tile implements Notifier<Tile> {
         this.isDamaged = false;
         this.city = null;
         this.hasRoad = false;
-        this.image = terrain.getTerrainType().getTerrainImage();
         this.state = VisibilityEnum.FOG_OF_WAR;
         this.hex = new Hex(this, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
-    }
-
-    private Tile(Tile that) {
-        this.hex = that.hex;
-        this.location = that.location;
-        this.terrain = that.terrain;
-        this.combatUnit = that.combatUnit;
-        this.nonCombatUnit = that.nonCombatUnit;
-        this.isDamaged = that.isDamaged;
-        this.city = that.city;
-        this.hasRoad = that.hasRoad;
-        this.state = that.state;
-        this.civilization = that.civilization;
-        this.citizen = that.citizen;
-        this.improvements = that.improvements;
-        this.hasRiver = that.hasRiver;
-        this.hasRailRoad = that.hasRailRoad;
     }
 
     @Override
@@ -175,10 +155,6 @@ public class Tile implements Notifier<Tile> {
         this.notifyObservers();
     }
 
-    public Tile deepCopy() {
-        return new Tile(this);
-    }
-
     public void transferUnitTo(Unit unit, Tile that) {
         if (unit instanceof CombatUnit combatUnit) {
             this.setCombatUnit(null);
@@ -276,5 +252,22 @@ public class Tile implements Notifier<Tile> {
     // todo
     public String getInfo() {
         return null;
+    }
+
+    public void copyPropertiesFrom(Tile that) {
+        this.terrain = that.terrain;
+        this.combatUnit = that.combatUnit;
+        this.nonCombatUnit = that.nonCombatUnit;
+        this.isDamaged = that.isDamaged;
+        this.city = that.city;
+        this.hasRoad = that.hasRoad;
+        this.state = that.state;
+        this.civilization = that.civilization;
+        this.citizen = that.citizen;
+        this.improvements = that.improvements;
+        this.hasRiver = that.hasRiver;
+        this.hasRailRoad = that.hasRailRoad;
+        if (this.state == VisibilityEnum.VISIBLE) System.out.println("VISSSSS!");
+        this.notifyObservers();
     }
 }
