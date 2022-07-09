@@ -2,9 +2,10 @@ package Project.Views;
 
 import Project.Controllers.GameController;
 import Project.Enums.UnitStates;
-import Project.Models.Location;
-import Project.Models.Tiles.Hex;
+import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,15 +82,20 @@ public class UnitPanelView implements ViewController {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
 //            return;
 //        }
-        unit.setLocation(new Location(locationX - 1, locationY - 1));
-        String command = "unit move -p" + (locationX - 1) + " " + (locationY - 1);
-//        RequestHandler.getInstance().handle(command);
-        System.out.println(unit.getLocation());
-        Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
-        unit.getGraphicUnit().setLayoutX(hex.getCenterX());
-        unit.getGraphicUnit().setLayoutY(hex.getCenterY());
-        unitXLocation.setText(String.valueOf(locationX));
-        unitYLocation.setText(String.valueOf(locationY));
+        int locationX = xSpinner.getValue();
+        int locationY = ySpinner.getValue();
+        System.out.println(String.valueOf(unit.getType()) + ' ' + unit.getLocation());
+        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
+        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        command = "unit move -p " + (locationX - 1) + " " + (locationY - 1);
+        response = RequestHandler.getInstance().handle(command);
+//        Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
+//        unit.getGraphicUnit().setLayoutX(hex.getCenterX());
+//        unit.getGraphicUnit().setLayoutY(hex.getCenterY());
+//        unitXLocation.setText(String.valueOf(locationX));
+//        unitYLocation.setText(String.valueOf(locationY));
+        if (response.isOK()) back();
     }
 
     public void sleep() {

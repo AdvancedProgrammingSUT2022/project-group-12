@@ -13,6 +13,7 @@ public class RequestHandler {
     }
 
     public CommandResponse handle(String line) {
+        System.out.println("Request: " + line);
         return MenuStack.getInstance().runCommand(line);
     }
 }
