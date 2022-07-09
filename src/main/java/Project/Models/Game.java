@@ -2,7 +2,6 @@ package Project.Models;
 
 import Project.Controllers.GameController;
 import Project.Controllers.MovingController;
-import Project.Enums.TechnologyEnum;
 import Project.Enums.TerrainColor;
 import Project.Enums.UnitEnum;
 import Project.Enums.UnitStates;
@@ -46,19 +45,13 @@ public class Game {
         for (int index = 0; index < users.size(); index++) {
             TerrainColor color = colors.get(index % colors.size());
             Civilization civ = new Civilization(users.get(index), color);
-            //for easier testing
-            civ.addResearchingTechnology(TechnologyEnum.AGRICULTURE);
-            civ.addResearchingTechnology(TechnologyEnum.MINING);
-            civ.addResearchingTechnology(TechnologyEnum.ANIMAL_HUSBANDRY);
-            civ.addResearchingTechnology(TechnologyEnum.WRITING);
-            civ.addResearchingTechnology(TechnologyEnum.TRAPPING);
             civilizations.add(civ);
-
 
             // for easier testing
             Tile settlerTile;
+            System.out.println(this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1)));
             if (users.size() == 1)
-                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
+                settlerTile = this.getTileGrid().getTile(new Location(Constants.TILEGRID_WIDTH - 1, Constants.TILEGRID_HEIGHT - 1));
             else
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
 
@@ -155,6 +148,7 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
+        //Todo : fix
         return civilizations.get(this.gameTurn % civilizations.size());
     }
 

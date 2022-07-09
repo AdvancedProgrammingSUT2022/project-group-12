@@ -291,8 +291,7 @@ public class Civilization {
 
     public int calculateCivilizationFood() throws CommandException {
         int food = 0;
-        for (City city :
-                this.getCities()) {
+        for (City city : this.getCities()) {
             food += city.calculateFood();
         }
         this.food = food;

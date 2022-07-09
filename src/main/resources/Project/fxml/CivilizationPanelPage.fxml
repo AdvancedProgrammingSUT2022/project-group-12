@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Project.Views.CivilizationPanelView"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="360.0" prefWidth="583.0" spacing="15.0">
+        <Text fx:id="civName" strokeType="OUTSIDE" strokeWidth="0.0" text="Civ Name"/>
+
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="164.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Happiness"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="happiness" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="198.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gold"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="gold" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Beaker"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="beaker" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="292.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="food" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="317.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="City Count"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------------------------------------------"/>
+            <Text fx:id="cityCount" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="327.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Owned Tiles"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="------------------------------------------------------------------------"/>
+            <MenuButton fx:id="tilesMenu" mnemonicParsing="false" prefHeight="24.0" prefWidth="92.0" text="Tiles">
+                <items>
+
+                </items>
+            </MenuButton>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="335.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Owned Units"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="------------------------------------------------------------------------"/>
+            <MenuButton fx:id="unitsMenu" mnemonicParsing="false" prefHeight="24.0" prefWidth="92.0" text="Units">
+                <items>
+
+                </items>
+            </MenuButton>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="342.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is In War With"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="------------------------------------------------------------------------"/>
+            <MenuButton fx:id="warMenu" mnemonicParsing="false" prefHeight="24.0" prefWidth="92.0" text="Civs">
+                <items>
+
+                </items>
+            </MenuButton>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Trading Good With"/>
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                  text="-----------------------------------------------------------"/>
+            <MenuButton fx:id="democracyMenu" mnemonicParsing="false" prefHeight="24.0" prefWidth="92.0" text="Civs">
+                <items>
+
+                </items>
+            </MenuButton>
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#back" text="Back"/>
+                <Button mnemonicParsing="false" onAction="#exit" text="Exit"/>
+            </children>
+        </HBox>
+    </VBox>
+</AnchorPane>

@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
@@ -25,6 +26,7 @@ public class TechnologyPanelController implements ViewController {
     @FXML
     public VBox currentTechBox;
     public ScrollPane techScrollPane;
+    public Button techTree;
     @FXML
     VBox technologyShow;
 
@@ -140,5 +142,9 @@ public class TechnologyPanelController implements ViewController {
     public void backToMenu(ActionEvent actionEvent) {
         MenuStack.getInstance().popMenu();
         System.out.println("back");
+    }
+
+    public void gotoTechTree(ActionEvent actionEvent) {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("techTree"));
     }
 }

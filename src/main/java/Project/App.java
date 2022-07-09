@@ -30,7 +30,14 @@ public class App extends Application {
         stage.setScene(App.scene);
         stage.setResizable(false);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LoginPage"));
+        myStage = stage;
         stage.show();
+    }
+
+    private static Stage myStage;
+
+    public static Stage getMyStage() {
+        return myStage;
     }
 
     public static String getResourcePath(String path) {
