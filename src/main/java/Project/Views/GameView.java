@@ -7,6 +7,7 @@ import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -87,4 +88,7 @@ public class GameView implements ViewController {
         // todo : check for thread
     }
 
+    public void gotoCivPanel() {
+        MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("CivilizationPanelPage"));
+    }
 }

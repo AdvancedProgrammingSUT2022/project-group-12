@@ -9,7 +9,7 @@
             <MenuItem text="goto cheat sheet" onAction="#gotoCheatSelectPage"/>
         </Menu>
         <Menu fx:id="info" text="Info Panel">
-
+            <MenuItem text="Civilization Info" onAction="#gotoCivPanel"/>
         </Menu>
         <Menu onAction="#backToMenu" text="Back"/>
         <Menu onAction="#exit" text="Exit"/>
@@ -18,6 +18,6 @@
                 style="-fx-background-color: transparent;">
         <Pane fx:id="hexPane"/>
     </ScrollPane>
-    <Pane fx:id="selectionPane"/>
+    <Pane fx:id="selectionPane" visible="false"/>
     <Button fx:id="btn" layoutY="50" onMouseClicked="#showGameMap" prefHeight="24.0" prefWidth="242.0"/>
 </Pane>

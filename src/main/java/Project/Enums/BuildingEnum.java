@@ -80,7 +80,7 @@ public enum BuildingEnum {
     }
 
     public Image getImage() {
-        return  buildingImage;
+        return buildingImage;
     }
 
     public int getCost() {

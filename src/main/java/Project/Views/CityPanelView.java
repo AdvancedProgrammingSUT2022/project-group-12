@@ -1,15 +1,25 @@
 package Project.Views;
 
 import Project.Controllers.GameController;
+import Project.Enums.BuildingEnum;
+import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
+import Project.Models.Civilization;
 import Project.Models.Production;
 import Project.Utils.Constants;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 public class CityPanelView implements ViewController {
+    @FXML
+    private Button buyBuildingBtn;
+    @FXML
+    private MenuButton buildingMenu;
+    private BuildingEnum selectedBuilding;
     @FXML
     private MenuButton productionMenu;
     private Production selectedProduction;
@@ -58,6 +68,7 @@ public class CityPanelView implements ViewController {
         initBuyTileSpinner();
         initCitizenMenu();
         initProductMenu();
+        initializeBuildingMenu();
     }
 
     private void initProductMenu() {
@@ -111,6 +122,7 @@ public class CityPanelView implements ViewController {
     }
 
     public void gotoShop() {
+        MenuStack.getInstance().popMenu();
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ShopPage"));
     }
 
@@ -127,14 +139,16 @@ public class CityPanelView implements ViewController {
         if (city.getGold() == 0)
             buyTileBtn.setDisable(true);
         // todo : buy tile
+        MenuStack.getInstance().popMenu();
     }
 
 
-    public void SpeedUp() {
+    public void speedUp() {
         if (selectedProduction == null)
             return;
         selectedProduction.decreaseRemainedProduction(10);
         initProductMenu();
+        MenuStack.getInstance().popMenu();
     }
 
     public void lockOrUnlock() {
@@ -143,5 +157,32 @@ public class CityPanelView implements ViewController {
         selectedCitizen.setLock(!selectedCitizen.isLocked());
         selectedCitizen = null;
         initCitizenMenu();
+        MenuStack.getInstance().popMenu();
+    }
+
+    private void initializeBuildingMenu() {
+        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        for (BuildingEnum buildingEnum : BuildingEnum.values()) {
+            MenuItem item = new MenuItem(buildingEnum.name());
+            item.setOnAction(actionEvent -> {
+                if (!buildingEnum.checkIfHasRequiredTechs(civilization.getTechnologies())) {
+                    buyBuildingBtn.setDisable(true);
+                } else {
+                    buyBuildingBtn.setDisable(false);
+                    selectedBuilding = buildingEnum;
+                }
+            });
+            buildingMenu.getItems().add(item);
+        }
+    }
+
+    public void buyBuilding() {
+        if (selectedBuilding == null)
+            return;
+        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city.addBuilding(new Building(selectedBuilding));
+        selectedBuilding = null;
+        MenuStack.getInstance().popMenu();
     }
 }

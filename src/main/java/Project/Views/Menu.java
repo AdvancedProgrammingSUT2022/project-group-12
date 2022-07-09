@@ -24,6 +24,7 @@ public class Menu {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public Pane getRoot() {

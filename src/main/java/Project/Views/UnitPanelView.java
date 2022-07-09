@@ -81,13 +81,16 @@ public class UnitPanelView implements ViewController {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
 //            return;
 //        }
-        unit.setLocation(new Location(locationX - 1, locationY - 1));
-        String command = "unit move -p" + (locationX - 1) + " " + (locationY - 1);
-        Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
-        unit.getGraphicUnit().setLayoutX(hex.getCenterX());
-        unit.getGraphicUnit().setLayoutY(hex.getCenterY());
-        unitXLocation.setText(String.valueOf(locationX));
-        unitYLocation.setText(String.valueOf(locationY));
+//        System.out.println(locationX + " " + locationY);
+//        unit.setLocation(new Location(locationX - 1, locationY - 1));
+//        String command = "unit move -p" + (locationX - 1) + " " + (locationY - 1);
+//        Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
+//        System.out.println(locationX + " " + locationY);
+//        unit.getGraphicUnit().setLayoutX(hex.getCenterX());
+//        unit.getGraphicUnit().setLayoutY(hex.getCenterY());
+//        unitXLocation.setText(String.valueOf(locationX));
+//        unitYLocation.setText(String.valueOf(locationY));
+//        System.out.println(locationX + " " + locationY);
     }
 
     public void sleep() {
