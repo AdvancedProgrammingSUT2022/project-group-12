@@ -267,7 +267,6 @@ public class Tile implements Notifier<Tile> {
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
-        if (this.state == VisibilityEnum.VISIBLE) System.out.println("VISSSSS!");
         this.notifyObservers();
     }
 }

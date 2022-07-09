@@ -73,6 +73,10 @@ public class Hex implements Observer<Tile> {
             this.groupColorAdjust.setInput(null);
         });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
+        this.group.setOnMouseClicked(mouseEvent -> {
+            GameController.getGame().getCurrentCivilization().setSelectedTile(tile);
+            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
+        });
         this.positionText = new Text(i + ", " + j);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
         this.positionText.setLayoutY(this.getCenterY() - this.multiply * 3);
