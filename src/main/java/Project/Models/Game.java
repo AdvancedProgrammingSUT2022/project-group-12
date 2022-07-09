@@ -149,7 +149,8 @@ public class Game {
 
     public Civilization getCurrentCivilization() {
         //Todo : fix
-        return civilizations.get(this.gameTurn % civilizations.size());
+        //todo fix
+        return civilizations.get(this.gameTurn % civilizations.size() + 1);
     }
 
     public void startNewTurn() throws GameException {
