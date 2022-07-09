@@ -2,6 +2,7 @@ package Project.Models;
 
 import Project.Controllers.GameController;
 import Project.Controllers.MovingController;
+import Project.Enums.TechnologyEnum;
 import Project.Enums.TerrainColor;
 import Project.Enums.UnitEnum;
 import Project.Enums.UnitStates;
@@ -45,7 +46,11 @@ public class Game {
         for (int index = 0; index < users.size(); index++) {
             TerrainColor color = colors.get(index % colors.size());
             Civilization civ = new Civilization(users.get(index), color);
+            civ.addResearchingTechnology(TechnologyEnum.AGRICULTURE);
+            civ.addResearchingTechnology(TechnologyEnum.MINING);
+            civ.addResearchingTechnology(TechnologyEnum.ANIMAL_HUSBANDRY);
             civilizations.add(civ);
+
 
             // for easier testing
             Tile settlerTile;
@@ -147,7 +152,8 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
-        return civilizations.get(this.gameTurn % civilizations.size());
+        //todo fix
+        return civilizations.get(this.gameTurn % civilizations.size() + 1);
     }
 
     public void startNewTurn() throws GameException {
