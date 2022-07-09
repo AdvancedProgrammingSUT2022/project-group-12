@@ -45,12 +45,14 @@ public class UnitPanelView implements ViewController {
 
     public void initialize() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        locationX = unit.getLocation().getRow();
+        locationY = unit.getLocation().getCol();
         initializeSpinners();
         name.setText(unit.getType().name());
         unitType.setText(unit.getType().name());
         unitCivilization.setText(unit.getCivilization().getName());
-        unitXLocation.setText(String.valueOf(unit.getLocation().getRow() + 1));
-        unitYLocation.setText(String.valueOf(unit.getLocation().getCol() + 1));
+        unitXLocation.setText(String.valueOf(unit.getLocation().getRow()));
+        unitYLocation.setText(String.valueOf(unit.getLocation().getCol()));
         unitHealth.setText(String.valueOf(unit.getHealth()));
         combatStrength.setText(String.valueOf(unit.getType().getCombatStrength()));
         unitState.setText(unit.getState().toString());
@@ -58,7 +60,7 @@ public class UnitPanelView implements ViewController {
 
     private void initializeSpinners() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
         xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
         xSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -66,7 +68,7 @@ public class UnitPanelView implements ViewController {
             moveUnitBtn.setStyle("-fx-border-color: none;");
         });
 
-        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
         yValueFactory.setValue(unit.getLocation().getCol());
         ySpinner.setValueFactory(yValueFactory);
         ySpinner.valueProperty().addListener((observableValue, integer, t1) -> {
