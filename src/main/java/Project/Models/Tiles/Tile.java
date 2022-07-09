@@ -35,8 +35,7 @@ public class Tile implements Notifier<Tile> {
     private Citizen citizen = null;
     private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
 
-    public Tile(int multiply, Terrain terrain, Location tileLocation, String color) {
-        //todo : initialize hex
+    public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
         this.terrain = terrain;
         this.combatUnit = null;
@@ -45,7 +44,7 @@ public class Tile implements Notifier<Tile> {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.hex = new Hex(this, multiply, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
+        this.hex = new Hex(this, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
     }
 
     private Tile(Tile that) {

@@ -6,7 +6,6 @@ import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
-import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -15,33 +14,25 @@ public class TileGrid {
     private final int height;
     private final int width;
     private final Tile[][] tiles;
-    private final ArrayList<Hex> hexes;
+
     public TileGrid(int height, int width) {
-        hexes = new ArrayList<>();
-        int multiply = 5;
         this.height = height;
         this.width = width;
         this.tiles = new Tile[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                Terrain terrain = generateRandomTerrain();
-                tiles[i][j] = new Tile(multiply, terrain, new Location(i, j), getTileColor(terrain));
-                hexes.add(tiles[i][j].getHex());
+                Terrain terrain = new Terrain(TerrainEnum.OCEAN);
+                tiles[i][j] = new Tile(terrain, new Location(i, j), getTileColor(terrain));
             }
         }
     }
 
-    public ArrayList<Hex> getHexes() {
-        return hexes;
-    }
-
     public static TileGrid generateRandomTileGrid(int height, int width) {
-        int multiply = 3;
         TileGrid tileGrid = new TileGrid(height, width);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Terrain terrain = generateRandomTerrain();
-                tileGrid.tiles[i][j] = new Tile(multiply, terrain, new Location(i, j), getTileColor(terrain));
+                tileGrid.tiles[i][j] = new Tile(terrain, new Location(i, j), getTileColor(terrain));
             }
         }
         return tileGrid;
@@ -160,10 +151,6 @@ public class TileGrid {
 
     public Tile[][] getTiles() {
         return this.tiles;
-    }
-
-    public VisibilityEnum tileState(int x, int y) {
-        return this.tiles[x][y].getState();
     }
 
     public boolean isLocationValid(Location location) {

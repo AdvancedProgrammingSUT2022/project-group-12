@@ -6,6 +6,7 @@ import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Utils.Constants;
 import Project.Utils.Observer;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -32,7 +33,8 @@ public class Hex implements Observer<Tile> {
     private final Group group;
     private final Text positionText;
 
-    public Hex(Tile tile, double multiply, int j, int i, String url) {
+    public Hex(Tile tile, int j, int i, String url) {
+        int multiply = Constants.HEX_SIZE_MULTIPLY;
         this.tileLocation = tile.getLocation();
         Image image = new Image(url);
         this.i = i;
@@ -125,18 +127,18 @@ public class Hex implements Observer<Tile> {
     }
 
     public double getCenterX() {
-        return (50 + this.initX(0));
+        return (multiply * 10 + this.initX(0));
     }
 
     public double getCenterY() {
-        return (12.5 * Math.sqrt(3) + this.initY(0));
+        return (25 * Math.sqrt(3) + this.initY(0));
     }
 
     private void addUnitToGroup(Unit unit) {
         Group graphicUnit = unit.getGraphicUnit();
         this.group.getChildren().add(graphicUnit);
-        graphicUnit.setTranslateY(this.getCenterY() + 10);
-        graphicUnit.setTranslateX(this.getCenterX() + (unit instanceof NonCombatUnit ? 15 : -15));
+        graphicUnit.setTranslateY(this.getCenterY() + multiply * 3);
+        graphicUnit.setTranslateX(this.getCenterX() + multiply * (unit instanceof NonCombatUnit ? 3 : -3));
     }
 
     @Override
