@@ -1,0 +1,22 @@
+#!/bin/bash
+
+techNames=(Trapping Writing Construction Horseback_Riding Iron_Working Mathematics Philosophy Civil_Service Currency Chivalry Theology Education Engineering Machinery Metal_Casting Physics Steel Techno Acoustics Archaeology Banking Gunpowder Chemistry Printing_Press Economics Fertilizer Metallurgy Military_Science Rifling Scientific_Theory Biology Steam_Power Replaceable_Parts Railroad Dynamite Combustion Electricity Radio Telegraph);
+
+
+
+	techName="Agriculture"	
+curl https://civilization.fandom.com/wiki/$techName\_\(Civ5\) > response.html
+
+
+imageSrc=$(cat response.html | grep -m 1 "https://static.wikia.nocookie.net/civilization/images/");
+echo $imageSrc;
+imageSrc=${imageSrc#*content=\"};
+imageSrc=${imageSrc::-3};
+
+echo $imageSrc
+
+techName=$(echo $techName | tr '[:upper:]' '[:lower:]');
+techName+=".png"
+echo $techName
+curl $imageSrc -o $techName -v
+

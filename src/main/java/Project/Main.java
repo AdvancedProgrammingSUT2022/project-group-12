@@ -1,8 +1,5 @@
 package Project;
 
-
-import javafx.scene.shape.Polygon;
-
 public class Main {
 //    public static void main(String[] args) {
 //        Database.getInstance().deserialize();
@@ -15,5 +12,4 @@ public class Main {
 //        }
 //        Database.getInstance().serialize();
 //    }
-    Polygon polygon = new Polygon(5,4);
 }

@@ -1,7 +1,8 @@
 package Project.Views;
 
 import Project.Models.Database;
-import Project.Models.User;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -141,6 +142,9 @@ public class LoginView implements ViewController {
         if (emptyUsernameAndOrPassword())
             return;
         if (Database.getInstance().checkForUsername(username.getText())) {
+            String command = "user login -u " + username.getText() + " -p " + password.getText();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            // todo: need more work (generate token and ...)
             if (Database.getInstance().checkPassword(username.getText(), password.getText())) {
                 MenuStack.getInstance().setUser(Database.getInstance().getUser(username.getText()));
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
@@ -181,7 +185,9 @@ public class LoginView implements ViewController {
             nicknameBox.getChildren().add(nicknameExists);
             nickname.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
         } else {
-            new User(username.getText(), password.getText(), nickname.getText());
+            String command = "user create -u " + username.getText() + " -p " + password.getText() + " -n " + nickname.getText();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+//            new User(username.getText(), password.getText(), nickname.getText());
             username.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
             password.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
             nickname.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");

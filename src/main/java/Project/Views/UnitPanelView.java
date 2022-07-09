@@ -2,9 +2,10 @@ package Project.Views;
 
 import Project.Controllers.GameController;
 import Project.Enums.UnitStates;
-import Project.Models.Location;
-import Project.Models.Tiles.Hex;
+import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -58,7 +59,7 @@ public class UnitPanelView implements ViewController {
     private void initializeSpinners() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
-        xValueFactory.setValue(locationX);
+        xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
         xSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
             locationX = xSpinner.getValue();
@@ -66,7 +67,7 @@ public class UnitPanelView implements ViewController {
         });
 
         yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
-        yValueFactory.setValue(locationY);
+        yValueFactory.setValue(unit.getLocation().getCol());
         ySpinner.setValueFactory(yValueFactory);
         ySpinner.valueProperty().addListener((observableValue, integer, t1) -> {
             locationY = ySpinner.getValue();
@@ -81,16 +82,19 @@ public class UnitPanelView implements ViewController {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
 //            return;
 //        }
-//        System.out.println(locationX + " " + locationY);
-//        unit.setLocation(new Location(locationX - 1, locationY - 1));
-//        String command = "unit move -p" + (locationX - 1) + " " + (locationY - 1);
+        int locationX = xSpinner.getValue();
+        int locationY = ySpinner.getValue();
+        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
+        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
+        RequestHandler.getInstance().handle(command);
+        command = "unit move -p " + locationX + " " + locationY;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
 //        Hex hex = GameController.getGameTile(unit.getLocation()).getHex();
-//        System.out.println(locationX + " " + locationY);
 //        unit.getGraphicUnit().setLayoutX(hex.getCenterX());
 //        unit.getGraphicUnit().setLayoutY(hex.getCenterY());
 //        unitXLocation.setText(String.valueOf(locationX));
 //        unitYLocation.setText(String.valueOf(locationY));
-//        System.out.println(locationX + " " + locationY);
+        if (response.isOK()) back();
     }
 
     public void sleep() {

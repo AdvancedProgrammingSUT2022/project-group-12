@@ -15,4 +15,6 @@ module project {
     opens Project.Models;
     opens Project.Enums;
     exports Project.Enums;
+    exports Project.Utils;
+    opens Project.Utils to javafx.fxml;
 }

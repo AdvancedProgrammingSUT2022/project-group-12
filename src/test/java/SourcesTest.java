@@ -1,5 +1,3 @@
-import Project.CommandlineViews.GameMenu;
-import Project.CommandlineViews.MenuStackDisabled;
 import Project.Controllers.GameController;
 import Project.Enums.BuildingEnum;
 import Project.Enums.FeatureEnum;
@@ -7,6 +5,8 @@ import Project.Models.Cities.City;
 import Project.Models.Game;
 import Project.Models.Terrains.Terrain;
 import Project.Models.User;
+import Project.ServerViews.GameMenu;
+import Project.ServerViews.MenuStack;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,8 +52,8 @@ public class SourcesTest {
         Assertions.assertDoesNotThrow(
                 () -> {
                     source = createUser + login + playNewGame + selectUnit + foundCity + selectCity + assignCitizen + cheatAddBuildingLibrary + cheatAddBuildingUniversity + endTurn + "menu exit\n" + "menu exit\n" + "menu exit\n";
-                    MenuStackDisabled.getInstance().setNullScanner();
-                    MenuStackDisabled.getInstance().setScanner(new Scanner(source));
+                    MenuStack.getInstance().setNullScanner();
+                    MenuStack.getInstance().setScanner(new Scanner(source));
                     String[] mainString = new String[1];
                     mainString[0] = "ali";
 //                    Main.main(mainString);
@@ -78,7 +78,7 @@ public class SourcesTest {
                     Terrain terrain = game.getTileGrid().getTile(12, 10).getTerrain();
                     terrain.getFeatures().removeAll(terrain.getFeatures());
                     source = createUser + login + playNewGame + selectUnit + foundCity + selectCity + assignCitizen + cheatAddBuildingMarket + "menu exit\n" + "menu exit\n" + "menu exit\n";
-                    MenuStackDisabled.getInstance().setScanner(new Scanner(source));
+                    MenuStack.getInstance().setScanner(new Scanner(source));
                 }
         );
 

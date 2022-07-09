@@ -478,4 +478,8 @@ public class Civilization {
     public int getResearchAdvancement(TechnologyEnum technology) {
         return this.researchingTechnologies.getOrDefault(technology, 0);
     }
+
+    public void addResearchingTechnology(TechnologyEnum technologyEnum){
+        this.getResearchingTechnologies().put(technologyEnum,technologyEnum.getCost());
+    }
 }

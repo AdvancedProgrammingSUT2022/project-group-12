@@ -4,6 +4,7 @@ import Project.Controllers.GameController;
 import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
+import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
@@ -59,16 +60,11 @@ public class GameView implements ViewController {
         TileGrid tileGrid = GameController.getGame().getTileGrid();
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
-                Hex hex = GameController.getGameTile(new Location(i, j)).getHex();
+                Tile tile = tileGrid.getTile(new Location(i, j));
+                Hex hex = tile.getHex();
                 hexPane.getChildren().add(hex.getGroup());
-                NonCombatUnit nonCombatUnit = tileGrid.getTile(i, j).getNonCombatUnit();
-                CombatUnit combatUnit = tileGrid.getTile(i, j).getCombatUnit();
-                if (nonCombatUnit != null) {
-                    hex.setUnit(nonCombatUnit);
-                }
-                if (combatUnit != null) {
-                    hex.setUnit(combatUnit);
-                }
+                tile.addObserver(tile.getHex());
+                hex.updateHex(tile);
             }
         }
     }
@@ -88,7 +84,7 @@ public class GameView implements ViewController {
         // todo : check for thread
     }
 
-    public void gotoCivPanel() {
-        MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("CivilizationPanelPage"));
+    public void researchInfo(ActionEvent actionEvent) {
+        MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("technologyMenu"));
     }
 }

@@ -99,7 +99,7 @@ public class CheatSheetView implements ViewController {
     private City cityForBuilding;
 
     public void initialize() {
-        System.out.println(pane.getStylesheets());
+//        System.out.println(pane.getStylesheets());
         initSpinners();
         initMenus();
     }
@@ -439,7 +439,6 @@ public class CheatSheetView implements ViewController {
 
     public void back() {
         MenuStack.getInstance().popMenu();
-        System.out.println("back");
     }
 
     public void exit() {

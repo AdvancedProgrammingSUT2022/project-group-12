@@ -118,8 +118,8 @@ public abstract class Unit extends Production {
         for (int i = numberOfRowsOfUnits - 1; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
                 ImageView imageView = new ImageView(this.getType().getAssetImage());
-                imageView.setLayoutX(hex.getCenterX() + unitDistanceHorizontally - unitDistanceHorizontally * j - imageView.getImage().getWidth() / 2);
-                imageView.setLayoutY(hex.getCenterY() + unitsDistanceVertically - unitsDistanceVertically * i);
+                imageView.setLayoutX(/*hex.getCenterX() + */unitDistanceHorizontally - unitDistanceHorizontally * j - imageView.getImage().getWidth() / 2);
+                imageView.setLayoutY(/*hex.getCenterY() + */unitsDistanceVertically - unitsDistanceVertically * i);
                 group.getChildren().add(imageView);
             }
         }
@@ -206,16 +206,6 @@ public abstract class Unit extends Production {
             graphicUnit = createUnitGroup();
 
         return graphicUnit;
-    }
-
-    public ImageView getUnitImage() {
-        Hex hex = GameController.getGame().getTileGrid().getTile(location.getRow(), location.getCol()).getHex();
-        ImageView imageView = new ImageView();
-        imageView.setImage(type.getAssetImage());
-        imageView.setLayoutX(hex.getCenterX());
-        imageView.setLayoutY(hex.getCenterY());
-        imageView.setOnMouseClicked(mouseEvent -> System.out.println(type.name()));
-        return imageView;
     }
 
     public void decreaseHealth(int value) {
