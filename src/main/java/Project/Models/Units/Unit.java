@@ -135,7 +135,6 @@ public abstract class Unit extends Production {
         group.setOnMouseExited((MouseEvent) -> {
             group.setScaleX(1);
             group.setScaleY(1);
-            group.setEffect(null);
         });
         return group;
     }

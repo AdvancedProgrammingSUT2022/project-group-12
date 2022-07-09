@@ -2,6 +2,7 @@ package Project.Models.Tiles;
 
 
 import Project.App;
+import Project.Controllers.GameController;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -10,8 +11,11 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
 import Project.Utils.Observer;
+import Project.Views.Menu;
+import Project.Views.MenuStack;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,15 +64,7 @@ public class Hex implements Observer<Tile> {
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
         polygon.setFill(new ImagePattern(image));
-        this.group.setOnMouseEntered(mouseEvent -> {
-            this.polygon.setCursor(Cursor.HAND);
-            this.group.toFront();
-            this.polygon.setEffect(new DropShadow(20, Color.BLACK));
-        });
-        this.group.setOnMouseExited(mouseEvent -> {
-            this.polygon.setCursor(Cursor.DEFAULT);
-            this.polygon.setEffect(null);
-        });
+        setSelectShadowEffect(this.group);
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.positionText = new Text(i + ", " + j);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
@@ -76,6 +72,30 @@ public class Hex implements Observer<Tile> {
         this.cityImageView = new ImageView(cityImage);
         this.cityImageView.setLayoutX(this.getCenterX() - cityImageView.getBoundsInLocal().getWidth() / 2);
         this.cityImageView.setLayoutY(this.getCenterY() - this.multiply * 3);
+        setSelectScaleEffect(this.cityImageView);
+    }
+
+    private static void setSelectShadowEffect(Node node) {
+        node.setCursor(Cursor.HAND);
+        node.setOnMouseEntered(mouseEvent -> {
+            node.toFront();
+            node.setEffect(new DropShadow(20, Color.BLACK));
+        });
+        node.setOnMouseExited(mouseEvent -> {
+            node.setEffect(null);
+        });
+    }
+
+    private static void setSelectScaleEffect(Node node) {
+        node.setCursor(Cursor.HAND);
+        node.setOnMouseEntered(mouseEvent -> {
+            node.setScaleX(1.1);
+            node.setScaleY(1.1);
+        });
+        node.setOnMouseExited((MouseEvent) -> {
+            node.setScaleX(1);
+            node.setScaleY(1);
+        });
     }
 
     public Polygon getPolygon() {
@@ -171,13 +191,17 @@ public class Hex implements Observer<Tile> {
         if (combatUnit != null) {
             this.addUnitToGroup(combatUnit);
         }
-        if (true || tile.getCity() != null) {
+        if (tile.getCity() != null) {
             this.addCityToGroup(city);
         }
         this.group.getChildren().add(this.positionText);
     }
 
-    private void addCityToGroup(City ignoredCity) {
+    private void addCityToGroup(City city) {
         this.group.getChildren().add(this.cityImageView);
+        this.cityImageView.setOnMouseClicked(mouseEvent -> {
+            GameController.getGame().getCurrentCivilization().setSelectedCity(city);
+            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
+        });
     }
 }
