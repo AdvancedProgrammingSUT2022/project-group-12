@@ -3,8 +3,10 @@ package Project.Models.Tiles;
 
 import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
+import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Utils.Observer;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
@@ -13,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 
-public class Hex {
+public class Hex implements Observer<Tile> {
 
     private final Polygon polygon;
     private final double multiply;
@@ -29,6 +31,7 @@ public class Hex {
     private final Group group;
 
     public Hex(Tile tile, double multiply, int j, int i, String url) {
+        tile.addObserver(this);
         this.tileLocation = tile.getLocation();
         Image image = new Image(url);
         this.i = i;
@@ -59,11 +62,7 @@ public class Hex {
             this.polygon.setEffect(null);
         });
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
-        if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
-            this.setFogOfWar();
-        else if (tile.getState() == VisibilityEnum.VISIBLE)
-            this.setVisible();
-        this.group.getChildren().add(polygon);
+        this.updateHex(tile);
     }
 
     public Polygon getPolygon() {
@@ -131,10 +130,32 @@ public class Hex {
         return (12.5 * Math.sqrt(3) + this.initY(0));
     }
 
-    public void setUnit(Unit unit) {
+    private void addUnitToGroup(Unit unit) {
         Group graphicUnit = unit.getGraphicUnit();
         this.group.getChildren().add(graphicUnit);
         graphicUnit.setTranslateY(10);
         graphicUnit.setTranslateX(unit instanceof NonCombatUnit ? 15 : -15);
+    }
+
+    @Override
+    public void getNotified(Tile tile) {
+        updateHex(tile);
+    }
+
+    private void updateHex(Tile tile) {
+        if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
+            this.setFogOfWar();
+        else if (tile.getState() == VisibilityEnum.VISIBLE)
+            this.setVisible();
+        NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
+        CombatUnit combatUnit = tile.getCombatUnit();
+        this.group.getChildren().clear();
+        this.group.getChildren().add(this.polygon);
+        if (nonCombatUnit != null) {
+            this.addUnitToGroup(nonCombatUnit);
+        }
+        if (combatUnit != null) {
+            this.addUnitToGroup(combatUnit);
+        }
     }
 }

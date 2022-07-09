@@ -12,15 +12,14 @@ import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Utils.*;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile {
+public class Tile implements Notifier<Tile> {
     private final Hex hex;
     private final Location location;
     private final Terrain terrain;
@@ -36,6 +35,7 @@ public class Tile {
     private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
+    private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
 
     public Tile(int multiply, Terrain terrain, Location tileLocation, String color) {
         //todo : initialize hex
@@ -67,6 +67,16 @@ public class Tile {
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
+    }
+
+    @Override
+    public void addObserver(Observer<Tile> observer) {
+        this.notifierUtil.addObserver(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        this.notifierUtil.notifyObservers();
     }
 
     public void showUnit(Pane pane) {
@@ -285,5 +295,4 @@ public class Tile {
     public String getInfo() {
         return null;
     }
-
 }
