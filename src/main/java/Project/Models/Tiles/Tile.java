@@ -37,7 +37,7 @@ public class Tile implements Notifier<Tile> {
     private Citizen citizen = null;
     private Image image;
 
-    public Tile(int multiply, Terrain terrain, Location tileLocation, String color) {
+    public Tile(Terrain terrain, Location tileLocation, String color) {
         //todo : initialize hex
         this.location = tileLocation;
         this.terrain = terrain;

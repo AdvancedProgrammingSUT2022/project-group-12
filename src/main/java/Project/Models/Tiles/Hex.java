@@ -3,6 +3,7 @@ package Project.Models.Tiles;
 
 import Project.App;
 import Project.Controllers.GameController;
+import Project.Enums.TerrainEnum;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -26,6 +27,7 @@ import javafx.scene.text.Text;
 
 public class Hex implements Observer<Tile> {
 
+    private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
     private final Polygon polygon;
     private final double multiply;
     private final int i;
@@ -40,7 +42,6 @@ public class Hex implements Observer<Tile> {
     private final Group group;
     private final Text positionText;
     private final ImageView cityImageView;
-    private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
 
     public Hex(Tile tile, int j, int i, String url) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -123,11 +124,11 @@ public class Hex implements Observer<Tile> {
     }
 
     public void setFogOfWar() {
-
+        this.polygon.setFill(new ImagePattern(TerrainEnum.SNOW.getFogOfWarImage()));
     }
 
     public void setVisible() {
-
+        this.polygon.setFill(new ImagePattern(new Image(url)));
     }
 
     public double getHeight() {
