@@ -164,7 +164,7 @@ public class Hex implements Observer<Tile> {
 
     @Override
     public void getNotified(Tile tile) {
-        System.out.println(tile.getLocation() + " got notified");
+//        System.out.println(tile.getLocation() + " got notified");
         updateHex(tile);
     }
 

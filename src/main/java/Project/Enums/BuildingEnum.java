@@ -64,9 +64,9 @@ public enum BuildingEnum {
         this.requiredBuildings = requiredBuildings;
         this.note = buildingNotes;
         this.isCombatBuilding = isCombatBuilding;
-        System.out.println("/images/CivsBuildings/" + this.name().toLowerCase() + ".png");
+//        System.out.println("/images/CivsBuildings/" + this.name().toLowerCase() + ".png");
         this.buildingImage = new Image(App.class.getResource("/images/CivsBuildings/" + this.name().toLowerCase() + ".png").toExternalForm());
-        System.out.println("/images/CivsBuildings/" + this.name().toLowerCase() + ".png");
+//        System.out.println("/images/CivsBuildings/" + this.name().toLowerCase() + ".png");
     }
 
     public static Building getBuildingEnumByName(String name) throws CommandException {
