@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/styles.css"
-            fx:controller="Project.Enums.testController"
+            fx:controller="Project.Views.TechnologyPanelController"
             prefHeight="400.0" prefWidth="600.0">
         <Pane prefHeight="400" prefWidth="600" >
             <Pane>

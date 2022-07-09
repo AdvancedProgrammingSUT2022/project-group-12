@@ -1,10 +1,34 @@
 package Project.Enums;
 
+import Project.App;
+import Project.Models.Civilization;
+import Project.Models.Location;
+import Project.Models.Terrains.Terrain;
 import Project.Models.Tiles.Hex;
+import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
+import Project.Models.Units.RangedUnit;
+import Project.Models.Units.Unit;
+import Project.Utils.Constants;
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.effect.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Test extends Application {
@@ -15,12 +39,10 @@ public class Test extends Application {
     public void start(Stage stage) throws Exception {
         System.out.println("by");
 
-     //  mainGroup.getChildren().add(0,this.hex);
-
-        System.out.println(mainGroup.getBoundsInParent().getWidth() + " " + mainGroup.getBoundsInParent().getHeight());
-        Scene scene = new Scene(mainGroup);
-        ResourceEnum resourceEnum = ResourceEnum.BANANA;
+        AnchorPane root = new FXMLLoader(App.class.getResource("/Project/fxml/technologyMenu.fxml")).load();
+        Scene scene = new Scene(root);
         System.out.println(scene.getWidth() + " " + scene.getHeight());
+
         stage.setScene(scene);
         stage.show();
     }
@@ -77,3 +99,4 @@ public class Test extends Application {
 //        this.mainGroup.getChildren().add(group);
 //    }
 }
+
