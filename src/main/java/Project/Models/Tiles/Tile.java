@@ -14,7 +14,6 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
 import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class Tile implements Notifier<Tile> {
         this.hasRoad = false;
         this.image = terrain.getTerrainType().getTerrainImage();
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.hex = new Hex(this, multiply, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImage());
+        this.hex = new Hex(this, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
     }
 
     private Tile(Tile that) {
