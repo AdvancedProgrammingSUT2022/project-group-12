@@ -13,6 +13,7 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
+import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Tile implements Notifier<Tile> {
     private final Hex hex;
     private final Location location;
     private final Terrain terrain;
+    private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
@@ -33,9 +35,10 @@ public class Tile implements Notifier<Tile> {
     private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
-    private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
+    private Image image;
 
-    public Tile(Terrain terrain, Location tileLocation, String color) {
+    public Tile(int multiply, Terrain terrain, Location tileLocation, String color) {
+        //todo : initialize hex
         this.location = tileLocation;
         this.terrain = terrain;
         this.combatUnit = null;
@@ -43,6 +46,7 @@ public class Tile implements Notifier<Tile> {
         this.isDamaged = false;
         this.city = null;
         this.hasRoad = false;
+        this.image = terrain.getTerrainType().getTerrainImage();
         this.state = VisibilityEnum.FOG_OF_WAR;
         this.hex = new Hex(this, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
     }
