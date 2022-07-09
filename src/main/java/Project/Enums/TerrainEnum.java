@@ -97,7 +97,6 @@ public enum TerrainEnum {
     private final String assetUrl;
     private final Image terrainImage;
     private final String terrainImageURL;
-    private final String fogOfWarIcon;
 
     TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<FeatureEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources, String assetUrl) {
         this.foodCount = foodCount;
@@ -117,20 +116,10 @@ public enum TerrainEnum {
             this.terrainImageURL = App.class.getResource("/images/resources/" + this.name().toLowerCase() + ".png").toExternalForm();
             this.terrainImage = new Image(App.class.getResource("/images/resources/" + this.name().toLowerCase() + ".png").toExternalForm());
         } else {
-            System.out.println(name() + " is null" );
-            this.terrainImage = null;
-            this.terrainImageURL = null;
+            this.terrainImage = new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm());
+            this.terrainImageURL = App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm();
         }
-        this.fogOfWarIcon = App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm();
 //        System.out.println("/images/assets/resources/" + this.name());
-    }
-
-    public String getFogOfWarIcon() {
-        return fogOfWarIcon;
-    }
-
-    public Image getFogOfWarImage() {
-        return new Image(fogOfWarIcon);
     }
 
     public String getTerrainImageURL() {

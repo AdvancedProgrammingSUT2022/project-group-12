@@ -36,19 +36,19 @@ public class CheatSheetView implements ViewController {
     @FXML
     private Spinner<Integer> spawnLocationXSpinner;
     private SpinnerValueFactory<Integer> spawnLocationXValueFactory;
-    private int locationSpawnX;
+    private int locationSpawnX = 0;
     @FXML
     private Spinner<Integer> spawnLocationYSpinner;
     private SpinnerValueFactory<Integer> spawnLocationYValueFactory;
-    private int locationSpawnY;
+    private int locationSpawnY = 0;
     @FXML
     private Spinner<Integer> tileXSpinner;
     private SpinnerValueFactory<Integer> tileXValueFactory;
-    private int locationTileX;
+    private int locationTileX = 0;
     @FXML
     private Spinner<Integer> tileYSpinner;
     private SpinnerValueFactory<Integer> tileYValueFactory;
-    private int locationTileY;
+    private int locationTileY = 0;
     @FXML
     private MenuButton productionIncreaseCityMenu;
     private City productionIncreaseCity;
@@ -62,11 +62,11 @@ public class CheatSheetView implements ViewController {
     @FXML
     private Spinner<Integer> teleportXSpinner;
     private SpinnerValueFactory<Integer> teleportXValueFactory;
-    private int locationTeleportX;
+    private int locationTeleportX = 0;
     @FXML
     private Spinner<Integer> teleportYSpinner;
     private SpinnerValueFactory<Integer> teleportYValueFactory;
-    private int locationTeleportY;
+    private int locationTeleportY = 0;
     @FXML
     private MenuButton finishProductionCity;
     private City productionFinishingCity;
@@ -243,36 +243,36 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initUnitSpawnSpinner() {
-        spawnLocationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        spawnLocationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
         spawnLocationXValueFactory.setValue(locationSpawnX);
         spawnLocationXSpinner.setValueFactory(spawnLocationXValueFactory);
         spawnLocationXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnX = spawnLocationXSpinner.getValue());
 
-        spawnLocationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        spawnLocationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
         spawnLocationYValueFactory.setValue(locationSpawnY);
         spawnLocationYSpinner.setValueFactory(spawnLocationYValueFactory);
         spawnLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnY = spawnLocationYSpinner.getValue());
     }
 
     private void initTileRevealSpinner() {
-        tileXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        tileXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
         tileXValueFactory.setValue(locationTileX);
         tileXSpinner.setValueFactory(tileXValueFactory);
         tileXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileX = tileXSpinner.getValue());
 
-        tileYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        tileYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
         tileYValueFactory.setValue(locationTileY);
         tileYSpinner.setValueFactory(tileYValueFactory);
         tileYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileY = tileYSpinner.getValue());
     }
 
     private void initTeleportationSpinner() {
-        teleportXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        teleportXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
         teleportXValueFactory.setValue(locationTeleportX);
         teleportXSpinner.setValueFactory(teleportXValueFactory);
         teleportXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportX = teleportXSpinner.getValue());
 
-        teleportYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        teleportYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
         teleportYValueFactory.setValue(locationTeleportY);
         teleportYSpinner.setValueFactory(teleportYValueFactory);
         teleportYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportY = teleportYSpinner.getValue());

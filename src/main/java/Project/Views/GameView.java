@@ -57,7 +57,7 @@ public class GameView implements ViewController {
     }
 
     public void initializeHexPane() {
-        TileGrid tileGrid = GameController.getGame().getTileGrid();
+        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
                 Tile tile = tileGrid.getTile(new Location(i, j));

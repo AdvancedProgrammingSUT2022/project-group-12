@@ -3,9 +3,8 @@ package Project.Models.Tiles;
 
 import Project.App;
 import Project.Controllers.GameController;
-import Project.Enums.TerrainEnum;
-import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
+import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
@@ -46,7 +45,7 @@ public class Hex implements Observer<Tile> {
     public Hex(Tile tile, int j, int i, String url) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
         this.tileLocation = tile.getLocation();
-        Image image = new Image(url);
+
         this.i = i;
         this.j = j;
         this.url = url;
@@ -64,7 +63,6 @@ public class Hex implements Observer<Tile> {
                 initX(15.0), initY(10 * Math.sqrt(3)),
                 initX(5.0), initY(10 * Math.sqrt(3)),
                 initX(0.0), initY(5 * Math.sqrt(3)));
-        polygon.setFill(new ImagePattern(image));
         setSelectShadowEffect(this.group);
         this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.positionText = new Text(i + ", " + j);
@@ -123,14 +121,6 @@ public class Hex implements Observer<Tile> {
         return w;
     }
 
-    public void setFogOfWar() {
-        this.polygon.setFill(new ImagePattern(TerrainEnum.SNOW.getFogOfWarImage()));
-    }
-
-    public void setVisible() {
-        this.polygon.setFill(new ImagePattern(new Image(url)));
-    }
-
     public double getHeight() {
         return h;
     }
@@ -172,15 +162,11 @@ public class Hex implements Observer<Tile> {
 
     @Override
     public void getNotified(Tile tile) {
-//        System.out.println(tile.getLocation() + "got notified");
-        updateHex(tile);
+        updateHex(GameController.getGame().getCurrentCivilization().getRevealedTileGrid().getTile(tile.getLocation()));
     }
 
     public void updateHex(Tile tile) {
-        if (tile.getState() == VisibilityEnum.FOG_OF_WAR)
-            this.setFogOfWar();
-        else if (tile.getState() == VisibilityEnum.VISIBLE)
-            this.setVisible();
+        polygon.setFill(new ImagePattern(tile.getTerrain().getTerrainType().getTerrainImage()));
         NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
         CombatUnit combatUnit = tile.getCombatUnit();
         City city = tile.getCity();
