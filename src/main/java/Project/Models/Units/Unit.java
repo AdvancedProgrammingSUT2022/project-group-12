@@ -17,6 +17,7 @@ import Project.Views.MenuStack;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -128,11 +129,13 @@ public abstract class Unit extends Production {
             group.setScaleX(1.1);
             group.setScaleY(1.1);
         });
-        group.setOnMouseClicked((MouseEvent) -> {
-            GameController.getGame().getCurrentCivilization().setSelectedUnit(this);
-            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
+        group.setOnMouseClicked((mouseEvent) -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                GameController.getGame().getCurrentCivilization().setSelectedUnit(this);
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
+            }
         });
-        group.setOnMouseExited((MouseEvent) -> {
+        group.setOnMouseExited((mouseEvent) -> {
             group.setScaleX(1);
             group.setScaleY(1);
         });

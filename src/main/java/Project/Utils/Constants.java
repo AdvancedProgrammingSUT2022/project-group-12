@@ -16,6 +16,6 @@ public class Constants {
     public static final int CITY_FULL_HEALTH = 2000;
     public static final String[] CITY_NAMES = {"Syria", "Spain", "China", "India", "Japan", "Egypt", "Iran", "Iraq", "Italy", "Rome"};
     public static final int UNITS_DISTANCE_VERTICALLY = 12;
-    public static final int UNITS_DISTANCE_HORIZONTALLY = 5;
+    public static final int UNITS_DISTANCE_HORIZONTALLY = 9;
 
 }

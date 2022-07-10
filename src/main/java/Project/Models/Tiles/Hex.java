@@ -20,6 +20,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -72,10 +73,12 @@ public class Hex implements Observer<Tile> {
         this.group.setOnMouseExited(mouseEvent -> {
             this.groupColorAdjust.setInput(null);
         });
-        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
+//        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.group.setOnMouseClicked(mouseEvent -> {
-            GameController.getGame().getCurrentCivilization().setSelectedTile(tile);
-            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                GameController.getGame().getCurrentCivilization().setSelectedTile(tile);
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
+            }
         });
         this.positionText = new Text(i + ", " + j);
         this.positionText.setLayoutX(this.getCenterX() - this.positionText.getBoundsInLocal().getWidth() / 2);
@@ -191,8 +194,10 @@ public class Hex implements Observer<Tile> {
     private void addCityToGroup(City city) {
         this.group.getChildren().add(this.cityImageView);
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
-            GameController.getGame().getCurrentCivilization().setSelectedCity(city);
-            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                GameController.getGame().getCurrentCivilization().setSelectedCity(city);
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
+            }
         });
     }
 }
