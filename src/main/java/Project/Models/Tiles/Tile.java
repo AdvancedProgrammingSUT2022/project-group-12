@@ -16,13 +16,14 @@ import Project.Utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Tile implements Notifier<Tile> {
     private final Hex hex;
     private final Location location;
-    private Terrain terrain;
     private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
+    private Terrain terrain;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private boolean isDamaged;
@@ -33,10 +34,12 @@ public class Tile implements Notifier<Tile> {
     private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
+    private boolean isRuin;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         //todo : initialize hex
         this.location = tileLocation;
+        this.isRuin = new Random().nextInt(99999) % 7 == 0;
         this.terrain = terrain;
         this.combatUnit = null;
         this.nonCombatUnit = null;
@@ -132,7 +135,7 @@ public class Tile implements Notifier<Tile> {
     }
 
     // @NotNull reminds not to set tile units to null, directly
-    public void placeUnit( Unit unit) throws CommandException {
+    public void placeUnit(Unit unit) throws CommandException {
         if (unit == null) throw new RuntimeException();
         if (unit instanceof CombatUnit combatUnit) {
             if (this.getCombatUnit() != null)
@@ -246,6 +249,10 @@ public class Tile implements Notifier<Tile> {
         }).toList();
 
         return improvementEnums;
+    }
+
+    public boolean isARuin() {
+        return this.isRuin;
     }
 
     // todo
