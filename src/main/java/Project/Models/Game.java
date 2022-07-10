@@ -72,6 +72,8 @@ public class Game {
             civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
             civ.getResearchingTechnologies().put(TechnologyEnum.ANIMAL_HUSBANDRY,TechnologyEnum.ANIMAL_HUSBANDRY.getCost());
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
+            //test
+            civ.addCity(new City("ali",this.tileGrid.getAllTilesInRadius(settlerTile,1),civ,settlerTile,true));
         }
     }
 

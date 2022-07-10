@@ -86,12 +86,12 @@
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
 
-            <MenuButton fx:id="buyUnit" mnemonicParsing="false" text="Unit">
+            <MenuButton fx:id="unitMenu" mnemonicParsing="false" text="Unit">
                 <items>
 
                 </items>
             </MenuButton>
-            <Button mnemonicParsing="false" onAction="#buyUnit" text="Buy Unit" />
+            <Button mnemonicParsing="false" fx:id="buyUnitBtn" onAction="#buyUnit" text="Buy Unit" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="346.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">

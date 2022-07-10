@@ -338,7 +338,7 @@ public class GameController {
         Tile tile = GameController.getGameTile(location);
         if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
-        tile.setCitizen(new Citizen(city));
+        tile.setCitizen(new Citizen(city,tile.getLocation()));
     }
 
     public static void cityUnassignCitizen(City city, Location location) throws CommandException {

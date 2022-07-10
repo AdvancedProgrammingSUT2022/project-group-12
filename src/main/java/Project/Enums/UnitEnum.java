@@ -3,6 +3,7 @@ package Project.Enums;
 import Project.App;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public enum UnitEnum {
@@ -129,6 +130,9 @@ public enum UnitEnum {
 
     public boolean hasLimitedVisibility() {
         return this.getCombatType() == CombatTypeEnum.SIEGE || this == UnitEnum.PANZER;
+    }
+    public boolean hasRequiredTech(ArrayList<TechnologyEnum> technologyEnums){
+        return technologyEnums.contains(this.requiredTech);
     }
 
     public boolean canMoveAfterAttack() {
