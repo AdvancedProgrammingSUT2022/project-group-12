@@ -45,7 +45,7 @@ public class Hex implements Observer<Tile> {
     private final Text positionText;
     private final ImageView cityImageView;
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
-    private ImageView resourceImageView;
+    private final ImageView resourceImageView;
 
     public Hex(Tile tile, int j, int i, String url) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -182,21 +182,14 @@ public class Hex implements Observer<Tile> {
         NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
         CombatUnit combatUnit = tile.getCombatUnit();
         City city = tile.getCity();
+
         this.group.getChildren().clear();
         this.group.getChildren().add(this.polygon);
-        if (nonCombatUnit != null) {
-            this.addUnitToGroup(nonCombatUnit);
-        }
-        if (combatUnit != null) {
-            this.addUnitToGroup(combatUnit);
-        }
         ResourceEnum resource = tile.getVisibleResource(GameController.getGame().getCurrentCivilization());
-        if (resource != null) {
-            this.addResourceToGroup(resource);
-        }
-        if (tile.getCity() != null) {
-            this.addCityToGroup(city);
-        }
+        if (resource != null) this.addResourceToGroup(resource);
+        if (tile.getCity() != null) this.addCityToGroup(city);
+        if (nonCombatUnit != null) this.addUnitToGroup(nonCombatUnit);
+        if (combatUnit != null) this.addUnitToGroup(combatUnit);
         this.group.getChildren().add(this.positionText);
     }
 
