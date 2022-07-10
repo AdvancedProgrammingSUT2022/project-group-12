@@ -3,6 +3,7 @@ package Project.Models.Tiles;
 
 import Project.App;
 import Project.Controllers.GameController;
+import Project.Enums.ResourceEnum;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -44,6 +45,7 @@ public class Hex implements Observer<Tile> {
     private final Text positionText;
     private final ImageView cityImageView;
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
+    private ImageView resourceImageView;
 
     public Hex(Tile tile, int j, int i, String url) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -87,6 +89,9 @@ public class Hex implements Observer<Tile> {
         this.cityImageView.setLayoutX(this.getCenterX() - cityImageView.getBoundsInLocal().getWidth() / 2);
         this.cityImageView.setLayoutY(this.getCenterY() - this.multiply * 3);
         setSelectScaleEffect(this.cityImageView);
+        this.resourceImageView = new ImageView();
+        this.resourceImageView.setLayoutX(this.getCenterX() - resourceImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
+        this.resourceImageView.setLayoutY(this.getCenterY()/* - this.multiply * 3*/);
         this.group.setEffect(this.groupColorAdjust);
     }
 
@@ -185,10 +190,19 @@ public class Hex implements Observer<Tile> {
         if (combatUnit != null) {
             this.addUnitToGroup(combatUnit);
         }
+        ResourceEnum resource = tile.getVisibleResource(GameController.getGame().getCurrentCivilization());
+        if (resource != null) {
+            this.addResourceToGroup(resource);
+        }
         if (tile.getCity() != null) {
             this.addCityToGroup(city);
         }
         this.group.getChildren().add(this.positionText);
+    }
+
+    private void addResourceToGroup(ResourceEnum resource) {
+        this.resourceImageView.setImage(resource.getImage());
+        this.group.getChildren().add(this.resourceImageView);
     }
 
     private void addCityToGroup(City city) {

@@ -263,7 +263,7 @@ public class City {
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
             // todoLater: getResource instead
-            if (tile.isResourceAchieved(resource)) {
+            if (tile.isResourceAchievedBy(resource, cityTile.getCivilization())) {
                 resources.add(resource);
             }
         }

@@ -14,7 +14,6 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,7 +180,7 @@ public class Tile implements Notifier<Tile> {
         int food = this.terrain.getFoodCount();
         int gold = this.terrain.getGoldCount();
         ResourceEnum resourceEnum = this.getTerrain().getResource();
-        if (this.isResourceAchieved(resourceEnum)) {
+        if (this.isResourceAchievedBy(resourceEnum, this.getCivilization())) {
             production += resourceEnum.getProductsCount();
             food += resourceEnum.getFoodCount();
             gold += resourceEnum.getGoldCount();
@@ -199,9 +198,9 @@ public class Tile implements Notifier<Tile> {
         };
     }
 
-    public boolean isResourceAchieved(ResourceEnum resourceEnum) {
+    public boolean isResourceAchievedBy(ResourceEnum resourceEnum, Civilization civ) {
         if (resourceEnum == ResourceEnum.RESET) return true;
-        return resourceEnum != null && this.getCivilization() != null && this.getCivilization().getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
+        return resourceEnum != null && civ != null && civ.getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
                 && (this.getCity() != null || !this.isDamaged && this.getImprovements().contains(resourceEnum.getImprovementNeeded()));
     }
 
@@ -268,5 +267,11 @@ public class Tile implements Notifier<Tile> {
         this.hasRiver = that.hasRiver;
         this.hasRailRoad = that.hasRailRoad;
         this.notifyObservers();
+    }
+
+    ResourceEnum getVisibleResource(Civilization civ) {
+        ResourceEnum resource = this.getTerrain().getResource();
+        if (resource == null || this.isResourceAchievedBy(resource, civ)) return null;
+        else return resource;
     }
 }
