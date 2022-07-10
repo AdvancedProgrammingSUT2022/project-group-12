@@ -4,6 +4,8 @@ import Project.Controllers.GameController;
 import Project.Models.Civilization;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -56,6 +58,8 @@ public class CivilizationPanelView implements ViewController {
 
     private void initUnitMenu() {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
+        String command = "info units";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         for (Unit unit : civilization.getUnits()) {
             MenuItem item = new MenuItem(unit.getType().name() + " " + unit.getLocation().toString());
             unitsMenu.getItems().add(item);
@@ -64,6 +68,8 @@ public class CivilizationPanelView implements ViewController {
 
     private void initWarMenu() {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
+        String command = "info military";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         for (Civilization otherCivilizations : civilization.getIsInWarWith()) {
             MenuItem item = new MenuItem(otherCivilizations.getName());
             warMenu.getItems().add(item);
@@ -72,6 +78,9 @@ public class CivilizationPanelView implements ViewController {
 
     private void initDemocracyMenu() {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
+        //logic hasn't implemented
+        String command = "info democracy";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         for (Civilization otherCivilizations : civilization.getIsInEconomicRelation()) {
             MenuItem item = new MenuItem(otherCivilizations.getName());
             democracyMenu.getItems().add(item);

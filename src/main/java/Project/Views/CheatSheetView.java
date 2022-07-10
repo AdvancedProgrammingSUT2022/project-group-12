@@ -7,7 +7,9 @@ import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Units.Unit;
+import Project.ServerViews.RequestHandler;
 import Project.Utils.CommandException;
+import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -280,6 +282,9 @@ public class CheatSheetView implements ViewController {
 
     public void increaseGold() {
         CheatCodeController.getInstance().increaseGold(goldAmount);
+        String command = "cheat increase gold -a " + goldAmount;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+
         MenuStack.getInstance().popMenu();
     }
 
@@ -289,6 +294,8 @@ public class CheatSheetView implements ViewController {
         CheatCodeController.getInstance().increaseFood(foodForCity, foodAmount);
         foodForCity = null;
         foodForCitySelect.setText("City");
+        String command = "cheat increase food -a" + foodAmount;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -297,6 +304,8 @@ public class CheatSheetView implements ViewController {
             return;
         try {
             CheatCodeController.getInstance().spawnUnit(selectedUnitEnum, GameController.getGame().getCurrentCivilization(), new Location(locationSpawnX--, locationSpawnY--));
+            String command = "cheat spawn unit -u " + selectedUnitEnum.name() + " -p " + locationSpawnX + " " + locationSpawnY;
+            CommandResponse response = RequestHandler.getInstance().handle(command);
         } catch (CommandException e) {
             System.out.println("error in game view/ spawn unit");
         } finally {
@@ -312,6 +321,8 @@ public class CheatSheetView implements ViewController {
         if (locationTileX == 0 || locationTileY == 0)
             return;
         CheatCodeController.getInstance().revealTile(new Location(locationTileX--, locationTileY--));
+        String command = "cheat map reveal -p " + locationSpawnX + " " + locationSpawnY;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         locationTileX = 0;
         locationTileY = 0;
         MenuStack.getInstance().popMenu();
@@ -321,6 +332,8 @@ public class CheatSheetView implements ViewController {
         if (productionIncreaseCity == null)
             return;
         CheatCodeController.getInstance().increaseProduction(productionIncreaseCity, productIncreaseAmount);
+        String command = "cheat increase production -a " + productIncreaseAmount;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         productIncreaseAmount = 0;
         productionIncreaseCity = null;
         productionIncreaseCityMenu.setText("City");
@@ -332,6 +345,8 @@ public class CheatSheetView implements ViewController {
             return;
         try {
             CheatCodeController.getInstance().teleport(new Location(locationTeleportX--, locationTeleportY--), teleportingUnit);
+            String command = "cheat teleport -p " + locationTeleportX + " " + locationTeleportY;
+            CommandResponse response = RequestHandler.getInstance().handle(command);
         } catch (CommandException e) {
             System.out.println("error in game view/ teleport");
         } finally {
@@ -348,6 +363,8 @@ public class CheatSheetView implements ViewController {
             return;
         try {
             CheatCodeController.getInstance().finishProducts(productionFinishingCity);
+            String command = "cheat finish products";
+            CommandResponse response = RequestHandler.getInstance().handle(command);
         } catch (CommandException e) {
             System.out.println("error in game view / finish production");
         } finally {
@@ -359,12 +376,16 @@ public class CheatSheetView implements ViewController {
 
     public void increaseHappiness() {
         CheatCodeController.getInstance().increaseHappiness(happinessAmount);
+        String command = "cheat increase happiness -a " + happinessAmount;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         happinessAmount = 0;
         MenuStack.getInstance().popMenu();
     }
 
     public void increaseBeaker() {
         CheatCodeController.getInstance().increaseBeaker(beakerAmount);
+        String command = "cheat increase science -a " + beakerAmount;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         beakerAmount = 0;
         MenuStack.getInstance().popMenu();
     }
@@ -373,6 +394,8 @@ public class CheatSheetView implements ViewController {
         if (increasingMovementUnit == null)
             return;
         CheatCodeController.getInstance().increaseMovement(increasingMovementUnit, movementIncreaseAmount);
+        String command = "cheat increase production -a " + productIncreaseAmount;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         increasingMovementUnit = null;
         movementIncreaseAmount = 0;
         movementIncreaseUnit.setText("Unit");
@@ -383,6 +406,8 @@ public class CheatSheetView implements ViewController {
         if (healingCity == null)
             return;
         CheatCodeController.getInstance().healCity(healingCity);
+        String command = "cheat heal city";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         healingCity = null;
         cityHealing.setText("City");
         MenuStack.getInstance().popMenu();
@@ -392,6 +417,8 @@ public class CheatSheetView implements ViewController {
         if (healingUnit == null)
             return;
         CheatCodeController.getInstance().healUnit(healingUnit);
+        String command = "cheat heal unit";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         healingUnit = null;
         unitHealing.setText("Unit");
         MenuStack.getInstance().popMenu();
@@ -399,6 +426,8 @@ public class CheatSheetView implements ViewController {
 
     public void addTechs() {
         CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
+        String command = "cheat unlock technologies";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -407,6 +436,8 @@ public class CheatSheetView implements ViewController {
             return;
         try {
             CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingEnum.name()), cityForBuilding);
+            String command = "cheat build -n " + buildingEnum.name();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
         } catch (CommandException e) {
             System.out.println("error in game view / add buildings");
         } finally {

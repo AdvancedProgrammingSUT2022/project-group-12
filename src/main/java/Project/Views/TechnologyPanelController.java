@@ -3,6 +3,8 @@ package Project.Views;
 import Project.Controllers.GameController;
 import Project.Enums.TechnologyEnum;
 import Project.Models.Civilization;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -86,7 +88,6 @@ public class TechnologyPanelController implements ViewController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 vBox.getChildren().get(1).setEffect(new DropShadow());
-
                 System.out.println(vBox.getHeight());
                 vBox.setScaleX(1.2);
                 vBox.setScaleY(1.2);
@@ -107,12 +108,16 @@ public class TechnologyPanelController implements ViewController {
                 Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
                 if(currentCivilization.getResearchingTechnology() == null){
                     currentCivilization.setResearchingTechnology(technologyEnum);
+                    String command = "research -t " + technologyEnum.name();
+                    CommandResponse response = RequestHandler.getInstance().handle(command);
                     currentTechBox.setAlignment(Pos.CENTER);
                     currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
                 }else {
                     currentTechBox.getChildren().remove(1);
                     currentTechBox.setAlignment(Pos.CENTER);
                     currentCivilization.setResearchingTechnology(technologyEnum);
+                    String command = "research -t " + technologyEnum.name();
+                    CommandResponse response = RequestHandler.getInstance().handle(command);
                     currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
                 }
             }

@@ -132,24 +132,32 @@ public class UnitPanelView implements ViewController {
     public void sleep() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         unit.setState(UnitStates.SLEEP);
+        String command = "unit sleep";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("SLEEP");
     }
 
     public void alert() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         unit.setState(UnitStates.ALERT);
+        String command = "unit alert";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("ALERT");
     }
 
     public void fortify() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         unit.setState(UnitStates.FORTIFY);
+        String command = "unit fortify";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("FORTIFY");
     }
 
     public void awake() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         unit.setState(UnitStates.AWAKE);
+        String command = "unit wake";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("AWAKE");
     }
 

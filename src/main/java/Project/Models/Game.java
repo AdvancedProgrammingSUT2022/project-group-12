@@ -2,10 +2,7 @@ package Project.Models;
 
 import Project.Controllers.GameController;
 import Project.Controllers.MovingController;
-import Project.Enums.TerrainColor;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
-import Project.Enums.VisibilityEnum;
+import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -128,7 +125,7 @@ public class Game {
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
             throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
-        checkForKillingCiziten(civ);
+        checkForKillingCitizen(civ);
         /***
          * add gold
          */
@@ -138,7 +135,7 @@ public class Game {
     }
 
 
-    private void checkForKillingCiziten(Civilization civ) {
+    private void checkForKillingCitizen(Civilization civ) {
         for (City city :
                 civ.getCities()) {
             if (city.calculateFood() < 0) {

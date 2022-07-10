@@ -39,7 +39,9 @@ public class Test extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("by");
-
+        int a=2;
+        a--;
+        System.out.println(a);
         AnchorPane root = new FXMLLoader(App.class.getResource("/Project/fxml/technologyMenu.fxml")).load();
         Scene scene = new Scene(root);
         System.out.println(scene.getWidth() + " " + scene.getHeight());
