@@ -107,6 +107,7 @@ public class UnitPanelView implements ViewController {
     }
 
     private void createCity() {
+
     }
 
     private void initializeYSpinner(Spinner<Integer> ySpinner, Button moveUnitBtn) {
@@ -224,7 +225,6 @@ public class UnitPanelView implements ViewController {
         textFlow.setTextAlignment(TextAlignment.CENTER);
         pane.getChildren().add(textFlow);
         return pane;
-
     }
 
     public void delete() {
