@@ -41,7 +41,6 @@ public class GameView implements ViewController {
         instance = this;
         //todo : initialize
     }
-
     public Game getGame() {
         return GameController.getGame();
     }

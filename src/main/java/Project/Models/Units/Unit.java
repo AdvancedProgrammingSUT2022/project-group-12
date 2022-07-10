@@ -80,6 +80,10 @@ public abstract class Unit extends Production {
         return (int) Math.ceil(25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
+    public Tile getTile() {
+        return civ.getRevealedTileGrid().getTile(this.location);
+    }
+
     public int getHealth() {
         return health;
     }
@@ -210,7 +214,6 @@ public abstract class Unit extends Production {
     public Group getGraphicUnit() {
         if (graphicUnit == null)
             graphicUnit = createUnitGroup();
-
         return graphicUnit;
     }
 

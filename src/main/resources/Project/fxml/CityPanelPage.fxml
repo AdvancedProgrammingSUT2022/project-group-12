@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.CityPanelView">
 
-    <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="360.0" prefWidth="583.0" spacing="15.0">
+    <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="360.0" prefWidth="583.0" spacing="5.0">
 
         <Text fx:id="cityName" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">

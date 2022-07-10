@@ -171,6 +171,8 @@ public class CityPanelView implements ViewController {
                 } else {
                     buyBuildingBtn.setDisable(false);
                     selectedBuilding = buildingEnum;
+                    buildingMenu.setText(buildingEnum.name());
+
                 }
             });
             buildingMenu.getItems().add(item);
@@ -178,11 +180,18 @@ public class CityPanelView implements ViewController {
     }
 
     public void buyBuilding() {
+        System.out.println(selectedBuilding);
         if (selectedBuilding == null)
             return;
         city = GameController.getGame().getCurrentCivilization().getSelectedCity();
         city.addBuilding(new Building(selectedBuilding));
         selectedBuilding = null;
         MenuStack.getInstance().popMenu();
+    }
+
+    public void buyUnit() {
+        City myCity = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        // TODO: Buy Unit
     }
 }

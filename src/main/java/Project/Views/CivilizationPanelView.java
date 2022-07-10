@@ -54,6 +54,8 @@ public class CivilizationPanelView implements ViewController {
             MenuItem item = new MenuItem(tile.getLocation().toString());
             tilesMenu.getItems().add(item);
         }
+        MenuItem item = new MenuItem(String.valueOf(civilization.getOwnedTiles().size()));
+        tilesMenu.getItems().add(item);
     }
 
     private void initUnitMenu() {

@@ -1,88 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Project.Views.UnitPanelView"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.UnitPanelView">
     <VBox layoutX="-3.0" layoutY="14.0" prefHeight="355.0" prefWidth="590.0">
 
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
 
-            <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Type"/>
+            <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-----------------------------------------------------------------------------------------------"/>
-            <Text fx:id="unitType" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------------------------------" />
+            <Text fx:id="unitType" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Civilization"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-------------------------------------------------------------------------"/>
-            <Text fx:id="unitCivilization" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Civilization" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-------------------------------------------------------------------------" />
+            <Text fx:id="unitCivilization" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location x:"/>
-            <Text fx:id="unitXLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="--------------------------------------------"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location y:"/>
-            <Text fx:id="unitYLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location x:" />
+            <Text fx:id="unitXLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="--------------------------------------------" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="location y:" />
+            <Text fx:id="unitYLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-----------------------------------------------------------------------------------------------"/>
-            <Text fx:id="unitState" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="State" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------------------------------" />
+            <Text fx:id="unitState" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="170.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Health"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-----------------------------------------------------------------------------------------------"/>
-            <Text fx:id="unitHealth" strokeType="OUTSIDE" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Health" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------------------------------" />
+            <Text fx:id="unitHealth" strokeType="OUTSIDE" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="190.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Combat Strength"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-------------------------------------------------------------------------------------"/>
-            <Text fx:id="combatStrength" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Combat Strength" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-------------------------------------------------------------------------------------" />
+            <Text fx:id="combatStrength" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Button fx:id="moveUnitBtn" mnemonicParsing="false" onAction="#moveUnit" text="Move"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-------------------------------------------------------------------------"/>
+            <Button fx:id="moveUnitBtn" mnemonicParsing="false" onAction="#moveUnit" text="Move" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-------------------------------------------------------------------------" />
             <HBox alignment="CENTER" prefHeight="36.0" prefWidth="165.0" spacing="15.0">
 
-                <Spinner prefHeight="24.0" prefWidth="74.0" fx:id="xSpinner" promptText="x"/>
-                <Spinner fx:id="ySpinner" layoutX="10.0" layoutY="10.0" prefHeight="24.0" prefWidth="74.0"
-                         promptText="y"/>
+                <Spinner prefHeight="24.0" prefWidth="74.0" promptText="x" fx:id="xSpinner" />
+                <Spinner fx:id="ySpinner" layoutX="10.0" layoutY="10.0" prefHeight="24.0" prefWidth="74.0" promptText="y" />
 
             </HBox>
 
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
             <children>
-                <Button fx:id="attackUnitBtn1" mnemonicParsing="false" onAction="#attackUnit" text="Attack" />
+                <Button fx:id="attackUnitBtn" mnemonicParsing="false" onAction="#attackUnit" text="Attack" />
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------" />
                 <HBox alignment="CENTER" prefHeight="36.0" prefWidth="165.0" spacing="15.0">
                     <children>
@@ -92,17 +79,18 @@
                 </HBox>
             </children>
         </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="257.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+        <HBox fx:id="buttonBox" alignment="CENTER" layoutX="10.0" layoutY="257.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
             <Button mnemonicParsing="false" onAction="#sleep" text="Sleep" />
             <Button mnemonicParsing="false" onAction="#alert" text="Alert" />
             <Button mnemonicParsing="false" onAction="#fortify" text="Fortify" />
             <Button mnemonicParsing="false" onAction="#awake" text="Awake" />
+         <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="266.0" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
 
-            <Button mnemonicParsing="false" text="Back" onAction="#back"/>
-            <Button mnemonicParsing="false" text="Exit" onAction="#exit"/>
+            <Button mnemonicParsing="false" onAction="#back" text="Back" />
+            <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
         </HBox>
     </VBox>
 </AnchorPane>

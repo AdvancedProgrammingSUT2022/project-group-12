@@ -2,14 +2,17 @@ package Project.Views;
 
 import Project.Controllers.GameController;
 import Project.Enums.UnitStates;
+import Project.Models.Tiles.Hex;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -17,7 +20,10 @@ import javafx.scene.text.TextFlow;
 
 public class UnitPanelView implements ViewController {
 
-    public Button attackUnitBtn1;
+    @FXML
+    private Button attackUnitBtn;
+    @FXML
+    private HBox buttonBox;
     @FXML
     private Text name;
     @FXML
@@ -49,6 +55,8 @@ public class UnitPanelView implements ViewController {
     private int locationY;
     private SpinnerValueFactory<Integer> yValueFactory;
     private Unit unit;
+    private TextField cityName;
+    private Button createCityBtn;
 
     public void initialize() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
@@ -66,10 +74,39 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initializeSpinners() {
+        initButtonBox();
         initializeXSpinner(xSpinner, moveUnitBtn);
         initializeYSpinner(ySpinner, moveUnitBtn);
-        initializeXSpinner(xAttackSpinner, attackUnitBtn1);
-        initializeYSpinner(yAttackSpinner, attackUnitBtn1);
+        initializeXSpinner(xAttackSpinner, attackUnitBtn);
+        initializeYSpinner(yAttackSpinner, attackUnitBtn);
+    }
+
+    private void initButtonBox() {
+        Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        if (selectedUnit.getType().name().equals("SETTLER")) {
+            //todo : create city command
+            cityName = new TextField("Name");
+            createCreateCityButton();
+            buttonBox.getChildren().add(createCityBtn);
+        }
+    }
+
+    private void createCreateCityButton() {
+        Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        createCityBtn = new Button("Create City");
+        createCityBtn.setOnAction(actionEvent -> {
+            if (cityName.getText().isEmpty())
+                return;
+            try {
+                GameController.foundCity(selectedUnit);
+                back();
+            } catch (CommandException e) {
+                return;
+            }
+        });
+    }
+
+    private void createCity() {
     }
 
     private void initializeYSpinner(Spinner<Integer> ySpinner, Button moveUnitBtn) {
@@ -177,8 +214,6 @@ public class UnitPanelView implements ViewController {
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
             dialog.showAndWait();
         }
-
-
     }
 
     public Pane createTextPane(String response) {
@@ -190,5 +225,11 @@ public class UnitPanelView implements ViewController {
         pane.getChildren().add(textFlow);
         return pane;
 
+    }
+
+    public void delete() {
+        back();
+        Unit myUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        GameController.deleteUnit(myUnit);
     }
 }
