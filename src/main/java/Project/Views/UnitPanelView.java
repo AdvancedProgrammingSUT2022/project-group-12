@@ -99,6 +99,8 @@ public class UnitPanelView implements ViewController {
                 return;
             try {
                 GameController.foundCity(selectedUnit);
+                //handle
+                String command = "unit found city";
                 back();
             } catch (CommandException e) {
                 return;
@@ -106,9 +108,6 @@ public class UnitPanelView implements ViewController {
         });
     }
 
-    private void createCity() {
-
-    }
 
     private void initializeYSpinner(Spinner<Integer> ySpinner, Button moveUnitBtn) {
         yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
@@ -230,6 +229,8 @@ public class UnitPanelView implements ViewController {
     public void delete() {
         back();
         Unit myUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        String command = "unit delete";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         GameController.deleteUnit(myUnit);
     }
 }

@@ -18,7 +18,9 @@ import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +34,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 public class Test extends Application {
     CombatUnit unit;
     Hex hex;
@@ -39,17 +43,20 @@ public class Test extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("by");
-        int a=2;
-        a--;
-        System.out.println(a);
-     //   AnchorPane root = new FXMLLoader(App.class.getResource("/Project/fxml/technologyMenu.fxml")).load();
-       // Scene scene = new Scene(root);
-    //    System.out.println(scene.getWidth() + " " + scene.getHeight());
+        AnchorPane root = new AnchorPane();
+        ScrollPane scrollPane = new ScrollPane();
+        root.setPrefHeight(397);
+        root.setPrefWidth(599);
+        root.getChildren().add(new ImageView(new Image(App.class.getResource("/images/technologies/techTree2.jpg").toExternalForm())));
+
+        scrollPane.setContent(root);
+        Scene scene = new Scene(scrollPane);
+        System.out.println(scene.getWidth() + " " + scene.getHeight());
         String com;
         com = "ali ";
         System.out.println(com);
 
-      //  stage.setScene(scene);
+        stage.setScene(scene);
         stage.show();
     }
 
