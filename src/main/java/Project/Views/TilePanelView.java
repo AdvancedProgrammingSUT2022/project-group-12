@@ -2,7 +2,7 @@ package Project.Views;
 
 import Project.Controllers.GameController;
 import Project.Enums.FeatureEnum;
-import Project.Models.Terrains.Terrain;
+import Project.Enums.ImprovementEnum;
 import Project.Models.Tiles.Tile;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -10,7 +10,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 
 public class TilePanelView implements ViewController {
-
+    @FXML
+    private Text resourcesMenu;
+    @FXML
+    private MenuButton improvementsMenu;
     @FXML
     private Text type;
     @FXML
@@ -55,6 +58,22 @@ public class TilePanelView implements ViewController {
     }
 
     private void initMenu() {
+        initImprovementMenu();
+        initFeatureMenu();
+        initResourceMenu();
+    }
+
+    private void initImprovementMenu() {
+        Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
+        if (tile.getImprovements() == null)
+            return;
+        for (ImprovementEnum improvementEnum : tile.getImprovements()) {
+            MenuItem item = new MenuItem(improvementEnum.name());
+            improvementsMenu.getItems().add(item);
+        }
+    }
+
+    private void initFeatureMenu() {
         Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
         if (tile.getTerrain().getFeatures() == null)
             return;
@@ -63,6 +82,15 @@ public class TilePanelView implements ViewController {
             featureMenu.getItems().add(item);
         }
     }
+
+    private void initResourceMenu() {
+        Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
+        if (tile.getTerrain().getResource() == null)
+            resourcesMenu.setText("NULL");
+        else
+            resourcesMenu.setText(tile.getTerrain().getResource().name());
+    }
+
     public void back() {
         MenuStack.getInstance().popMenu();
     }

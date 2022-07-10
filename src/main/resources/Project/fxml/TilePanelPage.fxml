@@ -1,114 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Project.Views.TilePanelView"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.TilePanelView">
     <VBox alignment="CENTER" layoutX="9.0" layoutY="8.0" prefHeight="390.0" prefWidth="583.0" spacing="15.0">
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Terrain Type"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="----------------------------------------------------------------------------------"/>
-            <Text fx:id="type" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Terrain Type" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="----------------------------------------------------------------------------------" />
+            <Text fx:id="type" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Civilization"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="-----------------------------------------------------------------------"/>
-                <Text fx:id="civ" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-            </children>
-        </HBox>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location X"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="----------------------------------------------------------------------------------"/>
-            <Text fx:id="locationX" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Civilization" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------" />
+                <Text fx:id="civ" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Y"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="----------------------------------------------------------------------------------"/>
-            <Text fx:id="locationY" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location X" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="----------------------------------------------------------------------------------" />
+            <Text fx:id="locationX" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Y" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="----------------------------------------------------------------------------------" />
+            <Text fx:id="locationY" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Improvements"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="----------------------------------------------------------"/>
-            <MenuButton mnemonicParsing="false" prefHeight="24.0" prefWidth="132.0" text="Improvements">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Improvements" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="----------------------------------------------------------" />
+            <MenuButton fx:id="improvementsMenu" mnemonicParsing="false" prefHeight="24.0" prefWidth="132.0" text="Improvements">
 
             </MenuButton>
 
         </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="138.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resources" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="----------------------------------------------------------" />
+            <Text fx:id="resourcesMenu" text="Resources" />
+      </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Combat Unit"/>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="----------------------------------------------------------------------------------"/>
-            <Text fx:id="combatUnit" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Combat Unit" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="----------------------------------------------------------------------------------" />
+            <Text fx:id="combatUnit" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="322.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Non Combat Unit"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="--------------------------------------------------------------------------"/>
-                <Text fx:id="nonCombatUnit" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-            </children>
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Non Combat Unit" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="--------------------------------------------------------------------------" />
+                <Text fx:id="nonCombatUnit" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="331.0" prefHeight="100.0" prefWidth="200.0" spacing="50">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Has Road"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="-------------------------------------------------------------------------"/>
-                <Text fx:id="road" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-            </children>
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Has Road" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-------------------------------------------------------------------------" />
+                <Text fx:id="road" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="339.0" prefHeight="100.0" prefWidth="200.0" spacing="50">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Has River"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="-----------------------------------------------------------------------"/>
-                <Text fx:id="river" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-            </children>
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Has River" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------" />
+                <Text fx:id="river" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Terrain Features"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="-----------------------------------------------------------------------"/>
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Terrain Features" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------" />
                 <MenuButton fx:id="featureMenu" mnemonicParsing="false" text="Features">
 
                 </MenuButton>
-            </children>
+
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="351.0" prefHeight="100.0" prefWidth="200.0" spacing="50">
-            <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Damaged"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                      text="-----------------------------------------------------------------------"/>
-                <Text fx:id="damaged" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-            </children>
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Damaged" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------" />
+                <Text fx:id="damaged" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="382.0" prefHeight="100.0" prefWidth="200.0" spacing="50">
-            <children>
-                <Button text="Back" onAction="#back"/>
-                <Button text="EXIT" onAction="#exit"/>
-            </children>
+
+                <Button onAction="#back" text="Back" />
+                <Button onAction="#exit" text="EXIT" />
+
         </HBox>
 
     </VBox>

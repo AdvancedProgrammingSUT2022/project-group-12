@@ -3,50 +3,45 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Project.Views.CityPanelView">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.CityPanelView">
 
     <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="360.0" prefWidth="583.0" spacing="15.0">
 
-        <Text fx:id="cityName" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName"/>
+        <Text fx:id="cityName" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Population"/>
-            <Text layoutX="253.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="---------------------------------------------------------------------------------------------"/>
-            <Text fx:id="populationSize" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Population" />
+            <Text layoutX="253.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---------------------------------------------------------------------------------------------" />
+            <Text fx:id="populationSize" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="68.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food"/>
-            <Text layoutX="271.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="------------------------------------------------------------------------------------------------------"/>
-            <Text fx:id="food" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food" />
+            <Text layoutX="271.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------------------------------------" />
+            <Text fx:id="food" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="118.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gold"/>
-            <Text layoutX="47.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="------------------------------------------------------------------------------------------------------"/>
-            <Text fx:id="gold" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gold" />
+            <Text layoutX="47.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------------------------------------" />
+            <Text fx:id="gold" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="26.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Capital"/>
-            <Text layoutX="257.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="------------------------------------------------------------------------------------------------"/>
-            <Text fx:id="isCapital" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Capital" />
+            <Text layoutX="257.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------------------------------" />
+            <Text fx:id="isCapital" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="164.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Production"/>
-            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                  text="-----------------------------------------------------------------------------------------------"/>
-            <Text fx:id="production" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Production" />
+            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------------------------------" />
+            <Text fx:id="production" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="191.0" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
@@ -56,28 +51,27 @@
 
                 </items>
             </MenuButton>
-            <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building"/>
+            <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building" />
 
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
 
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-                <Spinner fx:id="buyTileLocationXSpinner" prefHeight="24.0" prefWidth="108.0" promptText="x"/>
-                <Spinner fx:id="buyTileLocationYSpinner" prefHeight="24.0" prefWidth="101.0" promptText="y"/>
+                <Spinner fx:id="buyTileLocationXSpinner" prefHeight="24.0" prefWidth="108.0" promptText="x" />
+                <Spinner fx:id="buyTileLocationYSpinner" prefHeight="24.0" prefWidth="101.0" promptText="y" />
 
             </HBox>
-            <Button fx:id="buyTileBtn" mnemonicParsing="false" onAction="#BuyTile" text="Buy Tile"/>
+            <Button fx:id="buyTileBtn" mnemonicParsing="false" onAction="#BuyTile" text="Buy Tile" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
 
-            <MenuButton fx:id="citizenSelectMenu" mnemonicParsing="false" text="Menu">
+            <MenuButton fx:id="citizenSelectMenu" mnemonicParsing="false" text="Citizen">
                 <items>
                 </items>
             </MenuButton>
-            <Button fx:id="lockUnlockBtn" mnemonicParsing="false" onAction="#lockOrUnlock"
-                    text="Lock / Unlock Citizen"/>
+            <Button fx:id="lockUnlockBtn" mnemonicParsing="false" onAction="#lockOrUnlock" text="Lock / Unlock Citizen" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
@@ -87,14 +81,23 @@
 
                 </items>
             </MenuButton>
-            <Button mnemonicParsing="false" text="Speed Up" onAction="#speedUp"/>
+            <Button mnemonicParsing="false" onAction="#speedUp" text="Speed Up" />
+
+        </HBox>
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
+
+            <MenuButton fx:id="buyUnit" mnemonicParsing="false" text="Unit">
+                <items>
+
+                </items>
+            </MenuButton>
+            <Button mnemonicParsing="false" onAction="#buyUnit" text="Buy Unit" />
 
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="346.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
 
-            <Button mnemonicParsing="false" onAction="#back" text="Back"/>
-            <Button layoutX="277.0" layoutY="10.0" mnemonicParsing="false" onAction="#exit" text="Exit"/>
-            <Button layoutX="355.0" layoutY="10.0" mnemonicParsing="false" onAction="#gotoShop" text="Shop"/>
+            <Button mnemonicParsing="false" onAction="#back" text="Back" />
+            <Button layoutX="277.0" layoutY="10.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
 
         </HBox>
 
