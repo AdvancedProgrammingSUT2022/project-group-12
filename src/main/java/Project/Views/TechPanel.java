@@ -8,8 +8,11 @@ import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
@@ -21,37 +24,42 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
-
-public class TechnologyPanelController implements ViewController {
+public class TechPanel implements ViewController {
     @FXML
-    public VBox techsBox;
+    private VBox techsBox;
     @FXML
-    public VBox currentTechBox;
-    public ScrollPane techScrollPane;
-    public Button techTree;
+    private VBox currentTechBox;
     @FXML
-    VBox technologyShow;
+    private ScrollPane techScrollPane;
+    @FXML
+    private Button techTree;
+    @FXML
+    private VBox leadsToBox;
+    @FXML
+    private VBox technologyShow;
 
 
 
-     public void initialize(){
-     Civilization currentCiv = GameController.getGame().getCurrentCivilization();
-         techScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-         techScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-         techScrollPane.setStyle("-fx-background-color:transparent;");
-         techScrollPane.setContent(techsBox);
-         technologyShow.setSpacing(20);
-         techsBox.setSpacing(20);
-         currentTechBox.setSpacing(20);
-         currentTechBox.setAlignment(Pos.CENTER);
-         TechnologyEnum currentTechnology = currentCiv.getResearchingTechnology();
-         if((currentTechnology != null))
-         currentTechBox.getChildren().add(addTechnology(currentCiv.getResearchingTechnology(),currentCiv.getResearchingTechnologies().get(currentTechnology)));
-         for (TechnologyEnum tech:
-              currentCiv.getResearchingTechnologies().keySet()) {
-             techsBox.getChildren().add(addTechnology(tech,currentCiv.getResearchingTechnologies().get(tech)));
-         }
-     }
+    public void initialize(){
+
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        techScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        techScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        techScrollPane.setStyle("-fx-background-color:transparent;");
+        techScrollPane.setContent(techsBox);
+        technologyShow.setSpacing(20);
+        techsBox.setSpacing(20);
+        currentTechBox.setSpacing(20);
+        currentTechBox.setAlignment(Pos.CENTER);
+        TechnologyEnum currentTechnology = currentCiv.getResearchingTechnology();
+        if((currentTechnology != null))
+            currentTechBox.getChildren().add(addTechnology(currentCiv.getResearchingTechnology(),currentCiv.getResearchingTechnologies().get(currentTechnology)));
+        for (TechnologyEnum tech:
+                currentCiv.getResearchingTechnologies().keySet()) {
+            techsBox.getChildren().add(addTechnology(tech,currentCiv.getResearchingTechnologies().get(tech)));
+        }
+        leadsToBox.setVisible(false);
+    }
 
     public HBox addTechnology(TechnologyEnum technologyEnum, int progress){
         HBox hBox = new HBox();
@@ -91,6 +99,13 @@ public class TechnologyPanelController implements ViewController {
                 System.out.println(vBox.getHeight());
                 vBox.setScaleX(1.2);
                 vBox.setScaleY(1.2);
+                for (TechnologyEnum tech:
+                     technologyEnum.leadsToTech()) {
+                    Label label = new Label(capitalizeFirstString(tech.name()));
+                    label.setStyle("-fx-background-color: red");
+                    leadsToBox.getChildren().add(label);
+                }
+                leadsToBox.setVisible(true);
             }
         });
         vBox.setOnMouseExited(new EventHandler<MouseEvent>() {
@@ -99,6 +114,10 @@ public class TechnologyPanelController implements ViewController {
                 vBox.getChildren().get(1).setEffect(null);
                 vBox.setScaleX(1);
                 vBox.setScaleY(1);
+                for (int i = leadsToBox.getChildren().size() - 1; i >= 1 ; i--) {
+                    leadsToBox.getChildren().remove(i);
+                }
+                leadsToBox.setVisible(false);
             }
         });
         vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
