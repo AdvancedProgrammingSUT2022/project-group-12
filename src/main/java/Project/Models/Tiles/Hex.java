@@ -4,6 +4,7 @@ package Project.Models.Tiles;
 import Project.App;
 import Project.Controllers.GameController;
 import Project.Enums.ResourceEnum;
+import Project.Enums.UnitStates;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -168,6 +169,15 @@ public class Hex implements Observer<Tile> {
         this.group.getChildren().add(graphicUnit);
         graphicUnit.setTranslateY(this.getCenterY() + multiply * 4);
         graphicUnit.setTranslateX(this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));
+        if (unit.getState() != UnitStates.AWAKE) {
+            ImageView unitStateImageView = new ImageView(App.getResourcePath("/images/unitstates/" + unit.getState().name().toLowerCase() + ".png"));
+            unitStateImageView.setFitWidth(20);
+            unitStateImageView.setFitHeight(20);
+            unitStateImageView.setTranslateY(this.getCenterY() + multiply * 6.5);
+            unitStateImageView.setTranslateX(multiply * 1 + this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));
+            unitStateImageView.setOpacity(0.7);
+            this.group.getChildren().add(unitStateImageView);
+        }
     }
 
     @Override
