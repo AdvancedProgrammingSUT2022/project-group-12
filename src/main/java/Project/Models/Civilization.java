@@ -53,7 +53,7 @@ public class Civilization {
         this.researchingTechnology = null;
         this.user = user;
         this.units = new ArrayList<>();
-        this.gold = 1000;
+        this.gold = 100;
         this.production = 0;
         this.isInWarWith = new ArrayList<>();
         this.name = user.getUsername();
@@ -143,9 +143,18 @@ public class Civilization {
     }
 
     public int calculateCivilizationGold() {
+        int gold = calculateGoldBenefitsFromThisTurn();
+        System.out.println("getGold() = " + getGold());
+        System.out.println("gold = " + gold);
+        return gold + this.getGold();
+    }
+
+    private int calculateGoldBenefitsFromThisTurn() {
         int gold = this.getGoldFromCheat();
+        System.out.println("gold = " + gold);
         for (City city : this.getCities()) {
             gold += city.calculateGold();
+            System.out.println("gold = " + gold);
         }
         return gold;
     }
@@ -275,7 +284,7 @@ public class Civilization {
     }
 
     public void addGold(int value) {
-        this.gold += value;
+        this.goldFromCheat += value;
     }
 
     public void resetMoveCount() {
@@ -298,8 +307,8 @@ public class Civilization {
         throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
     }
 
-    public int calculateCivilizationFood() throws CommandException {
-        int food = 0;
+    public int calculateCivilizationFood()  {
+        int food = Constants.PRIMAL_FOOD;
         for (City city : this.getCities()) {
             food += city.calculateFood();
         }
@@ -490,5 +499,9 @@ public class Civilization {
 
     public void addResearchingTechnology(TechnologyEnum technologyEnum) {
         this.getResearchingTechnologies().put(technologyEnum, technologyEnum.getCost());
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 }

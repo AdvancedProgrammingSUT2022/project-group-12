@@ -274,6 +274,7 @@ public class City {
         int food = this.getFoodFromBuildings() + 2;
         food += this.foodFromCheat;
         food += (int) getSourcesFromTiles("food");
+        food += (int) getFromResource("food");
         food -= this.citizensCount * 2;
         // todo: just affects on citizen birth, move there
         if (food > 0) {

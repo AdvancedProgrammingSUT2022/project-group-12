@@ -281,10 +281,8 @@ public class CheatSheetView implements ViewController {
     }
 
     public void increaseGold() {
-        CheatCodeController.getInstance().increaseGold(goldAmount);
         String command = "cheat increase gold -a " + goldAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-
         MenuStack.getInstance().popMenu();
     }
 
