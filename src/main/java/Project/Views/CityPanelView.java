@@ -3,7 +3,6 @@ package Project.Views;
 import Project.Controllers.GameController;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
@@ -132,7 +131,7 @@ public class CityPanelView implements ViewController {
     }
 
     public void gotoShop() {
-        MenuStack.getInstance().popMenu();
+        back();
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ShopPage"));
     }
 
@@ -144,14 +143,19 @@ public class CityPanelView implements ViewController {
         MenuStack.getInstance().popMenu();
     }
 
+    private void sendSelectCityRequest(City city) {
+        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
+        RequestHandler.getInstance().handle(command);
+    }
+
     public void BuyTile() {
         city = GameController.getGame().getCurrentCivilization().getSelectedCity();
         if (city.getGold() == 0)
             buyTileBtn.setDisable(true);
-        // todo : buy tile
+        sendSelectCityRequest(city);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
 
@@ -160,12 +164,13 @@ public class CityPanelView implements ViewController {
             return;
         selectedProduction.decreaseRemainedProduction(10);
         initProductMenu();
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void lockOrUnlock() {
         if (selectedCitizen == null)
             return;
+        sendSelectCityRequest(city);
         //todo requires correct logically
         String command;
         if(selectedCitizen.isLocked()){
@@ -174,10 +179,9 @@ public class CityPanelView implements ViewController {
             command = "city citizen lock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         }
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        selectedCitizen.setLock(!selectedCitizen.isLocked());
         selectedCitizen = null;
         initCitizenMenu();
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     private void initializeBuildingMenu() {
@@ -217,25 +221,25 @@ public class CityPanelView implements ViewController {
 
 
     public void buyBuilding() {
-        System.out.println(selectedBuilding);
+//        System.out.println(selectedBuilding);
         if (selectedBuilding == null)
             return;
         city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        sendSelectCityRequest(city);
         String command = "city build building -n " +  selectedBuilding.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        city.addBuilding(new Building(selectedBuilding));
         selectedBuilding = null;
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void buyUnit() {
-        City myCity = GameController.getGame().getCurrentCivilization().getSelectedCity();
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        City city = GameController.getGame().getCurrentCivilization().getSelectedCity();
         if(selectedUnit == null){
             return;
         }
+        sendSelectCityRequest(city);
         String command = "city buy unit -u " + selectedUnit.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-
+        back();
     }
 }
