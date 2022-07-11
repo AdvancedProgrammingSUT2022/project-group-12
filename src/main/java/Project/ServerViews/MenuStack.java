@@ -4,6 +4,7 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class MenuStack {
@@ -14,6 +15,7 @@ public class MenuStack {
     private final ProfileMenu profileMenu = new ProfileMenu();
     private Scanner scanner;
     private User currentUser;
+    private HashMap<String, String> responseParameters = new HashMap<>();
 
     public MenuStack() {
 
@@ -97,5 +99,13 @@ public class MenuStack {
 
     public String getOption() {
         return this.scanner.nextLine();
+    }
+
+    public HashMap<String, String> getResponseParameters() {
+        return responseParameters;
+    }
+
+    public void setResponseParameters(HashMap<String, String> responseParameters) {
+        this.responseParameters = responseParameters;
     }
 }

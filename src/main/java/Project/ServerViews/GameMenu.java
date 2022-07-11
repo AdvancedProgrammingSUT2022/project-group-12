@@ -19,6 +19,7 @@ import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.GameException;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class GameMenu extends Menu {
@@ -822,6 +823,10 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String ans = CombatController.AttackUnit(this.selectedUnit, location);
+            HashMap<String, String> parameters = new HashMap<>();
+            parameters.put("unitDamage", "?");
+            parameters.put("enemyDamage", "?");
+            MenuStack.getInstance().setResponseParameters(parameters);
             answer(ans);
 //            answer("unit attack successful");
         } catch (CommandException e) {

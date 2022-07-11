@@ -15,6 +15,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
+import java.util.HashMap;
+
 public class UnitPanelView implements ViewController {
 
     @FXML
@@ -200,15 +202,19 @@ public class UnitPanelView implements ViewController {
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        HashMap<String, String> parameters = RequestHandler.getInstance().getParameters();
         // response = CommandResponse.INVALID_COMMAND;
+        String message;
         if (response.equals(CommandResponse.OK)) {
-            back();
+            message = parameters.get("enemyDamage") + " damage to enemy and " + parameters.get("unitDamage") + " damage to unit";
         } else {
-            Dialog dialog = new Dialog<>();
-            dialog.getDialogPane().setContent(createTextPane(response.toString()));
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
-            dialog.showAndWait();
+            message = response.toString();
         }
+        Dialog dialog = new Dialog<>();
+        dialog.getDialogPane().setContent(createTextPane(message));
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
+        dialog.showAndWait();
+        back();
     }
 
     public Pane createTextPane(String response) {

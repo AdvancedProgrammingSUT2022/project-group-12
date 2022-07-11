@@ -91,7 +91,6 @@ public enum CommandResponse {
     WORKER_IS_ALREADY_WORKING("worker is already working"),
     NO_BUILDING_WITH_THIS_NAME("there is no building with this name");
 
-
     private final String message;
 
     CommandResponse(String message) {
