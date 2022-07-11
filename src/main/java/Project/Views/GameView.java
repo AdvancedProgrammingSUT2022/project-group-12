@@ -88,4 +88,6 @@ public class GameView implements ViewController {
     public void gotoCivPanel() {
         MenuStack.getInstance().pushMenu(Project.Views.Menu.loadFromFXML("CivilizationPanelPage"));
     }
+
+
 }

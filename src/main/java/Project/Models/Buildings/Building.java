@@ -49,8 +49,9 @@ public class Building extends Production {
         return type;
     }
 
+
     @Override
     public void note(City city) {
-
+          this.getNote().note(city);
     }
 }

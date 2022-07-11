@@ -3,6 +3,8 @@ package Project.Utils;
 public class Constants {
     public static final int HEX_SIZE_MULTIPLY = 7;
     public static final int PRIMAL_FOOD = 2;
+    public static final int DEFUALT_BEAKER_PER_TURN = 2;
+    public static final int FOOD_NEEDED_TO_BORN_CITIZEN = 10;
     public static int TILEGRID_HEIGHT ;
     public static int TILEGRID_WIDTH;
     public static final int TERMINAL_HEIGHT = 30;

@@ -42,18 +42,12 @@ public class CivilizationPanelView implements ViewController {
         initTilesMenu();
         initWarMenu();
         initUnitMenu();
-        StringProperty civilizationNameProperty = new SimpleStringProperty(civilization.getName());
-        civName.textProperty().bind(civilizationNameProperty);
-        StringProperty happinessAmountProperty = new SimpleStringProperty(String.valueOf(civilization.calculateHappiness()));
-        happiness.textProperty().bind(happinessAmountProperty);
-        StringProperty scienceAmountProperty = new SimpleStringProperty(String.valueOf(civilization.calculateScience()));
-        beaker.textProperty().bind(scienceAmountProperty);
-        StringProperty goldAmountProperty = new SimpleStringProperty(String.valueOf(civilization.calculateCivilizationGold()));
-        gold.textProperty().bind(goldAmountProperty);
-        StringProperty cityNumbersProperty = new SimpleStringProperty(String.valueOf(civilization.getCities().size()));
-        cityCount.textProperty().bind(cityNumbersProperty);
-        StringProperty foodAmountProperty = new SimpleStringProperty(String.valueOf(civilization.calculateCivilizationFood()));
-        food.textProperty().bind(foodAmountProperty);
+        civName.setText(civilization.getName());
+        happiness.setText(String.valueOf(civilization.calculateHappiness()));
+        beaker.setText(String.valueOf(civilization.calculateScience()));
+        gold.setText(String.valueOf(civilization.calculateCivilizationGold()));
+        cityCount.setText(String.valueOf(civilization.getCities().size()));
+        food.setText(String.valueOf(civilization.calculateCivilizationFood()));
     }
 
     private void initTilesMenu() {

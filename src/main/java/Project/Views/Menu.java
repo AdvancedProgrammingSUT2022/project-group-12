@@ -20,6 +20,7 @@ public class Menu {
         try {
             Pane root = fxmlLoader.load();
             ViewController controller = fxmlLoader.getController();
+            controller.loadEachTime();
             return new Menu(root, controller);
         } catch (IOException e) {
             throw new RuntimeException(e);

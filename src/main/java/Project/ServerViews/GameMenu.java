@@ -144,6 +144,8 @@ public class GameMenu extends Menu {
         try {
             command.abbreviate("name", 'n');
             String buildingName = command.getOption("name").toUpperCase();
+            //print
+            System.out.println("selectedCity + building creation = " + selectedCity);
             CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
         } catch (CommandException e) {
             answer(e);

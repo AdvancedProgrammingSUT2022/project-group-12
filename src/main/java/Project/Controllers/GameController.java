@@ -345,12 +345,13 @@ public class GameController {
         Tile tile = GameController.getGameTile(location);
         if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
+        city.getCitizens().remove(tile.getCitizen());
         tile.setCitizen(null);
     }
 
     public static void cityCitizenSetLock(City city, Location location, boolean lock) throws CommandException {
         Tile tile = GameController.getGameTile(location);
-        if (tile.getCity() != city) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.getCitizen().setLock(lock);
     }

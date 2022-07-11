@@ -61,14 +61,14 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.researchingTechnologies = new HashMap<>();
-        this.happinessType = this.detectHappinessState(this.happiness);
+        this.happinessType = this.updateHappinessState(this.happiness);
         this.isInEconomicRelation = new ArrayList<>();
         this.happinessFromCheat = 0;
         this.goldFromCheat = 0;
         this.beaker = calculateScience();
         this.cheatBeaker = 0;
         this.beakerFromBuildings = 0;
-        this.beakerRatioFromBuildings = 0;
+        this.beakerRatioFromBuildings = 1;
         this.unitCountByCategory = new HashMap<>();
     }
 
@@ -96,7 +96,7 @@ public class Civilization {
         this.selectedCity = city;
     }
 
-    public HappinessTypeEnum detectHappinessState(double happiness) {
+    public HappinessTypeEnum updateHappinessState(double happiness) {
         if (happiness > 0) {
             return HappinessTypeEnum.HAPPY;
         }
@@ -144,17 +144,13 @@ public class Civilization {
 
     public int calculateCivilizationGold() {
         int gold = calculateGoldBenefitsFromThisTurn();
-        System.out.println("getGold() = " + getGold());
-        System.out.println("gold = " + gold);
         return gold + this.getGold();
     }
 
     private int calculateGoldBenefitsFromThisTurn() {
         int gold = this.getGoldFromCheat();
-        System.out.println("gold = " + gold);
         for (City city : this.getCities()) {
             gold += city.calculateGold();
-            System.out.println("gold = " + gold);
         }
         return gold;
     }
@@ -172,16 +168,20 @@ public class Civilization {
     }
 
     public int calculateScience() {
-        int beaker = beakerFromBuildings;
+        int beaker = Constants.DEFUALT_BEAKER_PER_TURN;
+        beaker += beakerFromBuildings;
+        System.out.println("beaker = " + beaker);;
         beaker += cheatBeaker;
+        System.out.println("cheatBeaker = " + cheatBeaker);
         for (City city : this.getCities()) {
             beaker += city.getCitizensCount();
         }
-        // todo: fix
         beaker *= beakerRatioFromBuildings;
+        System.out.println("beakerRatioFromBuildings = " + beakerRatioFromBuildings);
         if (calculateCivilizationGold() < 0) {
-            beaker -= this.getGold();
+            beaker -= Math.abs(this.calculateCivilizationGold());
         }
+        System.out.println("beaker = " + beaker);
         return beaker;
     }
 
@@ -248,12 +248,16 @@ public class Civilization {
     public double calculateHappiness() {
         this.happiness = 0;
         this.happiness += this.happinessFromCheat;
+        if(this.cities.size() == 0){
+            this.happiness += 10;
+            return this.happiness;
+        }
         for (City city : this.getCities()) {
             this.happiness += city.calculateCityHappiness();
         }
         int numberOfLuxuryResource = this.getAchievedLuxuryResources().size();
         this.happiness += numberOfLuxuryResource * 4;
-        detectHappinessState(happiness);
+        updateHappinessState(happiness);
         return happiness;
     }
 

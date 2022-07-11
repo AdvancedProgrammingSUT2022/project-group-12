@@ -23,7 +23,8 @@ public enum BuildingNoteEnum {
     ARMORY_NOTE(o -> {
     }),
     BURIAL_TOMB_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0)),
-    CIRCUS_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0)),
+    CIRCUS_NOTE((BuildingNotes<City>) city -> {System.out.println("hello note " + city); city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0);
+        }),
     COLOSSEUM_NOTE((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     COURTHOUSE_NOTE((BuildingNotes<City>) city -> {
 
