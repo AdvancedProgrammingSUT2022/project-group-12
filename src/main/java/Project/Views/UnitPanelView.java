@@ -1,12 +1,9 @@
 package Project.Views;
 
 import Project.Controllers.GameController;
-import Project.Enums.UnitStates;
-import Project.Models.Tiles.Hex;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
-import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.event.ActionEvent;
@@ -84,7 +81,6 @@ public class UnitPanelView implements ViewController {
     private void initButtonBox() {
         Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         if (selectedUnit.getType().name().equals("SETTLER")) {
-            //todo : create city command
             cityName = new TextField("Name");
             createCreateCityButton();
             buttonBox.getChildren().add(createCityBtn);
@@ -97,14 +93,10 @@ public class UnitPanelView implements ViewController {
         createCityBtn.setOnAction(actionEvent -> {
             if (cityName.getText().isEmpty())
                 return;
-            try {
-                GameController.foundCity(selectedUnit);
-                //handle
-                String command = "unit found city";
-                back();
-            } catch (CommandException e) {
-                return;
-            }
+            sendSelectUnitRequest(unit);
+            String command = "unit found city";
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            back();
         });
     }
 
@@ -149,17 +141,21 @@ public class UnitPanelView implements ViewController {
 //        }
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
-        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
-        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-        command = "unit move -p " + locationX + " " + locationY;
+        sendSelectUnitRequest(unit);
+        String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (response.isOK()) back();
     }
 
+    private void sendSelectUnitRequest(Unit unit) {
+        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
+        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
+        RequestHandler.getInstance().handle(command);
+    }
+
     public void sleep() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        unit.setState(UnitStates.SLEEP);
+        sendSelectUnitRequest(unit);
         String command = "unit sleep";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("SLEEP");
@@ -167,7 +163,7 @@ public class UnitPanelView implements ViewController {
 
     public void alert() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        unit.setState(UnitStates.ALERT);
+        sendSelectUnitRequest(unit);
         String command = "unit alert";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("ALERT");
@@ -175,7 +171,7 @@ public class UnitPanelView implements ViewController {
 
     public void fortify() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        unit.setState(UnitStates.FORTIFY);
+        sendSelectUnitRequest(unit);
         String command = "unit fortify";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("FORTIFY");
@@ -183,7 +179,7 @@ public class UnitPanelView implements ViewController {
 
     public void awake() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        unit.setState(UnitStates.AWAKE);
+        sendSelectUnitRequest(unit);
         String command = "unit wake";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("AWAKE");
@@ -200,9 +196,8 @@ public class UnitPanelView implements ViewController {
     public void attackUnit(ActionEvent actionEvent) {
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
-        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
-        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
+        sendSelectUnitRequest(unit);
+        String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         // response = CommandResponse.INVALID_COMMAND;
@@ -227,10 +222,10 @@ public class UnitPanelView implements ViewController {
     }
 
     public void delete() {
-        back();
         Unit myUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        sendSelectUnitRequest(unit);
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        GameController.deleteUnit(myUnit);
+        back();
     }
 }

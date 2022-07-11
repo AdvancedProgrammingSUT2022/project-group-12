@@ -11,8 +11,6 @@ import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
-import Project.ServerViews.RequestHandler;
-import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Views.Menu;
 import Project.Views.MenuStack;
@@ -138,8 +136,8 @@ public abstract class Unit extends Production {
         group.setOnMouseClicked((mouseEvent) -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 GameController.getGame().getCurrentCivilization().setSelectedUnit(this);
-                String command = "select unit -p " + this.getLocation().getRow() + " " + this.getLocation().getCol();
-                CommandResponse response = RequestHandler.getInstance().handle(command);
+//                String command = "select unit -p " + this.getLocation().getRow() + " " + this.getLocation().getCol();
+//                CommandResponse response = RequestHandler.getInstance().handle(command);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
             }
         });

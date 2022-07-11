@@ -37,7 +37,6 @@ public class Tile implements Notifier<Tile> {
     private boolean isRuin;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
-        //todo : initialize hex
         this.location = tileLocation;
         this.isRuin = new Random().nextInt(99999) % 7 == 0;
         this.terrain = terrain;

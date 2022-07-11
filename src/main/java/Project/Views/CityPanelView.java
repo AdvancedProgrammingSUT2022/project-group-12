@@ -8,12 +8,9 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
 import Project.Models.Production;
-import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
@@ -130,8 +127,8 @@ public class CityPanelView implements ViewController {
         buyTileLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
             locationY = buyTileLocationYSpinner.getValue();
         });
-        String command = "city buy tile -p " + locationX + " " + locationY;
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+//        String command = "city buy tile -p " + locationX + " " + locationY;
+//        CommandResponse response = RequestHandler.getInstance().handle(command);
     }
 
     public void gotoShop() {
