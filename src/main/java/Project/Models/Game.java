@@ -48,14 +48,14 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
-            if (users.size() == 1) {
-                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
-                if (settlerTile.getTerrain().getTerrainType() == TerrainEnum.MOUNTAIN) {
-                    throw new RuntimeException("settler was on MOUNTAIN!, restart the game...");
-                }
-            } else {
+//            if (users.size() == 1) {
+//                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
+//                if (settlerTile.getTerrain().getTerrainType() == TerrainEnum.MOUNTAIN) {
+//                    throw new RuntimeException("settler was on MOUNTAIN!, restart the game...");
+//                }
+//            } else {
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
-            }
+//            }
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
 
@@ -118,6 +118,7 @@ public class Game {
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
                 checkForMultipleMoves(unit);
+                // please don't erase this!
 //                checkForMovementCost(unit);
             }
         }
@@ -152,9 +153,7 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
-//        if (civilizations.size() == 1)
-//            return civilizations.get(0);
-        return civilizations.get(this.gameTurn % civilizations.size()/* + 1*/);
+        return civilizations.get(this.gameTurn % civilizations.size());
     }
 
     public void startNewTurn() throws GameException {
