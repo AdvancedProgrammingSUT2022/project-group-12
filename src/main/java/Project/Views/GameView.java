@@ -6,16 +6,17 @@ import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 public class GameView implements ViewController {
     private static GameView instance;
+    public MenuItem nextTurn;
     @FXML
     private Pane selectionPane;
     @FXML
@@ -90,4 +91,8 @@ public class GameView implements ViewController {
     }
 
 
+    public void NextTurn(ActionEvent actionEvent) {
+        String command = "end turn";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+    }
 }

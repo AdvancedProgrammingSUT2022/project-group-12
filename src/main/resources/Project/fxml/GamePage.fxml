@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.Pane?>
 
-<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.GameView">
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Views.GameView">
     <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
         <Menu fx:id="cheat" text="Cheat Sheet">
             <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet" />
@@ -16,6 +20,11 @@
         <Menu text="Research">
             <MenuItem onAction="#researchInfo" text="Research Panel" />
         </Menu>
+      <Menu mnemonicParsing="false" text="Next Turn">
+        <items>
+          <MenuItem fx:id="nextTurn" onAction="#NextTurn" mnemonicParsing="false" text="NextTurn" />
+        </items>
+      </Menu>
 
     </MenuBar>
     <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0" style="-fx-background-color: transparent;">
