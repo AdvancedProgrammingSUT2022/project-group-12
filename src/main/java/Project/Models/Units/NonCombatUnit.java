@@ -31,6 +31,7 @@ public class NonCombatUnit extends Unit {
         return remainingTime;
     }
 
+
     public void decreaseRemainingTime(int value) {
         this.remainingTime -= value;
     }

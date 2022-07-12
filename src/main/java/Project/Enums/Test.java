@@ -11,13 +11,22 @@ import Project.Models.Units.RangedUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
@@ -34,30 +43,36 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test extends Application {
     CombatUnit unit;
     Hex hex;
+    static  Scene scene;
     Group mainGroup = new Group();
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("by");
+        ImprovementEnum improvementEnum = ImprovementEnum.CAMP;
         AnchorPane root = new AnchorPane();
         ScrollPane scrollPane = new ScrollPane();
         root.setPrefHeight(397);
         root.setPrefWidth(599);
-        root.getChildren().add(new ImageView(new Image(App.class.getResource("/images/technologies/techTree2.jpg").toExternalForm())));
-
-        scrollPane.setContent(root);
-        Scene scene = new Scene(scrollPane);
-        System.out.println(scene.getWidth() + " " + scene.getHeight());
-        String com;
-        com = "ali ";
-        System.out.println(com);
-
+        scene = new Scene(addRoot("test"));
         stage.setScene(scene);
         stage.show();
+    }
+
+
+    public static Parent addRoot(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/Project/fxml/" + fxml + ".fxml"));
+        return fxmlLoader.load();
+    }
+    public static void changeRoot(String fxml) throws IOException {
+        scene.setRoot(addRoot(fxml));
     }
 
 //    @Override

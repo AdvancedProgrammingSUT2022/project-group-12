@@ -103,7 +103,7 @@ public class UnitFuncs {
             return CommandResponse.WRONG_UNIT;
         }
         ArrayList<ImprovementEnum> tileImprovements = currentTile.getImprovements();
-        if (!tileImprovements.contains(ImprovementEnum.ROAD) && !tileImprovements.contains(ImprovementEnum.RAILROAD)) {
+        if (!tileImprovements.contains(ImprovementEnum.ROADS) && !tileImprovements.contains(ImprovementEnum.RAILROAD)) {
             return CommandResponse.ROUTE_DOES_NOT_EXISTS;
         }
         return CommandResponse.OK;

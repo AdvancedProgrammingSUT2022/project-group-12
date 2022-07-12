@@ -6,6 +6,8 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
 import Project.Utils.CommandResponse;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -41,11 +43,11 @@ public class CivilizationPanelView implements ViewController {
         initWarMenu();
         initUnitMenu();
         civName.setText(civilization.getName());
-        happiness.setText(String.valueOf(civilization.getHappiness()));
-        beaker.setText(String.valueOf(civilization.getBeaker()));
-        gold.setText(String.valueOf(civilization.getGold()));
+        happiness.setText(String.valueOf(civilization.calculateHappiness()));
+        beaker.setText(String.valueOf(civilization.calculateScience()));
+        gold.setText(String.valueOf(civilization.calculateCivilizationGold()));
         cityCount.setText(String.valueOf(civilization.getCities().size()));
-        food.setText(String.valueOf(civilization.getFood()));
+        food.setText(String.valueOf(civilization.calculateCivilizationFood()));
     }
 
     private void initTilesMenu() {

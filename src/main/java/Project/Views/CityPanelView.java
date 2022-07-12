@@ -7,14 +7,26 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
 import Project.Models.Production;
+import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 public class CityPanelView implements ViewController {
+    @FXML
+    private Button UnAssignCitizen;
+    @FXML
+    private Label NumberOfUnassignedCitizens;
+    @FXML
+    private Button assignBtn;
+    @FXML
+    private Spinner assignCitizenXSpinner;
+    @FXML
+    private Spinner assignCitizenYSpinner;
     @FXML
     private Button buyUnitBtn;
     @FXML
@@ -61,7 +73,6 @@ public class CityPanelView implements ViewController {
     private Button speedUpBtn;
     private City city;
 
-
     public void initialize() {
         city = GameController.getGame().getCurrentCivilization().getSelectedCity();
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
@@ -70,11 +81,25 @@ public class CityPanelView implements ViewController {
         this.production.setText(String.valueOf(city.getProduction()));
         this.cityName.setText(city.getName());
         this.isCapital.setText(String.valueOf(city.isCapital()));
+        this.NumberOfUnassignedCitizens.setText("Number of unassigned citizens : " + city.numberOfUnassignedCitizens());
         initBuyTileSpinner();
+        initAssignCitizenSpinner();
         initCitizenMenu();
         initProductMenu();
         initializeBuildingMenu();
         initializeUnitMenu();
+    }
+
+    private void initAssignCitizenSpinner() {
+        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,Constants.TILEGRID_WIDTH);
+        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,Constants.TILEGRID_HEIGHT);
+        assignCitizenXSpinner.setValueFactory(xSpinnerValueFactory);
+        assignCitizenYSpinner.setValueFactory(ySpinnerValueFactory);
+        if(city.numberOfUnassignedCitizens() == 0){
+            this.assignBtn.setDisable(true);
+        } else {
+            this.assignBtn.setDisable(false);
+        }
     }
 
 
@@ -147,6 +172,10 @@ public class CityPanelView implements ViewController {
         String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
         RequestHandler.getInstance().handle(command);
     }
+    private void sendSelectUnitRequest(Unit unit) {
+        String command = "select unit " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
+        RequestHandler.getInstance().handle(command);
+    }
 
     public void BuyTile() {
         city = GameController.getGame().getCurrentCivilization().getSelectedCity();
@@ -180,7 +209,6 @@ public class CityPanelView implements ViewController {
         }
         CommandResponse response = RequestHandler.getInstance().handle(command);
         selectedCitizen = null;
-        initCitizenMenu();
         back();
     }
 
@@ -239,6 +267,21 @@ public class CityPanelView implements ViewController {
         }
         sendSelectCityRequest(city);
         String command = "city buy unit -u " + selectedUnit.name();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        back();
+    }
+
+    public void assignBtnAction(ActionEvent actionEvent) {
+        String command = "city citizen assign -p " + assignCitizenXSpinner.getValue() + " " + assignCitizenYSpinner.getValue();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        back();
+    }
+
+    public void unAssign(ActionEvent actionEvent) {
+        if(selectedCitizen == null){
+            return;
+        }
+        String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
         back();
     }

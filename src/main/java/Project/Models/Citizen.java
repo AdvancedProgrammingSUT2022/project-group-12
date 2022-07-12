@@ -24,6 +24,16 @@ public class Citizen {
     public Location getLocation() {
         return location;
     }
+    @Override
+    public String toString(){
+        StringBuilder toString = new StringBuilder("(" + this.getLocation().getRow() + " " + this.getLocation().getCol() + ")");
+        if(isLocked()){
+            toString.append(" locked");
+        }else {
+            toString.append(" unlocked");
+        }
+        return String.valueOf(toString);
+    }
 
     public void setLock(boolean locked) {
         this.locked = locked;

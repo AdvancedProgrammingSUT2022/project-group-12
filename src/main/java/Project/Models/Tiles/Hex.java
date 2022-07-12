@@ -10,6 +10,8 @@ import Project.Models.Cities.City;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.ServerViews.RequestHandler;
+import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.Observer;
 import Project.Views.Menu;
@@ -176,6 +178,8 @@ public class Hex implements Observer<Tile> {
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 GameController.getGame().getCurrentCivilization().setSelectedCity(city);
+                String command = "select city -p " + city.getLocation().getRow() + " "  + city.getLocation().getCol();
+                CommandResponse response = RequestHandler.getInstance().handle(command);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
             }
         });

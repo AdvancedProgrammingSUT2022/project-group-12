@@ -88,7 +88,11 @@ public class CheatCodeController {
     }
 
     public void addBuilding(Building building, City city) {
+        //print
+        System.out.println(city + building.getType().name());
         city.getBuildings().add(building);
         building.note(city);
+        //print
+        System.out.println("building has created = " + building);
     }
 }

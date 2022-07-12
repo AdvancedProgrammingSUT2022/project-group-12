@@ -28,6 +28,7 @@ public class City {
     private final String name;
     protected boolean isCapital;
     private int citizensCount;
+    private int remainsToBornCitizen;
     private double productionFromCheat;
     private Civilization civilization;
     private double happinessFromBuildings;
@@ -165,23 +166,23 @@ public class City {
 
     public double calculateCityHappiness() {
 
-        /***
-         * calculate happiness
-         */
+
+         // calculate happiness
         this.localHappiness = 10;
         this.localHappiness += this.happinessFromBuildings;
-        /***
-         * affect unhappiness
-         */
+        //  affect unhappiness
+        System.out.println("localHappiness after happiness from building = " + localHappiness);
         if (cityState == CityTypeEnum.ANNEXED) {
             this.localHappiness -= (citizensCount + citizensCount / 3);
             if (!haveCourtHouse()) this.localHappiness -= 5;
         } else {
             this.localHappiness -= citizensCount;
+            System.out.println("citizensCount = " + citizensCount);
+            System.out.println("localHappiness after  = " + localHappiness);
             this.localHappiness -= 3;
         }
 
-        return this.localHappiness <= citizensCount ? this.localHappiness : citizensCount;
+        return this.localHappiness;
     }
 
     private boolean haveCourtHouse() {
@@ -274,12 +275,17 @@ public class City {
         int food = this.getFoodFromBuildings() + 2;
         food += this.foodFromCheat;
         food += (int) getSourcesFromTiles("food");
+        food += (int) getFromResource("food");
         food -= this.citizensCount * 2;
-        // todo: just affects on citizen birth, move there
+
         if (food > 0) {
             food *= checkForHappinessState();
         }
         return food;
+    }
+
+    public int numberOfUnassignedCitizens() {
+        return citizensCount - this.getCitizens().size();
     }
 
     private int checkForHappinessState() {
@@ -305,7 +311,7 @@ public class City {
             return;
         }
         this.remainedFoodForCitizen += calculateFood();
-        if (this.remainedFoodForCitizen > 30) {
+        if (this.remainedFoodForCitizen > Constants.FOOD_NEEDED_TO_BORN_CITIZEN) {
             this.citizensCount += 1;
             this.remainedFoodForCitizen = 0;
         }
@@ -324,9 +330,12 @@ public class City {
     }
 
 
+
+
     public double getProductionFromCheat() {
         return productionFromCheat;
     }
+
 
     public void setProductionFromCheat(double productionFromCheat) {
         this.productionFromCheat = productionFromCheat;
@@ -535,4 +544,6 @@ public class City {
     public Location getLocation() {
         return this.cityTile.getLocation();
     }
+
+
 }

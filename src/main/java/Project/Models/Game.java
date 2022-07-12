@@ -72,8 +72,6 @@ public class Game {
             civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
             civ.getResearchingTechnologies().put(TechnologyEnum.ANIMAL_HUSBANDRY,TechnologyEnum.ANIMAL_HUSBANDRY.getCost());
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
-            //test
-            civ.addCity(new City("ali",this.tileGrid.getAllTilesInRadius(settlerTile,1),civ,settlerTile,true));
         }
     }
 
@@ -134,7 +132,8 @@ public class Game {
         /***
          * add gold
          */
-        civ.addGold(civ.calculateCivilizationGold());
+        civ.setGold(civ.calculateCivilizationGold());
+        civ.setGold(civ.calculateCivilizationGold());
 
 
     }
@@ -169,8 +168,6 @@ public class Game {
         for (Unit unit : civ.getUnits()) {
             checkForAlertUnit(unit);
             checkForFortifyHealUnit(unit);
-//            System.out.println("unit.getType().name() = " + unit.getType().name());
-//            System.out.println("unit.getLocation() = " + unit.getLocation());
         }
         civ.resetMoveCount();
         /***

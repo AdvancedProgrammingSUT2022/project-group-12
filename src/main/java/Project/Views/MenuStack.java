@@ -2,6 +2,7 @@ package Project.Views;
 
 import Project.App;
 import Project.Models.User;
+import javafx.beans.property.StringProperty;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,6 @@ public class MenuStack {
     private User currentUser;
 
     public MenuStack() {
-
         new User("1","1","nick1");
         new User("alireza","password","ali");
         new User("username1","password","nickname1");

@@ -144,6 +144,8 @@ public class GameMenu extends Menu {
         try {
             command.abbreviate("name", 'n');
             String buildingName = command.getOption("name").toUpperCase();
+            //print
+            System.out.println("selectedCity + building creation = " + selectedCity);
             CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
         } catch (CommandException e) {
             answer(e);
@@ -452,6 +454,18 @@ public class GameMenu extends Menu {
     }
 
     private void cityBuildBuilding(Command command) {
+        try {
+            command.abbreviate("name", 'n');
+            command.assertOptions(List.of("name"));
+            String buildingName = command.getOption("name");
+            BuildingEnum building = BuildingEnum.valueOf(buildingName.toUpperCase());
+            GameController.cityBuildBuilding(selectedCity, building);
+            answer(building + " added to production queue of " + this.selectedCity.getName());
+        } catch (CommandException e) {
+            answer(e);
+        } catch (IllegalArgumentException e) {
+            answer(new CommandException(CommandResponse.INVALID_UNIT_NAME));
+        }
 
     }
 
