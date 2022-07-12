@@ -23,4 +23,8 @@ public class RequestHandler {
     public HashMap<String, String> getParameters() {
         return MenuStack.getInstance().getResponseParameters();
     }
+
+    public String getParameter(String key) {
+        return MenuStack.getInstance().getResponseParameters().get(key);
+    }
 }

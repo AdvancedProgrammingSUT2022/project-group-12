@@ -38,11 +38,10 @@ public class GameView implements ViewController {
     }
 
     public void initialize() {
-        String command = "map show";
+        String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
         GameController.getGame().setPage(this);
         instance = this;
-        //todo : initialize
     }
     public Game getGame() {
         return GameController.getGame();
@@ -52,12 +51,29 @@ public class GameView implements ViewController {
         btn.setVisible(false);
 //        System.out.println(hexPane.getChildren());
 //        hexPane.getChildren().addAll(0, GameController.getGame().getTileGrid().getHexes());
-        initializeHexPane();
-//        System.out.print(new TileGridPrinter(game.getTileGrid(), 10, 10).print(new Location(6, 6)));
+        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        fillHexPaneFromTilesOf(tileGrid);
+        setCameraOnCivSelectedLocation();
     }
 
-    public void initializeHexPane() {
+    private void setCameraOnCivSelectedLocation() {
+        String command = "api get camera";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        int cameraRow = Integer.parseInt(RequestHandler.getInstance().getParameter("camera_row"));
+        int cameraCol = Integer.parseInt(RequestHandler.getInstance().getParameter("camera_col"));
+        System.out.println("Resp: " + cameraRow + ' ' + cameraCol);
+        this.setFocusOnLocation(new Location(cameraRow, cameraCol));
+    }
+
+    public void setFocusOnLocation(Location location) {
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        Hex hex = tileGrid.getTile(location).getHex();
+        scrollPane.setVvalue(hex.getCenterY() / hexPane.getBoundsInLocal().getHeight());
+        scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
+    }
+
+    public void fillHexPaneFromTilesOf(TileGrid tileGrid) {
+        hexPane.getChildren().clear();
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
                 Tile tile = tileGrid.getTile(new Location(i, j));
@@ -96,5 +112,8 @@ public class GameView implements ViewController {
     public void NextTurn(ActionEvent actionEvent) {
         String command = "end turn";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        fillHexPaneFromTilesOf(tileGrid);
+        setCameraOnCivSelectedLocation();
     }
 }

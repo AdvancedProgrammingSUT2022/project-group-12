@@ -105,7 +105,11 @@ public class MenuStack {
         return responseParameters;
     }
 
-    public void setResponseParameters(HashMap<String, String> responseParameters) {
-        this.responseParameters = responseParameters;
+    public void clearResponseParameters() {
+        this.responseParameters.clear();
+    }
+
+    public void addResponseParameters(String key, String value) {
+        this.responseParameters.put(key, value);
     }
 }

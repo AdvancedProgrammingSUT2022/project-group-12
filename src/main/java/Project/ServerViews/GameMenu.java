@@ -19,7 +19,6 @@ import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.GameException;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class GameMenu extends Menu {
@@ -87,12 +86,12 @@ public class GameMenu extends Menu {
 
     private void findCategory(Command command) {
         //debug
-        if (selectedCity != null) {
-            System.out.println("selectedCity.calculateFood() = " + selectedCity.calculateFood());
-            System.out.println("selectedCity.calculateCityHappiness() = " + selectedCity.calculateCityHappiness());
-            System.out.println("selectedCity.calculateGold() = " + selectedCity.calculateGold());
-            System.out.println("this.getSelectedCity().getCivilization().calculateScience() = " + this.getSelectedCity().getCivilization().calculateScience());
-        }
+//        if (selectedCity != null) {
+//            System.out.println("selectedCity.calculateFood() = " + selectedCity.calculateFood());
+//            System.out.println("selectedCity.calculateCityHappiness() = " + selectedCity.calculateCityHappiness());
+//            System.out.println("selectedCity.calculateGold() = " + selectedCity.calculateGold());
+//            System.out.println("this.getSelectedCity().getCivilization().calculateScience() = " + this.getSelectedCity().getCivilization().calculateScience());
+//        }
         switch (command.getCategory()) {
             case "info" -> this.info(command);
             case "select" -> this.select(command);
@@ -102,8 +101,29 @@ public class GameMenu extends Menu {
             case "research" -> this.research(command);
             case "cheat" -> this.cheat(command);
             case "end" -> this.end(command);
+            case "api" -> this.api(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void api(Command command) {
+        switch (command.getSubCategory()) {
+            case "get" -> this.apiGet(command);
+            default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void apiGet(Command command) {
+        switch (command.getSubSubCategory()) {
+            case "camera" -> this.apiGetCamera(command);
+            default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void apiGetCamera(Command ignoredCommand) {
+        MenuStack.getInstance().clearResponseParameters();
+        MenuStack.getInstance().addResponseParameters("camera_row", String.valueOf(getCamera().getRow()));
+        MenuStack.getInstance().addResponseParameters("camera_col", String.valueOf(getCamera().getCol()));
     }
 
     private void research(Command command) {
@@ -227,6 +247,10 @@ public class GameMenu extends Menu {
 
     private void setCamera(Location location) {
         GameController.getGame().getCurrentCivilization().setCurrentSelectedGridLocation(location);
+    }
+
+    private Location getCamera() {
+        return GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation();
     }
 
     private void cheatSpawn(Command command) {
@@ -837,10 +861,9 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String ans = CombatController.AttackUnit(this.selectedUnit, location);
-            HashMap<String, String> parameters = new HashMap<>();
-            parameters.put("unitDamage", "?");
-            parameters.put("enemyDamage", "?");
-            MenuStack.getInstance().setResponseParameters(parameters);
+            MenuStack.getInstance().clearResponseParameters();
+            MenuStack.getInstance().addResponseParameters("unitDamage", "?");
+            MenuStack.getInstance().addResponseParameters("enemyDamage", "?");
             answer(ans);
 //            answer("unit attack successful");
         } catch (CommandException e) {
