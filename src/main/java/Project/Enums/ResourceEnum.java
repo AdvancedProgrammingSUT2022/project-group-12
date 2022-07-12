@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 
 public enum ResourceEnum {
     RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),
-    BANANA("bna", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.CULTIVATION),
+    BANANA("bna", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.PLANTATION),
 
     CATTLE("ctl", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.PASTURE),
 
@@ -21,9 +21,9 @@ public enum ResourceEnum {
 
     IRON("irn", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE),
 
-    COTTON("ctn", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
+    COTTON("ctn", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
 
-    DYES("dys", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
+    DYES("dys", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
 
     FUR("fur", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP),
 
@@ -31,17 +31,17 @@ public enum ResourceEnum {
 
     GOLD("gld", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE),
 
-    INCENSE("inc", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
+    INCENSE("inc", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
 
     IVORY("ivr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP),
 
-    MARBLE("mrb", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.STONE_MINE),
+    MARBLE("mrb", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.QUARRY),
 
-    SILK("slk", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION),
+    SILK("slk", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
 
     SILVER("slv", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE),
 
-    SUGAR("sgr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CULTIVATION);
+    SUGAR("sgr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION);
 
     private final ResourceTypeEnum type;
     private final int foodCount;

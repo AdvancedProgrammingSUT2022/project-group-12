@@ -1,0 +1,26 @@
+#!/bin/bash
+
+techNames=(reset roads railroad camp farm lumber_Mill mine pasture stone_Mine cultivation trading_Post company);
+
+for techName in ${techNames[@]} 
+do
+echo $techName;
+techName="Fort"
+techName=${techName^}
+echo $techName;
+
+curl https://civilization.fandom.com/wiki/$techName\_\(Civ5\) > response.html
+
+echo $imageSrc
+imageSrc=$(cat response.html | grep -m 1 "https://static.wikia.nocookie.net/civilization/images/");
+echo $imageSrc;
+imageSrc=${imageSrc#*content=\"};
+imageSrc=${imageSrc::-3};
+
+echo $imageSrc
+
+techName=$(echo $techName | tr '[:upper:]' '[:lower:]');
+techName+=".png"
+echo $techName
+curl $imageSrc -o $techName
+done

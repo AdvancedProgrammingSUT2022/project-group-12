@@ -56,6 +56,7 @@ public class Test extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("by");
+        ImprovementEnum improvementEnum = ImprovementEnum.CAMP;
         AnchorPane root = new AnchorPane();
         ScrollPane scrollPane = new ScrollPane();
         root.setPrefHeight(397);
