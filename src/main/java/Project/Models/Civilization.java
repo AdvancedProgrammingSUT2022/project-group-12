@@ -508,4 +508,14 @@ public class Civilization {
     public void setGold(int gold) {
         this.gold = gold;
     }
+
+    public boolean hasRequierdTech(List<TechnologyEnum> requiredTechs) {
+        for (TechnologyEnum tech:
+             requiredTechs ) {
+            if(!this.technologies.contains(tech)){
+                return false;
+            }
+        }
+        return true;
+    }
 }

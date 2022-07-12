@@ -330,9 +330,12 @@ public class City {
     }
 
 
+
+
     public double getProductionFromCheat() {
         return productionFromCheat;
     }
+
 
     public void setProductionFromCheat(double productionFromCheat) {
         this.productionFromCheat = productionFromCheat;
@@ -541,4 +544,6 @@ public class City {
     public Location getLocation() {
         return this.cityTile.getLocation();
     }
+
+
 }

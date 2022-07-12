@@ -375,11 +375,24 @@ public class GameController {
         city.addTile(tile);
         tile.setCity(city);
     }
+    public static void cityBuildBuilding(City selectedCity, BuildingEnum building) throws CommandException {
+        Civilization civ = selectedCity.getCivilization();
+        if (civ.calculateCivilizationGold() < building.getCost()) {
+            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+        }
+        if(!civ.hasRequierdTech(building.getRequiredTechs())){
+            throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
+        }
+        civ.addGold(-building.getCost());
+        Tile tile = selectedCity.getTile();
+        Building buildingClass = new Building(building);
+        selectedCity.addBuilding(buildingClass);
+    }
 
 
     public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
         Civilization civ = city.getCivilization();
-        if (civ.getGold() < unitEnum.calculateGoldCost()) {
+        if (civ.calculateCivilizationGold() < unitEnum.calculateGoldCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         civ.addGold(-unitEnum.calculateGoldCost());
@@ -429,4 +442,6 @@ public class GameController {
     public static boolean isEnemyCityExists(Location nextLocation, Civilization civilization) {
         return GameController.getGameTile(nextLocation).getCity() != null && GameController.getGameTile(nextLocation).getCity().getCivilization() != civilization;
     }
+
+
 }

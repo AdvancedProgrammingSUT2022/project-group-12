@@ -2,6 +2,7 @@ package Project.Enums;
 
 import Project.App;
 import Project.Models.Terrains.Terrain;
+import Project.Utils.Constants;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public enum ImprovementEnum {
     }
 
     public int getImprovementBuildRequiredTime(Terrain terrain) {
-        return 10; // todo
+        return Constants.TIME_NEED_TO_BUILD_IMPROVEMENT;
     }
 
 }
