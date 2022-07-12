@@ -1,6 +1,6 @@
 package Project.Enums;
 
-import Project.App;
+import Project.Client.App;
 import Project.Models.Buildings.Building;
 import Project.Models.Buildings.BuildingNotes;
 import Project.Models.Cities.City;

@@ -1,6 +1,6 @@
 package Project.Enums;
 
-import Project.App;
+import Project.Client.App;
 import javafx.scene.image.Image;
 
 public enum ResourceEnum {

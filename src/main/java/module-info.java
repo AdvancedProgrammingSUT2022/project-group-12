@@ -6,9 +6,11 @@ module project {
     requires com.google.gson;
 
 //    opens Project to javafx.fxml;
-    exports Project;
+//    exports Project;
 //    exports Project.Views;
-    opens Project.Views to javafx.fxml;
+    opens Project.Client.Views to javafx.fxml;
+    exports Project.Client;
+    exports Project.Server;
 //    exports Project.Models;
 //    opens Project.Models;
 //    opens Project.Enums;

@@ -1,15 +1,15 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import Project.Controllers.LoginMenuController;
 import Project.Models.Database;
 import Project.Models.User;
+import Project.Server.Controllers.LoginMenuController;
 import Project.Utils.Command;
 import Project.Utils.CommandException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static Project.Utils.CommandResponse.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginMenuTest {
     private String username;

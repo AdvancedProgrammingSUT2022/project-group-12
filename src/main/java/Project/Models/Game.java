@@ -1,7 +1,6 @@
 package Project.Models;
 
-import Project.Controllers.GameController;
-import Project.Controllers.MovingController;
+import Project.Client.Views.GameView;
 import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
@@ -10,11 +9,12 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.NonRangedUnit;
 import Project.Models.Units.Unit;
+import Project.Server.Controllers.GameController;
+import Project.Server.Controllers.MovingController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.GameException;
-import Project.Views.GameView;
 
 import java.util.ArrayList;
 import java.util.Collections;

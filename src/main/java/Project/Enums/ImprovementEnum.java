@@ -1,6 +1,6 @@
 package Project.Enums;
 
-import Project.App;
+import Project.Client.App;
 import Project.Models.Terrains.Terrain;
 import Project.Utils.Constants;
 import javafx.scene.image.Image;

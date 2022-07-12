@@ -1,8 +1,9 @@
 package Project.Models.Tiles;
 
 
-import Project.App;
-import Project.Controllers.GameController;
+import Project.Client.App;
+import Project.Client.Views.Menu;
+import Project.Client.Views.MenuStack;
 import Project.Enums.ResourceEnum;
 import Project.Enums.UnitStates;
 import Project.Enums.VisibilityEnum;
@@ -10,12 +11,11 @@ import Project.Models.Cities.City;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
-import Project.ServerViews.RequestHandler;
+import Project.Server.Controllers.GameController;
+import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.Observer;
-import Project.Views.Menu;
-import Project.Views.MenuStack;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;

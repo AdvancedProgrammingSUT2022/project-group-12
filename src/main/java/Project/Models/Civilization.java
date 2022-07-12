@@ -1,13 +1,13 @@
 package Project.Models;
 
-import Project.Controllers.CivilizationController;
-import Project.Controllers.GameController;
 import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Server.Controllers.CivilizationController;
+import Project.Server.Controllers.GameController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
