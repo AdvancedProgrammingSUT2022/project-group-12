@@ -7,7 +7,6 @@ import Project.Enums.ResourceEnum;
 import Project.Enums.UnitStates;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
-import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
@@ -40,20 +39,16 @@ public class Hex implements Observer<Tile> {
     private final double verticalSpacing;
     private final double horizontalSpacing;
     private final double beginningOfLine;
-    private final String url;
-    private final Location tileLocation;
     private final Group group;
     private final Text positionText;
     private final ImageView cityImageView;
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
     private final ImageView resourceImageView;
 
-    public Hex(Tile tile, int j, int i, String url) {
+    public Hex(Tile tile, int i, int j) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
-        this.tileLocation = tile.getLocation();
         this.i = i;
         this.j = j;
-        this.url = url;
         this.group = new Group();
         this.multiply = multiply;
         this.verticalSpacing = j * 10 * multiply + 5;
@@ -92,7 +87,7 @@ public class Hex implements Observer<Tile> {
         setSelectScaleEffect(this.cityImageView);
         this.resourceImageView = new ImageView();
         this.resourceImageView.setLayoutX(this.getCenterX() - resourceImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
-        this.resourceImageView.setLayoutY(this.getCenterY()/* - this.multiply * 3*/);
+        this.resourceImageView.setLayoutY(this.getCenterY());
         this.group.setEffect(this.groupColorAdjust);
     }
 
@@ -106,10 +101,6 @@ public class Hex implements Observer<Tile> {
             node.setScaleX(1);
             node.setScaleY(1);
         });
-    }
-
-    public Polygon getPolygon() {
-        return polygon;
     }
 
     public Group getGroup() {
@@ -126,34 +117,6 @@ public class Hex implements Observer<Tile> {
 
     public double getMultiply() {
         return multiply;
-    }
-
-    public double getWidth() {
-        return w;
-    }
-
-    public double getHeight() {
-        return h;
-    }
-
-    public double getVerticalSpacing() {
-        return verticalSpacing;
-    }
-
-    public double getHorizontalSpacing() {
-        return horizontalSpacing;
-    }
-
-    public double getBeginningOfLine() {
-        return beginningOfLine;
-    }
-
-    public int getRow() {
-        return i;
-    }
-
-    public int getColumn() {
-        return j;
     }
 
     public double getCenterX() {

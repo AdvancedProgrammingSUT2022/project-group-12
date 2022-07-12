@@ -46,7 +46,7 @@ public class Tile implements Notifier<Tile> {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.hex = new Hex(this, tileLocation.getCol(), tileLocation.getRow(), terrain.getTerrainType().getTerrainImageURL());
+        this.hex = new Hex(this, tileLocation.getRow(), tileLocation.getCol());
     }
 
     @Override
