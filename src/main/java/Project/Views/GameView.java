@@ -10,8 +10,8 @@ import Project.ServerViews.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.control.Menu;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 public class GameView implements ViewController {
@@ -38,6 +38,8 @@ public class GameView implements ViewController {
     }
 
     public void initialize() {
+        String command = "map show";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         GameController.getGame().setPage(this);
         instance = this;
         //todo : initialize

@@ -34,6 +34,10 @@ public abstract class Menu {
     }
 
     public CommandResponse runCommand(String line) {
+        if (isFirstRun) {
+            this.isFirstRun = false;
+            this.firstRun();
+        }
         try {
             Command command = Command.parseCommand(line);
             handleCommand(command);

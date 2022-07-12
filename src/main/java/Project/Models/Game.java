@@ -48,11 +48,14 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
-            if (users.size() == 1)
+            if (users.size() == 1) {
                 settlerTile = this.getTileGrid().getTile(new Location(3, 1));
-            else
+                if (settlerTile.getTerrain().getTerrainType() == TerrainEnum.MOUNTAIN) {
+                    throw new RuntimeException("settler was on MOUNTAIN!, restart the game...");
+                }
+            } else {
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
-
+            }
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
 
@@ -149,9 +152,9 @@ public class Game {
     }
 
     public Civilization getCurrentCivilization() {
-        if (civilizations.size() == 1)
-            return civilizations.get(0);
-        return civilizations.get(this.gameTurn % civilizations.size() + 1);
+//        if (civilizations.size() == 1)
+//            return civilizations.get(0);
+        return civilizations.get(this.gameTurn % civilizations.size()/* + 1*/);
     }
 
     public void startNewTurn() throws GameException {
