@@ -45,6 +45,7 @@ public enum FeatureEnum {
         this.abbreviation = abbreviation;
         this.possibleResources = possibleResources;
         this.assetUrl = assetUrl;
+
     }
 
     public Image getImage() {
