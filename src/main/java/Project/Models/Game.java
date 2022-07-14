@@ -76,6 +76,16 @@ public class Game {
             civ.getResearchingTechnologies().put(TechnologyEnum.ANIMAL_HUSBANDRY,TechnologyEnum.ANIMAL_HUSBANDRY.getCost());
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
+
+        int ruinCount = (int) (tileGrid.getHeight() * tileGrid.getWidth() * Constants.RUIN_PROBABILITY);
+        for (int i = 0; i < ruinCount && !availableTiles.isEmpty(); i++) {
+            Tile ruinTile = availableTiles.get(availableTiles.size() - 1);
+            for (Tile tile : this.tileGrid.getAllTilesInRadius(ruinTile, Constants.RUIN_DISTANCE)) {
+                availableTiles.remove(tile);
+            }
+            ruinTile.setRuin(true);
+            System.out.println("ruin at " + ruinTile.getLocation());
+        }
     }
 
     public ArrayList<User> getUsers() {

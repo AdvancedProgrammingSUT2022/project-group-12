@@ -32,6 +32,7 @@ import javafx.scene.text.Text;
 public class Hex implements Observer<Tile> {
 
     private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
+    private static final Image ruinImage = new Image(App.getResourcePath("/images/resources/City ruins.png"));
     private final Polygon polygon;
     private final double multiply;
     private final int i;
@@ -46,6 +47,7 @@ public class Hex implements Observer<Tile> {
     private final ImageView cityImageView;
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
     private final ImageView resourceImageView;
+    private final ImageView ruinImageView;
 
     public Hex(Tile tile, int i, int j) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -86,6 +88,9 @@ public class Hex implements Observer<Tile> {
         this.cityImageView = new ImageView(cityImage);
         this.cityImageView.setLayoutX(this.getCenterX() - cityImageView.getBoundsInLocal().getWidth() / 2);
         this.cityImageView.setLayoutY(this.getCenterY() - this.multiply * 3);
+        this.ruinImageView = new ImageView(ruinImage);
+        this.ruinImageView.setLayoutX(this.getCenterX() - ruinImageView.getBoundsInLocal().getWidth() / 2);
+        this.ruinImageView.setLayoutY(this.getCenterY() - this.multiply * 3);
         setSelectScaleEffect(this.cityImageView);
         this.resourceImageView = new ImageView();
         this.resourceImageView.setLayoutX(this.getCenterX() - resourceImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
@@ -165,10 +170,16 @@ public class Hex implements Observer<Tile> {
         if (tile.getCity() != null) this.addCityToGroup(city);
         if (nonCombatUnit != null) this.addUnitToGroup(nonCombatUnit);
         if (combatUnit != null) this.addUnitToGroup(combatUnit);
+        if (tile.isARuin()) this.addRuinToGroup();
         this.group.getChildren().add(this.positionText);
     }
 
+    private void addRuinToGroup() {
+        this.group.getChildren().add(this.ruinImageView);
+    }
+
     private void addResourceToGroup(ResourceEnum resource) {
+        this.cityImageView.setImage(ruinImage);
         this.resourceImageView.setImage(resource.getImage());
         this.group.getChildren().add(this.resourceImageView);
     }

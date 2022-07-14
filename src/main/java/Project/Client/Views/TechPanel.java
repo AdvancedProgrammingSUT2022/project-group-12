@@ -94,7 +94,7 @@ public class TechPanel implements ViewController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 vBox.getChildren().get(1).setEffect(new DropShadow());
-                System.out.println(vBox.getHeight());
+//                System.out.println(vBox.getHeight());
                 vBox.setScaleX(1.2);
                 vBox.setScaleY(1.2);
                 for (TechnologyEnum tech:
