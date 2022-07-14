@@ -1,6 +1,5 @@
 package Project.Models.Cities;
 
-import Project.Controllers.CheatCodeController;
 import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Citizen;
@@ -9,6 +8,7 @@ import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
+import Project.Server.Controllers.CheatCodeController;
 import Project.Utils.CommandException;
 import Project.Utils.Constants;
 

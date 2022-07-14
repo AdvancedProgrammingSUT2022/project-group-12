@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Text?>
 <Pane fx:id="pane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css"
       xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Project.Views.CheatSheetView">
+      fx:controller="Project.Client.Views.CheatSheetView">
     <VBox prefHeight="375.0" prefWidth="600.0">
 
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="372">

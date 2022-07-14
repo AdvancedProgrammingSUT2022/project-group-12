@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/styles.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
-            fx:controller="Project.Views.ChatView">
+            fx:controller="Project.Client.Views.ChatView">
     <TextField fx:id="messageTextField" layoutX="66.0" layoutY="342.0" prefHeight="51.0" prefWidth="456.0"
                promptText="Message" styleClass="chatBox"/>
     <Button layoutX="526.0" layoutY="370.0" mnemonicParsing="false" onMouseClicked="#sendNewMessage" prefHeight="24.0"

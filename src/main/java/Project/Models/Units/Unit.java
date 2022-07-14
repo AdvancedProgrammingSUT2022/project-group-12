@@ -1,6 +1,7 @@
 package Project.Models.Units;
 
-import Project.Controllers.GameController;
+import Project.Client.Views.Menu;
+import Project.Client.Views.MenuStack;
 import Project.Enums.CombatTypeEnum;
 import Project.Enums.FeatureEnum;
 import Project.Enums.UnitEnum;
@@ -11,9 +12,8 @@ import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
+import Project.Server.Controllers.GameController;
 import Project.Utils.Constants;
-import Project.Views.Menu;
-import Project.Views.MenuStack;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;

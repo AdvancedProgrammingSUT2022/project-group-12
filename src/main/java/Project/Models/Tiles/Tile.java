@@ -16,7 +16,6 @@ import Project.Utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Tile implements Notifier<Tile> {
     private final Hex hex;
@@ -38,7 +37,7 @@ public class Tile implements Notifier<Tile> {
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
-        this.isRuin = new Random().nextInt(99999) % 7 == 0;
+        this.isRuin = false;
         this.terrain = terrain;
         this.combatUnit = null;
         this.nonCombatUnit = null;
@@ -262,6 +261,7 @@ public class Tile implements Notifier<Tile> {
 
     public void copyPropertiesFrom(Tile that) {
         this.terrain = that.terrain;
+        this.isRuin = that.isRuin;
         this.combatUnit = that.combatUnit;
         this.nonCombatUnit = that.nonCombatUnit;
         this.isDamaged = that.isDamaged;
@@ -280,5 +280,9 @@ public class Tile implements Notifier<Tile> {
         ResourceEnum resource = this.getTerrain().getResource();
         if (resource == null || this.isResourceAchievedBy(resource, civ)) return null;
         else return resource;
+    }
+
+    public void setRuin(boolean ruin) {
+        isRuin = ruin;
     }
 }

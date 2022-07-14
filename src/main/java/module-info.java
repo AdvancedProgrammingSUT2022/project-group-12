@@ -5,14 +5,16 @@ module project {
     requires javafx.controls;
     requires com.google.gson;
 
-    opens Project to javafx.fxml;
-    exports Project;
-    exports Project.Views;
-    opens Project.Views to javafx.fxml;
-    exports Project.Models;
-    opens Project.Models;
-    opens Project.Enums;
-    exports Project.Enums;
-    exports Project.Utils;
-    opens Project.Utils to javafx.fxml;
+//    opens Project to javafx.fxml;
+//    exports Project;
+//    exports Project.Views;
+    opens Project.Client.Views to javafx.fxml;
+    exports Project.Client;
+    exports Project.Server;
+//    exports Project.Models;
+//    opens Project.Models;
+//    opens Project.Enums;
+//    exports Project.Enums;
+//    exports Project.Utils;
+//    opens Project.Utils to javafx.fxml;
 }

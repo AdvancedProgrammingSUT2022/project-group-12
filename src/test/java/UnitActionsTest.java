@@ -1,4 +1,3 @@
-import Project.Controllers.GameController;
 import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Civilization;
@@ -11,7 +10,8 @@ import Project.Models.Units.NonRangedUnit;
 import Project.Models.Units.RangedUnit;
 import Project.Models.Units.Unit;
 import Project.Models.User;
-import Project.ServerViews.MenuStack;
+import Project.Server.Controllers.GameController;
+import Project.Server.Views.MenuStack;
 import Project.Utils.Constants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

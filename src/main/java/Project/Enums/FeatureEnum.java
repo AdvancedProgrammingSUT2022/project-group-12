@@ -1,6 +1,6 @@
 package Project.Enums;
 
-import Project.App;
+import Project.Client.App;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -45,6 +45,7 @@ public enum FeatureEnum {
         this.abbreviation = abbreviation;
         this.possibleResources = possibleResources;
         this.assetUrl = assetUrl;
+
     }
 
     public Image getImage() {

@@ -8,6 +8,8 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Server.Controllers.CivilizationController;
+import Project.Server.Controllers.GameController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
@@ -336,7 +338,6 @@ public class Civilization {
     public void endWarWith(Civilization civilization) {
         this.isInWarWith.remove(civilization);
     }
-
 
     public int getHappiness() {
         return this.happiness;
