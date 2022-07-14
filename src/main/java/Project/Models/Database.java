@@ -86,6 +86,9 @@ public class Database {
     public void deserializeUsers() {
         ArrayList<User> copiedUsers = new ArrayList<>();
         try {
+            File file = new File(Game.class.getResource("/database/users.xml").toExternalForm());
+            if (!file.exists())
+                return;
             String filePath = new String(Files.readAllBytes(Paths.get(Game.class.getResource("/database/users.xml").toExternalForm())));
             XStream xStream = new XStream();
             xStream.addPermission(AnyTypePermission.ANY);
