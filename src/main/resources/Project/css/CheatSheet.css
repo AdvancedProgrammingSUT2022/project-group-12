@@ -1,3 +1,18 @@
+.root {
+    -fx-background-image: url("../../images/background/civBackground.jpg");
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-size: cover;
+}
+
+.transparent {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+
+}
+
 .Button{
 }
 

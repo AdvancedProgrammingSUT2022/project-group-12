@@ -1,5 +1,7 @@
 package Project.Client.Views;
 
+import Project.Enums.UnitStates;
+import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 
 public class UnitPanelView implements ViewController {
 
+    public Button pillageBtn;
     @FXML
     private Button attackUnitBtn;
     @FXML
@@ -59,6 +62,7 @@ public class UnitPanelView implements ViewController {
 
     public void initialize() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        sendSelectUnitRequest(unit);
         initializeSpinners();
         name.setText(unit.getType().name());
         unitType.setText(unit.getType().name());
@@ -83,10 +87,21 @@ public class UnitPanelView implements ViewController {
     private void initButtonBox() {
         Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         if (selectedUnit.getType().name().equals("SETTLER")) {
+            buttonBox.getChildren().add(initClearLandButton());
             cityName = new TextField("Name");
             createCreateCityButton();
             buttonBox.getChildren().add(createCityBtn);
         }
+    }
+
+    private Button initClearLandButton() {
+        Button button = new Button("clear land");
+        button.setOnAction(actionEvent -> {
+            Tile tile = unit.getTile();
+            tile.clearLand();
+            back();
+        });
+        return button;
     }
 
     private void createCreateCityButton() {
@@ -95,7 +110,7 @@ public class UnitPanelView implements ViewController {
         createCityBtn.setOnAction(actionEvent -> {
             if (cityName.getText().isEmpty())
                 return;
-            sendSelectUnitRequest(unit);
+
             String command = "unit found city";
             CommandResponse response = RequestHandler.getInstance().handle(command);
             back();
@@ -143,7 +158,7 @@ public class UnitPanelView implements ViewController {
 //        }
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
-        sendSelectUnitRequest(unit);
+
         String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (response.isOK()) back();
@@ -157,7 +172,7 @@ public class UnitPanelView implements ViewController {
 
     public void sleep() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        sendSelectUnitRequest(unit);
+
         String command = "unit sleep";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("SLEEP");
@@ -165,7 +180,7 @@ public class UnitPanelView implements ViewController {
 
     public void alert() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        sendSelectUnitRequest(unit);
+
         String command = "unit alert";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("ALERT");
@@ -173,7 +188,7 @@ public class UnitPanelView implements ViewController {
 
     public void fortify() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        sendSelectUnitRequest(unit);
+
         String command = "unit fortify";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("FORTIFY");
@@ -181,7 +196,7 @@ public class UnitPanelView implements ViewController {
 
     public void awake() {
         unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        sendSelectUnitRequest(unit);
+
         String command = "unit wake";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("AWAKE");
@@ -198,7 +213,7 @@ public class UnitPanelView implements ViewController {
     public void attackUnit(ActionEvent actionEvent) {
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
-        sendSelectUnitRequest(unit);
+
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
@@ -229,9 +244,13 @@ public class UnitPanelView implements ViewController {
 
     public void delete() {
         Unit myUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        sendSelectUnitRequest(unit);
+
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         back();
+    }
+
+    public void pillage() {
+        unit.setState(UnitStates.PILLAGE);
     }
 }

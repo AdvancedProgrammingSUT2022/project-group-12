@@ -1,29 +1,22 @@
 package Project.Client.Views;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 
 public class AlertController implements ViewController {
 
     @FXML
-    DialogPane alertWindow;
+    private ButtonType okayBTN;
     @FXML
-    Button okButton;
+    private DialogPane alertWindow;
+    @FXML
+    private Button okButton;
 
-     public void initialize(){
-         okButton.setOnAction(new EventHandler<ActionEvent>() {
-             @Override
-             public void handle(ActionEvent actionEvent) {
+    public void initialize() {
+        okButton.setOnAction(actionEvent -> {
 
-             }
-         });
-
-
-
-
-
-     }
+        });
+    }
 }
