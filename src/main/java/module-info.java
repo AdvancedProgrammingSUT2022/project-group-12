@@ -4,6 +4,7 @@ module project {
     requires javafx.graphics;
     requires javafx.controls;
     requires com.google.gson;
+    requires xstream;
 
 //    opens Project to javafx.fxml;
 //    exports Project;
