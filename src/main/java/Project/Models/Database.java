@@ -80,7 +80,7 @@ public class Database {
     }
 
     public void deserialize() {
-        deserializeUsers();
+//        deserializeUsers();
     }
 
     public void deserializeUsers() {
@@ -109,7 +109,7 @@ public class Database {
         }
     }
 
-    public void serialize() {
+    private void serializeUsers() {
         try {
             FileWriter writer;
             if (!Files.exists(Paths.get(Game.class.getResource("/database/users.xml").toExternalForm())))
@@ -121,6 +121,10 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void serialize() {
+//        serializeUsers();
     }
 
     public void saveGame() {
