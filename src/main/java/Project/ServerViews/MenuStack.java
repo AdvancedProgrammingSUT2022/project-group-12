@@ -2,9 +2,11 @@ package Project.ServerViews;
 
 import Project.Models.User;
 import Project.Utils.CommandResponse;
+import Project.Views.WinCityDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class MenuStack {
@@ -92,14 +94,19 @@ public class MenuStack {
         this.pushMenu(this.profileMenu);
     }
 
-    public String getOption(String firstMessage) {
-        System.out.println(firstMessage);
-        return this.scanner.nextLine();
+    public String getOptionForAttack(String message) {
+        System.out.println();
+        WinCityDialog dialog = new WinCityDialog(message);
+        Optional<String> answer = dialog.showAndWait();
+        return answer.get();
     }
-
-    public String getOption() {
-        return this.scanner.nextLine();
+    public String getOptionForAttack() {
+        System.out.println();
+        WinCityDialog dialog = new WinCityDialog();
+        Optional<String> answer = dialog.showAndWait();
+        return answer.get();
     }
+    
 
     public HashMap<String, String> getResponseParameters() {
         return responseParameters;

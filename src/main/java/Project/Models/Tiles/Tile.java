@@ -167,6 +167,7 @@ public class Tile implements Notifier<Tile> {
         unit.setLocation(that.getLocation());
     }
 
+
     public double calculateMovementCost() {
         double cost = terrain.getMovementCost();
         if (this.improvements.contains(ImprovementEnum.ROADS)) {

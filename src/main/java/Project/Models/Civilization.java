@@ -30,7 +30,7 @@ public class Civilization {
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> isInWarWith;
     private final ArrayList<Civilization> isInEconomicRelation;
-    private final HappinessTypeEnum happinessType;
+    private HappinessTypeEnum happinessType;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
     private Tile selectedTile;
@@ -61,7 +61,7 @@ public class Civilization {
         this.cities = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.researchingTechnologies = new HashMap<>();
-        this.happinessType = this.updateHappinessState(this.happiness);
+        this.updateHappinessState(this.happiness);
         this.isInEconomicRelation = new ArrayList<>();
         this.happinessFromCheat = 0;
         this.goldFromCheat = 0;
@@ -96,14 +96,14 @@ public class Civilization {
         this.selectedCity = city;
     }
 
-    public HappinessTypeEnum updateHappinessState(double happiness) {
+    public void updateHappinessState(double happiness) {
         if (happiness > 0) {
-            return HappinessTypeEnum.HAPPY;
+            this.happinessType = HappinessTypeEnum.HAPPY;
+        } else if (happiness > -10) {
+            this.happinessType = HappinessTypeEnum.UNHAPPY;
+        } else {
+            this.happinessType = HappinessTypeEnum.VERY_UNHAPPY;
         }
-        if (happiness > -10) {
-            return HappinessTypeEnum.UNHAPPY;
-        }
-        return HappinessTypeEnum.VERY_UNHAPPY;
     }
 
     public void advanceResearchTech() {
@@ -170,18 +170,14 @@ public class Civilization {
     public int calculateScience() {
         int beaker = Constants.DEFUALT_BEAKER_PER_TURN;
         beaker += beakerFromBuildings;
-        System.out.println("beaker = " + beaker);;
         beaker += cheatBeaker;
-        System.out.println("cheatBeaker = " + cheatBeaker);
         for (City city : this.getCities()) {
             beaker += city.getCitizensCount();
         }
         beaker *= beakerRatioFromBuildings;
-        System.out.println("beakerRatioFromBuildings = " + beakerRatioFromBuildings);
         if (calculateCivilizationGold() < 0) {
             beaker -= Math.abs(this.calculateCivilizationGold());
         }
-        System.out.println("beaker = " + beaker);
         return beaker;
     }
 
@@ -340,6 +336,7 @@ public class Civilization {
     public void endWarWith(Civilization civilization) {
         this.isInWarWith.remove(civilization);
     }
+
 
     public int getHappiness() {
         return this.happiness;

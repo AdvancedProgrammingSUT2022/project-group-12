@@ -30,7 +30,7 @@ public abstract class Unit extends Production {
     protected double availableMoveCount;
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;
-    protected ArrayList<Tile> pathShouldCross;
+    protected ArrayList<Tile> pathShouldCross = new ArrayList<>();
     protected UnitStates state;
     protected Group graphicUnit;
 

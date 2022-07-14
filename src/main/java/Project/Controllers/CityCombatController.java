@@ -77,7 +77,7 @@ public class CityCombatController extends CombatController {
 
     // todo: integrate with view
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-          String message = MenuStack.getInstance().getOption("enter your capture type : Annexed / Destroy");
+          String message = MenuStack.getInstance().getOptionForAttack();
         GetMessageLoop:
         while (true) {
             switch (message) {
@@ -88,8 +88,7 @@ public class CityCombatController extends CombatController {
                 }
                 case "Destroy" -> {
                     if (city.isCapital()) {
-                        MenuStack.getInstance().getOption("you can't destroy capital");
-                        message = MenuStack.getInstance().getOption();
+                        message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
                         continue GetMessageLoop;
                     }
                     destroyCity(city, cityTile, civ);
@@ -97,7 +96,7 @@ public class CityCombatController extends CombatController {
                 }
                 default -> {
                     GameMenu.printError(CommandResponse.INVALID_COMMAND);
-                    message = MenuStack.getInstance().getOption();
+                    message = MenuStack.getInstance().getOptionForAttack();
                 }
             }
         }

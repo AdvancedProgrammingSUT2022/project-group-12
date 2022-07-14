@@ -196,8 +196,8 @@ public class UnitPanelView implements ViewController {
     }
 
     public void attackUnit(ActionEvent actionEvent) {
-        int locationX = xSpinner.getValue();
-        int locationY = ySpinner.getValue();
+        int locationX = xAttackSpinner.getValue();
+        int locationY = yAttackSpinner.getValue();
         sendSelectUnitRequest(unit);
         String command;
         command = "unit attack -p " + locationX + " " + locationY;

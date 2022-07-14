@@ -15,38 +15,40 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Test extends Application {
     CombatUnit unit;
@@ -59,11 +61,19 @@ public class Test extends Application {
         ImprovementEnum improvementEnum = ImprovementEnum.CAMP;
         AnchorPane root = new AnchorPane();
         ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefWidth(100);
         root.setPrefHeight(397);
         root.setPrefWidth(599);
-        scene = new Scene(addRoot("test"));
+     //   Dialog<String> dialog = new myDialog();
+     //   Optional<String> s = dialog.showAndWait();
+     //   System.out.println(s.get());
+        scrollPane.setContent(root);
+        Button button = new Button();
+        scene = new Scene(scrollPane);
         stage.setScene(scene);
         stage.show();
+        System.out.println(scrollPane.getVmax());
+        scrollPane.setVvalue(50);
     }
 
 
@@ -127,4 +137,8 @@ public class Test extends Application {
 //        this.mainGroup.getChildren().add(group);
 //    }
 }
+
+
+
+
 

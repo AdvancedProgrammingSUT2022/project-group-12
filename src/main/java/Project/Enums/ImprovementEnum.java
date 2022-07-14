@@ -129,9 +129,7 @@ public enum ImprovementEnum {
         this.requiredTechs = requiredTechs;
         this.canBeBuiltOn = canBeBuiltOn;
         this.features = features;
-        System.out.println("/images/improvements/" + this.name().toLowerCase() + ".png");
         this.improvementImage = new Image(App.class.getResource("/images/improvements/" + this.name().toLowerCase() + ".png").toExternalForm());
-        System.out.println("/images/improvements/" + this.name().toLowerCase() + ".png");
     }
 
     public Image getImage() {

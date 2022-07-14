@@ -171,14 +171,11 @@ public class City {
         this.localHappiness = 10;
         this.localHappiness += this.happinessFromBuildings;
         //  affect unhappiness
-        System.out.println("localHappiness after happiness from building = " + localHappiness);
         if (cityState == CityTypeEnum.ANNEXED) {
             this.localHappiness -= (citizensCount + citizensCount / 3);
             if (!haveCourtHouse()) this.localHappiness -= 5;
         } else {
             this.localHappiness -= citizensCount;
-            System.out.println("citizensCount = " + citizensCount);
-            System.out.println("localHappiness after  = " + localHappiness);
             this.localHappiness -= 3;
         }
 
@@ -194,7 +191,7 @@ public class City {
         return false;
     }
 
-    private double calculateProduction() throws CommandException {
+    public double calculateProduction() {
         this.production = 1;
         this.production += this.productionFromBuildings;
         this.production += getSourcesFromTiles("production");
@@ -272,23 +269,24 @@ public class City {
     }
 
     public int calculateFood() {
-        int food = this.getFoodFromBuildings() + 2;
-        food += this.foodFromCheat;
-        food += (int) getSourcesFromTiles("food");
-        food += (int) getFromResource("food");
-        food -= this.citizensCount * 2;
+        double food = this.getFoodFromBuildings() + 2;
+        food += (double) this.foodFromCheat;
+        food += getSourcesFromTiles("food");
+        food += getFromResource("food");
+        food -= (double) this.citizensCount * 2;
 
         if (food > 0) {
             food *= checkForHappinessState();
         }
-        return food;
+        return (int) food;
     }
 
     public int numberOfUnassignedCitizens() {
         return citizensCount - this.getCitizens().size();
     }
 
-    private int checkForHappinessState() {
+    private double checkForHappinessState() {
+        this.civilization.updateHappinessState(this.civilization.calculateHappiness());
         if (this.civilization.getHappinessType() != HappinessTypeEnum.HAPPY) {
             return 2 / 3;
         }

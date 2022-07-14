@@ -164,9 +164,8 @@ public class GameMenu extends Menu {
         try {
             command.abbreviate("name", 'n');
             String buildingName = command.getOption("name").toUpperCase();
-            //print
-            System.out.println("selectedCity + building creation = " + selectedCity);
             CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
+            System.out.println("selectedCity : "  + selectedCity.getName() + " Building : " + buildingName.toLowerCase() + " added successfully");
         } catch (CommandException e) {
             answer(e);
         }
@@ -302,7 +301,7 @@ public class GameMenu extends Menu {
         answer("city healed successfully !");
     }
     private void cheatHealUnit(Command command) {
-        if(selectedCity == null){
+        if(selectedUnit == null){
             answer(CommandResponse.UNIT_NOT_SELECTED);
             return;
         }
@@ -842,13 +841,7 @@ public class GameMenu extends Menu {
             command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            String combatType;
-            if ((combatType = command.getSubSubCategory()).equals("noncombat") || combatType.equals("combat")) {
-                CombatController.AttackCity(this.selectedCity, location);
-            } else {
-                answer(CommandResponse.INVALID_SUBSUBCOMMAND);
-                return;
-            }
+            CombatController.AttackCity(this.selectedCity, location);
             answer("city attack successful");
         } catch (CommandException e) {
             answer(e);

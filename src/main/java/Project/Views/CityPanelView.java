@@ -18,6 +18,12 @@ import javafx.scene.text.Text;
 
 public class CityPanelView implements ViewController {
     @FXML
+    private Spinner attackXSpinner;
+    @FXML
+    private Spinner attackYSpinner;
+    @FXML
+    private Button attackBtn;
+    @FXML
     private Button UnAssignCitizen;
     @FXML
     private Label NumberOfUnassignedCitizens;
@@ -76,9 +82,9 @@ public class CityPanelView implements ViewController {
     public void initialize() {
         city = GameController.getGame().getCurrentCivilization().getSelectedCity();
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
-        this.gold.setText(String.valueOf(city.getGold()));
-        this.food.setText(String.valueOf(city.getFood()));
-        this.production.setText(String.valueOf(city.getProduction()));
+        this.gold.setText(String.valueOf(city.calculateGold()));
+        this.food.setText(String.valueOf(city.calculateFood()));
+        this.production.setText(String.valueOf(String.format("%.2f",city.calculateProduction())));
         this.cityName.setText(city.getName());
         this.isCapital.setText(String.valueOf(city.isCapital()));
         this.NumberOfUnassignedCitizens.setText("Number of unassigned citizens : " + city.numberOfUnassignedCitizens());
@@ -88,11 +94,12 @@ public class CityPanelView implements ViewController {
         initProductMenu();
         initializeBuildingMenu();
         initializeUnitMenu();
+        initAttackSpinner();
     }
 
     private void initAssignCitizenSpinner() {
-        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,Constants.TILEGRID_WIDTH);
-        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,Constants.TILEGRID_HEIGHT);
+        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_WIDTH - 1);
+        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_HEIGHT - 1);
         assignCitizenXSpinner.setValueFactory(xSpinnerValueFactory);
         assignCitizenYSpinner.setValueFactory(ySpinnerValueFactory);
         if(city.numberOfUnassignedCitizens() == 0){
@@ -100,6 +107,13 @@ public class CityPanelView implements ViewController {
         } else {
             this.assignBtn.setDisable(false);
         }
+    }
+    private void initAttackSpinner() {
+        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_WIDTH - 1);
+        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_HEIGHT - 1);
+        attackXSpinner.setValueFactory(xSpinnerValueFactory);
+        attackYSpinner.setValueFactory(ySpinnerValueFactory);
+
     }
 
 
@@ -133,10 +147,10 @@ public class CityPanelView implements ViewController {
     }
 
     private void initBuyTileSpinner() {
-        locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_WIDTH);
+        locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
         locationXValueFactory.setValue(locationX);
         buyTileLocationXSpinner.setValueFactory(locationXValueFactory);
-        buyTileLocationXSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
+        buyTileLocationXSpinner.valueProperty().addListener((observableValue, integer, t0) -> {
             locationX = buyTileLocationXSpinner.getValue();
             // todo : check if another civ owns tile
             //if ()
@@ -145,7 +159,7 @@ public class CityPanelView implements ViewController {
             //    buyTileBtn.setDisable(false);
         });
 
-        locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Constants.TILEGRID_HEIGHT);
+        locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
         locationYValueFactory.setValue(locationY);
         buyTileLocationYSpinner.setValueFactory(locationYValueFactory);
         buyTileLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -283,6 +297,15 @@ public class CityPanelView implements ViewController {
         }
         String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        back();
+    }
+
+    public void attackBtnAction(ActionEvent actionEvent) {
+
+        int locationX = (int) attackXSpinner.getValue();
+        int locationY = (int) attackYSpinner.getValue();
+        String command = "city attack -p " + locationX + " " + locationY;
+        CommandResponse response = Project.ServerViews.MenuStack.getInstance().getTopMenu().runCommand(command);
         back();
     }
 }

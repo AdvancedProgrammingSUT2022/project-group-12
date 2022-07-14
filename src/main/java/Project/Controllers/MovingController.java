@@ -39,7 +39,10 @@ public class MovingController {
             Location nextLocation = unit.getPathShouldCross().get(0).getLocation();
             calculateMovementCost(unit, nextLocation);
             if (unit.getAvailableMoveCount() < 0) assertLastMove(nextLocation, unit);
-            if (unit.getPathShouldCross().size() == 1 && checkForEnemy(nextLocation, unit)) break;
+            if (unit.getPathShouldCross().size() == 1 && checkForEnemyExists(nextLocation, unit)){
+                stopMovingAndGetReadyForAttack(nextLocation, unit);
+                break;
+            }
             tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(nextLocation));
             GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
             unit.getCivilization().setCurrentSelectedGridLocation(nextLocation);
@@ -47,23 +50,32 @@ public class MovingController {
         }
     }
 
-    private static boolean checkForEnemy(Location nextLocation, Unit unit) {
+    private static boolean checkForEnemyExists(Location nextLocation, Unit unit) {
         Tile currentTile = GameController.getGameTile(nextLocation);
-        if(GameController.isEnemyCityExists(nextLocation,unit.getCivilization())){
-            unit.setAvailableMoveCount(0);
-            unit.setPathShouldCross(null);
+        if (GameController.isEnemyCityExists(nextLocation, unit.getCivilization()) || GameController.isEnemyExists(nextLocation, unit.getCivilization())
+                || GameController.isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
             return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static void stopMovingAndGetReadyForAttack(Location nextLocation, Unit unit) {
+        if(GameController.isEnemyCityExists(nextLocation, unit.getCivilization())){
+            unit.setAvailableMoveCount(1);
+            unit.setPathShouldCross(null);
+            return;
         }
         if (GameController.isEnemyExists(nextLocation, unit.getCivilization())) {
-            unit.setAvailableMoveCount(0);
+            unit.setAvailableMoveCount(1);
             unit.setPathShouldCross(null);
-            return true;
+            return;
         }
         if (GameController.isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
             CaptureTheNonCombatUnit(GameController.getGameTile(nextLocation), unit.getCivilization());
-            return false;
+            return;
         }
-        return false;
+        return;
     }
 
     // todo: refactor

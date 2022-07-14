@@ -1,13 +1,12 @@
 package Project.Controllers;
 
 import Project.Enums.CombatTypeEnum;
+import Project.Enums.UnitEnum;
 import Project.Enums.UnitStates;
+import Project.Models.Civilization;
 import Project.Models.Game;
 import Project.Models.Tiles.Tile;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.NonRangedUnit;
-import Project.Models.Units.RangedUnit;
-import Project.Models.Units.Unit;
+import Project.Models.Units.*;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 
@@ -38,23 +37,46 @@ public class UnitCombatController extends CombatController {
 
     private static String checkForKill(CombatUnit combatUnit, Unit unitEnemy, Tile combatUnitTile, Tile unitEnemyTile) {
         boolean isHaveKill = false;
+        StringBuilder message = new StringBuilder("");
         if (combatUnit.getHealth() <= 0) {
             isHaveKill = true;
+            message.append(" our unit was killed ");
             GameController.deleteUnit(combatUnitTile.getCombatUnit());
             combatUnit = null;
         }
 
         if (unitEnemy.getHealth() <= 0) {
             isHaveKill = true;
+            message.append(" enemy unit was killed");
             GameController.deleteUnit(unitEnemy);
             if (combatUnit instanceof NonRangedUnit) {
                 combatUnitTile.transferUnitTo(combatUnit, unitEnemyTile);
-            }
-        }
-        if (isHaveKill) return "Unit was killed";
-        return "both are damaged and attack happened successfully";
-    }
+                if(unitEnemyTile.getNonCombatUnit() != null){
+                    captureTheNonCombatUnitOrKillIt(unitEnemyTile,combatUnit.getCivilization());
+                    message.append(" noncombat unit captured or killed");
+                }
+            }    // todo: refactor
 
+        }
+        if (isHaveKill) return String.valueOf(message);
+        message.append(" both damaged and attack was successfully");
+        return String.valueOf(message);
+    }
+    private static void captureTheNonCombatUnitOrKillIt(Tile tile, Civilization civ) {
+        NonCombatUnit capturedUnit = tile.getNonCombatUnit();
+        if (capturedUnit.getType() == UnitEnum.WORKER || capturedUnit.getType() == UnitEnum.SETTLER) {
+            /*
+             non combat unit has captured
+             */
+            capturedUnit.setType(UnitEnum.WORKER);
+            capturedUnit.setCiv(civ);
+        } else {
+            /*
+             * nonCombat has killed
+             */
+            tile.setUnitNull(capturedUnit);
+        }
+    }
 
     public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) throws CommandException {
         if (rangedUnit.getType().requiresSetup() && !rangedUnit.isSetup()) {

@@ -122,13 +122,18 @@ public class Game {
 //                checkForMovementCost(unit);
             }
         }
+
         for (City city : civ.getCities()) {
             if (city.getCitizens().size() < city.getCitizensCount()) {
                 throw new GameException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
-            } else if (city.getProductionQueue().isEmpty()) {
-                throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }
+            //not important
+            /*else if (city.getProductionQueue().isEmpty()) {
+                throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
+            }*/
         }
+
+
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
             throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }

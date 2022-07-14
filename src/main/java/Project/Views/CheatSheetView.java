@@ -6,6 +6,7 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
+import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.ServerViews.RequestHandler;
 import Project.Utils.CommandException;
@@ -131,7 +132,11 @@ public class CheatSheetView implements ViewController {
             MenuItem productionFinishingItem = new MenuItem(city.getName());
             MenuItem cityHealItem = new MenuItem(city.getName());
             MenuItem buildingCity = new MenuItem(city.getName());
-            foodItem.setOnAction(actionEvent -> foodForCity = city);
+            foodItem.setOnAction(actionEvent -> {
+                foodForCity = city;
+                sendSelectCityRequest(city);
+                foodForCitySelect.setText(city.getName());
+            });
             foodForCitySelect.getItems().add(foodItem);
             productionIncreaseItem.setOnAction(actionEvent -> {
                 productionIncreaseCity = city;
@@ -304,21 +309,18 @@ public class CheatSheetView implements ViewController {
     }
 
     public void spawnUnit() {
-        if (selectedUnitEnum == null || locationSpawnX == 0 || locationSpawnY == 0)
-            return;
-            String command = "cheat spawn unit -u " + selectedUnitEnum.name() + " -p " + locationSpawnX + " " + locationSpawnY;
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            locationSpawnX = 0;
-            locationSpawnY = 0;
-            selectedUnitEnum = null;
-            unitEnumSelect.setText("Unit");
-            MenuStack.getInstance().popMenu();
+        String command = "cheat spawn unit -u " + selectedUnitEnum.name() + " -p " + locationSpawnX + " " + locationSpawnY;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        locationSpawnX = 0;
+        locationSpawnY = 0;
+        selectedUnitEnum = null;
+        unitEnumSelect.setText("Unit");
+        MenuStack.getInstance().popMenu();
     }
 
     public void revealTile() {
-        if (locationTileX == 0 || locationTileY == 0)
-            return;
-        String command = "cheat map reveal -p " + locationSpawnX + " " + locationSpawnY;
+
+        String command = "cheat map reveal -p " + locationTileX + " " + locationTileY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         locationTileX = 0;
         locationTileY = 0;
@@ -337,25 +339,23 @@ public class CheatSheetView implements ViewController {
     }
 
     public void teleport() {
-        if (teleportUnit == null || locationTeleportX == 0 || locationTeleportY == 0)
-            return;
-            String command = "cheat teleport -p " + locationTeleportX + " " + locationTeleportY;
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            locationTeleportX = 0;
-            locationTeleportY = 0;
-            teleportUnit.setText("Unit");
-            teleportUnit = null;
-            MenuStack.getInstance().popMenu();
+        String command = "cheat teleport -p " + locationTeleportX + " " + locationTeleportY;
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        locationTeleportX = 0;
+        locationTeleportY = 0;
+        teleportUnit.setText("Unit");
+        teleportUnit = null;
+        MenuStack.getInstance().popMenu();
     }
 
     public void finishProduction() {
         if (productionIncreaseCity == null)
             return;
-            String command = "cheat finish products";
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            productionIncreaseCity = null;
-            finishProductionCity.setText("City");
-            MenuStack.getInstance().popMenu();
+        String command = "cheat finish products";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        productionIncreaseCity = null;
+        finishProductionCity.setText("City");
+        MenuStack.getInstance().popMenu();
     }
 
     public void increaseHappiness() {
@@ -375,7 +375,7 @@ public class CheatSheetView implements ViewController {
     public void increaseMovement() {
         if (increasingMovementUnit == null)
             return;
-        String command = "cheat increase production -a " + productIncreaseAmount;
+        String command = "cheat increase movement -a " + movementIncreaseAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         increasingMovementUnit = null;
         movementIncreaseAmount = 0;
@@ -415,13 +415,13 @@ public class CheatSheetView implements ViewController {
         if (buildingEnum == null || cityForBuildingsMenu == null)
             return;
 
-            String command = "cheat build -n " + buildingEnum.name();
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            buildingEnum = null;
-            cityForBuilding = null;
-            buildingsMenu.setText("Building");
-            cityForBuildingsMenu.setText("City");
-            MenuStack.getInstance().popMenu();
+        String command = "cheat build -n " + buildingEnum.name();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        buildingEnum = null;
+        cityForBuilding = null;
+        buildingsMenu.setText("Building");
+        cityForBuildingsMenu.setText("City");
+        MenuStack.getInstance().popMenu();
 
     }
 
@@ -443,12 +443,19 @@ public class CheatSheetView implements ViewController {
         finishProductionCity.getItems().removeAll(finishProductionCity.getItems());
         movementIncreaseUnit.getItems().removeAll(movementIncreaseUnit.getItems());
     }
+
     private void sendSelectCityRequest(City city) {
         String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
         RequestHandler.getInstance().handle(command);
     }
+
     private void sendSelectUnitRequest(Unit unit) {
-        String command = "select unit " + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
+        String command;
+        if (unit instanceof CombatUnit) {
+            command = "select unit combat" + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
+        } else {
+            command = "select unit noncombat" + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
+        }
         RequestHandler.getInstance().handle(command);
     }
 
