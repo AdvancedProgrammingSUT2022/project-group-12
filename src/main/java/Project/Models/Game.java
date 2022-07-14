@@ -84,7 +84,7 @@ public class Game {
                 availableTiles.remove(tile);
             }
             ruinTile.setRuin(true);
-            System.out.println("RUIN: " + ruinTile.getLocation());
+            System.out.println("ruin at " + ruinTile.getLocation());
         }
     }
 

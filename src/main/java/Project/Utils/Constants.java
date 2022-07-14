@@ -3,7 +3,7 @@ package Project.Utils;
 public class Constants {
     public static final int HEX_SIZE_MULTIPLY = 7;
     public static final int PRIMAL_FOOD = 2;
-    public static final int DEFUALT_BEAKER_PER_TURN = 2;
+    public static final int DEFAULT_BEAKER_PER_TURN = 2;
     public static final int FOOD_NEEDED_TO_BORN_CITIZEN = 10;
     public static final int TIME_NEED_TO_BUILD_IMPROVEMENT = 3;
     public static final double RUIN_PROBABILITY = 0.05;

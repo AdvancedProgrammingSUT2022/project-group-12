@@ -2,9 +2,7 @@ package Project.Client.Views;
 
 import Project.Models.Database;
 import Project.Models.User;
-import Project.Server.Controllers.MainMenuController;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.event.ActionEvent;
@@ -105,20 +103,14 @@ public class StartGameView implements ViewController {
     }
 
     public void acceptClick() {
-        try {
-            Constants.TILEGRID_WIDTH = currentWidthSize;
-            Constants.TILEGRID_HEIGHT = currentHeightSize;
-            StringBuilder command = new StringBuilder("play game");
-            for (int i = 0; i < selectedUsernames.size(); ++i) {
-                command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
-            }
-            CommandResponse response = RequestHandler.getInstance().handle(command.toString());
-            MainMenuController.startNewGame(selectedUsernames);
-        } catch (CommandException e) {
-            System.err.println("error in start game / accept click");
-            System.err.println(e.getMessage());
-            return;
+        Constants.TILEGRID_WIDTH = currentWidthSize;
+        Constants.TILEGRID_HEIGHT = currentHeightSize;
+        StringBuilder command = new StringBuilder("play game");
+        for (int i = 0; i < selectedUsernames.size(); ++i) {
+            command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }
+        CommandResponse response = RequestHandler.getInstance().handle(command.toString());
+//        MainMenuController.startNewGame(selectedUsernames);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 

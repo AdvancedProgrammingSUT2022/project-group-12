@@ -168,20 +168,20 @@ public class Civilization {
     }
 
     public int calculateScience() {
-        int beaker = Constants.DEFUALT_BEAKER_PER_TURN;
+        int beaker = Constants.DEFAULT_BEAKER_PER_TURN;
         beaker += beakerFromBuildings;
-        System.out.println("beaker = " + beaker);;
+//        System.out.println("beaker = " + beaker);;
         beaker += cheatBeaker;
-        System.out.println("cheatBeaker = " + cheatBeaker);
+//        System.out.println("cheatBeaker = " + cheatBeaker);
         for (City city : this.getCities()) {
             beaker += city.getCitizensCount();
         }
         beaker *= beakerRatioFromBuildings;
-        System.out.println("beakerRatioFromBuildings = " + beakerRatioFromBuildings);
+//        System.out.println("beakerRatioFromBuildings = " + beakerRatioFromBuildings);
         if (calculateCivilizationGold() < 0) {
             beaker -= Math.abs(this.calculateCivilizationGold());
         }
-        System.out.println("beaker = " + beaker);
+//        System.out.println("beaker = " + beaker);
         return beaker;
     }
 

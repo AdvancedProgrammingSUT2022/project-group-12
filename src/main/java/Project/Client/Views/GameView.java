@@ -61,7 +61,7 @@ public class GameView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         int cameraRow = Integer.parseInt(RequestHandler.getInstance().getParameter("camera_row"));
         int cameraCol = Integer.parseInt(RequestHandler.getInstance().getParameter("camera_col"));
-        System.out.println("Resp: " + cameraRow + ' ' + cameraCol);
+//        System.out.println("Resp: " + cameraRow + ' ' + cameraCol);
         this.setFocusOnLocation(new Location(cameraRow, cameraCol));
     }
 
