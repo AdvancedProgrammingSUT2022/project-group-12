@@ -15,7 +15,9 @@ public class Terrain {
     private final int goldCount;
     private final int combatModifier;
     private final int movementCost;
-    private final ResourceEnum resource;
+    //test
+    //making it not final
+    private ResourceEnum resource;
     private final TerrainColor color;
 
     private ArrayList<FeatureEnum> features;
@@ -45,6 +47,7 @@ public class Terrain {
         int chooseResource = random.nextInt(resources.size());
         return resources.get(chooseResource);
     }
+
 
     private int featureMovementCost() {
         int count = getTerrainType().getMovementCost();
@@ -160,6 +163,10 @@ public class Terrain {
             }
         }
         return false;
+    }
+
+    public void setResource(ResourceEnum resource) {
+        this.resource = resource;
     }
 }
 

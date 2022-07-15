@@ -1,9 +1,6 @@
 package Project.Models.Tiles;
 
-import Project.Enums.FeatureEnum;
-import Project.Enums.ImprovementEnum;
-import Project.Enums.ResourceEnum;
-import Project.Enums.VisibilityEnum;
+import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
@@ -192,6 +189,7 @@ public class Tile implements Notifier<Tile> {
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
         }
+      
         return switch (name) {
             case "gold" -> gold;
             case "food" -> food;
@@ -239,6 +237,7 @@ public class Tile implements Notifier<Tile> {
 
     public void addImprovement(ImprovementEnum improvement) {
         this.getImprovements().add(improvement);
+        this.getCivilization().updateResources(this);
         this.notifyObservers();
     }
 
@@ -280,6 +279,13 @@ public class Tile implements Notifier<Tile> {
         ResourceEnum resource = this.getTerrain().getResource();
         if (resource == null || this.isResourceAchievedBy(resource, civ)) return null;
         else return resource;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+    public void removeResource(){
+        this.terrain.setResource(null);
     }
 
     public void setRuin(boolean ruin) {

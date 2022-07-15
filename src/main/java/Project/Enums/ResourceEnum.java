@@ -1,7 +1,11 @@
 package Project.Enums;
 
 import Project.Client.App;
+import Project.Utils.CommandException;
+import Project.Utils.CommandResponse;
 import javafx.scene.image.Image;
+
+import java.util.ArrayList;
 
 public enum ResourceEnum {
     RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),
@@ -66,6 +70,9 @@ public enum ResourceEnum {
 //        System.out.println("/images/assets/resources/" + this.name());
     }
 
+
+
+
     public Image getImage() {
         return resourceImage;
     }
@@ -92,5 +99,14 @@ public enum ResourceEnum {
 
     public String getAbbreviation() {
         return this.abbreviation;
+    }
+    public static ResourceEnum getResourceEnumByName(String resourceName) throws CommandException {
+        for (ResourceEnum re:
+             ResourceEnum.values()) {
+            if(re.name().toLowerCase().equals(resourceName.toLowerCase())){
+                return  re;
+            }
+        }
+        throw new CommandException(CommandResponse.NO_RESOURCE_WITH_THIS_NAME);
     }
 }

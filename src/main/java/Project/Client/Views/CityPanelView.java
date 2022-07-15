@@ -6,6 +6,7 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
 import Project.Models.Production;
+import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -181,9 +182,18 @@ public class CityPanelView implements ViewController {
         MenuStack.getInstance().popMenu();
     }
 
+    private void sendSelectCityRequest(City city) {
+        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
+        RequestHandler.getInstance().handle(command);
+    }
+    private void sendSelectUnitRequest(Unit unit) {
+        String command = "select unit " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
+        RequestHandler.getInstance().handle(command);
+    }
+
     public void BuyTile() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        if (city.getGold() == 0)
+        if (city.calculateGold() == 0)
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
@@ -291,7 +301,7 @@ public class CityPanelView implements ViewController {
         int locationX = (int) attackXSpinner.getValue();
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
-        CommandResponse response = Project.ServerViews.MenuStack.getInstance().getTopMenu().runCommand(command);
+        CommandResponse response = Project.Server.Views.MenuStack.getInstance().getTopMenu().runCommand(command);
         back();
     }
 }

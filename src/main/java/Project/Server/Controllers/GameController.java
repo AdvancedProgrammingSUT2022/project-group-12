@@ -1,12 +1,9 @@
 package Project.Server.Controllers;
 
 import Project.Enums.*;
+import Project.Models.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
-import Project.Models.Citizen;
-import Project.Models.Civilization;
-import Project.Models.Game;
-import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
@@ -17,6 +14,7 @@ import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 
 import java.util.*;
+
 
 
 public class GameController {
@@ -149,10 +147,10 @@ public class GameController {
             throw new CommandException(CommandResponse.WRONG_UNIT);
         }
         Tile unitTile = GameController.getGameTile(unit.getLocation());
-        if(unitTile.getImprovementsExceptRoadOrRailRoad().size() == 0){
+        if (unitTile.getImprovementsExceptRoadOrRailRoad().size() == 0) {
             throw new CommandException(CommandResponse.IMPROVEMENT_DOESNT_EXISTS);
         }
-        if(unit.getAvailableMoveCount() <= 0){
+        if (unit.getAvailableMoveCount() <= 0) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
         }
         unitTile.setDamaged(true);
@@ -300,7 +298,7 @@ public class GameController {
         return diplomaticInfo;
     }
 
-    public static ImprovementEnum buildImprovement(Unit unit) throws CommandException {
+    public static String buildImprovement(Unit unit, ImprovementEnum improvement) throws CommandException {
         Tile tile = GameController.getGameTile(unit.getLocation());
         if (unit.getType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
@@ -312,7 +310,6 @@ public class GameController {
         if (tile.getTerrain().getResource() == null) {
             throw new CommandException(CommandResponse.NO_RESOURCE_ON_TILE);
         }
-        ImprovementEnum improvement = tile.getTerrain().getResource().getImprovementNeeded();
         if (tile.getImprovements().contains(improvement)) {
             throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
         }
@@ -323,7 +320,7 @@ public class GameController {
             }
         }
         worker.setToBuildImprovement(improvement, tile);
-        return improvement;
+        return "improvement " + improvement + " built on " + unit.getLocation() + " successfully";
     }
 
     public static boolean checkForRivers(Tile tile, Tile tile1) {
@@ -338,7 +335,7 @@ public class GameController {
         Tile tile = GameController.getGameTile(location);
         if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
-        tile.setCitizen(new Citizen(city,tile.getLocation()));
+        tile.setCitizen(new Citizen(city, tile.getLocation()));
     }
 
     public static void cityUnassignCitizen(City city, Location location) throws CommandException {
@@ -375,12 +372,13 @@ public class GameController {
         city.addTile(tile);
         tile.setCity(city);
     }
+
     public static void cityBuildBuilding(City selectedCity, BuildingEnum building) throws CommandException {
         Civilization civ = selectedCity.getCivilization();
         if (civ.calculateCivilizationGold() < building.getCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
-        if(!civ.hasRequierdTech(building.getRequiredTechs())){
+        if (!civ.hasRequierdTech(building.getRequiredTechs())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
         civ.addGold(-building.getCost());
@@ -406,7 +404,7 @@ public class GameController {
         if (!city.getCivilization().getTechnologies().contains(unitEnum.getRequiredTech())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
-        if (!city.getCivilization().getAchievedResources().contains(unitEnum.getRequiredResource())) {
+        if (!city.getCivilization().getResources().containsKey(unitEnum.getRequiredResource())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_RESOURCE);
         }
         Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
@@ -435,6 +433,7 @@ public class GameController {
     }
 
     public static Tile getGameTile(Location location) {
+        if(location == null) return null;
         return GameController.getGame().getTileGrid().getTile(location);
     }
 
@@ -444,4 +443,32 @@ public class GameController {
     }
 
 
+    public static void sendTradeRequest(String civName, String request, String suggest,String tradeName) throws CommandException {
+        Trade trade;
+        Civilization rivalCiv = game.getCivByName(civName);
+        Civilization currentCiv = game.getCurrentCivilization();
+        if (request.chars().allMatch(Character::isDigit)) {
+                if(rivalCiv.haveThisMoney(Integer.parseInt(request)))
+                trade = new Trade(currentCiv.getResourceByName(suggest), null, null, Integer.parseInt(request), game.getCurrentCivilization(), rivalCiv,tradeName);
+                else throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+        } else {
+            if (suggest.chars().allMatch(Character::isDigit)) {
+                if(currentCiv.haveThisMoney(Integer.parseInt(suggest)))
+                    trade = new Trade(null, Integer.parseInt(suggest), rivalCiv.getResourceByName(request), null, game.getCurrentCivilization(), rivalCiv,tradeName);
+                else throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
+            } else {
+                trade = new Trade(currentCiv.getResourceByName(suggest), null, rivalCiv.getResourceByName(request), null, game.getCurrentCivilization(), rivalCiv,tradeName);
+            }
+        }
+        rivalCiv.addNotification(trade);
+    }
+
+    public static void rejectTrade(String tradeName) throws CommandException {
+        Trade trade = game.getCurrentCivilization().getTradeByName(tradeName);
+        trade.reject();
+    }
+    public static void acceptTrade(String tradeName) throws CommandException {
+        Trade trade = game.getCurrentCivilization().getTradeByName(tradeName);
+        trade.accept();
+    }
 }

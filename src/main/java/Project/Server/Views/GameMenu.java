@@ -94,6 +94,7 @@ public class GameMenu extends Menu {
 //        }
         switch (command.getCategory()) {
             case "info" -> this.info(command);
+            case "trade" -> this.trade(command);
             case "select" -> this.select(command);
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
@@ -103,6 +104,53 @@ public class GameMenu extends Menu {
             case "end" -> this.end(command);
             case "api" -> this.api(command);
             default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+    private void trade(Command command){
+        switch (command.getSubCategory()){
+            case "reject" -> this.rejectTrade(command);
+            case "accept" -> this.acceptTrade(command);
+            case "create" -> this.makeTrade(command);
+            default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void acceptTrade(Command command) {
+        try {
+            command.abbreviate("name", 'n');
+            GameController.acceptTrade(command.getOption("name"));
+            answer("trade accepted successfully");
+        } catch (CommandException e) {
+            answer(e);
+        } catch (IllegalArgumentException e) {
+            answer(new CommandException(CommandResponse.INVALID_TECHNOLOGY_NAME));
+        }
+    }
+
+    private void rejectTrade(Command command) {
+        try {
+            command.abbreviate("name", 'n');
+            GameController.rejectTrade(command.getOption("name"));
+            answer("trade rejected successfully");
+        } catch (CommandException e) {
+            answer(e);
+        } catch (IllegalArgumentException e) {
+            answer(new CommandException(CommandResponse.INVALID_TECHNOLOGY_NAME));
+        }
+    }
+
+    private void makeTrade(Command command) {
+        try {
+            command.abbreviate("civilization", 'c');
+            command.abbreviate("name", 'n');
+            command.abbreviate("request", 'r');
+            command.abbreviate("suggest",'s');
+            GameController.sendTradeRequest(command.getOption("civilization"),command.getOption("request"),command.getOption("suggest"),command.getOption("name"));
+            answer("trade suggested successfully");
+        } catch (CommandException e) {
+            answer(e);
+        } catch (IllegalArgumentException e) {
+            answer(new CommandException(CommandResponse.INVALID_TECHNOLOGY_NAME));
         }
     }
 
@@ -165,7 +213,7 @@ public class GameMenu extends Menu {
             command.abbreviate("name", 'n');
             String buildingName = command.getOption("name").toUpperCase();
             CheatCodeController.getInstance().addBuilding(BuildingEnum.getBuildingEnumByName(buildingName), selectedCity);
-            System.out.println("selectedCity : "  + selectedCity.getName() + " Building : " + buildingName.toLowerCase() + " added successfully");
+            System.out.println("selectedCity : " + selectedCity.getName() + " Building : " + buildingName.toLowerCase() + " added successfully");
         } catch (CommandException e) {
             answer(e);
         }
@@ -184,7 +232,7 @@ public class GameMenu extends Menu {
     }
 
     private void cheatHeal(Command command) {
-        switch (command.getSubSubCategory()){
+        switch (command.getSubSubCategory()) {
             case "city" -> this.cheatHealCity(command);
             case "unit" -> this.cheatHealUnit(command);
             default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
@@ -291,17 +339,17 @@ public class GameMenu extends Menu {
     }
 
 
-
     private void cheatHealCity(Command command) {
-        if(selectedCity == null){
+        if (selectedCity == null) {
             answer(CommandResponse.CITY_NOT_SELECTED);
             return;
         }
         CheatCodeController.getInstance().healCity(selectedCity);
         answer("city healed successfully !");
     }
+
     private void cheatHealUnit(Command command) {
-        if(selectedUnit == null){
+        if (selectedUnit == null) {
             answer(CommandResponse.UNIT_NOT_SELECTED);
             return;
         }
@@ -310,7 +358,7 @@ public class GameMenu extends Menu {
     }
 
     private void cheatIncreaseMovementCost(Command command) {
-        if(selectedUnit == null){
+        if (selectedUnit == null) {
             answer(CommandResponse.UNIT_NOT_SELECTED);
             return;
         }
@@ -318,7 +366,7 @@ public class GameMenu extends Menu {
             command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
-            CheatCodeController.getInstance().increaseMovement(selectedUnit,amount);
+            CheatCodeController.getInstance().increaseMovement(selectedUnit, amount);
             answer("unit movement increased " + amount + " successfully");
         } catch (CommandException e) {
             answer(e);
@@ -680,7 +728,7 @@ public class GameMenu extends Menu {
     private void unitPillage() throws CommandException {
         try {
             GameController.pillageUnit(this.selectedUnit);
-        }catch (CommandException e){
+        } catch (CommandException e) {
             answer(e);
         }
     }
@@ -733,7 +781,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
 //            case "road" -> this.unitBuildImprovement(ImprovementEnum.ROAD);
 //            case "railRoad" -> this.unitBuildImprovement(ImprovementEnum.RAILROAD);
-            case "improvement" -> this.unitBuildImprovement(this.selectedUnit);
+            case "improvement" -> this.unitBuildImprovement(this.selectedUnit, command);
 //            case "farm" -> this.unitBuildImprovement(ImprovementEnum.FARM);
 //            case "mine" -> this.unitBuildImprovement(ImprovementEnum.MINE);
 //            case "tradingPost" -> this.unitBuildImprovement(ImprovementEnum.TRADING_POST);
@@ -864,10 +912,12 @@ public class GameMenu extends Menu {
         }
     }
 
-    public void unitBuildImprovement(Unit selectedUnit) {
+    public void unitBuildImprovement(Unit selectedUnit, Command command) {
         try {
-            ImprovementEnum improvement = GameController.buildImprovement(selectedUnit);
-            answer("improvement " + improvement + " built on " + this.selectedUnit.getLocation() + " successfully");
+            command.abbreviate("name", 'n');
+            command.assertOptions(List.of("name"));
+            String message = GameController.buildImprovement(selectedUnit, ImprovementEnum.getImprovementEnumByName(command.getOption("name")));
+            answer(message);
         } catch (CommandException e) {
             answer(e);
         }

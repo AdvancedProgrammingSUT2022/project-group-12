@@ -2,6 +2,8 @@ package Project.Enums;
 
 import Project.Client.App;
 import Project.Models.Terrains.Terrain;
+import Project.Utils.CommandException;
+import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.scene.image.Image;
 
@@ -146,6 +148,15 @@ public enum ImprovementEnum {
 
     public int getImprovementBuildRequiredTime(Terrain terrain) {
         return Constants.TIME_NEED_TO_BUILD_IMPROVEMENT;
+    }
+    public synchronized static ImprovementEnum getImprovementEnumByName (String name) throws CommandException {
+        for (ImprovementEnum improvementEnum:
+             ImprovementEnum.values()) {
+            if(improvementEnum.name().toLowerCase().equals(name.toLowerCase())){
+                return improvementEnum;
+            }
+        }
+        throw  new CommandException(CommandResponse.INVALID_NAME);
     }
 
 }

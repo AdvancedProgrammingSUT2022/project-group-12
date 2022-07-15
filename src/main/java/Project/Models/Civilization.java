@@ -12,6 +12,7 @@ import Project.Server.Controllers.GameController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +24,15 @@ public class Civilization {
     private final String name;
     private final TerrainColor color;
     private final ArrayList<City> cities;
-    private final ArrayList<String> notifications;
+    private final ArrayList<String> notifs;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
+    private HashMap<ResourceEnum,Location> resources;
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
     private final ArrayList<TechnologyEnum> technologies = new ArrayList<>(List.of(TechnologyEnum.RESET));
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> isInWarWith;
+    private ArrayList<Notification> notifications;
     private final ArrayList<Civilization> isInEconomicRelation;
     private HappinessTypeEnum happinessType;
     private final int production;
@@ -49,6 +52,7 @@ public class Civilization {
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
     private City selectedCity;
+
     public Civilization(User user, TerrainColor color) {
         this.color = color;
         this.researchingTechnology = null;
@@ -60,9 +64,8 @@ public class Civilization {
         this.name = user.getUsername();
         this.revealedTileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.cities = new ArrayList<>();
-        this.notifications = new ArrayList<>();
+        this.notifs = new ArrayList<>();
         this.researchingTechnologies = new HashMap<>();
-        this.happinessType = this.updateHappinessState(this.happiness);
         this.isInEconomicRelation = new ArrayList<>();
         this.happinessFromCheat = 0;
         this.goldFromCheat = 0;
@@ -71,7 +74,11 @@ public class Civilization {
         this.beakerFromBuildings = 0;
         this.beakerRatioFromBuildings = 1;
         this.unitCountByCategory = new HashMap<>();
+        this.resources = new HashMap<>();
+        this.notifications = new ArrayList<>();
+        updateHappinessState(this.calculateHappiness());
     }
+
 
     public Tile getSelectedTile() {
         return selectedTile;
@@ -105,10 +112,6 @@ public class Civilization {
         } else {
             this.happinessType = HappinessTypeEnum.VERY_UNHAPPY;
         }
-        if (happiness > -10) {
-            return HappinessTypeEnum.UNHAPPY;
-        }
-        return HappinessTypeEnum.VERY_UNHAPPY;
     }
 
     public void advanceResearchTech() {
@@ -205,16 +208,16 @@ public class Civilization {
         }
     }
 
-    public StringBuilder getNotifications() {
+    public StringBuilder getNotifs() {
         StringBuilder notificationList = new StringBuilder();
-        for (String message : this.notifications) {
+        for (String message : this.notifs) {
             notificationList.append(message).append("\n");
         }
         return notificationList;
     }
 
     public void sendMessage(String message) {
-        this.notifications.add(message);
+        this.notifs.add(message);
     }
 
     public void addCity(City city) {
@@ -268,7 +271,7 @@ public class Civilization {
 
     public ArrayList<ResourceEnum> getAchievedLuxuryResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>();
-        for (ResourceEnum resource : this.getAchievedResources()) {
+        for (ResourceEnum resource : this.resources.keySet()) {
             if (resource.getType() == ResourceTypeEnum.LUXURY) {
                 resources.add(resource);
             }
@@ -286,6 +289,11 @@ public class Civilization {
             }
         }
         return resources;
+    }
+    public void updateResources(Tile tile){
+        if(tile.getImprovements().contains(tile.getTerrain().getResource().getImprovementNeeded())){
+            resources.put(tile.getTerrain().getResource(),tile.getLocation());
+        }
     }
 
     public void removeUnit(Unit unit) {
@@ -523,4 +531,52 @@ public class Civilization {
         }
         return true;
     }
+
+    public HashMap<ResourceEnum, Location> getResources() {
+        return resources;
+    }
+    public ResourceEnum getResourceByName(String name) throws CommandException {
+        ResourceEnum resourceEnum = ResourceEnum.getResourceEnumByName(name);
+        if(this.getResources().containsKey(resourceEnum)){
+            return resourceEnum;
+        }
+        throw new CommandException(CommandResponse.NO_RESOURCE_WITH_THIS_NAME);
+    }
+    public void addNotification(Notification notification){
+        this.notifications.add(notification);
+    }
+    public void removeResource(ResourceEnum resourceEnum){
+        Tile tile = GameController.getGameTile(this.resources.get(resourceEnum));
+        if(tile != null ) tile.removeResource();
+        this.resources.remove(resourceEnum);
+    }
+    public void decreaseGold(int value){
+        this.gold -= value;
+    }
+    public void addResource(ResourceEnum resourceEnum){
+        this.resources.put(resourceEnum,null);
+    }
+    public void removeNotification(Notification notification){
+        this.notifications.remove(notification);
+    }
+    public boolean haveThisMoney(int value) {
+        if(this.calculateCivilizationGold() < value){
+            return false;
+        }
+        return true;
+    }
+  public Trade getTradeByName(String name) throws CommandException {
+      for (Notification notif:
+           this.notifications) {
+          if(notif instanceof Trade trade){
+              if(trade.getName().equals(name)){
+                  return trade;
+              }
+          }
+      }
+      throw  new CommandException(CommandResponse.NO_TRADE_WITH_THIS_NAME);
+  }
+
+
+
 }

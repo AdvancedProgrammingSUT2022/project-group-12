@@ -14,3 +14,4 @@
 *.idea
 
 *.json
+/src/main/java/Project/Client/asgartest.java

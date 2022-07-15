@@ -1,5 +1,6 @@
 package Project.Models;
 
+import Project.Client.Views.GameView;
 import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
@@ -23,6 +24,7 @@ public class Game {
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
     private final ArrayList<User> users;
+    private GameView panes;
     private int gameTurn = -1;
 
     public Game(ArrayList<User> users) {
@@ -105,6 +107,14 @@ public class Game {
                 revealTileFor(civilization, neighbor);
             }
         }
+    }
+
+    public GameView getPage() {
+        return this.panes;
+    }
+
+    public void setPage(GameView gameView) {
+        panes = gameView;
     }
 
     public void revealTileFor(Civilization civilization, Tile tile) {
@@ -255,6 +265,15 @@ public class Game {
         } else {
             return unit;
         }
+    }
+    public Civilization getCivByName(String name){
+        for (Civilization civ:
+             this.getCivilizations()) {
+            if(name.equals(civ.getName())){
+                return civ;
+            }
+        }
+        return null;
     }
 
     public int getGameTurnNumber() {

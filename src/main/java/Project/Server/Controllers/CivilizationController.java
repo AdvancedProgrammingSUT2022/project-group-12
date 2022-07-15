@@ -93,7 +93,7 @@ public class CivilizationController {
     }
 
     public String notificationHistory() {
-        return this.civilization.getNotifications().isEmpty() ? "no notification for now" : this.civilization.getNotifications().toString();
+        return this.civilization.getNotifs().isEmpty() ? "no notification for now" : this.civilization.getNotifs().toString();
     }
 
     public String militaryOverview() {

@@ -145,7 +145,7 @@ public class Command {
         try {
             return Integer.parseInt(this.getOption(key));
         } catch (Exception e) {
-            throw new CommandException(CommandResponse.INVALID_COMMAND_FORMAT);
+            return -1;
         }
     }
 }
