@@ -13,6 +13,7 @@ module project {
     opens Project.Models to com.google.gson;
     exports Project.Client;
     exports Project.Server;
+    exports Project.Client.Utils;
 //    exports Project.Models;
 //    opens Project.Models;
 //    opens Project.Enums;

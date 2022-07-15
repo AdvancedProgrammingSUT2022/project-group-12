@@ -1,4 +1,4 @@
-package Project.Client;
+package Project.Client.Utils;
 
 import Project.Models.User;
 import Project.Server.Views.RequestHandler;

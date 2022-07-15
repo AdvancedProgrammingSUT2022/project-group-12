@@ -1,10 +1,10 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.SelectHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Units.Unit;
-import Project.Server.Controllers.CheatCodeController;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -133,25 +133,25 @@ public class CheatSheetView implements ViewController {
             foodForCitySelect.getItems().add(foodItem);
             productionIncreaseItem.setOnAction(actionEvent -> {
                 productionIncreaseCity = city;
-                sendSelectCityRequest(city);
+                SelectHandler.sendSelectCityRequest(city);
                 productionIncreaseCityMenu.setText(city.getName());
             });
             productionIncreaseCityMenu.getItems().add(productionIncreaseItem);
             productionFinishingItem.setOnAction(actionEvent -> {
                 productionFinishingCity = city;
-                sendSelectCityRequest(city);
+                SelectHandler.sendSelectCityRequest(city);
                 finishProductionCity.setText(city.getName());
             });
             finishProductionCity.getItems().add(productionFinishingItem);
             cityHealItem.setOnAction(actionEvent -> {
                 healingCity = city;
-                sendSelectCityRequest(city);
+                SelectHandler.sendSelectCityRequest(city);
                 cityHealing.setText(city.getName());
             });
             cityHealing.getItems().add(cityHealItem);
             buildingCity.setOnAction(actionEvent -> {
                 cityForBuilding = city;
-                sendSelectCityRequest(city);
+                SelectHandler.sendSelectCityRequest(city);
                 cityForBuildingsMenu.setText(city.getName());
             });
             cityForBuildingsMenu.getItems().add(buildingCity);
@@ -165,19 +165,19 @@ public class CheatSheetView implements ViewController {
             MenuItem healingUnitItem = new MenuItem(unit.getType().name());
             teleportUnitItem.setOnAction(actionEvent -> {
                 teleportingUnit = unit;
-                sendSelectUnitRequest(unit);
+                SelectHandler.sendSelectUnitRequest(unit);
                 teleportUnit.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + ")");
             });
             teleportUnit.getItems().add(teleportUnitItem);
             unitMovementIncreaseItem.setOnAction(actionEvent -> {
                 increasingMovementUnit = unit;
-                sendSelectUnitRequest(unit);
+                SelectHandler.sendSelectUnitRequest(unit);
                 movementIncreaseUnit.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + ")");
             });
             movementIncreaseUnit.getItems().add(unitMovementIncreaseItem);
             healingUnitItem.setOnAction(actionEvent -> {
                 healingUnit = unit;
-                sendSelectUnitRequest(unit);
+                SelectHandler.sendSelectUnitRequest(unit);
                 unitHealing.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + " )");
             });
             unitHealing.getItems().add(healingUnitItem);
@@ -288,7 +288,7 @@ public class CheatSheetView implements ViewController {
     public void increaseGold() {
         String command = "cheat increase gold -a " + goldAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void increaseFood() {
@@ -298,7 +298,7 @@ public class CheatSheetView implements ViewController {
         foodForCitySelect.setText("City");
         String command = "cheat increase food -a " + foodAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void spawnUnit() {
@@ -310,7 +310,7 @@ public class CheatSheetView implements ViewController {
             locationSpawnY = 0;
             selectedUnitEnum = null;
             unitEnumSelect.setText("Unit");
-            MenuStack.getInstance().popMenu();
+            back();
     }
 
     public void revealTile() {
@@ -320,7 +320,7 @@ public class CheatSheetView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         locationTileX = 0;
         locationTileY = 0;
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void increaseProduction() {
@@ -331,7 +331,7 @@ public class CheatSheetView implements ViewController {
         productIncreaseAmount = 0;
         productionIncreaseCity = null;
         productionIncreaseCityMenu.setText("City");
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void teleport() {
@@ -343,7 +343,7 @@ public class CheatSheetView implements ViewController {
             locationTeleportY = 0;
             teleportUnit.setText("Unit");
             teleportUnit = null;
-            MenuStack.getInstance().popMenu();
+            back();
     }
 
     public void finishProduction() {
@@ -353,21 +353,21 @@ public class CheatSheetView implements ViewController {
             CommandResponse response = RequestHandler.getInstance().handle(command);
             productionIncreaseCity = null;
             finishProductionCity.setText("City");
-            MenuStack.getInstance().popMenu();
+            back();
     }
 
     public void increaseHappiness() {
         String command = "cheat increase happiness -a " + happinessAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         happinessAmount = 0;
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void increaseBeaker() {
         String command = "cheat increase science -a " + beakerAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         beakerAmount = 0;
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void increaseMovement() {
@@ -378,7 +378,7 @@ public class CheatSheetView implements ViewController {
         increasingMovementUnit = null;
         movementIncreaseAmount = 0;
         movementIncreaseUnit.setText("Unit");
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void healCity() {
@@ -389,7 +389,7 @@ public class CheatSheetView implements ViewController {
         healingCity = null;
         cityHealing.setText("City");
         cityHealing.setText("City");
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void healUnit() {
@@ -399,14 +399,13 @@ public class CheatSheetView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         healingUnit = null;
         unitHealing.setText("Unit");
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void addTechs() {
-        CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
         String command = "cheat unlock technologies";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        MenuStack.getInstance().popMenu();
+        back();
     }
 
     public void addBuildings() {
@@ -419,7 +418,7 @@ public class CheatSheetView implements ViewController {
             cityForBuilding = null;
             buildingsMenu.setText("Building");
             cityForBuildingsMenu.setText("City");
-            MenuStack.getInstance().popMenu();
+            back();
 
     }
 
@@ -440,14 +439,6 @@ public class CheatSheetView implements ViewController {
         teleportUnit.getItems().removeAll(teleportUnit.getItems());
         finishProductionCity.getItems().removeAll(finishProductionCity.getItems());
         movementIncreaseUnit.getItems().removeAll(movementIncreaseUnit.getItems());
-    }
-    private void sendSelectCityRequest(City city) {
-        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-    private void sendSelectUnitRequest(Unit unit) {
-        String command = "select unit " + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
     }
 
     public void back() {

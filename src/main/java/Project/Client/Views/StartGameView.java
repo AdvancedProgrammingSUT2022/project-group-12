@@ -1,6 +1,6 @@
 package Project.Client.Views;
 
-import Project.Client.DatabaseQuerier;
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;

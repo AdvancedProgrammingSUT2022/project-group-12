@@ -33,8 +33,6 @@ public class Civilization {
     private final HappinessTypeEnum happinessType;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
-    private Tile selectedTile;
-    private Unit selectedUnit;
     private int gold;
     private int goldFromCheat;
     private int food;
@@ -47,7 +45,7 @@ public class Civilization {
     private TechnologyEnum researchingTechnology;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
-    private City selectedCity;
+
     public Civilization(User user, TerrainColor color) {
         this.color = color;
         this.researchingTechnology = null;
@@ -70,30 +68,6 @@ public class Civilization {
         this.beakerFromBuildings = 0;
         this.beakerRatioFromBuildings = 1;
         this.unitCountByCategory = new HashMap<>();
-    }
-
-    public Tile getSelectedTile() {
-        return selectedTile;
-    }
-
-    public void setSelectedTile(Tile selectedTile) {
-        this.selectedTile = selectedTile;
-    }
-
-    public Unit getSelectedUnit() {
-        return selectedUnit;
-    }
-
-    public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnit = selectedUnit;
-    }
-
-    public City getSelectedCity() {
-        return this.selectedCity;
-    }
-
-    public void setSelectedCity(City city) {
-        this.selectedCity = city;
     }
 
     public HappinessTypeEnum updateHappinessState(double happiness) {

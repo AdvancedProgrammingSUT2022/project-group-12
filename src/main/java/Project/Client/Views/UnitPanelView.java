@@ -2,9 +2,7 @@ package Project.Client.Views;
 
 import Project.Enums.UnitStates;
 import Project.Models.Tiles.Tile;
-import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
@@ -61,8 +59,7 @@ public class UnitPanelView implements ViewController {
     private Button createCityBtn;
 
     public void initialize() {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-        sendSelectUnitRequest(unit);
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         initializeSpinners();
         name.setText(unit.getType().name());
         unitType.setText(unit.getType().name());
@@ -85,7 +82,7 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initButtonBox() {
-        Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        Unit selectedUnit = MenuStack.getInstance().getCookies().getSelectedUnit();
         if (selectedUnit.getType().name().equals("SETTLER")) {
             buttonBox.getChildren().add(initClearLandButton());
             cityName = new TextField("Name");
@@ -105,12 +102,10 @@ public class UnitPanelView implements ViewController {
     }
 
     private void createCreateCityButton() {
-        Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         createCityBtn = new Button("Create City");
         createCityBtn.setOnAction(actionEvent -> {
             if (cityName.getText().isEmpty())
                 return;
-
             String command = "unit found city";
             CommandResponse response = RequestHandler.getInstance().handle(command);
             back();
@@ -131,7 +126,7 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initializeXSpinner(Spinner<Integer> xSpinner, Button spinnerButton) {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
         xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
@@ -150,7 +145,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void moveUnit() {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         // todo : check destination for other units
 //        if () {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
@@ -164,39 +159,29 @@ public class UnitPanelView implements ViewController {
         if (response.isOK()) back();
     }
 
-    private void sendSelectUnitRequest(Unit unit) {
-        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
-        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-
     public void sleep() {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit sleep";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("SLEEP");
     }
 
     public void alert() {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit alert";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("ALERT");
     }
 
     public void fortify() {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit fortify";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("FORTIFY");
     }
 
     public void awake() {
-        unit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-
+        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit wake";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         unitState.setText("AWAKE");
@@ -243,8 +228,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void delete() {
-        Unit myUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
-
+        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         back();
