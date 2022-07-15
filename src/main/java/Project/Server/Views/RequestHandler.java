@@ -1,6 +1,7 @@
 package Project.Server.Views;
 
 import Project.Utils.CommandResponse;
+import Project.Utils.DatabaseQueryType;
 import Project.Utils.ResponseException;
 
 import java.util.HashMap;
@@ -32,5 +33,9 @@ public class RequestHandler {
 
     public String getParameter(String key) {
         return MenuStack.getInstance().getResponseParameters().get(key);
+    }
+
+    public String databaseQuery(DatabaseQueryType query, String... params) {
+        return MenuStack.getInstance().databaseQuery(query, params);
     }
 }

@@ -42,11 +42,11 @@ public class Database {
         this.usersList.remove(user);
     }
 
-    public ArrayList<User> getUsers() {
+    public ArrayList<User> getAllUsers() {
         return this.usersList;
     }
 
-    public ArrayList<String> getAllUsers() {
+    public ArrayList<String> getAllUsernames() {
         ArrayList<String> users = new ArrayList<>();
         for (User user : this.usersList)
             users.add(user.getUsername());

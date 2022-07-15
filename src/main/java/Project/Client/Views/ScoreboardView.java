@@ -1,6 +1,6 @@
 package Project.Client.Views;
 
-import Project.Models.Database;
+import Project.Client.DatabaseQuerier;
 import Project.Models.User;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -22,8 +22,8 @@ public class ScoreboardView implements ViewController {
         VBox vBox = new VBox();
 //        vBox.setSpacing(10);
         vBox.setLayoutY(100);
-        ArrayList<User> users = new ArrayList<>(Database.getInstance().getUsers());
-        users.sort(User::comparator); // todo comparator
+        ArrayList<User> users = DatabaseQuerier.getAllUsers();
+        users.sort(User::comparator);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         for (int i = -1; i < users.size(); ++i) {
             User user = i == -1 ? null : users.get(i);

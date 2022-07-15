@@ -1,7 +1,6 @@
 package Project.Client.Views;
 
-import Project.Models.Database;
-import Project.Models.User;
+import Project.Client.DatabaseQuerier;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
@@ -29,10 +28,8 @@ public class StartGameView implements ViewController {
     private ArrayList<String> selectedUsernames;
     @FXML
     private VBox userBox1;
-    private ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
-    private ArrayList<String> usernames = new ArrayList<>();
     private SpinnerValueFactory<Integer> widthValueFactory;
     private SpinnerValueFactory<Integer> heightValueFactory;
 
@@ -40,7 +37,7 @@ public class StartGameView implements ViewController {
         initializeSpinners();
         selectedUsernames = new ArrayList<>();
         selectedUsernames.add(MenuStack.getInstance().getUser().getUsername());
-        usernames = Database.getInstance().getAllUsers();
+        ArrayList<String> usernames = DatabaseQuerier.getAllUsernames();
         usernames.remove(MenuStack.getInstance().getUser().getUsername());
         userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(usernames);
@@ -69,7 +66,6 @@ public class StartGameView implements ViewController {
         if (users.contains(userSelect.getValue()))
             return;
         users.add(userSelect.getValue());
-        selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
         selectedUsernames.add(userSelect.getValue());
         userBox1.getChildren().add(returnText(userSelect.getValue()));
         userSelect.getItems().remove(userSelect.getValue());
