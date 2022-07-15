@@ -2,6 +2,7 @@ package Project.Models.Tiles;
 
 
 import Project.Client.App;
+import Project.Client.Utils.SelectHandler;
 import Project.Client.Views.Menu;
 import Project.Client.Views.MenuStack;
 import Project.Enums.ResourceEnum;
@@ -12,8 +13,6 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
-import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.Observer;
 import javafx.scene.Cursor;
@@ -78,7 +77,7 @@ public class Hex implements Observer<Tile> {
 //        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.group.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                GameController.getGame().getCurrentCivilization().setSelectedTile(tile);
+                MenuStack.getInstance().getCookies().setSelectedTile(tile);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
             }
         });
@@ -179,7 +178,6 @@ public class Hex implements Observer<Tile> {
     }
 
     private void addResourceToGroup(ResourceEnum resource) {
-        this.cityImageView.setImage(ruinImage);
         this.resourceImageView.setImage(resource.getImage());
         this.group.getChildren().add(this.resourceImageView);
     }
@@ -188,9 +186,7 @@ public class Hex implements Observer<Tile> {
         this.group.getChildren().add(this.cityImageView);
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                GameController.getGame().getCurrentCivilization().setSelectedCity(city);
-                String command = "select city -p " + city.getLocation().getRow() + " "  + city.getLocation().getCol();
-                CommandResponse response = RequestHandler.getInstance().handle(command);
+                SelectHandler.sendSelectCityRequest(city);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
             }
         });

@@ -6,7 +6,6 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
 import Project.Models.Production;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -80,8 +79,7 @@ public class CityPanelView implements ViewController {
     private City city;
 
     public void initialize() {
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
-        sendSelectCityRequest(city);
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
         this.gold.setText(String.valueOf(city.calculateGold()));
         this.food.setText(String.valueOf(city.calculateFood()));
@@ -119,7 +117,7 @@ public class CityPanelView implements ViewController {
 
 
     private void initProductMenu() {
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         for (Production p : city.getProductionQueue()) {
             MenuItem item = new MenuItem(p.toString());
             item.setOnAction(actionEvent -> {
@@ -131,7 +129,7 @@ public class CityPanelView implements ViewController {
     }
 
     private void initCitizenMenu() {
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         for (Citizen citizen : city.getCitizens()) {
             StringBuilder citizenInfo = new StringBuilder(citizen.toString());
             if (citizen.isLocked())
@@ -183,17 +181,8 @@ public class CityPanelView implements ViewController {
         MenuStack.getInstance().popMenu();
     }
 
-    private void sendSelectCityRequest(City city) {
-        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-    private void sendSelectUnitRequest(Unit unit) {
-        String command = "select unit " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-
     public void BuyTile() {
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         if (city.getGold() == 0)
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
@@ -226,7 +215,7 @@ public class CityPanelView implements ViewController {
     }
 
     private void initializeBuildingMenu() {
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         Civilization civilization = GameController.getGame().getCurrentCivilization();
         for (BuildingEnum buildingEnum : BuildingEnum.values()) {
             MenuItem item = new MenuItem(buildingEnum.name() + " " + buildingEnum.requiredTechName());
@@ -243,7 +232,7 @@ public class CityPanelView implements ViewController {
         }
     }
     private void initializeUnitMenu() {
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         Civilization civilization = GameController.getGame().getCurrentCivilization();
         for (UnitEnum unitEnum : UnitEnum.values()) {
             MenuItem item = new MenuItem(unitEnum.name());
@@ -265,7 +254,7 @@ public class CityPanelView implements ViewController {
 //        System.out.println(selectedBuilding);
         if (selectedBuilding == null)
             return;
-        city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        city = MenuStack.getInstance().getCookies().getSelectedCity();
         String command = "city build building -n " +  selectedBuilding.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
         selectedBuilding = null;
@@ -273,7 +262,7 @@ public class CityPanelView implements ViewController {
     }
 
     public void buyUnit() {
-        City city = GameController.getGame().getCurrentCivilization().getSelectedCity();
+        City city = MenuStack.getInstance().getCookies().getSelectedCity();
         if(selectedUnit == null){
             return;
         }

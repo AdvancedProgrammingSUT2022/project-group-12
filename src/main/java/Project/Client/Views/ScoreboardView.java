@@ -1,6 +1,6 @@
 package Project.Client.Views;
 
-import Project.Client.DatabaseQuerier;
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.User;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;

@@ -3,7 +3,6 @@ package Project.Client.Views;
 import Project.Enums.FeatureEnum;
 import Project.Enums.ImprovementEnum;
 import Project.Models.Tiles.Tile;
-import Project.Server.Controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -36,7 +35,7 @@ public class TilePanelView implements ViewController {
     private Text damaged;
 
     public void initialize() {
-        Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
+        Tile tile = MenuStack.getInstance().getCookies().getSelectedTile();
         locationX.setText(String.valueOf(tile.getLocation().getRow()));
         locationY.setText(String.valueOf(tile.getLocation().getCol()));
 
@@ -51,7 +50,7 @@ public class TilePanelView implements ViewController {
         road.setText(String.valueOf(tile.hasRoad()));
         river.setText(String.valueOf(tile.hasRiver()));
         damaged.setText(String.valueOf(tile.isDamaged()));
-        civ.setText(GameController.getGame().getCurrentCivilization().getName());
+//        civ.setText(MenuStack.getInstance().getCookies().getName());
         type.setText(tile.getTerrain().getTerrainType().name());
         initMenu();
 
@@ -64,7 +63,7 @@ public class TilePanelView implements ViewController {
     }
 
     private void initImprovementMenu() {
-        Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
+        Tile tile = MenuStack.getInstance().getCookies().getSelectedTile();
         if (tile.getImprovements() == null)
             return;
         for (ImprovementEnum improvementEnum : tile.getImprovements()) {
@@ -74,7 +73,7 @@ public class TilePanelView implements ViewController {
     }
 
     private void initFeatureMenu() {
-        Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
+        Tile tile = MenuStack.getInstance().getCookies().getSelectedTile();
         if (tile.getTerrain().getFeatures() == null)
             return;
         for (FeatureEnum featureEnum : tile.getTerrain().getFeatures()) {
@@ -84,7 +83,7 @@ public class TilePanelView implements ViewController {
     }
 
     private void initResourceMenu() {
-        Tile tile = GameController.getGame().getCurrentCivilization().getSelectedTile();
+        Tile tile = MenuStack.getInstance().getCookies().getSelectedTile();
         if (tile.getTerrain().getResource() == null)
             resourcesMenu.setText("NULL");
         else

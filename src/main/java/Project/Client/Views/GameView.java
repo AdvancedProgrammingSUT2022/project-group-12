@@ -1,6 +1,5 @@
 package Project.Client.Views;
 
-import Project.Models.Game;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
@@ -15,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 public class GameView implements ViewController {
-    private static GameView instance;
     public MenuItem nextTurn;
     @FXML
     private Pane selectionPane;
@@ -33,24 +31,13 @@ public class GameView implements ViewController {
     private Pane hexPane;
     @FXML
 
-    public static GameView getInstance() {
-        return instance;
-    }
-
     public void initialize() {
         String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        GameController.getGame().setPage(this);
-        instance = this;
-    }
-    public Game getGame() {
-        return GameController.getGame();
     }
 
     public void showGameMap() {
         btn.setVisible(false);
-//        System.out.println(hexPane.getChildren());
-//        hexPane.getChildren().addAll(0, GameController.getGame().getTileGrid().getHexes());
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
@@ -92,7 +79,9 @@ public class GameView implements ViewController {
 
 
     public void backToMenu() {
-        // todo : go back to menu
+        String command = "end game";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        MenuStack.getInstance().popMenu();
     }
 
     public void exit() {

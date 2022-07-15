@@ -1,5 +1,6 @@
 package Project.Models.Units;
 
+import Project.Client.Utils.SelectHandler;
 import Project.Client.Views.Menu;
 import Project.Client.Views.MenuStack;
 import Project.Enums.CombatTypeEnum;
@@ -135,9 +136,7 @@ public abstract class Unit extends Production {
         });
         group.setOnMouseClicked((mouseEvent) -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                GameController.getGame().getCurrentCivilization().setSelectedUnit(this);
-//                String command = "select unit -p " + this.getLocation().getRow() + " " + this.getLocation().getCol();
-//                CommandResponse response = RequestHandler.getInstance().handle(command);
+                SelectHandler.sendSelectUnitRequest(this);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
             }
         });
