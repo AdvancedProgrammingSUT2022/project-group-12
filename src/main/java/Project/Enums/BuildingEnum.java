@@ -99,6 +99,13 @@ public enum BuildingEnum {
         return this.requiredTechs;
     }
 
+    public String requiredTechName() {
+        StringBuilder name = new StringBuilder();
+        for (TechnologyEnum technologyEnum : requiredTechs)
+            name.append(technologyEnum).append(" ");
+        return name.toString();
+    }
+
     public boolean checkIfHasRequiredTechs(List<TechnologyEnum> techList) {
         for (TechnologyEnum list : this.requiredTechs) {
             if (!techList.contains(list)) {

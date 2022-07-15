@@ -19,6 +19,6 @@
       </AnchorPane>
    </graphic>
    <buttonTypes>
-      <ButtonType fx:constant="OK" fx:id="okButton"/>
+      <ButtonType fx:id="okayBTN" fx:constant="OK"/>
    </buttonTypes>
 </DialogPane>

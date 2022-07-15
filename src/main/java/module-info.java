@@ -4,11 +4,13 @@ module project {
     requires javafx.graphics;
     requires javafx.controls;
     requires com.google.gson;
+    requires xstream;
 
 //    opens Project to javafx.fxml;
 //    exports Project;
 //    exports Project.Views;
     opens Project.Client.Views to javafx.fxml;
+    opens Project.Models to com.google.gson;
     exports Project.Client;
     exports Project.Server;
 //    exports Project.Models;

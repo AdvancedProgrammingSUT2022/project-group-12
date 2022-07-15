@@ -81,7 +81,7 @@ public class GameMenu extends Menu {
     @Override
     protected void answer(Object message) {
         showTheMap();
-        System.out.println(message);
+        super.answer(message);
     }
 
     private void findCategory(Command command) {
@@ -158,7 +158,7 @@ public class GameMenu extends Menu {
 
     private void cheatAddBuilding(Command command) {
         if (selectedCity == null) {
-            System.out.println(CommandResponse.CITY_NOT_SELECTED);
+            answer(CommandResponse.CITY_NOT_SELECTED);
             return;
         }
         try {
@@ -417,7 +417,7 @@ public class GameMenu extends Menu {
         }
         this.selectedUnit = null;
         this.selectedCity = null;
-        System.out.println("end of turn");
+        System.out.println("end of turn"); // todo: convert to answer() or not?
         System.out.println("------------------------------");
         this.startNewTurn();
     }

@@ -1,7 +1,7 @@
 package Project.Client.Views;
 
+import Project.Client.DatabaseQuerier;
 import Project.Models.Chat;
-import Project.Models.Database;
 import Project.Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,13 +27,13 @@ public class ChatSelectView implements ViewController {
     private VBox userBox1;
     private boolean chatSelected;
     private boolean userSelected;
-    private ArrayList<User> selectedUsers = new ArrayList<>();
+    private final ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
     private ArrayList<String> usernames = new ArrayList<>();
 
     public void initialize() {
-        usernames = Database.getInstance().getAllUsers();
+        usernames = DatabaseQuerier.getAllUsernames();
         usernames.remove(MenuStack.getInstance().getUser().getUsername());
         chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
         userSelect.getItems().removeAll(userSelect.getItems());
@@ -72,7 +72,7 @@ public class ChatSelectView implements ViewController {
         if (users.contains(userSelect.getValue()))
             return;
         users.add(userSelect.getValue());
-        selectedUsers.add(Database.getInstance().getUser(userSelect.getValue()));
+        selectedUsers.add(DatabaseQuerier.getUser(userSelect.getValue()));
         userBox1.getChildren().add(returnText(userSelect.getValue()));
         userSelect.getItems().remove(userSelect.getValue());
     }

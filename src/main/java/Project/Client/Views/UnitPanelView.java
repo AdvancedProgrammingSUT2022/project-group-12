@@ -1,5 +1,7 @@
 package Project.Client.Views;
 
+import Project.Enums.UnitStates;
+import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 
 public class UnitPanelView implements ViewController {
 
+    public Button pillageBtn;
     @FXML
     private Button attackUnitBtn;
     @FXML
@@ -83,10 +86,21 @@ public class UnitPanelView implements ViewController {
     private void initButtonBox() {
         Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         if (selectedUnit.getType().name().equals("SETTLER")) {
+            buttonBox.getChildren().add(initClearLandButton());
             cityName = new TextField("Name");
             createCreateCityButton();
             buttonBox.getChildren().add(createCityBtn);
         }
+    }
+
+    private Button initClearLandButton() {
+        Button button = new Button("clear land");
+        button.setOnAction(actionEvent -> {
+            Tile tile = unit.getTile();
+            tile.clearLand();
+            back();
+        });
+        return button;
     }
 
     private void createCreateCityButton() {
@@ -233,5 +247,9 @@ public class UnitPanelView implements ViewController {
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         back();
+    }
+
+    public void pillage() {
+        unit.setState(UnitStates.PILLAGE);
     }
 }

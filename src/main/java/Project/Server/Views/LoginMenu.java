@@ -39,7 +39,7 @@ public class LoginMenu extends Menu {
             answer(e);
             return;
         }
-        System.out.println("user created successfully");
+        answer("user created successfully");
     }
 
     private void loginUser(Command command) {
@@ -59,7 +59,7 @@ public class LoginMenu extends Menu {
             answer(e);
             return;
         }
-        System.out.println("user logged in successfully");
         MenuStack.getInstance().pushMenu(new MainMenu());
+        answer("user logged in successfully");
     }
 }

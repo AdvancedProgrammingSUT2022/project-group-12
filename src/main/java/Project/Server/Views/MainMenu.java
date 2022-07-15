@@ -51,8 +51,8 @@ public class MainMenu extends Menu {
             answer(e);
             return;
         }
-        answer("game started");
         MenuStack.getInstance().pushMenu(new GameMenu());
+        answer("game started");
     }
 
 }

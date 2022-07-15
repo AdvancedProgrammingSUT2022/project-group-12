@@ -2,7 +2,6 @@ package Project.Client;
 
 import Project.Client.Views.Menu;
 import Project.Client.Views.MenuStack;
-import Project.Models.Database;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -24,7 +23,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        Database.getInstance().deserialize();
         App.scene = new Scene(new Pane());
 //        App.scene.getStylesheets().add(Objects.requireNonNull(App.getResourcePath("css/styles.css")));
         stage.setScene(App.scene);

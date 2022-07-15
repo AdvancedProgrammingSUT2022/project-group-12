@@ -7,5 +7,6 @@ public enum UnitStates {
     SETUP,
     AWAKE,
     FORTIFY_UNTIL_HEAL,
+    PILLAGE,
     WORKING;
 }

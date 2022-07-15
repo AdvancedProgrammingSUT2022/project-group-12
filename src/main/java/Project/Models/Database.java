@@ -1,9 +1,20 @@
 package Project.Models;
 
+import Project.Server.Controllers.GameController;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Database {
     private static Database instance = null;
@@ -31,11 +42,11 @@ public class Database {
         this.usersList.remove(user);
     }
 
-    public ArrayList<User> getUsers() {
+    public ArrayList<User> getAllUsers() {
         return this.usersList;
     }
 
-    public ArrayList<String> getAllUsers() {
+    public ArrayList<String> getAllUsernames() {
         ArrayList<String> users = new ArrayList<>();
         for (User user : this.usersList)
             users.add(user.getUsername());
@@ -69,42 +80,85 @@ public class Database {
     }
 
     public void deserialize() {
-        deserializeUsers();
+//        deserializeUsers();
     }
 
     public void deserializeUsers() {
-//        ArrayList<User> jsonUsers = new ArrayList<>();
-//        try {
-//            File file = new File("users.json");
-//            if (!file.exists()) {
-//                file.createNewFile();
-//            }
-//            String jsonFile = new String(Files.readAllBytes(Paths.get("users.json")));
-//            jsonUsers = new Gson().fromJson(jsonFile, new TypeToken<List<User>>() {
-//            }.getType());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        if (jsonUsers != null) {
-//            this.usersList.addAll(jsonUsers);
-//        }
-//        for (User user : this.usersList) {
-//            this.users.put(user.getUsername(), user);
-//        }
+        ArrayList<User> copiedUsers = new ArrayList<>();
+        try {
+            File file = new File(Game.class.getResource("/database/users.xml").toExternalForm());
+            if (!file.exists())
+                return;
+            String filePath = new String(Files.readAllBytes(Paths.get(Game.class.getResource("/database/users.xml").toExternalForm())));
+            XStream xStream = new XStream();
+            xStream.addPermission(AnyTypePermission.ANY);
+            if (filePath.length() != 0) {
+                Object selectedUsers = new XStream().fromXML(filePath, new TypeToken<List<User>>() {
+                }.getType());
+                User[] myUsers = new User[Array.getLength(selectedUsers)];
+                for (int i = 0; i < Array.getLength(selectedUsers); i++) {
+                    Array.set(myUsers, i, Array.get(selectedUsers, i));
+                }
+                copiedUsers.addAll(List.of(myUsers));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!copiedUsers.isEmpty()) {
+            this.usersList.addAll(copiedUsers);
+            for (User user : copiedUsers) {
+                this.users.put(user.getUsername(), user);
+            }
+        }
+    }
+
+    private void serializeUsers() {
+        try {
+            FileWriter writer;
+            if (!Files.exists(Paths.get(Game.class.getResource("/database/users.xml").toExternalForm())))
+                new File(Game.class.getResource("/database").toExternalForm()).mkdir();
+            writer = new FileWriter(Game.class.getResource("/database/game.xml").toExternalForm(), false);
+            XStream xStream = new XStream();
+            writer.write(xStream.toXML(usersList));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void serialize() {
-//        try {
-//            File file = new File("users.json");
-//            file.delete();
-//            file.createNewFile();
-//            FileWriter writer = new FileWriter("users.json");
-//            writer.write(this.gson.toJson(usersList));
-//            writer.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+//        serializeUsers();
     }
+
+    public void saveGame() {
+        Game game = GameController.getGame();
+        try {
+            FileWriter writer;
+            if (!Files.exists(Paths.get(Game.class.getResource("/database/game.xml").toExternalForm())))
+                new File(Game.class.getResource("/database").toExternalForm()).mkdir();
+            writer = new FileWriter(Game.class.getResource("/database/game.xml").toExternalForm(), false);
+            XStream xStream = new XStream();
+            writer.write(xStream.toXML(game));
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Game openLastGame() {
+        try {
+            String filePath = new String(Files.readAllBytes(Paths.get(Game.class.getResource("/database/game.xml").toExternalForm())));
+            XStream file = new XStream();
+            file.addPermission(AnyTypePermission.ANY);
+            if (filePath.length() != 0) {
+                return (Game) file.fromXML(filePath);
+            }
+        } catch (IOException e) {
+            return null;
+        }
+        return null;
+    }
+
 
     public boolean checkPassword(String username, String password) {
         return this.users.get(username).passwordMatchCheck(password);

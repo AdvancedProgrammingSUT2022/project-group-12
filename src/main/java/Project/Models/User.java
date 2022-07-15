@@ -10,14 +10,14 @@ import java.util.Random;
 
 public class User {
     private final String username;
-    private final HashMap<String, Chat> chats;
+    private transient final HashMap<String, Chat> chats;
     private String imageUrl;
     private String nickname;
     private String password;
     private int score;
     private Date lastWinDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
     private Date lastLoginDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
-    private Chat currentChat;
+    private transient Chat currentChat;
 
     public User(String username, String password, String nickname) {
         this.username = username;
@@ -26,7 +26,7 @@ public class User {
         this.chats = new HashMap<>();
         this.score = 0;
         this.imageUrl = assignRandomAvatar();
-        if (Database.getInstance().getAllUsers().contains(username))
+        if (Database.getInstance().getAllUsernames().contains(username))
             return;
         Database data = Database.getInstance();
         data.addUser(this);

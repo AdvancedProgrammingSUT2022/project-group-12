@@ -1,6 +1,5 @@
 package Project.Client.Views;
 
-import Project.Models.Database;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
@@ -147,7 +146,6 @@ public class ProfileView implements ViewController {
     private void accountAboutToBeRemoved() {
         if (MenuStack.getInstance().getUser().passwordMatchCheck(changePass.getText())) {
             changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
-            Database.getInstance().removeAccount(MenuStack.getInstance().getUser());
             MenuStack.getInstance().popToLogin();
         } else {
             changePass.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
@@ -157,13 +155,16 @@ public class ProfileView implements ViewController {
     private void nicknameAboutToChange() {
         String command = "change nickname -n " + changeNick.getText();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        // todo: based on response
-//        if (Database.getInstance().nicknameAlreadyExists(changeNick.getText()))
-//            changeNick.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
-//        else {
-//            MenuStack.getInstance().getUser().changeNickname(changeNick.getText());
-//            changeNick.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
-//        }
+        switch (response) {
+            case OK -> {
+                MenuStack.getInstance().getUser().changeNickname(changeNick.getText());
+                changeNick.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+            }
+            case NICKNAME_ALREADY_EXISTS -> {
+                changeNick.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            }
+            default -> throw new RuntimeException();
+        }
     }
 
     private void passwordAboutToChange() {

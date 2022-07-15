@@ -56,8 +56,8 @@ public class UnitActionsTest {
         enemyTerrain.getFeatures().add(FeatureEnum.FOREST);
         ownTerrain.getFeatures().removeAll(ownTerrain.getFeatures());
         ownTerrain.getFeatures().add(FeatureEnum.MARSH);
-        ownTile = new Tile(ownTerrain, new Location(20, 22));
-        enemyTile = new Tile(enemyTerrain, new Location(20, 21));
+//        ownTile = new Tile(ownTerrain, new Location(20, 22));
+//        enemyTile = new Tile(enemyTerrain, new Location(20, 21));
         myCity = new City("mycity", new ArrayList<Tile>(List.of(ownTile)), myCivilization, ownTile, true);
         enemyCity = new City("enemycity", new ArrayList<Tile>(List.of(enemyTile)), enemyCivilization, enemyTile, false);
     }

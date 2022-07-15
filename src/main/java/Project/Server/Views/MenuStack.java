@@ -1,9 +1,11 @@
 package Project.Server.Views;
 
+import Project.Models.Database;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
+import Project.Utils.DatabaseQueryType;
+import com.google.gson.Gson;
 import Project.Views.WinCityDialog;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -106,7 +108,7 @@ public class MenuStack {
         Optional<String> answer = dialog.showAndWait();
         return answer.get();
     }
-    
+
 
     public HashMap<String, String> getResponseParameters() {
         return responseParameters;
@@ -118,5 +120,13 @@ public class MenuStack {
 
     public void addResponseParameters(String key, String value) {
         this.responseParameters.put(key, value);
+    }
+
+    public String databaseQuery(DatabaseQueryType query, String[] params) {
+        return switch (query) {
+            case GET_ALL_USERS -> new Gson().toJson(Database.getInstance().getAllUsers());
+            case GET_ALL_USERNAMES -> new Gson().toJson(Database.getInstance().getAllUsernames());
+            case GET_USER_BY_USERNAME -> new Gson().toJson(Database.getInstance().getUser(params[0]));
+        };
     }
 }

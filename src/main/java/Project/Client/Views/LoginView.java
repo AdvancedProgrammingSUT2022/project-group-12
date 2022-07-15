@@ -1,6 +1,6 @@
 package Project.Client.Views;
 
-import Project.Models.Database;
+import Project.Client.DatabaseQuerier;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -141,14 +141,14 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
-        if (Database.getInstance().checkForUsername(username.getText())) {
-            String command = "user login -u " + username.getText() + " -p " + password.getText();
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            // todo: need more work (generate token and ...)
-            if (Database.getInstance().checkPassword(username.getText(), password.getText())) {
-                MenuStack.getInstance().setUser(Database.getInstance().getUser(username.getText()));
+        String command = "user login -u " + username.getText() + " -p " + password.getText();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        switch (response) {
+            case OK -> {
+                MenuStack.getInstance().setUser(DatabaseQuerier.getUser(username.getText()));
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
-            } else {
+            }
+            case PASSWORD_DOES_NOT_MATCH -> {
                 if (passwordBox.getChildren().size() > 2)
                     return;
                 password.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
@@ -156,13 +156,15 @@ public class LoginView implements ViewController {
                 incorrectPassword.setStyle("-fx-fill: #ff0066; -fx-font-size: 10;");
                 passwordBox.getChildren().add(incorrectPassword);
             }
-        } else {
-            if (usernameBox.getChildren().size() > 2)
-                return;
-            username.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
-            Text usernameDoesNotExists = new Text("Username Doesn't Exists !!");
-            usernameDoesNotExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
-            usernameBox.getChildren().add(usernameDoesNotExists);
+            case USER_DOES_NOT_EXISTS -> {
+                if (usernameBox.getChildren().size() > 2)
+                    return;
+                username.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+                Text usernameDoesNotExists = new Text("Username Doesn't Exists !!");
+                usernameDoesNotExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
+                usernameBox.getChildren().add(usernameDoesNotExists);
+            }
+            default -> throw new RuntimeException();
         }
     }
 
@@ -170,27 +172,29 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
-        if (Database.getInstance().checkForUsername(username.getText())) {
-            if (usernameBox.getChildren().size() > 2)
-                return;
-            Text usernameExists = new Text("Username Already Exists !!");
-            usernameExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
-            usernameBox.getChildren().add(usernameExists);
-            username.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
-        } else if (Database.getInstance().nicknameAlreadyExists(nickname.getText())) {
-            if (nicknameBox.getChildren().size() > 2)
-                return;
-            Text nicknameExists = new Text("Nickname Already Exists !!");
-            nicknameExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
-            nicknameBox.getChildren().add(nicknameExists);
-            nickname.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
-        } else {
-            String command = "user create -u " + username.getText() + " -p " + password.getText() + " -n " + nickname.getText();
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-//            new User(username.getText(), password.getText(), nickname.getText());
-            username.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
-            password.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
-            nickname.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+        String command = "user create -u " + username.getText() + " -p " + password.getText() + " -n " + nickname.getText();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        switch (response) {
+            case OK -> {
+                username.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+                password.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+                nickname.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
+            } case NICKNAME_ALREADY_EXISTS -> {
+                if (nicknameBox.getChildren().size() > 2)
+                    return;
+                Text nicknameExists = new Text("Nickname Already Exists !!");
+                nicknameExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
+                nicknameBox.getChildren().add(nicknameExists);
+                nickname.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            } case USERNAME_ALREADY_EXISTS -> {
+                if (usernameBox.getChildren().size() > 2)
+                    return;
+                Text usernameExists = new Text("Username Already Exists !!");
+                usernameExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
+                usernameBox.getChildren().add(usernameExists);
+                username.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            }
+            default -> throw new RuntimeException();
         }
     }
 
