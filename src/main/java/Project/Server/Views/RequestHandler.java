@@ -1,6 +1,7 @@
 package Project.Server.Views;
 
 import Project.Utils.CommandResponse;
+import Project.Utils.ResponseException;
 
 import java.util.HashMap;
 
@@ -17,7 +18,12 @@ public class RequestHandler {
 
     public CommandResponse handle(String line) {
         System.out.println("Request: " + line);
-        return MenuStack.getInstance().runCommand(line);
+        try {
+            MenuStack.getInstance().runCommand(line);
+        } catch (ResponseException e) {
+            return e.getResponse();
+        }
+        return null;
     }
 
     public HashMap<String, String> getParameters() {

@@ -3,6 +3,7 @@ package Project.Server.Views;
 import Project.Utils.Command;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
+import Project.Utils.ResponseException;
 
 import java.util.Scanner;
 
@@ -59,6 +60,11 @@ public abstract class Menu {
 
     protected void answer(Object message) {
         System.out.println(message);
+        if (message instanceof CommandException commandException) {
+            throw new ResponseException(commandException.getResponse());
+        } else {
+            throw new ResponseException(CommandResponse.OK);
+        }
     }
 
     protected void resetShowName() {

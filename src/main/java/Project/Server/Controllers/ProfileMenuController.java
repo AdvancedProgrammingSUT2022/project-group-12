@@ -9,7 +9,7 @@ public class ProfileMenuController {
 
     public static void changePassword(String oldPassword, String newPassword) throws CommandException {
         if (!MenuStack.getInstance().getUser().passwordMatchCheck(oldPassword)) {
-            throw new CommandException(CommandResponse.INVALID_PASSWORD);
+            throw new CommandException(CommandResponse.PASSWORD_DOES_NOT_MATCH);
         } else if (oldPassword.equals(newPassword)) {
             throw new CommandException(CommandResponse.REPEATED_PASSWORD);
         } else {

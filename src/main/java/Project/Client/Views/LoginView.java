@@ -141,22 +141,21 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
-        if (Database.getInstance().checkForUsername(username.getText())) {
-            String command = "user login -u " + username.getText() + " -p " + password.getText();
-            CommandResponse response = RequestHandler.getInstance().handle(command);
+        String command = "user login -u " + username.getText() + " -p " + password.getText();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        System.out.println(response);
+        if (response.isOK()) {
             // todo: need more work (generate token and ...)
-            if (Database.getInstance().checkPassword(username.getText(), password.getText())) {
-                MenuStack.getInstance().setUser(Database.getInstance().getUser(username.getText()));
-                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
-            } else {
-                if (passwordBox.getChildren().size() > 2)
-                    return;
-                password.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
-                Text incorrectPassword = new Text("Incorrect Password !!");
-                incorrectPassword.setStyle("-fx-fill: #ff0066; -fx-font-size: 10;");
-                passwordBox.getChildren().add(incorrectPassword);
-            }
-        } else {
+            MenuStack.getInstance().setUser(Database.getInstance().getUser(username.getText()));
+            MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
+        } else if (response == CommandResponse.PASSWORD_DOES_NOT_MATCH) {
+            if (passwordBox.getChildren().size() > 2)
+                return;
+            password.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            Text incorrectPassword = new Text("Incorrect Password !!");
+            incorrectPassword.setStyle("-fx-fill: #ff0066; -fx-font-size: 10;");
+            passwordBox.getChildren().add(incorrectPassword);
+        } else if (response == CommandResponse.USER_DOES_NOT_EXISTS) {
             if (usernameBox.getChildren().size() > 2)
                 return;
             username.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
