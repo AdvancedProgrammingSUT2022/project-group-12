@@ -72,6 +72,8 @@ public class Game {
             civ.addUnit(warrior);
             updateRevealedTileGrid(civ);
             //test
+            civ.addResource(ResourceEnum.BANANA);
+            civ.addResource(ResourceEnum.IRON);
             civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
             civ.getResearchingTechnologies().put(TechnologyEnum.ANIMAL_HUSBANDRY,TechnologyEnum.ANIMAL_HUSBANDRY.getCost());
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());

@@ -77,9 +77,8 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CheatSheetPage"));
     }
     public void gotoTradePanel(){
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("Trade"));
+        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("TradeMenu"));
     }
-
 
 
     public void backToMenu() {

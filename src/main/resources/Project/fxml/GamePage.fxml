@@ -9,9 +9,9 @@
 
 <Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.GameView">
     <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
-      <Menu mnemonicParsing="false" text="Trade Panel">
+      <Menu mnemonicParsing="false" text="Trade Panel" >
         <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="goto Trade Panel" onAction="#gotoTradePanel"/>
         </items>
       </Menu>
         <Menu fx:id="cheat" text="Cheat Sheet">
