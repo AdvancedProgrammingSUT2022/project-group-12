@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="124.0" prefWidth="235.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Do you want to destroy city or you want to make it annexed ?" wrappingWidth="176.7294921875" />
+            <HBox alignment="CENTER_LEFT" prefHeight="99.0" prefWidth="179.0" style="-fx-spacing: 40;">
+               <children>
+                  <ToggleButton mnemonicParsing="false" prefHeight="24.0" prefWidth="108.0" text="Destroy" />
+                  <ToggleButton mnemonicParsing="false" prefHeight="24.0" prefWidth="110.0" text="Annexed" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

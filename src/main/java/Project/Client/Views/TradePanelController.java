@@ -17,44 +17,78 @@ public class TradePanelController implements ViewController {
     public VBox rivalInnerVbox;
     private MenuButton resourceRivalMenu;
     private MenuButton resourceOwnMenu;
+    private ResourceEnum suggestResource;
+    private ResourceEnum requiredResource;
     public Spinner<Integer> rivalGoldSpinner = new Spinner<>();
     public Spinner<Integer> ownGoldSpinner = new Spinner<>();
 
     private Civilization selectedCiv;
     public MenuButton rivalCivsComboBox;
 
-    public void initialize(){
+    public void initialize() {
         labelRival.setText("Rival Option");
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
         initializeRivalCivMenuButton(currentCiv);
         rivalGoldToggleBtn.setDisable(true);
         rivalResourceToggleBtn.setDisable(true);
-        initializeGoldToggleButton(currentCiv,selectedCiv);
-        rivalResourceToggleBtn.setOnAction(e -> {
-            rivalGoldToggleBtn.setSelected(false);
-            VBox vBox = new VBox(new Label("Resource Option"));
-            resourceRivalMenu = new MenuButton();
-            for (ResourceEnum re :
-                  selectedCiv.getResources().keySet() ) {
-                MenuItem menuItem = new MenuItem(re.name().toLowerCase());
-
-        }}
-        );
+        initializeGoldToggleButton(currentCiv, selectedCiv);
+        initializeResourceToggleButtons(currentCiv);
 
     }
 
-    private void initializeGoldToggleButton(Civilization currentCiv,Civilization selectedCiv) {
-        rivalGoldToggleBtn.setOnAction( e -> {
+    private void initializeResourceToggleButtons(Civilization currentCiv) {
+        rivalResourceToggleBtn.setOnAction(e -> {
+                    rivalGoldToggleBtn.setSelected(false);
+                    rivalInnerVbox.getChildren().clear();
+                    VBox vBox = new VBox(new Label("Resource Option"));
+                    resourceRivalMenu = new MenuButton();
+                    for (ResourceEnum re :
+                            selectedCiv.getResources().keySet()) {
+                        MenuItem menuItem = new MenuItem(re.name().toLowerCase());
+                        menuItem.setOnAction(e1 -> {
+                            requiredResource = re;
+                        });
+                        resourceRivalMenu.getItems().add(menuItem);
+                    }
+                    vBox.getChildren().add(resourceRivalMenu);
+                    rivalInnerVbox.getChildren().add(resourceRivalMenu);
+                }
+        );
+        ownResourceToggleBtn.setOnAction(e -> {
+                    ownGoldToggleBtn.setSelected(false);
+                    myInnerVbox.getChildren().clear();
+                    VBox vBox = new VBox(new Label("Resource Option"));
+                    resourceOwnMenu = new MenuButton();
+                    for (ResourceEnum re :
+                            currentCiv.getResources().keySet()) {
+                        MenuItem menuItem = new MenuItem(re.name().toLowerCase());
+                        menuItem.setOnAction(e1 -> {
+                            suggestResource = re;
+                        });
+                        resourceRivalMenu.getItems().add(menuItem);
+                    }
+                    vBox.getChildren().add(resourceOwnMenu);
+                    myInnerVbox.getChildren().add(resourceOwnMenu);
+                }
+        );
+    }
+
+    private void initializeGoldToggleButton(Civilization currentCiv, Civilization selectedCiv) {
+        rivalGoldToggleBtn.setOnAction(e -> {
+            rivalInnerVbox.getChildren().clear();
             rivalResourceToggleBtn.setSelected(false);
-            VBox vBox = new VBox(new Label("Gold Amount")); vBox.setSpacing(20);
-            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,selectedCiv.calculateCivilizationGold());
+            VBox vBox = new VBox(new Label("Gold Amount"));
+            vBox.setSpacing(20);
+            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, selectedCiv.calculateCivilizationGold());
             rivalGoldSpinner.setValueFactory(spinnerValueFactory);
             vBox.getChildren().add(rivalGoldSpinner);
             rivalInnerVbox.getChildren().add(vBox);
         });
-        ownGoldToggleBtn.setOnAction( e -> {
+        ownGoldToggleBtn.setOnAction(e -> {
+            myInnerVbox.getChildren().clear();
             ownGoldToggleBtn.setSelected(false);
-            VBox vBox = new VBox(new Label("Gold Amount")); vBox.setSpacing(20);
+            VBox vBox = new VBox(new Label("Gold Amount"));
+            vBox.setSpacing(20);
             SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentCiv.calculateCivilizationGold());
             ownGoldSpinner.setValueFactory(spinnerValueFactory);
             vBox.getChildren().add(ownGoldSpinner);
@@ -63,10 +97,10 @@ public class TradePanelController implements ViewController {
     }
 
     private void initializeRivalCivMenuButton(Civilization currentCiv) {
-        for (Civilization civ:
+        for (Civilization civ :
                 GameController.getGame().getCivilizations()) {
             MenuItem menuItem = new MenuItem(civ.getName());
-            if(!civ.equals(currentCiv)){
+            if (!civ.equals(currentCiv)) {
                 rivalCivsComboBox.getItems().add(menuItem);
             }
             menuItem.setOnAction(e -> {
@@ -79,7 +113,6 @@ public class TradePanelController implements ViewController {
     }
 
     private void initializeInnerVboxRival(Civilization selectedCiv) {
-
 
 
     }

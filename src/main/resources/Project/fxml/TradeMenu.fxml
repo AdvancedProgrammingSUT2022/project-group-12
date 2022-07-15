@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.MenuButton?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.TradePanelController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <MenuButton fx:id="rivalCivsComboBox" prefHeight="24.0" prefWidth="179.0" promptText="Rival Civlilization" />
+         </children>
+      </HBox>
+   </top>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="212.0" style="-fx-padding: 10; -fx-spacing: 20;" translateX="30.0" translateY="-10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Your Option" />
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="192.0" style="-fx-spacing: 30;">
+               <children>
+                  <ToggleButton fx:id="ownGoldToggleBtn" mnemonicParsing="false" prefHeight="24.0" prefWidth="75.0" text="Gold" />
+                  <ToggleButton fx:id="ownResourceToggleBtn" mnemonicParsing="false" prefHeight="24.0" prefWidth="85.0" text="Resource" />
+               </children>
+            </HBox>
+            <VBox fx:id="myInnerVbox" prefHeight="65.0" prefWidth="192.0" />
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="212.0" style="-fx-padding: 10; -fx-spacing: 20;" translateX="-30.0" translateY="-10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="labelRival" alignment="CENTER" />
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="192.0" style="-fx-spacing: 30;">
+               <children>
+                  <ToggleButton fx:id="rivalGoldToggleBtn" mnemonicParsing="false" prefHeight="24.0" prefWidth="75.0" text="Gold" />
+                  <ToggleButton fx:id="rivalResourceToggleBtn" mnemonicParsing="false" prefHeight="24.0" prefWidth="85.0" text="Resource" />
+               </children>
+            </HBox>
+            <VBox fx:id="rivalInnerVbox" prefHeight="65.0" prefWidth="192.0" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
