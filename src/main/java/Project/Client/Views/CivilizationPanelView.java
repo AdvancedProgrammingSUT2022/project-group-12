@@ -1,7 +1,7 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.Civilization;
-import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 public class CivilizationPanelView implements ViewController {
 
@@ -35,6 +37,7 @@ public class CivilizationPanelView implements ViewController {
     private Text civName;
 
     public void initialize() {
+//        DatabaseQuerier.getCurrentCivilization();
         Civilization civilization = GameController.getGame().getCurrentCivilization();
         initDemocracyMenu();
         initTilesMenu();
@@ -49,13 +52,13 @@ public class CivilizationPanelView implements ViewController {
     }
 
     private void initTilesMenu() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
-        for (Tile tile : civilization.getOwnedTiles()) {
-            MenuItem item = new MenuItem(tile.getLocation().toString());
+        ArrayList<String> ownedTilesLocations = DatabaseQuerier.getCivTilesLocations();
+        for (String location : ownedTilesLocations) {
+            MenuItem item = new MenuItem(location);
             tilesMenu.getItems().add(item);
         }
-        MenuItem item = new MenuItem(String.valueOf(civilization.getOwnedTiles().size()));
-        tilesMenu.getItems().add(item);
+//        MenuItem item = new MenuItem(String.valueOf(civilization.getOwnedTiles().size()));
+//        tilesMenu.getItems().add(item);
     }
 
     private void initUnitMenu() {

@@ -2,9 +2,7 @@ package Project.Client.Views;
 
 import Project.Enums.UnitStates;
 import Project.Models.Tiles.Tile;
-import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
@@ -104,12 +102,10 @@ public class UnitPanelView implements ViewController {
     }
 
     private void createCreateCityButton() {
-        Unit selectedUnit = GameController.getGame().getCurrentCivilization().getSelectedUnit();
         createCityBtn = new Button("Create City");
         createCityBtn.setOnAction(actionEvent -> {
             if (cityName.getText().isEmpty())
                 return;
-            sendSelectUnitRequest(unit);
             String command = "unit found city";
             CommandResponse response = RequestHandler.getInstance().handle(command);
             back();
@@ -157,16 +153,9 @@ public class UnitPanelView implements ViewController {
 //        }
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
-        sendSelectUnitRequest(unit);
         String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (response.isOK()) back();
-    }
-
-    private void sendSelectUnitRequest(Unit unit) {
-        String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
-        String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
     }
 
     public void sleep() {
@@ -208,7 +197,6 @@ public class UnitPanelView implements ViewController {
     public void attackUnit(ActionEvent actionEvent) {
         int locationX = xAttackSpinner.getValue();
         int locationY = yAttackSpinner.getValue();
-        sendSelectUnitRequest(unit);
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);

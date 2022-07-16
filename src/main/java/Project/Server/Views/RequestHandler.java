@@ -36,6 +36,8 @@ public class RequestHandler {
     }
 
     public String databaseQuery(DatabaseQueryType query, String... params) {
-        return MenuStack.getInstance().databaseQuery(query, params);
+        String response = MenuStack.getInstance().databaseQuery(query, params);
+        System.out.println("databaseR: " + response);
+        return response;
     }
 }

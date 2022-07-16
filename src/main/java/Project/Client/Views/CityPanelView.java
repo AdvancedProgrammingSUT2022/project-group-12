@@ -6,7 +6,6 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
 import Project.Models.Production;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -182,15 +181,6 @@ public class CityPanelView implements ViewController {
         MenuStack.getInstance().popMenu();
     }
 
-    private void sendSelectCityRequest(City city) {
-        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-    private void sendSelectUnitRequest(Unit unit) {
-        String command = "select unit " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-
     public void BuyTile() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         if (city.calculateGold() == 0)
@@ -199,7 +189,6 @@ public class CityPanelView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         back();
     }
-
 
     public void speedUp() {
         if (selectedProduction == null)

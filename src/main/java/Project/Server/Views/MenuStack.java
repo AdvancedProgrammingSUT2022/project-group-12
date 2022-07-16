@@ -2,10 +2,12 @@ package Project.Server.Views;
 
 import Project.Models.Database;
 import Project.Models.User;
+import Project.Server.Controllers.GameController;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
-import com.google.gson.Gson;
 import Project.Views.WinCityDialog;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -123,10 +125,13 @@ public class MenuStack {
     }
 
     public String databaseQuery(DatabaseQueryType query, String[] params) {
+        Gson gson = new Gson();
+        // todo: get civ token instead of current
         return switch (query) {
-            case GET_ALL_USERS -> new Gson().toJson(Database.getInstance().getAllUsers());
-            case GET_ALL_USERNAMES -> new Gson().toJson(Database.getInstance().getAllUsernames());
-            case GET_USER_BY_USERNAME -> new Gson().toJson(Database.getInstance().getUser(params[0]));
+            case GET_ALL_USERS -> gson.toJson(Database.getInstance().getAllUsers());
+            case GET_ALL_USERNAMES -> gson.toJson(Database.getInstance().getAllUsernames());
+            case GET_USER_BY_USERNAME -> gson.toJson(Database.getInstance().getUser(params[0]));
+            case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(tile -> String.valueOf(tile.getLocation())).toList());
         };
     }
 }
