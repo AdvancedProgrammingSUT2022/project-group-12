@@ -9,7 +9,7 @@ public class CommandException extends Exception {
     }
 
     public CommandException(CommandResponse commandResponse, String item) {
-        super(commandResponse.toString() + ": " + item);
+        super(commandResponse.toStringWithItem() + ": " + item);
         this.response = commandResponse;
     }
 

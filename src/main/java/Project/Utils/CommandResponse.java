@@ -16,7 +16,7 @@ public enum CommandResponse {
     INVALID_DIRECTION("invalid direction"),
     NOT_HAVING_TILE("this tile is not yours"),
     UNIT_DOES_NOT_EXISTS("unit doesn't exists"),
-    WRONG_UNIT("wrong unit, you need"),
+    WRONG_UNIT("wrong unit", ", you need"),
     NOT_DAMAGED("the tile is undamaged!"),
     ROUTE_DOES_NOT_EXISTS("there isn't any route here"),
     JUNGLE_DOES_NOT_EXISTS("there isn't any jungle here"),
@@ -66,7 +66,7 @@ public enum CommandResponse {
     INVALID_NAME("Invalid input name"),
     ENEMY_DOESNT_EXISTS("enemy doesn't exists"),
     ATTACK_ISNT_POSSIBLE("cannot reach tile with current movement count"),
-    YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT("you can't destroy city by ranged combat unit"),
+    YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT("you can't destroy city by ranged combat unit"),
     YOU_CANT_DESTROY_CITY_BY_CITY("you can't destroy city by ranged combat unit"),
     PLAYER_NUMBER_GAP("there is a gap in number of players"),
     IMPROVEMENT_DOESNT_EXISTS("improvement doesn't exists"),
@@ -90,14 +90,25 @@ public enum CommandResponse {
     NO_BUILDING_WITH_THIS_NAME("there is no building with this name"), NO_RESOURCE_WITH_THIS_NAME("No resource with this name exists"), NO_TRADE_WITH_THIS_NAME("No trade with this name");
 
     private final String message;
+    private final String itemMessage;
 
     CommandResponse(String message) {
         this.message = message;
+        this.itemMessage = "---";
+    }
+
+    CommandResponse(String message, String itemMessage) {
+        this.message = message;
+        this.itemMessage = itemMessage;
     }
 
     @Override
     public String toString() {
         return this.message;
+    }
+
+    public String toStringWithItem() {
+        return this.toString() + ": " + this.itemMessage;
     }
 
     public boolean isOK() {

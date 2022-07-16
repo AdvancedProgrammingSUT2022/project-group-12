@@ -1,9 +1,9 @@
 package Project.Server.Controllers;
 
 import Project.Enums.*;
-import Project.Models.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
+import Project.Models.*;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
@@ -26,7 +26,7 @@ public class GameController {
 
     public static void unitRepairTile(Unit unit) throws CommandException {
         if (unit.getType() != UnitEnum.WORKER) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
         }
         if (unit.getState() != UnitStates.WORKING) {
             throw new CommandException(CommandResponse.WORKER_IS_ALREADY_WORKING);
@@ -133,7 +133,7 @@ public class GameController {
 
     public static void fortifyUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, "combat unit");
         }
         if (unit.getState() == UnitStates.FORTIFY) {
             throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
@@ -144,7 +144,7 @@ public class GameController {
 
     public static void pillageUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, "combat unit");
         }
         Tile unitTile = GameController.getGameTile(unit.getLocation());
         if (unitTile.getImprovementsExceptRoadOrRailRoad().size() == 0) {
@@ -162,7 +162,7 @@ public class GameController {
 
     public static void fortifyHealUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, "combat unit");
         }
         if (unit.getState() == UnitStates.FORTIFY_UNTIL_HEAL) {
             throw new CommandException(CommandResponse.UNIT_IS_FORTIFIED);
@@ -173,7 +173,7 @@ public class GameController {
 
     public static void alertUnit(Unit unit) throws CommandException {
         if (!(unit instanceof CombatUnit)) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, "combat unit");
         }
         if (unit.getState() == UnitStates.ALERT) {
             throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
@@ -184,7 +184,7 @@ public class GameController {
 
     public static void sleepUnit(Unit unit) throws CommandException {
         if (!(unit instanceof NonCombatUnit)) {
-            throw new CommandException(CommandResponse.WRONG_UNIT);
+            throw new CommandException(CommandResponse.WRONG_UNIT, "noncombat unit");
         }
         if (unit.getState() == UnitStates.SLEEP) {
             throw new CommandException(CommandResponse.UNIT_IS_SLEEP);

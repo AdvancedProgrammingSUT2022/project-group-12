@@ -66,7 +66,7 @@ public class CityCombatController extends CombatController {
         if (city.getHealth() <= 0) {
             if (unit instanceof RangedUnit) {
                 city.setHealth(1);
-                throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGEDCOMBAT);
+                throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
                 return captureTheCity(unit.getCivilization(), unit, city, cityTile, city.getCivilization());
