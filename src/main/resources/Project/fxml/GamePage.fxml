@@ -9,9 +9,12 @@
 
 <Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.GameView">
     <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
-      <Menu mnemonicParsing="false" text="Trade Panel" >
+      <Menu mnemonicParsing="false" text="Panels" >
         <items>
           <MenuItem mnemonicParsing="false" text="goto Trade Panel" onAction="#gotoTradePanel"/>
+            <MenuItem onAction="#researchInfo" text="Research Panel" />
+            <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet" />
+            <MenuItem onAction="#gotoCivPanel" text="Civilization Info" />
         </items>
       </Menu>
         <Menu mnemonicParsing="false" text="Notification Panel" >
@@ -19,17 +22,8 @@
                 <MenuItem mnemonicParsing="false" text="goto Notification Panel" onAction="#gotoNotificationPanel"/>
             </items>
         </Menu>
-        <Menu fx:id="cheat" text="Cheat Sheet">
-            <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet" />
-        </Menu>
-        <Menu fx:id="info" text="Info Panel">
-            <MenuItem onAction="#gotoCivPanel" text="Civilization Info" />
-        </Menu>
         <Menu onAction="#backToMenu" text="Back" />
         <Menu onAction="#exit" text="Exit" />
-        <Menu text="Research">
-            <MenuItem onAction="#researchInfo" text="Research Panel" />
-        </Menu>
       <Menu mnemonicParsing="false" text="Next Turn">
         <items>
           <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn" />
