@@ -106,5 +106,16 @@ public class DatabaseQuerier {
         TypeToken<ArrayList<Notification>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
+    public static ArrayList<Location> getCurrentCivUnitsLocation() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_LOCATIONS);
+        TypeToken<ArrayList<Location>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
+    public static ArrayList<String> getCurrentCivUnitsNames() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_NAMES);
+        TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
+
 
 }
