@@ -4,6 +4,7 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Civilization;
 import Project.Models.Database;
+import Project.Models.Game;
 import Project.Models.Tiles.Tile;
 import Project.Models.User;
 import Project.Server.Controllers.GameController;
@@ -131,7 +132,7 @@ public class MenuStack {
     }
 
     public String databaseQuery(DatabaseQueryType query, String[] params) {
-        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+
         Gson gson = new Gson();
         // todo: get civ token instead of current
         return switch (query) {
@@ -151,8 +152,8 @@ public class MenuStack {
             case GET_CURRENTCIV_FOOD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationFood());
             case GET_CURRENTCIV_GOLD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationGold());
             case GET_CURRENTCIV_SCIENCE ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateScience());
-            case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(currentCiv::isInWarWith).map(Civilization::getName).collect(Collectors.toList()));
-            case GET_NEIGHBORS_CURRENTCIV_NAMES -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(currentCiv.getName()))).collect(Collectors.toList()));
+            case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(GameController.getGame().getCurrentCivilization()::isInWarWith).map(Civilization::getName).collect(Collectors.toList()));
+            case GET_NEIGHBORS_CURRENTCIV_NAMES -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
