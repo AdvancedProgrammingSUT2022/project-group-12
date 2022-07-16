@@ -238,7 +238,7 @@ public class CityPanelView implements ViewController {
     private void initializeUnitMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         Civilization civilization = GameController.getGame().getCurrentCivilization();
-        for (UnitEnum unitEnum : UnitEnum.values()) {
+        for (UnitEnum unitEnum : DatabaseQuerier.getUnitEnums()) {
             MenuItem item = new MenuItem(unitEnum.name());
             item.setOnAction(actionEvent -> {
                 if (!unitEnum.hasRequiredTech(civilization.getTechnologies())) {

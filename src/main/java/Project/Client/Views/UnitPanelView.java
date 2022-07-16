@@ -1,5 +1,6 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.UnitStates;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
@@ -18,6 +19,8 @@ import javafx.scene.text.TextFlow;
 import java.util.HashMap;
 
 public class UnitPanelView implements ViewController {
+    int TILEGRID_WIDTH;
+    int TILEGRID_HEIGHT;
 
     public Button pillageBtn;
     @FXML
@@ -59,6 +62,8 @@ public class UnitPanelView implements ViewController {
     private Button createCityBtn;
 
     public void initialize() {
+        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
+        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         initializeSpinners();
         name.setText(unit.getType().name());
@@ -114,7 +119,7 @@ public class UnitPanelView implements ViewController {
 
 
     private void initializeYSpinner(Spinner<Integer> ySpinner, Button moveUnitBtn) {
-        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
+        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_HEIGHT - 1);
         System.out.println("x: " + unit.getLocation().getRow());
         System.out.println("y: " + unit.getLocation().getCol());
         yValueFactory.setValue(unit.getLocation().getCol());
@@ -127,7 +132,7 @@ public class UnitPanelView implements ViewController {
 
     private void initializeXSpinner(Spinner<Integer> xSpinner, Button spinnerButton) {
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
-        xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
+        xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_WIDTH - 1);
         xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
         xSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -135,7 +140,7 @@ public class UnitPanelView implements ViewController {
             moveUnitBtn.setStyle("-fx-border-color: none;");
         });
 
-        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
+        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_HEIGHT - 1);
         yValueFactory.setValue(unit.getLocation().getCol());
         ySpinner.setValueFactory(yValueFactory);
         ySpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -207,11 +212,8 @@ public class UnitPanelView implements ViewController {
             message = parameters.get("enemyDamage") + " damage to enemy and " + parameters.get("unitDamage") + " damage to unit";
         } else {
             message = response.toString();
+            MenuStack.getInstance().showError(message);
         }
-        Dialog dialog = new Dialog<>();
-        dialog.getDialogPane().setContent(createTextPane(message));
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK);
-        dialog.showAndWait();
         back();
     }
 

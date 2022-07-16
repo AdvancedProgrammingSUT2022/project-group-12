@@ -1,7 +1,9 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.ResourceEnum;
 import Project.Models.Civilization;
+import Project.Models.Resource;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -10,11 +12,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+
+import java.util.stream.Collectors;
 
 public class TradePanelController implements ViewController {
     public ToggleButton ownGoldToggleBtn;
@@ -36,29 +36,30 @@ public class TradePanelController implements ViewController {
     private String suggest;
     private String required;
 
-    private Civilization selectedCiv;
     public MenuButton rivalCivsComboBox;
+    private String selectedCivName;
 
     public void initialize() {
+        //todo : handle selectedCiv
         rivalOuterVbox.setVisible(false);
         labelRival.setText("Rival Option");
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
         initializeRivalCivMenuButton(currentCiv);
         rivalGoldToggleBtn.setDisable(true);
         rivalResourceToggleBtn.setDisable(true);
-        initializeGoldToggleButton(currentCiv);
-        initializeResourceToggleButtons(currentCiv);
+        initializeGoldToggleButton();
+        initializeResourceToggleButtons();
 
     }
 
-    private void initializeResourceToggleButtons(Civilization currentCiv) {
+    private void initializeResourceToggleButtons() {
         rivalResourceToggleBtn.setOnAction(e -> {
                     rivalGoldToggleBtn.setSelected(false);
                     rivalInnerVbox.getChildren().clear();
                     VBox vBox = new VBox(new Label("Resource Option"));
                     resourceRivalMenu = new MenuButton();
                     for (ResourceEnum re :
-                            selectedCiv.getResourceEnums()) {
+                            DatabaseQuerier.getCivResourcesByName(selectedCivName).stream().map(x -> x.getResourceEnum()).toList()) {
                         MenuItem menuItem = new MenuItem(re.name().toLowerCase());
                         menuItem.setOnAction(e1 -> {
                              required = re.name().toLowerCase();
@@ -76,7 +77,7 @@ public class TradePanelController implements ViewController {
                     VBox vBox = new VBox(new Label("Resource Option"));
                     resourceOwnMenu = new MenuButton();
                     for (ResourceEnum re :
-                            currentCiv.getResourceEnums()) {
+                            DatabaseQuerier.getCivResources().stream().map(Resource::getResourceEnum).toList()) {
                         MenuItem menuItem = new MenuItem(re.name().toLowerCase());
                         menuItem.setOnAction(e1 -> {
                              suggest  = re.name().toLowerCase();
@@ -90,13 +91,13 @@ public class TradePanelController implements ViewController {
         );
     }
 
-    private void initializeGoldToggleButton(Civilization currentCiv) {
+    private void initializeGoldToggleButton() {
         rivalGoldToggleBtn.setOnAction(e -> {
             rivalInnerVbox.getChildren().clear();
             rivalResourceToggleBtn.setSelected(false);
             VBox vBox = new VBox(new Label("Gold Amount")); vBox.setAlignment(Pos.CENTER);
             vBox.setSpacing(20);
-            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, selectedCiv.calculateCivilizationGold());
+            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, DatabaseQuerier.getGoldCivilizationByName(selectedCivName));
             rivalGoldSpinner.setValueFactory(spinnerValueFactory);
             rivalGoldSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
                 @Override
@@ -112,14 +113,9 @@ public class TradePanelController implements ViewController {
             ownResourceToggleBtn.setSelected(false);
             VBox vBox = new VBox(new Label("Gold Amount")); vBox.setAlignment(Pos.CENTER);
             vBox.setSpacing(20);
-            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, currentCiv.calculateCivilizationGold());
+            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, DatabaseQuerier.getCurrentGoldCivilization());
             ownGoldSpinner.setValueFactory(spinnerValueFactory);
-            ownGoldSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
-                @Override
-                public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
-                    suggest = String.valueOf(ownGoldSpinner.getValue());
-                }
-            });
+            ownGoldSpinner.valueProperty().addListener((observableValue, integer, t1) -> suggest = String.valueOf(ownGoldSpinner.getValue()));
             vBox.getChildren().add(ownGoldSpinner);
             myInnerVbox.getChildren().add(vBox);
         });
@@ -127,18 +123,17 @@ public class TradePanelController implements ViewController {
 
     private void initializeRivalCivMenuButton(Civilization currentCiv) {
         System.out.println("currentCiv.getName() = " + currentCiv.getName());
-        for (Civilization civ :
-                GameController.getGame().getCivilizations()) {
-            MenuItem menuItem = new MenuItem(civ.getName());
-            System.out.println("civ.getName() = " + civ.getName());
-            if (!civ.getName().equals(currentCiv.getName())) {
+        for (String civName :
+                DatabaseQuerier.getNeighborsCivsName()) {
+            MenuItem menuItem = new MenuItem(civName);
+            System.out.println("civ.getName() = " + civName);
                 rivalCivsComboBox.getItems().add(menuItem);
-            }
             menuItem.setOnAction(e -> {
                 rivalOuterVbox.setVisible(true);
-                this.selectedCiv = civ;
-                System.out.println(this.selectedCiv);
-                labelRival.setText(selectedCiv.getName() + " Option");
+                //todo : handle selected civ
+                this.selectedCivName = civName;
+                System.out.println(this.selectedCivName);
+                labelRival.setText(civName + " Option");
                 rivalGoldToggleBtn.setDisable(false);
                 rivalResourceToggleBtn.setDisable(false);
             });
@@ -155,7 +150,7 @@ public class TradePanelController implements ViewController {
             this.tradeNameTextField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
             return;
         }
-        String command = "trade create -s " + suggest + " -r " + required + " -c " + selectedCiv.getName() + " -n " +  this.tradeNameTextField.getText();
+        String command = "trade create -s " + suggest + " -r " + required + " -c " + selectedCivName + " -n " +  this.tradeNameTextField.getText();
         System.out.println("command = " + command);
         CommandResponse response = RequestHandler.getInstance().handle(command);
         back();

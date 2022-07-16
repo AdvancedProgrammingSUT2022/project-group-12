@@ -12,7 +12,6 @@ import Project.Utils.DatabaseQueryType;
 import Project.Client.Views.WinCityDialog;
 import com.google.gson.Gson;
 
-import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -153,6 +152,9 @@ public class MenuStack {
             case GET_CURRENTCIV_GOLD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationGold());
             case GET_CURRENTCIV_SCIENCE ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateScience());
             case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(currentCiv::isInWarWith).map(Civilization::getName).collect(Collectors.toList()));
+            case GET_NEIGHBORS_CURRENTCIV_NAMES -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(currentCiv.getName()))).collect(Collectors.toList()));
+            case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
+            case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
         };
     }
 }

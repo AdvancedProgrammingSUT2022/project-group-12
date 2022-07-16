@@ -83,8 +83,22 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_INWARWITH);
         return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
     }
-    public static int getGoldCivilization(){
+    public static int getCurrentGoldCivilization(){
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
         return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
     }
+    public static ArrayList<String> getNeighborsCivsName(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_NEIGHBORS_CURRENTCIV_NAMES);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+    public static int getGoldCivilizationByName(String name){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_GOLD_BY_NAME,name);
+        return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
+    }
+    public static ArrayList<Resource> getCivResourcesByName(String name) {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES_BY_NAME,name);
+        TypeToken<ArrayList<Resource>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
+
 }
