@@ -23,6 +23,8 @@ import javafx.scene.layout.Pane;
 public class CheatSheetView implements ViewController {
     @FXML
     private Pane pane;
+    int TILEGRID_WIDTH;
+    int TILEGRID_HEIGHT;
     @FXML
     private Spinner<Integer> goldSpinner;
     private SpinnerValueFactory<Integer> goldValueFactory;
@@ -103,6 +105,8 @@ public class CheatSheetView implements ViewController {
     private City cityForBuilding;
 
     public void initialize() {
+        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
+        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
 //        System.out.println(pane.getStylesheets());
         initSpinners();
         initMenus();
@@ -259,36 +263,36 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initUnitSpawnSpinner() {
-        spawnLocationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
+        spawnLocationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         spawnLocationXValueFactory.setValue(locationSpawnX);
         spawnLocationXSpinner.setValueFactory(spawnLocationXValueFactory);
         spawnLocationXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnX = spawnLocationXSpinner.getValue());
 
-        spawnLocationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
+        spawnLocationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         spawnLocationYValueFactory.setValue(locationSpawnY);
         spawnLocationYSpinner.setValueFactory(spawnLocationYValueFactory);
         spawnLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationSpawnY = spawnLocationYSpinner.getValue());
     }
 
     private void initTileRevealSpinner() {
-        tileXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
+        tileXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         tileXValueFactory.setValue(locationTileX);
         tileXSpinner.setValueFactory(tileXValueFactory);
         tileXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileX = tileXSpinner.getValue());
 
-        tileYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
+        tileYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         tileYValueFactory.setValue(locationTileY);
         tileYSpinner.setValueFactory(tileYValueFactory);
         tileYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTileY = tileYSpinner.getValue());
     }
 
     private void initTeleportationSpinner() {
-        teleportXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
+        teleportXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         teleportXValueFactory.setValue(locationTeleportX);
         teleportXSpinner.setValueFactory(teleportXValueFactory);
         teleportXSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportX = teleportXSpinner.getValue());
 
-        teleportYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
+        teleportYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         teleportYValueFactory.setValue(locationTeleportY);
         teleportYSpinner.setValueFactory(teleportYValueFactory);
         teleportYSpinner.valueProperty().addListener((observableValue, integer, t1) -> locationTeleportY = teleportYSpinner.getValue());

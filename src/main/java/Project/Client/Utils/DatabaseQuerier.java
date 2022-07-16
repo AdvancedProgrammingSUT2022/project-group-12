@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DatabaseQuerier {
 
@@ -45,6 +46,11 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES);
         TypeToken<ArrayList<Resource>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
+    }
+    public static HashMap<String,Integer> getTileGridSize(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID_SIZE);
+        return new Gson().fromJson(json,new TypeToken<HashMap<String,Integer>>(){}.getType());
+
     }
 //    public static int getGoldCivilization(){
 //        String json = RequestHandler.
