@@ -100,6 +100,9 @@ public class CivilizationPanelView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         for (Civilization otherCivilizations : civilization.getIsInEconomicRelation()) {
             MenuItem item = new MenuItem(otherCivilizations.getName());
+
+
+
             democracyMenu.getItems().add(item);
         }
     }
