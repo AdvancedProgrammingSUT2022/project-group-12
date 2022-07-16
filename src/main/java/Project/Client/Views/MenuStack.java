@@ -72,6 +72,9 @@ public class MenuStack {
         popMenu();
         popMenu();
     }
+    public void showError(String message){
+        new ErrorDialog(message).showAndWait();
+    }
 
     public Cookies getCookies() {
         return cookies;

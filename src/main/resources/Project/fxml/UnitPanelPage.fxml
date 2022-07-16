@@ -83,20 +83,17 @@
                 </HBox>
             </children>
         </HBox>
-      <ScrollPane hbarPolicy="NEVER" prefHeight="136.0" prefWidth="592.0">
-         <content>
-              <HBox fx:id="buttonBox" alignment="CENTER" prefHeight="52.0" prefWidth="586.0" spacing="10.0">
-               <Button mnemonicParsing="false" onAction="#buildImprovement" prefHeight="24.0" prefWidth="138.0" text="Build Improvemnt" />
-               <Button fx:id="pillageBtn" mnemonicParsing="false" onAction="#pillage" text="Pillage" />
-      
-                  <Button mnemonicParsing="false" onAction="#sleep" text="Sleep" />
-                  <Button mnemonicParsing="false" onAction="#alert" text="Alert" />
-                  <Button mnemonicParsing="false" onAction="#fortify" text="Fortify" />
-                  <Button mnemonicParsing="false" onAction="#awake" text="Awake" />
-               <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
-              </HBox>
-         </content>
-      </ScrollPane>
+        <ScrollPane prefHeight="136.0" prefWidth="592.0" style="-fx-padding: 5;" vbarPolicy="NEVER">
+            <HBox fx:id="buttonBox" alignment="CENTER" prefHeight="52.0"  spacing="10.0">
+                <Button mnemonicParsing="false" onAction="#buildImprovement" prefHeight="24.0" prefWidth="152.0" text="Build Improvement" />
+                <Button fx:id="pillageBtn" mnemonicParsing="false" onAction="#pillage" text="Pillage" />
+                <Button mnemonicParsing="false" onAction="#sleep" text="Sleep" />
+                <Button mnemonicParsing="false" onAction="#alert" text="Alert" />
+                <Button mnemonicParsing="false" onAction="#fortify" text="Fortify" />
+                <Button mnemonicParsing="false" onAction="#awake" text="Awake" />
+                <Button mnemonicParsing="false" onAction="#delete" text="Delete" />
+            </HBox>
+        </ScrollPane>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="266.0" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
 
             <Button mnemonicParsing="false" onAction="#back" text="Back" />
