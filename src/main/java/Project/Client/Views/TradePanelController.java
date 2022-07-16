@@ -43,8 +43,7 @@ public class TradePanelController implements ViewController {
         //todo : handle selectedCiv
         rivalOuterVbox.setVisible(false);
         labelRival.setText("Rival Option");
-        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
-        initializeRivalCivMenuButton(currentCiv);
+        initializeRivalCivMenuButton();
         rivalGoldToggleBtn.setDisable(true);
         rivalResourceToggleBtn.setDisable(true);
         initializeGoldToggleButton();
@@ -121,8 +120,7 @@ public class TradePanelController implements ViewController {
         });
     }
 
-    private void initializeRivalCivMenuButton(Civilization currentCiv) {
-        System.out.println("currentCiv.getName() = " + currentCiv.getName());
+    private void initializeRivalCivMenuButton() {
         for (String civName :
                 DatabaseQuerier.getNeighborsCivsName()) {
             MenuItem menuItem = new MenuItem(civName);
