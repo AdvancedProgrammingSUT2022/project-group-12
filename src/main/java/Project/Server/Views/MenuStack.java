@@ -1,16 +1,15 @@
 package Project.Server.Views;
 
+import Project.Client.Views.WinCityDialog;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Civilization;
 import Project.Models.Database;
-import Project.Models.Game;
 import Project.Models.Tiles.Tile;
 import Project.Models.User;
 import Project.Server.Controllers.GameController;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
-import Project.Client.Views.WinCityDialog;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -142,10 +141,12 @@ public class MenuStack {
             case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
             case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
             case GET_CIV_UNITS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits());
-            case GET_TILEGRID_SIZE -> gson.toJson(new HashMap<String,Integer>() {{
-                put("Height",GameController.getGame().getTileGrid().getHeight());
-                put("Width",GameController.getGame().getTileGrid().getWidth());
-            }});
+            case GET_TILEGRID_SIZE -> {
+                HashMap<String, Integer> hashMap = new HashMap<>();
+                hashMap.put("Height", GameController.getGame().getTileGrid().getHeight());
+                hashMap.put("Width", GameController.getGame().getTileGrid().getWidth());
+                yield gson.toJson(hashMap);
+            }
             case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
             case GET_ALL_BUILDING_ENUMS ->  gson.toJson(BuildingEnum.values());
             case GET_CURRENTCIV_HAPPINESS ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateHappiness());
