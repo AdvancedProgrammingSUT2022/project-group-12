@@ -1,5 +1,6 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
@@ -16,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 public class CityPanelView implements ViewController {
+    int TILEGRID_WIDTH;
+    int TILEGRID_HEIGHT;
     @FXML
     private Spinner attackXSpinner;
     @FXML
@@ -80,6 +83,8 @@ public class CityPanelView implements ViewController {
 
     public void initialize() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
+        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
+        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
         this.gold.setText(String.valueOf(city.calculateGold()));
         this.food.setText(String.valueOf(city.calculateFood()));
@@ -97,8 +102,8 @@ public class CityPanelView implements ViewController {
     }
 
     private void initAssignCitizenSpinner() {
-        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_WIDTH - 1);
-        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_HEIGHT - 1);
+        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
+        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         assignCitizenXSpinner.setValueFactory(xSpinnerValueFactory);
         assignCitizenYSpinner.setValueFactory(ySpinnerValueFactory);
         if(city.numberOfUnassignedCitizens() == 0){
@@ -108,8 +113,8 @@ public class CityPanelView implements ViewController {
         }
     }
     private void initAttackSpinner() {
-        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_WIDTH - 1);
-        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,Constants.TILEGRID_HEIGHT - 1);
+        SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
+        SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         attackXSpinner.setValueFactory(xSpinnerValueFactory);
         attackYSpinner.setValueFactory(ySpinnerValueFactory);
 
@@ -146,7 +151,7 @@ public class CityPanelView implements ViewController {
     }
 
     private void initBuyTileSpinner() {
-        locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_WIDTH - 1);
+        locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_WIDTH - 1);
         locationXValueFactory.setValue(locationX);
         buyTileLocationXSpinner.setValueFactory(locationXValueFactory);
         buyTileLocationXSpinner.valueProperty().addListener((observableValue, integer, t0) -> {
@@ -158,7 +163,7 @@ public class CityPanelView implements ViewController {
             //    buyTileBtn.setDisable(false);
         });
 
-        locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.TILEGRID_HEIGHT - 1);
+        locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_HEIGHT - 1);
         locationYValueFactory.setValue(locationY);
         buyTileLocationYSpinner.setValueFactory(locationYValueFactory);
         buyTileLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> {

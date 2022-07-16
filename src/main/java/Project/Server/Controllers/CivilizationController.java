@@ -84,7 +84,7 @@ public class CivilizationController {
                 .append("owned tiles: ").append(civilization.getOwnedTiles().size()).append("\n")
                 .append("units count: ").append(civilization.getUnits().size()).append("\n")
                 .append("gold count: ").append(civilization.getGold()).append("\n")
-                .append("is in war with [").append(civilization.getIsInWarWith().size()).append("] civilization(s)").append("\n")
+                .append("is in war with [").append(civilization.getInWarWith().size()).append("] civilization(s)").append("\n")
                 .append("is trading goods with [").append(civilization.getIsInEconomicRelation().size()).append("] civilization(s)").append("\n")
                 .append("Happiness: ").append(civilization.getHappiness()).append("\n")
                 .append("researching on [").append(civilization.getResearch().size()).append("] items").append("\n")
@@ -119,7 +119,7 @@ public class CivilizationController {
                 .append("unit count: ").append(civilization.getUnits().size()).append("\n")
                 .append("that are: \n").append(unitsPanel())
                 .append("gold count: ").append(civilization.getGold()).append("\n")
-                .append("is in war with [").append(civilization.getIsInWarWith().size()).append("] civilization(s)\n")
+                .append("is in war with [").append(civilization.getInWarWith().size()).append("] civilization(s)\n")
                 .append("is trading goods with [").append(civilization.getIsInEconomicRelation().size()).append("] civilization(s)\n")
                 .append("happiness: ").append(civilization.getHappiness()).append("\n")
                 .append("is currently researching on: ").append(civilization.getResearch().size()).append("\n");

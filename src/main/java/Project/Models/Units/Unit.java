@@ -33,7 +33,7 @@ public abstract class Unit extends Production {
     protected int health = Constants.UNIT_FULL_HEALTH;
     protected ArrayList<Tile> pathShouldCross = new ArrayList<>();
     protected UnitStates state;
-    protected Group graphicUnit;
+    protected transient Group graphicUnit;
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
         super(type.getProductionCost());

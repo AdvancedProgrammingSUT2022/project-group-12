@@ -2,6 +2,7 @@ package Project.Server.Views;
 
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.Civilization;
 import Project.Models.Database;
 import Project.Models.Tiles.Tile;
 import Project.Models.User;
@@ -11,10 +12,12 @@ import Project.Utils.DatabaseQueryType;
 import Project.Client.Views.WinCityDialog;
 import com.google.gson.Gson;
 
+import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class MenuStack {
     private static MenuStack instance = null;
@@ -129,6 +132,7 @@ public class MenuStack {
     }
 
     public String databaseQuery(DatabaseQueryType query, String[] params) {
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
         Gson gson = new Gson();
         // todo: get civ token instead of current
         return switch (query) {
@@ -144,6 +148,11 @@ public class MenuStack {
             }});
             case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
             case GET_ALL_BUILDING_ENUMS ->  gson.toJson(BuildingEnum.values());
+            case GET_CURRENTCIV_HAPPINESS ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateHappiness());
+            case GET_CURRENTCIV_FOOD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationFood());
+            case GET_CURRENTCIV_GOLD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationGold());
+            case GET_CURRENTCIV_SCIENCE ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateScience());
+            case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(currentCiv::isInWarWith).map(Civilization::getName).collect(Collectors.toList()));
         };
     }
 }

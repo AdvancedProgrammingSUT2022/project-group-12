@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile implements Notifier<Tile> {
-    private final Hex hex;
+    private transient final Hex hex;
     private final Location location;
     private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
@@ -24,6 +24,7 @@ public class Tile implements Notifier<Tile> {
     private NonCombatUnit nonCombatUnit;
     private boolean isDamaged;
     private Civilization civilization;
+    //test
     private City city;
     private boolean hasRoad;
     private boolean hasRailRoad;

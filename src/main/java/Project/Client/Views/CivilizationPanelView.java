@@ -48,11 +48,12 @@ public class CivilizationPanelView implements ViewController {
         initUnitMenu();
         initResourceMenu();
         civName.setText(civilization.getName());
-        happiness.setText(String.valueOf(civilization.calculateHappiness()));
-        beaker.setText(String.valueOf(civilization.calculateScience()));
-        gold.setText(String.valueOf(civilization.calculateCivilizationGold()));
+        happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
+        beaker.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
+        gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
+        //todo : cities
         cityCount.setText(String.valueOf(civilization.getCities().size()));
-        food.setText(String.valueOf(civilization.calculateCivilizationFood()));
+        food.setText(String.valueOf(DatabaseQuerier.getFoodOfCurrentCiv()));
     }
 
     private void initResourceMenu() {
@@ -77,18 +78,17 @@ public class CivilizationPanelView implements ViewController {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
         String command = "info units";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        for (Unit unit : civilization.getUnits()) {
+        for (Unit unit : DatabaseQuerier.getCurrentCivilizationUnits()) {
             MenuItem item = new MenuItem(unit.getType().name() + " " + unit.getLocation().toString());
             unitsMenu.getItems().add(item);
         }
     }
 
     private void initWarMenu() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
         String command = "info military";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        for (Civilization otherCivilizations : civilization.getIsInWarWith()) {
-            MenuItem item = new MenuItem(otherCivilizations.getName());
+        for (String otherCivilizationsName : DatabaseQuerier.getCurrentCivInWarWith()) {
+            MenuItem item = new MenuItem(otherCivilizationsName);
             warMenu.getItems().add(item);
         }
     }

@@ -1,5 +1,7 @@
 package Project.Utils;
 
+import Project.Server.Controllers.GameController;
+
 public enum DatabaseQueryType {
     GET_ALL_USERNAMES,/*("SELECT username FROM users")*/
     GET_USER_BY_USERNAME,
@@ -7,5 +9,8 @@ public enum DatabaseQueryType {
     GET_CIV_TILES_LOCATIONS,
     GET_CIV_RESOURCES,/*"SELECT * FROM users WHERE username=$0"*/
     GET_TILEGRID_SIZE,
-    GET_CIV_UNITS, GET_ALL_UNITS_ENUMS, GET_ALL_BUILDING_ENUMS;
+    GET_CURRENTCIV_FOOD,
+    GET_CURRENTCIV_GOLD,
+    GET_CURRENTCIV_SCIENCE,
+    GET_CIV_UNITS, GET_ALL_UNITS_ENUMS, GET_ALL_BUILDING_ENUMS, GET_CURRENTCIV_HAPPINESS, GET_CURRENTCIV_INWARWITH;
 }

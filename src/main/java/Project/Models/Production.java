@@ -3,7 +3,7 @@ package Project.Models;
 import Project.Models.Cities.City;
 
 public abstract class Production<T> {
-    T type;
+    T type1;
     private double remainedProduction;
 
     public Production(int remainedProduction) {
@@ -33,7 +33,7 @@ public abstract class Production<T> {
 
     @Override
     public String toString() {
-        return "type=" + type +
+        return "type=" + type1 +
                 ", remainedProduction=" + remainedProduction;
     }
 }

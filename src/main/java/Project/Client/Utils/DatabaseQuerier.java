@@ -62,7 +62,29 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_BUILDING_ENUMS);
         return new Gson().fromJson(json,new TypeToken<ArrayList<BuildingEnum>>(){}.getType());
     }
-//    public static int getGoldCivilization(){
-//        String json = RequestHandler.
-//    }
+    public static int getHappinessOfCurrentCiv(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_HAPPINESS);
+        return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
+    }
+    public static int getFoodOfCurrentCiv(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_FOOD);
+        return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
+    }
+    public static int getGoldOfCurrentCiv(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
+        return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
+    }
+    public static int getScienceOfCurrentCiv(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_SCIENCE);
+        return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
+    }
+    public static ArrayList<String> getCurrentCivInWarWith(){
+
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_INWARWITH);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+    public static int getGoldCivilization(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
+        return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
+    }
 }

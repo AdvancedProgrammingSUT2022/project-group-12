@@ -12,7 +12,6 @@ import Project.Server.Controllers.GameController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class Civilization {
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
     private final ArrayList<TechnologyEnum> technologies = new ArrayList<>(List.of(TechnologyEnum.RESET));
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
-    private final ArrayList<Civilization> isInWarWith;
+    private final ArrayList<Civilization> inWarWith;
     private ArrayList<Notification> notifications;
     private final ArrayList<Civilization> isInEconomicRelation;
     private HappinessTypeEnum happinessType;
@@ -60,7 +59,7 @@ public class Civilization {
         this.units = new ArrayList<>();
         this.gold = 100;
         this.production = 0;
-        this.isInWarWith = new ArrayList<>();
+        this.inWarWith = new ArrayList<>();
         this.name = user.getUsername();
         this.revealedTileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.cities = new ArrayList<>();
@@ -335,11 +334,11 @@ public class Civilization {
 
     public int calculateSuccess() {
         return gold + cities.size() + units.size() + technologies.size() + happiness
-                + isInEconomicRelation.size() - isInWarWith.size() + beaker + this.getOwnedTiles().size();
+                + isInEconomicRelation.size() - inWarWith.size() + beaker + this.getOwnedTiles().size();
     }
 
     public boolean isInWarWith(Civilization civilization) {
-        return this.isInWarWith.contains(civilization);
+        return this.inWarWith.contains(civilization);
     }
 
     public boolean isFriendWith(Civilization civilization) {
@@ -347,11 +346,11 @@ public class Civilization {
     }
 
     public void goToWarWith(Civilization civilization) {
-        this.isInWarWith.add(civilization);
+        this.inWarWith.add(civilization);
     }
 
     public void endWarWith(Civilization civilization) {
-        this.isInWarWith.remove(civilization);
+        this.inWarWith.remove(civilization);
     }
 
     public int getHappiness() {
@@ -410,8 +409,8 @@ public class Civilization {
         this.researchingTechnology = researchingTechnology;
     }
 
-    public ArrayList<Civilization> getIsInWarWith() {
-        return this.isInWarWith;
+    public ArrayList<Civilization> getInWarWith() {
+        return this.inWarWith;
     }
 
     public String getName() {

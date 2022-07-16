@@ -284,7 +284,7 @@ public class GameController {
 
     public static StringBuilder showDiplomaticInfo(Game game, Civilization currentCivilization) {
         StringBuilder diplomaticInfo = new StringBuilder();
-        ArrayList<Civilization> inWarWith = currentCivilization.getIsInWarWith();
+        ArrayList<Civilization> inWarWith = currentCivilization.getInWarWith();
         ArrayList<Civilization> economicPartnership = currentCivilization.economicRelations();
         for (Civilization civ : game.getCivilizations()) {
             if (civ == currentCivilization) continue;

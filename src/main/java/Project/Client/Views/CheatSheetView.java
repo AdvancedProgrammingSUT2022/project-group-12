@@ -120,7 +120,7 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initBuildings() {
-        for (BuildingEnum buildingEnums : BuildingEnum.values()) {
+        for (BuildingEnum buildingEnums : DatabaseQuerier.getBuildingEnums()) {
             MenuItem item = new MenuItem(buildingEnums.name());
             item.setOnAction(actionEvent -> {
                 buildingEnum = buildingEnums;
