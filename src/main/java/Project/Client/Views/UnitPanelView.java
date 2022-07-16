@@ -247,4 +247,11 @@ public class UnitPanelView implements ViewController {
     public void pillage() {
         unit.setState(UnitStates.PILLAGE);
     }
+
+    public void buildImprovement() {
+        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        String command = "unit build improvement";
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        back();
+    }
 }
