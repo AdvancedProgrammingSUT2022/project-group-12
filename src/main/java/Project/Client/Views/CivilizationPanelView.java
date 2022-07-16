@@ -1,6 +1,7 @@
 package Project.Client.Views;
 
 import Project.Models.Civilization;
+import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
@@ -13,6 +14,8 @@ import javafx.scene.text.Text;
 
 public class CivilizationPanelView implements ViewController {
 
+    @FXML
+    private MenuButton resourcesMenuButton;
     @FXML
     private MenuButton democracyMenu;
     @FXML
@@ -40,12 +43,22 @@ public class CivilizationPanelView implements ViewController {
         initTilesMenu();
         initWarMenu();
         initUnitMenu();
+        initResourceMenu();
         civName.setText(civilization.getName());
         happiness.setText(String.valueOf(civilization.calculateHappiness()));
         beaker.setText(String.valueOf(civilization.calculateScience()));
         gold.setText(String.valueOf(civilization.calculateCivilizationGold()));
         cityCount.setText(String.valueOf(civilization.getCities().size()));
         food.setText(String.valueOf(civilization.calculateCivilizationFood()));
+    }
+
+    private void initResourceMenu() {
+        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        for (Resource re :
+                civilization.getResources()) {
+            MenuItem menuItem = new MenuItem(re.getResourceEnum().name().toLowerCase());
+            resourcesMenuButton.getItems().add(menuItem);
+        }
     }
 
     private void initTilesMenu() {
