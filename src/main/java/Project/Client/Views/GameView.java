@@ -1,5 +1,6 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.Tile;
@@ -32,6 +33,7 @@ public class GameView implements ViewController {
     @FXML
 
     public void initialize() {
+        DatabaseQuerier.getTileGrid();
         String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
     }
