@@ -62,6 +62,7 @@ public class TradePanelController implements ViewController {
                         MenuItem menuItem = new MenuItem(re.name().toLowerCase());
                         menuItem.setOnAction(e1 -> {
                              required = re.name().toLowerCase();
+                             resourceRivalMenu.setText(re.name().toLowerCase());
                         });
                         resourceRivalMenu.getItems().add(menuItem);
                     }
@@ -79,6 +80,7 @@ public class TradePanelController implements ViewController {
                         MenuItem menuItem = new MenuItem(re.name().toLowerCase());
                         menuItem.setOnAction(e1 -> {
                              suggest  = re.name().toLowerCase();
+                             resourceOwnMenu.setText(re.name().toLowerCase());
                         });
                         resourceOwnMenu.getItems().add(menuItem);
                     }
