@@ -1,5 +1,6 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Client.Utils.SelectHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
@@ -126,6 +127,7 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initCityMenus() {
+
         for (City city : GameController.getGame().getCurrentCivilization().getCities()) {
             MenuItem foodItem = new MenuItem(city.getName());
             MenuItem productionIncreaseItem = new MenuItem(city.getName());
@@ -166,7 +168,7 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initUnitMenus() {
-        for (Unit unit : GameController.getGame().getCurrentCivilization().getUnits()) {
+        for (Unit unit : DatabaseQuerier.getCurrentCivilizationUnits()) {
             MenuItem teleportUnitItem = new MenuItem(unit.getType().name());
             MenuItem unitMovementIncreaseItem = new MenuItem(unit.getType().name());
             MenuItem healingUnitItem = new MenuItem(unit.getType().name());

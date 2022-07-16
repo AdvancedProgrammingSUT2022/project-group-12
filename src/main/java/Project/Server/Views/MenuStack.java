@@ -6,7 +6,7 @@ import Project.Models.User;
 import Project.Server.Controllers.GameController;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
-import Project.Views.WinCityDialog;
+import Project.Client.Views.WinCityDialog;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -105,6 +105,7 @@ public class MenuStack {
         Optional<String> answer = dialog.showAndWait();
         return answer.get();
     }
+
     public String getOptionForAttack() {
         System.out.println();
         WinCityDialog dialog = new WinCityDialog();
@@ -134,6 +135,11 @@ public class MenuStack {
             case GET_USER_BY_USERNAME -> gson.toJson(Database.getInstance().getUser(params[0]));
             case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
             case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
+            case GET_CIV_UNITS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits());
+            case GET_TILEGRID_SIZE -> gson.toJson(new HashMap<String,Integer>() {{
+                put("Height",GameController.getGame().getTileGrid().getHeight());
+                put("Width",GameController.getGame().getTileGrid().getWidth());
+            }});
         };
     }
 }

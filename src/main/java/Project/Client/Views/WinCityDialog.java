@@ -1,4 +1,4 @@
-package Project.Views;
+package Project.Client.Views;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

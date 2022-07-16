@@ -2,6 +2,7 @@ package Project.Client.Utils;
 
 import Project.Models.Location;
 import Project.Models.Resource;
+import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
@@ -35,10 +36,17 @@ public class DatabaseQuerier {
         TypeToken<ArrayList<Location>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
+    public static ArrayList<Unit> getCurrentCivilizationUnits(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_UNITS);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<Unit>>(){}.getType());
+    }
 
     public static ArrayList<Resource> getCivResources() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES);
         TypeToken<ArrayList<Resource>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
+//    public static int getGoldCivilization(){
+//        String json = RequestHandler.
+//    }
 }
