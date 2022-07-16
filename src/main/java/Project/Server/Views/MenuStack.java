@@ -1,5 +1,7 @@
 package Project.Server.Views;
 
+import Project.Enums.BuildingEnum;
+import Project.Enums.UnitEnum;
 import Project.Models.Database;
 import Project.Models.Tiles.Tile;
 import Project.Models.User;
@@ -140,6 +142,8 @@ public class MenuStack {
                 put("Height",GameController.getGame().getTileGrid().getHeight());
                 put("Width",GameController.getGame().getTileGrid().getWidth());
             }});
+            case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
+            case GET_ALL_BUILDING_ENUMS ->  gson.toJson(BuildingEnum.values());
         };
     }
 }

@@ -1,5 +1,7 @@
 package Project.Client.Utils;
 
+import Project.Enums.BuildingEnum;
+import Project.Enums.UnitEnum;
 import Project.Models.Location;
 import Project.Models.Resource;
 import Project.Models.Units.Unit;
@@ -51,6 +53,14 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID_SIZE);
         return new Gson().fromJson(json,new TypeToken<HashMap<String,Integer>>(){}.getType());
 
+    }
+    public static ArrayList<UnitEnum> getUnitEnums(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_UNITS_ENUMS);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<UnitEnum>>(){}.getType());
+    }
+    public static ArrayList<BuildingEnum> getBuildingEnums(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_BUILDING_ENUMS);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<BuildingEnum>>(){}.getType());
     }
 //    public static int getGoldCivilization(){
 //        String json = RequestHandler.

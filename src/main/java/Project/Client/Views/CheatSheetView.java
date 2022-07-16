@@ -131,7 +131,7 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initCityMenus() {
-
+        //todo : get Current Civilizations Cities;
         for (City city : GameController.getGame().getCurrentCivilization().getCities()) {
             MenuItem foodItem = new MenuItem(city.getName());
             MenuItem productionIncreaseItem = new MenuItem(city.getName());
@@ -198,7 +198,7 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initUnitEnumMenu() {
-        for (UnitEnum unitEnum : UnitEnum.values()) {
+        for (UnitEnum unitEnum : DatabaseQuerier.getUnitEnums()) {
             MenuItem unitEnumItem = new MenuItem(unitEnum.name());
             unitEnumItem.setOnAction(actionEvent -> {
                 selectedUnitEnum = unitEnum;
