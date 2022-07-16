@@ -313,15 +313,16 @@ public class Civilization {
         return units;
     }
 
-    public City getCityByName(String name) throws CommandException {
+    public City getCityByName(String name){
         for (City city :
                 this.getCities()) {
             if (city.getName().equals(name)) {
                 return city;
             }
         }
-        throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
+      return null;
     }
+
 
     public int calculateCivilizationFood()  {
         int food = Constants.PRIMAL_FOOD;

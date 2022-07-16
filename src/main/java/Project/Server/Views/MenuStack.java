@@ -9,6 +9,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Controllers.GameController;
+import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
@@ -131,7 +132,7 @@ public class MenuStack {
         this.responseParameters.put(key, value);
     }
 
-    public String databaseQuery(DatabaseQueryType query, String[] params) {
+    public String databaseQuery(DatabaseQueryType query, String[] params)  {
 
         Gson gson = new Gson();
         // todo: get civ token instead of current
@@ -161,6 +162,8 @@ public class MenuStack {
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
+            case GET_CURRENTCIV_CITIES_NAMES ->  gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map( city -> city.getName()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
         };
     }
 }
