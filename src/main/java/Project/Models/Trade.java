@@ -6,9 +6,9 @@ import javafx.util.Pair;
 public class Trade extends Notification{
     String name;
     ResourceEnum  suggestResources;
-    int suggestGold;
+    Integer suggestGold;
     ResourceEnum requiredResources;
-    int requiredGold;
+    Integer requiredGold;
     Civilization hostCiv;
     Civilization guestCiv;
 
@@ -24,12 +24,12 @@ public class Trade extends Notification{
     }
     private String initializeMessage(){
         if(this.suggestResources == null){
-                return "Suggest : Gold " + suggestGold + " Requires : Resource " + requiredResources;
+                return "host civ : " + hostCiv.getName() + " Suggest : Gold " + suggestGold + " Requires : Resource " + requiredResources;
         } else {
             if(requiredResources == null){
-                return "Suggest : Resource " + suggestResources +  " Requires : Gold " + requiredGold;
+                return "host civ : " + hostCiv.getName() + " Suggest : Resource " + suggestResources +  " Requires : Gold " + requiredGold;
             } else {
-                return "Suggest : Resource " + suggestResources + " Requires : Resource " + requiredResources;
+                return "host civ : " + hostCiv.getName() + " Suggest : Resource " + suggestResources + " Requires : Resource " + requiredResources;
             }
         }
     }
@@ -43,7 +43,7 @@ public class Trade extends Notification{
             if(requiredResources == null){
                 guestCiv.addResource(suggestResources);
                 guestCiv.decreaseGold(requiredGold);
-                hostCiv.addGold(suggestGold);
+                hostCiv.addGold(requiredGold);
                 hostCiv.removeResource(suggestResources);
             } else {
                 guestCiv.addResource(suggestResources);

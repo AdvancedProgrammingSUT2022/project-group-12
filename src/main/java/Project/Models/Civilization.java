@@ -27,7 +27,7 @@ public class Civilization {
     private final ArrayList<String> notifs;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
-    private HashMap<ResourceEnum,Location> resources;
+    private ArrayList<Resource> resources;
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
     private final ArrayList<TechnologyEnum> technologies = new ArrayList<>(List.of(TechnologyEnum.RESET));
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
@@ -74,7 +74,7 @@ public class Civilization {
         this.beakerFromBuildings = 0;
         this.beakerRatioFromBuildings = 1;
         this.unitCountByCategory = new HashMap<>();
-        this.resources = new HashMap<>();
+        this.resources = new ArrayList<>();
         this.notifications = new ArrayList<>();
         updateHappinessState(this.calculateHappiness());
     }
@@ -271,9 +271,9 @@ public class Civilization {
 
     public ArrayList<ResourceEnum> getAchievedLuxuryResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>();
-        for (ResourceEnum resource : this.resources.keySet()) {
-            if (resource.getType() == ResourceTypeEnum.LUXURY) {
-                resources.add(resource);
+        for (Resource resource : this.resources) {
+            if (resource.getResourceEnum().getType() == ResourceTypeEnum.LUXURY) {
+                resources.add(resource.getResourceEnum());
             }
         }
         return resources;
@@ -292,7 +292,7 @@ public class Civilization {
     }
     public void updateResources(Tile tile){
         if(tile.getImprovements().contains(tile.getTerrain().getResource().getImprovementNeeded())){
-            resources.put(tile.getTerrain().getResource(),tile.getLocation());
+            resources.add(new Resource(tile.getTerrain().getResource(),tile.getLocation()));
         }
     }
 
@@ -532,12 +532,32 @@ public class Civilization {
         return true;
     }
 
-    public HashMap<ResourceEnum, Location> getResources() {
+    public ArrayList<Resource> getResources() {
         return resources;
+    }
+    public boolean containsResource(ResourceEnum resourceEnum){
+        for (Resource resource:
+             resources) {
+            //todo check
+            if(resource.getResourceEnum() == resourceEnum){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Resource getResourceByName(ResourceEnum resourceEnum){
+        for (Resource resource:
+                resources) {
+            //todo check
+            if(resource.getResourceEnum() == resourceEnum){
+                return resource;
+            }
+        }
+        return null;
     }
     public ResourceEnum getResourceByName(String name) throws CommandException {
         ResourceEnum resourceEnum = ResourceEnum.getResourceEnumByName(name);
-        if(this.getResources().containsKey(resourceEnum)){
+        if(containsResource(resourceEnum)){
             return resourceEnum;
         }
         throw new CommandException(CommandResponse.NO_RESOURCE_WITH_THIS_NAME);
@@ -546,15 +566,16 @@ public class Civilization {
         this.notifications.add(notification);
     }
     public void removeResource(ResourceEnum resourceEnum){
-        Tile tile = GameController.getGameTile(this.resources.get(resourceEnum));
+        Resource resource = this.getResourceByName(resourceEnum);
+        Tile tile = GameController.getGameTile(resource.getLocation());
         if(tile != null ) tile.removeResource();
-        this.resources.remove(resourceEnum);
+        this.resources.remove(resource);
     }
     public void decreaseGold(int value){
         this.gold -= value;
     }
     public void addResource(ResourceEnum resourceEnum){
-        this.resources.put(resourceEnum,null);
+        this.resources.add(new Resource(resourceEnum,null));
     }
     public void removeNotification(Notification notification){
         this.notifications.remove(notification);
@@ -577,6 +598,16 @@ public class Civilization {
       throw  new CommandException(CommandResponse.NO_TRADE_WITH_THIS_NAME);
   }
 
+    public ArrayList<Notification> getNotifications() {
+        return notifications;
+    }
 
-
+    public ArrayList<ResourceEnum> getResourceEnums() {
+        ArrayList<ResourceEnum> resourceEnums = new ArrayList<>();
+        for (Resource resource:
+             resources) {
+            resourceEnums.add(resource.getResourceEnum());
+        }
+        return resourceEnums;
+    }
 }

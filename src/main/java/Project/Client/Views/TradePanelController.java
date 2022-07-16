@@ -58,7 +58,7 @@ public class TradePanelController implements ViewController {
                     VBox vBox = new VBox(new Label("Resource Option"));
                     resourceRivalMenu = new MenuButton();
                     for (ResourceEnum re :
-                            selectedCiv.getResources().keySet()) {
+                            selectedCiv.getResourceEnums()) {
                         MenuItem menuItem = new MenuItem(re.name().toLowerCase());
                         menuItem.setOnAction(e1 -> {
                              required = re.name().toLowerCase();
@@ -75,7 +75,7 @@ public class TradePanelController implements ViewController {
                     VBox vBox = new VBox(new Label("Resource Option"));
                     resourceOwnMenu = new MenuButton();
                     for (ResourceEnum re :
-                            currentCiv.getResources().keySet()) {
+                            currentCiv.getResourceEnums()) {
                         MenuItem menuItem = new MenuItem(re.name().toLowerCase());
                         menuItem.setOnAction(e1 -> {
                              suggest  = re.name().toLowerCase();

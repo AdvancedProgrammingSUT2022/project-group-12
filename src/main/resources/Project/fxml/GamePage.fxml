@@ -14,6 +14,11 @@
           <MenuItem mnemonicParsing="false" text="goto Trade Panel" onAction="#gotoTradePanel"/>
         </items>
       </Menu>
+        <Menu mnemonicParsing="false" text="Notification Panel" >
+            <items>
+                <MenuItem mnemonicParsing="false" text="goto Notification Panel" onAction="#gotoNotificationPanel"/>
+            </items>
+        </Menu>
         <Menu fx:id="cheat" text="Cheat Sheet">
             <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet" />
         </Menu>

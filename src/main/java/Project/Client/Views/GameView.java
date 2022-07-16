@@ -108,4 +108,8 @@ public class GameView implements ViewController {
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
     }
+
+    public void gotoNotificationPanel(ActionEvent actionEvent) {
+        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("NotificationPanel"));
+    }
 }

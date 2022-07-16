@@ -71,11 +71,7 @@ public class Game {
             civ.addUnit(settler);
             civ.addUnit(warrior);
             updateRevealedTileGrid(civ);
-            //test
-            civ.addResource(ResourceEnum.BANANA);
-            civ.addResource(ResourceEnum.IRON);
-            civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
-            civ.getResearchingTechnologies().put(TechnologyEnum.ANIMAL_HUSBANDRY,TechnologyEnum.ANIMAL_HUSBANDRY.getCost());
+
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
 
@@ -171,6 +167,9 @@ public class Game {
 
     public Civilization getCurrentCivilization() {
         return civilizations.get(this.gameTurn % civilizations.size());
+    }
+    public Civilization getNextCivilization() {
+        return civilizations.get((this.gameTurn + 1) % civilizations.size());
     }
 
     public void startNewTurn() throws GameException {
