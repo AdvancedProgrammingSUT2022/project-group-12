@@ -1,4 +1,4 @@
-module project {
+open module project {
     requires javafx.fxml;
     requires javafx.base;
     requires javafx.graphics;
@@ -9,8 +9,8 @@ module project {
 //    opens Project to javafx.fxml;
 //    exports Project;
 //    exports Project.Views;
-    opens Project.Client.Views to javafx.fxml;
-    opens Project.Models to com.google.gson;
+//    opens Project.Client.Views to javafx.fxml;
+//    opens Project.Models to com.google.gson;
     exports Project.Client;
     exports Project.Server;
     exports Project.Client.Utils;

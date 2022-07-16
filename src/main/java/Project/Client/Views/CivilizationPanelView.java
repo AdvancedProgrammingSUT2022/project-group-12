@@ -2,6 +2,7 @@ package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.Civilization;
+import Project.Models.Location;
 import Project.Models.Resource;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
@@ -55,18 +56,17 @@ public class CivilizationPanelView implements ViewController {
     }
 
     private void initResourceMenu() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
-        for (Resource re :
-                civilization.getResources()) {
-            MenuItem menuItem = new MenuItem(re.getResourceEnum().name().toLowerCase());
+        ArrayList<Resource> resources = DatabaseQuerier.getCivResources();
+        for (Resource resource : resources) {
+            MenuItem menuItem = new MenuItem(resource.getResourceEnum().name().toLowerCase());
             resourcesMenuButton.getItems().add(menuItem);
         }
     }
 
     private void initTilesMenu() {
-        ArrayList<String> ownedTilesLocations = DatabaseQuerier.getCivTilesLocations();
-        for (String location : ownedTilesLocations) {
-            MenuItem item = new MenuItem(location);
+        ArrayList<Location> ownedTilesLocations = DatabaseQuerier.getCivTilesLocations();
+        for (Location location : ownedTilesLocations) {
+            MenuItem item = new MenuItem(String.valueOf(location));
             tilesMenu.getItems().add(item);
         }
 //        MenuItem item = new MenuItem(String.valueOf(civilization.getOwnedTiles().size()));

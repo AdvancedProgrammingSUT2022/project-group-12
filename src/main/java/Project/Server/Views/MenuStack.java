@@ -1,6 +1,7 @@
 package Project.Server.Views;
 
 import Project.Models.Database;
+import Project.Models.Tiles.Tile;
 import Project.Models.User;
 import Project.Server.Controllers.GameController;
 import Project.Utils.CommandResponse;
@@ -131,7 +132,8 @@ public class MenuStack {
             case GET_ALL_USERS -> gson.toJson(Database.getInstance().getAllUsers());
             case GET_ALL_USERNAMES -> gson.toJson(Database.getInstance().getAllUsernames());
             case GET_USER_BY_USERNAME -> gson.toJson(Database.getInstance().getUser(params[0]));
-            case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(tile -> String.valueOf(tile.getLocation())).toList());
+            case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
+            case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
         };
     }
 }
