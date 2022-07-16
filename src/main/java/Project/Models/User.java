@@ -13,18 +13,15 @@ public class User {
     private transient final HashMap<String, Chat> chats;
     private String imageUrl;
     private String nickname;
-    private Game game;
     private String password;
     private int score;
     private Date lastWinDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
     private Date lastLoginDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
     private transient Chat currentChat;
-    private HashMap<String, Game> gamesRequests;
 
     public User(String username, String password, String nickname) {
         this.username = username;
         this.nickname = nickname;
-        this.gamesRequests = new HashMap<>();
         this.password = password;
         this.chats = new HashMap<>();
         this.score = 0;
@@ -34,23 +31,6 @@ public class User {
         Database data = Database.getInstance();
         data.addUser(this);
         data.serialize();
-    }
-
-    public HashMap<String, Game> getGames() {
-        return gamesRequests;
-    }
-
-    public void setGameString(String user, Game game) {
-        gamesRequests.put(user, game);
-    }
-
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     private String assignRandomAvatar() {
