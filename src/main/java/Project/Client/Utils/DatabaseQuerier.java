@@ -5,15 +5,12 @@ import Project.Enums.UnitEnum;
 import Project.Models.Location;
 import Project.Models.Notification;
 import Project.Models.Resource;
-import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,13 +105,6 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NOTIFICATIONS);
         TypeToken<ArrayList<Notification>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
-    }
-    public static TileGrid getTileGrid() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID);
-        TypeToken<TileGrid> typeToken = new TypeToken<>() {};
-        XStream xStream = new XStream();
-        xStream.addPermission(AnyTypePermission.ANY);
-        return (TileGrid) xStream.fromXML(json, typeToken.getType());
     }
 
 }
