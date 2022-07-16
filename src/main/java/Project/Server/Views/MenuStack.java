@@ -155,6 +155,7 @@ public class MenuStack {
             case GET_NEIGHBORS_CURRENTCIV_NAMES -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(currentCiv.getName()))).collect(Collectors.toList()));
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
+            case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
         };
     }
 }

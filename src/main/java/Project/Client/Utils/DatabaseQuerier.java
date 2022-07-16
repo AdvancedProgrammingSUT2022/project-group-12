@@ -3,6 +3,7 @@ package Project.Client.Utils;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Location;
+import Project.Models.Notification;
 import Project.Models.Resource;
 import Project.Models.Units.Unit;
 import Project.Models.User;
@@ -98,6 +99,11 @@ public class DatabaseQuerier {
     public static ArrayList<Resource> getCivResourcesByName(String name) {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES_BY_NAME,name);
         TypeToken<ArrayList<Resource>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
+    public static ArrayList<Notification> getCurrentCivNotifications() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NOTIFICATIONS);
+        TypeToken<ArrayList<Notification>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
 

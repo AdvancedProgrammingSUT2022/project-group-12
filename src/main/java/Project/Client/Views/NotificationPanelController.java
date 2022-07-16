@@ -1,5 +1,6 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Client.Views.ViewController;
 import Project.Enums.ResourceEnum;
 import Project.Models.Civilization;
@@ -23,10 +24,8 @@ public class NotificationPanelController implements ViewController {
     private VBox notificationPanel;
 
     public void initialize() {
-        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
-        Civilization nextCiv = GameController.getGame().getNextCivilization();
         for (Notification notif :
-                currentCiv.getNotifications()) {
+                DatabaseQuerier.getCurrentCivNotifications()) {
             HBox hBox = new HBox(new Text(notif.getMessage()));
             hBox.setAlignment(Pos.CENTER_LEFT);
             if (notif instanceof Trade trade) {
