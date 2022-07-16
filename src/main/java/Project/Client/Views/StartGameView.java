@@ -1,22 +1,23 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
+import Project.Models.Game;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StartGameView implements ViewController {
     private final ArrayList<String> users = new ArrayList<>();
+    @FXML
+    private MenuButton invites;
     @FXML
     private Spinner<Integer> gridSizeHeight;
     @FXML
@@ -42,6 +43,23 @@ public class StartGameView implements ViewController {
         userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(usernames);
         userSelect.setOnAction(this::getUser);
+        initGameInvite();
+    }
+
+    private void initGameInvite() {
+        HashMap<String, Game> gamesMap = MenuStack.getInstance().getUser().getGames();
+        if (gamesMap.isEmpty())
+            return;
+        for (var set : gamesMap.entrySet()) {
+            MenuItem item = new MenuItem(set.getKey());
+            item.setOnAction(actionEvent -> {
+                MenuStack.getInstance().getUser().setGame(set.getValue());
+                widthValueFactory.setValue(set.getValue().getTileGrid().getWidth());
+                heightValueFactory.setValue(set.getValue().getTileGrid().getHeight());
+                invites.setText(set.getKey());
+            });
+            invites.getItems().add(item);
+        }
     }
 
     private void initializeSpinners() {

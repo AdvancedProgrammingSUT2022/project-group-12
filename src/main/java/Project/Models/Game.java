@@ -1,6 +1,7 @@
 package Project.Models;
 
 import Project.Client.Views.GameView;
+import Project.Client.Views.MenuStack;
 import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
@@ -28,6 +29,10 @@ public class Game {
     private int gameTurn = -1;
 
     public Game(ArrayList<User> users) {
+        for (User user : users) {
+            if (!MenuStack.getInstance().getUser().getUsername().equals(user.getUsername()))
+                user.setGameString(MenuStack.getInstance().getUser().getUsername(), this);
+        }
         this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
@@ -54,7 +59,7 @@ public class Game {
 //                    throw new RuntimeException("settler was on MOUNTAIN!, restart the game...");
 //                }
 //            } else {
-                settlerTile = availableTiles.get(availableTiles.size() - 1);
+            settlerTile = availableTiles.get(availableTiles.size() - 1);
 //            }
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
@@ -74,7 +79,7 @@ public class Game {
             //test
             civ.addResource(ResourceEnum.IRON);
             civ.addResource(ResourceEnum.BANANA);
-            civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
+            civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE, TechnologyEnum.AGRICULTURE.getCost());
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
 
@@ -171,6 +176,7 @@ public class Game {
     public Civilization getCurrentCivilization() {
         return civilizations.get(this.gameTurn % civilizations.size());
     }
+
     public Civilization getNextCivilization() {
         return civilizations.get((this.gameTurn + 1) % civilizations.size());
     }
@@ -270,10 +276,11 @@ public class Game {
             return unit;
         }
     }
-    public Civilization getCivByName(String name){
-        for (Civilization civ:
-             this.getCivilizations()) {
-            if(name.equals(civ.getName())){
+
+    public Civilization getCivByName(String name) {
+        for (Civilization civ :
+                this.getCivilizations()) {
+            if (name.equals(civ.getName())) {
                 return civ;
             }
         }

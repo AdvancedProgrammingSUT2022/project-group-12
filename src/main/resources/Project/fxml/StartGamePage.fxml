@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-<AnchorPane stylesheets="@../css/styles.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.StartGameView">
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.StartGameView">
     <ChoiceBox fx:id="userSelect" layoutX="254.0" layoutY="90.0" prefWidth="150.0" styleClass="choiceBox" />
     <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: " />
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit" textAlignment="CENTER" />
@@ -19,5 +19,11 @@
    <Spinner fx:id="gridSizeHeight" layoutX="244.0" layoutY="54.0" />
    <Text layoutX="101.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
    <Text layoutX="98.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
+   <MenuButton fx:id="invites" layoutX="436.0" layoutY="94.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="150.0" text="Invites">
+     <items>
+       <MenuItem mnemonicParsing="false" text="Action 1" />
+       <MenuItem mnemonicParsing="false" text="Action 2" />
+     </items>
+   </MenuButton>
 
 </AnchorPane>
