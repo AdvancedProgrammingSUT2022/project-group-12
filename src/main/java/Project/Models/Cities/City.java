@@ -22,10 +22,10 @@ import java.util.Random;
 import static java.lang.Math.exp;
 
 public class City {
-    private final ArrayList<Tile> tiles;
+    private final ArrayList<Location> tilesLocations;
     private final int range;
     private final ArrayList<Building> buildings;
-    private final Tile cityTile;
+    private final Location location;
     private final ArrayList<Production> productionQueue;
     private final String name;
     protected boolean isCapital;
@@ -51,8 +51,8 @@ public class City {
     private String civName;
 
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
-        this.tiles = tiles;
-        this.tiles.add(tile);
+        this.tilesLocations = new ArrayList<>(tiles.stream().map(Tile::getLocation).toList());
+        if (!this.tilesLocations.contains(tile.getLocation())) this.tilesLocations.add(tile.getLocation());
         this.gold = 100;
         this.production = 1 + tile.calculateSources("production");
         this.health = Constants.CITY_FULL_HEALTH;
@@ -64,7 +64,7 @@ public class City {
         this.buildings = new ArrayList<>();
         this.civName = civ.getName();
         this.range = 2;
-        this.cityTile = tile;
+        this.location = tile.getLocation();
         this.name = name;
         this.cityState = CityTypeEnum.RAW;
         //TODO : check the range of the city and the combat strength of that
@@ -104,7 +104,7 @@ public class City {
     }
 
     public Tile getTile() {
-        return cityTile;
+        return GameController.getGameTile(this.location);
     }
 
     public ArrayList<Citizen> getCitizens() {
@@ -118,7 +118,7 @@ public class City {
     }
 
     public ArrayList<Tile> getTiles() {
-        return tiles;
+        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
     }
 
     public void applyBuildingNotes() {
@@ -155,7 +155,7 @@ public class City {
             } else if (production instanceof Unit unit) {
                 this.getCivilization().addUnit(unit);
                 try {
-                    this.cityTile.placeUnit(unit);
+                    this.getTile().placeUnit(unit);
                 } catch (CommandException e) {
                     // we should guarantee emptiness of the tile at the last turn
                     throw new RuntimeException(e);
@@ -258,12 +258,13 @@ public class City {
         };
     }
 
+    // question: why is this method in City?
     public ArrayList<ResourceEnum> getAchievedResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>(List.of(ResourceEnum.RESET));
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
             // todoLater: getResource instead
-            if (tile.isResourceAchievedBy(resource, cityTile.getCivilization())) {
+            if (tile.isResourceAchievedBy(resource, this.getCivilization())) {
                 resources.add(resource);
             }
         }
@@ -500,7 +501,7 @@ public class City {
 
     public String getInfo() {
         return name + "\n" +
-                "tile: " + cityTile.getTerrain().getTerrainType().name() + "\n" +
+                "tile: " + this.getTile().getTerrain().getTerrainType().name() + "\n" +
                 "citizen count " + citizensCount + "\n" +
                 "food production " + calculateFood() + "\n";
     }
@@ -518,7 +519,7 @@ public class City {
     }
 
     public void addTile(Tile tile) {
-        this.tiles.add(tile);
+        this.tilesLocations.add(tile.getLocation());
     }
 
     public ArrayList<Production> getProductionQueue() {
@@ -543,7 +544,7 @@ public class City {
     }
 
     public Location getLocation() {
-        return this.cityTile.getLocation();
+        return this.location;
     }
 
 

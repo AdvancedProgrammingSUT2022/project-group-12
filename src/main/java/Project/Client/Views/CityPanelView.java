@@ -335,7 +335,7 @@ public class CityPanelView implements ViewController {
         int locationX = (int) attackXSpinner.getValue();
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
-        CommandResponse response = Project.Server.Views.MenuStack.getInstance().getTopMenu().runCommand(command);
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;

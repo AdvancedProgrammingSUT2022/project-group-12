@@ -5,6 +5,7 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Civilization;
 import Project.Models.Database;
+import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Models.User;
@@ -164,6 +165,8 @@ public class MenuStack {
             case GET_CURRENTCIV_CITIES_NAMES ->  gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map( city -> city.getName()).collect(Collectors.toList()));
             case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
             case GET_SELECTED_UNIT -> gson.toJson(GameMenu.getSelectedUnit());
+            case GET_SELECTED_CITY -> gson.toJson(GameMenu.getSelectedCity());
+            case GET_TILE_BY_LOCATION -> gson.toJson(GameController.getGameTile(new Location(Integer.parseInt(params[0]), Integer.parseInt(params[1]))));
             };
         }
     }

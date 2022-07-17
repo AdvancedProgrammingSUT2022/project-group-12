@@ -26,7 +26,7 @@ public class GameMenu extends Menu {
     private final MapFuncs mapFuncs;
     private final UnitFuncs unitFuncs;
     private static Unit selectedUnit;
-    private City selectedCity;
+    private static City selectedCity;
 
     public GameMenu() {
         this.mapFuncs = new MapFuncs();
@@ -516,9 +516,6 @@ public class GameMenu extends Menu {
         answer(this.getSelectedCity().getQueueInfo());
     }
 
-    private City getSelectedCity() {
-        return this.selectedCity;
-    }
 
     private void cityBuild(Command command) {
         switch (command.getSubSubCategory()) {
@@ -953,6 +950,9 @@ public class GameMenu extends Menu {
 
     public static Unit getSelectedUnit() {
         return selectedUnit;
+    }
+    public static City getSelectedCity(){
+        return selectedCity;
     }
 
 }
