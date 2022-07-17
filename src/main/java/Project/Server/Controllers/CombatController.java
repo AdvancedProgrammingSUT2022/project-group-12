@@ -75,9 +75,9 @@ public class CombatController extends GameController {
         ArrayList<Tile> path = findTheShortestPath(destLocation, currentTile, (tile -> tile.getTerrain().getTerrainType().isRangeAttackable()));
         int distance = getGame().getTileGrid().calculateStraightDistanceWith(currentTile, getGameTile(destLocation));
         if(combatUnit instanceof  RangedUnit) {
-            if (combatUnit.getType().getRange() < distance) {
+            if (combatUnit.getUnitType().getRange() < distance) {
                 throw new CommandException(CommandResponse.TARGET_OUT_OF_UNIT_RANGE);
-            } else if (path.size() > distance && !combatUnit.getType().canFireIndirectly()) {
+            } else if (path.size() > distance && !combatUnit.getUnitType().canFireIndirectly()) {
                 throw new CommandException(CommandResponse.IMPASSABLE_TILE_BETWEEN_UNIT_AND_TARGET);
             }
         }else{

@@ -37,6 +37,7 @@ public class Tile implements Notifier<Tile> {
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
+        //test
         this.isRuin = false;
         this.terrain = terrain;
         this.combatUnit = null;
@@ -132,11 +133,11 @@ public class Tile implements Notifier<Tile> {
         if (unit == null) throw new RuntimeException();
         if (unit instanceof CombatUnit combatUnit) {
             if (this.getCombatUnit() != null)
-                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getType().name());
+                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getUnitType().name());
             this.setCombatUnit(combatUnit);
         } else if (unit instanceof NonCombatUnit nonCombatUnit) {
             if (this.getNonCombatUnit() != null)
-                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getType().name());
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getUnitType().name());
             this.setNonCombatUnit(nonCombatUnit);
         }
     }
@@ -149,6 +150,9 @@ public class Tile implements Notifier<Tile> {
     public void setCivilization(Civilization civilization) {
         this.civName = civilization.getName();
         this.notifyObservers();
+    }
+    public boolean hasRuin(){
+        return isRuin;
     }
 
     public void transferUnitTo(Unit unit, Tile that) {
@@ -290,5 +294,10 @@ public class Tile implements Notifier<Tile> {
 
     public void setRuin(boolean ruin) {
         isRuin = ruin;
+    }
+
+    public void achieveRuin(Civilization civilization) {
+        civilization.addGold(30);
+        isRuin = false;
     }
 }

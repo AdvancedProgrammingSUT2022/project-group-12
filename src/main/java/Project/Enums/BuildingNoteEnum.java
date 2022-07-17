@@ -31,7 +31,7 @@ public enum BuildingNoteEnum {
     }),
     STABLE_NOTE((BuildingNotes<City>) city -> {
         Production production = null;
-        if ((production instanceof Unit) && ((Unit) production).getType().getCombatType() == CombatTypeEnum.MOUNTED) {
+        if ((production instanceof Unit) && ((Unit) production).getUnitType().getCombatType() == CombatTypeEnum.MOUNTED) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 85 / 100);
         }
     }),

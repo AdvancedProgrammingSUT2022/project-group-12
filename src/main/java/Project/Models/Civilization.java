@@ -149,7 +149,7 @@ public class Civilization {
 
     public void advanceWorkerWorks() {
         for (Unit unit : this.getUnits()) {
-            if (unit.getType() == UnitEnum.WORKER) {
+            if (unit.getUnitType() == UnitEnum.WORKER) {
                 NonCombatUnit worker = (NonCombatUnit) unit;
                 worker.decreaseRemainingTime(1);
                 if (worker.getRemainingTime() <= 0) {
@@ -262,12 +262,12 @@ public class Civilization {
 
     public void addUnit(Unit unit) {
         this.units.add(unit);
-        if (this.unitCountByCategory.containsKey(unit.getType())) {
-            int count = unitCountByCategory.get(unit.getType());
-            unitCountByCategory.remove(unit.getType());
-            unitCountByCategory.put(unit.getType(), count);
+        if (this.unitCountByCategory.containsKey(unit.getUnitType())) {
+            int count = unitCountByCategory.get(unit.getUnitType());
+            unitCountByCategory.remove(unit.getUnitType());
+            unitCountByCategory.put(unit.getUnitType(), count);
         } else
-            unitCountByCategory.put(unit.getType(), 1);
+            unitCountByCategory.put(unit.getUnitType(), 1);
     }
 
     public HashMap<UnitEnum, Integer> getUnitCountByCategory() {
@@ -328,7 +328,7 @@ public class Civilization {
 
     public void resetMoveCount() {
         for (Unit unit : this.getUnits()) {
-            unit.setAvailableMoveCount(unit.getType().getMovement());
+            unit.setAvailableMoveCount(unit.getUnitType().getMovement());
         }
     }
 

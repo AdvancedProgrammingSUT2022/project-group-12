@@ -675,7 +675,7 @@ public class GameMenu extends Menu {
             answer(e);
             return;
         }
-        answer("unit selected: " + selectedUnit.getType().name());
+        answer("unit selected: " + selectedUnit.getUnitType().name());
     }
 
     // might require to set null every time
@@ -853,10 +853,22 @@ public class GameMenu extends Menu {
             Location location = command.getLocationOption("position");
             getUnitFuncs().unitMoveTo(selectedUnit, location);
             setCamera(this.selectedUnit.getLocation());
+            if (isAchieveRuin(location)){
+                selectedUnit.getTile().achieveRuin(selectedUnit.getCivilization());
+                answer("unit moved to " + location + " successfully and ruin is achieved");
+                return;
+            }
             answer("unit moved to " + location + " successfully");
         } catch (CommandException e) {
             answer(e);
         }
+    }
+
+    private boolean isAchieveRuin(Location location) {
+        if(selectedUnit.getTile().hasRuin()){
+            return true;
+        }
+        return false;
     }
 
     private void foundCity(Command command) {

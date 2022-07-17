@@ -179,7 +179,7 @@ public class Hex implements Observer<Tile> {
     }
 
     private void addUnitToGroup(Unit unit) {
-        Group unitGroup = unitGroups.get(unit.getType());
+        Group unitGroup = unitGroups.get(unit.getUnitType());
         unitGroup.setOnMouseClicked((mouseEvent) -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 SelectHandler.sendSelectUnitRequest(unit);

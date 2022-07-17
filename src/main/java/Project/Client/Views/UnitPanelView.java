@@ -1,12 +1,10 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Enums.UnitStates;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -67,15 +65,15 @@ public class UnitPanelView implements ViewController {
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
 
         initializeSpinners();
-        name.setText(unit.getType().name());
-        unitType.setText(unit.getType().name());
+        name.setText(unit.getUnitType().name());
+        unitType.setText(unit.getUnitType().name());
         unitCivilization.setText(unit.getCivName());
         locationX = unit.getLocation().getRow();
         locationY = unit.getLocation().getCol();
         unitXLocation.setText(String.valueOf(unit.getLocation().getRow()));
         unitYLocation.setText(String.valueOf(unit.getLocation().getCol()));
         unitHealth.setText(String.valueOf(unit.getHealth()));
-        combatStrength.setText(String.valueOf(unit.getType().getCombatStrength()));
+        combatStrength.setText(String.valueOf(unit.getUnitType().getCombatStrength()));
         unitState.setText(unit.getState().toString());
     }
 
@@ -89,7 +87,7 @@ public class UnitPanelView implements ViewController {
 
     private void initButtonBox() {
         Unit selectedUnit = MenuStack.getInstance().getCookies().getSelectedUnit();
-        if (selectedUnit.getType().name().equals("SETTLER")) {
+        if (selectedUnit.getUnitType().name().equals("SETTLER")) {
             buttonBox.getChildren().add(initClearLandButton());
             cityName = new TextField("Name");
             createCreateCityButton();

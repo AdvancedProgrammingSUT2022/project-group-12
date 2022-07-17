@@ -5,13 +5,15 @@ import Project.Enums.UnitEnum;
 import Project.Models.Location;
 import Project.Models.Notification;
 import Project.Models.Resource;
+import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -131,8 +133,29 @@ public class DatabaseQuerier {
     public static Unit getSelectedUnit(){
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
         System.out.println(json);
-        TypeToken<Unit> typeToken = new TypeToken<>() {};
-        return new Gson().fromJson(json, typeToken.getType());
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(json,Unit.class);
     }
+
+}
+class myJsonDeserializer<T> implements JsonDeserializer<T> {
+    @Override
+    public T deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
+        JsonObject jsonObject = var1.getAsJsonObject();
+        String type = jsonObject.get("type").getAsString();
+        Class<?> clazz;
+        try {
+            clazz = Class.forName(type);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return var3.deserialize(var1,clazz);
+    }
+
+
+
 
 }

@@ -19,7 +19,9 @@ import java.util.Random;
 import static java.lang.Math.exp;
 
 public abstract class Unit extends Production {
-    protected UnitEnum type;
+    protected UnitEnum unitType;
+
+
     protected double availableMoveCount;
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;
@@ -29,7 +31,7 @@ public abstract class Unit extends Production {
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
         super(type.getProductionCost());
-        this.type = type;
+        this.unitType = type;
         this.civName = civ.getName();
         this.pathShouldCross = new ArrayList<>();
         this.resetMovementCount();
@@ -61,7 +63,7 @@ public abstract class Unit extends Production {
     }
 
     public void resetMovementCount() {
-        this.availableMoveCount = type.getMovement();
+        this.availableMoveCount = unitType.getMovement();
     }
 
     public int calculateDamage(double strengthDiff) {
@@ -87,7 +89,7 @@ public abstract class Unit extends Production {
 
     public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh, Unit enemyUnit) {
         double strength;
-        UnitEnum unitType = unit.getType();
+        UnitEnum unitType = unit.getUnitType();
         if (combatstrengh.equals("combatstrength")) {
             strength = unitType.getCombatStrength();
         } else {
@@ -95,19 +97,19 @@ public abstract class Unit extends Production {
         }
         if (!unitType.hasTerrainDefensiveBonusPenalty()) strength *= getTerrainFeaturesEffect(itsTile);
         if (enemyUnit == null) strength *= 1 + unitType.getBonusVsCity() / 100.0;
-        else if (enemyUnit.getType() == UnitEnum.TANK && unitType == UnitEnum.ANTI_TANK_GUN) strength *= 2;
-        else if (enemyUnit.getType().getCombatType() == CombatTypeEnum.MOUNTED)
+        else if (enemyUnit.getUnitType() == UnitEnum.TANK && unitType == UnitEnum.ANTI_TANK_GUN) strength *= 2;
+        else if (enemyUnit.getUnitType().getCombatType() == CombatTypeEnum.MOUNTED)
             strength *= 1 + unitType.getBonusVsMounted() / 100.0;
         strength *= unit.getHealth() / 100.0;
         return strength;
     }
 
-    public UnitEnum getType() {
-        return this.type;
+    public UnitEnum getUnitType() {
+        return this.unitType;
     }
 
-    public void setType(UnitEnum type) {
-        this.type = type;
+    public void setUnitType(UnitEnum unitType) {
+        this.unitType = unitType;
     }
 
     public ArrayList<Tile> getPathShouldCross() {
@@ -169,7 +171,7 @@ public abstract class Unit extends Production {
     }
 
     public String getInfo() {
-        return "Type = " + this.getType().name() + '\n' +
+        return "Type = " + this.getUnitType().name() + '\n' +
                 "Tile = " + this.getLocation() + '\n' +
                 "Remaining movement = " + this.getAvailableMoveCount() + '\n' +
                 "Health = " + this.getHealth() + '\n' +

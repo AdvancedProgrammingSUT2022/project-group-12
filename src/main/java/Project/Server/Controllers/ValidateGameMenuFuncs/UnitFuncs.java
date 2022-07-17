@@ -44,7 +44,10 @@ public class UnitFuncs {
         Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
         validateTileForMovingUnit(location, unit);
         MovingController.moveUnit(location, currentTile, unit);
+
     }
+
+
 
     public static void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {
         if(unit == null){
@@ -76,7 +79,7 @@ public class UnitFuncs {
 //    }
 
     private CommandResponse validateTileForRemovingJungle(Tile currentTile, Civilization civilization) {
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
+        if (!(currentTile.getNonCombatUnit().getUnitType() == UnitEnum.WORKER)) {
             return CommandResponse.WRONG_UNIT;
         }
         if (!currentTile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE)) {
@@ -102,7 +105,7 @@ public class UnitFuncs {
     }
 
     private CommandResponse validateTileForRemovingRoute(Tile currentTile) {
-        if (!(currentTile.getNonCombatUnit().getType() == UnitEnum.WORKER)) {
+        if (!(currentTile.getNonCombatUnit().getUnitType() == UnitEnum.WORKER)) {
             return CommandResponse.WRONG_UNIT;
         }
         ArrayList<ImprovementEnum> tileImprovements = currentTile.getImprovements();

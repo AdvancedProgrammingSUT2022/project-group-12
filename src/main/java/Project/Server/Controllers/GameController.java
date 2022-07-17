@@ -25,7 +25,7 @@ public class GameController {
     }
 
     public static void unitRepairTile(Unit unit) throws CommandException {
-        if (unit.getType() != UnitEnum.WORKER) {
+        if (unit.getUnitType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
         }
         if (unit.getState() != UnitStates.WORKING) {
@@ -100,7 +100,7 @@ public class GameController {
         Location location = unit.getLocation();
         Civilization civ = unit.getCivilization();
         Tile tile = getGame().getTileGrid().getTile(location);
-        if (unit.getType() != UnitEnum.SETTLER) {
+        if (unit.getUnitType() != UnitEnum.SETTLER) {
             throw new CommandException(CommandResponse.ONLY_SETTLERS_CAN_FOUND_CITY);
         }
         if (GameController.tileIsNearAnotherCity(tile)) {
@@ -260,11 +260,11 @@ public class GameController {
         /***
          * in this function we are going to sort by name
          */
-        nonCombatUnits.sort(Comparator.comparing(nonCombatUnit -> nonCombatUnit.getType().name()));
+        nonCombatUnits.sort(Comparator.comparing(nonCombatUnit -> nonCombatUnit.getUnitType().name()));
         for (NonCombatUnit nonCombatEnum : nonCombatUnits) {
-            StringBuilder nonCombatName = new StringBuilder("nonCombat name : " + nonCombatEnum.getType().name());
+            StringBuilder nonCombatName = new StringBuilder("nonCombat name : " + nonCombatEnum.getUnitType().name());
             StringBuilder nonCombatStrength = new StringBuilder("Strength : -");
-            StringBuilder movementPoint = new StringBuilder("MovementPoint : " + nonCombatEnum.getAvailableMoveCount() + "/" + nonCombatEnum.getType().getMovement());
+            StringBuilder movementPoint = new StringBuilder("MovementPoint : " + nonCombatEnum.getAvailableMoveCount() + "/" + nonCombatEnum.getUnitType().getMovement());
             unitsInfo.append(nonCombatName + " " + nonCombatStrength + " " + movementPoint + '\n');
         }
     }
@@ -273,11 +273,11 @@ public class GameController {
         /***
          * in this function we are
          */
-        combatUnits.sort(Comparator.comparing(combatUnit -> combatUnit.getType().name()));
+        combatUnits.sort(Comparator.comparing(combatUnit -> combatUnit.getUnitType().name()));
         for (CombatUnit combatEnum : combatUnits) {
-            StringBuilder combatName = new StringBuilder("combat name : " + combatEnum.getType().name());
+            StringBuilder combatName = new StringBuilder("combat name : " + combatEnum.getUnitType().name());
             StringBuilder combatStrength = new StringBuilder("Strength : " + combatEnum.getCombatStrength());
-            StringBuilder movementPoint = new StringBuilder("MovementPoint : " + combatEnum.getAvailableMoveCount() + "/" + combatEnum.getType().getMovement());
+            StringBuilder movementPoint = new StringBuilder("MovementPoint : " + combatEnum.getAvailableMoveCount() + "/" + combatEnum.getUnitType().getMovement());
             unitsInfo.append(combatName + " " + combatStrength + " " + movementPoint + '\n');
         }
     }
@@ -300,7 +300,7 @@ public class GameController {
 
     public static String buildImprovement(Unit unit, ImprovementEnum improvement) throws CommandException {
         Tile tile = GameController.getGameTile(unit.getLocation());
-        if (unit.getType() != UnitEnum.WORKER) {
+        if (unit.getUnitType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
         }
         NonCombatUnit worker = (NonCombatUnit) unit;

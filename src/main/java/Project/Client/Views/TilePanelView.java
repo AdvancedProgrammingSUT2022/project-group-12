@@ -42,11 +42,11 @@ public class TilePanelView implements ViewController {
         if (tile.getCombatUnit() == null)
             combatUnit.setText("None");
         else
-            combatUnit.setText(tile.getCombatUnit().getType().name());
+            combatUnit.setText(tile.getCombatUnit().getUnitType().name());
         if (tile.getNonCombatUnit() == null)
             nonCombatUnit.setText("None");
         else
-            nonCombatUnit.setText(tile.getNonCombatUnit().getType().name());
+            nonCombatUnit.setText(tile.getNonCombatUnit().getUnitType().name());
         road.setText(String.valueOf(tile.hasRoad()));
         river.setText(String.valueOf(tile.hasRiver()));
         damaged.setText(String.valueOf(tile.isDamaged()));

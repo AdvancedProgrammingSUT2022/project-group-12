@@ -26,7 +26,7 @@ public class UnitCombatController extends CombatController {
         double strengthDiff = combatStrength - enemyCombatStrength;
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
         enemyUnit.decreaseHealth(enemyUnit.calculateDamage(strengthDiff));
-        if (nonRangedUnit.getType().canMoveAfterAttack()) {
+        if (nonRangedUnit.getUnitType().canMoveAfterAttack()) {
             nonRangedUnit.setHasAttack(true);
             nonRangedUnit.setAvailableMoveCount(nonRangedUnit.getAvailableMoveCount() - 1);
         } else {
@@ -64,11 +64,11 @@ public class UnitCombatController extends CombatController {
     }
     private static void captureTheNonCombatUnitOrKillIt(Tile tile, Civilization civ) {
         NonCombatUnit capturedUnit = tile.getNonCombatUnit();
-        if (capturedUnit.getType() == UnitEnum.WORKER || capturedUnit.getType() == UnitEnum.SETTLER) {
+        if (capturedUnit.getUnitType() == UnitEnum.WORKER || capturedUnit.getUnitType() == UnitEnum.SETTLER) {
             /*
              non combat unit has captured
              */
-            capturedUnit.setType(UnitEnum.WORKER);
+            capturedUnit.setUnitType(UnitEnum.WORKER);
             capturedUnit.setCiv(civ);
         } else {
             /*
@@ -79,7 +79,7 @@ public class UnitCombatController extends CombatController {
     }
 
     public static String affectRangeAttack(RangedUnit rangedUnit, Unit enemyUnit, Tile rangedUnitTile, Tile enemyTile) throws CommandException {
-        if (rangedUnit.getType().requiresSetup() && !rangedUnit.isSetup()) {
+        if (rangedUnit.getUnitType().requiresSetup() && !rangedUnit.isSetup()) {
             throw new CommandException(CommandResponse.SIEGE_NOT_SETUP);
         }
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength", enemyUnit);
@@ -93,7 +93,7 @@ public class UnitCombatController extends CombatController {
 
 
     public static void setupUnit(Unit unit) throws CommandException {
-        if (!(unit instanceof CombatUnit combatUnit) || combatUnit.getType().getCombatType() != CombatTypeEnum.SIEGE) {
+        if (!(unit instanceof CombatUnit combatUnit) || combatUnit.getUnitType().getCombatType() != CombatTypeEnum.SIEGE) {
             throw new CommandException(CommandResponse.UNIT_IS_NOT_SIEGE);
         }
 

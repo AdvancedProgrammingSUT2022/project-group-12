@@ -97,7 +97,7 @@ public class Game {
         civilization.getRevealedTileGrid().changeVisibleTilesToRevealed();
         for (Unit unit : civilization.getUnits()) {
             Tile tile = tileGrid.getTile(unit.getLocation());
-            int visibilityRange = unit.getType().hasLimitedVisibility() ? Constants.UNIT_LIMITED_VISION_RADIUS : Constants.UNIT_VISION_RADIUS;
+            int visibilityRange = unit.getUnitType().hasLimitedVisibility() ? Constants.UNIT_LIMITED_VISION_RADIUS : Constants.UNIT_VISION_RADIUS;
             for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, visibilityRange)) {
                 revealTileFor(civilization, neighbor);
             }
@@ -213,7 +213,7 @@ public class Game {
 
     private void checkForMovementCost(Unit unit) throws GameException {
         if (unit.getAvailableMoveCount() > 0) {
-            throw new GameException(CommandResponse.UNIT_NEED_ORDER, unit.getType().name() + " at " + unit.getLocation());
+            throw new GameException(CommandResponse.UNIT_NEED_ORDER, unit.getUnitType().name() + " at " + unit.getLocation());
         }
     }
 

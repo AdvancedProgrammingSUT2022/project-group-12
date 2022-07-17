@@ -138,7 +138,7 @@ public class City {
             advanceProductionQueue();
             if (productionQueue.size() < size) {
                 if (product instanceof Unit) {
-                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), this.getCivilization(), getLocation());
+                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getUnitType(), this.getCivilization(), getLocation());
                 }
                 size = productionQueue.size();
             }
@@ -307,7 +307,7 @@ public class City {
     }
 
     public void checkCitizenBirth() {
-        if (productionQueue.size() != 0 && productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER) {
+        if (productionQueue.size() != 0 && productionQueue.get(0) instanceof Unit unit && unit.getUnitType() == UnitEnum.SETTLER) {
             return;
         }
         this.remainedFoodForCitizen += calculateFood();
@@ -323,7 +323,7 @@ public class City {
         for (int i = 0; i < this.getProductionQueue().size(); i++) {
             Production production = this.getProductionQueue().get(i);
             if (production instanceof Unit unit) { // todo: buildings
-                stringBuilder.append(i + 1 + ". " + unit.getType().name() + ", remained " + unit.getRemainedProduction() + " production\n");
+                stringBuilder.append(i + 1 + ". " + unit.getUnitType().name() + ", remained " + unit.getRemainedProduction() + " production\n");
             }
         }
         return stringBuilder.toString();
