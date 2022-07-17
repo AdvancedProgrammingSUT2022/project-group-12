@@ -6,6 +6,7 @@ import Project.Server.Controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
@@ -89,7 +90,11 @@ public class TechTreeView implements ViewController {
                 Circle leadingCircle = new Circle(30);
                 leadingCircle.setStroke(circle.getStroke());
                 leadingCircle.setEffect(circle.getEffect());
-                leadingCircle.setOnMouseEntered(mouseEvent -> leadingCircle.setEffect(new DropShadow()));
+                leadingCircle.setOnMouseEntered(mouseEvent -> {
+                    leadingCircle.setEffect(new DropShadow());
+                    leadingCircle.setCursor(Cursor.HAND);
+                    // todo : show name
+                });
                 leadingCircle.setOnMouseExited(mouseEvent -> leadingCircle.setEffect(null));
                 leadingCircle.setFill(new ImagePattern(leadingTechnology.getImage()));
                 vBox.getChildren().add(leadingCircle);
@@ -98,6 +103,10 @@ public class TechTreeView implements ViewController {
             hBox.getChildren().add(vBox);
         }
         return hBox;
+    }
+
+    private String capitalize(String input){
+        return String.valueOf(input.charAt(0)).toUpperCase() + input.substring(1);
     }
 
     public void back() {
