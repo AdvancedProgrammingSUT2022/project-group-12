@@ -122,7 +122,7 @@ public class TechTreeView implements ViewController {
                 chooseTechMenu.setText(tech.getKey());
                 selectedBox = techBoxes.get(tech.getKey());
                 //todo : fix zoom
-                mainScrollPane.setHvalue(names.get(tech.getKey()).getLayoutX());
+//                mainScrollPane.setHvalue(names.get(tech.getKey()).getLayoutX());
             });
             chooseTechMenu.getItems().add(item);
         }
