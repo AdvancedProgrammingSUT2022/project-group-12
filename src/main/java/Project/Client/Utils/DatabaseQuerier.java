@@ -1,6 +1,7 @@
 package Project.Client.Utils;
 
 import Project.Enums.BuildingEnum;
+import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -155,6 +156,10 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json,City.class);
     }
 
+    public static ArrayList<TechnologyEnum> getTechnologies() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TECHNOLOGIES);
+        return new Gson().fromJson(json, new TypeToken<ArrayList<TechnologyEnum>>(){}.getType());
+    }
 }
 class myJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override

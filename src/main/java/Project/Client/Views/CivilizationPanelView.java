@@ -4,7 +4,6 @@ import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Resource;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -75,7 +74,6 @@ public class CivilizationPanelView implements ViewController {
     }
 
     private void initUnitMenu() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
         String command = "info units";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         ArrayList<String> unitNames = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsNames());

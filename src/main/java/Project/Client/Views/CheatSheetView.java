@@ -5,8 +5,6 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Server.Controllers.CheatCodeController;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
@@ -459,7 +457,6 @@ public class CheatSheetView implements ViewController {
     }
 
     public void addTechs() {
-        CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
         String command = "cheat unlock technologies";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (!response.isOK()) {

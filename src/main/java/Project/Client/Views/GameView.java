@@ -9,7 +9,6 @@ import Project.Models.Tiles.TileGrid;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.*;

@@ -167,6 +167,7 @@ public class MenuStack {
             case GET_SELECTED_UNIT -> gson.toJson(GameMenu.getSelectedUnit());
             case GET_SELECTED_CITY -> gson.toJson(GameMenu.getSelectedCity());
             case GET_TILE_BY_LOCATION -> gson.toJson(GameController.getGameTile(new Location(Integer.parseInt(params[0]), Integer.parseInt(params[1]))));
-            };
+            case GET_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getTechnologies());
+        };
         }
     }
