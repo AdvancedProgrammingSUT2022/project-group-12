@@ -11,11 +11,9 @@ import Project.Server.Controllers.GameController;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
+import com.thoughtworks.xstream.XStream;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MenuStack {
@@ -141,12 +139,9 @@ public class MenuStack {
             case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
             case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
             case GET_CIV_UNITS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits());
-            case GET_TILEGRID_SIZE -> {
-                HashMap<String, Integer> hashMap = new HashMap<>();
-                hashMap.put("Height", GameController.getGame().getTileGrid().getHeight());
-                hashMap.put("Width", GameController.getGame().getTileGrid().getWidth());
-                yield gson.toJson(hashMap);
-            }
+            case GET_TILEGRID_SIZE -> gson.toJson(new HashMap<>(Map.of(
+                        "Height", GameController.getGame().getTileGrid().getHeight(),
+                        "Width", GameController.getGame().getTileGrid().getWidth())));
             case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
             case GET_ALL_BUILDING_ENUMS ->  gson.toJson(BuildingEnum.values());
             case GET_CURRENTCIV_HAPPINESS ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateHappiness());
@@ -158,6 +153,7 @@ public class MenuStack {
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
+            case GET_TILEGRID -> new XStream().toXML(GameController.getGame().getTileGrid());
         };
     }
 }
