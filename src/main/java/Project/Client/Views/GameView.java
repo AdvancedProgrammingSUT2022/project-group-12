@@ -99,7 +99,7 @@ public class GameView implements ViewController {
         // todo : check for thread
     }
 
-    public void researchInfo(ActionEvent actionEvent) {
+    public void researchInfo() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("technologyMenu"));
     }
 
@@ -108,7 +108,7 @@ public class GameView implements ViewController {
     }
 
 
-    public void NextTurn(ActionEvent actionEvent) {
+    public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
@@ -116,7 +116,11 @@ public class GameView implements ViewController {
         setCameraOnCivSelectedLocation();
     }
 
-    public void gotoNotificationPanel(ActionEvent actionEvent) {
+    public void gotoNotificationPanel() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("NotificationPanel"));
+    }
+
+    public void gotoSetting() {
+        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("GameSettingPage"));
     }
 }

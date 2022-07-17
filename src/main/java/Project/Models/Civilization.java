@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Civilization {
-
     private final User user;
     private final String name;
     private final TerrainColor color;
@@ -26,16 +25,18 @@ public class Civilization {
     private final ArrayList<String> notifs;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
-    private ArrayList<Resource> resources;
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
     private final ArrayList<TechnologyEnum> technologies = new ArrayList<>(List.of(TechnologyEnum.RESET));
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> inWarWith;
-    private ArrayList<Notification> notifications;
     private final ArrayList<Civilization> isInEconomicRelation;
-    private HappinessTypeEnum happinessType;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
+    private boolean autoSaveOn;
+    private boolean gameOnMute;
+    private ArrayList<Resource> resources;
+    private ArrayList<Notification> notifications;
+    private HappinessTypeEnum happinessType;
     private Tile selectedTile;
     private Unit selectedUnit;
     private int gold;
@@ -53,6 +54,8 @@ public class Civilization {
     private City selectedCity;
 
     public Civilization(User user, TerrainColor color) {
+        this.autoSaveOn = false;
+        this.gameOnMute = false;
         this.color = color;
         this.researchingTechnology = null;
         this.user = user;
@@ -78,6 +81,21 @@ public class Civilization {
         updateHappinessState(this.calculateHappiness());
     }
 
+    public boolean isGameOnMute() {
+        return gameOnMute;
+    }
+
+    public void setGameOnMute(boolean gameOnMute) {
+        this.gameOnMute = gameOnMute;
+    }
+
+    public boolean isAutoSaveOn() {
+        return autoSaveOn;
+    }
+
+    public void setAutoSaveOn(boolean autoSaveOn) {
+        this.autoSaveOn = autoSaveOn;
+    }
 
     public Tile getSelectedTile() {
         return selectedTile;
@@ -174,6 +192,10 @@ public class Civilization {
         return this.gold;
     }
 
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
     public int calculateScience() {
         int beaker = Constants.DEFUALT_BEAKER_PER_TURN;
         beaker += beakerFromBuildings;
@@ -255,7 +277,7 @@ public class Civilization {
     public double calculateHappiness() {
         this.happiness = 0;
         this.happiness += this.happinessFromCheat;
-        if(this.cities.size() == 0){
+        if (this.cities.size() == 0) {
             this.happiness += 10;
             return this.happiness;
         }
@@ -289,9 +311,10 @@ public class Civilization {
         }
         return resources;
     }
-    public void updateResources(Tile tile){
-        if(tile.getImprovements().contains(tile.getTerrain().getResource().getImprovementNeeded())){
-            resources.add(new Resource(tile.getTerrain().getResource(),tile.getLocation()));
+
+    public void updateResources(Tile tile) {
+        if (tile.getImprovements().contains(tile.getTerrain().getResource().getImprovementNeeded())) {
+            resources.add(new Resource(tile.getTerrain().getResource(), tile.getLocation()));
         }
     }
 
@@ -313,18 +336,17 @@ public class Civilization {
         return units;
     }
 
-    public City getCityByName(String name){
+    public City getCityByName(String name) {
         for (City city :
                 this.getCities()) {
             if (city.getName().equals(name)) {
                 return city;
             }
         }
-      return null;
+        return null;
     }
 
-
-    public int calculateCivilizationFood()  {
+    public int calculateCivilizationFood() {
         int food = Constants.PRIMAL_FOOD;
         for (City city : this.getCities()) {
             food += city.calculateFood();
@@ -518,14 +540,10 @@ public class Civilization {
         this.getResearchingTechnologies().put(technologyEnum, technologyEnum.getCost());
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
     public boolean hasRequierdTech(List<TechnologyEnum> requiredTechs) {
-        for (TechnologyEnum tech:
-             requiredTechs ) {
-            if(!this.technologies.contains(tech)){
+        for (TechnologyEnum tech :
+                requiredTechs) {
+            if (!this.technologies.contains(tech)) {
                 return false;
             }
         }
@@ -535,68 +553,78 @@ public class Civilization {
     public ArrayList<Resource> getResources() {
         return resources;
     }
-    public boolean containsResource(ResourceEnum resourceEnum){
-        for (Resource resource:
-             resources) {
+
+    public boolean containsResource(ResourceEnum resourceEnum) {
+        for (Resource resource :
+                resources) {
             //todo check
-            if(resource.getResourceEnum() == resourceEnum){
+            if (resource.getResourceEnum() == resourceEnum) {
                 return true;
             }
         }
         return false;
     }
-    public Resource getResourceByName(ResourceEnum resourceEnum){
-        for (Resource resource:
+
+    public Resource getResourceByName(ResourceEnum resourceEnum) {
+        for (Resource resource :
                 resources) {
             //todo check
-            if(resource.getResourceEnum() == resourceEnum){
+            if (resource.getResourceEnum() == resourceEnum) {
                 return resource;
             }
         }
         return null;
     }
+
     public ResourceEnum getResourceByName(String name) throws CommandException {
         ResourceEnum resourceEnum = ResourceEnum.getResourceEnumByName(name);
-        if(containsResource(resourceEnum)){
+        if (containsResource(resourceEnum)) {
             return resourceEnum;
         }
         throw new CommandException(CommandResponse.NO_RESOURCE_WITH_THIS_NAME);
     }
-    public void addNotification(Notification notification){
+
+    public void addNotification(Notification notification) {
         this.notifications.add(notification);
     }
-    public void removeResource(ResourceEnum resourceEnum){
+
+    public void removeResource(ResourceEnum resourceEnum) {
         Resource resource = this.getResourceByName(resourceEnum);
         Tile tile = GameController.getGameTile(resource.getLocation());
-        if(tile != null ) tile.removeResource();
+        if (tile != null) tile.removeResource();
         this.resources.remove(resource);
     }
-    public void decreaseGold(int value){
+
+    public void decreaseGold(int value) {
         this.gold -= value;
     }
-    public void addResource(ResourceEnum resourceEnum){
-        this.resources.add(new Resource(resourceEnum,null));
+
+    public void addResource(ResourceEnum resourceEnum) {
+        this.resources.add(new Resource(resourceEnum, null));
     }
-    public void removeNotification(Notification notification){
+
+    public void removeNotification(Notification notification) {
         this.notifications.remove(notification);
     }
+
     public boolean haveThisMoney(int value) {
-        if(this.calculateCivilizationGold() < value){
+        if (this.calculateCivilizationGold() < value) {
             return false;
         }
         return true;
     }
-  public Trade getTradeByName(String name) throws CommandException {
-      for (Notification notif:
-           this.notifications) {
-          if(notif instanceof Trade trade){
-              if(trade.getName().equals(name)){
-                  return trade;
-              }
-          }
-      }
-      throw  new CommandException(CommandResponse.NO_TRADE_WITH_THIS_NAME);
-  }
+
+    public Trade getTradeByName(String name) throws CommandException {
+        for (Notification notif :
+                this.notifications) {
+            if (notif instanceof Trade trade) {
+                if (trade.getName().equals(name)) {
+                    return trade;
+                }
+            }
+        }
+        throw new CommandException(CommandResponse.NO_TRADE_WITH_THIS_NAME);
+    }
 
     public ArrayList<Notification> getNotifications() {
         return notifications;
@@ -604,8 +632,8 @@ public class Civilization {
 
     public ArrayList<ResourceEnum> getResourceEnums() {
         ArrayList<ResourceEnum> resourceEnums = new ArrayList<>();
-        for (Resource resource:
-             resources) {
+        for (Resource resource :
+                resources) {
             resourceEnums.add(resource.getResourceEnum());
         }
         return resourceEnums;
