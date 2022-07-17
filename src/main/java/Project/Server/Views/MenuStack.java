@@ -9,7 +9,6 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Controllers.GameController;
-import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
@@ -143,7 +142,7 @@ public class MenuStack {
             case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
             case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
             case GET_CIV_UNITS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits());
-            case GET_CURRENTCIV_UNITS_NAMES -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(e -> e.getType().name()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_UNITS_NAMES -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(e -> e.getUnitType().name()).collect(Collectors.toList()));
             case GET_CURRENTCIV_UNITS_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(Unit::getLocation).collect(Collectors.toList()));
             case GET_TILEGRID_SIZE -> {
                 HashMap<String, Integer> hashMap = new HashMap<>();
@@ -164,6 +163,7 @@ public class MenuStack {
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
             case GET_CURRENTCIV_CITIES_NAMES ->  gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map( city -> city.getName()).collect(Collectors.toList()));
             case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
-        };
+            case GET_SELECTED_UNIT -> gson.toJson(GameMenu.getSelectedUnit());
+            };
+        }
     }
-}

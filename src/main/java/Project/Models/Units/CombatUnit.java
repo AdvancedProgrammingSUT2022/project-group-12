@@ -15,8 +15,8 @@ public abstract class CombatUnit extends Unit {
         hasAttack = false;
     }
 
-    public UnitEnum getType() {
-        return type;
+    public UnitEnum getUnitType() {
+        return unitType;
     }
 
     public int getCombatStrength() {

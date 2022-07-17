@@ -1,24 +1,22 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Client.Utils.SelectHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.CheatCodeController;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Pane;
+
+import java.util.ArrayList;
 
 public class CheatSheetView implements ViewController {
     @FXML
@@ -66,7 +64,6 @@ public class CheatSheetView implements ViewController {
     private int productIncreaseAmount;
     @FXML
     private MenuButton teleportUnit;
-    private Unit teleportingUnit;
     @FXML
     private Spinner<Integer> teleportXSpinner;
     private SpinnerValueFactory<Integer> teleportXValueFactory;
@@ -88,7 +85,6 @@ public class CheatSheetView implements ViewController {
     private int beakerAmount;
     @FXML
     private MenuButton movementIncreaseUnit;
-    private Unit increasingMovementUnit;
     @FXML
     private Spinner<Integer> movementIncreaseSpinner;
     private SpinnerValueFactory<Integer> movementIncreaseValueFactory;
@@ -99,7 +95,6 @@ public class CheatSheetView implements ViewController {
     private String healingCityName;
     @FXML
     private MenuButton unitHealing;
-    private Unit healingUnit;
     @FXML
     private MenuButton buildingsMenu;
     private BuildingEnum buildingEnum;
@@ -107,6 +102,9 @@ public class CheatSheetView implements ViewController {
     private MenuButton cityForBuildingsMenu;
     private City cityForBuilding;
     private String cityForBuildingName;
+    private String teleportUnitName;
+    private String healingUnitName;
+    private String increasingMovementUnitName;
 
     public void initialize() {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
@@ -144,20 +142,23 @@ public class CheatSheetView implements ViewController {
             MenuItem buildingCity = new MenuItem(name);
             foodItem.setOnAction(actionEvent -> {
                 foodForCityName = name;
-                SelectHandler.sendSelectCityRequest(name);
+                // todo fix
+//                SelectHandler.sendSelectCityRequestByName(name);
                 foodForCitySelect.setText(name);
             });
             foodForCitySelect.getItems().add(foodItem);
             finishProductionCity.getItems().add(productionFinishingItem);
             cityHealItem.setOnAction(actionEvent -> {
                 healingCityName = name;
-                SelectHandler.sendSelectCityRequest(name);
+                // todo fix
+//                SelectHandler.sendSelectCityRequestByName(name);
                 cityHealing.setText(name);
             });
             cityHealing.getItems().add(cityHealItem);
             buildingCity.setOnAction(actionEvent -> {
                 cityForBuildingName = name;
-                SelectHandler.sendSelectCityRequest(name);
+                // todo fix
+//                SelectHandler.sendSelectCityRequestByName(name);
                 cityForBuildingsMenu.setText(name);
             });
             cityForBuildingsMenu.getItems().add(buildingCity);
@@ -165,26 +166,31 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initUnitMenus() {
-        for (Unit unit : DatabaseQuerier.getCurrentCivilizationUnits()) {
-            MenuItem teleportUnitItem = new MenuItem(unit.getType().name());
-            MenuItem unitMovementIncreaseItem = new MenuItem(unit.getType().name());
-            MenuItem healingUnitItem = new MenuItem(unit.getType().name());
+        ArrayList<String> unitTypeNames = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsNames());
+        ArrayList<Location> unitLocations = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsLocation());
+
+        for (int i = 0; i < unitTypeNames.size(); i++) {
+            String unitName = unitTypeNames.get(i);
+            Location unitLocation = unitLocations.get(i);
+            MenuItem teleportUnitItem = new MenuItem(unitTypeNames.get(i));
+            MenuItem unitMovementIncreaseItem = new MenuItem(unitTypeNames.get(i));
+            MenuItem healingUnitItem = new MenuItem(unitName);
             teleportUnitItem.setOnAction(actionEvent -> {
-                teleportingUnit = unit;
-                SelectHandler.sendSelectUnitRequest(unit);
-                teleportUnit.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + ")");
+                teleportUnitName = unitName;
+                //    SelectHandler.sendSelectUnitRequest(unit);
+                teleportUnit.setText(unitName + " ( " + unitLocation.getRow() + " , " + unitLocation.getCol() + ")");
             });
             teleportUnit.getItems().add(teleportUnitItem);
             unitMovementIncreaseItem.setOnAction(actionEvent -> {
-                increasingMovementUnit = unit;
-                SelectHandler.sendSelectUnitRequest(unit);
-                movementIncreaseUnit.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + ")");
+                increasingMovementUnitName = unitName;
+                //    SelectHandler.sendSelectUnitRequest(unit);
+                movementIncreaseUnit.setText(unitName + " ( " + unitLocation.getRow() + " , " + unitLocation.getCol() + ")");
             });
             movementIncreaseUnit.getItems().add(unitMovementIncreaseItem);
             healingUnitItem.setOnAction(actionEvent -> {
-                healingUnit = unit;
-                SelectHandler.sendSelectUnitRequest(unit);
-                unitHealing.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + " )");
+                healingUnitName = unitName;
+                //    SelectHandler.sendSelectUnitRequest(unit);
+                unitHealing.setText(unitName + " ( " + unitLocation.getRow() + " , " + unitLocation.getCol() + " )");
             });
             unitHealing.getItems().add(healingUnitItem);
         }
@@ -294,22 +300,36 @@ public class CheatSheetView implements ViewController {
     public void increaseGold() {
         String command = "cheat increase gold -a " + goldAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 
     public void increaseFood() {
-        if (foodForCity == null)
-            return;
         foodForCity = null;
         foodForCitySelect.setText("City");
         String command = "cheat increase food -a " + foodAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 
     public void spawnUnit() {
+        if(this.selectedUnitEnum == null){
+            MenuStack.getInstance().showError("No unit type is selected");
+            return;
+        }
         String command = "cheat spawn unit -u " + selectedUnitEnum.name() + " -p " + locationSpawnX + " " + locationSpawnY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         locationSpawnX = 0;
         locationSpawnY = 0;
         selectedUnitEnum = null;
@@ -321,16 +341,26 @@ public class CheatSheetView implements ViewController {
 
         String command = "cheat map reveal -p " + locationTileX + " " + locationTileY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         locationTileX = 0;
         locationTileY = 0;
         back();
     }
 
     public void increaseProduction() {
-        if (productionIncreaseCity == null)
+        if (productionIncreaseCity == null){
+            MenuStack.getInstance().showError("No city is selected");
             return;
+        }
         String command = "cheat increase production -a " + productIncreaseAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         productIncreaseAmount = 0;
         productionIncreaseCity = null;
         productionIncreaseCityMenu.setText("City");
@@ -340,6 +370,10 @@ public class CheatSheetView implements ViewController {
     public void teleport() {
         String command = "cheat teleport -p " + locationTeleportX + " " + locationTeleportY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         locationTeleportX = 0;
         locationTeleportY = 0;
         teleportUnit.setText("Unit");
@@ -348,10 +382,16 @@ public class CheatSheetView implements ViewController {
     }
 
     public void finishProduction() {
-        if (productionIncreaseCity == null)
+        if (productionIncreaseCity == null){
+            MenuStack.getInstance().showError("No city is selected");
             return;
+        }
         String command = "cheat finish products";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         productionIncreaseCity = null;
         finishProductionCity.setText("City");
         back();
@@ -360,6 +400,10 @@ public class CheatSheetView implements ViewController {
     public void increaseHappiness() {
         String command = "cheat increase happiness -a " + happinessAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         happinessAmount = 0;
         back();
     }
@@ -367,26 +411,35 @@ public class CheatSheetView implements ViewController {
     public void increaseBeaker() {
         String command = "cheat increase science -a " + beakerAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         beakerAmount = 0;
         back();
     }
 
     public void increaseMovement() {
-        if (increasingMovementUnit == null)
-            return;
         String command = "cheat increase movement -a " + movementIncreaseAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        increasingMovementUnit = null;
+        System.out.println(response.toString());
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
+        increasingMovementUnitName = null;
         movementIncreaseAmount = 0;
         movementIncreaseUnit.setText("Unit");
         back();
     }
 
     public void healCity() {
-        if (healingCity == null)
-            return;
         String command = "cheat heal city";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         healingCity = null;
         cityHealing.setText("City");
         cityHealing.setText("City");
@@ -394,11 +447,13 @@ public class CheatSheetView implements ViewController {
     }
 
     public void healUnit() {
-        if (healingUnit == null)
-            return;
         String command = "cheat heal unit";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        healingUnit = null;
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
+        healingUnitName = null;
         unitHealing.setText("Unit");
         back();
     }
@@ -407,20 +462,31 @@ public class CheatSheetView implements ViewController {
         CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
         String command = "cheat unlock technologies";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 
     public void addBuildings() {
-        if (buildingEnum == null || cityForBuildingsMenu == null)
-            return;
+        if (buildingEnum == null )
+        {
+                MenuStack.getInstance().showError("No building is selected");
+                return;
+        }
 
-            String command = "cheat build -n " + buildingEnum.name();
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            buildingEnum = null;
-            cityForBuilding = null;
-            buildingsMenu.setText("Building");
-            cityForBuildingsMenu.setText("City");
-            back();
+        String command = "cheat build -n " + buildingEnum.name();
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
+        buildingEnum = null;
+        cityForBuilding = null;
+        buildingsMenu.setText("Building");
+        cityForBuildingsMenu.setText("City");
+        back();
 
     }
 
@@ -442,7 +508,6 @@ public class CheatSheetView implements ViewController {
         finishProductionCity.getItems().removeAll(finishProductionCity.getItems());
         movementIncreaseUnit.getItems().removeAll(movementIncreaseUnit.getItems());
     }
-
 
 
     public void back() {

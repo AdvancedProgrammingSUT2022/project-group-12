@@ -151,6 +151,10 @@ public class TradePanelController implements ViewController {
         String command = "trade create -s " + suggest + " -r " + required + " -c " + selectedCivName + " -n " +  this.tradeNameTextField.getText();
         System.out.println("command = " + command);
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 

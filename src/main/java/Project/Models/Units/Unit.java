@@ -9,8 +9,9 @@ import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
+import Project.Server.Controllers.GameController;
 import Project.Utils.Constants;
-import javafx.scene.Group;
+import Project.Utils.ServerMethod;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,23 +19,25 @@ import java.util.Random;
 import static java.lang.Math.exp;
 
 public abstract class Unit extends Production {
-    protected UnitEnum type;
-    protected Civilization civ;
+    protected UnitEnum unitType;
+
+
     protected double availableMoveCount;
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;
-    protected ArrayList<Tile> pathShouldCross = new ArrayList<>();
     protected UnitStates state;
-    protected transient Group graphicUnit;
+    protected String civName;
+    protected transient ArrayList<Tile> pathShouldCross; // can be calculated online if needed
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
         super(type.getProductionCost());
-        this.type = type;
-        this.civ = civ;
+        this.unitType = type;
+        this.civName = civ.getName();
         this.pathShouldCross = new ArrayList<>();
         this.resetMovementCount();
         this.location = location;
         state = UnitStates.AWAKE;
+        civName = civ.getName();
     }
 
     // todoLater: integrate unit newing with Civ class
@@ -60,7 +63,7 @@ public abstract class Unit extends Production {
     }
 
     public void resetMovementCount() {
-        this.availableMoveCount = type.getMovement();
+        this.availableMoveCount = unitType.getMovement();
     }
 
     public int calculateDamage(double strengthDiff) {
@@ -71,8 +74,9 @@ public abstract class Unit extends Production {
         return (int) Math.ceil(25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
+    @ServerMethod
     public Tile getTile() {
-        return civ.getRevealedTileGrid().getTile(this.location);
+        return this.getCivilization().getRevealedTileGrid().getTile(this.location);
     }
 
     public int getHealth() {
@@ -85,7 +89,7 @@ public abstract class Unit extends Production {
 
     public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh, Unit enemyUnit) {
         double strength;
-        UnitEnum unitType = unit.getType();
+        UnitEnum unitType = unit.getUnitType();
         if (combatstrengh.equals("combatstrength")) {
             strength = unitType.getCombatStrength();
         } else {
@@ -93,19 +97,19 @@ public abstract class Unit extends Production {
         }
         if (!unitType.hasTerrainDefensiveBonusPenalty()) strength *= getTerrainFeaturesEffect(itsTile);
         if (enemyUnit == null) strength *= 1 + unitType.getBonusVsCity() / 100.0;
-        else if (enemyUnit.getType() == UnitEnum.TANK && unitType == UnitEnum.ANTI_TANK_GUN) strength *= 2;
-        else if (enemyUnit.getType().getCombatType() == CombatTypeEnum.MOUNTED)
+        else if (enemyUnit.getUnitType() == UnitEnum.TANK && unitType == UnitEnum.ANTI_TANK_GUN) strength *= 2;
+        else if (enemyUnit.getUnitType().getCombatType() == CombatTypeEnum.MOUNTED)
             strength *= 1 + unitType.getBonusVsMounted() / 100.0;
         strength *= unit.getHealth() / 100.0;
         return strength;
     }
 
-    public UnitEnum getType() {
-        return this.type;
+    public UnitEnum getUnitType() {
+        return this.unitType;
     }
 
-    public void setType(UnitEnum type) {
-        this.type = type;
+    public void setUnitType(UnitEnum unitType) {
+        this.unitType = unitType;
     }
 
     public ArrayList<Tile> getPathShouldCross() {
@@ -148,12 +152,13 @@ public abstract class Unit extends Production {
         this.state = state;
     }
 
+    @ServerMethod
     public Civilization getCivilization() {
-        return civ;
+        return GameController.getGame().getCivByName(this.civName);
     }
 
     public void setCiv(Civilization civ) {
-        this.civ = civ;
+        this.civName = civ.getName();
     }
 
     @Override
@@ -166,10 +171,16 @@ public abstract class Unit extends Production {
     }
 
     public String getInfo() {
-        return "Type = " + this.getType().name() + '\n' +
+        return "Type = " + this.getUnitType().name() + '\n' +
                 "Tile = " + this.getLocation() + '\n' +
                 "Remaining movement = " + this.getAvailableMoveCount() + '\n' +
                 "Health = " + this.getHealth() + '\n' +
                 "Has work to do: " + this.isWorking() + '\n';
     }
+
+    public String getCivName() {
+        return civName;
+    }
+
+
 }

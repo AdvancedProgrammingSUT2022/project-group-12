@@ -9,8 +9,10 @@ import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.CheatCodeController;
+import Project.Server.Controllers.GameController;
 import Project.Utils.CommandException;
 import Project.Utils.Constants;
+import Project.Utils.ServerMethod;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +32,6 @@ public class City {
     private int citizensCount;
     private int remainsToBornCitizen;
     private double productionFromCheat;
-    private Civilization civilization;
     private double happinessFromBuildings;
     private int foodFromBuildings;
     private int foodFromCheat;
@@ -47,6 +48,7 @@ public class City {
     private double localHappiness;
     private CityTypeEnum cityState;
     private int remainedFoodForCitizen;
+    private String civName;
 
     public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
         this.tiles = tiles;
@@ -60,7 +62,7 @@ public class City {
         this.food = 1;
         this.localHappiness = 10;
         this.buildings = new ArrayList<>();
-        this.civilization = civ;
+        this.civName = civ.getName();
         this.range = 2;
         this.cityTile = tile;
         this.name = name;
@@ -136,7 +138,7 @@ public class City {
             advanceProductionQueue();
             if (productionQueue.size() < size) {
                 if (product instanceof Unit) {
-                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getType(), this.getCivilization(), getLocation());
+                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getUnitType(), this.getCivilization(), getLocation());
                 }
                 size = productionQueue.size();
             }
@@ -172,7 +174,7 @@ public class City {
         this.localHappiness += this.happinessFromBuildings;
         //  affect unhappiness
         if (cityState == CityTypeEnum.ANNEXED) {
-            this.localHappiness -= (citizensCount + citizensCount / 3);
+            this.localHappiness -= (citizensCount + citizensCount / 3.0);
             if (!haveCourtHouse()) this.localHappiness -= 5;
         } else {
             this.localHappiness -= citizensCount;
@@ -197,7 +199,7 @@ public class City {
         this.production += getSourcesFromTiles("production");
         this.production += getProductionFromCheat();
         this.production += getFromResource("production");
-        if (this.civilization.getHappinessType() == HappinessTypeEnum.HAPPY) {
+        if (this.getCivilization().getHappinessType() == HappinessTypeEnum.HAPPY) {
             return production;
         } else {
             return production * 2 / 3;
@@ -286,9 +288,9 @@ public class City {
     }
 
     private double checkForHappinessState() {
-        this.civilization.updateHappinessState(this.civilization.calculateHappiness());
-        if (this.civilization.getHappinessType() != HappinessTypeEnum.HAPPY) {
-            return 2 / 3;
+        this.getCivilization().updateHappinessState(this.getCivilization().calculateHappiness());
+        if (this.getCivilization().getHappinessType() != HappinessTypeEnum.HAPPY) {
+            return 2.0 / 3;
         }
         return 1;
     }
@@ -305,7 +307,7 @@ public class City {
     }
 
     public void checkCitizenBirth() {
-        if (productionQueue.size() != 0 && productionQueue.get(0) instanceof Unit unit && unit.getType() == UnitEnum.SETTLER) {
+        if (productionQueue.size() != 0 && productionQueue.get(0) instanceof Unit unit && unit.getUnitType() == UnitEnum.SETTLER) {
             return;
         }
         this.remainedFoodForCitizen += calculateFood();
@@ -321,7 +323,7 @@ public class City {
         for (int i = 0; i < this.getProductionQueue().size(); i++) {
             Production production = this.getProductionQueue().get(i);
             if (production instanceof Unit unit) { // todo: buildings
-                stringBuilder.append(i + 1 + ". " + unit.getType().name() + ", remained " + unit.getRemainedProduction() + " production\n");
+                stringBuilder.append(i + 1 + ". " + unit.getUnitType().name() + ", remained " + unit.getRemainedProduction() + " production\n");
             }
         }
         return stringBuilder.toString();
@@ -531,12 +533,13 @@ public class City {
         this.production = production;
     }
 
+    @ServerMethod
     public Civilization getCivilization() {
-        return civilization;
+        return GameController.getGame().getCivByName(this.civName);
     }
 
     public void setCivilization(Civilization civ) {
-        this.civilization = civ;
+        this.civName = civ.getName();
     }
 
     public Location getLocation() {

@@ -84,11 +84,11 @@ public class TileGridPrinter {
             this.writeCentered(row - 1, col, tile.getCivilization().getAbbreviation(), tile.getCivilization().getColor(), tileColor);
         }
         if (tile.getNonCombatUnit() != null) {
-            String name = tile.getNonCombatUnit().getType().name().charAt(0) + String.valueOf(tile.getNonCombatUnit().getType().name().charAt(1)).toLowerCase();
+            String name = tile.getNonCombatUnit().getUnitType().name().charAt(0) + String.valueOf(tile.getNonCombatUnit().getUnitType().name().charAt(1)).toLowerCase();
             this.writeCentered(row + 1, col - 2, name, tile.getNonCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
         }
         if (tile.getCombatUnit() != null) {
-            String name = tile.getCombatUnit().getType().name().charAt(0) + String.valueOf(tile.getCombatUnit().getType().name().charAt(1)).toLowerCase();
+            String name = tile.getCombatUnit().getUnitType().name().charAt(0) + String.valueOf(tile.getCombatUnit().getUnitType().name().charAt(1)).toLowerCase();
             this.writeCentered(row + 1, col + 1, name, tile.getCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
         }
         String str = "";
@@ -139,12 +139,12 @@ public class TileGridPrinter {
         if (selected.getNonCombatUnit() == null) {
             showTileInfo.append("\ncontains no non combat units");
         } else {
-            showTileInfo.append("\ncontains ").append(selected.getNonCombatUnit().getType());
+            showTileInfo.append("\ncontains ").append(selected.getNonCombatUnit().getUnitType());
         }
         if (selected.getCombatUnit() == null) {
             showTileInfo.append("\ncontains no combat units");
         } else {
-            showTileInfo.append("\ncontains ").append(selected.getCombatUnit().getType());
+            showTileInfo.append("\ncontains ").append(selected.getCombatUnit().getUnitType());
         }
         if (selected.getCity() != null) showTileInfo.append("\nhas a city built on it");
         if (selected.isDamaged()) showTileInfo.append("\nis damaged");

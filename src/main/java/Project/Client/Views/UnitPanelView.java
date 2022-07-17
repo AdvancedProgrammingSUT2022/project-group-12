@@ -1,12 +1,10 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Enums.UnitStates;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -64,17 +62,18 @@ public class UnitPanelView implements ViewController {
     public void initialize() {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
         this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
+        System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
         initializeSpinners();
-        name.setText(unit.getType().name());
-        unitType.setText(unit.getType().name());
-        unitCivilization.setText(unit.getCivilization().getName());
+        name.setText(unit.getUnitType().name());
+        unitType.setText(unit.getUnitType().name());
+        unitCivilization.setText(unit.getCivName());
         locationX = unit.getLocation().getRow();
         locationY = unit.getLocation().getCol();
         unitXLocation.setText(String.valueOf(unit.getLocation().getRow()));
         unitYLocation.setText(String.valueOf(unit.getLocation().getCol()));
         unitHealth.setText(String.valueOf(unit.getHealth()));
-        combatStrength.setText(String.valueOf(unit.getType().getCombatStrength()));
+        combatStrength.setText(String.valueOf(unit.getUnitType().getCombatStrength()));
         unitState.setText(unit.getState().toString());
     }
 
@@ -87,8 +86,8 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initButtonBox() {
-        Unit selectedUnit = MenuStack.getInstance().getCookies().getSelectedUnit();
-        if (selectedUnit.getType().name().equals("SETTLER")) {
+        Unit selectedUnit = DatabaseQuerier.getSelectedUnit();
+        if (selectedUnit.getUnitType().name().equals("SETTLER")) {
             buttonBox.getChildren().add(initClearLandButton());
             cityName = new TextField("Name");
             createCreateCityButton();
@@ -113,6 +112,10 @@ public class UnitPanelView implements ViewController {
                 return;
             String command = "unit found city";
             CommandResponse response = RequestHandler.getInstance().handle(command);
+            if(!response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            }
             back();
         });
     }
@@ -131,7 +134,8 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initializeXSpinner(Spinner<Integer> xSpinner, Button spinnerButton) {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
+        System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
         xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_WIDTH - 1);
         xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
@@ -150,7 +154,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void moveUnit() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         // todo : check destination for other units
 //        if () {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
@@ -160,34 +164,54 @@ public class UnitPanelView implements ViewController {
         int locationY = ySpinner.getValue();
         String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (response.isOK()) back();
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
+       back();
     }
 
     public void sleep() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit sleep";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("SLEEP");
     }
 
     public void alert() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit alert";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("ALERT");
     }
 
     public void fortify() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit fortify";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("FORTIFY");
     }
 
     public void awake() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit wake";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("AWAKE");
     }
 
@@ -205,6 +229,10 @@ public class UnitPanelView implements ViewController {
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         HashMap<String, String> parameters = RequestHandler.getInstance().getParameters();
         // response = CommandResponse.INVALID_COMMAND;
         String message;
@@ -213,6 +241,7 @@ public class UnitPanelView implements ViewController {
         } else {
             message = response.toString();
             MenuStack.getInstance().showError(message);
+            return;
         }
         back();
     }
@@ -228,15 +257,19 @@ public class UnitPanelView implements ViewController {
     }
 
     public void delete() {
-        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 
     public void pillage()
     {
-        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit pillage";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (!response.isOK()) {
@@ -245,9 +278,13 @@ public class UnitPanelView implements ViewController {
     }
 
     public void buildImprovement() {
-        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit build improvement";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 }

@@ -10,15 +10,17 @@ import Project.Models.Tiles.Tile;
 public class NonCombatUnit extends Unit {
     private ImprovementEnum currentBuildingImprovement = null;
     private int remainingTime;
+    String type;
 
     public NonCombatUnit(UnitEnum type, Civilization civilization, Location location) {
         super(type, civilization, location);
+        this.type = this.getClass().getName();
     }
 
 
 
-        public UnitEnum getType() {
-        return type;
+        public UnitEnum getUnitType() {
+        return unitType;
     }
 
     public void setToBuildImprovement(ImprovementEnum improvement, Tile tile) {

@@ -19,9 +19,6 @@ public class Cookies {
         this.loginToken = loginToken;
     }
 
-    public Unit getSelectedUnit() {
-        return selectedUnit;
-    }
 
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;

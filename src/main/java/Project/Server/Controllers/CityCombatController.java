@@ -160,7 +160,7 @@ public class CityCombatController extends CombatController {
 
     private static String affectRangeAttackToCity(RangedUnit rangedUnit, City enemyCity, Tile rangedUnitTile, Tile cityTile) throws CommandException {
         double strengthRangedUnit = rangedUnit.calculateCombatStrength(rangedUnit, rangedUnitTile, "rangedcombatstrength", null);
-        if (rangedUnit.getType().getCombatType() == CombatTypeEnum.SIEGE) {
+        if (rangedUnit.getUnitType().getCombatType() == CombatTypeEnum.SIEGE) {
             strengthRangedUnit *= Constants.SIEGE_BONUS;
         }
         double enemyCityStrength = enemyCity.calculateCombatStrength();
@@ -180,7 +180,7 @@ public class CityCombatController extends CombatController {
         double strengthDiff = combatStrengthNonRangedUnit - enemyCityStrength;
         city.decreaseHealth(city.calculateDamage(strengthDiff));
         nonRangedUnit.decreaseHealth(nonRangedUnit.calculateDamage(-strengthDiff));
-        if (nonRangedUnit.getType().canMoveAfterAttack()) {
+        if (nonRangedUnit.getUnitType().canMoveAfterAttack()) {
             nonRangedUnit.setHasAttack(true);
             nonRangedUnit.setAvailableMoveCount(nonRangedUnit.getAvailableMoveCount() - 1);
         } else {

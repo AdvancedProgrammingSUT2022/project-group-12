@@ -81,11 +81,11 @@ public class MovingController {
     // todo: refactor
     private static void CaptureTheNonCombatUnit(Tile tile, Civilization civ) {
         NonCombatUnit capturedUnit = tile.getNonCombatUnit();
-        if (capturedUnit.getType() == UnitEnum.WORKER || capturedUnit.getType() == UnitEnum.SETTLER) {
+        if (capturedUnit.getUnitType() == UnitEnum.WORKER || capturedUnit.getUnitType() == UnitEnum.SETTLER) {
             /*
              non combat unit has captured
              */
-            capturedUnit.setType(UnitEnum.WORKER);
+            capturedUnit.setUnitType(UnitEnum.WORKER);
             capturedUnit.setCiv(civ);
         } else {
             /*
@@ -96,12 +96,12 @@ public class MovingController {
     }
 
     private static void calculateMovementCost(Unit unit, Location location) {
-        if (unit.getType() == UnitEnum.SCOUT) {
+        if (unit.getUnitType() == UnitEnum.SCOUT) {
             unit.setAvailableMoveCount(unit.getAvailableMoveCount() - 1);
             return;
         }
         if (checkForZOC(unit.getLocation(), location, unit) ||
-                unit.getType() == UnitEnum.CHARIOT_ARCHER && GameController.getGameTile(location).getTerrain().isRoughTerrain() ||
+                unit.getUnitType() == UnitEnum.CHARIOT_ARCHER && GameController.getGameTile(location).getTerrain().isRoughTerrain() ||
                 GameController.checkForRivers(GameController.getGameTile(location), GameController.getGameTile(location))) {
             unit.setAvailableMoveCount(0);
             return;

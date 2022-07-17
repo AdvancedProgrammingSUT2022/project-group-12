@@ -46,14 +46,14 @@ public class Hex implements Observer<Tile> {
 
     private final Polygon polygon;
     private final double multiply;
-    private final int i;
-    private final int j;
+     final int i;
+     final int j;
     private final double w;
     private final double h;
     private final double verticalSpacing;
     private final double horizontalSpacing;
     private final double beginningOfLine;
-    private final Group group;
+    private Group group;
     private final Text positionText;
     private final ImageView cityImageView;
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
@@ -135,13 +135,6 @@ public class Hex implements Observer<Tile> {
             group.setScaleX(1.1);
             group.setScaleY(1.1);
         });
-        group.setOnMouseClicked((mouseEvent) -> {
-            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                // fix: use location instead
-                SelectHandler.sendSelectUnitRequest(null);
-                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
-            }
-        });
         group.setOnMouseExited((MouseEvent) -> {
             group.setScaleX(1);
             group.setScaleY(1);
@@ -186,10 +179,16 @@ public class Hex implements Observer<Tile> {
     }
 
     private void addUnitToGroup(Unit unit) {
-        Group graphicUnit = unitGroups.get(unit.getType());
-        this.group.getChildren().add(graphicUnit);
-        graphicUnit.setTranslateY(this.getCenterY() + multiply * 4);
-        graphicUnit.setTranslateX(this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));
+        Group unitGroup = unitGroups.get(unit.getUnitType());
+        unitGroup.setOnMouseClicked((mouseEvent) -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                SelectHandler.sendSelectUnitRequest(unit);
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
+            }
+        });
+        this.group.getChildren().add(unitGroup);
+        unitGroup.setTranslateY(this.getCenterY() + multiply * 4);
+        unitGroup.setTranslateX(this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));
         if (unit.getState() != UnitStates.AWAKE) {
             ImageView unitStateImageView = new ImageView(App.getResourcePath("/images/unitstates/" + unit.getState().name().toLowerCase() + ".png"));
             unitStateImageView.setFitWidth(20);

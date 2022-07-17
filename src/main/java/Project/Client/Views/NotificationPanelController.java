@@ -33,12 +33,20 @@ public class NotificationPanelController implements ViewController {
                 Button accept = new Button("accept");
                 reject.setOnAction(e -> {
                     String command = "trade reject -n " + trade.getName();
-                    CommandResponse commandResponse = RequestHandler.getInstance().handle(command);
+                    CommandResponse response = RequestHandler.getInstance().handle(command);
+                    if(!response.isOK()){
+                        MenuStack.getInstance().showError(response.toString());
+                        return;
+                    }
                     notificationPanel.getChildren().remove(hBox);
                 });
                 accept.setOnAction(e -> {
                     String command = "trade accept -n " + trade.getName();
-                    CommandResponse commandResponse = RequestHandler.getInstance().handle(command);
+                    CommandResponse response = RequestHandler.getInstance().handle(command);
+                    if(!response.isOK()){
+                        MenuStack.getInstance().showError(response.toString());
+                        return;
+                    }
                     notificationPanel.getChildren().remove(hBox);
                 });
                 VBox vBox = new VBox(reject, accept);

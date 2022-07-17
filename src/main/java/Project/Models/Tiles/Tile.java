@@ -12,6 +12,7 @@ import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Server.Controllers.GameController;
 import Project.Utils.*;
 
 import java.util.ArrayList;
@@ -25,18 +26,18 @@ public class Tile implements Notifier<Tile> {
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private boolean isDamaged;
-    private Civilization civilization;
-    //test
-    private City city;
     private boolean hasRoad;
     private boolean hasRailRoad;
     private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
     private boolean isRuin;
+    private String civName = null;
+    private transient City city;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
+        //test
         this.isRuin = false;
         this.terrain = terrain;
         this.combatUnit = null;
@@ -132,22 +133,26 @@ public class Tile implements Notifier<Tile> {
         if (unit == null) throw new RuntimeException();
         if (unit instanceof CombatUnit combatUnit) {
             if (this.getCombatUnit() != null)
-                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getType().name());
+                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getUnitType().name());
             this.setCombatUnit(combatUnit);
         } else if (unit instanceof NonCombatUnit nonCombatUnit) {
             if (this.getNonCombatUnit() != null)
-                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getType().name());
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getUnitType().name());
             this.setNonCombatUnit(nonCombatUnit);
         }
     }
 
+    @ServerMethod
     public Civilization getCivilization() {
-        return this.civilization;
+        return this.civName == null ? null : GameController.getGame().getCivByName(this.civName);
     }
 
     public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
+        this.civName = civilization.getName();
         this.notifyObservers();
+    }
+    public boolean hasRuin(){
+        return isRuin;
     }
 
     public void transferUnitTo(Unit unit, Tile that) {
@@ -187,7 +192,7 @@ public class Tile implements Notifier<Tile> {
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
         }
-      
+
         return switch (name) {
             case "gold" -> gold;
             case "food" -> food;
@@ -265,7 +270,7 @@ public class Tile implements Notifier<Tile> {
         this.city = that.city;
         this.hasRoad = that.hasRoad;
         this.state = that.state;
-        this.civilization = that.civilization;
+        this.civName = that.civName;
         this.citizen = that.citizen;
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
@@ -282,11 +287,18 @@ public class Tile implements Notifier<Tile> {
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
-    public void removeResource(){
+
+    public void removeResource() {
         this.terrain.setResource(null);
     }
 
     public void setRuin(boolean ruin) {
         isRuin = ruin;
+    }
+
+    public void achieveRuin(Civilization civilization) {
+        civilization.addGold(30);
+        this.setRuin(false);
+        this.notifyObservers();
     }
 }
