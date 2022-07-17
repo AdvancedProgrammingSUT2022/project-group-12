@@ -89,7 +89,7 @@ public class Hex implements Observer<Tile> {
 //        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.group.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                MenuStack.getInstance().getCookies().setSelectedTile(GameController.getGameTile(new Location(i, j)));
+                MenuStack.getInstance().getCookies().setSelectedTileLocation(new Location(i, j));
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
             }
         });

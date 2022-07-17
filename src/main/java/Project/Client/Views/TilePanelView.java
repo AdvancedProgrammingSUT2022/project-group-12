@@ -1,5 +1,6 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.FeatureEnum;
 import Project.Enums.ImprovementEnum;
 import Project.Models.Tiles.Tile;

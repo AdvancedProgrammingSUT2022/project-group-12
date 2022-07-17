@@ -1,5 +1,7 @@
 package Project.Utils;
 
+import Project.Server.Views.GameMenu;
+
 public enum DatabaseQueryType {
     GET_ALL_USERNAMES,/*("SELECT username FROM users")*/
     GET_USER_BY_USERNAME,
@@ -23,5 +25,7 @@ public enum DatabaseQueryType {
     GET_CURRENTCIV_HAPPINESS,
     GET_CURRENTCIV_INWARWITH,
     GET_CIV_GOLD_BY_NAME,
+    GET_SELECTED_CITY,
+    GET_TILE_BY_LOCATION,
     GET_CURRENTCIV_NOTIFICATIONS,
 }

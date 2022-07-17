@@ -2,9 +2,11 @@ package Project.Client.Utils;
 
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Notification;
 import Project.Models.Resource;
+import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.Models.User;
@@ -139,6 +141,19 @@ public class DatabaseQuerier {
         Gson gson = gsonBuilder.create();
         return gson.fromJson(json,Unit.class);
     }
+    public static Tile getTileByLocation(String row, String col){
+        String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION,row,col);
+        System.out.println(json);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(json,Tile.class);
+    }
+    public static City getSelectedCity(){
+        String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY);
+        return new Gson().fromJson(json,City.class);
+    }
 
 }
 class myJsonDeserializer<T> implements JsonDeserializer<T> {
@@ -154,8 +169,4 @@ class myJsonDeserializer<T> implements JsonDeserializer<T> {
         }
         return var3.deserialize(var1,clazz);
     }
-
-
-
-
 }
