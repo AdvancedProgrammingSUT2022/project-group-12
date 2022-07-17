@@ -5,7 +5,8 @@ open module project {
     requires javafx.controls;
     requires com.google.gson;
     requires xstream;
-
+    requires java.base;
+    requires java.xml;
 //    opens Project to javafx.fxml;
 //    exports Project;
 //    exports Project.Views;

@@ -61,20 +61,19 @@ public enum TechnologyEnum {
     private final ArrayList<TechnologyEnum> prerequisiteTechs;
     private final Image image;
 
-    public ArrayList<TechnologyEnum> getPrerequisiteTechs() {
-        return prerequisiteTechs;
-    }
-
     TechnologyEnum(int cost, ArrayList<TechnologyEnum> prerequisiteTechs) {
         this.cost = cost;
         this.prerequisiteTechs = prerequisiteTechs;
         String name = "/images/technologies/" + this.name().toLowerCase() + ".png";
-//        System.out.println(name);
-
-        if(!this.name().equals("RESET")) {
+        if (!this.name().equals("RESET")) {
             this.image = new Image(App.class.getResource(name).toExternalForm());
         } else this.image = null;
     }
+
+    public ArrayList<TechnologyEnum> getPrerequisiteTechs() {
+        return prerequisiteTechs;
+    }
+
     public Image getImage() {
         return this.image;
     }
@@ -82,6 +81,13 @@ public enum TechnologyEnum {
 
     public int getCost() {
         return this.cost;
+    }
+
+    public boolean containsAllPreRequisite(ArrayList<TechnologyEnum> civTechs) {
+        for (TechnologyEnum tech : prerequisiteTechs)
+            if (!civTechs.contains(tech))
+                return false;
+        return true;
     }
 
     public ArrayList<TechnologyEnum> leadsToTech() {
@@ -92,6 +98,10 @@ public enum TechnologyEnum {
             }
         }
         return techs;
+    }
+
+    public String info() {
+        return this.name() + " " + this.cost;
     }
 
 }

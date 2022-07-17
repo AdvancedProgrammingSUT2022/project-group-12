@@ -97,8 +97,7 @@ public class TechPanel implements ViewController {
 //                System.out.println(vBox.getHeight());
                 vBox.setScaleX(1.2);
                 vBox.setScaleY(1.2);
-                for (TechnologyEnum tech:
-                     technologyEnum.leadsToTech()) {
+                for (TechnologyEnum tech: technologyEnum.leadsToTech()) {
                     Label label = new Label(capitalizeFirstString(tech.name()));
                     label.setStyle("-fx-background-color: red");
                     leadsToBox.getChildren().add(label);
@@ -106,17 +105,14 @@ public class TechPanel implements ViewController {
                 leadsToBox.setVisible(true);
             }
         });
-        vBox.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                vBox.getChildren().get(1).setEffect(null);
-                vBox.setScaleX(1);
-                vBox.setScaleY(1);
-                for (int i = leadsToBox.getChildren().size() - 1; i >= 1 ; i--) {
-                    leadsToBox.getChildren().remove(i);
-                }
-                leadsToBox.setVisible(false);
+        vBox.setOnMouseExited(mouseEvent -> {
+            vBox.getChildren().get(1).setEffect(null);
+            vBox.setScaleX(1);
+            vBox.setScaleY(1);
+            for (int i = leadsToBox.getChildren().size() - 1; i >= 1 ; i--) {
+                leadsToBox.getChildren().remove(i);
             }
+            leadsToBox.setVisible(false);
         });
         vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -167,6 +163,6 @@ public class TechPanel implements ViewController {
     }
 
     public void gotoTechTree(ActionEvent actionEvent) {
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("techTree"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TechTreePage"));
     }
 }
