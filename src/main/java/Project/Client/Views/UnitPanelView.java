@@ -62,8 +62,8 @@ public class UnitPanelView implements ViewController {
     public void initialize() {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
         this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
-
+        unit = DatabaseQuerier.getSelectedUnit();
+        System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
         initializeSpinners();
         name.setText(unit.getUnitType().name());
         unitType.setText(unit.getUnitType().name());
@@ -86,7 +86,7 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initButtonBox() {
-        Unit selectedUnit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit selectedUnit = DatabaseQuerier.getSelectedUnit();
         if (selectedUnit.getUnitType().name().equals("SETTLER")) {
             buttonBox.getChildren().add(initClearLandButton());
             cityName = new TextField("Name");
@@ -134,7 +134,8 @@ public class UnitPanelView implements ViewController {
     }
 
     private void initializeXSpinner(Spinner<Integer> xSpinner, Button spinnerButton) {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
+        System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
         xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_WIDTH - 1);
         xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
@@ -153,7 +154,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void moveUnit() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         // todo : check destination for other units
 //        if () {
 //            moveUnitBtn.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
@@ -171,7 +172,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void sleep() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit sleep";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
@@ -182,7 +183,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void alert() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit alert";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
@@ -193,7 +194,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void fortify() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit fortify";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
@@ -204,7 +205,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void awake() {
-        unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit wake";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
@@ -256,7 +257,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void delete() {
-        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
@@ -268,7 +269,7 @@ public class UnitPanelView implements ViewController {
 
     public void pillage()
     {
-        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit pillage";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (!response.isOK()) {
@@ -277,7 +278,7 @@ public class UnitPanelView implements ViewController {
     }
 
     public void buildImprovement() {
-        Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit build improvement";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){
