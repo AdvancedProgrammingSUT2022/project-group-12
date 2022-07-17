@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public enum TechnologyEnum {
     RESET(0, new ArrayList<>()),
@@ -65,9 +66,9 @@ public enum TechnologyEnum {
         this.cost = cost;
         this.prerequisiteTechs = prerequisiteTechs;
         String name = "/images/technologies/" + this.name().toLowerCase() + ".png";
-        if (!this.name().equals("RESET")) {
+        if (!this.name().equals("RESET"))
             this.image = new Image(App.class.getResource(name).toExternalForm());
-        } else this.image = null;
+        else this.image = null;
     }
 
     public ArrayList<TechnologyEnum> getPrerequisiteTechs() {
@@ -77,7 +78,6 @@ public enum TechnologyEnum {
     public Image getImage() {
         return this.image;
     }
-
 
     public int getCost() {
         return this.cost;
@@ -104,4 +104,11 @@ public enum TechnologyEnum {
         return this.name() + " " + this.cost;
     }
 
+    public TreeMap<String, TechnologyEnum> getAllTech() {
+        TreeMap<String, TechnologyEnum> techMap = new TreeMap<>();
+        for (var tech : TechnologyEnum.values())
+            if (!tech.name().equals("RESET"))
+                techMap.put(tech.name(), tech);
+        return techMap;
+    }
 }
