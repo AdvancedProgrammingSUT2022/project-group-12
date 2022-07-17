@@ -2,6 +2,7 @@ package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.BuildingEnum;
+import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
@@ -10,15 +11,18 @@ import Project.Models.Production;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class CityPanelView implements ViewController {
     int TILEGRID_WIDTH;
     int TILEGRID_HEIGHT;
+    @FXML
+    private HBox requirements;
     @FXML
     private Spinner attackXSpinner;
     @FXML
@@ -88,7 +92,7 @@ public class CityPanelView implements ViewController {
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
         this.gold.setText(String.valueOf(city.calculateGold()));
         this.food.setText(String.valueOf(city.calculateFood()));
-        this.production.setText(String.valueOf(String.format("%.2f",city.calculateProduction())));
+        this.production.setText(String.valueOf(String.format("%.2f", city.calculateProduction())));
         this.cityName.setText(city.getName());
         this.isCapital.setText(String.valueOf(city.isCapital()));
         this.NumberOfUnassignedCitizens.setText("Number of unassigned citizens : " + city.numberOfUnassignedCitizens());
@@ -106,12 +110,13 @@ public class CityPanelView implements ViewController {
         SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         assignCitizenXSpinner.setValueFactory(xSpinnerValueFactory);
         assignCitizenYSpinner.setValueFactory(ySpinnerValueFactory);
-        if(city.numberOfUnassignedCitizens() == 0){
+        if (city.numberOfUnassignedCitizens() == 0) {
             this.assignBtn.setDisable(true);
         } else {
             this.assignBtn.setDisable(false);
         }
     }
+
     private void initAttackSpinner() {
         SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
@@ -151,7 +156,7 @@ public class CityPanelView implements ViewController {
     }
 
     private void initBuyTileSpinner() {
-        locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_WIDTH - 1);
+        locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         locationXValueFactory.setValue(locationX);
         buyTileLocationXSpinner.setValueFactory(locationXValueFactory);
         buyTileLocationXSpinner.valueProperty().addListener((observableValue, integer, t0) -> {
@@ -163,7 +168,7 @@ public class CityPanelView implements ViewController {
             //    buyTileBtn.setDisable(false);
         });
 
-        locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_HEIGHT - 1);
+        locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         locationYValueFactory.setValue(locationY);
         buyTileLocationYSpinner.setValueFactory(locationYValueFactory);
         buyTileLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -208,7 +213,7 @@ public class CityPanelView implements ViewController {
             return;
         //todo requires correct logically
         String command;
-        if(selectedCitizen.isLocked()){
+        if (selectedCitizen.isLocked()) {
             command = "city citizen unlock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         } else {
             command = "city citizen lock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
@@ -224,6 +229,16 @@ public class CityPanelView implements ViewController {
         for (BuildingEnum buildingEnum : BuildingEnum.values()) {
             MenuItem item = new MenuItem(buildingEnum.name() + " " + buildingEnum.requiredTechName());
             item.setOnAction(actionEvent -> {
+                requirements.setVisible(true);
+                requirements.getChildren().removeAll(requirements.getChildren());
+                for (TechnologyEnum tech : buildingEnum.getRequiredTechs()) {
+                    Text text = new Text(tech.name());
+                    if (civilization.getTechnologies().contains(tech))
+                        text.setFill(Color.GREEN);
+                    else
+                        text.setFill(Color.RED);
+                    requirements.getChildren().add(text);
+                }
                 if (!buildingEnum.checkIfHasRequiredTechs(civilization.getTechnologies())) {
                     buyBuildingBtn.setDisable(true);
                 } else {
@@ -235,6 +250,7 @@ public class CityPanelView implements ViewController {
             buildingMenu.getItems().add(item);
         }
     }
+
     private void initializeUnitMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         Civilization civilization = GameController.getGame().getCurrentCivilization();
@@ -259,7 +275,7 @@ public class CityPanelView implements ViewController {
         if (selectedBuilding == null)
             return;
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        String command = "city build building -n " +  selectedBuilding.name();
+        String command = "city build building -n " + selectedBuilding.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
         selectedBuilding = null;
         back();
@@ -267,7 +283,7 @@ public class CityPanelView implements ViewController {
 
     public void buyUnit() {
         City city = MenuStack.getInstance().getCookies().getSelectedCity();
-        if(selectedUnit == null){
+        if (selectedUnit == null) {
             return;
         }
         String command = "city buy unit -u " + selectedUnit.name();
@@ -282,7 +298,7 @@ public class CityPanelView implements ViewController {
     }
 
     public void unAssign(ActionEvent actionEvent) {
-        if(selectedCitizen == null){
+        if (selectedCitizen == null) {
             return;
         }
         String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();

@@ -22,8 +22,15 @@
                 <MenuItem mnemonicParsing="false" text="goto Notification Panel" onAction="#gotoNotificationPanel"/>
             </items>
         </Menu>
-        <Menu onAction="#backToMenu" text="Back" />
-        <Menu onAction="#exit" text="Exit" />
+        <Menu onAction="#backToMenu" text="Back">
+            <MenuItem text="Back" onAction="#backToMenu"/>
+        </Menu>
+        <Menu onAction="#exit" text="Exit" >
+            <MenuItem text="Exit" onAction="#exit"/>
+        </Menu>
+        <Menu text="Setting">
+            <MenuItem text="Setting" onAction="#gotoSetting"/>
+        </Menu>
       <Menu mnemonicParsing="false" text="Next Turn">
         <items>
           <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn" />

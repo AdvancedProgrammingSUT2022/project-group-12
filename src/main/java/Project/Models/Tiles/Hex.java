@@ -36,6 +36,14 @@ public class Hex implements Observer<Tile> {
 
     private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
     private static final Image ruinImage = new Image(App.getResourcePath("/images/resources/City ruins.png"));
+    private static final HashMap<UnitEnum, Group> unitGroups = new HashMap<>();
+
+    static {
+        for (UnitEnum unitEnum : UnitEnum.values()) {
+            unitGroups.put(unitEnum, createUnitGroup(unitEnum));
+        }
+    }
+
     private final Polygon polygon;
     private final double multiply;
      final int i;
@@ -51,13 +59,6 @@ public class Hex implements Observer<Tile> {
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
     private final ImageView resourceImageView;
     private final ImageView ruinImageView;
-    private static final HashMap<UnitEnum, Group> unitGroups = new HashMap<>();
-
-    static {
-        for (UnitEnum unitEnum : UnitEnum.values()) {
-            unitGroups.put(unitEnum, createUnitGroup(unitEnum));
-        }
-    }
 
     public Hex(int i, int j) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
