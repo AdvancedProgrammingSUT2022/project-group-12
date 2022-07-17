@@ -8,11 +8,14 @@ import Project.Models.Location;
 import Project.Models.Notification;
 import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
+import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
+import Project.Utils.Notifier;
+import Project.Utils.NotifierUtil;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -147,6 +150,7 @@ public class DatabaseQuerier {
         System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Notifier.class,new myJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(json,Tile.class);
@@ -173,6 +177,16 @@ public class DatabaseQuerier {
     public static HashMap<TechnologyEnum, Integer> getResearchingTechnologies() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGIES);
         return new Gson().fromJson(json, new TypeToken<HashMap<TechnologyEnum, Integer>>(){}.getType());
+    }
+    public static TileGrid getTileGrid(){
+        String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID);
+        System.out.println(json);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
+        Gson gson = gsonBuilder.create();
+        TypeToken<TileGrid> typeToken = new TypeToken<>(){};
+        return gson.fromJson(json, typeToken.getType());
     }
 }
 class myJsonDeserializer<T> implements JsonDeserializer<T> {

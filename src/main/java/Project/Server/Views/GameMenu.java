@@ -851,7 +851,7 @@ public class GameMenu extends Menu {
             getUnitFuncs().unitMoveTo(selectedUnit, location);
             setCamera(this.selectedUnit.getLocation());
             if (isCurrentTileHaveRuin(location)){
-                selectedUnit.getTile().achieveRuin(selectedUnit.getCivilization());
+                GameController.getGameTile(selectedUnit.getLocation()).achieveRuin(selectedUnit.getCivilization());
                 answer("unit moved to " + location + " successfully and ruin is achieved");
                 return;
             }

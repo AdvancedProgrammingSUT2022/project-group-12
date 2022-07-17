@@ -18,9 +18,9 @@ import Project.Utils.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile implements Notifier<Tile> {
+public class Tile implements Notifier {
     private final Location location;
-    private transient final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
+    private NotifierUtil notifierUtil = null;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private Terrain terrain;
     private CombatUnit combatUnit;
@@ -38,7 +38,7 @@ public class Tile implements Notifier<Tile> {
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
         //test
-        this.isRuin = false;
+        this.isRuin = true;
         this.terrain = terrain;
         this.combatUnit = null;
         this.nonCombatUnit = null;
@@ -49,12 +49,17 @@ public class Tile implements Notifier<Tile> {
     }
 
     @Override
-    public void addObserver(Observer<Tile> observer) {
+    public void addObserver(TileObserver observer) {
         this.notifierUtil.addObserver(observer);
     }
 
+
     @Override
     public void notifyObservers() {
+        if(notifierUtil == null) {
+            this.notifierUtil = new NotifierUtil(this);
+            System.out.println("notifierUtil = " + notifierUtil);
+        }
         this.notifierUtil.notifyObservers();
     }
 
@@ -263,6 +268,9 @@ public class Tile implements Notifier<Tile> {
 
     public void copyPropertiesFrom(Tile that) {
         this.terrain = that.terrain;
+        if(that.isRuin && !this.isRuin){
+            System.out.println("hello");
+        }
         this.isRuin = that.isRuin;
         this.combatUnit = that.combatUnit;
         this.nonCombatUnit = that.nonCombatUnit;

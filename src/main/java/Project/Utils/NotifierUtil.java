@@ -1,26 +1,31 @@
 package Project.Utils;
 
 
+import Project.Models.Tiles.Tile;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotifierUtil<T> implements Notifier<T> {
-    private final T subject;
-    private final List<Observer<T>> observers = new ArrayList<>();
+public class NotifierUtil implements Notifier {
+    private transient final Tile subject;
+    private final String type;
+    private final List<TileObserver> observers = new ArrayList<>();
 
-    public NotifierUtil(T subject) {
+    public NotifierUtil(Tile subject) {
         this.subject = subject;
+        this.type = this.getClass().getName();
     }
 
     @Override
-    public void addObserver(Observer<T> observer) {
+    public void addObserver(TileObserver observer) {
         observers.add(observer);
     }
 
     @Override
     public void notifyObservers() {
+        System.out.println("subject = " + subject);;
 //        System.out.println("notify");
-        for (Observer<T> observer : observers) {
+        for (TileObserver observer : observers) {
             observer.getNotified(subject);
         }
     }

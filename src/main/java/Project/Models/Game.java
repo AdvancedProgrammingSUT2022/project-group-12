@@ -55,8 +55,6 @@ public class Game {
 //                }
 //            } else {
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
-                //test
-                settlerTile.setRuin(true);
 //            }
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
@@ -122,6 +120,9 @@ public class Game {
 
     public void revealTileFor(Civilization civilization, Tile tile) {
         TileGrid civTileGrid = civilization.getRevealedTileGrid();
+        if(tile.isARuin()){
+            System.out.println("helllll");
+        }
         civTileGrid.getTile(tile.getLocation()).copyPropertiesFrom(tile);
     }
 

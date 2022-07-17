@@ -44,6 +44,7 @@ public class GameView implements ViewController {
 
     public void showGameMap() {
         btn.setVisible(false);
+       // TileGrid tileGrid = DatabaseQuerier.getTileGrid();
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
