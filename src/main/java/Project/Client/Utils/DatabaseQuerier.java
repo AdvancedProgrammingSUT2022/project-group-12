@@ -130,6 +130,7 @@ public class DatabaseQuerier {
 
     public static Unit getSelectedUnit(){
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
+        System.out.println(json);
         TypeToken<Unit> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }

@@ -11,6 +11,7 @@ public class SelectHandler {
         String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
         String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
         RequestHandler.getInstance().handle(command);
+        DatabaseQuerier.getSelectedUnit();
         MenuStack.getInstance().getCookies().setSelectedUnit(unit);
     }
 
