@@ -2,12 +2,8 @@ package Project.Client.Utils;
 
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Location;
-import Project.Models.Notification;
-import Project.Models.Resource;
-import Project.Models.Tiles.TileGrid;
+import Project.Models.*;
 import Project.Models.Units.Unit;
-import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
@@ -109,12 +105,13 @@ public class DatabaseQuerier {
         TypeToken<ArrayList<Notification>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
-    public static TileGrid getTileGrid() {
+    public static Chat getChat() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID);
-        TypeToken<TileGrid> typeToken = new TypeToken<>() {};
+        TypeToken<Chat> typeToken = new TypeToken<>() {};
         XStream xStream = new XStream();
         xStream.addPermission(AnyTypePermission.ANY);
-        return (TileGrid) xStream.fromXML(json, typeToken.getType());
+        return (Chat) xStream.fromXML(json, typeToken.getType());
+//        return null;
     }
 
 }

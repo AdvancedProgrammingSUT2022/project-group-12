@@ -3,6 +3,7 @@ package Project.Server.Views;
 import Project.Client.Views.WinCityDialog;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.Chat;
 import Project.Models.Civilization;
 import Project.Models.Database;
 import Project.Models.Tiles.Tile;
@@ -13,6 +14,8 @@ import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -153,7 +156,15 @@ public class MenuStack {
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
-            case GET_TILEGRID -> new XStream().toXML(GameController.getGame().getTileGrid());
+            case GET_TILEGRID -> {
+                String xml = new XStream().toXML(new Chat(new ArrayList<>(), ""));
+                try (FileWriter fileWriter = new FileWriter("xml.xml")) {
+                    fileWriter.write(xml);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                yield xml;
+            }
         };
     }
 }

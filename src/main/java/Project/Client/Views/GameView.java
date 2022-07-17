@@ -33,7 +33,7 @@ public class GameView implements ViewController {
     @FXML
 
     public void initialize() {
-        DatabaseQuerier.getTileGrid();
+        DatabaseQuerier.getChat();
         String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
     }
