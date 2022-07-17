@@ -38,8 +38,8 @@ public class Hex implements Observer<Tile> {
     private static final Image ruinImage = new Image(App.getResourcePath("/images/resources/City ruins.png"));
     private final Polygon polygon;
     private final double multiply;
-    private final int i;
-    private final int j;
+     final int i;
+     final int j;
     private final double w;
     private final double h;
     private final double verticalSpacing;
@@ -137,7 +137,7 @@ public class Hex implements Observer<Tile> {
         group.setOnMouseClicked((mouseEvent) -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 // fix: use location instead
-                SelectHandler.sendSelectUnitRequest(null);
+                SelectHandler.sendSelectUnitRequest(unitEnum.name(),null);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
             }
         });

@@ -65,10 +65,11 @@ public class UnitPanelView implements ViewController {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
         this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
+
         initializeSpinners();
         name.setText(unit.getType().name());
         unitType.setText(unit.getType().name());
-        unitCivilization.setText(unit.getCivilization().getName());
+        unitCivilization.setText(unit.getCivName());
         locationX = unit.getLocation().getRow();
         locationY = unit.getLocation().getCol();
         unitXLocation.setText(String.valueOf(unit.getLocation().getRow()));

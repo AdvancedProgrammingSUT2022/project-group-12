@@ -1,6 +1,7 @@
 package Project.Enums;
 
 import Project.Client.App;
+import Project.Models.Units.Unit;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -82,6 +83,24 @@ public enum UnitEnum {
             this.assetImage = new Image(App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png").toExternalForm());
         else
             this.assetImage = new Image(App.class.getResource("/images/units/Units/impi.png").toExternalForm());
+    }
+    public static UnitEnum getUnitEnumByName(String name){
+        for (UnitEnum un:
+             UnitEnum.values()) {
+            if(un.name().toLowerCase().equals(name.toLowerCase())){
+                return un;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isCombat(String param) {
+        UnitEnum unitEnum = getUnitEnumByName(param);
+        assert unitEnum != null;
+        if(unitEnum.isACombatUnit()){
+            return true;
+        }
+        return false;
     }
 
     public boolean isACombatUnit() {

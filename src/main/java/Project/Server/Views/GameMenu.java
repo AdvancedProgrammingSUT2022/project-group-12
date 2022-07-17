@@ -25,7 +25,7 @@ public class GameMenu extends Menu {
 
     private final MapFuncs mapFuncs;
     private final UnitFuncs unitFuncs;
-    private Unit selectedUnit;
+    private static Unit selectedUnit;
     private City selectedCity;
 
     public GameMenu() {
@@ -935,11 +935,8 @@ public class GameMenu extends Menu {
         showTheMap();
     }
 
-    public Unit getSelectedUnit() {
+    public static Unit getSelectedUnit() {
         return selectedUnit;
     }
 
-    public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnit = selectedUnit;
-    }
 }

@@ -117,15 +117,24 @@ public class DatabaseQuerier {
         TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
+    public static ArrayList<String> getCurrentCivUnitsNames() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_NAMES);
+        TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
     public static Location getCurrentCivLocationByName(String cityName) {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_LOCATION_BY_NAME,cityName);
         TypeToken<Location> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
 
-    public static ArrayList<String> getCurrentCivUnitsNames() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_NAMES);
-        TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {};
+    public static void sendSelectUnitRequest(String name,String row,String col) {
+        RequestHandler.getInstance().databaseQuery(DatabaseQueryType.SET_SELECTED_UNIT,name,row,col);
+    }
+    public static Unit getSelectedUnit(){
+        String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
+        TypeToken<Unit> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
+
 }

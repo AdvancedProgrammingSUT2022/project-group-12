@@ -20,6 +20,8 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 public class CheatSheetView implements ViewController {
     @FXML
     private Pane pane;
@@ -66,7 +68,6 @@ public class CheatSheetView implements ViewController {
     private int productIncreaseAmount;
     @FXML
     private MenuButton teleportUnit;
-    private Unit teleportingUnit;
     @FXML
     private Spinner<Integer> teleportXSpinner;
     private SpinnerValueFactory<Integer> teleportXValueFactory;
@@ -88,7 +89,6 @@ public class CheatSheetView implements ViewController {
     private int beakerAmount;
     @FXML
     private MenuButton movementIncreaseUnit;
-    private Unit increasingMovementUnit;
     @FXML
     private Spinner<Integer> movementIncreaseSpinner;
     private SpinnerValueFactory<Integer> movementIncreaseValueFactory;
@@ -99,7 +99,6 @@ public class CheatSheetView implements ViewController {
     private String healingCityName;
     @FXML
     private MenuButton unitHealing;
-    private Unit healingUnit;
     @FXML
     private MenuButton buildingsMenu;
     private BuildingEnum buildingEnum;
@@ -107,6 +106,9 @@ public class CheatSheetView implements ViewController {
     private MenuButton cityForBuildingsMenu;
     private City cityForBuilding;
     private String cityForBuildingName;
+    private String teleportUnitName;
+    private String healingUnitName;
+    private String increasingMovementUnitName;
 
     public void initialize() {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
@@ -165,26 +167,31 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initUnitMenus() {
-        for (Unit unit : DatabaseQuerier.getCurrentCivilizationUnits()) {
-            MenuItem teleportUnitItem = new MenuItem(unit.getType().name());
-            MenuItem unitMovementIncreaseItem = new MenuItem(unit.getType().name());
-            MenuItem healingUnitItem = new MenuItem(unit.getType().name());
+        ArrayList<String> unitTypeNames = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsNames());
+        ArrayList<Location> unitLocations = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsLocation());
+
+        for (int i = 0; i < unitTypeNames.size(); i++) {
+            String unitName = unitTypeNames.get(i);
+            Location unitLocation = unitLocations.get(i);
+            MenuItem teleportUnitItem = new MenuItem(unitTypeNames.get(i));
+            MenuItem unitMovementIncreaseItem = new MenuItem(unitTypeNames.get(i));
+            MenuItem healingUnitItem = new MenuItem(unitName);
             teleportUnitItem.setOnAction(actionEvent -> {
-                teleportingUnit = unit;
-                SelectHandler.sendSelectUnitRequest(unit);
-                teleportUnit.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + ")");
+                teleportUnitName = unitName;
+            //    SelectHandler.sendSelectUnitRequest(unit);
+                teleportUnit.setText(unitName + " ( " + unitLocation.getRow() + " , " + unitLocation.getCol() + ")");
             });
             teleportUnit.getItems().add(teleportUnitItem);
             unitMovementIncreaseItem.setOnAction(actionEvent -> {
-                increasingMovementUnit = unit;
-                SelectHandler.sendSelectUnitRequest(unit);
-                movementIncreaseUnit.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + ")");
+                increasingMovementUnitName = unitName;
+            //    SelectHandler.sendSelectUnitRequest(unit);
+                movementIncreaseUnit.setText(unitName + " ( " + unitLocation.getRow() + " , " + unitLocation.getCol() + ")");
             });
             movementIncreaseUnit.getItems().add(unitMovementIncreaseItem);
             healingUnitItem.setOnAction(actionEvent -> {
-                healingUnit = unit;
-                SelectHandler.sendSelectUnitRequest(unit);
-                unitHealing.setText(unit.getType().name() + " ( " + unit.getLocation().getRow() + " , " + unit.getLocation().getCol() + " )");
+                healingUnitName = unitName;
+            //    SelectHandler.sendSelectUnitRequest(unit);
+                unitHealing.setText(unitName + " ( " + unitLocation.getRow() + " , " + unitLocation.getCol() + " )");
             });
             unitHealing.getItems().add(healingUnitItem);
         }
@@ -372,11 +379,11 @@ public class CheatSheetView implements ViewController {
     }
 
     public void increaseMovement() {
-        if (increasingMovementUnit == null)
+        if (increasingMovementUnitName == null)
             return;
         String command = "cheat increase movement -a " + movementIncreaseAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        increasingMovementUnit = null;
+        increasingMovementUnitName = null;
         movementIncreaseAmount = 0;
         movementIncreaseUnit.setText("Unit");
         back();
@@ -394,11 +401,11 @@ public class CheatSheetView implements ViewController {
     }
 
     public void healUnit() {
-        if (healingUnit == null)
+        if (healingUnitName == null)
             return;
         String command = "cheat heal unit";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        healingUnit = null;
+        healingUnitName = null;
         unitHealing.setText("Unit");
         back();
     }

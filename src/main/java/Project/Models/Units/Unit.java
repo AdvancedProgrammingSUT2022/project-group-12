@@ -19,13 +19,13 @@ import static java.lang.Math.exp;
 
 public abstract class Unit extends Production {
     protected UnitEnum type;
-    protected Civilization civ;
+    protected  transient Civilization civ;
+    protected  String civName;
     protected double availableMoveCount;
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;
-    protected ArrayList<Tile> pathShouldCross = new ArrayList<>();
-    protected UnitStates state;
-    protected transient Group graphicUnit;
+    protected transient ArrayList<Tile> pathShouldCross = new ArrayList<>();
+    protected transient UnitStates state;
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
         super(type.getProductionCost());
@@ -35,6 +35,7 @@ public abstract class Unit extends Production {
         this.resetMovementCount();
         this.location = location;
         state = UnitStates.AWAKE;
+        civName = this.civ.getName();
     }
 
     // todoLater: integrate unit newing with Civ class
@@ -171,5 +172,9 @@ public abstract class Unit extends Production {
                 "Remaining movement = " + this.getAvailableMoveCount() + '\n' +
                 "Health = " + this.getHealth() + '\n' +
                 "Has work to do: " + this.isWorking() + '\n';
+    }
+
+    public String getCivName() {
+        return civName;
     }
 }

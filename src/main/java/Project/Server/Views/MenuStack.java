@@ -164,6 +164,12 @@ public class MenuStack {
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
             case GET_CURRENTCIV_CITIES_NAMES ->  gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map( city -> city.getName()).collect(Collectors.toList()));
             case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
-        };
+            case SET_SELECTED_UNIT -> {
+                String combatOrNonCombat = UnitEnum.isCombat(params[0]) ? "combat" : "noncombat";
+                MenuStack.getInstance().runCommand("select unit " + combatOrNonCombat + " -p " + params[1] + " " + params[2]);
+                yield null;
+            }
+            case GET_SELECTED_UNIT -> gson.toJson(GameMenu.getSelectedUnit());
+            };
+        }
     }
-}
