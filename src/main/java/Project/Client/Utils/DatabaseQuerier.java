@@ -160,6 +160,16 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TECHNOLOGIES);
         return new Gson().fromJson(json, new TypeToken<ArrayList<TechnologyEnum>>(){}.getType());
     }
+
+    public static TechnologyEnum getResearchingTechnology() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGY);
+        return new Gson().fromJson(json, new TypeToken<TechnologyEnum>(){}.getType());
+    }
+
+    public static HashMap<TechnologyEnum, Integer> getResearchingTechnologies() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGIES);
+        return new Gson().fromJson(json, new TypeToken<HashMap<TechnologyEnum, Integer>>(){}.getType());
+    }
 }
 class myJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override
