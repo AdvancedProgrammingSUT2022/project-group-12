@@ -16,8 +16,6 @@ public class SelectHandler {
     }
 
     public static void sendSelectCityRequest(City city) {
-        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-        MenuStack.getInstance().getCookies().setSelectedCity(city);
+
     }
 }

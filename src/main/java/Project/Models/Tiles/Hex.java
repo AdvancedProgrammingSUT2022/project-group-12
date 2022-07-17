@@ -15,6 +15,7 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
+import Project.Server.Views.RequestHandler;
 import Project.Utils.Constants;
 import Project.Utils.Observer;
 import javafx.scene.Cursor;
@@ -237,7 +238,8 @@ public class Hex implements Observer<Tile> {
         this.group.getChildren().add(this.cityImageView);
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                SelectHandler.sendSelectCityRequest(city);
+                String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
+                RequestHandler.getInstance().handle(command);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
             }
         });

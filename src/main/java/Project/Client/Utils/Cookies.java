@@ -11,7 +11,6 @@ public class Cookies {
     private String loginToken = null;
     private String currentGameId = null;
     private Unit selectedUnit = null;
-    private City selectedCity = null;
     private Tile selectedTile = null;
     private Location selectedTileLocation = null;
 
@@ -29,12 +28,10 @@ public class Cookies {
     }
 
     public City getSelectedCity() {
-        return selectedCity;
+        return DatabaseQuerier.getSelectedCity();
     }
 
-    public void setSelectedCity(City selectedCity) {
-        this.selectedCity = selectedCity;
-    }
+
 
     public Tile getSelectedTile() {
         return DatabaseQuerier.getTileByLocation(String.valueOf(selectedTileLocation.getRow()),String.valueOf(selectedTileLocation.getCol()));
