@@ -298,6 +298,7 @@ public class Tile implements Notifier<Tile> {
 
     public void achieveRuin(Civilization civilization) {
         civilization.addGold(30);
-        isRuin = false;
+        this.setRuin(false);
+        this.notifyObservers();
     }
 }

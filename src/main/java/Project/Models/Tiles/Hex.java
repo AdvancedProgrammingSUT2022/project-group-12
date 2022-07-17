@@ -53,7 +53,7 @@ public class Hex implements Observer<Tile> {
     private final double verticalSpacing;
     private final double horizontalSpacing;
     private final double beginningOfLine;
-    private final Group group;
+    private Group group;
     private final Text positionText;
     private final ImageView cityImageView;
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
