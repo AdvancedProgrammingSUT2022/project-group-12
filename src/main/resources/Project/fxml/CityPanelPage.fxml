@@ -3,9 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane stylesheets="@../css/CheatSheet.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.CityPanelView">
 
-    <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="360.0" prefWidth="583.0" spacing="5.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.CityPanelView">
+
+    <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="378.0" prefWidth="583.0" spacing="5.0">
 
         <Text fx:id="cityName" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -53,6 +54,7 @@
             <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building" />
 
         </HBox>
+      <HBox fx:id="requirements" visible="false" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
 
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -80,14 +82,11 @@
 
         </HBox>
       <HBox alignment="CENTER" prefHeight="24.0" prefWidth="528.0" spacing="10.0">
+         <Button fx:id="assignBtn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#assignBtnAction" prefHeight="24.0" prefWidth="102.0" text="Assign " />
          <Label fx:id="NumberOfUnassignedCitizens" prefHeight="16.0" prefWidth="244.0" translateX="-2.0" />
-          <HBox alignment="CENTER" prefHeight="24.0" prefWidth="287.0" spacing="10.0">
 
-              <Spinner fx:id="assignCitizenXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" />
-              <Spinner fx:id="assignCitizenYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="y" />
-            <Button fx:id="assignBtn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#assignBtnAction" prefHeight="24.0" prefWidth="102.0" text="Assign " />
-
-          </HBox>
+           <Spinner fx:id="assignCitizenXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" />
+           <Spinner fx:id="assignCitizenYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="y" />
         </HBox>
         <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
 
@@ -101,7 +100,7 @@
         </HBox>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="507.0" prefWidth="583.0" spacing="100.0">
          <children>
-            <Button fx:id="attackBtn" onAction="#attackBtnAction" mnemonicParsing="false" text="Attack" translateX="17.0" />
+            <Button fx:id="attackBtn" mnemonicParsing="false" onAction="#attackBtnAction" text="Attack" translateX="17.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Spinner fx:id="attackXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" translateX="-2.0" />
@@ -123,7 +122,7 @@
         <HBox alignment="CENTER" layoutX="10.0" layoutY="346.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
 
             <Button mnemonicParsing="false" onAction="#back" text="Back" />
-            <Button layoutX="277.0" layoutY="10.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
 
         </HBox>
 
