@@ -3,6 +3,7 @@ package Project.Client.Views;
 import Project.Models.Civilization;
 import Project.Models.Database;
 import Project.Server.Controllers.GameController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -46,5 +47,9 @@ public class GameSettingView implements ViewController {
             muteBtn.setText("Muted");
         else
             muteBtn.setText("Un Muted");
+    }
+
+    public void back(ActionEvent actionEvent) {
+        MenuStack.getInstance().popMenu();
     }
 }
