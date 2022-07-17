@@ -37,8 +37,7 @@ public class Tile implements Notifier {
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
-        //test
-        this.isRuin = true;
+        this.isRuin = false;
         this.terrain = terrain;
         this.combatUnit = null;
         this.nonCombatUnit = null;
