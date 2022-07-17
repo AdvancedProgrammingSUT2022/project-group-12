@@ -78,8 +78,10 @@ public class CivilizationPanelView implements ViewController {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
         String command = "info units";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        for (Unit unit : DatabaseQuerier.getCurrentCivilizationUnits()) {
-            MenuItem item = new MenuItem(unit.getType().name() + " " + unit.getLocation().toString());
+        ArrayList<String> unitNames = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsNames());
+        ArrayList<Location> unitLocations = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsLocation());
+        for (int i = 0; i < unitLocations.size(); i++) {
+            MenuItem item = new MenuItem(unitNames.get(i) + " " + unitLocations.get(i).toString());
             unitsMenu.getItems().add(item);
         }
     }

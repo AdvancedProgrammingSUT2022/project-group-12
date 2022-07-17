@@ -33,6 +33,7 @@ public class CheatSheetView implements ViewController {
     private Spinner<Integer> foodSpinner;
     private SpinnerValueFactory<Integer> foodValueFactory;
     private City foodForCity;
+    private String foodForCityName;
     private int foodAmount;
     @FXML
     private MenuButton foodForCitySelect;
@@ -58,6 +59,7 @@ public class CheatSheetView implements ViewController {
     @FXML
     private MenuButton productionIncreaseCityMenu;
     private City productionIncreaseCity;
+    private String productionIncreaseCityName;
     @FXML
     private Spinner<Integer> productionIncreaseSpinner;
     private SpinnerValueFactory<Integer> productionIncreaseValueFactory;
@@ -94,6 +96,7 @@ public class CheatSheetView implements ViewController {
     @FXML
     private MenuButton cityHealing;
     private City healingCity;
+    private String healingCityName;
     @FXML
     private MenuButton unitHealing;
     private Unit healingUnit;
@@ -103,6 +106,7 @@ public class CheatSheetView implements ViewController {
     @FXML
     private MenuButton cityForBuildingsMenu;
     private City cityForBuilding;
+    private String cityForBuildingName;
 
     public void initialize() {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
@@ -132,40 +136,29 @@ public class CheatSheetView implements ViewController {
 
     private void initCityMenus() {
         //todo : get Current Civilizations Cities;
-        for (City city : GameController.getGame().getCurrentCivilization().getCities()) {
-            MenuItem foodItem = new MenuItem(city.getName());
-            MenuItem productionIncreaseItem = new MenuItem(city.getName());
-            MenuItem productionFinishingItem = new MenuItem(city.getName());
-            MenuItem cityHealItem = new MenuItem(city.getName());
-            MenuItem buildingCity = new MenuItem(city.getName());
+        for (String name : DatabaseQuerier.getCurrentCivCitiesNames()) {
+            MenuItem foodItem = new MenuItem(name);
+            MenuItem productionIncreaseItem = new MenuItem(name);
+            MenuItem productionFinishingItem = new MenuItem(name);
+            MenuItem cityHealItem = new MenuItem(name);
+            MenuItem buildingCity = new MenuItem(name);
             foodItem.setOnAction(actionEvent -> {
-                foodForCity = city;
-                sendSelectCityRequest(city);
-                foodForCitySelect.setText(city.getName());
+                foodForCityName = name;
+                SelectHandler.sendSelectCityRequest(name);
+                foodForCitySelect.setText(name);
             });
             foodForCitySelect.getItems().add(foodItem);
-            productionIncreaseItem.setOnAction(actionEvent -> {
-                productionIncreaseCity = city;
-                SelectHandler.sendSelectCityRequest(city);
-                productionIncreaseCityMenu.setText(city.getName());
-            });
-            productionIncreaseCityMenu.getItems().add(productionIncreaseItem);
-            productionFinishingItem.setOnAction(actionEvent -> {
-                productionFinishingCity = city;
-                SelectHandler.sendSelectCityRequest(city);
-                finishProductionCity.setText(city.getName());
-            });
             finishProductionCity.getItems().add(productionFinishingItem);
             cityHealItem.setOnAction(actionEvent -> {
-                healingCity = city;
-                SelectHandler.sendSelectCityRequest(city);
-                cityHealing.setText(city.getName());
+                healingCityName = name;
+                SelectHandler.sendSelectCityRequest(name);
+                cityHealing.setText(name);
             });
             cityHealing.getItems().add(cityHealItem);
             buildingCity.setOnAction(actionEvent -> {
-                cityForBuilding = city;
-                SelectHandler.sendSelectCityRequest(city);
-                cityForBuildingsMenu.setText(city.getName());
+                cityForBuildingName = name;
+                SelectHandler.sendSelectCityRequest(name);
+                cityForBuildingsMenu.setText(name);
             });
             cityForBuildingsMenu.getItems().add(buildingCity);
         }
@@ -449,19 +442,8 @@ public class CheatSheetView implements ViewController {
         finishProductionCity.getItems().removeAll(finishProductionCity.getItems());
         movementIncreaseUnit.getItems().removeAll(movementIncreaseUnit.getItems());
     }
-    private void sendSelectCityRequest(City city) {
-        String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-        RequestHandler.getInstance().handle(command);
-    }
-    private void sendSelectUnitRequest(Unit unit) {
-        String command;
-        if (unit instanceof CombatUnit) {
-            command = "select unit combat" + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        } else {
-            command = "select unit noncombat" + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
-        }
-        RequestHandler.getInstance().handle(command);
-    }
+
+
 
     public void back() {
         MenuStack.getInstance().popMenu();

@@ -3,20 +3,21 @@ package Project.Server.Views;
 import Project.Client.Views.WinCityDialog;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Chat;
 import Project.Models.Civilization;
 import Project.Models.Database;
 import Project.Models.Tiles.Tile;
+import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Server.Controllers.GameController;
+import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class MenuStack {
@@ -131,7 +132,7 @@ public class MenuStack {
         this.responseParameters.put(key, value);
     }
 
-    public String databaseQuery(DatabaseQueryType query, String[] params) {
+    public String databaseQuery(DatabaseQueryType query, String[] params)  {
 
         Gson gson = new Gson();
         // todo: get civ token instead of current
@@ -142,9 +143,14 @@ public class MenuStack {
             case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
             case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
             case GET_CIV_UNITS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits());
-            case GET_TILEGRID_SIZE -> gson.toJson(new HashMap<>(Map.of(
-                        "Height", GameController.getGame().getTileGrid().getHeight(),
-                        "Width", GameController.getGame().getTileGrid().getWidth())));
+            case GET_CURRENTCIV_UNITS_NAMES -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(e -> e.getType().name()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_UNITS_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(Unit::getLocation).collect(Collectors.toList()));
+            case GET_TILEGRID_SIZE -> {
+                HashMap<String, Integer> hashMap = new HashMap<>();
+                hashMap.put("Height", GameController.getGame().getTileGrid().getHeight());
+                hashMap.put("Width", GameController.getGame().getTileGrid().getWidth());
+                yield gson.toJson(hashMap);
+            }
             case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
             case GET_ALL_BUILDING_ENUMS ->  gson.toJson(BuildingEnum.values());
             case GET_CURRENTCIV_HAPPINESS ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateHappiness());
@@ -156,15 +162,8 @@ public class MenuStack {
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
             case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
-            case GET_TILEGRID -> {
-                String xml = new XStream().toXML(new Chat(new ArrayList<>(), ""));
-                try (FileWriter fileWriter = new FileWriter("xml.xml")) {
-                    fileWriter.write(xml);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                yield xml;
-            }
+            case GET_CURRENTCIV_CITIES_NAMES ->  gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map( city -> city.getName()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
         };
     }
 }

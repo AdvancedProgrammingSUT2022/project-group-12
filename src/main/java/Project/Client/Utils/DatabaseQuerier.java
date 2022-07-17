@@ -2,14 +2,15 @@ package Project.Client.Utils;
 
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.*;
+import Project.Models.Location;
+import Project.Models.Notification;
+import Project.Models.Resource;
 import Project.Models.Units.Unit;
+import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,13 +106,22 @@ public class DatabaseQuerier {
         TypeToken<ArrayList<Notification>> typeToken = new TypeToken<>() {};
         return new Gson().fromJson(json, typeToken.getType());
     }
-    public static Chat getChat() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID);
-        TypeToken<Chat> typeToken = new TypeToken<>() {};
-        XStream xStream = new XStream();
-        xStream.addPermission(AnyTypePermission.ANY);
-        return (Chat) xStream.fromXML(json, typeToken.getType());
-//        return null;
+    public static ArrayList<Location> getCurrentCivUnitsLocation() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_LOCATIONS);
+        TypeToken<ArrayList<Location>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
     }
+
+    public static ArrayList<String> getCurrentCivCitiesNames() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_NAMES);
+        TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
+    public static Location getCurrentCivLocationByName(String cityName) {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_LOCATION_BY_NAME,cityName);
+        TypeToken<Location> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
+
 
 }
