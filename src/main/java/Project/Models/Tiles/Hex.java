@@ -6,9 +6,11 @@ import Project.Client.Utils.SelectHandler;
 import Project.Client.Views.Menu;
 import Project.Client.Views.MenuStack;
 import Project.Enums.ResourceEnum;
+import Project.Enums.UnitEnum;
 import Project.Enums.UnitStates;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
+import Project.Models.Location;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
@@ -27,6 +29,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+
+import java.util.HashMap;
 
 public class Hex implements Observer<Tile> {
 
@@ -47,8 +51,15 @@ public class Hex implements Observer<Tile> {
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
     private final ImageView resourceImageView;
     private final ImageView ruinImageView;
+    private static final HashMap<UnitEnum, Group> unitGroups = new HashMap<>();
 
-    public Hex(Tile tile, int i, int j) {
+    static {
+        for (UnitEnum unitEnum : UnitEnum.values()) {
+            unitGroups.put(unitEnum, createUnitGroup(unitEnum));
+        }
+    }
+
+    public Hex(int i, int j) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
         this.i = i;
         this.j = j;
@@ -77,7 +88,7 @@ public class Hex implements Observer<Tile> {
 //        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.group.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                MenuStack.getInstance().getCookies().setSelectedTile(tile);
+                MenuStack.getInstance().getCookies().setSelectedTile(GameController.getGameTile(new Location(i, j)));
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
             }
         });
@@ -95,6 +106,46 @@ public class Hex implements Observer<Tile> {
         this.resourceImageView.setLayoutX(this.getCenterX() - resourceImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
         this.resourceImageView.setLayoutY(this.getCenterY());
         this.group.setEffect(this.groupColorAdjust);
+    }
+
+    private static Group createUnitGroup(UnitEnum unitEnum) {
+        Group group = new Group();
+        int unitsDistanceVertically = Constants.UNITS_DISTANCE_VERTICALLY;
+        int unitDistanceHorizontally = Constants.UNITS_DISTANCE_HORIZONTALLY;
+        int numberOfRowsOfUnits = 3;
+        // todo: fix
+//        if (this.getHealth() < Constants.UNIT_FULL_HEALTH / 3) {
+//            numberOfRowsOfUnits = 1;
+//        } else if (this.getHealth() < (Constants.UNIT_FULL_HEALTH * 2) / 3) {
+//            numberOfRowsOfUnits = 2;
+//        } else {
+//            numberOfRowsOfUnits = 3;
+//        }
+        for (int i = numberOfRowsOfUnits - 1; i >= 0; i--) {
+            for (int j = 0; j < 3; j++) {
+                ImageView imageView = new ImageView(unitEnum.getAssetImage());
+                imageView.setLayoutX(unitDistanceHorizontally - unitDistanceHorizontally * j - imageView.getImage().getWidth() / 2);
+                imageView.setLayoutY(unitsDistanceVertically - unitsDistanceVertically * i);
+                group.getChildren().add(imageView);
+            }
+        }
+        group.setCursor(Cursor.HAND);
+        group.setOnMouseEntered(mouseEvent -> {
+            group.setScaleX(1.1);
+            group.setScaleY(1.1);
+        });
+        group.setOnMouseClicked((mouseEvent) -> {
+            if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                // fix: use location instead
+                SelectHandler.sendSelectUnitRequest(null);
+                MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
+            }
+        });
+        group.setOnMouseExited((MouseEvent) -> {
+            group.setScaleX(1);
+            group.setScaleY(1);
+        });
+        return group;
     }
 
     private static void setSelectScaleEffect(Node node) {
@@ -134,7 +185,7 @@ public class Hex implements Observer<Tile> {
     }
 
     private void addUnitToGroup(Unit unit) {
-        Group graphicUnit = unit.getGraphicUnit();
+        Group graphicUnit = unitGroups.get(unit.getType());
         this.group.getChildren().add(graphicUnit);
         graphicUnit.setTranslateY(this.getCenterY() + multiply * 4);
         graphicUnit.setTranslateX(this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));

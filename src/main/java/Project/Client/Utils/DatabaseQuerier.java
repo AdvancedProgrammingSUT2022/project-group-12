@@ -123,5 +123,9 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, typeToken.getType());
     }
 
-
+    public static ArrayList<String> getCurrentCivUnitsNames() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_NAMES);
+        TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {};
+        return new Gson().fromJson(json, typeToken.getType());
+    }
 }

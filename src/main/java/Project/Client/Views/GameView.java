@@ -3,6 +3,7 @@ package Project.Client.Views;
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
+import Project.Models.Tiles.HexGrid;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Server.Controllers.GameController;
@@ -13,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+
+import java.util.HashMap;
 
 public class GameView implements ViewController {
     public MenuItem nextTurn;
@@ -31,11 +34,13 @@ public class GameView implements ViewController {
     @FXML
     private Pane hexPane;
     @FXML
+    private HexGrid hexGrid;
 
     public void initialize() {
-        DatabaseQuerier.getChat();
         String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        HashMap<String, Integer> tileGridSize = DatabaseQuerier.getTileGridSize();
+        hexGrid = new HexGrid(tileGridSize.get("Height"), tileGridSize.get("Width"));
     }
 
     public void showGameMap() {
@@ -56,7 +61,7 @@ public class GameView implements ViewController {
 
     public void setFocusOnLocation(Location location) {
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-        Hex hex = tileGrid.getTile(location).getHex();
+        Hex hex = hexGrid.getHex(location);
         scrollPane.setVvalue(hex.getCenterY() / hexPane.getBoundsInLocal().getHeight());
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
     }
@@ -66,9 +71,9 @@ public class GameView implements ViewController {
         for (int i = 0; i < tileGrid.getHeight(); i++) {
             for (int j = 0; j < tileGrid.getWidth(); j++) {
                 Tile tile = tileGrid.getTile(new Location(i, j));
-                Hex hex = tile.getHex();
+                Hex hex = hexGrid.getHex(new Location(i, j));
                 hexPane.getChildren().add(hex.getGroup());
-                tile.addObserver(tile.getHex());
+                tile.addObserver(hex);
                 hex.updateHex(tile);
             }
         }

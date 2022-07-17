@@ -1,6 +1,9 @@
 package Project.Models.Tiles;
 
-import Project.Enums.*;
+import Project.Enums.FeatureEnum;
+import Project.Enums.ImprovementEnum;
+import Project.Enums.ResourceEnum;
+import Project.Enums.VisibilityEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Civilization;
@@ -15,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile implements Notifier<Tile> {
-    private transient final Hex hex;
     private final Location location;
     private final NotifierUtil<Tile> notifierUtil = new NotifierUtil<>(this);
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
@@ -43,7 +45,6 @@ public class Tile implements Notifier<Tile> {
         this.city = null;
         this.hasRoad = false;
         this.state = VisibilityEnum.FOG_OF_WAR;
-        this.hex = new Hex(this, tileLocation.getRow(), tileLocation.getCol());
     }
 
     @Override
@@ -54,10 +55,6 @@ public class Tile implements Notifier<Tile> {
     @Override
     public void notifyObservers() {
         this.notifierUtil.notifyObservers();
-    }
-
-    public Hex getHex() {
-        return hex;
     }
 
     public boolean hasRoad() {
