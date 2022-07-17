@@ -58,7 +58,6 @@ public class Tile implements Notifier {
     public void notifyObservers() {
         if(notifierUtil == null) {
             this.notifierUtil = new NotifierUtil(this);
-            System.out.println("notifierUtil = " + notifierUtil);
         }
         this.notifierUtil.notifyObservers();
     }
@@ -268,9 +267,6 @@ public class Tile implements Notifier {
 
     public void copyPropertiesFrom(Tile that) {
         this.terrain = that.terrain;
-        if(that.isRuin && !this.isRuin){
-            System.out.println("hello");
-        }
         this.isRuin = that.isRuin;
         this.combatUnit = that.combatUnit;
         this.nonCombatUnit = that.nonCombatUnit;
