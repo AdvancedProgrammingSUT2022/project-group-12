@@ -12,6 +12,7 @@ import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Server.Controllers.GameController;
 import Project.Utils.*;
 
 import java.util.ArrayList;
@@ -25,15 +26,14 @@ public class Tile implements Notifier<Tile> {
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private boolean isDamaged;
-    private Civilization civilization;
-    //test
-    private City city;
     private boolean hasRoad;
     private boolean hasRailRoad;
     private boolean hasRiver;
     private VisibilityEnum state;
     private Citizen citizen = null;
     private boolean isRuin;
+    private String civName = null;
+    private transient City city;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
@@ -141,12 +141,13 @@ public class Tile implements Notifier<Tile> {
         }
     }
 
+    @ServerMethod
     public Civilization getCivilization() {
-        return this.civilization;
+        return this.civName == null ? null : GameController.getGame().getCivByName(this.civName);
     }
 
     public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
+        this.civName = civilization.getName();
         this.notifyObservers();
     }
 
@@ -187,7 +188,7 @@ public class Tile implements Notifier<Tile> {
             food += feature.getFoodCount();
             gold += feature.getGoldCount();
         }
-      
+
         return switch (name) {
             case "gold" -> gold;
             case "food" -> food;
@@ -265,7 +266,7 @@ public class Tile implements Notifier<Tile> {
         this.city = that.city;
         this.hasRoad = that.hasRoad;
         this.state = that.state;
-        this.civilization = that.civilization;
+        this.civName = that.civName;
         this.citizen = that.citizen;
         this.improvements = that.improvements;
         this.hasRiver = that.hasRiver;
@@ -282,7 +283,8 @@ public class Tile implements Notifier<Tile> {
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
-    public void removeResource(){
+
+    public void removeResource() {
         this.terrain.setResource(null);
     }
 

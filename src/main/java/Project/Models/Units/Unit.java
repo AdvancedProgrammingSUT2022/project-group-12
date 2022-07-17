@@ -9,8 +9,9 @@ import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
+import Project.Server.Controllers.GameController;
 import Project.Utils.Constants;
-import javafx.scene.Group;
+import Project.Utils.ServerMethod;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,23 +20,22 @@ import static java.lang.Math.exp;
 
 public abstract class Unit extends Production {
     protected UnitEnum type;
-    protected  transient Civilization civ;
-    protected  String civName;
     protected double availableMoveCount;
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;
-    protected transient ArrayList<Tile> pathShouldCross = new ArrayList<>();
-    protected transient UnitStates state;
+    protected UnitStates state;
+    protected String civName;
+    protected transient ArrayList<Tile> pathShouldCross; // can be calculated online if needed
 
     public Unit(UnitEnum type, Civilization civ, Location location) {
         super(type.getProductionCost());
         this.type = type;
-        this.civ = civ;
+        this.civName = civ.getName();
         this.pathShouldCross = new ArrayList<>();
         this.resetMovementCount();
         this.location = location;
         state = UnitStates.AWAKE;
-        civName = this.civ.getName();
+        civName = civ.getName();
     }
 
     // todoLater: integrate unit newing with Civ class
@@ -72,8 +72,9 @@ public abstract class Unit extends Production {
         return (int) Math.ceil(25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
+    @ServerMethod
     public Tile getTile() {
-        return civ.getRevealedTileGrid().getTile(this.location);
+        return this.getCivilization().getRevealedTileGrid().getTile(this.location);
     }
 
     public int getHealth() {
@@ -149,12 +150,13 @@ public abstract class Unit extends Production {
         this.state = state;
     }
 
+    @ServerMethod
     public Civilization getCivilization() {
-        return civ;
+        return GameController.getGame().getCivByName(this.civName);
     }
 
     public void setCiv(Civilization civ) {
-        this.civ = civ;
+        this.civName = civ.getName();
     }
 
     @Override
