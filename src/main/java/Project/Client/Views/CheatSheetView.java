@@ -1,18 +1,14 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Client.Utils.SelectHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.CheatCodeController;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -146,20 +142,23 @@ public class CheatSheetView implements ViewController {
             MenuItem buildingCity = new MenuItem(name);
             foodItem.setOnAction(actionEvent -> {
                 foodForCityName = name;
-                SelectHandler.sendSelectCityRequest(name);
+                // todo fix
+//                SelectHandler.sendSelectCityRequestByName(name);
                 foodForCitySelect.setText(name);
             });
             foodForCitySelect.getItems().add(foodItem);
             finishProductionCity.getItems().add(productionFinishingItem);
             cityHealItem.setOnAction(actionEvent -> {
                 healingCityName = name;
-                SelectHandler.sendSelectCityRequest(name);
+                // todo fix
+//                SelectHandler.sendSelectCityRequestByName(name);
                 cityHealing.setText(name);
             });
             cityHealing.getItems().add(cityHealItem);
             buildingCity.setOnAction(actionEvent -> {
                 cityForBuildingName = name;
-                SelectHandler.sendSelectCityRequest(name);
+                // todo fix
+//                SelectHandler.sendSelectCityRequestByName(name);
                 cityForBuildingsMenu.setText(name);
             });
             cityForBuildingsMenu.getItems().add(buildingCity);
