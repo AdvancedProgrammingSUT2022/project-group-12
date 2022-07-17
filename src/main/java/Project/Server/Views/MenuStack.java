@@ -170,6 +170,7 @@ public class MenuStack {
             case GET_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getTechnologies());
             case GET_RESEARCHING_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnologies());
             case GET_RESEARCHING_TECHNOLOGY -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
+            case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
         };
         }
     }
