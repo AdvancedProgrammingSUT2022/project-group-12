@@ -87,7 +87,9 @@ public enum CommandResponse {
     SIEGE_NOT_SETUP("siege is not setup"),
     AMBIGUOUS_UNIT_SELECTION("please select combat or noncombat"),
     WORKER_IS_ALREADY_WORKING("worker is already working"),
-    NO_BUILDING_WITH_THIS_NAME("there is no building with this name"), NO_RESOURCE_WITH_THIS_NAME("No resource with this name exists"), NO_TRADE_WITH_THIS_NAME("No trade with this name");
+    NO_BUILDING_WITH_THIS_NAME("there is no building with this name"), NO_RESOURCE_WITH_THIS_NAME("No resource with this name exists"),
+    NO_TRADE_WITH_THIS_NAME("No trade with this name"),
+    NO_UNIT_SELECTED("no unit selected");
 
     private final String message;
     private final String itemMessage;

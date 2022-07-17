@@ -103,7 +103,7 @@ public class GameMenu extends Menu {
             case "cheat" -> this.cheat(command);
             case "end" -> this.end(command);
             case "api" -> this.api(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
     private void trade(Command command){
@@ -111,7 +111,7 @@ public class GameMenu extends Menu {
             case "reject" -> this.rejectTrade(command);
             case "accept" -> this.acceptTrade(command);
             case "create" -> this.makeTrade(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -157,14 +157,14 @@ public class GameMenu extends Menu {
     private void api(Command command) {
         switch (command.getSubCategory()) {
             case "get" -> this.apiGet(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
     private void apiGet(Command command) {
         switch (command.getSubSubCategory()) {
             case "camera" -> this.apiGetCamera(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -200,13 +200,13 @@ public class GameMenu extends Menu {
             case "unlock" -> this.cheatUnlock(command);
             case "heal" -> this.cheatHeal(command);
             case "build" -> this.cheatAddBuilding(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
     private void cheatAddBuilding(Command command) {
         if (selectedCity == null) {
-            answer(CommandResponse.CITY_NOT_SELECTED);
+            answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
         try {
@@ -222,7 +222,7 @@ public class GameMenu extends Menu {
     private void cheatUnlock(Command command) {
         switch (command.getSubSubCategory()) {
             case "technologies" -> this.cheatUnlockTechnologies();
-            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_SUBCOMMAND));
         }
     }
 
@@ -235,12 +235,16 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
             case "city" -> this.cheatHealCity(command);
             case "unit" -> this.cheatHealUnit(command);
-            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_SUBSUBCOMMAND));
         }
     }
 
     private void cheatTeleport(Command command) {
         try {
+            if (selectedUnit == null) {
+                answer(new CommandException(CommandResponse.NO_UNIT_SELECTED));
+                return;
+            }
             command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
@@ -255,7 +259,7 @@ public class GameMenu extends Menu {
     private void cheatFinish(Command command) {
         switch (command.getSubSubCategory()) {
             case "products" -> this.cheatFinishProducts();
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -275,7 +279,7 @@ public class GameMenu extends Menu {
     private void cheatMap(Command command) {
         switch (command.getSubSubCategory()) {
             case "reveal" -> this.cheatMapReveal(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -303,7 +307,7 @@ public class GameMenu extends Menu {
     private void cheatSpawn(Command command) {
         switch (command.getSubSubCategory()) {
             case "unit" -> this.cheatSpawnUnit(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -334,14 +338,14 @@ public class GameMenu extends Menu {
             case "happiness" -> this.cheatIncreaseHappiness(command);
             case "science" -> this.cheatIncreaseBeaker(command);
             case "movement" -> this.cheatIncreaseMovementCost(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
 
     private void cheatHealCity(Command command) {
         if (selectedCity == null) {
-            answer(CommandResponse.CITY_NOT_SELECTED);
+            answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
         CheatCodeController.getInstance().healCity(selectedCity);
@@ -350,7 +354,7 @@ public class GameMenu extends Menu {
 
     private void cheatHealUnit(Command command) {
         if (selectedUnit == null) {
-            answer(CommandResponse.UNIT_NOT_SELECTED);
+            answer(new CommandException(CommandResponse.UNIT_NOT_SELECTED));
             return;
         }
         CheatCodeController.getInstance().healUnit(selectedUnit);
@@ -358,11 +362,11 @@ public class GameMenu extends Menu {
     }
 
     private void cheatIncreaseMovementCost(Command command) {
-        if (selectedUnit == null) {
-            answer(CommandResponse.UNIT_NOT_SELECTED);
-            return;
-        }
         try {
+            if (selectedUnit == null) {
+                answer(new CommandException(CommandResponse.UNIT_NOT_SELECTED));
+                return;
+            }
             command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
@@ -445,7 +449,7 @@ public class GameMenu extends Menu {
         switch (command.getSubCategory()) {
             case "turn" -> this.endTurn();
             case "game" -> this.endGame();
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -490,7 +494,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
             case "show" -> cityQueueShow();
             case "remove" -> cityQueueRemove(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -520,7 +524,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
             case "unit" -> cityBuildUnit(command);
             case "building" -> cityBuildBuilding(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -559,7 +563,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory().trim()) {
             case "tile" -> cityBuyTile(command);
             case "unit" -> cityBuyUnit(command);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -596,7 +600,7 @@ public class GameMenu extends Menu {
             case "unassign" -> cityCitizenModify(command, false);
             case "lock" -> cityCitizenChangeLock(command, true);
             case "unlock" -> cityCitizenChangeLock(command, false);
-            default -> answer(CommandResponse.INVALID_COMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -630,7 +634,7 @@ public class GameMenu extends Menu {
             case "economic" -> answer(civ.getController().economicOverview());
 //            case "diplomatic" -> answer(civ.getController());
 //            case "deals" -> answer(civ.getController());
-            default -> answer(CommandResponse.INVALID_SUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -638,7 +642,7 @@ public class GameMenu extends Menu {
         switch (command.getSubCategory()) {
             case "unit" -> this.selectUnit(command);
             case "city" -> this.selectCity(command);
-            default -> answer(CommandResponse.INVALID_SUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -656,7 +660,7 @@ public class GameMenu extends Menu {
             switch (command.getSubSubCategory()) {
                 case "combat" -> this.setSelectedUnit(command, true);
                 case "noncombat" -> this.setSelectedUnit(command, false);
-                default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+                default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
             }
         }
     }
@@ -717,7 +721,7 @@ public class GameMenu extends Menu {
                 case "setup" -> this.unitSetup();
                 case "pillage" -> this.unitPillage();
                 case "info" -> answer(this.selectedUnit.getInfo());
-                default -> answer(CommandResponse.INVALID_SUBCOMMAND);
+                default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
             }
             this.selectedUnit = null;
         } catch (CommandException e) {
@@ -790,7 +794,7 @@ public class GameMenu extends Menu {
 //            case "camp" -> this.unitBuildImprovement(ImprovementEnum.CAMP);
 //            case "plantation" -> this.unitBuildImprovement(ImprovementEnum.CULTIVATION);
 //            case "quarry" -> this.unitBuildImprovement(ImprovementEnum.STONE_MINE);
-            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -798,7 +802,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
 //            case "route" -> getUnitFuncs().unitRemoveRoute();
 //            case "jungle" -> getUnitFuncs().unitRemoveJungle();
-            default -> answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -807,7 +811,7 @@ public class GameMenu extends Menu {
             case "show" -> this.mapShow(command);
             case "move" -> this.mapMove(command);
             case "info" -> this.mapInfo(command);
-            default -> answer(CommandResponse.INVALID_SUBCOMMAND);
+            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
@@ -858,7 +862,7 @@ public class GameMenu extends Menu {
     private void foundCity(Command command) {
         try {
             if (!command.getSubSubCategory().equals("city")) {
-                answer(CommandResponse.INVALID_SUBSUBCOMMAND);
+                answer(new CommandException(CommandResponse.INVALID_COMMAND));
             }
             City city = GameController.foundCity(this.selectedUnit);
             answer("city found successfully: " + city.getName());
@@ -901,7 +905,7 @@ public class GameMenu extends Menu {
             command.abbreviate("position", 'p');
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
-            String ans = CombatController.AttackUnit(this.selectedUnit, location);
+            String ans = CombatController.AttackUnit(selectedUnit, location);
             MenuStack.getInstance().clearResponseParameters();
             MenuStack.getInstance().addResponseParameters("unitDamage", "?");
             MenuStack.getInstance().addResponseParameters("enemyDamage", "?");

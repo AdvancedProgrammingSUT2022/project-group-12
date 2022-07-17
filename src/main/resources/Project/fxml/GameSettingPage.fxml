@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane prefHeight="400.0" stylesheets="@../css/CheatSheet.css" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Project.Client.Views.GameSettingView">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.GameSettingView">
     <children>
         <VBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="374.0" prefWidth="575.0">
             <children>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="............................................................................................................"/>
-                        <Button mnemonicParsing="false" onAction="#saveGame" text="Save"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Save" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="............................................................................................................" />
+                        <Button mnemonicParsing="false" onAction="#saveGame" text="Save" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" layoutX="10.0" layoutY="147.0" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Autosave"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="............................................................................................................"/>
-                        <Button fx:id="autosaveBtn" mnemonicParsing="false" onAction="#autosave" text="on"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Autosave" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="............................................................................................................" />
+                        <Button fx:id="autosaveBtn" mnemonicParsing="false" onAction="#autosave" text="on" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" layoutX="10.0" layoutY="197.0" prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mute"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="............................................................................................................"/>
-                        <Button fx:id="muteBtn" mnemonicParsing="false" onAction="#mute" text="Mute"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mute" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="............................................................................................................" />
+                        <Button fx:id="muteBtn" mnemonicParsing="false" onAction="#mute" text="Mute" />
                     </children>
                 </HBox>
+            <Button onAction="#back" mnemonicParsing="false" text="Back" />
             </children>
         </VBox>
     </children>

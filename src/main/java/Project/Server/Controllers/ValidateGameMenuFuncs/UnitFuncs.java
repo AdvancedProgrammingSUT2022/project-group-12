@@ -47,6 +47,9 @@ public class UnitFuncs {
     }
 
     public static void validateTileForMovingUnit(Location location, Unit unit) throws CommandException {
+        if(unit == null){
+            throw new CommandException(CommandResponse.NO_UNIT_SELECTED);
+        }
         if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }

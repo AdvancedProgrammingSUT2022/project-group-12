@@ -18,7 +18,7 @@ public class TechTree implements ViewController {
     public void initialize(){
        ImageView node = new ImageView(new Image(App.class.getResource("/images/technologies/techTree2.jpg").toExternalForm()));
        techTreeScrollPane.setContent(node);
-   }
+    }
 
 
     public void backToPanel() {

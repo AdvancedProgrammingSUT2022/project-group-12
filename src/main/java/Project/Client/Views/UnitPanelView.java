@@ -114,6 +114,10 @@ public class UnitPanelView implements ViewController {
                 return;
             String command = "unit found city";
             CommandResponse response = RequestHandler.getInstance().handle(command);
+            if(!response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            }
             back();
         });
     }
@@ -161,13 +165,21 @@ public class UnitPanelView implements ViewController {
         int locationY = ySpinner.getValue();
         String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (response.isOK()) back();
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
+       back();
     }
 
     public void sleep() {
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit sleep";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("SLEEP");
     }
 
@@ -175,6 +187,10 @@ public class UnitPanelView implements ViewController {
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit alert";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("ALERT");
     }
 
@@ -182,6 +198,10 @@ public class UnitPanelView implements ViewController {
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit fortify";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("FORTIFY");
     }
 
@@ -189,6 +209,10 @@ public class UnitPanelView implements ViewController {
         unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit wake";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         unitState.setText("AWAKE");
     }
 
@@ -206,6 +230,10 @@ public class UnitPanelView implements ViewController {
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         HashMap<String, String> parameters = RequestHandler.getInstance().getParameters();
         // response = CommandResponse.INVALID_COMMAND;
         String message;
@@ -214,6 +242,7 @@ public class UnitPanelView implements ViewController {
         } else {
             message = response.toString();
             MenuStack.getInstance().showError(message);
+            return;
         }
         back();
     }
@@ -232,6 +261,10 @@ public class UnitPanelView implements ViewController {
         Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit delete";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 
@@ -249,6 +282,10 @@ public class UnitPanelView implements ViewController {
         Unit unit = MenuStack.getInstance().getCookies().getSelectedUnit();
         String command = "unit build improvement";
         CommandResponse response = RequestHandler.getInstance().handle(command);
+        if(!response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        }
         back();
     }
 }

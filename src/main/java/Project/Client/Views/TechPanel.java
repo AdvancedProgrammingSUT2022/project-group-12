@@ -127,6 +127,10 @@ public class TechPanel implements ViewController {
                     currentCivilization.setResearchingTechnology(technologyEnum);
                     String command = "research -t " + technologyEnum.name();
                     CommandResponse response = RequestHandler.getInstance().handle(command);
+                    if (!response.isOK()) {
+                        MenuStack.getInstance().showError(response.toString());
+                        return;
+                    }
                     currentTechBox.setAlignment(Pos.CENTER);
                     currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
                 }else {
@@ -135,6 +139,10 @@ public class TechPanel implements ViewController {
                     currentCivilization.setResearchingTechnology(technologyEnum);
                     String command = "research -t " + technologyEnum.name();
                     CommandResponse response = RequestHandler.getInstance().handle(command);
+                    if (!response.isOK()) {
+                        MenuStack.getInstance().showError(response.toString());
+                        return;
+                    }
                     currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
                 }
             }
