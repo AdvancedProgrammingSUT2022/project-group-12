@@ -15,7 +15,6 @@ import Project.Models.User;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Notifier;
-import Project.Utils.NotifierUtil;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -138,7 +137,7 @@ public class DatabaseQuerier {
 
     public static Unit getSelectedUnit(){
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
-        System.out.println(json);
+//        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
@@ -147,7 +146,7 @@ public class DatabaseQuerier {
     }
     public static Tile getTileByLocation(String row, String col){
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION,row,col);
-        System.out.println(json);
+//        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(Notifier.class,new myJsonDeserializer<>());
@@ -180,7 +179,7 @@ public class DatabaseQuerier {
     }
     public static TileGrid getTileGrid(){
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID);
-        System.out.println(json);
+//        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(Notifier.class,new myJsonDeserializer<>());

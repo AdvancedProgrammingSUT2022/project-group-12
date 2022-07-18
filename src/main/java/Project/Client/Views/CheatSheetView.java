@@ -488,6 +488,7 @@ public class CheatSheetView implements ViewController {
             return;
         } else {
             MenuStack.getInstance().showSuccess(response.getMessage());
+            GameView.updateHexGrid(); // later with live socket
         }
         back();
     }

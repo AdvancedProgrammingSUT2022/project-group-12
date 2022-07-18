@@ -783,7 +783,7 @@ public class GameMenu extends Menu {
         switch (command.getSubSubCategory()) {
 //            case "road" -> this.unitBuildImprovement(ImprovementEnum.ROAD);
 //            case "railRoad" -> this.unitBuildImprovement(ImprovementEnum.RAILROAD);
-            case "improvement" -> this.unitBuildImprovement(this.selectedUnit, command);
+            case "improvement" -> this.unitBuildImprovement(selectedUnit);
 //            case "farm" -> this.unitBuildImprovement(ImprovementEnum.FARM);
 //            case "mine" -> this.unitBuildImprovement(ImprovementEnum.MINE);
 //            case "tradingPost" -> this.unitBuildImprovement(ImprovementEnum.TRADING_POST);
@@ -926,12 +926,10 @@ public class GameMenu extends Menu {
         }
     }
 
-    public void unitBuildImprovement(Unit selectedUnit, Command command) {
+    public void unitBuildImprovement(Unit selectedUnit) {
         try {
-            command.abbreviate("name", 'n');
-            command.assertOptions(List.of("name"));
-            String message = GameController.buildImprovement(selectedUnit, ImprovementEnum.getImprovementEnumByName(command.getOption("name")));
-            answer(message);
+            ImprovementEnum improvement = GameController.buildImprovement(selectedUnit);
+            answer("improvement " + improvement + " built on " + this.selectedUnit.getLocation() + " successfully");
         } catch (CommandException e) {
             answer(e);
         }

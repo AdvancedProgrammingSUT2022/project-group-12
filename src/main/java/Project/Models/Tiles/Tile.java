@@ -283,7 +283,7 @@ public class Tile implements Notifier {
 
     ResourceEnum getVisibleResource(Civilization civ) {
         ResourceEnum resource = this.getTerrain().getResource();
-        if (resource == null || this.isResourceAchievedBy(resource, civ)) return null;
+        if (resource == null || !civ.getTechnologies().containsAll(resource.getImprovementNeeded().getRequiredTechs())) return null;
         else return resource;
     }
 

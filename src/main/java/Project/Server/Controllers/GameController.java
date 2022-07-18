@@ -303,7 +303,7 @@ public class GameController {
         return diplomaticInfo;
     }
 
-    public static String buildImprovement(Unit unit, ImprovementEnum improvement) throws CommandException {
+    public static ImprovementEnum buildImprovement(Unit unit) throws CommandException {
         Tile tile = GameController.getGameTile(unit.getLocation());
         if (unit.getUnitType() != UnitEnum.WORKER) {
             throw new CommandException(CommandResponse.WRONG_UNIT, UnitEnum.WORKER.name());
@@ -315,6 +315,7 @@ public class GameController {
         if (tile.getTerrain().getResource() == null) {
             throw new CommandException(CommandResponse.NO_RESOURCE_ON_TILE);
         }
+        ImprovementEnum improvement = tile.getTerrain().getResource().getImprovementNeeded();
         if (tile.getImprovements().contains(improvement)) {
             throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
         }
@@ -325,7 +326,7 @@ public class GameController {
             }
         }
         worker.setToBuildImprovement(improvement, tile);
-        return "improvement " + improvement + " built on " + unit.getLocation() + " successfully";
+        return improvement;
     }
 
     public static boolean checkForRivers(Tile tile, Tile tile1) {

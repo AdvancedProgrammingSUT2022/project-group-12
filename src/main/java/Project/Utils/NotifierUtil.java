@@ -23,7 +23,7 @@ public class NotifierUtil implements Notifier {
 
     @Override
     public void notifyObservers() {
-        System.out.println("subject = " + subject);;
+//        System.out.println("subject = " + subject);;
 //        System.out.println("notify");
         for (TileObserver observer : observers) {
             observer.getNotified(subject);

@@ -17,7 +17,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.HashMap;
@@ -53,6 +52,7 @@ public class GameView implements ViewController {
     private Pane hexPane;
     @FXML
     private HexGrid hexGrid;
+    public static GameView instance; // temporary
 
     public void initialize() {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
@@ -66,13 +66,14 @@ public class GameView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         HashMap<String, Integer> tileGridSize = DatabaseQuerier.getTileGridSize();
         hexGrid = new HexGrid(tileGridSize.get("Height"), tileGridSize.get("Width"));
+        instance = this;
     }
 
     public void showGameMap() {
         btn.setVisible(false);
         // TileGrid tileGrid = DatabaseQuerier.getTileGrid();
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-        fillHexPaneFromTilesOf(tileGrid);
+        this.fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
     }
 
@@ -133,16 +134,21 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CivilizationPanelPage"));
     }
 
+    public static void updateHexGrid() {
+        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        instance.fillHexPaneFromTilesOf(tileGrid);
+    }
 
     public void NextTurn() {
+
         String command = "end turn";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else MenuStack.getInstance().showSuccess(response.getMessage());
-        TileGrid tileGrid = DatabaseQuerier.getTileGrid();
-        fillHexPaneFromTilesOf(tileGrid);
+        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        this.fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
     }
 
