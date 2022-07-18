@@ -1,8 +1,7 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.TechnologyEnum;
-import Project.Models.Civilization;
-import Project.Server.Controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -20,6 +19,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class TechTreeView implements ViewController {
@@ -30,7 +30,7 @@ public class TechTreeView implements ViewController {
     private ScrollPane mainScrollPane;
     @FXML
     private AnchorPane mainAnchorPane;
-    private boolean hasCity;
+//    private boolean hasCity;
     private TreeMap<String, Text> names;
     private TreeMap<String, VBox> techBoxes;
     @FXML
@@ -39,7 +39,7 @@ public class TechTreeView implements ViewController {
 
     @FXML
     public void initialize() {
-        hasCity = GameController.getGame().getCurrentCivilization().getCities().size() != 0;
+//        hasCity = GameCont.getGame().getCurrentCivilization().getCities().size() != 0;
         this.names = new TreeMap<>();
         this.selectedBox = null;
         this.techBoxes = new TreeMap<>();
@@ -55,7 +55,7 @@ public class TechTreeView implements ViewController {
     }
 
     private HBox drawTree() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        ArrayList<TechnologyEnum> technologies = DatabaseQuerier.getTechnologies();
         int x = 60;
         HBox hBox = new HBox();
         hBox.setSpacing(10);
@@ -66,15 +66,16 @@ public class TechTreeView implements ViewController {
             vBox.setSpacing(10);
             Circle circle = new Circle(60);
             circle.setFill(new ImagePattern(tech.getValue().getImage()));
-            if (!hasCity || !tech.getValue().containsAllPreRequisite(civilization.getTechnologies())
-                    || civilization.getTechnologies().contains(tech.getValue()))
-                disable = true;
-            circle.setOnMouseClicked(mouseEvent -> civilization.addTechnology(tech.getValue()));
+            // todo: fix
+//            if (!hasCity || !tech.getValue().containsAllPreRequisite(technologies)
+//                    || technologies.contains(tech.getValue()))
+//                disable = true;
+//            circle.setOnMouseClicked(mouseEvent -> civilization.addTechnology(tech.getValue()));
             circle.setDisable(disable);
             if (disable) {
                 circle.setEffect(new DropShadow());
                 circle.setStroke(Color.RED);
-                if (civilization.getTechnologies().contains(tech.getValue())) {
+                if (technologies.contains(tech.getValue())) {
                     circle.setStroke(Color.BLUE);
                 }
             }

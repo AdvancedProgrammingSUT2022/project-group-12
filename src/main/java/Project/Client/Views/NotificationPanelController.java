@@ -1,15 +1,10 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Client.Views.ViewController;
-import Project.Enums.ResourceEnum;
-import Project.Models.Civilization;
 import Project.Models.Notification;
 import Project.Models.Trade;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

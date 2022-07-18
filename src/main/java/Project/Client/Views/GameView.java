@@ -60,7 +60,6 @@ public class GameView implements ViewController {
     }
 
     public void setFocusOnLocation(Location location) {
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         Hex hex = hexGrid.getHex(location);
         scrollPane.setVvalue(hex.getCenterY() / hexPane.getBoundsInLocal().getHeight());
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());

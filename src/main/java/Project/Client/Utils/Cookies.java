@@ -2,10 +2,9 @@ package Project.Client.Utils;
 
 import Project.Models.Cities.City;
 import Project.Models.Location;
+import Project.Models.SettingOptions;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
-
-import java.util.Locale;
 
 public class Cookies {
     private String loginToken = null;
@@ -13,6 +12,7 @@ public class Cookies {
     private Unit selectedUnit = null;
     private Tile selectedTile = null;
     private Location selectedTileLocation = null;
+    private final SettingOptions settingOptions = new SettingOptions();
 
     public String getLoginToken() {
         return loginToken;
@@ -52,5 +52,9 @@ public class Cookies {
 
     public void setSelectedTileLocation(Location selectedTileLocation) {
         this.selectedTileLocation = selectedTileLocation;
+    }
+
+    public SettingOptions getSettingOptions() {
+        return settingOptions;
     }
 }

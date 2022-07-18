@@ -40,7 +40,6 @@ public class CivilizationPanelView implements ViewController {
     private Text civName;
 
     public void initialize() {
-      //  Civilization civilization = GameController.getGame().getCurrentCivilization();
         initDemocracyMenu();
         initTilesMenu();
         initWarMenu();

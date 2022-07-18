@@ -7,7 +7,10 @@ import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -169,7 +172,7 @@ public class UnitPanelView implements ViewController {
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
-        } else {
+        } else if (RequestHandler.getInstance().getParameters().containsKey("foundRuin")) {
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
        back();
