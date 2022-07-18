@@ -460,10 +460,11 @@ public class GameMenu extends Menu {
 
     private void endTurn() {
         try {
-            GameController.getGame().endCurrentTurn();
+            String message = GameController.getGame().endCurrentTurn();
             this.selectedCity = null;
             this.selectedUnit = null;
-        } catch (GameException | CommandException e) {
+            answer(message);
+        } catch (CommandException e) {
             answer(e);
             return;
         }

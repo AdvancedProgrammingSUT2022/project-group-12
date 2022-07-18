@@ -44,7 +44,7 @@ public class GameView implements ViewController {
 
     public void showGameMap() {
         btn.setVisible(false);
-       // TileGrid tileGrid = DatabaseQuerier.getTileGrid();
+        // TileGrid tileGrid = DatabaseQuerier.getTileGrid();
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
@@ -83,7 +83,8 @@ public class GameView implements ViewController {
     public void gotoCheatSelectPage() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CheatSheetPage"));
     }
-    public void gotoTradePanel(){
+
+    public void gotoTradePanel() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("TradeMenu"));
     }
 
@@ -111,7 +112,11 @@ public class GameView implements ViewController {
     public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        } else MenuStack.getInstance().showSuccess(response.getMessage());
+        TileGrid tileGrid = DatabaseQuerier.getTileGrid();
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
     }

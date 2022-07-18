@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Tile implements Notifier {
     private final Location location;
-    private NotifierUtil notifierUtil = null;
+    private  NotifierUtil notifierUtil = null;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private Terrain terrain;
     private CombatUnit combatUnit;

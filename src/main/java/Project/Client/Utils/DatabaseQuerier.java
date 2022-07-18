@@ -183,6 +183,7 @@ public class DatabaseQuerier {
         System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Notifier.class,new myJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
         TypeToken<TileGrid> typeToken = new TypeToken<>(){};
