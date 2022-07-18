@@ -52,6 +52,11 @@ public class GameController {
     }
 
     public static String RemoveJungle(Tile currentTile) {
+
+
+
+
+
         return "Jungle removed successfully";
     }
 
@@ -354,7 +359,7 @@ public class GameController {
     }
 
     public static void cityBuyTile(City city, Location location) throws CommandException {
-        if (city.getCivilization().getGold() < Constants.TILE_COST) {
+        if (city.getCivilization().calculateCivilizationGold() < Constants.TILE_COST) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         TileGrid tileGrid = GameController.getGame().getTileGrid();

@@ -6,9 +6,7 @@ import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
-import Project.Models.Civilization;
 import Project.Models.Production;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -17,6 +15,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 public class CityPanelView implements ViewController {
     int TILEGRID_WIDTH;
@@ -197,9 +197,11 @@ public class CityPanelView implements ViewController {
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -223,9 +225,11 @@ public class CityPanelView implements ViewController {
             command = "city citizen lock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         }
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         selectedCitizen = null;
         back();
@@ -233,7 +237,8 @@ public class CityPanelView implements ViewController {
 
     private void initializeBuildingMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        // todo: check is ok? bug?
+        ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getTechnologies();
         for (BuildingEnum buildingEnum : BuildingEnum.values()) {
             MenuItem item = new MenuItem(buildingEnum.name() + " " + buildingEnum.requiredTechName());
             item.setOnAction(actionEvent -> {
@@ -241,13 +246,13 @@ public class CityPanelView implements ViewController {
                 requirements.getChildren().removeAll(requirements.getChildren());
                 for (TechnologyEnum tech : buildingEnum.getRequiredTechs()) {
                     Text text = new Text(tech.name());
-                    if (civilization.getTechnologies().contains(tech))
+                    if (civTechnologies.contains(tech))
                         text.setFill(Color.GREEN);
                     else
                         text.setFill(Color.RED);
                     requirements.getChildren().add(text);
                 }
-                if (!buildingEnum.checkIfHasRequiredTechs(civilization.getTechnologies())) {
+                if (!buildingEnum.checkIfHasRequiredTechs(civTechnologies)) {
                     buyBuildingBtn.setDisable(true);
                 } else {
                     buyBuildingBtn.setDisable(false);
@@ -261,11 +266,11 @@ public class CityPanelView implements ViewController {
 
     private void initializeUnitMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getTechnologies();
         for (UnitEnum unitEnum : DatabaseQuerier.getUnitEnums()) {
             MenuItem item = new MenuItem(unitEnum.name());
             item.setOnAction(actionEvent -> {
-                if (!unitEnum.hasRequiredTech(civilization.getTechnologies())) {
+                if (!unitEnum.hasRequiredTech(civTechnologies)) {
                     buyUnitBtn.setDisable(true);
                 } else {
                     buyUnitBtn.setDisable(false);
@@ -285,9 +290,11 @@ public class CityPanelView implements ViewController {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         String command = "city build building -n " + selectedBuilding.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         selectedBuilding = null;
         back();
@@ -300,9 +307,11 @@ public class CityPanelView implements ViewController {
         }
         String command = "city buy unit -u " + selectedUnit.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -310,9 +319,11 @@ public class CityPanelView implements ViewController {
     public void assignBtnAction(ActionEvent actionEvent) {
         String command = "city citizen assign -p " + assignCitizenXSpinner.getValue() + " " + assignCitizenYSpinner.getValue();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -323,9 +334,11 @@ public class CityPanelView implements ViewController {
         }
         String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -336,9 +349,11 @@ public class CityPanelView implements ViewController {
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }

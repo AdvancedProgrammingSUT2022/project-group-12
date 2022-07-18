@@ -5,8 +5,6 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Server.Controllers.CheatCodeController;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
@@ -300,9 +298,11 @@ public class CheatSheetView implements ViewController {
     public void increaseGold() {
         String command = "cheat increase gold -a " + goldAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -312,9 +312,11 @@ public class CheatSheetView implements ViewController {
         foodForCitySelect.setText("City");
         String command = "cheat increase food -a " + foodAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -326,9 +328,11 @@ public class CheatSheetView implements ViewController {
         }
         String command = "cheat spawn unit -u " + selectedUnitEnum.name() + " -p " + locationSpawnX + " " + locationSpawnY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         locationSpawnX = 0;
         locationSpawnY = 0;
@@ -341,9 +345,11 @@ public class CheatSheetView implements ViewController {
 
         String command = "cheat map reveal -p " + locationTileX + " " + locationTileY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         locationTileX = 0;
         locationTileY = 0;
@@ -357,9 +363,11 @@ public class CheatSheetView implements ViewController {
         }
         String command = "cheat increase production -a " + productIncreaseAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         productIncreaseAmount = 0;
         productionIncreaseCity = null;
@@ -370,9 +378,11 @@ public class CheatSheetView implements ViewController {
     public void teleport() {
         String command = "cheat teleport -p " + locationTeleportX + " " + locationTeleportY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         locationTeleportX = 0;
         locationTeleportY = 0;
@@ -388,9 +398,11 @@ public class CheatSheetView implements ViewController {
         }
         String command = "cheat finish products";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         productionIncreaseCity = null;
         finishProductionCity.setText("City");
@@ -400,9 +412,11 @@ public class CheatSheetView implements ViewController {
     public void increaseHappiness() {
         String command = "cheat increase happiness -a " + happinessAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         happinessAmount = 0;
         back();
@@ -411,9 +425,11 @@ public class CheatSheetView implements ViewController {
     public void increaseBeaker() {
         String command = "cheat increase science -a " + beakerAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         beakerAmount = 0;
         back();
@@ -423,9 +439,11 @@ public class CheatSheetView implements ViewController {
         String command = "cheat increase movement -a " + movementIncreaseAmount;
         CommandResponse response = RequestHandler.getInstance().handle(command);
         System.out.println(response.toString());
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         increasingMovementUnitName = null;
         movementIncreaseAmount = 0;
@@ -436,9 +454,11 @@ public class CheatSheetView implements ViewController {
     public void healCity() {
         String command = "cheat heal city";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         healingCity = null;
         cityHealing.setText("City");
@@ -449,9 +469,11 @@ public class CheatSheetView implements ViewController {
     public void healUnit() {
         String command = "cheat heal unit";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         healingUnitName = null;
         unitHealing.setText("Unit");
@@ -459,12 +481,13 @@ public class CheatSheetView implements ViewController {
     }
 
     public void addTechs() {
-        CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
         String command = "cheat unlock technologies";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -478,9 +501,11 @@ public class CheatSheetView implements ViewController {
 
         String command = "cheat build -n " + buildingEnum.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if (!response.isOK()) {
+        if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         buildingEnum = null;
         cityForBuilding = null;

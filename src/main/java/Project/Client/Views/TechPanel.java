@@ -1,8 +1,7 @@
 package Project.Client.Views;
 
+import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.TechnologyEnum;
-import Project.Models.Civilization;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -22,6 +21,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
+import java.util.HashMap;
+
 public class TechPanel implements ViewController {
     @FXML
     private VBox techsBox;
@@ -39,8 +40,8 @@ public class TechPanel implements ViewController {
 
 
     public void initialize(){
-
-        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        TechnologyEnum researchingTechnology = DatabaseQuerier.getResearchingTechnology();
+        HashMap<TechnologyEnum, Integer> researchingTechnologies = DatabaseQuerier.getResearchingTechnologies();
         techScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         techScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         techScrollPane.setStyle("-fx-background-color:transparent;");
@@ -49,12 +50,10 @@ public class TechPanel implements ViewController {
         techsBox.setSpacing(20);
         currentTechBox.setSpacing(20);
         currentTechBox.setAlignment(Pos.CENTER);
-        TechnologyEnum currentTechnology = currentCiv.getResearchingTechnology();
-        if((currentTechnology != null))
-            currentTechBox.getChildren().add(addTechnology(currentCiv.getResearchingTechnology(),currentCiv.getResearchingTechnologies().get(currentTechnology)));
-        for (TechnologyEnum tech:
-                currentCiv.getResearchingTechnologies().keySet()) {
-            techsBox.getChildren().add(addTechnology(tech,currentCiv.getResearchingTechnologies().get(tech)));
+        if((researchingTechnology != null))
+            currentTechBox.getChildren().add(addTechnology(researchingTechnology,researchingTechnologies.get(researchingTechnology)));
+        for (TechnologyEnum tech : researchingTechnologies.keySet()) {
+            techsBox.getChildren().add(addTechnology(tech,researchingTechnologies.get(tech)));
         }
         leadsToBox.setVisible(false);
     }
@@ -114,33 +113,33 @@ public class TechPanel implements ViewController {
             }
             leadsToBox.setVisible(false);
         });
-        vBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-
-                Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
-                if(currentCivilization.getResearchingTechnology() == null){
-                    currentCivilization.setResearchingTechnology(technologyEnum);
-                    String command = "research -t " + technologyEnum.name();
-                    CommandResponse response = RequestHandler.getInstance().handle(command);
-                    if (!response.isOK()) {
-                        MenuStack.getInstance().showError(response.toString());
-                        return;
-                    }
-                    currentTechBox.setAlignment(Pos.CENTER);
-                    currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
-                }else {
-                    currentTechBox.getChildren().remove(1);
-                    currentTechBox.setAlignment(Pos.CENTER);
-                    currentCivilization.setResearchingTechnology(technologyEnum);
-                    String command = "research -t " + technologyEnum.name();
-                    CommandResponse response = RequestHandler.getInstance().handle(command);
-                    if (!response.isOK()) {
-                        MenuStack.getInstance().showError(response.toString());
-                        return;
-                    }
-                    currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
+        vBox.setOnMouseClicked(mouseEvent -> {
+            TechnologyEnum researchingTechnology = DatabaseQuerier.getResearchingTechnology();
+            if(researchingTechnology == null){
+//                    currentCivilization.setResearchingTechnology(technologyEnum);
+                String command = "research -t " + technologyEnum.name();
+                CommandResponse response = RequestHandler.getInstance().handle(command);
+                if ( !response.isOK()) {
+                    MenuStack.getInstance().showError(response.toString());
+                    return;
+                } else {
+                    MenuStack.getInstance().showSuccess(response.getMessage());
                 }
+                currentTechBox.setAlignment(Pos.CENTER);
+                currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
+            }else {
+                currentTechBox.getChildren().remove(1);
+                currentTechBox.setAlignment(Pos.CENTER);
+//                    currentCivilization.setResearchingTechnology(technologyEnum);
+                String command = "research -t " + technologyEnum.name();
+                CommandResponse response = RequestHandler.getInstance().handle(command);
+                if ( !response.isOK()) {
+                    MenuStack.getInstance().showError(response.toString());
+                    return;
+                } else {
+                    MenuStack.getInstance().showSuccess(response.getMessage());
+                }
+                currentTechBox.getChildren().add(getTechBox(technologyEnum,true));
             }
         });
     }

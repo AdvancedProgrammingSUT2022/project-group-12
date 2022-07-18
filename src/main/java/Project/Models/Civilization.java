@@ -32,8 +32,6 @@ public class Civilization {
     private final ArrayList<Civilization> isInEconomicRelation;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
-    private boolean autoSaveOn;
-    private boolean gameOnMute;
     private ArrayList<Resource> resources;
     private ArrayList<Notification> notifications;
     private HappinessTypeEnum happinessType;
@@ -54,8 +52,6 @@ public class Civilization {
     private City selectedCity;
 
     public Civilization(User user, TerrainColor color) {
-        this.autoSaveOn = false;
-        this.gameOnMute = false;
         this.color = color;
         this.researchingTechnology = null;
         this.user = user;
@@ -79,22 +75,6 @@ public class Civilization {
         this.resources = new ArrayList<>();
         this.notifications = new ArrayList<>();
         updateHappinessState(this.calculateHappiness());
-    }
-
-    public boolean isGameOnMute() {
-        return gameOnMute;
-    }
-
-    public void setGameOnMute(boolean gameOnMute) {
-        this.gameOnMute = gameOnMute;
-    }
-
-    public boolean isAutoSaveOn() {
-        return autoSaveOn;
-    }
-
-    public void setAutoSaveOn(boolean autoSaveOn) {
-        this.autoSaveOn = autoSaveOn;
     }
 
     public Tile getSelectedTile() {
@@ -529,7 +509,7 @@ public class Civilization {
     }
 
     public void addTechnology(TechnologyEnum technology) {
-        this.getTechnologies().add(technology);
+        this.technologies.add(technology);
     }
 
     public int getResearchAdvancement(TechnologyEnum technology) {

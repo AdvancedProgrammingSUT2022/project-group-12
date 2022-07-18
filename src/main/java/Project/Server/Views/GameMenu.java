@@ -460,10 +460,11 @@ public class GameMenu extends Menu {
 
     private void endTurn() {
         try {
-            GameController.getGame().endCurrentTurn();
+            String message = GameController.getGame().endCurrentTurn();
             this.selectedCity = null;
             this.selectedUnit = null;
-        } catch (GameException | CommandException e) {
+            answer(message);
+        } catch (CommandException e) {
             answer(e);
             return;
         }
@@ -851,8 +852,8 @@ public class GameMenu extends Menu {
             getUnitFuncs().unitMoveTo(selectedUnit, location);
             setCamera(this.selectedUnit.getLocation());
             if (isCurrentTileHaveRuin(location)){
-                selectedUnit.getTile().achieveRuin(selectedUnit.getCivilization());
-                answer("unit moved to " + location + " successfully and ruin is achieved");
+                GameController.getGameTile(selectedUnit.getLocation()).achieveRuin(selectedUnit.getCivilization());
+                answer("unit moved to " + location + " successfully and ruin is achieved and added 30 gold to your civilization");
                 return;
             }
             answer("unit moved to " + location + " successfully");

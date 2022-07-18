@@ -22,6 +22,9 @@ public class RequestHandler {
         try {
             MenuStack.getInstance().runCommand(line);
         } catch (ResponseException e) {
+            if(e.getResponse().isOK()){
+                e.getResponse().setMessage(e.getSuccessMessage());
+            }
             return e.getResponse();
         }
         return null;

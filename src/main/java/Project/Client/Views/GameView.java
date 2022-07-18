@@ -76,6 +76,7 @@ public class GameView implements ViewController {
 
     public void showGameMap() {
         btn.setVisible(false);
+        // TileGrid tileGrid = DatabaseQuerier.getTileGrid();
         TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
@@ -91,7 +92,6 @@ public class GameView implements ViewController {
     }
 
     public void setFocusOnLocation(Location location) {
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
         Hex hex = hexGrid.getHex(location);
         scrollPane.setVvalue(hex.getCenterY() / hexPane.getBoundsInLocal().getHeight());
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
@@ -143,7 +143,11 @@ public class GameView implements ViewController {
     public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        } else MenuStack.getInstance().showSuccess(response.getMessage());
+        TileGrid tileGrid = DatabaseQuerier.getTileGrid();
         fillHexPaneFromTilesOf(tileGrid);
         setCameraOnCivSelectedLocation();
     }

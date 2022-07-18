@@ -4,7 +4,6 @@ import Project.Client.Utils.DatabaseQuerier;
 import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Resource;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
@@ -41,18 +40,17 @@ public class CivilizationPanelView implements ViewController {
     private Text civName;
 
     public void initialize() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
         initDemocracyMenu();
         initTilesMenu();
         initWarMenu();
         initUnitMenu();
         initResourceMenu();
-        civName.setText(civilization.getName());
+        civName.setText(DatabaseQuerier.getCurrentCivName());
         happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
         beaker.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
         //todo : cities
-        cityCount.setText(String.valueOf(civilization.getCities().size()));
+        cityCount.setText(String.valueOf(DatabaseQuerier.getCurrentCivCitiesNames().size()));
         food.setText(String.valueOf(DatabaseQuerier.getFoodOfCurrentCiv()));
     }
 
@@ -75,7 +73,6 @@ public class CivilizationPanelView implements ViewController {
     }
 
     private void initUnitMenu() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
         String command = "info units";
         CommandResponse response = RequestHandler.getInstance().handle(command);
         ArrayList<String> unitNames = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsNames());
@@ -102,9 +99,6 @@ public class CivilizationPanelView implements ViewController {
         CommandResponse response = RequestHandler.getInstance().handle(command);
         for (Civilization otherCivilizations : civilization.getIsInEconomicRelation()) {
             MenuItem item = new MenuItem(otherCivilizations.getName());
-
-
-
             democracyMenu.getItems().add(item);
         }
     }

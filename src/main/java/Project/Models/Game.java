@@ -10,7 +10,6 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.NonRangedUnit;
 import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
-import Project.Server.Controllers.MovingController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
@@ -48,6 +47,7 @@ public class Game {
 
             // for easier testing
             Tile settlerTile;
+
 //            if (users.size() == 1) {
 //                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
 //                if (settlerTile.getTerrain().getTerrainType() == TerrainEnum.MOUNTAIN) {
@@ -55,8 +55,8 @@ public class Game {
 //                }
 //            } else {
                 settlerTile = availableTiles.get(availableTiles.size() - 1);
-                //test
-                settlerTile.setRuin(true);
+            //test
+            settlerTile.setRuin(true);
 //            }
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
@@ -125,12 +125,13 @@ public class Game {
         civTileGrid.getTile(tile.getLocation()).copyPropertiesFrom(tile);
     }
 
-    public void endCurrentTurn() throws GameException, CommandException {
+    public String endCurrentTurn() throws CommandException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
+        StringBuilder response = new StringBuilder("");
         updateRevealedTileGrid(civ);
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
-                checkForMultipleMoves(unit);
+                checkForMultipleMoves(unit,response);
                 // please don't erase this!
 //                checkForMovementCost(unit);
             }
@@ -138,25 +139,25 @@ public class Game {
 
         for (City city : civ.getCities()) {
             if (city.getCitizens().size() < city.getCitizensCount()) {
-                throw new GameException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
+                throw new CommandException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
             }
             //not important
             /*else if (city.getProductionQueue().isEmpty()) {
                 throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }*/
         }
+        response.append("citizen all are assigned");
 
 
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
-            throw new GameException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
+            throw new CommandException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
         checkForKillingCitizen(civ);
         /***
          * add gold
          */
         civ.setGold(civ.calculateCivilizationGold());
-        civ.setGold(civ.calculateCivilizationGold());
-
+        return response.toString();
 
     }
 
@@ -219,11 +220,16 @@ public class Game {
         }
     }
 
-    private void checkForMultipleMoves(Unit unit) throws CommandException {
+    private void checkForMultipleMoves(Unit unit, StringBuilder response) throws CommandException {
 //        System.out.println("reached here");
 //        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
-            MovingController.moveToNextTile(unit);
+            if(GameController.getGameTile(unit.getLocation()).isARuin()){
+                GameController.getGameTile(unit.getLocation()).achieveRuin(unit.getCivilization());
+                if(!response.toString().startsWith("ruin")){
+                    response.append("ruin achieved successfully and 30 gold added to your territory");
+                }
+            }
         }
     }
 

@@ -1,8 +1,7 @@
 package Project.Client.Views;
 
 import Project.Models.Civilization;
-import Project.Models.Database;
-import Project.Server.Controllers.GameController;
+import Project.Models.SettingOptions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,16 +15,15 @@ public class GameSettingView implements ViewController {
     private Civilization civilization;
 
     public void initialize() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
-        if (civilization.isGameOnMute())
+        SettingOptions settingOptions = MenuStack.getInstance().getCookies().getSettingOptions();
+        if (settingOptions.isGameOnMute())
             muteBtn.setText("Muted");
         else
             muteBtn.setText("Un Muted");
-        if (civilization.isAutoSaveOn())
+        if (settingOptions.isAutoSaveOn())
             autosaveBtn.setText("On");
         else
             autosaveBtn.setText("Off");
-        this.civilization = civilization;
     }
 
     public void saveGame() {
@@ -34,16 +32,18 @@ public class GameSettingView implements ViewController {
     }
 
     public void autosave() {
-        civilization.setAutoSaveOn(!civilization.isAutoSaveOn());
-        if (civilization.isAutoSaveOn())
+        SettingOptions settingOptions = MenuStack.getInstance().getCookies().getSettingOptions();
+        settingOptions.setAutoSaveOn(!settingOptions.isAutoSaveOn());
+        if (settingOptions.isAutoSaveOn())
             autosaveBtn.setText("On");
         else
             autosaveBtn.setText("Off");
     }
 
     public void mute() {
-        civilization.setGameOnMute(!civilization.isGameOnMute());
-        if (civilization.isGameOnMute())
+        SettingOptions settingOptions = MenuStack.getInstance().getCookies().getSettingOptions();
+        settingOptions.setGameOnMute(!settingOptions.isGameOnMute());
+        if (settingOptions.isGameOnMute())
             muteBtn.setText("Muted");
         else
             muteBtn.setText("Un Muted");

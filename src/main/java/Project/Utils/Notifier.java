@@ -1,6 +1,6 @@
 package Project.Utils;
 
-public interface Notifier<T> {
-    void addObserver(Observer<T> observer);
+public interface Notifier {
+    void addObserver(TileObserver observer);
     void notifyObservers();
 }

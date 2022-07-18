@@ -2,9 +2,7 @@ package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.ResourceEnum;
-import Project.Models.Civilization;
 import Project.Models.Resource;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.beans.value.ChangeListener;
@@ -13,8 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-
-import java.util.stream.Collectors;
 
 public class TradePanelController implements ViewController {
     public ToggleButton ownGoldToggleBtn;
@@ -154,6 +150,8 @@ public class TradePanelController implements ViewController {
         if(!response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
