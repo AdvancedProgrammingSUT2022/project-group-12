@@ -20,8 +20,6 @@ import static java.lang.Math.exp;
 
 public abstract class Unit extends Production {
     protected UnitEnum unitType;
-
-
     protected double availableMoveCount;
     protected Location location;
     protected int health = Constants.UNIT_FULL_HEALTH;

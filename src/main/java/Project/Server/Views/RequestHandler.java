@@ -1,5 +1,6 @@
 package Project.Server.Views;
 
+import Project.Client.Views.GameView;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.ResponseException;
@@ -25,6 +26,9 @@ public class RequestHandler {
             if(e.getResponse().isOK()){
                 e.getResponse().setMessage(e.getSuccessMessage());
             }
+            if (GameView.instance != null) {
+                GameView.reloadHexGrid();
+            }
             return e.getResponse();
         }
         return null;
@@ -40,7 +44,7 @@ public class RequestHandler {
 
     public String databaseQuery(DatabaseQueryType query, String... params) {
         String response = MenuStack.getInstance().databaseQuery(query, params);
-        System.out.println("databaseR: " + response);
+//        System.out.println("databaseR: " + response);
         return response;
     }
 }

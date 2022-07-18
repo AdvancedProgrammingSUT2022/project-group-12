@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotifierUtil implements Notifier {
-    private transient final Tile subject;
+    private final Tile subject;
     private final String type;
     private final List<TileObserver> observers = new ArrayList<>();
 

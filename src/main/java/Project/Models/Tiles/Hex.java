@@ -191,6 +191,7 @@ public class Hex implements TileObserver {
         unitGroup.setTranslateY(this.getCenterY() + multiply * 4);
         unitGroup.setTranslateX(this.getCenterX() + multiply * 3 * (unit instanceof NonCombatUnit ? 1 : -1));
         if (unit.getState() != UnitStates.AWAKE) {
+            System.out.println("Good State: " + unit.getState());
             ImageView unitStateImageView = new ImageView(App.getResourcePath("/images/unitstates/" + unit.getState().name().toLowerCase() + ".png"));
             unitStateImageView.setFitWidth(20);
             unitStateImageView.setFitHeight(20);

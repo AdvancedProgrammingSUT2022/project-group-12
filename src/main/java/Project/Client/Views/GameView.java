@@ -53,24 +53,31 @@ public class GameView implements ViewController {
     public static GameView instance; // temporary
 
     public void initialize() {
+        String command = "map show"; // dummy command to initialize logic GameMenu
+        CommandResponse response = RequestHandler.getInstance().handle(command);
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
         goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
         happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
         happinessImg.setImage(new Image(App.class.getResource("/images/emojis/happiness.png").toExternalForm()));
         beaker.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
         beakerImg.setImage(new Image(App.class.getResource("/images/emojis/beaker.png").toExternalForm()));
-        String command = "map show"; // dummy command to initialize logic GameMenu
-        CommandResponse response = RequestHandler.getInstance().handle(command);
         this.tileGrid = DatabaseQuerier.getTileGrid();
         this.hexGrid = new HexGrid(tileGrid.getHeight(), tileGrid.getWidth());
         instance = this;
     }
 
-    public void showGameMap() {
+    public void initializeGameMap() {
         btn.setVisible(false);
-        TileGrid tileGrid = DatabaseQuerier.getTileGrid();
-//        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-        this.fillHexPaneFromTilesOf(tileGrid);
+        for (int i = 0; i < this.tileGrid.getHeight(); i++) {
+            for (int j = 0; j < this.tileGrid.getWidth(); j++) {
+                Hex hex = this.hexGrid.getHex(new Location(i, j));
+                hexPane.getChildren().add(hex.getGroup());
+                Tile tile = this.tileGrid.getTile(i, j);
+                tile.initializeNotifier();
+                tile.addObserver(hex);
+            }
+        }
+        this.reloadTileGridFromServer();
         setCameraOnCivSelectedLocation();
     }
 
@@ -89,15 +96,11 @@ public class GameView implements ViewController {
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
     }
 
-    public void fillHexPaneFromTilesOf(TileGrid tileGrid) {
-        hexPane.getChildren().clear();
-        for (int i = 0; i < tileGrid.getHeight(); i++) {
-            for (int j = 0; j < tileGrid.getWidth(); j++) {
-                Tile tile = tileGrid.getTile(new Location(i, j));
-                Hex hex = hexGrid.getHex(new Location(i, j));
-                hexPane.getChildren().add(hex.getGroup());
-                tile.addObserver(hex);
-                hex.updateHex(tile);
+    public void reloadTileGridFromServer() {
+        TileGrid newTileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        for (int i = 0; i < newTileGrid.getHeight(); i++) {
+            for (int j = 0; j < newTileGrid.getWidth(); j++) {
+                this.tileGrid.getTile(i, j).copyPropertiesFrom(newTileGrid.getTile(i, j));
             }
         }
     }
@@ -131,9 +134,8 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CivilizationPanelPage"));
     }
 
-    public static void updateHexGrid() {
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-        instance.fillHexPaneFromTilesOf(tileGrid);
+    public static void reloadHexGrid() {
+        instance.reloadTileGridFromServer();
     }
 
     public void NextTurn() {
@@ -144,8 +146,7 @@ public class GameView implements ViewController {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else MenuStack.getInstance().showSuccess(response.getMessage());
-        TileGrid tileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
-        this.fillHexPaneFromTilesOf(tileGrid);
+        this.reloadTileGridFromServer();
         setCameraOnCivSelectedLocation();
     }
 

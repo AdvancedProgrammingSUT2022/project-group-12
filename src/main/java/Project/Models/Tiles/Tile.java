@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Tile implements Notifier {
     private final Location location;
-    private  NotifierUtil notifierUtil = null;
+    private transient NotifierUtil notifierUtil = null;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private Terrain terrain;
     private CombatUnit combatUnit;
@@ -47,18 +47,35 @@ public class Tile implements Notifier {
         this.state = VisibilityEnum.FOG_OF_WAR;
     }
 
+    public void copyPropertiesFrom(Tile that) {
+        this.terrain = that.terrain;
+        this.isRuin = that.isRuin;
+        this.combatUnit = that.combatUnit;
+        this.nonCombatUnit = that.nonCombatUnit;
+        this.isDamaged = that.isDamaged;
+        this.city = that.city;
+        this.hasRoad = that.hasRoad;
+        this.state = that.state;
+        this.civName = that.civName;
+        this.citizen = that.citizen;
+        this.improvements = that.improvements;
+        this.hasRiver = that.hasRiver;
+        this.hasRailRoad = that.hasRailRoad;
+        this.notifyObservers();
+    }
+
     @Override
     public void addObserver(TileObserver observer) {
         this.notifierUtil.addObserver(observer);
     }
 
+    public void initializeNotifier() {
+        this.notifierUtil = new NotifierUtil(this);
+    }
 
     @Override
     public void notifyObservers() {
-        if(notifierUtil == null) {
-            this.notifierUtil = new NotifierUtil(this);
-        }
-        this.notifierUtil.notifyObservers();
+        if (this.notifierUtil != null) this.notifierUtil.notifyObservers();
     }
 
     public boolean hasRoad() {
@@ -262,23 +279,6 @@ public class Tile implements Notifier {
     // todo
     public String getInfo() {
         return null;
-    }
-
-    public void copyPropertiesFrom(Tile that) {
-        this.terrain = that.terrain;
-        this.isRuin = that.isRuin;
-        this.combatUnit = that.combatUnit;
-        this.nonCombatUnit = that.nonCombatUnit;
-        this.isDamaged = that.isDamaged;
-        this.city = that.city;
-        this.hasRoad = that.hasRoad;
-        this.state = that.state;
-        this.civName = that.civName;
-        this.citizen = that.citizen;
-        this.improvements = that.improvements;
-        this.hasRiver = that.hasRiver;
-        this.hasRailRoad = that.hasRailRoad;
-        this.notifyObservers();
     }
 
     ResourceEnum getVisibleResource(Civilization civ) {

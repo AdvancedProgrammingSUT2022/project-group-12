@@ -459,11 +459,11 @@ public class GameMenu extends Menu {
     }
 
     private void endTurn() {
+        String message;
         try {
-            String message = GameController.getGame().endCurrentTurn();
+            message = GameController.getGame().endCurrentTurn();
             this.selectedCity = null;
             this.selectedUnit = null;
-            answer(message);
         } catch (CommandException e) {
             answer(e);
             return;
@@ -473,6 +473,7 @@ public class GameMenu extends Menu {
         System.out.println("end of turn"); // todo: convert to answer() or not?
         System.out.println("------------------------------");
         this.startNewTurn();
+        answer(message);
     }
 
     private void city(Command command) {

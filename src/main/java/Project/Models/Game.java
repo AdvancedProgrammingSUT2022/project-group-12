@@ -174,11 +174,9 @@ public class Game {
     public Civilization getCurrentCivilization() {
         return civilizations.get(this.gameTurn % civilizations.size());
     }
-    public Civilization getNextCivilization() {
-        return civilizations.get((this.gameTurn + 1) % civilizations.size());
-    }
 
     public void startNewTurn() throws GameException {
+
         this.gameTurn++;
         Civilization civ = this.getCurrentCivilization();
         civ.applyNotes();
@@ -194,9 +192,7 @@ public class Game {
             checkForFortifyHealUnit(unit);
         }
         civ.resetMoveCount();
-        /***
-         * set has attack false for units which they can move after attack
-         */
+        // set has attack false for units which they can move after attack
         civ.getUnits().forEach((unit) -> {
             if (unit instanceof CombatUnit) ((CombatUnit) unit).setHasAttack(false);
         });
@@ -223,7 +219,7 @@ public class Game {
     private void checkForMultipleMoves(Unit unit, StringBuilder response) throws CommandException {
 //        System.out.println("reached here");
 //        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
-        if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross().size() > 0) {
+        if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross() != null && unit.getPathShouldCross().size() > 0) {
             if(GameController.getGameTile(unit.getLocation()).isARuin()){
                 GameController.getGameTile(unit.getLocation()).achieveRuin(unit.getCivilization());
                 if(!response.toString().startsWith("ruin")){

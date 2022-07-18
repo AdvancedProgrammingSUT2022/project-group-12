@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.text.Text?>
 <Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.GameView">
     <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
         <Menu />
@@ -50,7 +49,7 @@
         <Pane fx:id="hexPane" />
     </ScrollPane>
     <Pane fx:id="selectionPane" visible="false" />
-    <Button fx:id="btn" layoutY="50" onMouseClicked="#showGameMap" prefHeight="24.0" prefWidth="242.0" />
+    <Button fx:id="btn" layoutY="50" onMouseClicked="#initializeGameMap" prefHeight="24.0" prefWidth="242.0" />
    <HBox alignment="CENTER" layoutX="10.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
       <children>
          <ImageView fx:id="happinessImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" x="5.0" />
