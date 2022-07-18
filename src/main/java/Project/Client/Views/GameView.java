@@ -57,17 +57,11 @@ public class GameView implements ViewController {
     public void initialize() {
         Civilization civilization = GameController.getGame().getCurrentCivilization();
         gold.setText(String.valueOf(civilization.getGold()));
-
         goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
-
         happiness.setText(String.valueOf(civilization.getHappiness()));
-
         happinessImg.setImage(new Image(App.class.getResource("/images/emojis/happiness.png").toExternalForm()));
-
         beaker.setText(String.valueOf(civilization.getBeaker()));
-        beaker.setFill(Color.PINK);
         beakerImg.setImage(new Image(App.class.getResource("/images/emojis/beaker.png").toExternalForm()));
-
         String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
         HashMap<String, Integer> tileGridSize = DatabaseQuerier.getTileGridSize();
