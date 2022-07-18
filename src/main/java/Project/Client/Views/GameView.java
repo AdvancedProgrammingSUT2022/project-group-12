@@ -1,6 +1,8 @@
 package Project.Client.Views;
 
+import Project.Client.App;
 import Project.Client.Utils.DatabaseQuerier;
+import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.HexGrid;
@@ -9,16 +11,32 @@ import Project.Models.Tiles.TileGrid;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.HashMap;
 
 public class GameView implements ViewController {
-    public MenuItem nextTurn;
+    @FXML
+    private ImageView happinessImg;
+    @FXML
+    private ImageView goldImg;
+    @FXML
+    private ImageView beakerImg;
+    @FXML
+    private MenuItem nextTurn;
+    @FXML
+    private Text happiness;
+    @FXML
+    private Text gold;
+    @FXML
+    private Text beaker;
     @FXML
     private Pane selectionPane;
     @FXML
@@ -37,6 +55,19 @@ public class GameView implements ViewController {
     private HexGrid hexGrid;
 
     public void initialize() {
+        Civilization civilization = GameController.getGame().getCurrentCivilization();
+        gold.setText(String.valueOf(civilization.getGold()));
+
+        goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
+
+        happiness.setText(String.valueOf(civilization.getHappiness()));
+
+        happinessImg.setImage(new Image(App.class.getResource("/images/emojis/happiness.png").toExternalForm()));
+
+        beaker.setText(String.valueOf(civilization.getBeaker()));
+        beaker.setFill(Color.PINK);
+        beakerImg.setImage(new Image(App.class.getResource("/images/emojis/beaker.png").toExternalForm()));
+
         String command = "map show"; // dummy command to initialize logic GameMenu
         CommandResponse response = RequestHandler.getInstance().handle(command);
         HashMap<String, Integer> tileGridSize = DatabaseQuerier.getTileGridSize();
@@ -83,7 +114,8 @@ public class GameView implements ViewController {
     public void gotoCheatSelectPage() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CheatSheetPage"));
     }
-    public void gotoTradePanel(){
+
+    public void gotoTradePanel() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("TradeMenu"));
     }
 

@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.GameView">
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.GameView">
     <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
-      <Menu mnemonicParsing="false" text="Panels" >
-        <items>
-          <MenuItem mnemonicParsing="false" text="goto Trade Panel" onAction="#gotoTradePanel"/>
-            <MenuItem onAction="#researchInfo" text="Research Panel" />
-            <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet" />
-            <MenuItem onAction="#gotoCivPanel" text="Civilization Info" />
-        </items>
-      </Menu>
-        <Menu mnemonicParsing="false" text="Notification Panel" >
+        <Menu />
+        <Menu />
+        <Menu />
+
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu />
+        <Menu mnemonicParsing="false" text="Panels">
             <items>
-                <MenuItem mnemonicParsing="false" text="goto Notification Panel" onAction="#gotoNotificationPanel"/>
+                <MenuItem mnemonicParsing="false" onAction="#gotoTradePanel" text="goto Trade Panel" />
+                <MenuItem onAction="#researchInfo" text="Research Panel" />
+                <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet" />
+                <MenuItem onAction="#gotoCivPanel" text="Civilization Info" />
+                <MenuItem mnemonicParsing="false" onAction="#gotoNotificationPanel" text="goto Notification Panel" />
             </items>
         </Menu>
         <Menu onAction="#backToMenu" text="Back">
-            <MenuItem text="Back" onAction="#backToMenu"/>
+            <MenuItem onAction="#backToMenu" text="Back" />
         </Menu>
-        <Menu onAction="#exit" text="Exit" >
-            <MenuItem text="Exit" onAction="#exit"/>
+        <Menu onAction="#exit" text="Exit">
+            <MenuItem onAction="#exit" text="Exit" />
         </Menu>
         <Menu text="Setting">
-            <MenuItem text="Setting" onAction="#gotoSetting"/>
+            <MenuItem onAction="#gotoSetting" text="Setting" />
         </Menu>
-      <Menu mnemonicParsing="false" text="Next Turn">
-        <items>
-          <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn" />
-        </items>
-      </Menu>
+        <Menu mnemonicParsing="false" text="Next Turn">
+            <items>
+                <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn" />
+            </items>
+        </Menu>
 
     </MenuBar>
     <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0" style="-fx-background-color: transparent;">
@@ -43,4 +51,22 @@
     </ScrollPane>
     <Pane fx:id="selectionPane" visible="false" />
     <Button fx:id="btn" layoutY="50" onMouseClicked="#showGameMap" prefHeight="24.0" prefWidth="242.0" />
+   <HBox alignment="CENTER" layoutX="10.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
+      <children>
+         <ImageView fx:id="happinessImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" x="5.0" />
+         <Text fx:id="happiness" fill="GOLD" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      </children>
+   </HBox>
+   <HBox alignment="CENTER" layoutX="100.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
+      <children>
+         <ImageView fx:id="beakerImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" x="5.0" />
+         <Text fx:id="beaker" fill="#ff6682" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      </children>
+   </HBox>
+    <HBox alignment="CENTER" layoutX="180.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
+      <children>
+         <ImageView fx:id="goldImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" x="5.0" />
+         <Text fx:id="gold" fill="GOLD" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      </children>
+   </HBox>
 </Pane>
