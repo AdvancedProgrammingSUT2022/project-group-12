@@ -63,10 +63,10 @@ public class UnitActionsTest {
     }
    @Test
     void test(){
-        ownTile.addImprovement(ImprovementEnum.ROADS);
+        ownTile.addImprovement(ImprovementEnum.ROAD);
         ArrayList<ImprovementEnum> improvements = new ArrayList<>(ownTile.getImprovements());
         List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
-            return improvementEnum != ImprovementEnum.ROADS && improvementEnum != ImprovementEnum.RAILROAD;
+            return improvementEnum != ImprovementEnum.ROAD && improvementEnum != ImprovementEnum.RAILROAD;
         }).toList();
         Assertions.assertTrue(improvementEnums.size() == 0);
    }

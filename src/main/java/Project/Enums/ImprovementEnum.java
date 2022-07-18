@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public enum ImprovementEnum {
     RESET(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
-    ROADS(new ArrayList<>() {{
+    ROAD(new ArrayList<>() {{
         add(TechnologyEnum.THE_WHEEL);
     }}, new ArrayList<>() {{
         add(TerrainEnum.PLAIN);
@@ -131,7 +131,8 @@ public enum ImprovementEnum {
         this.requiredTechs = requiredTechs;
         this.canBeBuiltOn = canBeBuiltOn;
         this.features = features;
-        this.improvementImage = new Image(App.class.getResource("/images/improvements/" + this.name().toLowerCase() + ".png").toExternalForm());
+        System.out.println(this.name().toLowerCase());
+        this.improvementImage = this.name().equals("RESET") ? null : new Image(App.class.getResource("/images/improvements/" + this.name().toLowerCase() + ".png").toExternalForm());
     }
 
     public Image getImage() {

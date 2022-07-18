@@ -172,7 +172,7 @@ public class Tile implements Notifier {
 
     public double calculateMovementCost() {
         double cost = terrain.getMovementCost();
-        if (this.improvements.contains(ImprovementEnum.ROADS)) {
+        if (this.improvements.contains(ImprovementEnum.ROAD)) {
             cost *= (2.0 / 3);
         } else if (this.improvements.contains(ImprovementEnum.RAILROAD)) {
             cost /= 2;
@@ -249,7 +249,7 @@ public class Tile implements Notifier {
 
     public List<ImprovementEnum> getImprovementsExceptRoadOrRailRoad() {
         List<ImprovementEnum> improvementEnums = improvements.stream().filter(improvementEnum -> {
-            return improvementEnum == ImprovementEnum.ROADS || improvementEnum == ImprovementEnum.RAILROAD;
+            return improvementEnum == ImprovementEnum.ROAD || improvementEnum == ImprovementEnum.RAILROAD;
         }).toList();
 
         return improvementEnums;
