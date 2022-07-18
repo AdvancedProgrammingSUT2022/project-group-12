@@ -37,6 +37,8 @@ public class NotificationPanelController implements ViewController {
                     if(!response.isOK()){
                         MenuStack.getInstance().showError(response.toString());
                         return;
+                    } else {
+                        MenuStack.getInstance().showSuccess(response.getMessage());
                     }
                     notificationPanel.getChildren().remove(hBox);
                 });
@@ -46,6 +48,8 @@ public class NotificationPanelController implements ViewController {
                     if(!response.isOK()){
                         MenuStack.getInstance().showError(response.toString());
                         return;
+                    } else {
+                        MenuStack.getInstance().showSuccess(response.getMessage());
                     }
                     notificationPanel.getChildren().remove(hBox);
                 });

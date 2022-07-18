@@ -91,7 +91,7 @@ public enum CommandResponse {
     NO_TRADE_WITH_THIS_NAME("No trade with this name"),
     NO_UNIT_SELECTED("no unit selected");
 
-    private final String message;
+    private String message;
     private final String itemMessage;
 
     CommandResponse(String message) {
@@ -103,7 +103,9 @@ public enum CommandResponse {
         this.message = message;
         this.itemMessage = itemMessage;
     }
-
+    public void setMessage(String message){
+        this.message = message;
+    }
     @Override
     public String toString() {
         return this.message;
@@ -115,5 +117,9 @@ public enum CommandResponse {
 
     public boolean isOK() {
         return this == CommandResponse.OK;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

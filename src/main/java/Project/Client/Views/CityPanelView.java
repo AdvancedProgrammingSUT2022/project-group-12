@@ -197,9 +197,11 @@ public class CityPanelView implements ViewController {
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -223,9 +225,11 @@ public class CityPanelView implements ViewController {
             command = "city citizen lock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         }
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         selectedCitizen = null;
         back();
@@ -286,9 +290,11 @@ public class CityPanelView implements ViewController {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         String command = "city build building -n " + selectedBuilding.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         selectedBuilding = null;
         back();
@@ -301,9 +307,11 @@ public class CityPanelView implements ViewController {
         }
         String command = "city buy unit -u " + selectedUnit.name();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -311,9 +319,11 @@ public class CityPanelView implements ViewController {
     public void assignBtnAction(ActionEvent actionEvent) {
         String command = "city citizen assign -p " + assignCitizenXSpinner.getValue() + " " + assignCitizenYSpinner.getValue();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -324,9 +334,11 @@ public class CityPanelView implements ViewController {
         }
         String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
@@ -337,9 +349,11 @@ public class CityPanelView implements ViewController {
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestHandler.getInstance().handle(command);
-        if(!response.isOK()){
+        if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }

@@ -10,15 +10,18 @@ public class ErrorDialog extends Dialog<String> {
 
     String errorMessage;
 
-    ErrorDialog(String message){
+    ErrorDialog(String message,String type){
         this.errorMessage = message;
-        buildUI();
+        buildUI(type);
 
     }
 
-    private void buildUI() {
+    private void buildUI(String type) {
         BorderPane borderPane = new BorderPane();
-        Text text = new Text("Error : "); text.setStyle("-fx-font-size: 20px;");
+        Text text;
+        if(type.equals("error")) text = new Text("Error : ");
+        else text = new Text("Command successfully : ");
+        text.setStyle("-fx-font-size: 20px;");
         VBox vBox = new VBox(); vBox.setPrefHeight(100);
         vBox.setSpacing(10);
         vBox.getChildren().add(text);

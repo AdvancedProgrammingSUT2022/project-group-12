@@ -3,6 +3,7 @@ package Project.Client.Views;
 import Project.Client.App;
 import Project.Client.Utils.Cookies;
 import Project.Models.User;
+import Project.Utils.CommandResponse;
 
 import java.util.ArrayList;
 
@@ -72,8 +73,20 @@ public class MenuStack {
         popMenu();
         popMenu();
     }
+    public void showResponse(CommandResponse commandResponse){
+        if(!commandResponse.isOK()){
+            this.showError(commandResponse.toString());
+        } else {
+            this.showSuccess(commandResponse.getMessage());
+        }
+    }
+
     public void showError(String message){
-        new ErrorDialog(message).showAndWait();
+        new ErrorDialog(message,"error").showAndWait();
+    }
+
+    public void showSuccess(String message){
+        new ErrorDialog(message,"success").showAndWait();
     }
 
     public Cookies getCookies() {

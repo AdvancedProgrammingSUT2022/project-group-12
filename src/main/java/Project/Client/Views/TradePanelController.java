@@ -154,6 +154,8 @@ public class TradePanelController implements ViewController {
         if(!response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
     }
