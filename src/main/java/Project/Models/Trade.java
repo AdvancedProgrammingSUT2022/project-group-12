@@ -1,39 +1,43 @@
 package Project.Models;
 
 import Project.Enums.ResourceEnum;
+import Project.Server.Controllers.GameController;
 import javafx.util.Pair;
 
 public class Trade extends Notification{
-    String name;
+    String type;
     ResourceEnum  suggestResources;
     Integer suggestGold;
     ResourceEnum requiredResources;
     Integer requiredGold;
-    Civilization hostCiv;
-    Civilization guestCiv;
+    String hostCivName;
+    String guestCivName;
 
     public Trade(ResourceEnum suggestResources, Integer suggestGold, ResourceEnum requiredResources, Integer requiredGold, Civilization hostCiv, Civilization guestCiv,String name) {
         this.suggestResources = suggestResources;
         this.suggestGold = suggestGold;
         this.requiredResources = requiredResources;
         this.requiredGold = requiredGold;
-        this.hostCiv = hostCiv;
-        this.guestCiv = guestCiv;
+        this.hostCivName = hostCiv.getName();
+        this.guestCivName = guestCiv.getName();
         this.message = initializeMessage();
-        this.name = name;
+        super.name = name;
+        this.type = this.getClass().getName();
     }
     private String initializeMessage(){
         if(this.suggestResources == null){
-                return "host civ : " + hostCiv.getName() + " Suggest : Gold " + suggestGold + " Requires : Resource " + requiredResources;
+                return "host civ : " + hostCivName + " Suggest : Gold " + suggestGold + " Requires : Resource " + requiredResources;
         } else {
             if(requiredResources == null){
-                return "host civ : " + hostCiv.getName() + " Suggest : Resource " + suggestResources +  " Requires : Gold " + requiredGold;
+                return "host civ : " + hostCivName + " Suggest : Resource " + suggestResources +  " Requires : Gold " + requiredGold;
             } else {
-                return "host civ : " + hostCiv.getName() + " Suggest : Resource " + suggestResources + " Requires : Resource " + requiredResources;
+                return "host civ : " + hostCivName + " Suggest : Resource " + suggestResources + " Requires : Resource " + requiredResources;
             }
         }
     }
     public void accept(){
+        Civilization hostCiv = GameController.getGame().getCivByName(hostCivName);
+        Civilization guestCiv = GameController.getGame().getCivByName(guestCivName);
         if(this.suggestResources == null){
             guestCiv.addGold(suggestGold);
             guestCiv.removeResource(requiredResources);
@@ -56,10 +60,11 @@ public class Trade extends Notification{
     }
 
     public void reject(){
+        Civilization guestCiv = GameController.getGame().getCivByName(guestCivName);
         guestCiv.removeNotification(this);
     }
 
     public String getName() {
-        return name;
+        return super.getName();
     }
 }

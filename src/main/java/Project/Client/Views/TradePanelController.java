@@ -12,6 +12,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.util.Random;
+
 public class TradePanelController implements ViewController {
     public ToggleButton ownGoldToggleBtn;
     public ToggleButton ownResourceToggleBtn;
@@ -25,8 +27,7 @@ public class TradePanelController implements ViewController {
     public TextField tradeNameTextField;
     private MenuButton resourceRivalMenu;
     private MenuButton resourceOwnMenu;
-    private ResourceEnum suggestResource;
-    private ResourceEnum requiredResource;
+
     public Spinner<Integer> rivalGoldSpinner = new Spinner<>();
     public Spinner<Integer> ownGoldSpinner = new Spinner<>();
     private String suggest;
@@ -37,9 +38,11 @@ public class TradePanelController implements ViewController {
 
     public void initialize() {
         //todo : handle selectedCiv
+        System.out.println("entered");
         rivalOuterVbox.setVisible(false);
         labelRival.setText("Rival Option");
         initializeRivalCivMenuButton();
+        System.out.println("afteerCivsRivals = ");
         rivalGoldToggleBtn.setDisable(true);
         rivalResourceToggleBtn.setDisable(true);
         initializeGoldToggleButton();
@@ -140,11 +143,7 @@ public class TradePanelController implements ViewController {
         if(!ownGoldToggleBtn.isSelected() && !ownResourceToggleBtn.isSelected() ) return;
         if(rivalGoldToggleBtn.isSelected() && ownGoldToggleBtn.isSelected()) return;
         if(required == null || suggest == null) return;
-        if(this.tradeNameTextField.getText() == null){
-            this.tradeNameTextField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-            return;
-        }
-        String command = "trade create -s " + suggest + " -r " + required + " -c " + selectedCivName + " -n " +  this.tradeNameTextField.getText();
+        String command = "trade create -s " + suggest + " -r " + required + " -c " + selectedCivName + " -n " +  new Random().nextInt(2009);
         System.out.println("command = " + command);
         CommandResponse response = RequestHandler.getInstance().handle(command);
         if(!response.isOK()){

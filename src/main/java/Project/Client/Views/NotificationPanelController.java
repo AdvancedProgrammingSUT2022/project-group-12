@@ -1,6 +1,7 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
+import Project.Models.Demand;
 import Project.Models.Notification;
 import Project.Models.Trade;
 import Project.Server.Views.RequestHandler;
@@ -19,39 +20,16 @@ public class NotificationPanelController implements ViewController {
     private VBox notificationPanel;
 
     public void initialize() {
+        System.out.println("before get");
+        DatabaseQuerier.getCurrentCivNotifications();
         for (Notification notif :
                 DatabaseQuerier.getCurrentCivNotifications()) {
             HBox hBox = new HBox(new Text(notif.getMessage()));
             hBox.setAlignment(Pos.CENTER_LEFT);
             if (notif instanceof Trade trade) {
-                Button reject = new Button("reject");
-                Button accept = new Button("accept");
-                reject.setOnAction(e -> {
-                    String command = "trade reject -n " + trade.getName();
-                    CommandResponse response = RequestHandler.getInstance().handle(command);
-                    if(!response.isOK()){
-                        MenuStack.getInstance().showError(response.toString());
-                        return;
-                    } else {
-                        MenuStack.getInstance().showSuccess(response.getMessage());
-                    }
-                    notificationPanel.getChildren().remove(hBox);
-                });
-                accept.setOnAction(e -> {
-                    String command = "trade accept -n " + trade.getName();
-                    CommandResponse response = RequestHandler.getInstance().handle(command);
-                    if(!response.isOK()){
-                        MenuStack.getInstance().showError(response.toString());
-                        return;
-                    } else {
-                        MenuStack.getInstance().showSuccess(response.getMessage());
-                    }
-                    notificationPanel.getChildren().remove(hBox);
-                });
-                VBox vBox = new VBox(reject, accept);
-                vBox.setSpacing(5);
-                hBox.getChildren().addAll(vBox);
-                hBox.setSpacing(20);
+                initializeTradeBoxes(hBox, trade);
+            } else if (notif instanceof Demand demand) {
+                initalizeDemandBoxes(hBox,demand);
             }
             notificationPanel.getChildren().add(hBox);
         }
@@ -61,6 +39,68 @@ public class NotificationPanelController implements ViewController {
 //        });
 //        notificationPanel.getChildren().add(testing);
 
+    }
+
+    private void initalizeDemandBoxes(HBox hBox, Demand demand) {
+        Button reject = new Button("reject");
+        Button accept = new Button("accept");
+        reject.setOnAction(e -> {
+            String command = "demand reject -d " + demand.getName();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            if(!response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            } else {
+                MenuStack.getInstance().showSuccess(response.getMessage());
+            }
+            notificationPanel.getChildren().remove(hBox);
+        });
+        accept.setOnAction(e -> {
+            String command = "demand accept -d " + demand.getName();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            if(!response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            } else {
+                MenuStack.getInstance().showSuccess(response.getMessage());
+            }
+            notificationPanel.getChildren().remove(hBox);
+        });
+        VBox vBox = new VBox(reject, accept);
+        vBox.setSpacing(5);
+        hBox.getChildren().addAll(vBox);
+        hBox.setSpacing(20);
+    }
+
+    private void initializeTradeBoxes(HBox hBox, Trade trade) {
+        Button reject = new Button("reject");
+        Button accept = new Button("accept");
+        reject.setOnAction(e -> {
+            String command = "trade reject -n " + trade.getName();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            if(!response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            } else {
+                MenuStack.getInstance().showSuccess(response.getMessage());
+            }
+            notificationPanel.getChildren().remove(hBox);
+        });
+        accept.setOnAction(e -> {
+            String command = "trade accept -n " + trade.getName();
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            if(!response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            } else {
+                MenuStack.getInstance().showSuccess(response.getMessage());
+            }
+            notificationPanel.getChildren().remove(hBox);
+        });
+        VBox vBox = new VBox(reject, accept);
+        vBox.setSpacing(5);
+        hBox.getChildren().addAll(vBox);
+        hBox.setSpacing(20);
     }
 
     public void back() {

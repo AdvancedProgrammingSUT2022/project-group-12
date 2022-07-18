@@ -13,6 +13,7 @@ import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 
+import javax.crypto.CipherInputStream;
 import java.util.*;
 
 
@@ -476,5 +477,25 @@ public class GameController {
     public static void acceptTrade(String tradeName) throws CommandException {
         Trade trade = game.getCurrentCivilization().getTradeByName(tradeName);
         trade.accept();
+    }
+
+    public static void createDemand(String request,String hostCiv,String demandName) {
+        Civilization civ = GameController.getGame().getCivByName(hostCiv);
+        if (request.chars().allMatch(Character::isDigit)){
+            Demand demand = new Demand(Integer.parseInt(request),null,GameController.getGame().getCurrentCivilization().getName(),civ.getName(),demandName);
+            civ.getNotifications().add(demand);
+        } else {
+            Demand demand = new Demand(null,request,GameController.getGame().getCurrentCivilization().getName(),civ.getName(),demandName);
+            civ.getNotifications().add(demand);
+        }
+    }
+
+    public static void acceptDemand(String demandName) {
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        currentCiv.getDemandByName(demandName).acceptDemand();
+    }
+    public static void rejectDemand(String demandName) {
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        currentCiv.getDemandByName(demandName).rejectDemand();
     }
 }

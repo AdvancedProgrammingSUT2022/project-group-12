@@ -111,7 +111,7 @@ public class GameView implements ViewController {
     }
 
     public void gotoTradePanel() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("TradeMenu"));
+        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("DemandAndTradePanel"));
     }
 
 

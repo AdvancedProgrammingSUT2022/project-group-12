@@ -95,6 +95,8 @@ public class GameMenu extends Menu {
         switch (command.getCategory()) {
             case "info" -> this.info(command);
             case "trade" -> this.trade(command);
+            case "demand" -> this.demand(command);
+            case "declare" -> this.declareWar(command);
             case "select" -> this.select(command);
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
@@ -106,6 +108,56 @@ public class GameMenu extends Menu {
             default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
+
+    private void declareWar(Command command) {
+
+
+    }
+
+    private void demand(Command command) {
+        switch (command.getSubCategory()){
+            case "create" -> createDemand(command);
+            case "accept" -> acceptDemand(command);
+            case "reject" -> rejectDemand(command);
+        }
+    }
+
+    private void rejectDemand(Command command) {
+        try {
+            command.abbreviate("demandName",'d');
+            String demandName = command.getOption("demandName");
+            GameController.rejectDemand(demandName);
+            answer(demandName + " rejected successfully");
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void acceptDemand(Command command) {
+        try {
+            command.abbreviate("demandName",'d');
+            String demandName = command.getOption("demandName");
+            GameController.acceptDemand(demandName);
+            answer("Demand accepted successfully");
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void createDemand(Command command) {
+        try {
+            command.abbreviate("request", 'r');
+            command.abbreviate("civName",'n');
+            command.abbreviate("demandName",'d');
+            String request = command.getOption("request");
+            GameController.createDemand(request,command.getOption("civName"),command.getOption("demandName"));
+            answer("Demand created successfully");
+        }
+        catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void trade(Command command){
         switch (command.getSubCategory()){
             case "reject" -> this.rejectTrade(command);

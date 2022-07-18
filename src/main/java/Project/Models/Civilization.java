@@ -32,6 +32,8 @@ public class Civilization {
     private final ArrayList<Civilization> isInEconomicRelation;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
+    private boolean autoSaveOn;
+    private boolean gameOnMute;
     private ArrayList<Resource> resources;
     private ArrayList<Notification> notifications;
     private HappinessTypeEnum happinessType;
@@ -52,6 +54,8 @@ public class Civilization {
     private City selectedCity;
 
     public Civilization(User user, TerrainColor color) {
+        this.autoSaveOn = false;
+        this.gameOnMute = false;
         this.color = color;
         this.researchingTechnology = null;
         this.user = user;
@@ -75,6 +79,22 @@ public class Civilization {
         this.resources = new ArrayList<>();
         this.notifications = new ArrayList<>();
         updateHappinessState(this.calculateHappiness());
+    }
+
+    public boolean isGameOnMute() {
+        return gameOnMute;
+    }
+
+    public void setGameOnMute(boolean gameOnMute) {
+        this.gameOnMute = gameOnMute;
+    }
+
+    public boolean isAutoSaveOn() {
+        return autoSaveOn;
+    }
+
+    public void setAutoSaveOn(boolean autoSaveOn) {
+        this.autoSaveOn = autoSaveOn;
     }
 
     public Tile getSelectedTile() {
@@ -617,5 +637,32 @@ public class Civilization {
             resourceEnums.add(resource.getResourceEnum());
         }
         return resourceEnums;
+    }
+
+    public void removeDemand(Demand demand) {
+        this.notifications.remove(demand);
+    }
+
+    public Demand getDemandByName(String demandName) {
+        for (Notification notif:
+             this.notifications) {
+            if(notif instanceof Demand demand){
+                System.out.println("demand.genName() = " + demand.getName());
+                System.out.println("demandName = " + demandName);
+                if(demand.getName().equals(demandName)){
+                    return demand;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void declareWar(Civilization guestCiv) {
+        this.inWarWith.add(guestCiv);
+    }
+    public void peace(Civilization guestCiv) {
+        if(inWarWith.contains(guestCiv)){
+            inWarWith.remove(guestCiv);
+        }
     }
 }

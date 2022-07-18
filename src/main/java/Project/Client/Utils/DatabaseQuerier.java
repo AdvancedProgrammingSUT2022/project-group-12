@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DatabaseQuerier {
 
@@ -95,9 +96,9 @@ public class DatabaseQuerier {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
         return new Gson().fromJson(json,new TypeToken<Integer>(){}.getType());
     }
-    public static ArrayList<String> getNeighborsCivsName(){
+    public static List<String> getNeighborsCivsName(){
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_NEIGHBORS_CURRENTCIV_NAMES);
-        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+        return new Gson().fromJson(json,new TypeToken<List<String>>(){}.getType());
     }
     public static int getGoldCivilizationByName(String name){
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_GOLD_BY_NAME,name);
@@ -110,8 +111,11 @@ public class DatabaseQuerier {
     }
     public static ArrayList<Notification> getCurrentCivNotifications() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NOTIFICATIONS);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Notification.class,new MyJsonDeserializer<>());
+        Gson gson = gsonBuilder.create();
         TypeToken<ArrayList<Notification>> typeToken = new TypeToken<>() {};
-        return new Gson().fromJson(json, typeToken.getType());
+        return gson.fromJson(json, typeToken.getType());
     }
     public static ArrayList<Location> getCurrentCivUnitsLocation() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_LOCATIONS);
@@ -139,8 +143,8 @@ public class DatabaseQuerier {
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
-        gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Unit.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(CombatUnit.class,new MyJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(json,Unit.class);
     }
@@ -148,9 +152,9 @@ public class DatabaseQuerier {
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION,row,col);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
-        gsonBuilder.registerTypeAdapter(Notifier.class,new myJsonDeserializer<>());
-        gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Unit.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Notifier.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(CombatUnit.class,new MyJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
         return gson.fromJson(json,Tile.class);
     }
@@ -181,15 +185,15 @@ public class DatabaseQuerier {
         String json =  RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Unit.class,new myJsonDeserializer<>());
-        gsonBuilder.registerTypeAdapter(Notifier.class,new myJsonDeserializer<>());
-        gsonBuilder.registerTypeAdapter(CombatUnit.class,new myJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Unit.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Notifier.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(CombatUnit.class,new MyJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
         TypeToken<TileGrid> typeToken = new TypeToken<>(){};
         return gson.fromJson(json, typeToken.getType());
     }
 }
-class myJsonDeserializer<T> implements JsonDeserializer<T> {
+class MyJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override
     public T deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {
         JsonObject jsonObject = var1.getAsJsonObject();
