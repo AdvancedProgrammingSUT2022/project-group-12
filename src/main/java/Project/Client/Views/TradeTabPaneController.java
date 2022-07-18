@@ -33,12 +33,19 @@ public class TradeTabPaneController implements ViewController {
     MenuButton resourceMenu = new MenuButton();
     String request;
     Spinner<Integer> rivalCivGoldSpinner = new Spinner<>();
+
     public void initialize() throws IOException {
-       tradePanel.setContent(new FXMLLoader(App.class.getResource("/Project/fxml/TradeMenu.fxml")).load());
-        for (String civNames:
+        tradePanel.setClosable(false);
+        demandPanel.setClosable(false);
+        tradePanel.setContent(new FXMLLoader(App.class.getResource("/Project/fxml/TradeMenu.fxml")).load());
+        initializeDemandPanel();
+    }
+
+    private void initializeDemandPanel() {
+        for (String civNames :
                 DatabaseQuerier.getNeighborsCivsName()) {
             MenuItem menuItem = new MenuItem(civNames);
-            menuItem.setOnAction( e -> {
+            menuItem.setOnAction(e -> {
                 System.out.println("hello");
                 Goldbtn.setDisable(false);
                 Resourcebtn.setDisable(false);
@@ -52,7 +59,9 @@ public class TradeTabPaneController implements ViewController {
             SourceVbox.getChildren().clear();
             Resourcebtn.setSelected(false);
             initializeSpinnerValueFactory();
-            VBox vBox = new VBox(new Text("Gold to select")); vBox.setSpacing(10); vBox.setAlignment(Pos.CENTER);
+            VBox vBox = new VBox(new Text("Gold to select"));
+            vBox.setSpacing(10);
+            vBox.setAlignment(Pos.CENTER);
             vBox.getChildren().add(rivalCivGoldSpinner);
             SourceVbox.getChildren().add(vBox);
             initializeSpinnerValueFactory();
@@ -60,7 +69,9 @@ public class TradeTabPaneController implements ViewController {
         Resourcebtn.setOnAction(e -> {
             SourceVbox.getChildren().clear();
             Goldbtn.setSelected(false);
-            VBox vBox = new VBox(new Text("Resource to select")); vBox.setSpacing(10);  vBox.setAlignment(Pos.CENTER);
+            VBox vBox = new VBox(new Text("Resource to select"));
+            vBox.setSpacing(10);
+            vBox.setAlignment(Pos.CENTER);
             initializeResourceMenu();
             vBox.getChildren().add(resourceMenu);
             SourceVbox.getChildren().add(vBox);
@@ -71,43 +82,46 @@ public class TradeTabPaneController implements ViewController {
         SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, GameController.getGame().getCivByName(selectedCivName).calculateCivilizationGold());
         rivalCivGoldSpinner.setValueFactory(spinnerValueFactory);
         rivalCivGoldSpinner.valueProperty().addListener((observableValue, o, t1) -> {
-            System.out.println("request = " + request);;
+            System.out.println("request = " + request);
+            ;
             TradeTabPaneController.this.request = rivalCivGoldSpinner.getValue().toString();
             System.out.println("request = " + request);
         });
     }
-    private void initializeResourceMenu(){
+
+    private void initializeResourceMenu() {
         resourceMenu.getItems().clear();
         for (String resourceName :
                 DatabaseQuerier.getCivResourcesByName(selectedCivName).stream().map(e -> capitalizeFirstString(e.getResourceEnum().name().toLowerCase())).collect(Collectors.toList())) {
             MenuItem menuItem = new MenuItem(resourceName);
             menuItem.setOnAction(e -> {
-               this.request = resourceName;
+                this.request = resourceName;
             });
             resourceMenu.getItems().add(menuItem);
         }
     }
-    public String capitalizeFirstString(String str){
+
+    public String capitalizeFirstString(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     public void createDemand(ActionEvent actionEvent) {
-            if(!Goldbtn.isSelected() && !Resourcebtn.isSelected() ) return;
-            if(request == null) return;
-            String command = "demand create -r " + request + " -n " + selectedCivName + " -d " +  new Random().nextInt(3000);
-            System.out.println("command = " + command);
-            CommandResponse response = RequestHandler.getInstance().handle(command);
-            if(!response.isOK()){
-                MenuStack.getInstance().showError(response.toString());
-                return;
-            } else {
-                MenuStack.getInstance().showSuccess(response.getMessage());
-            }
-            back();
+        if (!Goldbtn.isSelected() && !Resourcebtn.isSelected()) return;
+        if (request == null) return;
+        String command = "demand create -r " + request + " -n " + selectedCivName + " -d " + new Random().nextInt(3000);
+        System.out.println("command = " + command);
+        CommandResponse response = RequestHandler.getInstance().handle(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
         }
+        back();
+    }
 
-        public void back() {
-            MenuStack.getInstance().popMenu();
-        }
+    public void back() {
+        MenuStack.getInstance().popMenu();
+    }
 
 }
