@@ -1,5 +1,6 @@
 package Client.Views;
 
+import Client.App;
 import Project.Enums.AvatarURLEnum;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -24,7 +25,7 @@ public class AvatarView implements ViewController {
 
     public void initialize() {
         userID.setText("-" + MenuStack.getInstance().getUser().getNickname());
-        imageView.setImage(MenuStack.getInstance().getUser().getImage());
+        imageView.setImage(AvatarView.getAvatarImage(MenuStack.getInstance().getUser().getAvatarURL()));
         for (int i = 0; i < 52; i += 2) {
             HBox newBox = new HBox();
             newBox.setSpacing(100);
@@ -33,8 +34,13 @@ public class AvatarView implements ViewController {
         }
     }
 
+    public static Image getAvatarImage(AvatarURLEnum avatarURL) {
+        new Image(App.getResourcePath("/images/avatars/" + avatarURL.getUrl()));
+    }
+
     private ImageView returnImages(int i) {
-        ImageView newImageView = new ImageView(AvatarURLEnum.valueOf("IMG" + i).getImage());
+        Image avatar = AvatarView.getAvatarImage(AvatarURLEnum.valueOf("IMG" + i));
+        ImageView newImageView = new ImageView(avatar);
         newImageView.setFitHeight(92);
         newImageView.setFitWidth(87);
         newImageView.setOnMouseClicked(event -> {

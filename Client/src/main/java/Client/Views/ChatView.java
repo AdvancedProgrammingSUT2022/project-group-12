@@ -1,10 +1,15 @@
 package Client.Views;
 
 import Project.Models.Message;
+import Project.Models.User;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -30,7 +35,7 @@ public class ChatView implements ViewController {
                 ArrayList<Message> messages = MenuStack.getInstance().getUser().getChat().getMessages();
                 for (Message message : messages) {
                     message.checkSeen(MenuStack.getInstance().getUser().getUsername());
-                    chatBox.getChildren().add(message.getMessageBox());
+                    chatBox.getChildren().add(createMessageBox(message));
                 }
             }
         } catch (Exception ignored) {
@@ -46,15 +51,16 @@ public class ChatView implements ViewController {
     @FXML
     public void sendNewMessage() {
         if (currentEditingMessage == null) {
-            Message newMessage = new Message(MenuStack.getInstance().getUser().getUsername(), messageTextField.getText());
-            MenuStack.getInstance().getUser().getChat().sendMessage(newMessage);
+            User user = MenuStack.getInstance().getUser();
+            Message newMessage = new Message(user.getUsername(), user.getAvatarURL(), messageTextField.getText());
+            user.getChat().sendMessage(newMessage);
             newMessage.getText().setOnMouseClicked(mouseEvent -> {
                 ChatView.this.currentEditingMessage = newMessage;
                 messageTextField.setText(newMessage.getMessage());
                 deleteButton.setDisable(false);
                 deleteButton.setVisible(true);
             });
-            chatBox.getChildren().add(newMessage.getMessageBox());
+            chatBox.getChildren().add(createMessageBox(newMessage));
         } else {
             currentEditingMessage.editMessage(messageTextField.getText());
             currentEditingMessage = null;
@@ -63,10 +69,28 @@ public class ChatView implements ViewController {
         messageTextField.setText("");
     }
 
+    public HBox createMessageBox(Message message) {
+        HBox messageBox = new HBox();
+        Image avatar = AvatarView.getAvatarImage(message.getAvatarURL());
+        ImageView imageView = new ImageView(avatar);
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
+        messageBox.getChildren().add(imageView);
+        messageBox.setAlignment(Pos.CENTER);
+        if (message.isSeen() && !message.isFirstTime()) {
+            message.getText().setText(message.getText().getText() + "✓");
+            message.setFirstTime(true);
+        } else if (!message.isFirstTime()) {
+            message.getText().setText(message.getText().getText() + " ✓");
+        }
+        messageBox.getChildren().add(message.getText());
+        return messageBox;
+    }
+
     @FXML
     public void deleteMessage() {
         MenuStack.getInstance().getUser().getChat().deleteMessage(currentEditingMessage);
-        chatBox.getChildren().remove(currentEditingMessage.getMessageBox());
+        chatBox.getChildren().remove(createMessageBox(currentEditingMessage));
         disableDeleteButton();
         currentEditingMessage = null;
     }

@@ -1,7 +1,7 @@
 package Project.Models;
 
 import Project.Enums.AvatarURLEnum;
-import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,17 +37,14 @@ public class User {
     }
 
 
-    public Image getImage() {
-        if (AvatarURLEnum.IMG0.contains(imageUrl))
-            return AvatarURLEnum.valueOf(imageUrl).getImage();
-        else
-            return new Image(imageUrl);
+    @NotNull
+    public AvatarURLEnum getAvatarURL() {
+        return AvatarURLEnum.valueOf(imageUrl);
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
 
     public String getUsername() {
         return this.username;
@@ -144,4 +141,5 @@ public class User {
                 ", currentChat=" + currentChat +
                 '}';
     }
+
 }

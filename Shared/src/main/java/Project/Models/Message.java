@@ -1,29 +1,26 @@
 package Project.Models;
 
-import Project.Server.Models.Database;
-import javafx.geometry.Pos;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import Project.Enums.AvatarURLEnum;
 import javafx.scene.text.Text;
 
 import java.util.Date;
 
 public class Message {
     private final String from;
+    private final AvatarURLEnum avatarURL;
     Text text;
     private String message;
-    HBox messageBox;
     Boolean isSeen;
     Boolean isFirstTime;
 
-    public Message(String from, String message) {
+    public Message(String from, AvatarURLEnum avatarURL, String message) {
         this.from = from;
         this.message = message;
+        this.avatarURL = avatarURL;
         isSeen = false;
         isFirstTime = false;
         text = new Text("  " + from + " : " + message + " " + getCurrentDate());
         text.setWrappingWidth(500);
-        messageBox = new HBox();
     }
 
     public void checkSeen(String username) {
@@ -59,22 +56,27 @@ public class Message {
         return message;
     }
 
+    public AvatarURLEnum getAvatarURL() {
+        return avatarURL;
+    }
 
+    public String getFrom() {
+        return from;
+    }
 
-    public HBox getMessageBox() {
-        messageBox = new HBox();
-        ImageView imageView = new ImageView(Database.getInstance().getUser(from).getImage());
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
-        messageBox.getChildren().add(imageView);
-        messageBox.setAlignment(Pos.CENTER);
-        if (isSeen && !isFirstTime) {
-            this.text.setText(text.getText() + "✓");
-            isFirstTime = true;
-        } else if (!isFirstTime) {
-            this.text.setText(text.getText() + " ✓");
-        }
-        messageBox.getChildren().add(this.text);
-        return messageBox;
+    public Boolean isSeen() {
+        return isSeen;
+    }
+
+    public Boolean isFirstTime() {
+        return isFirstTime;
+    }
+
+    public void setSeen(Boolean seen) {
+        isSeen = seen;
+    }
+
+    public void setFirstTime(Boolean firstTime) {
+        isFirstTime = firstTime;
     }
 }

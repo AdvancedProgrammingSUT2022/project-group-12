@@ -44,7 +44,7 @@ public class ProfileView implements ViewController {
     }
 
     public void initialize() {
-        this.userAvatar.setImage(MenuStack.getInstance().getUser().getImage());
+        this.userAvatar.setImage(AvatarView.getAvatarImage(MenuStack.getInstance().getUser().getAvatarURL()));
         this.username.setText("-" + MenuStack.getInstance().getUser().getUsername());
     }
 

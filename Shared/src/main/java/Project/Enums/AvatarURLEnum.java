@@ -1,8 +1,5 @@
 package Project.Enums;
 
-import Project.Client.App;
-import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 
 public enum AvatarURLEnum {
@@ -82,9 +79,5 @@ public enum AvatarURLEnum {
                 return true;
         }
         return false;
-    }
-
-    public Image getImage() {
-        return new Image(App.class.getResource("/images/avatars/"+url).toExternalForm());
     }
 }

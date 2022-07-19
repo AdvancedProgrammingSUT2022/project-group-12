@@ -37,7 +37,7 @@ public class ScoreboardView implements ViewController {
             hBox.getChildren().add(rank);
 
             if (i >= 0) {
-                ImageView avatar = new ImageView(user.getImage());
+                ImageView avatar = new ImageView(AvatarView.getAvatarImage(user.getAvatarURL()));
                 avatar.setFitHeight(15);
                 avatar.setFitWidth(15);
                 hBox.getChildren().add(avatar);
