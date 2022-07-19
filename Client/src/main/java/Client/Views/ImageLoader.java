@@ -17,7 +17,6 @@ public class ImageLoader {
     private static final HashMap<TerrainEnum,Image> terrainImages = new HashMap<>();
     static HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
 
-
     static {
         for (TechnologyEnum resourceEnum:
                 TechnologyEnum.values()) {

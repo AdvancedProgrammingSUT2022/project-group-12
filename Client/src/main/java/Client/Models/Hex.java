@@ -125,7 +125,7 @@ public class Hex implements TileObserver {
 //        }
         for (int i = numberOfRowsOfUnits - 1; i >= 0; i--) {
             for (int j = 0; j < 3; j++) {
-                ImageView imageView = new ImageView(unitEnum.getAssetImage());
+                ImageView imageView = new ImageView(ImageLoader.getUnitImages().get(unitEnum));
                 imageView.setLayoutX(unitDistanceHorizontally - unitDistanceHorizontally * j - imageView.getImage().getWidth() / 2);
                 imageView.setLayoutY(unitsDistanceVertically - unitsDistanceVertically * i);
                 group.getChildren().add(imageView);
