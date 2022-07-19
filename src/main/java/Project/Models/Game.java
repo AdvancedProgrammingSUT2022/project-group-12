@@ -9,6 +9,7 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.NonRangedUnit;
 import Project.Models.Units.Unit;
+import Project.Server.ClientHandler;
 import Project.Server.Controllers.GameController;
 import Project.Utils.CommandException;
 import Project.Utils.CommandResponse;
@@ -23,6 +24,7 @@ public class Game {
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
     private final ArrayList<User> users;
+    private final ClientHandler clientHandler = new ClientHandler();
     private GameView panes;
     private int gameTurn = -1;
 
@@ -36,6 +38,8 @@ public class Game {
             if (tile.getTerrain().getTerrainType().isReachable()) {
                 availableTiles.add(tile);
             }
+            tile.initializeNotifier();
+            tile.addObserver(this.clientHandler);
         }
         Collections.shuffle(availableTiles);
 

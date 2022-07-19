@@ -150,6 +150,10 @@ public class GameView implements ViewController {
         setCameraOnCivSelectedLocation();
     }
 
+    public static void updateTile(Location location, Tile newTile) {
+        if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);
+    }
+
     public void gotoNotificationPanel() {
         MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("NotificationPanel"));
     }

@@ -1,6 +1,5 @@
 package Project.Server.Views;
 
-import Project.Client.Views.GameView;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.ResponseException;
@@ -25,9 +24,6 @@ public class RequestHandler {
         } catch (ResponseException e) {
             if(e.getResponse().isOK()){
                 e.getResponse().setMessage(e.getSuccessMessage());
-            }
-            if (GameView.instance != null) {
-                GameView.reloadHexGrid();
             }
             return e.getResponse();
         }
