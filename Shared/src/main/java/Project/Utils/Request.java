@@ -7,6 +7,8 @@ public class Request {
     private final RequestType requestType;
     private final Map<String, String> parameters = new HashMap<>();
     private final String token;
+    private DatabaseQueryType queryType;
+    private String[] queryParams;
 
     public Request(RequestType requestType, String token) {
         this.requestType = requestType;
@@ -27,5 +29,21 @@ public class Request {
 
     public String getToken() {
         return token;
+    }
+
+    public void setQueryParams(String[] queryParams) {
+        this.queryParams = queryParams;
+    }
+
+    public String[] getQueryParams() {
+        return queryParams;
+    }
+
+    public DatabaseQueryType getQueryType() {
+        return queryType;
+    }
+
+    public void setQueryType(DatabaseQueryType queryType) {
+        this.queryType = queryType;
     }
 }

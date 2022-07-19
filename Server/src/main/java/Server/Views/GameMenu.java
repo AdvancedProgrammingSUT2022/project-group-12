@@ -105,7 +105,6 @@ public class GameMenu extends Menu {
             case "research" -> this.research(command);
             case "cheat" -> this.cheat(command);
             case "end" -> this.end(command);
-            case "api" -> this.api(command);
             default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
@@ -269,26 +268,6 @@ public class GameMenu extends Menu {
         } catch (IllegalArgumentException e) {
             answer(new CommandException(CommandResponse.INVALID_TECHNOLOGY_NAME));
         }
-    }
-
-    private void api(Command command) {
-        switch (command.getSubCategory()) {
-            case "get" -> this.apiGet(command);
-            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
-        }
-    }
-
-    private void apiGet(Command command) {
-        switch (command.getSubSubCategory()) {
-            case "camera" -> this.apiGetCamera(command);
-            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
-        }
-    }
-
-    private void apiGetCamera(Command ignoredCommand) {
-        MenuStack.getInstance().clearResponseParameters();
-        MenuStack.getInstance().addResponseParameters("camera_row", String.valueOf(getCamera().getRow()));
-        MenuStack.getInstance().addResponseParameters("camera_col", String.valueOf(getCamera().getCol()));
     }
 
     private void research(Command command) {

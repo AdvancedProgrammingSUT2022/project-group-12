@@ -1,9 +1,7 @@
 package Client.Utils;
 
-import Project.Utils.CommandResponse;
-import Project.Utils.Request;
-import Project.Utils.RequestType;
-import Project.Utils.Response;
+import Client.Views.MenuStack;
+import Project.Utils.*;
 import com.google.gson.Gson;
 
 import java.net.Socket;
@@ -12,6 +10,7 @@ import java.util.HashMap;
 public class RequestHandler {
     private static final RequestHandler instance = new RequestHandler();
     private static Connection connection = null;
+    private HashMap<String, String> responseParameterCache = null;
 
     private RequestHandler() {
 
@@ -27,11 +26,12 @@ public class RequestHandler {
 
     public CommandResponse handle(String line) {
         System.out.println("Request: " + line);
-        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, "???");
+        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getLoginToken());
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
         Response response = new Gson().fromJson(responseJson, Response.class);
         CommandResponse commandResponse = response.getCommandResponse();
+        this.responseParameterCache = response.getParameters();
 //            if(e.getResponse().isOK()){
 //                e.getResponse().setMessage(e.getSuccessMessage());
 //            }
@@ -40,17 +40,17 @@ public class RequestHandler {
         return commandResponse;
     }
 
-    public HashMap<String, String> getParameters() {
-        return MenuStack.getInstance().getResponseParameters();
-    }
-
     public String getParameter(String key) {
-        return MenuStack.getInstance().getResponseParameters().get(key);
+        return responseParameterCache.get(key);
     }
 
-    public String databaseQuery(RequestType query, String... params) {
-        String response = MenuStack.getInstance().databaseQuery(query, params);
-//        System.out.println("databaseR: " + response);
-        return response;
+    public String databaseQuery(DatabaseQueryType query, String... params) {
+        Request request = new Request(RequestType.QUERY_DATABASE, MenuStack.getInstance().getCookies().getLoginToken());
+        request.setQueryType(query);
+        request.setQueryParams(params);
+        connection.send(new Gson().toJson(request));
+        String responseJson = connection.listen();
+        System.out.println("databaseR: " + responseJson);
+        return responseJson;
     }
 }

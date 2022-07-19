@@ -17,8 +17,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
-import java.util.HashMap;
-
 public class UnitPanelView implements ViewController {
     int TILEGRID_WIDTH;
     int TILEGRID_HEIGHT;
@@ -172,7 +170,7 @@ public class UnitPanelView implements ViewController {
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
-        } else if (RequestHandler.getInstance().getParameters().containsKey("foundRuin")) {
+        } else if (RequestHandler.getInstance().getParameter("foundRuin") != null) {
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
        back();
@@ -250,11 +248,12 @@ public class UnitPanelView implements ViewController {
         } else {
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
-        HashMap<String, String> parameters = RequestHandler.getInstance().getParameters();
         // response = CommandResponse.INVALID_COMMAND;
         String message;
         if (response.equals(CommandResponse.OK)) {
-            message = parameters.get("enemyDamage") + " damage to enemy and " + parameters.get("unitDamage") + " damage to unit";
+            String enemyDamage = RequestHandler.getInstance().getParameter("enemyDamage");
+            String unitDamage = RequestHandler.getInstance().getParameter("unitDamage");
+            message = enemyDamage + " damage to enemy and " + unitDamage + " damage to unit";
         } else {
             message = response.toString();
             MenuStack.getInstance().showError(message);

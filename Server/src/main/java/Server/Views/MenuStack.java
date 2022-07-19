@@ -8,7 +8,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
-import Project.Utils.RequestType;
+import Project.Utils.DatabaseQueryType;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
 import Server.Models.Database;
@@ -132,7 +132,7 @@ public class MenuStack {
         this.responseParameters.put(key, value);
     }
 
-    public String databaseQuery(RequestType query, String[] params)  {
+    public String databaseQuery(DatabaseQueryType query, String[] params)  {
 
         Gson gson = new Gson();
         // todo: get civ token instead of current
@@ -173,6 +173,7 @@ public class MenuStack {
             case GET_RESEARCHING_TECHNOLOGY -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
             case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
             case GET_TILE_GRID -> gson.toJson(GameController.getGame().getCurrentCivilization().getRevealedTileGrid());
+            case GET_CIV_CAMERA_LOCATION -> gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         };
         }
     }

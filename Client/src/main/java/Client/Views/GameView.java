@@ -83,12 +83,8 @@ public class GameView implements ViewController {
     }
 
     private void setCameraOnCivSelectedLocation() {
-        String command = "api get camera";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
-        int cameraRow = Integer.parseInt(RequestHandler.getInstance().getParameter("camera_row"));
-        int cameraCol = Integer.parseInt(RequestHandler.getInstance().getParameter("camera_col"));
-//        System.out.println("Resp: " + cameraRow + ' ' + cameraCol);
-        this.setFocusOnLocation(new Location(cameraRow, cameraCol));
+        Location cameraLocation = DatabaseQuerier.getCivCameraLocation();
+        this.setFocusOnLocation(cameraLocation);
     }
 
     public void setFocusOnLocation(Location location) {
