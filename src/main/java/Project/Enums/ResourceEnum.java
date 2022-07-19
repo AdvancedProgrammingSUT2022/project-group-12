@@ -1,11 +1,9 @@
 package Project.Enums;
 
 import Project.Client.App;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Utils.CommandException;
+import Project.SharedUtils.CommandResponse;
 import javafx.scene.image.Image;
-
-import java.util.ArrayList;
 
 public enum ResourceEnum {
     RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),

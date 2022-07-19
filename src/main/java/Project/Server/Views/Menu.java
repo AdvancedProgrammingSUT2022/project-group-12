@@ -1,9 +1,9 @@
 package Project.Server.Views;
 
-import Project.Utils.Command;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.ResponseException;
+import Project.Server.Utils.Command;
+import Project.Server.Utils.CommandException;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.ResponseException;
 
 import java.util.Scanner;
 

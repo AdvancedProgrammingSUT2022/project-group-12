@@ -1,9 +1,9 @@
 package Project.Server.Views;
 
 import Project.Server.Controllers.ProfileMenuController;
-import Project.Utils.Command;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Utils.Command;
+import Project.Server.Utils.CommandException;
+import Project.SharedUtils.CommandResponse;
 
 import java.util.List;
 

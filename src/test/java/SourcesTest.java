@@ -1,12 +1,12 @@
 import Project.Enums.BuildingEnum;
 import Project.Enums.FeatureEnum;
-import Project.Models.Cities.City;
-import Project.Models.Game;
-import Project.Models.Terrains.Terrain;
-import Project.Models.User;
 import Project.Server.Controllers.GameController;
+import Project.Server.Models.Game;
 import Project.Server.Views.GameMenu;
 import Project.Server.Views.MenuStack;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.Terrains.Terrain;
+import Project.SharedModels.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

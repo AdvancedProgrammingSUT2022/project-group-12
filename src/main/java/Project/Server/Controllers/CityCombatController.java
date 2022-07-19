@@ -2,19 +2,19 @@ package Project.Server.Controllers;
 
 import Project.Enums.CityTypeEnum;
 import Project.Enums.CombatTypeEnum;
-import Project.Models.Cities.City;
-import Project.Models.Civilization;
-import Project.Models.Game;
-import Project.Models.Tiles.Tile;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.NonRangedUnit;
-import Project.Models.Units.RangedUnit;
-import Project.Models.Units.Unit;
+import Project.Server.Models.Civilization;
+import Project.Server.Models.Game;
+import Project.Server.Utils.CommandException;
 import Project.Server.Views.GameMenu;
 import Project.Server.Views.MenuStack;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Units.CombatUnit;
+import Project.SharedModels.Units.NonRangedUnit;
+import Project.SharedModels.Units.RangedUnit;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.Constants;
 
 import java.util.Random;
 

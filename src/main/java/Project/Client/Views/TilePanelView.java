@@ -1,9 +1,8 @@
 package Project.Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.FeatureEnum;
 import Project.Enums.ImprovementEnum;
-import Project.Models.Tiles.Tile;
+import Project.SharedModels.Tiles.Tile;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;

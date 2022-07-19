@@ -1,20 +1,20 @@
 package Project.Server.Controllers;
 
 import Project.Enums.*;
-import Project.Models.Buildings.Building;
-import Project.Models.Cities.City;
-import Project.Models.*;
-import Project.Models.Tiles.Tile;
-import Project.Models.Tiles.TileGrid;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.NonCombatUnit;
-import Project.Models.Units.Unit;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
+import Project.Server.Models.Civilization;
+import Project.Server.Models.Game;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Buildings.Building;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.*;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Tiles.TileGrid;
+import Project.SharedModels.Units.CombatUnit;
+import Project.SharedModels.Units.NonCombatUnit;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.Constants;
 
-import javax.crypto.CipherInputStream;
-import java.time.DateTimeException;
 import java.util.*;
 
 

@@ -1,8 +1,8 @@
 package Project.Server.Views;
 
-import Project.Utils.CommandResponse;
-import Project.Utils.DatabaseQueryType;
-import Project.Utils.ResponseException;
+import Project.Server.Utils.DatabaseQueryType;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.ResponseException;
 
 import java.util.HashMap;
 

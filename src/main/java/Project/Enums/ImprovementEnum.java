@@ -1,10 +1,10 @@
 package Project.Enums;
 
 import Project.Client.App;
-import Project.Models.Terrains.Terrain;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Terrains.Terrain;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.Constants;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;

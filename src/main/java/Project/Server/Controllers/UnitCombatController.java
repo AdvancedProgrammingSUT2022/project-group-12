@@ -3,12 +3,12 @@ package Project.Server.Controllers;
 import Project.Enums.CombatTypeEnum;
 import Project.Enums.UnitEnum;
 import Project.Enums.UnitStates;
-import Project.Models.Civilization;
-import Project.Models.Game;
-import Project.Models.Tiles.Tile;
-import Project.Models.Units.*;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Models.Civilization;
+import Project.Server.Models.Game;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Units.*;
+import Project.SharedUtils.CommandResponse;
 
 
 public class UnitCombatController extends CombatController {

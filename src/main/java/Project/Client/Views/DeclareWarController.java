@@ -2,8 +2,7 @@ package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
-import javafx.event.ActionEvent;
+import Project.SharedUtils.CommandResponse;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 

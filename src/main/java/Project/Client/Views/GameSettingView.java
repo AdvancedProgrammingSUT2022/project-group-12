@@ -1,7 +1,7 @@
 package Project.Client.Views;
 
-import Project.Models.Civilization;
-import Project.Models.SettingOptions;
+import Project.Client.Models.SettingOptions;
+import Project.Server.Models.Civilization;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

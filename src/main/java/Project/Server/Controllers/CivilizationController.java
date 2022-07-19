@@ -2,8 +2,8 @@ package Project.Server.Controllers;
 
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Civilization;
-import Project.Models.Units.Unit;
+import Project.Server.Models.Civilization;
+import Project.SharedModels.Units.Unit;
 
 import java.util.HashMap;
 import java.util.Map;

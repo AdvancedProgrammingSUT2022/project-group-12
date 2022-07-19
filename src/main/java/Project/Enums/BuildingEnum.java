@@ -1,11 +1,11 @@
 package Project.Enums;
 
 import Project.Client.App;
-import Project.Models.Buildings.Building;
-import Project.Models.Buildings.BuildingNotes;
-import Project.Models.Cities.City;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Buildings.Building;
+import Project.SharedModels.Buildings.BuildingNotes;
+import Project.SharedModels.Cities.City;
+import Project.SharedUtils.CommandResponse;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;

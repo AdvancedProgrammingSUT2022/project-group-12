@@ -1,8 +1,8 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Models.Chat;
-import Project.Models.User;
+import Project.SharedModels.Chat;
+import Project.SharedModels.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

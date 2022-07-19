@@ -3,17 +3,17 @@ package Project.Server.Controllers.ValidateGameMenuFuncs;
 import Project.Enums.FeatureEnum;
 import Project.Enums.ImprovementEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Civilization;
-import Project.Models.Location;
-import Project.Models.Tiles.Tile;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.NonCombatUnit;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.GameController;
 import Project.Server.Controllers.MovingController;
-import Project.Utils.Command;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Models.Civilization;
+import Project.Server.Utils.Command;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Location;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Units.CombatUnit;
+import Project.SharedModels.Units.NonCombatUnit;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
 
 import java.util.ArrayList;
 

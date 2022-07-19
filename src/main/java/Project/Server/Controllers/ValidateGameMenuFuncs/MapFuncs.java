@@ -1,10 +1,10 @@
 package Project.Server.Controllers.ValidateGameMenuFuncs;
 
-import Project.Models.Location;
-import Project.Models.Tiles.TileGrid;
 import Project.Server.Controllers.GameController;
 import Project.Server.Views.TileGridPrinter;
-import Project.Utils.Constants;
+import Project.SharedModels.Location;
+import Project.SharedModels.Tiles.TileGrid;
+import Project.SharedUtils.Constants;
 
 public class MapFuncs {
 

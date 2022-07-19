@@ -1,11 +1,11 @@
 package Project.Server.Controllers;
 
-import Project.Models.Database;
-import Project.Models.User;
+import Project.Server.Models.Database;
+import Project.Server.Utils.CommandException;
+import Project.Server.Utils.InputRegex;
 import Project.Server.Views.MenuStack;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.InputRegex;
+import Project.SharedModels.User;
+import Project.SharedUtils.CommandResponse;
 
 public class LoginMenuController {
     public static void createUser(String username, String nickname, String password) throws CommandException {

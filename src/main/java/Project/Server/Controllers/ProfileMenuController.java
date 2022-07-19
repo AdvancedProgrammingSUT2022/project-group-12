@@ -1,9 +1,9 @@
 package Project.Server.Controllers;
 
-import Project.Models.Database;
+import Project.Server.Models.Database;
+import Project.Server.Utils.CommandException;
 import Project.Server.Views.MenuStack;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.SharedUtils.CommandResponse;
 
 public class ProfileMenuController {
 

@@ -1,10 +1,10 @@
 package Project.Server.Controllers;
 
-import Project.Models.Database;
-import Project.Models.Game;
-import Project.Models.User;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Models.Database;
+import Project.Server.Models.Game;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.User;
+import Project.SharedUtils.CommandResponse;
 
 import java.util.ArrayList;
 

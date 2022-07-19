@@ -1,9 +1,9 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Models.*;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
+import Project.SharedModels.*;
+import Project.SharedUtils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

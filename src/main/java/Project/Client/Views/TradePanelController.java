@@ -2,9 +2,9 @@ package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Enums.ResourceEnum;
-import Project.Models.Resource;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
+import Project.SharedModels.Resource;
+import Project.SharedUtils.CommandResponse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

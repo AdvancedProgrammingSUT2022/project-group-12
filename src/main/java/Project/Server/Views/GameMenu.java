@@ -4,20 +4,20 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.ImprovementEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Cities.City;
-import Project.Models.Civilization;
-import Project.Models.Location;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.CheatCodeController;
 import Project.Server.Controllers.CombatController;
 import Project.Server.Controllers.GameController;
 import Project.Server.Controllers.UnitCombatController;
 import Project.Server.Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Project.Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
-import Project.Utils.Command;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.GameException;
+import Project.Server.Models.Civilization;
+import Project.Server.Utils.Command;
+import Project.Server.Utils.CommandException;
+import Project.Server.Utils.GameException;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.Location;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
 
 import java.util.List;
 

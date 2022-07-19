@@ -1,7 +1,7 @@
 package Project.Client.Views;
 
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
+import Project.SharedUtils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

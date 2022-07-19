@@ -1,10 +1,10 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Models.Location;
-import Project.Models.Resource;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
+import Project.SharedModels.Location;
+import Project.SharedModels.Resource;
+import Project.SharedUtils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;

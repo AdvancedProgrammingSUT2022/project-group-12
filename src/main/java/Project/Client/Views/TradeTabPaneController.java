@@ -3,7 +3,7 @@ package Project.Client.Views;
 import Project.Client.App;
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
+import Project.SharedUtils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;

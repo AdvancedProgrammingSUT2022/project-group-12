@@ -1,15 +1,15 @@
 package Project.Server.Controllers;
 
 import Project.Enums.UnitEnum;
-import Project.Models.Civilization;
-import Project.Models.Location;
-import Project.Models.Tiles.Tile;
-import Project.Models.Tiles.TileGrid;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.NonCombatUnit;
-import Project.Models.Units.Unit;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Models.Civilization;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Location;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Tiles.TileGrid;
+import Project.SharedModels.Units.CombatUnit;
+import Project.SharedModels.Units.NonCombatUnit;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
 import javafx.util.Pair;
 
 import java.util.*;

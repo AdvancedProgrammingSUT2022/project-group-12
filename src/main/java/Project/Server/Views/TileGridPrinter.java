@@ -1,9 +1,9 @@
 package Project.Server.Views;
 
 import Project.Enums.TerrainColor;
-import Project.Models.Location;
-import Project.Models.Tiles.Tile;
-import Project.Models.Tiles.TileGrid;
+import Project.SharedModels.Location;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Tiles.TileGrid;
 
 public class TileGridPrinter {
     private final TileGrid tileGrid;

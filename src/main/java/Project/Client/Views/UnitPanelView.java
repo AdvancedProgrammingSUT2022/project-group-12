@@ -1,10 +1,10 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Models.Tiles.Tile;
-import Project.Models.Units.Unit;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

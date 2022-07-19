@@ -1,11 +1,11 @@
 package Project.Server.Views;
 
-import Project.Models.Game;
 import Project.Server.Controllers.GameController;
 import Project.Server.Controllers.MainMenuController;
-import Project.Utils.Command;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
+import Project.Server.Models.Game;
+import Project.Server.Utils.Command;
+import Project.Server.Utils.CommandException;
+import Project.SharedUtils.CommandResponse;
 
 import java.util.ArrayList;
 

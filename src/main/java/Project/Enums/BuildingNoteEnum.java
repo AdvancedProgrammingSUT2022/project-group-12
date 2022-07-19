@@ -1,11 +1,11 @@
 package Project.Enums;
 
-import Project.Models.Buildings.Building;
-import Project.Models.Buildings.BuildingNotes;
-import Project.Models.Cities.City;
-import Project.Models.Production;
-import Project.Models.Tiles.Tile;
-import Project.Models.Units.Unit;
+import Project.SharedModels.Buildings.Building;
+import Project.SharedModels.Buildings.BuildingNotes;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.Production;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Units.Unit;
 
 public enum BuildingNoteEnum {
     BARRACK_NOTE((BuildingNotes<City>) city -> {

@@ -1,6 +1,6 @@
 package Project.Server;
 
-import Project.Models.Database;
+import Project.Server.Models.Database;
 import Project.Server.Views.MenuStack;
 
 import java.util.Scanner;

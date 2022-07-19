@@ -2,16 +2,16 @@ package Project.Server.Controllers;
 
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Buildings.Building;
-import Project.Models.Cities.City;
-import Project.Models.Civilization;
-import Project.Models.Location;
-import Project.Models.Tiles.Tile;
-import Project.Models.Units.Unit;
 import Project.Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
-import Project.Utils.CommandException;
-import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
+import Project.Server.Models.Civilization;
+import Project.Server.Utils.CommandException;
+import Project.SharedModels.Buildings.Building;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.Location;
+import Project.SharedModels.Tiles.Tile;
+import Project.SharedModels.Units.Unit;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.Constants;
 
 
 public class CheatCodeController {

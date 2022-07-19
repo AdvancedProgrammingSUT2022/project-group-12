@@ -1,10 +1,10 @@
 package Project.Client.Utils;
 
 import Project.Client.Views.MenuStack;
-import Project.Models.Cities.City;
-import Project.Models.Units.CombatUnit;
-import Project.Models.Units.Unit;
 import Project.Server.Views.RequestHandler;
+import Project.SharedModels.Cities.City;
+import Project.SharedModels.Units.CombatUnit;
+import Project.SharedModels.Units.Unit;
 
 public class SelectHandler {
     public static void sendSelectUnitRequest(Unit unit) {

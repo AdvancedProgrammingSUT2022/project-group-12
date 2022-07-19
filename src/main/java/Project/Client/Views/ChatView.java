@@ -1,6 +1,6 @@
 package Project.Client.Views;
 
-import Project.Models.Message;
+import Project.SharedModels.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;

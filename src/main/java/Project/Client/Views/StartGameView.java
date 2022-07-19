@@ -2,8 +2,8 @@ package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
 import Project.Server.Views.RequestHandler;
-import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
+import Project.SharedUtils.CommandResponse;
+import Project.SharedUtils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
