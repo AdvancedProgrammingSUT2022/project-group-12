@@ -5,6 +5,7 @@ import Client.App;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
 import Client.Utils.SelectHandler;
+import Client.Views.ImageLoader;
 import Client.Views.Menu;
 import Client.Views.MenuStack;
 import Project.Enums.*;
@@ -37,25 +38,9 @@ public class Hex implements TileObserver {
     private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
     private static final Image ruinImage = new Image(App.getResourcePath("/images/resources/City ruins.png"));
     private static final HashMap<UnitEnum, Group> unitGroups = new HashMap<>();
-    private static final HashMap<UnitEnum,Image> unitImages = new HashMap<>();
-    private static final HashMap<ResourceEnum,Image> resourceImages = new HashMap<>();
-    private static final HashMap<TerrainEnum,Image> terrainImages = new HashMap<>();
 
     static {
-        for (TerrainEnum te:
-             TerrainEnum.values()) {
-            if (!te.name().equals("UNKNOWN")) {
-                 terrainImages.put(te,new Image(App.class.getResource("/images/resources/" + te.name().toLowerCase() + ".png").toExternalForm()));
-            } else {
-                terrainImages.put(te , new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm()));
-            }
-        }
-        for (ResourceEnum re:
-             ResourceEnum.values()) {
-            resourceImages.put(re,new Image(App.class.getResource("/images/resources/" + re.name().toLowerCase() + ".png").toExternalForm()));
-        }
         for (UnitEnum unitEnum : UnitEnum.values()) {
-            unitImages.put(unitEnum,new Image(App.class.getResource("/images/units/Units/" + unitEnum.name().toLowerCase() + ".png").toExternalForm()));
             unitGroups.put(unitEnum, createUnitGroup(unitEnum));
         }
     }
@@ -224,7 +209,7 @@ public class Hex implements TileObserver {
     }
 
     public void updateHex(Tile tile) {
-        polygon.setFill(new ImagePattern(terrainImages.get(tile.getTerrain().getTerrainType())));
+        polygon.setFill(new ImagePattern(ImageLoader.getTerrainImages().get(tile.getTerrain().getTerrainType())));
         this.groupColorAdjust.setBrightness(tile.getState() == VisibilityEnum.VISIBLE ? 0 : -0.5);
         NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
         CombatUnit combatUnit = tile.getCombatUnit();
@@ -247,7 +232,7 @@ public class Hex implements TileObserver {
     }
 
     private void addResourceToGroup(ResourceEnum resource) {
-        this.resourceImageView.setImage(resourceImages.get(resource));
+        this.resourceImageView.setImage(ImageLoader.getResourceImages().get(resource));
         this.group.getChildren().add(this.resourceImageView);
     }
 

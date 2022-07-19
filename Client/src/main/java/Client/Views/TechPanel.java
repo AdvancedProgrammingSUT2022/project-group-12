@@ -30,13 +30,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class TechPanel implements ViewController {
-    static HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
-    static {
-        for (TechnologyEnum resourceEnum:
-                TechnologyEnum.values()) {
-            researchImages.put(resourceEnum,new Image(App.class.getResource("/images/technologies/" + resourceEnum.name().toLowerCase() + ".png").toExternalForm()));
-        }
-    }
+
     @FXML
     private VBox techsBox;
     @FXML
@@ -159,7 +153,7 @@ public class TechPanel implements ViewController {
 
 
     private ImageView getTechImageView(TechnologyEnum technologyEnum) {
-        ImageView imageView = new ImageView(researchImages.get(technologyEnum));
+        ImageView imageView = new ImageView(ImageLoader.getResearchImages().get(technologyEnum));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
         return imageView;
