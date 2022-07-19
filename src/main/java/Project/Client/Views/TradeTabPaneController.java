@@ -2,12 +2,8 @@ package Project.Client.Views;
 
 import Project.Client.App;
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Enums.ResourceEnum;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -85,7 +81,8 @@ public class TradeTabPaneController implements ViewController {
     }
 
     private void initializeSpinnerValueFactory() {
-        SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, GameController.getGame().getCivByName(selectedCivName).calculateCivilizationGold());
+        int goldOfCiv = DatabaseQuerier.getGoldCivilizationByName(selectedCivName);
+        SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, goldOfCiv);
         rivalCivGoldSpinner.setValueFactory(spinnerValueFactory);
         rivalCivGoldSpinner.valueProperty().addListener((observableValue, o, t1) -> {
             System.out.println("request = " + request);

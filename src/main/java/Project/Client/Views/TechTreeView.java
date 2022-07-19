@@ -39,7 +39,7 @@ public class TechTreeView implements ViewController {
 
     @FXML
     public void initialize() {
-//        hasCity = GameCont.getGame().getCurrentCivilization().getCities().size() != 0;
+//        hasCity = GCRemoved.getGame().getCurrentCivilization().getCities().size() != 0;
         this.names = new TreeMap<>();
         this.selectedBox = null;
         this.techBoxes = new TreeMap<>();

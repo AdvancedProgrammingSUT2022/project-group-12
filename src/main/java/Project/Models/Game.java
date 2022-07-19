@@ -34,12 +34,12 @@ public class Game {
         this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.tileGrid.setAllStatesTo(VisibilityEnum.VISIBLE);
         ArrayList<Tile> availableTiles = new ArrayList<>();
-        for (Tile tile : this.tileGrid.getFlatCopyOfTiles()) {
+        for (Tile tile : this.tileGrid.getTilesFlatten()) {
             if (tile.getTerrain().getTerrainType().isReachable()) {
                 availableTiles.add(tile);
             }
-            tile.initializeNotifier();
-            tile.addObserver(this.clientHandler);
+//            tile.initializeNotifier();
+//            tile.addObserver(this.clientHandler);
         }
         Collections.shuffle(availableTiles);
 
@@ -48,6 +48,11 @@ public class Game {
             TerrainColor color = colors.get(index % colors.size());
             Civilization civ = new Civilization(users.get(index), color);
             civilizations.add(civ);
+
+            for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
+                tile.initializeNotifier();
+                tile.addObserver(this.clientHandler);
+            }
 
             // for easier testing
             Tile settlerTile;

@@ -32,10 +32,9 @@ public abstract class Unit extends Production {
         this.unitType = type;
         this.civName = civ.getName();
         this.pathShouldCross = new ArrayList<>();
-        this.resetMovementCount();
+//        this.resetMovementCount();
         this.location = location;
         state = UnitStates.AWAKE;
-        civName = civ.getName();
     }
 
     // todoLater: integrate unit newing with Civ class
@@ -61,7 +60,7 @@ public abstract class Unit extends Production {
     }
 
     public void resetMovementCount() {
-        this.availableMoveCount = unitType.getMovement();
+        this.setAvailableMoveCount(unitType.getMovement());
     }
 
     public int calculateDamage(double strengthDiff) {
@@ -74,7 +73,7 @@ public abstract class Unit extends Production {
 
     @ServerMethod
     public Tile getTile() {
-        return this.getCivilization().getRevealedTileGrid().getTile(this.location);
+        return GameController.getGameTile(this.location);
     }
 
     public int getHealth() {
@@ -83,6 +82,7 @@ public abstract class Unit extends Production {
 
     public void setHealth(int health) {
         this.health = health;
+        this.getTile().notifyObservers();
     }
 
     public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh, Unit enemyUnit) {
@@ -108,6 +108,7 @@ public abstract class Unit extends Production {
 
     public void setUnitType(UnitEnum unitType) {
         this.unitType = unitType;
+        this.getTile().notifyObservers();
     }
 
     public ArrayList<Tile> getPathShouldCross() {
@@ -128,10 +129,11 @@ public abstract class Unit extends Production {
 
     public void setAvailableMoveCount(double availableMoveCount) {
         this.availableMoveCount = availableMoveCount;
+        this.getTile().notifyObservers();
     }
 
     public void decreaseAvailableMoveCount(double value) {
-        this.availableMoveCount -= value;
+        this.setAvailableMoveCount(this.getAvailableMoveCount() - value);
     }
 
     public Location getLocation() {
@@ -140,6 +142,7 @@ public abstract class Unit extends Production {
 
     public void setLocation(Location location) {
         this.location = location;
+//        this.getTile().notifyObservers(); not required
     }
 
     public UnitStates getState() {
@@ -148,6 +151,7 @@ public abstract class Unit extends Production {
 
     public void setState(UnitStates state) {
         this.state = state;
+        this.getTile().notifyObservers();
     }
 
     @ServerMethod
@@ -157,6 +161,7 @@ public abstract class Unit extends Production {
 
     public void setCiv(Civilization civ) {
         this.civName = civ.getName();
+        this.getTile().notifyObservers();
     }
 
     @Override
@@ -165,7 +170,7 @@ public abstract class Unit extends Production {
     }
 
     public void decreaseHealth(int value) {
-        this.health -= value;
+        this.setHealth(this.getHealth() - value);
     }
 
     public String getInfo() {

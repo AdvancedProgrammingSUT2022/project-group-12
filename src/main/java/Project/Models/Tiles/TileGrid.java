@@ -173,7 +173,7 @@ public class TileGrid {
         }
     }
 
-    public ArrayList<Tile> getFlatCopyOfTiles() {
+    public ArrayList<Tile> getTilesFlatten() {
         ArrayList<Tile> tiles = new ArrayList<>();
         for (int i = 0; i < this.getHeight(); ++i) {
             for (int j = 0; j < this.getWidth(); ++j) {

@@ -111,7 +111,7 @@ public class TradePanelController implements ViewController {
             ownResourceToggleBtn.setSelected(false);
             VBox vBox = new VBox(new Label("Gold Amount")); vBox.setAlignment(Pos.CENTER);
             vBox.setSpacing(20);
-            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, DatabaseQuerier.getCurrentGoldCivilization());
+            SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, DatabaseQuerier.getGoldOfCurrentCiv());
             ownGoldSpinner.setValueFactory(spinnerValueFactory);
             ownGoldSpinner.valueProperty().addListener((observableValue, integer, t1) -> suggest = String.valueOf(ownGoldSpinner.getValue()));
             vBox.getChildren().add(ownGoldSpinner);

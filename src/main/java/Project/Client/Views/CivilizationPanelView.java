@@ -1,10 +1,8 @@
 package Project.Client.Views;
 
 import Project.Client.Utils.DatabaseQuerier;
-import Project.Models.Civilization;
 import Project.Models.Location;
 import Project.Models.Resource;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
@@ -18,8 +16,6 @@ public class CivilizationPanelView implements ViewController {
 
     @FXML
     private MenuButton resourcesMenuButton;
-    @FXML
-    private MenuButton democracyMenu;
     @FXML
     private MenuButton warMenu;
     @FXML
@@ -40,7 +36,6 @@ public class CivilizationPanelView implements ViewController {
     private Text civName;
 
     public void initialize() {
-        initDemocracyMenu();
         initTilesMenu();
         initWarMenu();
         initUnitMenu();
@@ -89,17 +84,6 @@ public class CivilizationPanelView implements ViewController {
         for (String otherCivilizationsName : DatabaseQuerier.getCurrentCivInWarWith()) {
             MenuItem item = new MenuItem(otherCivilizationsName);
             warMenu.getItems().add(item);
-        }
-    }
-
-    private void initDemocracyMenu() {
-        Civilization civilization = GameController.getGame().getCurrentCivilization();
-        //logic hasn't implemented
-        String command = "info democracy";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
-        for (Civilization otherCivilizations : civilization.getIsInEconomicRelation()) {
-            MenuItem item = new MenuItem(otherCivilizations.getName());
-            democracyMenu.getItems().add(item);
         }
     }
 

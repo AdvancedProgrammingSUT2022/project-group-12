@@ -7,7 +7,6 @@ import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.HexGrid;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
-import Project.Server.Controllers.GameController;
 import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
@@ -97,7 +96,7 @@ public class GameView implements ViewController {
     }
 
     public void reloadTileGridFromServer() {
-        TileGrid newTileGrid = GameController.getGame().getCurrentCivilization().getRevealedTileGrid();
+        TileGrid newTileGrid = DatabaseQuerier.getTileGrid();
         for (int i = 0; i < newTileGrid.getHeight(); i++) {
             for (int j = 0; j < newTileGrid.getWidth(); j++) {
                 this.tileGrid.getTile(i, j).copyPropertiesFrom(newTileGrid.getTile(i, j));

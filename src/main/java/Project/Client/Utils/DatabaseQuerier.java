@@ -116,12 +116,6 @@ public class DatabaseQuerier {
         }.getType());
     }
 
-    public static int getCurrentGoldCivilization() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
-        return new Gson().fromJson(json, new TypeToken<Integer>() {
-        }.getType());
-    }
-
     public static List<String> getNeighborsCivsName() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_NEIGHBORS_CURRENTCIV_NAMES);
         return new Gson().fromJson(json, new TypeToken<List<String>>() {

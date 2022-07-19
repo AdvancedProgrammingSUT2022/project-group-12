@@ -7,7 +7,7 @@ import Project.Utils.TileObserver;
 public class ClientHandler implements TileObserver {
     @Override
     public void getNotified(Tile tile) {
-//        System.out.println("sending " + tile.getLocation() + " to client");
+//        System.err.println("sending " + tile.getLocation() + " to client");
         GameView.updateTile(tile.getLocation(), tile);
     }
 }
