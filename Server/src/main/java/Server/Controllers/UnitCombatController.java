@@ -1,9 +1,11 @@
 package Server.Controllers;
 
-import Project.Enums.CombatTypeEnum;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
+import Project.Models.Cities.Enums.CombatTypeEnum;
+import Project.Models.Cities.Enums.UnitEnum;
+import Project.Models.Cities.Enums.UnitStates;
 import Project.Models.Tiles.Tile;
+import Project.Models.Units.*;
+import Project.Models.Units.NonRangedUnit;
 import Project.Utils.CommandResponse;
 import Server.Models.Civilization;
 import Server.Models.Game;
@@ -68,7 +70,7 @@ public class UnitCombatController extends CombatController {
              non combat unit has captured
              */
             capturedUnit.setUnitType(UnitEnum.WORKER);
-            capturedUnit.setCiv(civ);
+            capturedUnit.setCiv(civ.getName());
         } else {
             /*
              * nonCombat has killed

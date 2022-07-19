@@ -1,17 +1,17 @@
 package Project.Models.Units;
 
-import Project.Enums.CombatTypeEnum;
-import Project.Enums.FeatureEnum;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
+import Project.Models.Cities.Enums.CombatTypeEnum;
+import Project.Models.Cities.Enums.FeatureEnum;
+import Project.Models.Cities.Enums.UnitEnum;
+import Project.Models.Cities.Enums.UnitStates;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
+
 import Project.Utils.Constants;
 import Project.Utils.ServerMethod;
+import Server.Controllers.GameController;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,10 +27,10 @@ public abstract class Unit extends Production {
     protected String civName;
     protected transient ArrayList<Tile> pathShouldCross; // can be calculated online if needed
 
-    public Unit(UnitEnum type, Civilization civ, Location location) {
+    public Unit(UnitEnum type, String civName, Location location) {
         super(type.getProductionCost());
         this.unitType = type;
-        this.civName = civ.getName();
+        this.civName = civName;
         this.pathShouldCross = new ArrayList<>();
 //        this.resetMovementCount();
         this.location = location;
@@ -38,7 +38,7 @@ public abstract class Unit extends Production {
     }
 
     // todoLater: integrate unit newing with Civ class
-    public static Unit constructUnitFromEnum(UnitEnum unitEnum, Civilization civ, Location location) {
+    public static Unit constructUnitFromEnum(UnitEnum unitEnum, String civ, Location location) {
         if (unitEnum.isACombatUnit()) {
             if (unitEnum.isRangedUnit()) {
                 return new RangedUnit(unitEnum, civ, location);
@@ -159,8 +159,8 @@ public abstract class Unit extends Production {
         return GameController.getGame().getCivByName(this.civName);
     }
 
-    public void setCiv(Civilization civ) {
-        this.civName = civ.getName();
+    public void setCiv(String civName) {
+        this.civName = civName;
         this.getTile().notifyObservers();
     }
 

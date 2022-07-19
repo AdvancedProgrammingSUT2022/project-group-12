@@ -2,7 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
-import Project.Enums.ResourceEnum;
+import Project.Models.Cities.Enums.ResourceEnum;
 import Project.Models.Resource;
 import Project.Utils.CommandResponse;
 import javafx.beans.value.ChangeListener;

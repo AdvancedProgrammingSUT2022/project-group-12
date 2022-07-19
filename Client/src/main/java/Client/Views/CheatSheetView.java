@@ -2,8 +2,8 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
-import Project.Enums.BuildingEnum;
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.BuildingEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Utils.CommandResponse;

@@ -1,7 +1,7 @@
 package Server.Controllers;
 
-import Project.Enums.CityTypeEnum;
-import Project.Enums.CombatTypeEnum;
+import Project.Models.Cities.Enums.CityTypeEnum;
+import Project.Models.Cities.Enums.CombatTypeEnum;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
@@ -69,7 +69,7 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
-                return captureTheCity(unit.getCivilization(), unit, city, cityTile, city.getCivilization());
+                return captureTheCity(unit.getCivilization(), unit, city, cityTile, GameController.game.getCivByName(city.getCivilization()));
             }
         }
         return "both are damaged !!";
@@ -104,7 +104,7 @@ public class CityCombatController extends CombatController {
     }
 
     private static void destroyCity(City city, Tile cityTile, Civilization civ) {
-        city.setCivilization(civ);
+        city.setCivilization(civ.getName());
         Random random = new Random();
         city.getBuildings().removeAll(city.getBuildings());
         for (Tile tile :
@@ -119,7 +119,7 @@ public class CityCombatController extends CombatController {
     }
 
     private static void makeCityAnnexed(City city, Tile cityTile, Civilization civ) {
-        city.setCivilization(civ);
+        city.setCivilization(civ.getName());
         Random random = new Random();
         int length = city.getBuildings().size();
         for (int i = length - 1; i >= 0; i--) {

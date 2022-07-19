@@ -1,7 +1,7 @@
 package Project.Models.Tiles;
 
-import Project.Enums.TerrainEnum;
-import Project.Enums.VisibilityEnum;
+import Project.Models.Cities.Enums.TerrainEnum;
+import Project.Models.Cities.Enums.VisibilityEnum;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
 import Project.Server.Utils.CommandException;

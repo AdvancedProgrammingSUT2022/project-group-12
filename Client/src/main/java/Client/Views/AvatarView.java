@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.App;
-import Project.Enums.AvatarURLEnum;
+import Project.Models.Cities.Enums.AvatarURLEnum;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

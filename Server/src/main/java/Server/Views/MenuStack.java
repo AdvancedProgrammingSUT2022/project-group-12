@@ -1,8 +1,8 @@
 package Server.Views;
 
 import Project.Client.Views.WinCityDialog;
-import Project.Enums.BuildingEnum;
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.BuildingEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;

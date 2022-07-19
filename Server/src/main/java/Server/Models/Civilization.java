@@ -2,8 +2,11 @@ package Server.Models;
 
 
 import Project.Enums.*;
+import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.*;
+import Project.Models.Cities.Enums.*;
+import Project.Models.Notifications.*;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
@@ -12,6 +15,7 @@ import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.CivilizationController;
 import Server.Controllers.GameController;
+import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 
 import java.util.ArrayList;
@@ -257,7 +261,14 @@ public class Civilization {
             city.setProductionFromCheat(0);
             city.setProductionFromBuildings(0);
             city.setCombatStrengthFromBuildings(0);
-            city.applyBuildingNotes();
+            applyCityBuildingNotes(city);
+        }
+    }
+
+    private void applyCityBuildingNotes(City city) {
+        for (BuildingEnum bu:
+                city.getBuildings().stream().map(Building::getType).toList()) {
+            BuildingNotesLoader.getBuildingNotes().get(bu).note(city);
         }
     }
 

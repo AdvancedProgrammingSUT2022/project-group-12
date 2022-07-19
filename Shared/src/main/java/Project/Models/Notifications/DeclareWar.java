@@ -1,14 +1,14 @@
-package Project.Models;
+package Project.Models.Notifications;
 
 import Project.Server.Controllers.GameController;
 import Project.Server.Models.Civilization;
 
-public class Peace extends Notification{
+public class DeclareWar extends Notification{
     String hostName;
     String guestName;
     String type;
 
-    public Peace(String civName, String guestName, String name){
+    public DeclareWar(String civName, String guestName, String name){
         this.hostName = civName;
         this.guestName = guestName;
         super.message = createMessage();
@@ -17,22 +17,18 @@ public class Peace extends Notification{
     }
 
     private String createMessage() {
-        return hostName + " want to make peace with you";
+        return hostName + " declared war to you";
     }
-
-
-    public void peace(){
+    public void declareWar(){
         Civilization hostCiv = GameController.getGame().getCivByName(hostName);
         Civilization guestCiv = GameController.getGame().getCivByName(guestName);
-        hostCiv.peace(guestCiv);
-        guestCiv.peace(hostCiv);
+        hostCiv.declareWar(guestCiv);
+        guestCiv.declareWar(hostCiv);
     }
-
-    public void rejectPeace(){
-        Civilization hostCiv = GameController.getGame().getCivByName(hostName);
-        Civilization guestCiv = GameController.getGame().getCivByName(guestName);
-    }
-
+   public void seenDeclareWar(){
+       Civilization hostCiv = GameController.getGame().getCivByName(hostName);
+       Civilization guestCiv = GameController.getGame().getCivByName(guestName);
+   }
 
 
 }

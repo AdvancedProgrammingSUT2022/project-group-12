@@ -1,7 +1,4 @@
-package Project.Enums;
-
-import Project.Client.App;
-import javafx.scene.image.Image;
+package Project.Models.Cities.Enums;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +62,6 @@ public enum UnitEnum {
     private final double movement;
     private final ResourceEnum requiredResource;
     private final TechnologyEnum requiredTech;
-    private final Image assetImage;
 
     UnitEnum(int productionCost, CombatTypeEnum combatType, int combatStrength, int rangedCombatStrength, int range, double movement, ResourceEnum requiredResource, TechnologyEnum requiredTech) {
         this.productionCost = productionCost;
@@ -78,10 +74,6 @@ public enum UnitEnum {
         this.requiredTech = requiredTech;
 //        System.out.println("printing in unit enum: " + this.name().toLowerCase());
 //        System.out.println(App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png"));
-        if (App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png") != null)
-            this.assetImage = new Image(App.class.getResource("/images/units/Units/" + this.name().toLowerCase() + ".png").toExternalForm());
-        else
-            this.assetImage = new Image(App.class.getResource("/images/units/Units/impi.png").toExternalForm());
     }
     public static UnitEnum getUnitEnumByName(String name){
         for (UnitEnum un:
@@ -180,9 +172,6 @@ public enum UnitEnum {
         else return 0;
     }
 
-    public Image getAssetImage() {
-        return assetImage;
-    }
     // todo: what if target of archer is on hill?
     // todo: reveal bug
 }

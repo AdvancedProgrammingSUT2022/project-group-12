@@ -1,13 +1,12 @@
 package Project.Models.Units;
 
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Location;
-import Project.Server.Models.Civilization;
 
 public class NonRangedUnit extends CombatUnit {
 
      String type;
-    public NonRangedUnit(UnitEnum type, Civilization civ, Location location) {
+    public NonRangedUnit(UnitEnum type, String civ, Location location) {
         super(type, civ, location);
         this.type = this.getClass().getName();
     }

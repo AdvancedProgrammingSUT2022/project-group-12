@@ -1,15 +1,14 @@
 package Project.Models.Units;
 
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Location;
-import Project.Server.Models.Civilization;
 
 public abstract class CombatUnit extends Unit {
     protected int combatStrength;
     protected boolean isSetup;
     protected boolean hasAttack;
 
-    public CombatUnit(UnitEnum type, Civilization civilization, Location location) {
+    public CombatUnit(UnitEnum type, String civilization, Location location) {
         super(type, civilization, location);
         isSetup = false;
         hasAttack = false;

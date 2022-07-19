@@ -1,7 +1,8 @@
 package Server.Models;
 
-import Project.Client.Views.GameView;
+import Client.Views.GameView;
 import Project.Models.Cities.City;
+import Project.Models.Cities.Enums.*;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -71,8 +72,8 @@ public class Game {
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
 
-            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ, settlerTile.getLocation());
-            CombatUnit warrior = new NonRangedUnit(UnitEnum.WARRIOR, civ, settlerTile.getLocation());
+            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ.getName(), settlerTile.getLocation());
+            CombatUnit warrior = new NonRangedUnit(UnitEnum.WARRIOR, civ.getName(), settlerTile.getLocation());
 
             try {
                 settlerTile.placeUnit(settler);

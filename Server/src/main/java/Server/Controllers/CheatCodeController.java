@@ -1,7 +1,7 @@
 package Server.Controllers;
 
-import Project.Enums.TechnologyEnum;
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.TechnologyEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -11,6 +11,7 @@ import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Server.Models.Civilization;
+import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 
 
@@ -89,6 +90,6 @@ public class CheatCodeController {
 
     public void addBuilding(Building building, City city) {
         city.getBuildings().add(building);
-        building.note(city);
+        BuildingNotesLoader.getBuildingNotes().get(building.getType()).note(city);
     }
 }

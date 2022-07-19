@@ -1,6 +1,6 @@
 package Project.Models;
 
-import Project.Enums.AvatarURLEnum;
+import Project.Models.Cities.Enums.AvatarURLEnum;
 import javafx.scene.text.Text;
 
 import java.util.Date;

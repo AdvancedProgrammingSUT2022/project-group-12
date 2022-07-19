@@ -1,4 +1,4 @@
-open module project {
+module Shared {
     requires javafx.fxml;
     requires javafx.base;
     requires javafx.graphics;

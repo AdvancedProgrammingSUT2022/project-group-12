@@ -1,7 +1,4 @@
-package Project.Enums;
-
-import Project.Utils.CommandResponse;
-import javafx.scene.image.Image;
+package Project.Models.Cities.Enums;
 
 public enum ResourceEnum {
     RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),

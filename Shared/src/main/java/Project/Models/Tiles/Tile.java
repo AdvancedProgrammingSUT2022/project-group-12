@@ -1,17 +1,17 @@
 package Project.Models.Tiles;
 
-import Project.Enums.*;
 import Project.Models.Cities.City;
+import Project.Models.Cities.Enums.*;
 import Project.Models.Citizen;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
-import Project.Server.Utils.CommandException;
 import Project.Utils.*;
+import Server.Controllers.GameController;
+import Server.Models.Civilization;
+import Server.Utils.CommandException;
 
 import java.util.ArrayList;
 import java.util.List;

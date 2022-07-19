@@ -1,9 +1,9 @@
 package Server.Views;
 
-import Project.Enums.BuildingEnum;
-import Project.Enums.ImprovementEnum;
-import Project.Enums.TechnologyEnum;
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.BuildingEnum;
+import Project.Models.Cities.Enums.ImprovementEnum;
+import Project.Models.Cities.Enums.TechnologyEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Units.Unit;

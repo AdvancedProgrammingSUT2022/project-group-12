@@ -1,6 +1,4 @@
-package Project.Enums;
-
-import javafx.scene.image.Image;
+package Project.Models.Cities.Enums;
 
 import java.util.ArrayList;
 

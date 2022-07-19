@@ -1,7 +1,7 @@
 package Client.Views;
 
-import Project.Enums.FeatureEnum;
-import Project.Enums.ImprovementEnum;
+import Project.Models.Cities.Enums.FeatureEnum;
+import Project.Models.Cities.Enums.ImprovementEnum;
 import Project.Models.Tiles.Tile;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;

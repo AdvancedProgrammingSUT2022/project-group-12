@@ -1,12 +1,13 @@
 package Server.Controllers;
 
-import Project.Enums.ImprovementEnum;
-import Project.Enums.TechnologyEnum;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.*;
+import Project.Models.Cities.Enums.*;
+import Project.Models.Notifications.DeclareWar;
+import Project.Models.Notifications.Demand;
+import Project.Models.Notifications.Peace;
+import Project.Models.Notifications.Trade;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
@@ -17,7 +18,6 @@ import Project.Utils.Constants;
 import Server.Models.Civilization;
 import Server.Models.Game;
 import Server.Utils.CommandException;
-
 import java.util.*;
 
 
@@ -93,7 +93,7 @@ public class GameController {
 
     public static boolean isAnEnemyCityAt(Location location, Civilization civilization) {
         City enemyCity = GameController.getGameTile(location).getCity();
-        return (enemyCity != null && enemyCity.getCivilization() != civilization);
+        return (enemyCity != null && GameController.game.getCivByName(enemyCity.getCivilization()) != civilization);
     }
 
     public static void wakeUpUnit(Unit unit) throws CommandException {
@@ -119,7 +119,7 @@ public class GameController {
         boolean isCapital = civ.getCapital() == null;
         ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
         String cityName = Constants.CITY_NAMES[new Random().nextInt(Constants.CITY_NAMES.length)];
-        City city = new City(cityName, territoryTiles, civ, tile, isCapital);
+        City city = new City(cityName, territoryTiles, civ.getName(), tile, isCapital);
         for (Tile neighbor : territoryTiles) neighbor.setCivilization(civ);
         tile.setCity(city);
         civ.addCity(city);
@@ -365,7 +365,7 @@ public class GameController {
     }
 
     public static void cityBuyTile(City city, Location location) throws CommandException {
-        if (city.getCivilization().calculateCivilizationGold() < Constants.TILE_COST) {
+        if (GameController.getGame().getCivByName(city.getCivilization()).calculateCivilizationGold() < Constants.TILE_COST) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         TileGrid tileGrid = GameController.getGame().getTileGrid();
@@ -379,13 +379,13 @@ public class GameController {
             }
         }
         if (!isNeighbor) throw new CommandException(CommandResponse.NOT_ADJACENT_TO_CITY_TERRITORY);
-        city.getCivilization().addGold(-Constants.TILE_COST);
+        GameController.getGame().getCivByName((city.getCivilization())).addGold(-Constants.TILE_COST);
         city.addTile(tile);
         tile.setCity(city);
     }
 
     public static void cityBuildBuilding(City selectedCity, BuildingEnum building) throws CommandException {
-        Civilization civ = selectedCity.getCivilization();
+        Civilization civ = GameController.getGame().getCivByName(selectedCity.getCivilization());
         if (civ.calculateCivilizationGold() < building.getCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
@@ -400,25 +400,25 @@ public class GameController {
 
 
     public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
-        Civilization civ = city.getCivilization();
+        Civilization civ = GameController.getGame().getCivByName((city.getCivilization()));
         if (civ.calculateCivilizationGold() < unitEnum.calculateGoldCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         civ.addGold(-unitEnum.calculateGoldCost());
         Tile tile = city.getTile();
-        Unit unit = Unit.constructUnitFromEnum(unitEnum, civ, city.getLocation());
+        Unit unit = Unit.constructUnitFromEnum(unitEnum, civ.getName(), city.getLocation());
         civ.addUnit(unit);
         tile.placeUnit(unit);
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
-        if (!city.getCivilization().getTechnologies().contains(unitEnum.getRequiredTech())) {
+        if (!GameController.getGame().getCivByName(city.getCivilization()).getTechnologies().contains(unitEnum.getRequiredTech())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
-        if (!city.getCivilization().containsResource(unitEnum.getRequiredResource())) {
+        if (!GameController.getGame().getCivByName((city.getCivilization())).containsResource(unitEnum.getRequiredResource())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_RESOURCE);
         }
-        Unit unit = Unit.constructUnitFromEnum(unitEnum, city.getCivilization(), city.getLocation());
+        Unit unit = Unit.constructUnitFromEnum(unitEnum,city.getCivilization(), city.getLocation());
         unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);
     }
@@ -428,7 +428,7 @@ public class GameController {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }
         City city = GameController.getGameTile(location).getCity();
-        if (city == null || city.getCivilization() != civ) {
+        if (city == null || GameController.getGame().getCivByName(city.getCivilization()) != civ) {
             throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
         }
         return city;
@@ -450,7 +450,8 @@ public class GameController {
 
 
     public static boolean isEnemyCityExists(Location nextLocation, Civilization civilization) {
-        return GameController.getGameTile(nextLocation).getCity() != null && GameController.getGameTile(nextLocation).getCity().getCivilization() != civilization;
+
+        return GameController.getGameTile(nextLocation).getCity() != null &&  GameController.getGame().getCivByName(GameController.getGameTile(nextLocation).getCity().getCivilization()) != civilization;
     }
 
 

@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Project.Enums.TechnologyEnum;
+import Project.Models.Cities.Enums.TechnologyEnum;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;

@@ -1,9 +1,7 @@
-package Project.Enums;
+package Project.Models.Cities.Enums;
 
 import Project.Models.Terrains.Terrain;
-import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 

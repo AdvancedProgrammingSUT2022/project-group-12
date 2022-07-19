@@ -1,4 +1,4 @@
-package Project.Enums;
+package Project.Models.Cities.Enums;
 
 public enum UnitStates {
     SLEEP,

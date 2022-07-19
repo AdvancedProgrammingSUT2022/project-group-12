@@ -1,6 +1,6 @@
 package Server.Views;
 
-import Project.Enums.TerrainColor;
+import Project.Models.Cities.Enums.TerrainColor;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;

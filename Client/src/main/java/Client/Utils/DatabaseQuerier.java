@@ -1,11 +1,11 @@
 package Client.Utils;
 
-import Project.Enums.BuildingEnum;
-import Project.Enums.TechnologyEnum;
-import Project.Enums.UnitEnum;
+import Project.Models.Cities.Enums.BuildingEnum;
+import Project.Models.Cities.Enums.TechnologyEnum;
+import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Models.Notification;
+import Project.Models.Notifications.Notification;
 import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;

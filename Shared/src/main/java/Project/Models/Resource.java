@@ -1,6 +1,6 @@
 package Project.Models;
 
-import Project.Enums.ResourceEnum;
+import Project.Models.Cities.Enums.ResourceEnum;
 
 public class Resource {
     ResourceEnum resourceEnum;

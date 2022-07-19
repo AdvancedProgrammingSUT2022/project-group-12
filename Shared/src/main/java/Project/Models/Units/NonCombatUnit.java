@@ -1,19 +1,18 @@
 package Project.Models.Units;
 
-import Project.Enums.ImprovementEnum;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
+import Project.Models.Cities.Enums.ImprovementEnum;
+import Project.Models.Cities.Enums.UnitEnum;
+import Project.Models.Cities.Enums.UnitStates;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
-import Project.Server.Models.Civilization;
 
 public class NonCombatUnit extends Unit {
     private ImprovementEnum currentBuildingImprovement = null;
     private int remainingTime;
     String type;
 
-    public NonCombatUnit(UnitEnum type, Civilization civilization, Location location) {
-        super(type, civilization, location);
+    public NonCombatUnit(UnitEnum type, String civilizationName, Location location) {
+        super(type, civilizationName, location);
         this.type = this.getClass().getName();
     }
 

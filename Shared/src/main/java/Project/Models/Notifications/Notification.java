@@ -1,4 +1,4 @@
-package Project.Models;
+package Project.Models.Notifications;
 
 public abstract class  Notification {
 

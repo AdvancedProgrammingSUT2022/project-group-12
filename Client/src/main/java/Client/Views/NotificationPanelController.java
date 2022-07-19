@@ -2,7 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
-import Project.Models.*;
+import Project.Models.Notifications.*;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

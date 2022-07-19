@@ -1,18 +1,17 @@
 package Project.Models.Cities;
 
-import Project.Enums.*;
 import Project.Models.Buildings.Building;
+import Project.Models.Cities.Enums.*;
 import Project.Models.Citizen;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
-import Project.Server.Controllers.CheatCodeController;
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
-import Project.Server.Utils.CommandException;
+import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.ServerMethod;
+import Server.Controllers.GameController;
+import Server.Utils.CommandException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +49,7 @@ public class City {
     private int remainedFoodForCitizen;
     private String civName;
 
-    public City(String name, ArrayList<Tile> tiles, Civilization civ, Tile tile, boolean isCapital) {
+    public City(String name, ArrayList<Tile> tiles, String civName, Tile tile, boolean isCapital) {
         this.tilesLocations = new ArrayList<>(tiles.stream().map(Tile::getLocation).toList());
         if (!this.tilesLocations.contains(tile.getLocation())) this.tilesLocations.add(tile.getLocation());
         this.gold = 100;
@@ -62,7 +61,7 @@ public class City {
         this.food = 1;
         this.localHappiness = 10;
         this.buildings = new ArrayList<>();
-        this.civName = civ.getName();
+        this.civName = civName;
         this.range = 2;
         this.location = tile.getLocation();
         this.name = name;
@@ -121,12 +120,7 @@ public class City {
         return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
     }
 
-    public void applyBuildingNotes() {
-        for (Building building : this.buildings) {
-            building.getNote().note(this);
-            this.setGoldFromBuildings(this.getGoldFromBuildings() - building.getType().getMaintenance());
-        }
-    }
+
 
     public void finishProducts() throws CommandException {
         if (productionQueue.isEmpty()) {
@@ -138,11 +132,21 @@ public class City {
             advanceProductionQueue();
             if (productionQueue.size() < size) {
                 if (product instanceof Unit) {
-                    CheatCodeController.getInstance().spawnUnit(((Unit) product).getUnitType(), this.getCivilization(), getLocation());
+                    this.spawnUnit(((Unit) product).getUnitType(), civName, getLocation());
                 }
                 size = productionQueue.size();
             }
         }
+    }
+    public void spawnUnit(UnitEnum unitEnum, String civName, Location location) throws CommandException {
+        Tile tile = GameController.getGameTile(location);
+        if (!tile.getTerrain().getTerrainType().isReachable()) {
+            throw new CommandException(CommandResponse.CANNOT_SPAWN_ON_TILE, tile.getTerrain().getTerrainType().name());
+        }
+        Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civName, location);
+        //todo : how we can add unit to civilization ?
+        // civilization.addUnit(newUnit);
+        tile.placeUnit(newUnit);
     }
 
     public void advanceProductionQueue() {
@@ -153,7 +157,8 @@ public class City {
             if (production instanceof Building) {
                 this.buildings.add((Building) production);
             } else if (production instanceof Unit unit) {
-                this.getCivilization().addUnit(unit);
+                //todo : how we can add unit to civilization ?
+                // this.getCivilization().addUnit(unit);
                 try {
                     this.getTile().placeUnit(unit);
                 } catch (CommandException e) {
@@ -199,6 +204,7 @@ public class City {
         this.production += getSourcesFromTiles("production");
         this.production += getProductionFromCheat();
         this.production += getFromResource("production");
+        //todo : how we can be aware of happiness type of civilization ?
         if (this.getCivilization().getHappinessType() == HappinessTypeEnum.HAPPY) {
             return production;
         } else {
@@ -263,7 +269,7 @@ public class City {
         ArrayList<ResourceEnum> resources = new ArrayList<>(List.of(ResourceEnum.RESET));
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
-            // todoLater: getResource instead
+            // todoLater: getResource instead todo : how we can ?????????
             if (tile.isResourceAchievedBy(resource, this.getCivilization())) {
                 resources.add(resource);
             }
@@ -289,6 +295,7 @@ public class City {
     }
 
     private double checkForHappinessState() {
+        //todo : how we can be aware of happiness type of civilization ?
         this.getCivilization().updateHappinessState(this.getCivilization().calculateHappiness());
         if (this.getCivilization().getHappinessType() != HappinessTypeEnum.HAPPY) {
             return 2.0 / 3;
@@ -535,12 +542,13 @@ public class City {
     }
 
     @ServerMethod
-    public Civilization getCivilization() {
-        return GameController.getGame().getCivByName(this.civName);
+    //todo : how we can do that ??
+    public String getCivilization() {
+        return this.civName;
     }
 
-    public void setCivilization(Civilization civ) {
-        this.civName = civ.getName();
+    public void setCivilization(String civName) {
+        this.civName = civName;
     }
 
     public Location getLocation() {
