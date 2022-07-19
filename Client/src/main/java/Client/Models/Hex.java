@@ -37,9 +37,21 @@ public class Hex implements TileObserver {
     private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
     private static final Image ruinImage = new Image(App.getResourcePath("/images/resources/City ruins.png"));
     private static final HashMap<UnitEnum, Group> unitGroups = new HashMap<>();
+    private static final HashMap<UnitEnum,Image> unitImages = new HashMap<>();
+    private static final HashMap<ResourceEnum,Image> resourceImages = new HashMap<>();
+    private static final HashMap<TerrainEnum,Image> terrainImages = new HashMap<>();
 
     static {
+        for (TerrainEnum te:
+             TerrainEnum.values()) {
+            terrainImages.put(te,new Image(App.class.getResource()));
+        }
+        for (ResourceEnum re:
+             ResourceEnum.values()) {
+            resourceImages.put(re,new Image(App.class.getResource("/images/resources/" + re.name().toLowerCase() + ".png").toExternalForm()));
+        }
         for (UnitEnum unitEnum : UnitEnum.values()) {
+            unitImages.put(unitEnum,new Image(App.class.getResource("/images/units/Units/" + unitEnum.name().toLowerCase() + ".png").toExternalForm()));
             unitGroups.put(unitEnum, createUnitGroup(unitEnum));
         }
     }
@@ -231,7 +243,7 @@ public class Hex implements TileObserver {
     }
 
     private void addResourceToGroup(ResourceEnum resource) {
-        this.resourceImageView.setImage(resource.getImage());
+        this.resourceImageView.setImage(resourceImages.get(resource));
         this.group.getChildren().add(this.resourceImageView);
     }
 

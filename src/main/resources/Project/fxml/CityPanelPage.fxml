@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.CityPanelView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.CityPanelView">
 
     <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="378.0" prefWidth="583.0" spacing="5.0">
 
@@ -54,7 +59,7 @@
             <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building" />
 
         </HBox>
-      <HBox fx:id="requirements" visible="false" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+      <HBox fx:id="requirements" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" />
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
 
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
@@ -88,14 +93,19 @@
            <Spinner fx:id="assignCitizenXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" />
            <Spinner fx:id="assignCitizenYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="y" />
         </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
+        <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="60.0">
 
             <MenuButton fx:id="productionMenu" mnemonicParsing="false" text="Production Menu">
                 <items>
 
                 </items>
             </MenuButton>
-            <Button mnemonicParsing="false" onAction="#speedUp" text="Speed Up" />
+         <HBox prefHeight="24.0" prefWidth="306.0" style="-fx-spacing: 20;">
+            <children>
+                  <Button fx:id="addQueueProduction" mnemonicParsing="false" onAction="#speedUp" text="Add to Queue" />
+               <Button fx:id="removeFromQueueProduction" mnemonicParsing="false" text="Remove From Queue" />
+            </children>
+         </HBox>
 
         </HBox>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="507.0" prefWidth="583.0" spacing="100.0">

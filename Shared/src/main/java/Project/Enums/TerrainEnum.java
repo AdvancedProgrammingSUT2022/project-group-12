@@ -1,7 +1,5 @@
 package Project.Enums;
 
-import Project.Client.App;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 
@@ -95,8 +93,6 @@ public enum TerrainEnum {
 
     private final String abbreviation;
     private final String assetUrl;
-    private final Image terrainImage;
-    private final String terrainImageURL;
 
     TerrainEnum(String abbreviation, TerrainColor color, int foodCount, int productsCount, int goldCount, int combatModifier, int movementCost, boolean canPass, boolean blocksView, ArrayList<FeatureEnum> possibleTerrainFeatures, ArrayList<ResourceEnum> possibleResources, String assetUrl) {
         this.foodCount = foodCount;
@@ -112,23 +108,10 @@ public enum TerrainEnum {
         this.possibleTerrainFeatures = possibleTerrainFeatures;
         this.assetUrl = assetUrl;
 //        System.out.println("/images/assets/resources/" + this.name());
-        if (!this.name().equals("UNKNOWN")) {
-            this.terrainImageURL = App.class.getResource("/images/resources/" + this.name().toLowerCase() + ".png").toExternalForm();
-            this.terrainImage = new Image(App.class.getResource("/images/resources/" + this.name().toLowerCase() + ".png").toExternalForm());
-        } else {
-            this.terrainImage = new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm());
-            this.terrainImageURL = App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm();
-        }
+
 //        System.out.println("/images/assets/resources/" + this.name());
     }
 
-    public String getTerrainImageURL() {
-        return terrainImageURL;
-    }
-
-    public Image getTerrainImage() {
-        return terrainImage;
-    }
 
     public TerrainColor getColor() {
         return color;

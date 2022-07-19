@@ -1,7 +1,10 @@
 package Client.Views;
 
+import Client.App;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
+import Project.Enums.BuildingEnum;
+import Project.Enums.ResourceEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -13,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -21,9 +25,18 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class TechPanel implements ViewController {
+    static HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
+    static {
+        for (TechnologyEnum resourceEnum:
+                TechnologyEnum.values()) {
+            researchImages.put(resourceEnum,new Image(App.class.getResource("/images/technologies/" + resourceEnum.name().toLowerCase() + ".png").toExternalForm()));
+        }
+    }
     @FXML
     private VBox techsBox;
     @FXML
@@ -146,7 +159,7 @@ public class TechPanel implements ViewController {
 
 
     private ImageView getTechImageView(TechnologyEnum technologyEnum) {
-        ImageView imageView = new ImageView(technologyEnum.getImage());
+        ImageView imageView = new ImageView(researchImages.get(technologyEnum));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
         return imageView;

@@ -1,10 +1,8 @@
 package Project.Enums;
 
-import Project.Client.App;
 import Project.Models.Buildings.Building;
 import Project.Models.Buildings.BuildingNotes;
 import Project.Models.Cities.City;
-import Project.Server.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import javafx.scene.image.Image;
 
@@ -55,7 +53,6 @@ public enum BuildingEnum {
     private final List<BuildingEnum> requiredBuildings;
     private final BuildingNotes note;
     private final boolean isCombatBuilding;
-    private final Image buildingImage;
 
     BuildingEnum(int cost, int maintenance, List<TechnologyEnum> requiredTechs, List<BuildingEnum> requiredBuildings, BuildingNotes buildingNotes, boolean isCombatBuilding) {
         this.cost = cost;
@@ -64,24 +61,19 @@ public enum BuildingEnum {
         this.requiredBuildings = requiredBuildings;
         this.note = buildingNotes;
         this.isCombatBuilding = isCombatBuilding;
-        this.buildingImage = new Image(App.class.getResource("/images/CivsBuildings/" + this.name().toLowerCase() + ".png").toExternalForm());
     }
 
-    public static Building getBuildingEnumByName(String name) throws CommandException {
+    public static Building getBuildingEnumByName(String name) {
         for (BuildingEnum buildingEnum :
                 BuildingEnum.values()) {
-
             if (buildingEnum.toString().equals(name)) {
                 Building building = new Building(buildingEnum);
                 return building;
             }
         }
-        throw new CommandException(CommandResponse.NO_BUILDING_WITH_THIS_NAME);
+        return null;
     }
 
-    public Image getImage() {
-        return buildingImage;
-    }
 
     public int getCost() {
         return this.cost;

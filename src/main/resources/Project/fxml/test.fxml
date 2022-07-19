@@ -7,18 +7,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.shape.Rectangle?>
+<?import Project.Client.Bean?>
+<?import Project.Models.Tiles.Hex?>
+<?import Project.Client.SomePane?>
 <AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/styles.css"
-            fx:controller="Project.Enums.testController"
-            prefHeight="400.0" prefWidth="600.0">
-        <Pane prefHeight="400" prefWidth="600" >
-            <Pane>
-                <Button fx:id="btn" mnemonicParsing="false" onAction="#btnAction" text="Button" BorderPane.alignment="CENTER"/>
-              <Rectangle height="100" width="200" fill="black">
-
-              </Rectangle>
-            </Pane>
-        </Pane>
+          xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/styles.css"
+          prefHeight="400.0" prefWidth="600.0">
 
 
 </AnchorPane>

@@ -1,8 +1,6 @@
 package Project.Enums;
 
-import Project.Client.App;
 import Project.Models.Terrains.Terrain;
-import Project.Server.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.scene.image.Image;
@@ -125,18 +123,13 @@ public enum ImprovementEnum {
     private final ArrayList<TechnologyEnum> requiredTechs;
     private final ArrayList<TerrainEnum> canBeBuiltOn;
     private final ArrayList<FeatureEnum> features;
-    private final Image improvementImage;
 
     ImprovementEnum(ArrayList<TechnologyEnum> requiredTechs, ArrayList<TerrainEnum> canBeBuiltOn, ArrayList<FeatureEnum> features) {
         this.requiredTechs = requiredTechs;
         this.canBeBuiltOn = canBeBuiltOn;
         this.features = features;
-        this.improvementImage = this.name().equals("RESET") ? null : new Image(App.class.getResource("/images/improvements/" + this.name().toLowerCase() + ".png").toExternalForm());
     }
 
-    public Image getImage() {
-        return improvementImage;
-    }
 
     public ArrayList<TechnologyEnum> getRequiredTechs() {
         return requiredTechs;
@@ -149,14 +142,14 @@ public enum ImprovementEnum {
     public int getImprovementBuildRequiredTime(Terrain terrain) {
         return Constants.TIME_NEED_TO_BUILD_IMPROVEMENT;
     }
-    public synchronized static ImprovementEnum getImprovementEnumByName (String name) throws CommandException {
+    public synchronized static ImprovementEnum getImprovementEnumByName (String name) {
         for (ImprovementEnum improvementEnum:
              ImprovementEnum.values()) {
             if(improvementEnum.name().toLowerCase().equals(name.toLowerCase())){
                 return improvementEnum;
             }
         }
-        throw  new CommandException(CommandResponse.INVALID_NAME);
+        return null;
     }
 
 }

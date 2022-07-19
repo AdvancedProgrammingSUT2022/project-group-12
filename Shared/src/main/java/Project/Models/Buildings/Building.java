@@ -8,6 +8,7 @@ import Project.Models.Production;
 import java.util.List;
 
 public class Building extends Production {
+
     private final int cost;
     private final int maintenance;
     private final List<TechnologyEnum> requiredTechs;

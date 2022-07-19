@@ -1,7 +1,5 @@
 package Project.Enums;
 
-import Project.Client.App;
-import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,24 +58,17 @@ public enum TechnologyEnum {
 
     private final int cost;
     private final ArrayList<TechnologyEnum> prerequisiteTechs;
-    private final Image image;
 
     TechnologyEnum(int cost, ArrayList<TechnologyEnum> prerequisiteTechs) {
         this.cost = cost;
         this.prerequisiteTechs = prerequisiteTechs;
         String name = "/images/technologies/" + this.name().toLowerCase() + ".png";
-        if (!this.name().equals("RESET"))
-            this.image = new Image(App.class.getResource(name).toExternalForm());
-        else this.image = null;
     }
 
     public ArrayList<TechnologyEnum> getPrerequisiteTechs() {
         return prerequisiteTechs;
     }
 
-    public Image getImage() {
-        return this.image;
-    }
 
     public int getCost() {
         return this.cost;

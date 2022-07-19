@@ -8,8 +8,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 
 public enum BuildingNoteEnum {
-    BARRACK_NOTE((BuildingNotes<City>) city -> {
-    }),
+    BARRACK_NOTE((BuildingNotes<City>) city -> {}),
     GRANARY_NOTE((BuildingNotes<City>) city -> city.setFoodFromBuildings(city.getFoodFromBuildings() + 2)),
     LIBRARY_NOTE((BuildingNotes<City>) city -> city.getCivilization().setBeakerFromBuildings(city.getCitizensCount() / 2 + city.getCivilization().getBeakerFromBuildings())),
     MONUMENT_NOTE((BuildingNotes<City>) city -> {

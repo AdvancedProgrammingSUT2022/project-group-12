@@ -1,7 +1,5 @@
 package Project.Enums;
 
-import Project.Client.App;
-import Project.Server.Utils.CommandException;
 import Project.Utils.CommandResponse;
 import javafx.scene.image.Image;
 
@@ -51,7 +49,6 @@ public enum ResourceEnum {
     private final int goldCount;
     private final ImprovementEnum improvementNeeded;
     private final String abbreviation;
-    private final Image resourceImage;
 
     ResourceEnum(String abbreviation, ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ImprovementEnum improvementNeeded) {
         this.type = type;
@@ -62,18 +59,12 @@ public enum ResourceEnum {
         this.abbreviation = abbreviation;
 
 //        System.out.println("/images/assets/resources/" + this.name().toLowerCase() + ".png");
-        if(this.name() != "RESET")
-        this.resourceImage = new Image(App.class.getResource("/images/resources/" +  this.name().toLowerCase() + ".png").toExternalForm());
-        else this.resourceImage = null;
 //        System.out.println("/images/assets/resources/" + this.name());
     }
 
 
 
 
-    public Image getImage() {
-        return resourceImage;
-    }
 
     public ResourceTypeEnum getType() {
         return type;
@@ -98,13 +89,13 @@ public enum ResourceEnum {
     public String getAbbreviation() {
         return this.abbreviation;
     }
-    public static ResourceEnum getResourceEnumByName(String resourceName) throws CommandException {
+    public static ResourceEnum getResourceEnumByName(String resourceName) {
         for (ResourceEnum re:
              ResourceEnum.values()) {
             if(re.name().toLowerCase().equals(resourceName.toLowerCase())){
                 return  re;
             }
         }
-        throw new CommandException(CommandResponse.NO_RESOURCE_WITH_THIS_NAME);
+        return null;
     }
 }
