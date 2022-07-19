@@ -173,6 +173,7 @@ public class GameMenu extends Menu {
                command.abbreviate("civilization",'c');
                command.abbreviate("name",'n');
                GameController.declareWar(GameController.getGame().getCurrentCivilization().getName(),command.getOption("civilization"),command.getOption("name"));
+               answer("war declares to " + command.getOption("civilization") + " successfully");
            } catch (CommandException e) {
                throw new RuntimeException(e);
            }

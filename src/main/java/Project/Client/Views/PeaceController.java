@@ -18,7 +18,7 @@ public class PeaceController implements ViewController{
     }
     private void initializeRivalCivMenuButton() {
         for (String civName :
-                DatabaseQuerier.getCurrentCivInPeaceWith()) {
+                DatabaseQuerier.getCurrentCivInWarWith()) {
             MenuItem menuItem = new MenuItem(civName);
             System.out.println("civ.getName() = " + civName);
             rivalCivsMenuButton.getItems().add(menuItem);
