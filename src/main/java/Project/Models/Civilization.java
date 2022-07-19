@@ -665,4 +665,28 @@ public class Civilization {
             inWarWith.remove(guestCiv);
         }
     }
+
+    public DeclareWar getDeclareWarByName(String declareWarName) {
+        for (Notification notif:
+                this.notifications) {
+            if(notif instanceof DeclareWar declareWar){
+                if(declareWar.getName().equals(declareWarName)){
+                    return declareWar;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Peace getPeaceByName(String peaceName) {
+        for (Notification notif:
+                this.notifications) {
+            if(notif instanceof Peace peace){
+                if(peace.getName().equals(peaceName)){
+                    return peace;
+                }
+            }
+        }
+        return null;
+    }
 }

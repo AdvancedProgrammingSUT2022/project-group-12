@@ -28,6 +28,8 @@ public class TradeTabPaneController implements ViewController {
     public MenuButton civilzationMenus;
     public Tab demandPanel;
     public Tab tradePanel;
+    public Tab declarePeace;
+    public Tab declareWar;
     String selectedCivName;
 
     MenuButton resourceMenu = new MenuButton();
@@ -37,7 +39,11 @@ public class TradeTabPaneController implements ViewController {
     public void initialize() throws IOException {
         tradePanel.setClosable(false);
         demandPanel.setClosable(false);
+        declareWar.setClosable(false);
+        declarePeace.setClosable(false);
         tradePanel.setContent(new FXMLLoader(App.class.getResource("/Project/fxml/TradeMenu.fxml")).load());
+        declarePeace.setContent(new FXMLLoader(App.class.getResource("/Project/fxml/Peace.fxml")).load());
+        declareWar.setContent(new FXMLLoader(App.class.getResource("/Project/fxml/DeclareWar.fxml")).load());
         initializeDemandPanel();
     }
 

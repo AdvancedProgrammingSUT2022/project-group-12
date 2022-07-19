@@ -67,6 +67,12 @@
             </BorderPane>
          </content>
     </Tab>
+     <Tab fx:id="declareWar" text="Declare war panel">
+
+     </Tab>
+     <Tab fx:id="declarePeace" text="Declare Peace panel">
+
+     </Tab>
   </tabs>
 </TabPane>
     </Pane>

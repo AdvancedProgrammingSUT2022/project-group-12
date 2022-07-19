@@ -14,6 +14,7 @@ import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 
 import javax.crypto.CipherInputStream;
+import java.time.DateTimeException;
 import java.util.*;
 
 
@@ -497,5 +498,31 @@ public class GameController {
     public static void rejectDemand(String demandName) {
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
         currentCiv.getDemandByName(demandName).rejectDemand();
+    }
+
+    public static void declareWar(String currentCivName, String guestCivName,String name) {
+        DeclareWar declareWar = new DeclareWar(currentCivName,guestCivName,name);
+        declareWar.declareWar();
+        GameController.getGame().getCivByName(guestCivName).addNotification(declareWar);
+    }
+
+    public static void seenDeclareWar(Civilization currentCivilization, String name) {
+        currentCivilization.getDeclareWarByName(name).seenDeclareWar();
+    }
+    public static void createPeace(String currentCivName, String guestCivName,String name) {
+        Peace peace = new Peace(currentCivName,guestCivName,name);
+        GameController.getGame().getCivByName(guestCivName).addNotification(peace);
+    }
+    public static void acceptPeace(String demandName) {
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        Peace peace = currentCiv.getPeaceByName(demandName);
+        peace.peace();
+        currentCiv.removeNotification(peace);
+    }
+    public static void rejectPeace(String demandName) {
+        Civilization currentCiv = GameController.getGame().getCurrentCivilization();
+        Peace peace = currentCiv.getPeaceByName(demandName);
+        peace.rejectPeace();
+        currentCiv.removeNotification(peace);
     }
 }

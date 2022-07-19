@@ -97,6 +97,7 @@ public class GameMenu extends Menu {
             case "trade" -> this.trade(command);
             case "demand" -> this.demand(command);
             case "declare" -> this.declareWar(command);
+            case "peace" -> this.peace(command);
             case "select" -> this.select(command);
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
@@ -109,9 +110,72 @@ public class GameMenu extends Menu {
         }
     }
 
+    private void peace(Command command) {
+        switch (command.getSubCategory()){
+            case "create" -> createPeace(command);
+            case "accept" -> acceptPeace(command);
+            case "reject" -> rejectPeace(command);
+        }
+    }
+
+    private void rejectPeace(Command command) {
+        try {
+            command.abbreviate("name",'n');
+            GameController.rejectPeace(command.getOption("name"));
+            answer("peace rejected successfully");
+        }
+        catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void acceptPeace(Command command) {
+        try {
+            command.abbreviate("name",'n');
+            GameController.acceptPeace(command.getOption("name"));
+            answer("peace accepted successfully");
+        }
+        catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void createPeace(Command command) {
+        try {
+            command.abbreviate("civName",'c');
+            command.abbreviate("name",'n');
+            GameController.createPeace(GameController.getGame().getCurrentCivilization().getName(),command.getOption("civName"),command.getOption("name"));
+            answer("peace created successfully");
+        }
+        catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void declareWar(Command command) {
+        switch (command.getSubSubCategory()){
+            case "create" -> createDeclareWar(command);
+            case "seen" -> seenDeclareWar(command);
+        }
+    }
 
+    private void seenDeclareWar(Command command) {
+        try {
+            command.abbreviate("name",'n');
+            GameController.seenDeclareWar(GameController.getGame().getCurrentCivilization(),command.getOption("name"));
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void createDeclareWar(Command command) {
+           try {
+               command.abbreviate("civilization",'c');
+               command.abbreviate("name",'n');
+               GameController.declareWar(GameController.getGame().getCurrentCivilization().getName(),command.getOption("civilization"),command.getOption("name"));
+           } catch (CommandException e) {
+               throw new RuntimeException(e);
+           }
     }
 
     private void demand(Command command) {

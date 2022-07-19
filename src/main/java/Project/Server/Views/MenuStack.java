@@ -157,7 +157,8 @@ public class MenuStack {
             case GET_CURRENTCIV_FOOD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationFood());
             case GET_CURRENTCIV_GOLD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationGold());
             case GET_CURRENTCIV_SCIENCE ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateScience());
-            case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(GameController.getGame().getCurrentCivilization()::isInWarWith).map(Civilization::getName).collect(Collectors.toList()));
+            case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(GameController.getGame().getCurrentCivilization()::isInWarWith).map(Civilization::getName).filter(name -> !(name.equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
+            case GET_CURRENTCIV_INPEACEWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter( c -> !(GameController.getGame().getCurrentCivilization().isInWarWith(c))).map(Civilization::getName).filter(name -> !(name.equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
             case GET_NEIGHBORS_CURRENTCIV_NAMES -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(GameController.getGame().getCurrentCivilization().getName()))).map(Civilization::getName).collect(Collectors.toList()));
             case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
             case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
