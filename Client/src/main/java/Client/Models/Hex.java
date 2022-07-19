@@ -44,7 +44,11 @@ public class Hex implements TileObserver {
     static {
         for (TerrainEnum te:
              TerrainEnum.values()) {
-            terrainImages.put(te,new Image(App.class.getResource()));
+            if (!te.name().equals("UNKNOWN")) {
+                 terrainImages.put(te,new Image(App.class.getResource("/images/resources/" + te.name().toLowerCase() + ".png").toExternalForm()));
+            } else {
+                terrainImages.put(te , new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm()));
+            }
         }
         for (ResourceEnum re:
              ResourceEnum.values()) {
@@ -220,7 +224,7 @@ public class Hex implements TileObserver {
     }
 
     public void updateHex(Tile tile) {
-        polygon.setFill(new ImagePattern(tile.getTerrain().getTerrainType().getTerrainImage()));
+        polygon.setFill(new ImagePattern(terrainImages.get(tile.getTerrain().getTerrainType())));
         this.groupColorAdjust.setBrightness(tile.getState() == VisibilityEnum.VISIBLE ? 0 : -0.5);
         NonCombatUnit nonCombatUnit = tile.getNonCombatUnit();
         CombatUnit combatUnit = tile.getCombatUnit();
