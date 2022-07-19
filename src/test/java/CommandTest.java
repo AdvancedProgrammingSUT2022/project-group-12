@@ -1,13 +1,11 @@
 import Project.Server.Utils.Command;
 import Project.Server.Utils.CommandException;
-import Project.SharedUtils.CommandResponse;
+import Project.Utils.CommandResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import java.util.List;
-
-import static Project.SharedUtils.CommandResponse.*;
 
 public class CommandTest {
 

@@ -12,11 +12,13 @@ open module project {
 //    exports Project.Views;
 //    opens Project.Client.Views to javafx.fxml;
 //    opens Project.Models to com.google.gson;
-    exports Project.Client;
-    exports Project.Server;
-    exports Project.Client.Utils;
-    exports Project.Server.Utils;
-    exports Project.Client.Models;
+
+//    exports Project.Client;
+//    exports Server;
+//    exports Project.Client.Utils;
+//    exports Server.Utils;
+//    exports Project.Client.Models;
+
 //    exports Project.Models;
 //    opens Project.Models;
 //    opens Project.Enums;
