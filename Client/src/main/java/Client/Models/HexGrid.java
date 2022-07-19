@@ -1,4 +1,4 @@
-package Project.Models.Tiles;
+package Client.Models;
 
 import Project.Models.Location;
 

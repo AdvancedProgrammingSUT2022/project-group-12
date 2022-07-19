@@ -1,9 +1,6 @@
 package Project.Models.Tiles;
 
-import Project.Enums.FeatureEnum;
-import Project.Enums.ImprovementEnum;
-import Project.Enums.ResourceEnum;
-import Project.Enums.VisibilityEnum;
+import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Location;
@@ -282,9 +279,9 @@ public class Tile implements Notifier {
         return null;
     }
 
-    ResourceEnum getVisibleResource(Civilization civ) {
+    public ResourceEnum getVisibleResource(ArrayList<TechnologyEnum> technologies) {
         ResourceEnum resource = this.getTerrain().getResource();
-        if (resource == null || !civ.getTechnologies().containsAll(resource.getImprovementNeeded().getRequiredTechs())) return null;
+        if (resource == null || !technologies.containsAll(resource.getImprovementNeeded().getRequiredTechs())) return null;
         else return resource;
     }
 

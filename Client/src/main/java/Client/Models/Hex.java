@@ -1,21 +1,19 @@
-package Project.Models.Tiles;
+package Client.Models;
 
 
-import Project.Client.App;
-import Project.Client.Utils.SelectHandler;
-import Project.Client.Views.Menu;
-import Project.Client.Views.MenuStack;
-import Project.Enums.ResourceEnum;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
-import Project.Enums.VisibilityEnum;
+import Client.App;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
+import Client.Utils.SelectHandler;
+import Client.Views.Menu;
+import Client.Views.MenuStack;
+import Project.Enums.*;
 import Project.Models.Cities.City;
 import Project.Models.Location;
+import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
-import Project.Server.Controllers.GameController;
-import Project.Server.Views.RequestHandler;
 import Project.Utils.Constants;
 import Project.Utils.TileObserver;
 import javafx.scene.Cursor;
@@ -31,6 +29,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Hex implements TileObserver {
@@ -217,7 +216,8 @@ public class Hex implements TileObserver {
 
         this.group.getChildren().clear();
         this.group.getChildren().add(this.polygon);
-        ResourceEnum resource = tile.getVisibleResource(GameController.getGame().getCurrentCivilization());
+        ArrayList<TechnologyEnum> technologies = DatabaseQuerier.getTechnologies();
+        ResourceEnum resource = tile.getVisibleResource(technologies);
         if (resource != null) this.addResourceToGroup(resource);
         if (tile.getCity() != null) this.addCityToGroup(city);
         if (nonCombatUnit != null) this.addUnitToGroup(nonCombatUnit);

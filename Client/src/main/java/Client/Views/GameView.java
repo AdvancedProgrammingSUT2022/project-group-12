@@ -1,11 +1,11 @@
 package Client.Views;
 
 import Client.App;
+import Client.Models.Hex;
+import Client.Models.HexGrid;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
 import Project.Models.Location;
-import Project.Models.Tiles.Hex;
-import Project.Models.Tiles.HexGrid;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
