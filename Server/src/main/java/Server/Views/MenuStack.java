@@ -8,7 +8,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
-import Project.Utils.DatabaseQueryType;
+import Project.Utils.RequestType;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
 import Server.Models.Database;
@@ -132,7 +132,7 @@ public class MenuStack {
         this.responseParameters.put(key, value);
     }
 
-    public String databaseQuery(DatabaseQueryType query, String[] params)  {
+    public String databaseQuery(RequestType query, String[] params)  {
 
         Gson gson = new Gson();
         // todo: get civ token instead of current

@@ -1,6 +1,6 @@
 package Project.Utils;
 
-public enum DatabaseQueryType {
+public enum RequestType {
     GET_ALL_USERNAMES,/*("SELECT username FROM users")*/
     GET_USER_BY_USERNAME,
     GET_ALL_USERS,
@@ -30,4 +30,5 @@ public enum DatabaseQueryType {
     GET_TECHNOLOGIES,
     GET_RESEARCHING_TECHNOLOGIES,
     GET_RESEARCHING_TECHNOLOGY, GET_CURRENTCIV_NAME, GET_TILE_GRID,
+    RUN_SERVERVIEW_COMMAND,
 }
