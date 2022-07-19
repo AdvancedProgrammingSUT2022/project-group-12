@@ -15,7 +15,7 @@ public class Cookies {
     private final SettingOptions settingOptions = new SettingOptions();
 
     public String getLoginToken() {
-        return loginToken;
+        return "???";
     }
 
     public void setLoginToken(String loginToken) {

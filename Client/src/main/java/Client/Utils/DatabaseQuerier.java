@@ -239,6 +239,12 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
         }.getType());
     }
+
+    public static Location getCivCameraLocation() {
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_CAMERA_LOCATION);
+        return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
+        }.getType());
+    }
 }
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override
