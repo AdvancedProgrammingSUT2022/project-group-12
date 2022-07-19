@@ -1,8 +1,8 @@
 package Client.Views;
 
 import Client.App;
-import Project.Client.Utils.DatabaseQuerier;
-import Project.Server.Views.RequestHandler;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -44,8 +44,7 @@ public class TradeTabPaneController implements ViewController {
     }
 
     private void initializeDemandPanel() {
-        for (String civNames :
-                DatabaseQuerier.getNeighborsCivsName()) {
+        for (String civNames : DatabaseQuerier.getNeighborsCivsName()) {
             MenuItem menuItem = new MenuItem(civNames);
             menuItem.setOnAction(e -> {
                 System.out.println("hello");

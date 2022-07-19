@@ -1,7 +1,6 @@
 package Client.Views;
 
 import Client.Models.SettingOptions;
-import Project.Server.Models.Civilization;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,7 +11,6 @@ public class GameSettingView implements ViewController {
     private Button muteBtn;
     @FXML
     private Button autosaveBtn;
-    private Civilization civilization;
 
     public void initialize() {
         SettingOptions settingOptions = MenuStack.getInstance().getCookies().getSettingOptions();

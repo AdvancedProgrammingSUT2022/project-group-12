@@ -1,6 +1,6 @@
 package Client.Views;
 
-import Project.Server.Views.RequestHandler;
+import Client.Utils.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;

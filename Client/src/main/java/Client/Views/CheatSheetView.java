@@ -1,11 +1,11 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;

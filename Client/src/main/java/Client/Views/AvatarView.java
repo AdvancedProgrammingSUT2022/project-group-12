@@ -35,7 +35,7 @@ public class AvatarView implements ViewController {
     }
 
     public static Image getAvatarImage(AvatarURLEnum avatarURL) {
-        new Image(App.getResourcePath("/images/avatars/" + avatarURL.getUrl()));
+        return new Image(App.getResourcePath("/images/avatars/" + avatarURL.getUrl()));
     }
 
     private ImageView returnImages(int i) {

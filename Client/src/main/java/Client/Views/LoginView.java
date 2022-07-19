@@ -1,7 +1,7 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
-import Project.Server.Views.RequestHandler;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

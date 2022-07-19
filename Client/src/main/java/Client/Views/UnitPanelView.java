@@ -1,9 +1,9 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
-import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,6 +1,6 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
 import Project.Enums.TechnologyEnum;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

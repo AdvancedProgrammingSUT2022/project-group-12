@@ -1,17 +1,16 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Production;
-import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Menu;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;

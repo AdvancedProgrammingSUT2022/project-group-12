@@ -8,10 +8,10 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
+import Project.Utils.DatabaseQueryType;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
 import Server.Models.Database;
-import Server.Utils.DatabaseQueryType;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

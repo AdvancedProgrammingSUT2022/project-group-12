@@ -1,4 +1,4 @@
-package Server.Utils;
+package Project.Utils;
 
 public enum DatabaseQueryType {
     GET_ALL_USERNAMES,/*("SELECT username FROM users")*/

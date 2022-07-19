@@ -1,9 +1,9 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Enums.ResourceEnum;
 import Project.Models.Resource;
-import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

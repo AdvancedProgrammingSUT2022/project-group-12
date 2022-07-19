@@ -4,7 +4,6 @@ import Client.Views.MenuStack;
 import Project.Models.Cities.City;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
-import Project.Server.Views.RequestHandler;
 
 public class SelectHandler {
     public static void sendSelectUnitRequest(Unit unit) {

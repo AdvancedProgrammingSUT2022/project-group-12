@@ -1,17 +1,19 @@
 package Client.Views;
 
 import Client.App;
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
 import Project.Models.Location;
 import Project.Models.Tiles.Hex;
 import Project.Models.Tiles.HexGrid;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
-import Project.Server.Views.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
-import javafx.scene.control.Menu;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -106,11 +108,11 @@ public class GameView implements ViewController {
 
 
     public void gotoCheatSelectPage() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CheatSheetPage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CheatSheetPage"));
     }
 
     public void gotoTradePanel() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("DemandAndTradePanel"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("DemandAndTradePanel"));
     }
 
 
@@ -126,11 +128,11 @@ public class GameView implements ViewController {
     }
 
     public void researchInfo() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("technologyMenu"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("technologyMenu"));
     }
 
     public void gotoCivPanel() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("CivilizationPanelPage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CivilizationPanelPage"));
     }
 
     public static void reloadHexGrid() {
@@ -154,10 +156,10 @@ public class GameView implements ViewController {
     }
 
     public void gotoNotificationPanel() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("NotificationPanel"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("NotificationPanel"));
     }
 
     public void gotoSetting() {
-        MenuStack.getInstance().pushMenu(Project.Client.Views.Menu.loadFromFXML("GameSettingPage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GameSettingPage"));
     }
 }

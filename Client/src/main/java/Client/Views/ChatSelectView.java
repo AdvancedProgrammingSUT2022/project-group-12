@@ -1,6 +1,6 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
+import Client.Utils.DatabaseQuerier;
 import Project.Models.Chat;
 import Project.Models.User;
 import javafx.event.ActionEvent;

@@ -1,7 +1,8 @@
 package Client.Views;
 
-import Project.Client.Utils.DatabaseQuerier;
-import Project.Server.Views.RequestHandler;
+import Client.Utils.DatabaseQuerier;
+import Client.Utils.RequestHandler;
+import Project.Models.*;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -19,8 +20,7 @@ public class NotificationPanelController implements ViewController {
     public void initialize() {
         System.out.println("before get");
         DatabaseQuerier.getCurrentCivNotifications();
-        for (Notification notif :
-                DatabaseQuerier.getCurrentCivNotifications()) {
+        for (Notification notif : DatabaseQuerier.getCurrentCivNotifications()) {
             HBox hBox = new HBox(new Text(notif.getMessage()));
             hBox.setAlignment(Pos.CENTER_LEFT);
             if(notif instanceof DeclareWar declareWar){
