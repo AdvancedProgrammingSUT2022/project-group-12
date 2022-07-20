@@ -1,7 +1,6 @@
 package Project.Models.Cities;
 
 import Project.Enums.CityTypeEnum;
-import Project.Enums.TerrainEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Location;
 import Project.Models.Production;
@@ -10,7 +9,6 @@ import Project.Models.Units.Unit;
 import Project.Utils.Constants;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class City {
     private final ArrayList<Location> tilesLocations;
@@ -70,12 +68,6 @@ public class City {
         this.remainedFoodForCitizen = 0;
     }
 
-
-
-
-
-
-
     public ArrayList<Production> finishProductsAndReturnIt() {
         ArrayList<Production> productions = new ArrayList<>(this.productionQueue);
         this.productionQueue.clear();
@@ -102,9 +94,6 @@ public class City {
         }
         return stringBuilder.toString();
     }
-
-
-
 
     public double getProductionFromCheat() {
         return productionFromCheat;
@@ -290,8 +279,6 @@ public class City {
     public ArrayList<Location> getTilesLocations() {
         return tilesLocations;
     }
-
-
 
     public int getRemainedFoodForCitizen() {
         return remainedFoodForCitizen;

@@ -8,12 +8,13 @@ import Project.Models.Cities.City;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
+import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 
 public enum BuildingNoteEnum {
     BARRACK((BuildingNotes<City>) city -> {}),
     GRANARY((BuildingNotes<City>) city -> city.setFoodFromBuildings(city.getFoodFromBuildings() + 2)),
-    LIBRARY((BuildingNotes<City>) city -> GameController.getCivByName(city.getCivilization()).setBeakerFromBuildings(city.getCitizensCount() / 2 + GameController.getCivByName(city.getCivilization()).getBeakerFromBuildings())),
+    LIBRARY((BuildingNotes<City>) city -> GameController.getCivByName(city.getCivName()).setBeakerFromBuildings(city.getCitizensCount() / 2 + GameController.getCivByName(city.getCivName()).getBeakerFromBuildings())),
     MONUMENT((BuildingNotes<City>) city -> {
     }),
     WALLS((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f)),
@@ -31,7 +32,7 @@ public enum BuildingNoteEnum {
     COURTHOUSE((BuildingNotes<City>) city -> {
 
     }),
-    STABLE((BuildingNotes<City>) city -> {
+    STABLE((BuildingNotes<City>) city -> { // todo: fix
         Production production = null;
         if ((production instanceof Unit) && ((Unit) production).getUnitType().getCombatType() == CombatTypeEnum.MOUNTED) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 85 / 100);
@@ -46,7 +47,7 @@ public enum BuildingNoteEnum {
     MARKET((BuildingNotes<City>) city -> city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 4)),
     MINT((BuildingNotes<City>) city -> {
         int counter = 0;
-        for (ResourceEnum resource : city.getAchievedResources()) {
+        for (ResourceEnum resource : CityHandler.getAchievedResources(city)) {
             if (resource == ResourceEnum.GOLD || resource == ResourceEnum.SILVER) {
                 ++counter;
             }
@@ -56,16 +57,16 @@ public enum BuildingNoteEnum {
     MONASTERY((BuildingNotes<City>) o -> {
     }),
     UNIVERSITY((BuildingNotes<City>) city -> {
-        GameController.getCivByName(city.getCivilization()).setBeakerRatioFromBuildings(GameController.getCivByName(city.getCivilization()).getBeakerRatioFromBuildings() * 1.5);
+        GameController.getCivByName(city.getCivName()).setBeakerRatioFromBuildings(GameController.getCivByName(city.getCivName()).getBeakerRatioFromBuildings() * 1.5);
         int number = 0;
-        for (Tile tile : city.getTiles()) {
+        for (Tile tile : CityHandler.getCityTiles(city)) {
             if (tile.getCitizen() != null && tile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE)) {
                 number += 2;
             }
         }
-        GameController.getCivByName(city.getCivilization()).setBeakerFromBuildings(GameController.getCivByName(city.getCivilization()).getBeakerFromBuildings() + number);
+        GameController.getCivByName(city.getCivName()).setBeakerFromBuildings(GameController.getCivByName(city.getCivName()).getBeakerFromBuildings() + number);
     }),
-    WORKSHOP(o -> {
+    WORKSHOP(o -> { // todo: fix
         Production production = null;
         if (production instanceof Building) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);
@@ -78,7 +79,7 @@ public enum BuildingNoteEnum {
     }),
     OPERA_HOUSE((BuildingNotes<City>) city -> {
     }),
-    PUBLIC_SCHOOL((BuildingNotes<City>) city -> GameController.getCivByName(city.getCivilization()).setBeakerFromBuildings(GameController.getCivByName(city.getCivilization()).getBeakerFromBuildings() * (3 / 2))),
+    PUBLIC_SCHOOL((BuildingNotes<City>) city -> GameController.getCivByName(city.getCivName()).setBeakerFromBuildings((int) (GameController.getCivByName(city.getCivName()).getBeakerFromBuildings() * 1.5))),
     SATRAPS_COURT((BuildingNotes<City>) city -> {
         city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 4);
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
@@ -86,7 +87,7 @@ public enum BuildingNoteEnum {
     THEATER((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
     //todo : check
     WINDMILL((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + city.getProductionFromBuildings() * 15.0 / 100.0)),
-    ARSENAL((BuildingNotes<City>) city -> {
+    ARSENAL((BuildingNotes<City>) city -> { // todo: fix
         Production production = null;
         if (production instanceof Unit) {
             production.decreaseRemainedProduction(production.getRemainedProduction() * 4 / 5);

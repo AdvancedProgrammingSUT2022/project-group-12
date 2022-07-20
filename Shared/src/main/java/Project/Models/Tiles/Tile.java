@@ -8,8 +8,10 @@ import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
-import Project.Utils.*;
-import Server.Controllers.GameController;
+import Project.Utils.CommandResponse;
+import Project.Utils.Notifier;
+import Project.Utils.NotifierUtil;
+import Project.Utils.TileObserver;
 import Server.Utils.CommandException;
 
 import java.util.ArrayList;
@@ -190,12 +192,12 @@ public class Tile implements Notifier {
         return cost;
     }
 
-    public int calculateSources(String name) {
+    public int calculateSources(String name, ArrayList<TechnologyEnum> technologies) {
         int production = this.terrain.getProductsCount();
         int food = this.terrain.getFoodCount();
         int gold = this.terrain.getGoldCount();
         ResourceEnum resourceEnum = this.getTerrain().getResource();
-        if (this.isResourceAchievedBy(resourceEnum, this.getCivilization())) {
+        if (this.isResourceAchievedBy(resourceEnum, technologies)) {
             production += resourceEnum.getProductsCount();
             food += resourceEnum.getFoodCount();
             gold += resourceEnum.getGoldCount();
@@ -214,9 +216,9 @@ public class Tile implements Notifier {
         };
     }
 
-    public boolean isResourceAchievedBy(ResourceEnum resourceEnum, Civilization civ) {
+    public boolean isResourceAchievedBy(ResourceEnum resourceEnum, ArrayList<TechnologyEnum> technologies) {
         if (resourceEnum == ResourceEnum.RESET) return true;
-        return resourceEnum != null && civ != null && civ.getTechnologies().containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
+        return resourceEnum != null && technologies.containsAll(resourceEnum.getImprovementNeeded().getRequiredTechs())
                 && (this.getCity() != null || !this.isDamaged && this.getImprovements().contains(resourceEnum.getImprovementNeeded()));
     }
 

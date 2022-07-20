@@ -72,12 +72,14 @@ public class CityHandler {
         double production = 0;
         double food = 0;
         double gold = 0;
+
+        ArrayList<TechnologyEnum> technologies = GameController.getCivByName(city.getCivName()).getTechnologies();
         for (Tile tile :
                 getCityTiles(city)) {
             if (tile.getCitizen() != null) {
-                food += tile.calculateSources("food");
-                production += tile.calculateSources("production");
-                gold += tile.calculateSources("gold");
+                food += tile.calculateSources("food", technologies);
+                production += tile.calculateSources("production", technologies);
+                gold += tile.calculateSources("gold", technologies);
             }
         }
         switch (foodOrProductionOrGold) {
@@ -120,13 +122,11 @@ public class CityHandler {
         };
     }
 
-    // question: why is city method in City?
     public static ArrayList<ResourceEnum> getAchievedResources(City city) {
         ArrayList<ResourceEnum> resources = new ArrayList<>(List.of(ResourceEnum.RESET));
         for (Tile tile : getCityTiles(city)) {
             ResourceEnum resource = tile.getTerrain().getResource();
-            // todoLater: getResource instead todo : how we can ????????? hard man این فقط مونده
-            if (tile.isResourceAchievedBy(resource, city.getCivilization())) {
+            if (tile.isResourceAchievedBy(resource, GameController.getCivByName(city.getCivName()).getTechnologies())) {
                 resources.add(resource);
             }
         }

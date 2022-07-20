@@ -104,7 +104,7 @@ public class GameController {
                return civ;
            }
        }
-       return null;
+       throw new RuntimeException("Unrecognized civName");
    }
     public static void wakeUpUnit(Unit unit) throws CommandException {
         if (unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY) {
