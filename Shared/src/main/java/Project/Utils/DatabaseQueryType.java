@@ -1,5 +1,8 @@
 package Project.Utils;
 
+import Server.Controllers.CityHandler;
+import Server.Views.GameMenu;
+
 public enum DatabaseQueryType {
     GET_ALL_USERNAMES,/*("SELECT username FROM users")*/
     GET_USER_BY_USERNAME,
@@ -32,5 +35,9 @@ public enum DatabaseQueryType {
     GET_RESEARCHING_TECHNOLOGY,
     GET_CURRENTCIV_NAME,
     GET_TILE_GRID,
+     GET_SELECTED_CITY_GOLD,
+             GET_SELECTED_CITY_PRODUCTION,
+             GET_SELECTED_CITY_HAPPINESS ,
+            GET_SELECTED_CITY_FOOD,
     GET_CIV_CAMERA_LOCATION,
 }

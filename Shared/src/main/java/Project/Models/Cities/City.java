@@ -48,7 +48,6 @@ public class City {
         this.isCapital = isCapital;
         this.citizensCount = 1;
         this.food = 1;
-        this.localHappiness = 10;
         this.buildings = new ArrayList<>();
         this.civName = civName;
         this.range = 2;
