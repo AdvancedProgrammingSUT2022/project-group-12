@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../css/styles.css" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16"
-            fx:controller="Project.Client.Views.ChatSelectView">
+            fx:controller="Client.Views.ChatSelectView">
     <ChoiceBox fx:id="userSelect" layoutX="254.0" layoutY="90.0" prefWidth="150.0" styleClass="choiceBox"/>
     <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: "/>
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit"

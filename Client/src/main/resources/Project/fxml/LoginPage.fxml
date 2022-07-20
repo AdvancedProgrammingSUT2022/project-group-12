@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Project.Client.Views.LoginView">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.LoginView">
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit" textAlignment="CENTER" />
     <VBox fx:id="mainBox" alignment="CENTER" layoutX="69.0" layoutY="115.0" prefWidth="230.0" spacing="10">
         <VBox id="usernameBox" fx:id="usernameBox" alignment="CENTER" spacing="10">

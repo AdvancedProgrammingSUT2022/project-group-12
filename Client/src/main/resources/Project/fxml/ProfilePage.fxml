@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/styles.css"
             xmlns="http://javafx.com/javafx"
-            fx:controller="Project.Client.Views.ProfileView"
+            fx:controller="Client.Views.ProfileView"
             prefHeight="400.0" prefWidth="600.0">
     <top>
         <VBox alignment="CENTER">
