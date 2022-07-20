@@ -16,6 +16,7 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.GameController;
+import Server.Controllers.SourceHandler;
 import Server.Utils.ClientHandler;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
@@ -197,8 +198,8 @@ public class Game {
         civ.advanceResearchTech();
         civ.advanceWorkerWorks();
         for (City city : civ.getCities()) {
-            city.checkCitizenBirth();
-            Production production = city.advanceProductionQueue();
+            SourceHandler.checkCitizenBirth(city);
+            Production production = city.advanceProductionQueue(SourceHandler.calculateProduction(city));
             if(production != null) {
                 addProductionOfProductionQueueToCity(city, production);
             }

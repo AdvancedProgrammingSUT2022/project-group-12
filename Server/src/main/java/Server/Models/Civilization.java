@@ -16,6 +16,7 @@ import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.CivilizationController;
 import Server.Controllers.GameController;
+import Server.Controllers.SourceHandler;
 import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 
@@ -130,7 +131,7 @@ public class Civilization {
     private int calculateGoldBenefitsFromThisTurn() {
         int gold = this.getGoldFromCheat();
         for (City city : this.getCities()) {
-            gold += city.calculateGold();
+            gold += SourceHandler.calculateGold(city);
         }
         return gold;
     }
@@ -244,7 +245,7 @@ public class Civilization {
             return this.happiness;
         }
         for (City city : this.getCities()) {
-            this.happiness += city.calculateCityHappiness();
+            this.happiness += SourceHandler.calculateCityHappiness(city);
         }
         int numberOfLuxuryResource = this.getAchievedLuxuryResources().size();
         this.happiness += numberOfLuxuryResource * 4;
@@ -264,7 +265,7 @@ public class Civilization {
     public ArrayList<ResourceEnum> getAchievedResources() {
         ArrayList<ResourceEnum> resources = new ArrayList<>();
         for (City city : this.cities) {
-            for (ResourceEnum resource : city.getAchievedResources()) {
+            for (ResourceEnum resource : SourceHandler.getAchievedResources(city)) {
                 if (!resources.contains(resource)) {
                     resources.add(resource);
                 }
@@ -310,7 +311,7 @@ public class Civilization {
     public int calculateCivilizationFood() {
         int food = Constants.PRIMAL_FOOD;
         for (City city : this.getCities()) {
-            food += city.calculateFood();
+            food += SourceHandler.calculateFood(city);
         }
         this.food = food;
         return food;
