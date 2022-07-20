@@ -1,9 +1,11 @@
 package Server.Models;
 
 import Client.Views.GameView;
+import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Cities.Enums.*;
 import Project.Models.Location;
+import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
@@ -196,7 +198,10 @@ public class Game {
         civ.advanceWorkerWorks();
         for (City city : civ.getCities()) {
             city.checkCitizenBirth();
-            city.advanceProductionQueue();
+            Production production = city.advanceProductionQueue();
+            if(production != null) {
+                addProductionOfProductionQueueToCity(city, production);
+            }
         }
         for (Unit unit : civ.getUnits()) {
             checkForAlertUnit(unit);
@@ -210,6 +215,15 @@ public class Game {
         if (this.gameTurn / civilizations.size() > 25) {
             throw new GameException(CommandResponse.END_OF_GAME);
         }
+    }
+
+    private void addProductionOfProductionQueueToCity(City city, Production production) {
+            if(production instanceof Unit unit){
+                Civilization cityCiv = GameController.getGame().getCivByName(city.getCivilization());
+                cityCiv.getUnits().add(unit);
+            } else if(production instanceof Building building){
+                city.getBuildings().add(building);
+            }
     }
 
     private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {

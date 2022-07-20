@@ -21,7 +21,7 @@ public class UnitFuncs {
 
     private static CommandResponse validateForCity(Tile currentTile, Civilization civilization) {
         if (currentTile.getCity() == null) return CommandResponse.CITY_DOES_NOT_EXISTS;
-        if (currentTile.getCity().getCivilization() != civilization) {
+        if (currentTile.getCity().getCivName() != civilization) {
             return CommandResponse.NOT_HAVING_CITY;
         }
         return CommandResponse.OK;

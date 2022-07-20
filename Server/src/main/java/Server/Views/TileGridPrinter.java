@@ -76,7 +76,7 @@ public class TileGridPrinter {
             }
         }
         if (tile.getCity() != null) {
-            this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivilization().getColor(), tileColor);
+            this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivName().getColor(), tileColor);
         }
         String movementText = tile.calculateMovementCost() == 0 ? "∞" : String.valueOf((int) tile.calculateMovementCost());
         this.writeCentered(row, col, tile.getLocation().getRow() + "," + tile.getLocation().getCol() + " " + movementText, TerrainColor.BLACK, tileColor);

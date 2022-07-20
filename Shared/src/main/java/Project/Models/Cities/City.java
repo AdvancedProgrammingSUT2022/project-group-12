@@ -7,16 +7,11 @@ import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
-import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.ServerMethod;
-import Server.Controllers.GameController;
 import Server.Utils.CommandException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static java.lang.Math.exp;
 
@@ -103,7 +98,9 @@ public class City {
     }
 
     public Tile getTile() {
-        return GameController.getGameTile(this.location);
+        //todo never used why ?
+//        return GameController.getGameTile(this.location);
+        return null;
     }
 
     public ArrayList<Citizen> getCitizens() {
@@ -117,56 +114,55 @@ public class City {
     }
 
     public ArrayList<Tile> getTiles() {
-        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
+        // todo : never use why ?
+//        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
+        return null;
     }
 
 
 
-    public void finishProducts() throws CommandException {
+    public ArrayList<Production> finishProductsAndReturnsIt() throws CommandException {
         if (productionQueue.isEmpty()) {
-            return;
+            return new ArrayList<>();
         }
+        ArrayList<Production> productions = new ArrayList<>();
         int size = productionQueue.size();
         while (!productionQueue.isEmpty()) {
             Production product = productionQueue.get(0);
             advanceProductionQueue();
             if (productionQueue.size() < size) {
-                if (product instanceof Unit) {
-                    this.spawnUnit(((Unit) product).getUnitType(), civName, getLocation());
+                if (product instanceof Unit unit) {
+                    productions.add(unit);
+                } else if (product instanceof Building building){
+                    productions.add(building);
                 }
                 size = productionQueue.size();
             }
         }
-    }
-    public void spawnUnit(UnitEnum unitEnum, String civName, Location location) throws CommandException {
-        Tile tile = GameController.getGameTile(location);
-        if (!tile.getTerrain().getTerrainType().isReachable()) {
-            throw new CommandException(CommandResponse.CANNOT_SPAWN_ON_TILE, tile.getTerrain().getTerrainType().name());
-        }
-        Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civName, location);
-        //todo : how we can add unit to civilization ?
-        // civilization.addUnit(newUnit);
-        tile.placeUnit(newUnit);
+        return productions;
     }
 
-    public void advanceProductionQueue() {
+
+    public Production advanceProductionQueue() {
         // productionQueue cannot be empty (Game.endCurrentTurn guarantee)
-        productionQueue.get(0).decreaseRemainedProduction(this.getProduction());
+        productionQueue.get(0).decreaseRemainedProduction(this.calculateProduction());
         if (productionQueue.get(0).getRemainedProduction() <= 0) {
             Production production = productionQueue.remove(0);
-            if (production instanceof Building) {
-                this.buildings.add((Building) production);
+            if (production instanceof Building building) {
+                return building;
             } else if (production instanceof Unit unit) {
-                //todo : how we can add unit to civilization ?
+                //todo : how we can add unit to civilization ? by returns it
                 // this.getCivilization().addUnit(unit);
                 try {
-                    this.getTile().placeUnit(unit);
+                this.getTile().placeUnit(unit);
                 } catch (CommandException e) {
                     // we should guarantee emptiness of the tile at the last turn
                     throw new RuntimeException(e);
                 }
+                return unit;
             }
         }
+        return null;
     }
 
 
@@ -204,12 +200,8 @@ public class City {
         this.production += getSourcesFromTiles("production");
         this.production += getProductionFromCheat();
         this.production += getFromResource("production");
-        //todo : how we can be aware of happiness type of civilization ?
-        if (this.getCivilization().getHappinessType() == HappinessTypeEnum.HAPPY) {
-            return production;
-        } else {
-            return production * 2 / 3;
-        }
+        //todo : how we can be aware of happiness type of civilization ? changed logic !!
+        return production;
     }
 
     private double getSourcesFromTiles(String foodOrProductionOrGold) {
@@ -269,7 +261,7 @@ public class City {
         ArrayList<ResourceEnum> resources = new ArrayList<>(List.of(ResourceEnum.RESET));
         for (Tile tile : this.getTiles()) {
             ResourceEnum resource = tile.getTerrain().getResource();
-            // todoLater: getResource instead todo : how we can ?????????
+            // todoLater: getResource instead todo : how we can ????????? hard man این فقط مونده
             if (tile.isResourceAchievedBy(resource, this.getCivilization())) {
                 resources.add(resource);
             }
@@ -283,7 +275,6 @@ public class City {
         food += getSourcesFromTiles("food");
         food += getFromResource("food");
         food -= (double) this.citizensCount * 2;
-
         if (food > 0) {
             food *= checkForHappinessState();
         }
@@ -295,11 +286,7 @@ public class City {
     }
 
     private double checkForHappinessState() {
-        //todo : how we can be aware of happiness type of civilization ?
-        this.getCivilization().updateHappinessState(this.getCivilization().calculateHappiness());
-        if (this.getCivilization().getHappinessType() != HappinessTypeEnum.HAPPY) {
-            return 2.0 / 3;
-        }
+        //todo : how we can be aware of happiness type of civilization ? change logic !
         return 1;
     }
 

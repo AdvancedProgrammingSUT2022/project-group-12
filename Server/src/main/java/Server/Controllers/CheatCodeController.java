@@ -5,6 +5,7 @@ import Project.Models.Cities.Enums.UnitEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
+import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandResponse;
@@ -13,6 +14,8 @@ import Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Server.Models.Civilization;
 import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
+
+import java.util.ArrayList;
 
 
 public class CheatCodeController {
@@ -44,7 +47,31 @@ public class CheatCodeController {
     }
 
     public void finishProducts(City city) throws CommandException {
-        city.finishProducts();
+        ArrayList<Production> productions = city.finishProductsAndReturnsIt();
+        Civilization cityCiv = GameController.getGame().getCivByName(city.getCivilization());
+        addProductsToCity(city, productions, cityCiv);
+    }
+
+    private void addProductsToCity(City city, ArrayList<Production> productions, Civilization cityCiv) throws CommandException {
+        for (Production production:
+                productions) {
+            if(production instanceof Unit unit){
+                cityCiv.getUnits().add(unit);
+                this.spawnUnit(unit.getUnitType(), city.getCivilization(), city.getLocation());
+            } else if (production instanceof Building building) {
+                city.getBuildings().add(building);
+            }
+        }
+    }
+
+    public void spawnUnit(UnitEnum unitEnum, String civName, Location location) throws CommandException {
+        //todo how we can spawn ?
+        Tile tile = GameController.getGameTile(location);
+        if (!tile.getTerrain().getTerrainType().isReachable()) {
+            throw new CommandException(CommandResponse.CANNOT_SPAWN_ON_TILE, tile.getTerrain().getTerrainType().name());
+        }
+        Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civName, location);
+        tile.placeUnit(newUnit);
     }
 
     public void increaseBeaker(int amount) {

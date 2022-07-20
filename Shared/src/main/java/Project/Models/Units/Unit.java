@@ -12,6 +12,7 @@ import Project.Models.Tiles.Tile;
 import Project.Utils.Constants;
 import Project.Utils.ServerMethod;
 import Server.Controllers.GameController;
+import Server.Models.Civilization;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -8,11 +8,12 @@ import Project.Models.Cities.City;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
+import Server.Controllers.GameController;
 
 public enum BuildingNoteEnum {
     BARRACK((BuildingNotes<City>) city -> {}),
     GRANARY((BuildingNotes<City>) city -> city.setFoodFromBuildings(city.getFoodFromBuildings() + 2)),
-    LIBRARY((BuildingNotes<City>) city -> city.getCivilization().setBeakerFromBuildings(city.getCitizensCount() / 2 + city.getCivilization().getBeakerFromBuildings())),
+    LIBRARY((BuildingNotes<City>) city -> GameController.getCivByName(city.getCivilization()).setBeakerFromBuildings(city.getCitizensCount() / 2 + GameController.getCivByName(city.getCivilization()).getBeakerFromBuildings())),
     MONUMENT((BuildingNotes<City>) city -> {
     }),
     WALLS((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f)),
@@ -55,14 +56,14 @@ public enum BuildingNoteEnum {
     MONASTERY((BuildingNotes<City>) o -> {
     }),
     UNIVERSITY((BuildingNotes<City>) city -> {
-        city.getCivilization().setBeakerRatioFromBuildings(city.getCivilization().getBeakerRatioFromBuildings() * 1.5);
+        GameController.getCivByName(city.getCivilization()).setBeakerRatioFromBuildings(GameController.getCivByName(city.getCivilization()).getBeakerRatioFromBuildings() * 1.5);
         int number = 0;
         for (Tile tile : city.getTiles()) {
             if (tile.getCitizen() != null && tile.getTerrain().getFeatures().contains(FeatureEnum.JUNGLE)) {
                 number += 2;
             }
         }
-        city.getCivilization().setBeakerFromBuildings(city.getCivilization().getBeakerFromBuildings() + number);
+        GameController.getCivByName(city.getCivilization()).setBeakerFromBuildings(GameController.getCivByName(city.getCivilization()).getBeakerFromBuildings() + number);
     }),
     WORKSHOP(o -> {
         Production production = null;
@@ -77,7 +78,7 @@ public enum BuildingNoteEnum {
     }),
     OPERA_HOUSE((BuildingNotes<City>) city -> {
     }),
-    PUBLIC_SCHOOL((BuildingNotes<City>) city -> city.getCivilization().setBeakerFromBuildings(city.getCivilization().getBeakerFromBuildings() * (3 / 2))),
+    PUBLIC_SCHOOL((BuildingNotes<City>) city -> GameController.getCivByName(city.getCivilization()).setBeakerFromBuildings(GameController.getCivByName(city.getCivilization()).getBeakerFromBuildings() * (3 / 2))),
     SATRAPS_COURT((BuildingNotes<City>) city -> {
         city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 4);
         city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 2.0);
