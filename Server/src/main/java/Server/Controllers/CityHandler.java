@@ -17,20 +17,18 @@ public class CityHandler {
 
 
     public static double calculateCityHappiness(City city) {
-
-
         // calculate happiness
-        city.setLocalHappiness(10);
-        city.setLocalHappiness(city.getLocalHappiness() + city.getHappinessFromBuildings());
+         int cityHappiness = 10;
+         cityHappiness += city.getHappinessFromBuildings();
         //  affect unhappiness
         if (city.getCityState() == CityTypeEnum.ANNEXED) {
-            city.setLocalHappiness(city.getLocalHappiness() + (city.getCitizensCount() *( 4 / 3.0)));
-            if (!haveCourtHouse(city)) city.setLocalHappiness(city.getLocalHappiness() +  5);
+            cityHappiness += city.getCitizensCount() * (4 / 3.0);
+            if (!haveCourtHouse(city)) cityHappiness += 5;
         } else {
-            city.setLocalHappiness(city.getLocalHappiness() - city.getCitizensCount());
-            city.setLocalHappiness(city.getLocalHappiness() - 3);
+            cityHappiness -= city.getCitizensCount();
+            cityHappiness =- 3;
         }
-        return city.getLocalHappiness();
+        return cityHappiness;
     }
 
     private static boolean haveCourtHouse(City city) {
@@ -59,13 +57,13 @@ public class CityHandler {
     }
 
     public static double calculateProduction(City city) {
-        city.setProduction(1);
-        city.setProduction(city.getProduction() + city.getProductionFromBuildings());
-        city.setProduction(city.getProduction() + getSourcesFromTiles("production",city));
-        city.setProduction(city.getProduction() + city.getProductionFromCheat());
-        city.setProduction(city.getProduction() + getFromResource("production",city));
+        double cityProduction = 1;
+        cityProduction =+ city.getProductionFromBuildings();
+        cityProduction =+ getSourcesFromTiles("production",city);
+        cityProduction =+ city.getProductionFromCheat();
+        cityProduction =+ getFromResource("production",city);
         //todo : how we can be aware of happiness type of civilization ? changed logic !!
-        return city.getProduction();
+        return cityProduction;
     }
 
     private static double getSourcesFromTiles(String foodOrProductionOrGold,City city) {
