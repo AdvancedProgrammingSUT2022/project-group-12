@@ -4,7 +4,6 @@ import Project.Enums.TerrainEnum;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
-import Project.Utils.CommandResponse;
 
 import java.util.*;
 
@@ -145,11 +144,6 @@ public class TileGrid {
         }
     }
 
-
-    public Tile[][] getTiles() {
-        return this.tiles;
-    }
-
     public boolean isLocationValid(Location location) {
         int r = location.getRow(), c = location.getCol();
         return 0 <= r && r < this.getHeight() && 0 <= c && c < this.getWidth();
@@ -179,16 +173,6 @@ public class TileGrid {
 
     public Tile[][] getGrid() {
         return this.tiles;
-    }
-
-    public ArrayList<Location> getFlatTileLocations() {
-        ArrayList<Location> tiles = new ArrayList<>();
-        for (int i = 0; i < this.getHeight(); ++i) {
-            for (int j = 0; j < this.getWidth(); ++j) {
-                tiles.add(new Location(i, j));
-            }
-        }
-        return tiles;
     }
 
 }

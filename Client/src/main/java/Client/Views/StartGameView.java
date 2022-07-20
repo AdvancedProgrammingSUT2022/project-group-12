@@ -3,7 +3,6 @@ package Client.Views;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -99,8 +98,6 @@ public class StartGameView implements ViewController {
     }
 
     public void acceptClick() {
-        Constants.TILEGRID_WIDTH = currentWidthSize;
-        Constants.TILEGRID_HEIGHT = currentHeightSize;
         StringBuilder command = new StringBuilder("play game");
         for (int i = 0; i < selectedUsernames.size(); ++i) {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));

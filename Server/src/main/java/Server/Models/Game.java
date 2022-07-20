@@ -34,7 +34,7 @@ public class Game {
     public Game(ArrayList<User> users) {
         this.users = users;
         this.civilizations = new ArrayList<>();
-        this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT * users.size(), Constants.TILEGRID_WIDTH * users.size());
         this.tileGrid.setAllStatesTo(VisibilityEnum.VISIBLE);
         ArrayList<Tile> availableTiles = new ArrayList<>();
         for (Tile tile : this.tileGrid.getTilesFlatten()) {

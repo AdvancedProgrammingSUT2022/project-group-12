@@ -81,8 +81,7 @@ public class TileGridPrinter {
         }
         String movementText = tile.calculateMovementCost() == 0 ? "∞" : String.valueOf((int) tile.calculateMovementCost());
         this.writeCentered(row, col, tile.getLocation().getRow() + "," + tile.getLocation().getCol() + " " + movementText, TerrainColor.BLACK, tileColor);
-        if (GameController.getCivByName(tile.getCivName()) != null) {
-           
+        if (tile.getCivName() != null) {
             this.writeCentered(row - 1, col, GameController.getCivByName(tile.getCivName()).getAbbreviation(), GameController.getCivByName(tile.getCivName()).getColor(), tileColor);
         }
         if (tile.getNonCombatUnit() != null) {
