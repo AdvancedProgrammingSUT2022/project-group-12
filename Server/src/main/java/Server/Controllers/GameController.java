@@ -79,12 +79,12 @@ public class GameController {
 
     public static boolean isEnemyExists(Location location, Civilization civilization) {
         CombatUnit enemyUnit = GameController.getGameTile(location).getCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
+        return enemyUnit != null && enemyUnit.getCivName().equals(civilization.getName());
     }
 
     public static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
         NonCombatUnit enemyUnit = GameController.getGameTile(location).getNonCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivilization() != civilization;
+        return enemyUnit != null && enemyUnit.getCivName().equals(civilization.getName());
     }
 
     public static boolean isAttackableEnemyOn(Location location, Civilization civilization, City city) {
@@ -118,7 +118,7 @@ public class GameController {
 
     public static City foundCity(Unit unit) throws CommandException {
         Location location = unit.getLocation();
-        Civilization civ = unit.getCivilization();
+        Civilization civ = GameController.getCivByName(unit.getCivName());
         Tile tile = getGame().getTileGrid().getTile(location);
         if (unit.getUnitType() != UnitEnum.SETTLER) {
             throw new CommandException(CommandResponse.ONLY_SETTLERS_CAN_FOUND_CITY);
@@ -148,7 +148,7 @@ public class GameController {
     public static void deleteUnit(Unit unit) {
         Tile tile = GameController.getGameTile(unit.getLocation());
         tile.setUnitNull(unit);
-        unit.getCivilization().removeUnit(unit);
+        GameController.getCivByName(unit.getCivName()).removeUnit(unit);
     }
 
     public static void fortifyUnit(Unit unit) throws CommandException {
@@ -176,7 +176,7 @@ public class GameController {
         unitTile.setDamaged(true);
         unit.decreaseAvailableMoveCount(1);
         int gold = Math.min(GameController.getCivByName(unitTile.getCivName()).calculateCivilizationGold(), 10);
-        unit.getCivilization().addGold(gold);
+        GameController.getCivByName(unit.getCivName()).addGold(gold);
         GameController.getCivByName(unitTile.getCivName()).addGold(-gold);
     }
 
@@ -334,7 +334,7 @@ public class GameController {
         if (tile.getImprovements().contains(improvement)) {
             throw new CommandException(CommandResponse.IMPROVEMENT_EXISTS);
         }
-        Civilization civ = worker.getCivilization();
+        Civilization civ = GameController.getCivByName(worker.getCivName());
         for (TechnologyEnum tech : improvement.getRequiredTechs()) {
             if (!civ.getTechnologies().contains(tech)) {
                 throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY, tech.name());

@@ -69,7 +69,7 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
-                return captureTheCity(unit.getCivilization(), unit, city, cityTile, GameController.game.getCivByName(city.getCivilization()));
+                return captureTheCity(GameController.getCivByName(unit.getCivName()), unit, city, cityTile, GameController.game.getCivByName(city.getCivilization()));
             }
         }
         return "both are damaged !!";

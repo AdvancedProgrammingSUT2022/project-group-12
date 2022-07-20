@@ -28,7 +28,7 @@ public class CombatController extends GameController {
         if (unit.getAvailableMoveCount() <= 0) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_MOVEMENT_COUNT);
         }
-        Civilization civilization = combatUnit.getCivilization();
+        Civilization civilization = GameController.getCivByName(unit.getCivName());
         Tile currentTile = getGameTile(combatUnit.getLocation());
         Tile enemyTile = getGameTile(location);
         if (isAnEnemyCityAt(location, civilization)) {
