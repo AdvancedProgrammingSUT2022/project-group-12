@@ -14,9 +14,9 @@ import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
+import Server.Controllers.CityHandler;
 import Server.Controllers.CivilizationController;
 import Server.Controllers.GameController;
-import Server.Controllers.CityHandler;
 import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 
@@ -369,7 +369,7 @@ public class Civilization {
     public ArrayList<Tile> getOwnedTiles() {
         ArrayList<Tile> tiles = new ArrayList<>();
         for (City city : this.getCities()) {
-            tiles.addAll(city.getTiles());
+            tiles.addAll(CityHandler.getCityTiles(city));
         }
         return tiles;
     }

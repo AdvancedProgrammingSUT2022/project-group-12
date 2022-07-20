@@ -144,7 +144,7 @@ public class CityHandler {
     }
 
     public static int numberOfUnassignedCitizens(City city) {
-        return city.getCitizensCount() - getCitizens(city).size();
+        return city.getCitizensCount() - getAssignedCitizens(city).size();
     }
 
     private static double checkForHappinessState() {
@@ -177,7 +177,7 @@ public class CityHandler {
         // todo : never use why ?
         return new ArrayList<>(city.getTilesLocations().stream().map(GameController::getGameTile).toList());
     }
-    public static ArrayList<Citizen> getCitizens(City city) {
+    public static ArrayList<Citizen> getAssignedCitizens(City city) {
         ArrayList<Citizen> citizens = new ArrayList<>();
         for (Tile tile : getCityTiles(city)) {
             if (tile.getCitizen() != null && tile.getCitizen().getCity() == city) {

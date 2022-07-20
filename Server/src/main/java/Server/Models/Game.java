@@ -15,8 +15,8 @@ import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
-import Server.Controllers.GameController;
 import Server.Controllers.CityHandler;
+import Server.Controllers.GameController;
 import Server.Utils.ClientHandler;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
@@ -152,7 +152,7 @@ public class Game {
         }
 
         for (City city : civ.getCities()) {
-            if (city.getCitizens().size() < city.getCitizensCount()) {
+            if (CityHandler.numberOfUnassignedCitizens(city) > 0) {
                 throw new CommandException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
             }
             //not important
@@ -179,7 +179,7 @@ public class Game {
     private void checkForKillingCitizen(Civilization civ) {
         for (City city : civ.getCities()) {
             if (CityHandler.calculateFood(city) < 0 && city.getCitizensCount() > 0) {
-                ArrayList<Location> tilesLocations = city.getTilesLocations()
+                ArrayList<Location> tilesLocations = city.getTilesLocations();
                 for (Location location : tilesLocations) {
                     Tile tile = GameController.getGameTile(location);
                     if (tile.getCitizen() != null && location != city.getLocation()) {

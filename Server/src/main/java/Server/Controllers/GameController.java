@@ -228,7 +228,7 @@ public class GameController {
         }
         message.append("city food : " + city.getFood() + '\n');
         message.append("city science : " + city.getBeaker() + '\n');
-        message.append("city production : " + city.getProduction() + '\n');
+        message.append("city production : " + CityHandler.calculateProduction(city) + '\n');
         message.append("city gold : " + city.getGold() + '\n');
         return message;
     }
@@ -350,7 +350,7 @@ public class GameController {
     }
 
     public static void cityAssignCitizen(City city, Location location) throws CommandException {
-        if (city.getCitizensCount() <= city.getCitizens().size()) {
+        if (city.getCitizensCount() <= CityHandler.getAssignedCitizens(city).size()) {
             throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
         }
         Tile tile = GameController.getGameTile(location);
@@ -363,7 +363,6 @@ public class GameController {
         Tile tile = GameController.getGameTile(location);
         if (!CityHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
-        city.getCitizens().remove(tile.getCitizen());
         tile.setCitizen(null);
     }
 
