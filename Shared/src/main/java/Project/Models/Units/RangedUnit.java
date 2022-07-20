@@ -6,11 +6,10 @@ import Project.Models.Location;
 public class RangedUnit extends CombatUnit {
     private double rangedCombat;
     private double rangedCombatStrength;
-    String type;
 
     public RangedUnit(UnitEnum type, String civ, Location location) {
         super(type, civ, location);
-        this.type = this.getClass().getName();
+        super.type = this.getClass().getName();
     }
 
     public double getRangedCombat() {

@@ -5,16 +5,21 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import com.google.gson.*;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Map;
 
 public class CustomGson {
     private static final Gson instance;
 
     static {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Notification.class, new MyJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(CombatUnit.class, new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Notifier.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Notification.class,new MyJsonDeserializer<>());
         instance = gsonBuilder.create();
     }
 

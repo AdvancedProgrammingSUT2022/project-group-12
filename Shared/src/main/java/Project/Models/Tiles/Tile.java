@@ -20,6 +20,7 @@ public class Tile implements Notifier<Tile> {
     private transient NotifierUtil<Tile> notifierUtil = null;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private Terrain terrain;
+    String type;
     private CombatUnit combatUnit;
     private NonCombatUnit nonCombatUnit;
     private boolean isDamaged;
@@ -41,6 +42,7 @@ public class Tile implements Notifier<Tile> {
         this.isDamaged = false;
         this.city = null;
         this.hasRoad = false;
+        this.type = this.getClass().getName();
         this.state = VisibilityEnum.FOG_OF_WAR;
     }
 

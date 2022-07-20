@@ -7,7 +7,7 @@ public abstract class CombatUnit extends Unit {
     protected int combatStrength;
     protected boolean isSetup;
     protected boolean hasAttack;
-
+    protected String type;
     public CombatUnit(UnitEnum type, String civilization, Location location) {
         super(type, civilization, location);
         isSetup = false;
