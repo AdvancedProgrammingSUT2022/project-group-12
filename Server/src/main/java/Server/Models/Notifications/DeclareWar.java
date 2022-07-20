@@ -1,7 +1,8 @@
-package Project.Models.Notifications;
+package Server.Models.Notifications;
 
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
+
+import Server.Controllers.GameController;
+import Server.Models.Civilization;
 
 public class DeclareWar extends Notification{
     String hostName;

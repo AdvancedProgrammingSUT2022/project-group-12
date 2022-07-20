@@ -5,7 +5,6 @@ import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
-import Project.Models.Notifications.*;
 import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -17,6 +16,7 @@ import Project.Utils.Constants;
 import Server.Controllers.CityHandler;
 import Server.Controllers.CivilizationController;
 import Server.Controllers.GameController;
+import Server.Models.Notifications.*;
 import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 

@@ -1,9 +1,10 @@
-package Project.Models.Notifications;
+package Server.Models.Notifications;
+
 
 import Project.Enums.ResourceEnum;
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
-import Project.Server.Utils.CommandException;
+import Server.Controllers.GameController;
+import Server.Models.Civilization;
+import Server.Utils.CommandException;
 
 public class Demand extends Notification {
     String type;
@@ -35,12 +36,8 @@ public class Demand extends Notification {
         Civilization hostCiv = GameController.getGame().getCivByName(hostCivName);
         Civilization guestCiv = GameController.getGame().getCivByName(guestCivName);
         if (this.requierdGold == null) {
-            try {
                 hostCiv.addResource(ResourceEnum.getResourceEnumByName(resourceName));
                 guestCiv.removeResource(ResourceEnum.getResourceEnumByName(resourceName));
-            } catch (CommandException e) {
-                throw new RuntimeException(e);
-            }
         } else {
             hostCiv.addGold(requierdGold);
             guestCiv.decreaseGold(requierdGold);
