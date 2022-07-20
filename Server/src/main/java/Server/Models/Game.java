@@ -178,8 +178,8 @@ public class Game {
 
     private void checkForKillingCitizen(Civilization civ) {
         for (City city : civ.getCities()) {
-            if (city.calculateFood() < 0 && city.getCitizens().size() > 0) {
-                city.killCitizen();
+            if (SourceHandler.calculateFood(city) < 0 && city.getCitizens().size() > 0) {
+                SourceHandler.killCitizen(city);
             }
         }
     }
@@ -219,7 +219,7 @@ public class Game {
 
     private void addProductionOfProductionQueueToCity(City city, Production production) {
             if(production instanceof Unit unit){
-                Civilization cityCiv = GameController.getGame().getCivByName(city.getCivilization());
+                Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
                 cityCiv.getUnits().add(unit);
             } else if(production instanceof Building building){
                 city.getBuildings().add(building);
@@ -247,7 +247,7 @@ public class Game {
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross() != null && unit.getPathShouldCross().size() > 0) {
             if(GameController.getGameTile(unit.getLocation()).isARuin()){
                 GameController.getGameTile(unit.getLocation()).achieveRuin();
-                unit.getCivilization().addGold(Constants.GOLD_PRIZE_RUIN);
+                GameController.getCivByName(unit.getCivName()).addGold(Constants.GOLD_PRIZE_RUIN);
                 if(!response.toString().startsWith("ruin")){
                     response.append("ruin achieved successfully and 30 gold added to your territory");
                 }
@@ -258,7 +258,7 @@ public class Game {
     private void checkForAlertUnit(Unit unit) {
         Tile unitTile = GameController.getGameTile(unit.getLocation());
         ArrayList<Tile> tiles = tileGrid.getAllTilesInRadius(unitTile, 2);
-        Civilization unitCiv = unit.getCivilization();
+        Civilization unitCiv = GameController.getCivByName(unit.getCivName());
         if (checkForEnemy(tiles, unitCiv)) {
             unit.setState(UnitStates.AWAKE);
         }
@@ -294,7 +294,7 @@ public class Game {
         } else {
             unit = tile.getCombatUnit() != null ? tile.getCombatUnit() : tile.getNonCombatUnit();
         }
-        if (unit == null || unit.getCivilization() != currentCivilization) {
+        if (unit == null || GameController.getCivByName(unit.getCivName()).equals(currentCivilization)) {
             throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         } else {
             return unit;

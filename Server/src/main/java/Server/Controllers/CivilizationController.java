@@ -73,7 +73,7 @@ public class CivilizationController {
         for (int i = 0; i < civilization.getCities().size(); i++) {
             if (civilization.getCities().get(i).isCapital())
                 cities.append("* ");
-            cities.append(civilization.getCities().get(i).getInfo());
+         //   cities.append(civilization.getCities().get(i).getInfo());
         }
         return cities.toString();
     }

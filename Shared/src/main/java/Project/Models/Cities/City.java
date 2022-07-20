@@ -103,19 +103,8 @@ public class City {
         return GameController.getGameTile(this.location);
     }
 
-    public ArrayList<Citizen> getCitizens() {
-        ArrayList<Citizen> citizens = new ArrayList<>();
-        for (Tile tile : this.getTiles()) {
-            if (tile.getCitizen() != null && tile.getCitizen().getCity() == this) {
-                citizens.add(tile.getCitizen());
-            }
-        }
-        return citizens;
-    }
 
-    public ArrayList<Tile> getTiles() {
-        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
-    }
+
 
 
 
@@ -410,11 +399,5 @@ public class City {
     }
 
 
-    public String getCivName() {
-        return civName;
-    }
 
-    public void setCivName(String civName) {
-        this.civName = civName;
-    }
 }

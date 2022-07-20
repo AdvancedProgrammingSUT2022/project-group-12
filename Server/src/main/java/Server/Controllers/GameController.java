@@ -95,7 +95,7 @@ public class GameController {
 
     public static boolean isAnEnemyCityAt(Location location, Civilization civilization) {
         City enemyCity = GameController.getGameTile(location).getCity();
-        return (enemyCity != null && GameController.game.getCivByName(enemyCity.getCivilization()) != civilization);
+        return (enemyCity != null && GameController.game.getCivByName(enemyCity.getCivName()) != civilization);
     }
    public static Civilization getCivByName(String civName){
        for (Civilization civ:
@@ -221,7 +221,7 @@ public class GameController {
         }
 //        message.append("city combat unit : " + city.getCombatUnit() + '\n');
 //        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
-        for (Tile cityTile : city.getTiles()) {
+        for (Tile cityTile : SourceHandler.getCityTiles(city)) {
             if (cityTile.getCitizen() != null) {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
             }
@@ -354,14 +354,14 @@ public class GameController {
             throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
         }
         Tile tile = GameController.getGameTile(location);
-        if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!SourceHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
         tile.setCitizen(new Citizen(city, tile.getLocation()));
     }
 
     public static void cityUnassignCitizen(City city, Location location) throws CommandException {
         Tile tile = GameController.getGameTile(location);
-        if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!SourceHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         city.getCitizens().remove(tile.getCitizen());
         tile.setCitizen(null);
@@ -369,13 +369,13 @@ public class GameController {
 
     public static void cityCitizenSetLock(City city, Location location, boolean lock) throws CommandException {
         Tile tile = GameController.getGameTile(location);
-        if (!city.getTiles().contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!SourceHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.getCitizen().setLock(lock);
     }
 
     public static void cityBuyTile(City city, Location location) throws CommandException {
-        if (GameController.getGame().getCivByName(city.getCivilization()).calculateCivilizationGold() < Constants.TILE_COST) {
+        if (GameController.getGame().getCivByName(city.getCivName()).calculateCivilizationGold() < Constants.TILE_COST) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         TileGrid tileGrid = GameController.getGame().getTileGrid();
@@ -383,19 +383,19 @@ public class GameController {
         if (tile.getCity() != null) throw new CommandException(CommandResponse.ALREADY_FOR_A_CITY);
         boolean isNeighbor = false;
         for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
-            if (city.getTiles().contains(neighbor)) {
+            if (SourceHandler.getCityTiles(city).contains(neighbor)) {
                 isNeighbor = true;
                 break;
             }
         }
         if (!isNeighbor) throw new CommandException(CommandResponse.NOT_ADJACENT_TO_CITY_TERRITORY);
-        GameController.getGame().getCivByName((city.getCivilization())).addGold(-Constants.TILE_COST);
+        GameController.getGame().getCivByName((city.getCivName())).addGold(-Constants.TILE_COST);
         city.addTile(tile);
         tile.setCity(city);
     }
 
     public static void cityBuildBuilding(City selectedCity, BuildingEnum building) throws CommandException {
-        Civilization civ = GameController.getGame().getCivByName(selectedCity.getCivilization());
+        Civilization civ = GameController.getGame().getCivByName(selectedCity.getCivName());
         if (civ.calculateCivilizationGold() < building.getCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
@@ -410,7 +410,7 @@ public class GameController {
 
 
     public static void cityBuyUnit(City city, UnitEnum unitEnum) throws CommandException {
-        Civilization civ = GameController.getGame().getCivByName((city.getCivilization()));
+        Civilization civ = GameController.getGame().getCivByName((city.getCivName()));
         if (civ.calculateCivilizationGold() < unitEnum.calculateGoldCost()) {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
@@ -422,13 +422,13 @@ public class GameController {
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
-        if (!GameController.getGame().getCivByName(city.getCivilization()).getTechnologies().contains(unitEnum.getRequiredTech())) {
+        if (!GameController.getGame().getCivByName(city.getCivName()).getTechnologies().contains(unitEnum.getRequiredTech())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
-        if (!GameController.getGame().getCivByName((city.getCivilization())).containsResource(unitEnum.getRequiredResource())) {
+        if (!GameController.getGame().getCivByName((city.getCivName())).containsResource(unitEnum.getRequiredResource())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_RESOURCE);
         }
-        Unit unit = Unit.constructUnitFromEnum(unitEnum,city.getCivilization(), city.getLocation());
+        Unit unit = Unit.constructUnitFromEnum(unitEnum,city.getCivName(), city.getLocation());
         unit.setRemainedProduction(unitEnum.getProductionCost());
         city.addToProductionQueue(unit);
     }
@@ -438,7 +438,7 @@ public class GameController {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }
         City city = GameController.getGameTile(location).getCity();
-        if (city == null || GameController.getGame().getCivByName(city.getCivilization()) != civ) {
+        if (city == null || GameController.getGame().getCivByName(city.getName()) != civ) {
             throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
         }
         return city;
@@ -461,7 +461,7 @@ public class GameController {
 
     public static boolean isEnemyCityExists(Location nextLocation, Civilization civilization) {
 
-        return GameController.getGameTile(nextLocation).getCity() != null &&  GameController.getGame().getCivByName(GameController.getGameTile(nextLocation).getCity().getCivilization()) != civilization;
+        return GameController.getGameTile(nextLocation).getCity() != null &&  GameController.getGame().getCivByName(GameController.getGameTile(nextLocation).getCity().getCivName()) != civilization;
     }
 
 

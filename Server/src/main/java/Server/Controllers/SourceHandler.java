@@ -6,6 +6,7 @@ import Project.Enums.ResourceEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
+import Project.Models.Citizen;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
@@ -25,13 +26,12 @@ public class SourceHandler {
         city.setLocalHappiness(city.getLocalHappiness() + city.getHappinessFromBuildings());
         //  affect unhappiness
         if (city.getCityState() == CityTypeEnum.ANNEXED) {
-            city.setLocalHappiness(city.getLocalHappiness() + (city.getCitizensCount() * 4 / 3.0));
+            city.setLocalHappiness(city.getLocalHappiness() + (city.getCitizensCount() *( 4 / 3.0)));
             if (!haveCourtHouse(city)) city.setLocalHappiness(city.getLocalHappiness() +  5);
         } else {
             city.setLocalHappiness(city.getLocalHappiness() - city.getCitizensCount());
             city.setLocalHappiness(city.getLocalHappiness() - 3);
         }
-
         return city.getLocalHappiness();
     }
 
@@ -132,7 +132,7 @@ public class SourceHandler {
     }
 
     public static int numberOfUnassignedCitizens(City city) {
-        return city.getCitizensCount() - city.getCitizens().size();
+        return city.getCitizensCount() - getCitizens(city).size();
     }
 
     private static double checkForHappinessState() {
@@ -161,9 +161,18 @@ public class SourceHandler {
             city.setRemainedFoodForCitizen(0);
         }
     }
-    private static ArrayList<Tile> getCityTiles(City city) {
+    public static ArrayList<Tile> getCityTiles(City city) {
         // todo : never use why ?
         return new ArrayList<>(city.getTilesLocations().stream().map(GameController::getGameTile).toList());
+    }
+    public static ArrayList<Citizen> getCitizens(City city) {
+        ArrayList<Citizen> citizens = new ArrayList<>();
+        for (Tile tile : getCityTiles(city)) {
+            if (tile.getCitizen() != null && tile.getCitizen().getCity() == city) {
+                citizens.add(tile.getCitizen());
+            }
+        }
+        return citizens;
     }
     
     

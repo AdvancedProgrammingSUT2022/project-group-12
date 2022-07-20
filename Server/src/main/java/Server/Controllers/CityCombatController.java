@@ -69,7 +69,7 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
-                return captureTheCity(GameController.getCivByName(unit.getCivName()), unit, city, cityTile, GameController.game.getCivByName(city.getCivilization()));
+                return captureTheCity(GameController.getCivByName(unit.getCivName()), unit, city, cityTile, GameController.game.getCivByName(city.getCivName()));
             }
         }
         return "both are damaged !!";
@@ -104,11 +104,11 @@ public class CityCombatController extends CombatController {
     }
 
     private static void destroyCity(City city, Tile cityTile, Civilization civ) {
-        city.setCivilization(civ.getName());
+        city.setCivName(civ.getName());
         Random random = new Random();
         city.getBuildings().removeAll(city.getBuildings());
         for (Tile tile :
-                city.getTiles()) {
+                SourceHandler.getCityTiles(city)) {
             if (tile.getCitizen() != null) {
                 tile.setCitizen(null);
             }
@@ -119,7 +119,7 @@ public class CityCombatController extends CombatController {
     }
 
     private static void makeCityAnnexed(City city, Tile cityTile, Civilization civ) {
-        city.setCivilization(civ.getName());
+        city.setCivName(civ.getName());
         Random random = new Random();
         int length = city.getBuildings().size();
         for (int i = length - 1; i >= 0; i--) {
@@ -135,7 +135,7 @@ public class CityCombatController extends CombatController {
     }
 
     private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
-        for (Tile tile : city.getTiles()) {
+        for (Tile tile : SourceHandler.getCityTiles(city)) {
             tile.setCivilization(civ.getName());
         }
     }

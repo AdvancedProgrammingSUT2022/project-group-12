@@ -47,8 +47,8 @@ public class CheatCodeController {
     }
 
     public void finishProducts(City city) throws CommandException {
-        ArrayList<Production> productions = city.finishProductsAndReturnsIt();
-        Civilization cityCiv = GameController.getGame().getCivByName(city.getCivilization());
+        ArrayList<Production> productions = city.finishProductsAndReturnsIt(SourceHandler.calculateProduction(city));
+        Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
         addProductsToCity(city, productions, cityCiv);
     }
 
@@ -57,7 +57,7 @@ public class CheatCodeController {
                 productions) {
             if(production instanceof Unit unit){
                 cityCiv.getUnits().add(unit);
-                this.spawnUnit(unit.getUnitType(), city.getCivilization(), city.getLocation());
+                this.spawnUnit(unit.getUnitType(), city.getCivName(), city.getLocation());
             } else if (production instanceof Building building) {
                 city.getBuildings().add(building);
             }
