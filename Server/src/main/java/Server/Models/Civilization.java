@@ -4,13 +4,14 @@ package Server.Models;
 import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
-import Project.Models.*;
-import Project.Models.Cities.Enums.*;
+import Project.Models.Location;
 import Project.Models.Notifications.*;
+import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
+import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.CivilizationController;
@@ -37,13 +38,8 @@ public class Civilization {
     private final ArrayList<Civilization> isInEconomicRelation;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
-    private boolean autoSaveOn;
-    private boolean gameOnMute;
-    private ArrayList<Resource> resources;
-    private ArrayList<Notification> notifications;
-    private HappinessTypeEnum happinessType;
-    private Tile selectedTile;
-    private Unit selectedUnit;
+    private final ArrayList<Resource> resources;
+    private final ArrayList<Notification> notifications;
     private int gold;
     private int goldFromCheat;
     private int food;
@@ -56,11 +52,8 @@ public class Civilization {
     private TechnologyEnum researchingTechnology;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
-    private City selectedCity;
 
     public Civilization(User user, TerrainColor color) {
-        this.autoSaveOn = false;
-        this.gameOnMute = false;
         this.color = color;
         this.researchingTechnology = null;
         this.user = user;
@@ -83,57 +76,11 @@ public class Civilization {
         this.unitCountByCategory = new HashMap<>();
         this.resources = new ArrayList<>();
         this.notifications = new ArrayList<>();
-        updateHappinessState(this.calculateHappiness());
-    }
-
-    public boolean isGameOnMute() {
-        return gameOnMute;
-    }
-
-    public void setGameOnMute(boolean gameOnMute) {
-        this.gameOnMute = gameOnMute;
-    }
-
-    public boolean isAutoSaveOn() {
-        return autoSaveOn;
-    }
-
-    public void setAutoSaveOn(boolean autoSaveOn) {
-        this.autoSaveOn = autoSaveOn;
-    }
-
-    public Tile getSelectedTile() {
-        return selectedTile;
-    }
-
-    public void setSelectedTile(Tile selectedTile) {
-        this.selectedTile = selectedTile;
-    }
-
-    public Unit getSelectedUnit() {
-        return selectedUnit;
-    }
-
-    public void setSelectedUnit(Unit selectedUnit) {
-        this.selectedUnit = selectedUnit;
-    }
-
-    public City getSelectedCity() {
-        return this.selectedCity;
-    }
-
-    public void setSelectedCity(City city) {
-        this.selectedCity = city;
+        this.calculateHappiness();
     }
 
     public void updateHappinessState(double happiness) {
-        if (happiness > 0) {
-            this.happinessType = HappinessTypeEnum.HAPPY;
-        } else if (happiness > -10) {
-            this.happinessType = HappinessTypeEnum.UNHAPPY;
-        } else {
-            this.happinessType = HappinessTypeEnum.VERY_UNHAPPY;
-        }
+
     }
 
     public void advanceResearchTech() {
@@ -298,7 +245,6 @@ public class Civilization {
         }
         int numberOfLuxuryResource = this.getAchievedLuxuryResources().size();
         this.happiness += numberOfLuxuryResource * 4;
-        updateHappinessState(happiness);
         return happiness;
     }
 
@@ -461,7 +407,13 @@ public class Civilization {
     }
 
     public HappinessTypeEnum getHappinessType() {
-        return happinessType;
+        if (happiness > 0) {
+            return HappinessTypeEnum.HAPPY;
+        } else if (happiness > -10) {
+            return HappinessTypeEnum.UNHAPPY;
+        } else {
+            return HappinessTypeEnum.VERY_UNHAPPY;
+        }
     }
 
     public User civUser() {
