@@ -6,7 +6,7 @@ import Project.Utils.Constants;
 import java.util.ArrayList;
 
 public enum ImprovementEnum {
-    RESET(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
+    RESET(new ArrayList<>(), new ArrayList<>()),
     ROAD(new ArrayList<>() {{
         add(TechnologyEnum.THE_WHEEL);
     }}, new ArrayList<>() {{
@@ -17,11 +17,6 @@ public enum ImprovementEnum {
         add(TerrainEnum.HILL);
         add(TerrainEnum.SNOW);
 
-    }}, new ArrayList<>() {{
-        add(FeatureEnum.JUNGLE);
-        add(FeatureEnum.MARSH);
-        add(FeatureEnum.FOREST);
-        add(FeatureEnum.RIVER);
     }}),
     // todo: rethink about
     RAILROAD(new ArrayList<>() {{
@@ -34,11 +29,6 @@ public enum ImprovementEnum {
         add(TerrainEnum.HILL);
         add(TerrainEnum.SNOW);
 
-    }}, new ArrayList<>() {{
-        add(FeatureEnum.JUNGLE);
-        add(FeatureEnum.MARSH);
-        add(FeatureEnum.FOREST);
-        add(FeatureEnum.RIVER);
     }}),
     CAMP(new ArrayList<>() {{
         add(TechnologyEnum.TRAPPING);
@@ -46,8 +36,6 @@ public enum ImprovementEnum {
         add(TerrainEnum.TUNDRA);
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.HILL);
-    }}, new ArrayList<>() {{
-        add(FeatureEnum.FOREST);
     }}),
     FARM(new ArrayList<>() {{
         add(TechnologyEnum.AGRICULTURE);
@@ -55,12 +43,10 @@ public enum ImprovementEnum {
         add(TerrainEnum.GRASSLAND);
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.DESERT);
-    }}, new ArrayList<>()),
+    }}),
     LUMBER_MILL(new ArrayList<>() {{
         add(TechnologyEnum.ENGINEERING);
-    }}, new ArrayList<>(), new ArrayList<>() {{
-        add(FeatureEnum.FOREST);
-    }}),
+    }}, new ArrayList<>()),
     MINE(new ArrayList<>() {{
         add(TechnologyEnum.MINING);
     }}, new ArrayList<>() {{
@@ -69,7 +55,7 @@ public enum ImprovementEnum {
         add(TerrainEnum.DESERT);
         add(TerrainEnum.TUNDRA);
         add(TerrainEnum.SNOW);
-    }}, new ArrayList<>()),
+    }}),
     PASTURE(new ArrayList<>() {{
         add(TechnologyEnum.ANIMAL_HUSBANDRY);
     }}, new ArrayList<>() {{
@@ -78,7 +64,7 @@ public enum ImprovementEnum {
         add(TerrainEnum.DESERT);
         add(TerrainEnum.TUNDRA);
         add(TerrainEnum.HILL);
-    }}, new ArrayList<>()),
+    }}),
     QUARRY(new ArrayList<>() {
     }, new ArrayList<>() {{
         add(TerrainEnum.DESERT);
@@ -86,7 +72,7 @@ public enum ImprovementEnum {
         add(TerrainEnum.GRASSLAND);
         add(TerrainEnum.TUNDRA);
         add(TerrainEnum.HILL);
-    }}, new ArrayList<>()),
+    }}),
     PLANTATION(new ArrayList<>() {{
         add(TechnologyEnum.CALENDAR);
     }}, new ArrayList<>() {{
@@ -94,11 +80,6 @@ public enum ImprovementEnum {
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.GRASSLAND);
 
-    }}, new ArrayList<>() {{
-        add(FeatureEnum.FOREST);
-        add(FeatureEnum.JUNGLE);
-        add(FeatureEnum.MARSH);
-        add(FeatureEnum.FALLOUT);
     }}),
     TRADING_POST(new ArrayList<>() {{
         add(TechnologyEnum.TRAPPING);
@@ -107,7 +88,7 @@ public enum ImprovementEnum {
         add(TerrainEnum.PLAIN);
         add(TerrainEnum.DESERT);
         add(TerrainEnum.TUNDRA);
-    }}, new ArrayList<>()),
+    }}),
     FORT(new ArrayList<>() {{
         add(TechnologyEnum.ENGINEERING);
     }}, new ArrayList<>() {{
@@ -116,16 +97,14 @@ public enum ImprovementEnum {
         add(TerrainEnum.GRASSLAND);
         add(TerrainEnum.TUNDRA);
         add(TerrainEnum.SNOW);
-    }}, new ArrayList<>());
+    }});
 
     private final ArrayList<TechnologyEnum> requiredTechs;
     private final ArrayList<TerrainEnum> canBeBuiltOn;
-    private final ArrayList<FeatureEnum> features;
 
-    ImprovementEnum(ArrayList<TechnologyEnum> requiredTechs, ArrayList<TerrainEnum> canBeBuiltOn, ArrayList<FeatureEnum> features) {
+    ImprovementEnum(ArrayList<TechnologyEnum> requiredTechs, ArrayList<TerrainEnum> canBeBuiltOn) {
         this.requiredTechs = requiredTechs;
         this.canBeBuiltOn = canBeBuiltOn;
-        this.features = features;
     }
 
 
