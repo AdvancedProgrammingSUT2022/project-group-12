@@ -161,7 +161,10 @@ public class Civilization {
                     worker.removeWork();
                     ImprovementEnum improvement = worker.getCurrentBuildingImprovement();
                     Tile workerTile = GameController.getGameTile(worker.getLocation());
-                    if (improvement != null) workerTile.addImprovement(improvement);
+                    if (improvement != null) {
+                        workerTile.addImprovement(improvement);
+                        GameController.getCivByName(workerTile.getCivName()).updateResources(workerTile);
+                    }
                     workerTile.setDamaged(false);
                 }
             }

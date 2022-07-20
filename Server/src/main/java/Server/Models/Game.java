@@ -246,7 +246,8 @@ public class Game {
 //        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross() != null && unit.getPathShouldCross().size() > 0) {
             if(GameController.getGameTile(unit.getLocation()).isARuin()){
-                GameController.getGameTile(unit.getLocation()).achieveRuin(unit.getCivilization());
+                GameController.getGameTile(unit.getLocation()).achieveRuin();
+                unit.getCivilization().addGold(Constants.GOLD_PRIZE_RUIN);
                 if(!response.toString().startsWith("ruin")){
                     response.append("ruin achieved successfully and 30 gold added to your territory");
                 }

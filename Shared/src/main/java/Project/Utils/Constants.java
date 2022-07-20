@@ -8,6 +8,7 @@ public class Constants {
     public static final double RUIN_PROBABILITY = 0.05;
     public static final int RUIN_DISTANCE = 1;
     public static final int DEFUALT_BEAKER_PER_TURN = 2;
+    public static final int GOLD_PRIZE_RUIN = 30;
     public static int TILEGRID_HEIGHT;
     public static int TILEGRID_WIDTH;
     public static final int TERMINAL_HEIGHT = 30;

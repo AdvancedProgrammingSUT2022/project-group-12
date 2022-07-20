@@ -8,6 +8,7 @@ import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandResponse;
+import Project.Utils.Constants;
 import Server.Controllers.CheatCodeController;
 import Server.Controllers.CombatController;
 import Server.Controllers.GameController;
@@ -949,7 +950,8 @@ public class GameMenu extends Menu {
             getUnitFuncs().unitMoveTo(selectedUnit, location);
             setCamera(this.selectedUnit.getLocation());
             if (isCurrentTileHaveRuin(location)){
-                GameController.getGameTile(selectedUnit.getLocation()).achieveRuin(selectedUnit.getCivilization());
+                GameController.getGameTile(selectedUnit.getLocation()).achieveRuin();
+                selectedUnit.getCivilization().addGold(Constants.GOLD_PRIZE_RUIN);
                 answer("unit moved to " + location + " successfully and ruin is achieved and added 30 gold to your civilization");
                 return;
             }
