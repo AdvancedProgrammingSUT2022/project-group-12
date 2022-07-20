@@ -54,14 +54,7 @@ public enum ResourceEnum {
         this.goldCount = goldCount;
         this.improvementNeeded = improvementNeeded;
         this.abbreviation = abbreviation;
-
-//        System.out.println("/images/assets/resources/" + this.name().toLowerCase() + ".png");
-//        System.out.println("/images/assets/resources/" + this.name());
     }
-
-
-
-
 
     public ResourceTypeEnum getType() {
         return type;

@@ -18,21 +18,21 @@ public class ImageLoader {
     static HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
 
     static {
-        for (TechnologyEnum resourceEnum:
+        for (TechnologyEnum technologyEnum:
                 TechnologyEnum.values()) {
-            researchImages.put(resourceEnum,new Image(App.class.getResource("/images/technologies/" + resourceEnum.name().toLowerCase() + ".png").toExternalForm()));
+            if (technologyEnum != TechnologyEnum.RESET) researchImages.put(technologyEnum,new Image(App.class.getResource("/images/technologies/" + technologyEnum.name().toLowerCase() + ".png").toExternalForm()));
         }
-        for (TerrainEnum te:
+        for (TerrainEnum terrainEnum:
                 TerrainEnum.values()) {
-            if (!te.name().equals("UNKNOWN")) {
-                terrainImages.put(te,new Image(App.class.getResource("/images/resources/" + te.name().toLowerCase() + ".png").toExternalForm()));
+            if (!terrainEnum.name().equals("UNKNOWN")) {
+                terrainImages.put(terrainEnum,new Image(App.class.getResource("/images/resources/" + terrainEnum.name().toLowerCase() + ".png").toExternalForm()));
             } else {
-                terrainImages.put(te , new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm()));
+                terrainImages.put(terrainEnum , new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm()));
             }
         }
-        for (ResourceEnum re:
+        for (ResourceEnum resourceEnum:
                 ResourceEnum.values()) {
-            resourceImages.put(re,new Image(App.class.getResource("/images/resources/" + re.name().toLowerCase() + ".png").toExternalForm()));
+            if (resourceEnum != ResourceEnum.RESET) resourceImages.put(resourceEnum,new Image(App.class.getResource("/images/resources/" + resourceEnum.name().toLowerCase() + ".png").toExternalForm()));
         }
         for (UnitEnum unitEnum : UnitEnum.values()) {
             unitImages.put(unitEnum,new Image(App.class.getResource("/images/units/Units/" + unitEnum.name().toLowerCase() + ".png").toExternalForm()));
