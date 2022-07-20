@@ -4,55 +4,119 @@ import Project.Models.Terrains.Terrain;
 import Project.Utils.Constants;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public enum ImprovementEnum {
     RESET(new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
-    ROAD(
-            new ArrayList<>(List.of(TechnologyEnum.THE_WHEEL)),
-            new ArrayList<>(List.of(TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.GRASSLAND, TerrainEnum.TUNDRA, TerrainEnum.HILL, TerrainEnum.SNOW)),
-            new ArrayList<>(List.of(FeatureEnum.JUNGLE, FeatureEnum.MARSH, FeatureEnum.FOREST, FeatureEnum.RIVER))),
-    // todo: rethink about
-    RAILROAD(
-            new ArrayList<>(List.of(TechnologyEnum.RAILROAD)),
-            new ArrayList<>(List.of(TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.GRASSLAND, TerrainEnum.TUNDRA, TerrainEnum.HILL, TerrainEnum.SNOW)),
-            new ArrayList<>(List.of(FeatureEnum.JUNGLE, FeatureEnum.MARSH, FeatureEnum.FOREST, FeatureEnum.RIVER))),
-    CAMP(
-            new ArrayList<>(List.of(TechnologyEnum.TRAPPING)),
-            new ArrayList<>(List.of(TerrainEnum.TUNDRA, TerrainEnum.PLAIN, TerrainEnum.HILL)),
-            new ArrayList<>(List.of(FeatureEnum.FOREST))),
-    FARM(
-            new ArrayList<>(List.of(TechnologyEnum.AGRICULTURE)),
-            new ArrayList<>(List.of(TerrainEnum.GRASSLAND, TerrainEnum.PLAIN, TerrainEnum.DESERT)),
-            new ArrayList<>()),
-    LUMBER_MILL(
-            new ArrayList<>(List.of(TechnologyEnum.ENGINEERING)),
-            new ArrayList<>(),
-            new ArrayList<>(List.of(FeatureEnum.FOREST))),
-    MINE(
-            new ArrayList<>(List.of(TechnologyEnum.MINING)),
-            new ArrayList<>(List.of(TerrainEnum.GRASSLAND, TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.TUNDRA, TerrainEnum.SNOW)),
-            new ArrayList<>()),
-    PASTURE(new ArrayList<>(List.of(TechnologyEnum.ANIMAL_HUSBANDRY)),
-            new ArrayList<>(List.of(TerrainEnum.GRASSLAND, TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.TUNDRA, TerrainEnum.HILL)),
-            new ArrayList<>()),
-    QUARRY(
-            new ArrayList<>(),
-            new ArrayList<>(List.of(TerrainEnum.DESERT, TerrainEnum.PLAIN, TerrainEnum.GRASSLAND, TerrainEnum.TUNDRA, TerrainEnum.HILL)),
-            new ArrayList<>()),
-    PLANTATION(
-            new ArrayList<>(List.of(TechnologyEnum.CALENDAR)),
-            new ArrayList<>(List.of(TerrainEnum.DESERT, TerrainEnum.PLAIN, TerrainEnum.GRASSLAND)),
-            new ArrayList<>(List.of(FeatureEnum.FOREST, FeatureEnum.JUNGLE, FeatureEnum.MARSH, FeatureEnum.FALLOUT))),
-    TRADING_POST(
-            new ArrayList<>(List.of(TechnologyEnum.TRAPPING)),
-            new ArrayList<>(List.of(TerrainEnum.GRASSLAND, TerrainEnum.PLAIN, TerrainEnum.DESERT, TerrainEnum.TUNDRA)),
-            new ArrayList<>()),
+    ROAD(new ArrayList<>() {{
+        add(TechnologyEnum.THE_WHEEL);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.HILL);
+        add(TerrainEnum.SNOW);
 
-    FORT(
-            new ArrayList<>(List.of(TechnologyEnum.ENGINEERING)),
-            new ArrayList<>(List.of(TerrainEnum.DESERT, TerrainEnum.PLAIN, TerrainEnum.GRASSLAND, TerrainEnum.TUNDRA, TerrainEnum.SNOW)),
-            new ArrayList<>());
+    }}, new ArrayList<>() {{
+        add(FeatureEnum.JUNGLE);
+        add(FeatureEnum.MARSH);
+        add(FeatureEnum.FOREST);
+        add(FeatureEnum.RIVER);
+    }}),
+    // todo: rethink about
+    RAILROAD(new ArrayList<>() {{
+        add(TechnologyEnum.RAILROAD);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.HILL);
+        add(TerrainEnum.SNOW);
+
+    }}, new ArrayList<>() {{
+        add(FeatureEnum.JUNGLE);
+        add(FeatureEnum.MARSH);
+        add(FeatureEnum.FOREST);
+        add(FeatureEnum.RIVER);
+    }}),
+    CAMP(new ArrayList<>() {{
+        add(TechnologyEnum.TRAPPING);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.HILL);
+    }}, new ArrayList<>() {{
+        add(FeatureEnum.FOREST);
+    }}),
+    FARM(new ArrayList<>() {{
+        add(TechnologyEnum.AGRICULTURE);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.DESERT);
+    }}, new ArrayList<>()),
+    LUMBER_MILL(new ArrayList<>() {{
+        add(TechnologyEnum.ENGINEERING);
+    }}, new ArrayList<>(), new ArrayList<>() {{
+        add(FeatureEnum.FOREST);
+    }}),
+    MINE(new ArrayList<>() {{
+        add(TechnologyEnum.MINING);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.SNOW);
+    }}, new ArrayList<>()),
+    PASTURE(new ArrayList<>() {{
+        add(TechnologyEnum.ANIMAL_HUSBANDRY);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.HILL);
+    }}, new ArrayList<>()),
+    QUARRY(new ArrayList<>() {
+    }, new ArrayList<>() {{
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.HILL);
+    }}, new ArrayList<>()),
+    PLANTATION(new ArrayList<>() {{
+        add(TechnologyEnum.CALENDAR);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.GRASSLAND);
+
+    }}, new ArrayList<>() {{
+        add(FeatureEnum.FOREST);
+        add(FeatureEnum.JUNGLE);
+        add(FeatureEnum.MARSH);
+        add(FeatureEnum.FALLOUT);
+    }}),
+    TRADING_POST(new ArrayList<>() {{
+        add(TechnologyEnum.TRAPPING);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.TUNDRA);
+    }}, new ArrayList<>()),
+    FORT(new ArrayList<>() {{
+        add(TechnologyEnum.ENGINEERING);
+    }}, new ArrayList<>() {{
+        add(TerrainEnum.DESERT);
+        add(TerrainEnum.PLAIN);
+        add(TerrainEnum.GRASSLAND);
+        add(TerrainEnum.TUNDRA);
+        add(TerrainEnum.SNOW);
+    }}, new ArrayList<>());
 
     private final ArrayList<TechnologyEnum> requiredTechs;
     private final ArrayList<TerrainEnum> canBeBuiltOn;
