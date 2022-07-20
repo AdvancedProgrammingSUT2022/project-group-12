@@ -19,17 +19,17 @@ public class RequestHandler {
         if (request.getRequestType() == RequestType.RUN_SERVERVIEW_COMMAND) {
             String command = request.getParameter("command");
             System.out.println("command received: " + command);
+            CommandResponse commandResponse = CommandResponse.OK;
             try {
                 MenuStack.getInstance().runCommand(command);
             } catch (ResponseException e) {
-                CommandResponse commandResponse = e.getResponse();
+                commandResponse = e.getResponse();
                 if (commandResponse.isOK()) commandResponse.setMessage(e.getSuccessMessage());
-                System.out.println("Response = " + commandResponse);
-                Response response = new Response(commandResponse);
-                this.connection.send(new Gson().toJson(response));
-                return;
             }
-            System.out.println("command ran without Good Exception!");
+            System.err.println("command ran without answer!");
+            System.out.println("Response = " + commandResponse);
+            Response response = new Response(commandResponse);
+            this.connection.send(new Gson().toJson(response));
         } else if (request.getRequestType() == RequestType.QUERY_DATABASE) {
             DatabaseQueryType queryType = request.getQueryType();
             String[] queryParams = request.getQueryParams();
