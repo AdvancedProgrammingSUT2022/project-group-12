@@ -1,58 +1,59 @@
 package Project.Enums;
 
+import Project.Models.Resource;
+
 public enum ResourceEnum {
-    RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),
-    BANANA("bna", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.PLANTATION),
+    RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0),
+    BANANA("bna", ResourceTypeEnum.BONUS, 1, 0, 0),
 
-    CATTLE("ctl", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.PASTURE),
+    CATTLE("ctl", ResourceTypeEnum.BONUS, 1, 0, 0),
 
-    DEER("der", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.CAMP),
+    DEER("der", ResourceTypeEnum.BONUS, 1, 0, 0),
 
-    SHEEP("shp", ResourceTypeEnum.BONUS, 2, 0, 0, ImprovementEnum.PASTURE),
+    SHEEP("shp", ResourceTypeEnum.BONUS, 2, 0, 0),
 
-    WHEAT("wht", ResourceTypeEnum.BONUS, 1, 0, 0, ImprovementEnum.FARM),
+    WHEAT("wht", ResourceTypeEnum.BONUS, 1, 0, 0),
 
-    COAL("col", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE),
+    COAL("col", ResourceTypeEnum.STRATEGIC, 0, 1, 0),
 
-    HORSE("hrs", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.PASTURE),
+    HORSE("hrs", ResourceTypeEnum.STRATEGIC, 0, 1, 0),
 
-    IRON("irn", ResourceTypeEnum.STRATEGIC, 0, 1, 0, ImprovementEnum.MINE),
+    IRON("irn", ResourceTypeEnum.STRATEGIC, 0, 1, 0),
 
-    COTTON("ctn", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
+    COTTON("ctn", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    DYES("dys", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
+    DYES("dys", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    FUR("fur", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP),
+    FUR("fur", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    GEMSTONE("gst", ResourceTypeEnum.LUXURY, 0, 0, 3, ImprovementEnum.MINE),
+    GEMSTONE("gst", ResourceTypeEnum.LUXURY, 0, 0, 3),
 
-    GOLD("gld", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE),
+    GOLD("gld", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    INCENSE("inc", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
+    INCENSE("inc", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    IVORY("ivr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.CAMP),
+    IVORY("ivr", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    MARBLE("mrb", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.QUARRY),
+    MARBLE("mrb", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    SILK("slk", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION),
+    SILK("slk", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    SILVER("slv", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.MINE),
+    SILVER("slv", ResourceTypeEnum.LUXURY, 0, 0, 2),
 
-    SUGAR("sgr", ResourceTypeEnum.LUXURY, 0, 0, 2, ImprovementEnum.PLANTATION);
+    SUGAR("sgr", ResourceTypeEnum.LUXURY, 0, 0, 2);
 
     private final ResourceTypeEnum type;
     private final int foodCount;
     private final int productCount;
     private final int goldCount;
-    private final ImprovementEnum improvementNeeded;
+
     private final String abbreviation;
 
-    ResourceEnum(String abbreviation, ResourceTypeEnum type, int foodCount, int productCount, int goldCount, ImprovementEnum improvementNeeded) {
+    ResourceEnum(String abbreviation, ResourceTypeEnum type, int foodCount, int productCount, int goldCount) {
         this.type = type;
         this.foodCount = foodCount;
         this.productCount = productCount;
         this.goldCount = goldCount;
-        this.improvementNeeded = improvementNeeded;
         this.abbreviation = abbreviation;
     }
 
@@ -73,7 +74,7 @@ public enum ResourceEnum {
     }
 
     public ImprovementEnum getImprovementNeeded() {
-        return improvementNeeded;
+        return Resource.improvementNeeded.get(this);
     }
 
     public String getAbbreviation() {
