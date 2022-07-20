@@ -7,6 +7,7 @@ import Project.Models.Units.Unit;
 
 public class SelectHandler {
     public static void sendSelectUnitRequest(Unit unit) {
+        System.out.println("unit = " + unit.getUnitType());
         String combatOrNonCombat = (unit instanceof CombatUnit) ? "Combat" : "NonCombat";
         String command = "select unit " + combatOrNonCombat + " -p " + unit.getLocation().getRow() + " " + unit.getLocation().getCol();
         RequestSender.getInstance().send(command);

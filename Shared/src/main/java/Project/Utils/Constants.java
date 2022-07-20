@@ -2,7 +2,7 @@ package Project.Utils;
 
 public class Constants {
     public static final String SERVER_HOST = "localhost";
-    public static final int SERVER_PORT = 5000;
+    public static final int SERVER_PORT = 5001;
 
     public static final int HEX_SIZE_MULTIPLY = 7;
     public static final int PRIMAL_FOOD = 2;
