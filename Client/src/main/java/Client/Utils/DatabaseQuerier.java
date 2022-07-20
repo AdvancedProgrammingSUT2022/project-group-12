@@ -26,117 +26,117 @@ import java.util.List;
 public class DatabaseQuerier {
 
     public static ArrayList<User> getAllUsers() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_USERS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_USERS);
         TypeToken<ArrayList<User>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static ArrayList<String> getAllUsernames() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_USERNAMES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_USERNAMES);
         TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static User getUser(String username) {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_USER_BY_USERNAME, username);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_USER_BY_USERNAME, username);
         TypeToken<User> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static ArrayList<Location> getCivTilesLocations() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_TILES_LOCATIONS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_TILES_LOCATIONS);
         TypeToken<ArrayList<Location>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static ArrayList<Unit> getCurrentCivilizationUnits() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_UNITS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_UNITS);
         return new Gson().fromJson(json, new TypeToken<ArrayList<Unit>>() {
         }.getType());
     }
 
     public static ArrayList<Resource> getCivResources() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES);
         TypeToken<ArrayList<Resource>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static HashMap<String, Integer> getTileGridSize() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID_SIZE);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID_SIZE);
         return new Gson().fromJson(json, new TypeToken<HashMap<String, Integer>>() {
         }.getType());
 
     }
 
     public static ArrayList<UnitEnum> getUnitEnums() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_UNITS_ENUMS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_UNITS_ENUMS);
         return new Gson().fromJson(json, new TypeToken<ArrayList<UnitEnum>>() {
         }.getType());
     }
 
     public static ArrayList<BuildingEnum> getBuildingEnums() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_BUILDING_ENUMS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ALL_BUILDING_ENUMS);
         return new Gson().fromJson(json, new TypeToken<ArrayList<BuildingEnum>>() {
         }.getType());
     }
 
     public static int getHappinessOfCurrentCiv() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_HAPPINESS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_HAPPINESS);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
 
     public static int getFoodOfCurrentCiv() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_FOOD);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_FOOD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
 
     public static int getGoldOfCurrentCiv() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_GOLD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
 
     public static int getScienceOfCurrentCiv() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_SCIENCE);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_SCIENCE);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
 
     public static ArrayList<String> getCurrentCivInWarWith() {
 
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_INWARWITH);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_INWARWITH);
         return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
         }.getType());
     }
 
     public static List<String> getNeighborsCivsName() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_NEIGHBORS_CURRENTCIV_NAMES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_NEIGHBORS_CURRENTCIV_NAMES);
         return new Gson().fromJson(json, new TypeToken<List<String>>() {
         }.getType());
     }
 
     public static int getGoldCivilizationByName(String name) {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_GOLD_BY_NAME, name);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_GOLD_BY_NAME, name);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
 
     public static ArrayList<Resource> getCivResourcesByName(String name) {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES_BY_NAME, name);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_RESOURCES_BY_NAME, name);
         TypeToken<ArrayList<Resource>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static ArrayList<Notification> getCurrentCivNotifications() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NOTIFICATIONS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NOTIFICATIONS);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Notification.class, new MyJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
@@ -146,35 +146,35 @@ public class DatabaseQuerier {
     }
 
     public static ArrayList<Location> getCurrentCivUnitsLocation() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_LOCATIONS);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_LOCATIONS);
         TypeToken<ArrayList<Location>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static ArrayList<String> getCurrentCivCitiesNames() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_NAMES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_NAMES);
         TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static ArrayList<String> getCurrentCivUnitsNames() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_NAMES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_UNITS_NAMES);
         TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static Location getCurrentCivLocationByName(String cityName) {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_LOCATION_BY_NAME, cityName);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_LOCATION_BY_NAME, cityName);
         TypeToken<Location> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }
 
     public static Unit getSelectedUnit() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_UNIT);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());
@@ -184,7 +184,7 @@ public class DatabaseQuerier {
     }
 
     public static Tile getTileByLocation(String row, String col) {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION, row, col);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION, row, col);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());
@@ -195,35 +195,35 @@ public class DatabaseQuerier {
     }
 
     public static City getSelectedCity() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY);
         return new Gson().fromJson(json, City.class);
     }
 
     public static ArrayList<TechnologyEnum> getTechnologies() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TECHNOLOGIES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TECHNOLOGIES);
         return new Gson().fromJson(json, new TypeToken<ArrayList<TechnologyEnum>>() {
         }.getType());
     }
 
     public static String getCurrentCivName() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NAME);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_NAME);
         return new Gson().fromJson(json, String.class);
     }
 
     public static TechnologyEnum getResearchingTechnology() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGY);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGY);
         return new Gson().fromJson(json, new TypeToken<TechnologyEnum>() {
         }.getType());
     }
 
     public static HashMap<TechnologyEnum, Integer> getResearchingTechnologies() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGIES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RESEARCHING_TECHNOLOGIES);
         return new Gson().fromJson(json, new TypeToken<HashMap<TechnologyEnum, Integer>>() {
         }.getType());
     }
 
     public static TileGrid getTileGrid() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());
@@ -236,38 +236,38 @@ public class DatabaseQuerier {
     }
 
     public static List<String> getCurrentCivInPeaceWith() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_INPEACEWITH);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_INPEACEWITH);
         return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
         }.getType());
     }
 
     public static Location getCivCameraLocation() {
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_CAMERA_LOCATION);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_CAMERA_LOCATION);
         return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
         }.getType());
     }
     public static int getSelectedCityGold(){
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_GOLD);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_GOLD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
     public static double getSelectedCityProduction(){
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_PRODUCTION);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_PRODUCTION);
         return new Gson().fromJson(json, new TypeToken<Double>() {
         }.getType());
     }
     public static int getSelectedCityFood(){
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_FOOD);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_FOOD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
     public static int getSelectedCityNumberOfUnAssignedCitizen(){
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_UNASSIGNED_CITIZEN);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_UNASSIGNED_CITIZEN);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
     public static ArrayList<Citizen> getSelectedCityAssignedCitizens(){
-        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_ASSIGNED_CITIZEN);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_ASSIGNED_CITIZEN);
         return new Gson().fromJson(json, new TypeToken<ArrayList<Citizen>>() {
         }.getType());
     }

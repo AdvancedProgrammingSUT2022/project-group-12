@@ -7,16 +7,16 @@ import com.google.gson.Gson;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class RequestHandler {
-    private static final RequestHandler instance = new RequestHandler();
+public class RequestSender {
+    private static final RequestSender instance = new RequestSender();
     private static Connection connection = null;
     private HashMap<String, String> responseParameterCache = null;
 
-    private RequestHandler() {
+    private RequestSender() {
 
     }
 
-    public static RequestHandler getInstance() {
+    public static RequestSender getInstance() {
         return instance;
     }
 
@@ -24,9 +24,10 @@ public class RequestHandler {
         connection = new Connection(socket);
     }
 
-    public CommandResponse handle(String line) {
+    public CommandResponse send(String line) {
         System.out.println("Request: " + line);
         Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getLoginToken());
+        request.addParameter("command", line);
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
         Response response = new Gson().fromJson(responseJson, Response.class);

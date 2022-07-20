@@ -1,6 +1,6 @@
 package Client.Views;
 
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -54,7 +54,7 @@ public class ProfileView implements ViewController {
 
     public void backClick() {
         String command = "menu exit";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -154,7 +154,7 @@ public class ProfileView implements ViewController {
 
     private void nicknameAboutToChange() {
         String command = "change nickname -n " + changeNick.getText();
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         switch (response) {
             case OK -> {
                 MenuStack.getInstance().getUser().changeNickname(changeNick.getText());
@@ -169,7 +169,7 @@ public class ProfileView implements ViewController {
 
     private void passwordAboutToChange() {
         String command = "change password -o " + oldPass.getText() + " -n " + changePass.getText();
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         // todo: based on response
 //        if (MenuStack.getInstance().getUser().passwordMatchCheck(oldPass.getText())) {
 //            changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");

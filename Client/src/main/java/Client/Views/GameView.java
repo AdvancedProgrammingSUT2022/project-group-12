@@ -4,7 +4,7 @@ import Client.App;
 import Client.Models.Hex;
 import Client.Models.HexGrid;
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -55,7 +55,7 @@ public class GameView implements ViewController {
 
     public void initialize() {
         String command = "map show"; // dummy command to initialize logic GameMenu
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
         goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
         happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
@@ -114,7 +114,7 @@ public class GameView implements ViewController {
 
     public void backToMenu() {
         String command = "end game";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -138,7 +138,7 @@ public class GameView implements ViewController {
     public void NextTurn() {
 
         String command = "end turn";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

@@ -3,7 +3,7 @@ package Client.Models;
 
 import Client.App;
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Client.Utils.SelectHandler;
 import Client.Views.ImageLoader;
 import Client.Views.Menu;
@@ -241,7 +241,7 @@ public class Hex implements Observer<Tile> {
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-                RequestHandler.getInstance().handle(command);
+                RequestSender.getInstance().send(command);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
             }
         });

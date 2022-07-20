@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -99,7 +99,7 @@ public class UnitPanelView implements ViewController {
         Button button = new Button("clear land");
         button.setOnAction(actionEvent -> {
             String command = "unit clear land"; // todo: implement on server
-            CommandResponse response = RequestHandler.getInstance().handle(command);
+            CommandResponse response = RequestSender.getInstance().send(command);
             if( !response.isOK()){
                 MenuStack.getInstance().showError(response.toString());
                 return;
@@ -117,7 +117,7 @@ public class UnitPanelView implements ViewController {
             if (cityName.getText().isEmpty())
                 return;
             String command = "unit found city";
-            CommandResponse response = RequestHandler.getInstance().handle(command);
+            CommandResponse response = RequestSender.getInstance().send(command);
             if( !response.isOK()){
                 MenuStack.getInstance().showError(response.toString());
                 return;
@@ -171,11 +171,11 @@ public class UnitPanelView implements ViewController {
         int locationX = xSpinner.getValue();
         int locationY = ySpinner.getValue();
         String command = "unit move -p " + locationX + " " + locationY;
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
-        } else if (RequestHandler.getInstance().getParameter("foundRuin") != null) {
+        } else if (RequestSender.getInstance().getParameter("foundRuin") != null) {
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
        back();
@@ -184,7 +184,7 @@ public class UnitPanelView implements ViewController {
     public void sleep() {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit sleep";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -197,7 +197,7 @@ public class UnitPanelView implements ViewController {
     public void alert() {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit alert";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -210,7 +210,7 @@ public class UnitPanelView implements ViewController {
     public void fortify() {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit fortify";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -223,7 +223,7 @@ public class UnitPanelView implements ViewController {
     public void awake() {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit wake";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -246,7 +246,7 @@ public class UnitPanelView implements ViewController {
         int locationY = yAttackSpinner.getValue();
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -256,8 +256,8 @@ public class UnitPanelView implements ViewController {
         // response = CommandResponse.INVALID_COMMAND;
         String message;
         if (response.equals(CommandResponse.OK)) {
-            String enemyDamage = RequestHandler.getInstance().getParameter("enemyDamage");
-            String unitDamage = RequestHandler.getInstance().getParameter("unitDamage");
+            String enemyDamage = RequestSender.getInstance().getParameter("enemyDamage");
+            String unitDamage = RequestSender.getInstance().getParameter("unitDamage");
             message = enemyDamage + " damage to enemy and " + unitDamage + " damage to unit";
         } else {
             message = response.toString();
@@ -280,7 +280,7 @@ public class UnitPanelView implements ViewController {
     public void delete() {
         Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit delete";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -294,7 +294,7 @@ public class UnitPanelView implements ViewController {
     {
         Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit pillage";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
         } else {
@@ -305,7 +305,7 @@ public class UnitPanelView implements ViewController {
     public void buildImprovement() {
         Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit build improvement";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;

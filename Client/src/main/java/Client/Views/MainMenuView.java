@@ -1,6 +1,6 @@
 package Client.Views;
 
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -16,7 +16,7 @@ public class MainMenuView implements ViewController {
 
     public void logout() {
         String command = "logout";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -26,7 +26,7 @@ public class MainMenuView implements ViewController {
 
     public void gotoProfileMenu() {
         String command = "goto profile menu";
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ProfilePage"));
     }
 

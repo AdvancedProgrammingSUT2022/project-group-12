@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Enums.TechnologyEnum;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -119,7 +119,7 @@ public class TechPanel implements ViewController {
             if(researchingTechnology == null){
 //                    currentCivilization.setResearchingTechnology(technologyEnum);
                 String command = "research -t " + technologyEnum.name();
-                CommandResponse response = RequestHandler.getInstance().handle(command);
+                CommandResponse response = RequestSender.getInstance().send(command);
                 if ( !response.isOK()) {
                     MenuStack.getInstance().showError(response.toString());
                     return;
@@ -133,7 +133,7 @@ public class TechPanel implements ViewController {
                 currentTechBox.setAlignment(Pos.CENTER);
 //                    currentCivilization.setResearchingTechnology(technologyEnum);
                 String command = "research -t " + technologyEnum.name();
-                CommandResponse response = RequestHandler.getInstance().handle(command);
+                CommandResponse response = RequestSender.getInstance().send(command);
                 if ( !response.isOK()) {
                     MenuStack.getInstance().showError(response.toString());
                     return;

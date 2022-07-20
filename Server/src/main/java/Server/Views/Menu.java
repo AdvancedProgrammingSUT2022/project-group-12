@@ -63,7 +63,7 @@ public abstract class Menu {
         if (message instanceof CommandException commandException) {
             throw new ResponseException(commandException.getResponse());
         } else if (message instanceof String string){
-            throw new ResponseException(CommandResponse.OK,string);
+            throw new ResponseException(CommandResponse.OK, string);
         }
     }
 

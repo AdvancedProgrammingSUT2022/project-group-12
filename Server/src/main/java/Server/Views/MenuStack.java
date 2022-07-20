@@ -12,6 +12,7 @@ import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
 import Server.Models.Database;
+import Server.Utils.RequestHandler;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MenuStack {
     private Scanner scanner;
     private User currentUser;
     private HashMap<String, String> responseParameters = new HashMap<>();
+    private RequestHandler requestHandler = null;
 
     public MenuStack() {
 
@@ -182,4 +184,12 @@ public class MenuStack {
             case GET_CIV_CAMERA_LOCATION -> gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
         };
         }
+
+    public void setCommandReceiver(RequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
     }
+
+    public RequestHandler getCommandReceiver() {
+        return requestHandler;
+    }
+}

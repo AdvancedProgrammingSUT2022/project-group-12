@@ -1,4 +1,4 @@
-package Client.Utils;
+package Project.Utils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

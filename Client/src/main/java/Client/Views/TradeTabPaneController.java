@@ -2,7 +2,7 @@ package Client.Views;
 
 import Client.App;
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -112,7 +112,7 @@ public class TradeTabPaneController implements ViewController {
         if (request == null) return;
         String command = "demand create -r " + request + " -n " + selectedCivName + " -d " + new Random().nextInt(3000);
         System.out.println("command = " + command);
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

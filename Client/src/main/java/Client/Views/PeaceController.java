@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -36,7 +36,7 @@ public class PeaceController implements ViewController{
             return;
         }
         String command = "peace create -c " + this.selectedCivName + " -n " + new Random().nextInt();
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

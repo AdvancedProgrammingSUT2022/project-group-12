@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.event.ActionEvent;
@@ -105,7 +105,7 @@ public class StartGameView implements ViewController {
         for (int i = 0; i < selectedUsernames.size(); ++i) {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }
-        CommandResponse response = RequestHandler.getInstance().handle(command.toString());
+        CommandResponse response = RequestSender.getInstance().send(command.toString());
 //        MainMenuController.startNewGame(selectedUsernames);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }

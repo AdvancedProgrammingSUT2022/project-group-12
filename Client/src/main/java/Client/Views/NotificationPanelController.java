@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Models.Notifications.*;
 import Project.Utils.CommandResponse;
 import javafx.fxml.FXML;
@@ -43,7 +43,7 @@ public class NotificationPanelController implements ViewController {
         Button ok = new Button("Ok");
         ok.setOnAction(e -> {
             String command = "declare war seen -n " + declareWar.getName();
-            CommandResponse response = RequestHandler.getInstance().handle(command);
+            CommandResponse response = RequestSender.getInstance().send(command);
             notificationPanel.getChildren().remove(hBox);
         });
         VBox vBox = new VBox(ok); vBox.setAlignment(Pos.CENTER);
@@ -64,7 +64,7 @@ public class NotificationPanelController implements ViewController {
             } else if (notif instanceof Trade) {
                 command = "trade reject -n " + notif.getName();
             }
-            CommandResponse response = RequestHandler.getInstance().handle(command);
+            CommandResponse response = RequestSender.getInstance().send(command);
             if(!response.isOK()){
                 MenuStack.getInstance().showError(response.toString());
                 return;
@@ -82,7 +82,7 @@ public class NotificationPanelController implements ViewController {
             } else if (notif instanceof Trade) {
                 command = "trade accept -n " + notif.getName();
             }
-            CommandResponse response = RequestHandler.getInstance().handle(command);
+            CommandResponse response = RequestSender.getInstance().send(command);
             if(!response.isOK()){
                 MenuStack.getInstance().showError(response.toString());
                 return;

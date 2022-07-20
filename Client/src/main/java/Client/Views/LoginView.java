@@ -1,7 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
-import Client.Utils.RequestHandler;
+import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -142,7 +142,7 @@ public class LoginView implements ViewController {
         if (emptyUsernameAndOrPassword())
             return;
         String command = "user login -u " + username.getText() + " -p " + password.getText();
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         switch (response) {
             case OK -> {
                 MenuStack.getInstance().setUser(DatabaseQuerier.getUser(username.getText()));
@@ -173,7 +173,7 @@ public class LoginView implements ViewController {
         if (emptyUsernameAndOrPassword())
             return;
         String command = "user create -u " + username.getText() + " -p " + password.getText() + " -n " + nickname.getText();
-        CommandResponse response = RequestHandler.getInstance().handle(command);
+        CommandResponse response = RequestSender.getInstance().send(command);
         switch (response) {
             case OK -> {
                 username.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
