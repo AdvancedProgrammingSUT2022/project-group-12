@@ -5,6 +5,7 @@ import Client.Utils.RequestHandler;
 import Project.Utils.CommandResponse;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+
 import java.util.Random;
 
 public class DeclareWarController implements ViewController {

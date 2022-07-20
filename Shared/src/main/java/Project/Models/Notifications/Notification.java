@@ -1,4 +1,4 @@
-package Server.Models.Notifications;
+package Project.Models.Notifications;
 
 public abstract class  Notification {
 

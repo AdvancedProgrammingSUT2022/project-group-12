@@ -1,8 +1,7 @@
-package Server.Models.Notifications;
+package Project.Models.Notifications;
 
-
-import Server.Controllers.GameController;
-import Server.Models.Civilization;
+import Project.Server.Controllers.GameController;
+import Project.Server.Models.Civilization;
 
 public class Peace extends Notification{
     String hostName;

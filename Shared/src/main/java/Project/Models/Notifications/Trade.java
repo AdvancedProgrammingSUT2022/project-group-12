@@ -1,4 +1,4 @@
-package Server.Models.Notifications;
+package Project.Models.Notifications;
 
 import Project.Enums.ResourceEnum;
 import Server.Controllers.GameController;
