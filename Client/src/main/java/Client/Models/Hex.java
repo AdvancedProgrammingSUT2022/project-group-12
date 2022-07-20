@@ -2,9 +2,9 @@ package Client.Models;
 
 
 import Client.App;
-import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
 import Client.Utils.SelectHandler;
+import Client.Views.GameView;
 import Client.Views.ImageLoader;
 import Client.Views.Menu;
 import Client.Views.MenuStack;
@@ -30,7 +30,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Hex implements Observer<Tile> {
@@ -221,8 +220,7 @@ public class Hex implements Observer<Tile> {
 
         this.group.getChildren().clear();
         this.group.getChildren().add(this.polygon);
-        ArrayList<TechnologyEnum> technologies = DatabaseQuerier.getTechnologies();
-        ResourceEnum resource = tile.getVisibleResource(technologies);
+        ResourceEnum resource = tile.getVisibleResource(GameView.instance.getTechnologies());
         if (resource != null) this.addResourceToGroup(resource);
         if (!tile.getImprovements().isEmpty()) this.addImprovementToGroup(tile.getImprovements().get(0));
         if (tile.getCity() != null) this.addCityToGroup(city);

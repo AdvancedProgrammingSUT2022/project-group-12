@@ -5,6 +5,7 @@ import Client.Models.Hex;
 import Client.Models.HexGrid;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
+import Project.Enums.TechnologyEnum;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -18,6 +19,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 public class GameView implements ViewController {
     @FXML
@@ -51,6 +54,7 @@ public class GameView implements ViewController {
     @FXML
     private TileGrid tileGrid;
     private HexGrid hexGrid;
+    private ArrayList<TechnologyEnum> technologies;
     public static GameView instance; // temporary
 
     public void initialize() {
@@ -78,6 +82,7 @@ public class GameView implements ViewController {
                 tile.addObserver(hex);
             }
         }
+        this.technologies = DatabaseQuerier.getTechnologies();
         this.reloadTileGridFromServer();
         setCameraOnCivSelectedLocation();
     }
@@ -143,6 +148,7 @@ public class GameView implements ViewController {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else MenuStack.getInstance().showSuccess(response.getMessage());
+        this.technologies = DatabaseQuerier.getTechnologies();
         this.reloadTileGridFromServer();
         setCameraOnCivSelectedLocation();
     }
@@ -157,5 +163,9 @@ public class GameView implements ViewController {
 
     public void gotoSetting() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GameSettingPage"));
+    }
+
+    public ArrayList<TechnologyEnum> getTechnologies() {
+        return technologies;
     }
 }

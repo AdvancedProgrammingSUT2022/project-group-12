@@ -51,7 +51,7 @@ public class RequestSender {
         request.setQueryParams(params);
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
-        System.out.println("databaseR: " + responseJson);
+        System.out.println("DatabaseRequest (" + query + "): " + responseJson);
         return responseJson;
     }
 }
