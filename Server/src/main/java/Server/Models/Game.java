@@ -31,10 +31,10 @@ public class Game {
     private final ClientHandler clientHandler = new ClientHandler();
     private int gameTurn = -1;
 
-    public Game(ArrayList<User> users) {
+    public Game(ArrayList<User> users,int width,int height) {
         this.users = users;
         this.civilizations = new ArrayList<>();
-        this.tileGrid = TileGrid.generateRandomTileGrid(Constants.TILEGRID_HEIGHT * users.size(), Constants.TILEGRID_WIDTH * users.size());
+        this.tileGrid = TileGrid.generateRandomTileGrid(height, width);
         this.tileGrid.setAllStatesTo(VisibilityEnum.VISIBLE);
         ArrayList<Tile> availableTiles = new ArrayList<>();
         for (Tile tile : this.tileGrid.getTilesFlatten()) {

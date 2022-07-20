@@ -1,6 +1,7 @@
 package Server.Views;
 
 import Project.Utils.CommandResponse;
+import Project.Utils.Constants;
 import Server.Controllers.GameController;
 import Server.Controllers.MainMenuController;
 import Server.Models.Game;
@@ -27,6 +28,15 @@ public class MainMenu extends Menu {
     private void playGame(Command command) {
         ArrayList<String> usernames = new ArrayList<>();
         ArrayList<Integer> playerNumbers = new ArrayList<>();
+        int width , height;
+        try {
+            command.abbreviate("width",'w');
+            command.abbreviate("height",'h');
+            width = command.getIntOption("width");
+            height = command.getIntOption("height");
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
         for (String option : command.getOptions().keySet()) {
             try {
                 if (option.startsWith("player")) {
@@ -45,7 +55,7 @@ public class MainMenu extends Menu {
             usernames.add(username);
         }
         try {
-            Game game = MainMenuController.startNewGame(usernames);
+            Game game = MainMenuController.startNewGame(usernames,width,height);
             GameController.setGame(game);
         } catch (CommandException e) {
             answer(e);

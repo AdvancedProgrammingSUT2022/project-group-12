@@ -16,9 +16,12 @@ public class Menu {
     }
 
     public static Menu loadFromFXML(String fxmlName) {
+        System.out.println("fxmlName = " + App.class.getResource("/Project/fxml/" + fxmlName + ".fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/Project/fxml/" + fxmlName + ".fxml"));
+        System.out.println("fxmlLoader = " + fxmlLoader);
         try {
             Pane root = fxmlLoader.load();
+            System.out.println("root = " + root);
             ViewController controller = fxmlLoader.getController();
             controller.loadEachTime();
             return new Menu(root, controller);

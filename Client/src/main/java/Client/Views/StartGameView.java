@@ -98,7 +98,7 @@ public class StartGameView implements ViewController {
     }
 
     public void acceptClick() {
-        StringBuilder command = new StringBuilder("play game");
+        StringBuilder command = new StringBuilder("play game -w " + currentWidthSize + " -h " + currentHeightSize);
         for (int i = 0; i < selectedUsernames.size(); ++i) {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }

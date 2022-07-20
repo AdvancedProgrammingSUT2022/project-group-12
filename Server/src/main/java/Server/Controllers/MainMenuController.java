@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class MainMenuController {
 
-    public static Game startNewGame(ArrayList<String> usernames) throws CommandException {
+    public static Game startNewGame(ArrayList<String> usernames,int width,int height) throws CommandException {
 //        System.out.println(usernames);
         ArrayList<User> users = new ArrayList<>();
         Database database = Database.getInstance();
@@ -22,7 +22,7 @@ public class MainMenuController {
                 users.add(user);
             }
         }
-        Game game = new Game(users);
+        Game game = new Game(users,width,height);
         database.addGame(game);
         GameController.setGame(game);
         return game;
