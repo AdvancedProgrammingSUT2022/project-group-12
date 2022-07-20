@@ -12,4 +12,5 @@ module Shared {
     exports Project.Models.Units to Server, Client;
     exports Project.Models.Notifications to Server, Client;
     opens Project.Models.Notifications;
+    opens Project.Utils to com.google.gson;
 }

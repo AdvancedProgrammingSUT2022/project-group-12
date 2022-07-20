@@ -16,7 +16,6 @@ public class Menu {
     }
 
     public static Menu loadFromFXML(String fxmlName) {
-        System.out.println(App.class.getResource("/Project/fxml/" + fxmlName + ".fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/Project/fxml/" + fxmlName + ".fxml"));
         try {
             Pane root = fxmlLoader.load();
