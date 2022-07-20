@@ -177,9 +177,8 @@ public class Game {
 
 
     private void checkForKillingCitizen(Civilization civ) {
-        for (City city :
-                civ.getCities()) {
-            if (city.calculateFood() < 0) {
+        for (City city : civ.getCities()) {
+            if (city.calculateFood() < 0 && city.getCitizens().size() > 0) {
                 city.killCitizen();
             }
         }

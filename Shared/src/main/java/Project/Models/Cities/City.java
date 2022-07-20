@@ -96,13 +96,11 @@ public class City {
     public int calculateDamage(double strengthDiff) {
         Random random = new Random();
         double random_number = (double) random.nextInt(75, 125) / 100;
-        return (int) (25 * exp(strengthDiff / (25.0 * random_number)));
+        return (int) (25 * Math.exp(strengthDiff / (25.0 * random_number)));
     }
 
     public Tile getTile() {
-        //todo never used why ?
-//        return GameController.getGameTile(this.location);
-        return null;
+        return GameController.getGameTile(this.location);
     }
 
     public ArrayList<Citizen> getCitizens() {
@@ -115,6 +113,9 @@ public class City {
         return citizens;
     }
 
+    public ArrayList<Tile> getTiles() {
+        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
+    }
 
 
 
@@ -404,19 +405,16 @@ public class City {
         this.production = production;
     }
 
-    @ServerMethod
-    //todo : how we can do that ??
-    public String getCivilization() {
-        return this.civName;
-    }
-
-    public void setCivilization(String civName) {
-        this.civName = civName;
-    }
-
     public Location getLocation() {
         return this.location;
     }
 
 
+    public String getCivName() {
+        return civName;
+    }
+
+    public void setCivName(String civName) {
+        this.civName = civName;
+    }
 }
