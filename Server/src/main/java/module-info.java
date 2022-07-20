@@ -1,6 +1,5 @@
 module Server {
     requires Shared;
-    requires Client;
     requires com.google.gson;
     requires javafx.fxml;
     requires xstream;

@@ -1,7 +1,6 @@
 module Shared {
     requires javafx.controls;
-    requires Server;
-    requires Client;
+    requires annotations;
     opens Project.Models;
     exports Project.Models to Server, Client;
     exports Project.Utils;
