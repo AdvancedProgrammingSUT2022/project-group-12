@@ -4,6 +4,7 @@ import Project.Enums.TerrainColor;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
+import Server.Controllers.GameController;
 
 public class TileGridPrinter {
     private final TileGrid tileGrid;
@@ -76,20 +77,21 @@ public class TileGridPrinter {
             }
         }
         if (tile.getCity() != null) {
-            this.writeCentered(row - 2, col, tile.getCity().getName(), tile.getCity().getCivName().getColor(), tileColor);
+            this.writeCentered(row - 2, col, tile.getCity().getName(), GameController.getCivByName(tile.getCity().getCivName()).getColor(), tileColor);
         }
         String movementText = tile.calculateMovementCost() == 0 ? "∞" : String.valueOf((int) tile.calculateMovementCost());
         this.writeCentered(row, col, tile.getLocation().getRow() + "," + tile.getLocation().getCol() + " " + movementText, TerrainColor.BLACK, tileColor);
-        if (tile.getCivilization() != null) {
-            this.writeCentered(row - 1, col, tile.getCivilization().getAbbreviation(), tile.getCivilization().getColor(), tileColor);
+        if (GameController.getCivByName(tile.getCivName()) != null) {
+           
+            this.writeCentered(row - 1, col, GameController.getCivByName(tile.getCivName()).getAbbreviation(), GameController.getCivByName(tile.getCivName()).getColor(), tileColor);
         }
         if (tile.getNonCombatUnit() != null) {
             String name = tile.getNonCombatUnit().getUnitType().name().charAt(0) + String.valueOf(tile.getNonCombatUnit().getUnitType().name().charAt(1)).toLowerCase();
-            this.writeCentered(row + 1, col - 2, name, tile.getNonCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
+            this.writeCentered(row + 1, col - 2, name, GameController.getCivByName(tile.getNonCombatUnit().getCivName()).getColor(), TerrainColor.RESET);
         }
         if (tile.getCombatUnit() != null) {
             String name = tile.getCombatUnit().getUnitType().name().charAt(0) + String.valueOf(tile.getCombatUnit().getUnitType().name().charAt(1)).toLowerCase();
-            this.writeCentered(row + 1, col + 1, name, tile.getCombatUnit().getCivilization().getColor(), TerrainColor.RESET);
+            this.writeCentered(row + 1, col + 1, name, GameController.getCivByName(tile.getCombatUnit().getCivName()).getColor(), TerrainColor.RESET);
         }
         String str = "";
         if (tile.getTerrain().getResource() != null) {
@@ -125,7 +127,7 @@ public class TileGridPrinter {
 
 //    public StringBuilder tileInfo(int x, int y) {
 //        if (!this.tileGrid.isLocationValid(new Location(x, y))) return new StringBuilder("location not valid");
-//        Tile selectedTile = this.tileGrid.getTile(x, y);
+//        Tile selectedTile = this.tileGrid.getTile(x, y);tile.getCivilization()
 //        VisibilityEnum selectedTileState = this.tileGrid.tileState(x, y);
 //        if (selectedTileState.equals(VisibilityEnum.FOG_OF_WAR)) {
 //            return new StringBuilder("you have not explored this tile yet");
