@@ -10,7 +10,6 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.*;
 import Server.Controllers.GameController;
-import Server.Models.Civilization;
 import Server.Utils.CommandException;
 
 import java.util.ArrayList;
@@ -165,8 +164,9 @@ public class Tile implements Notifier {
         return this.civName == null ? null : GameController.getGame().getCivByName(this.civName);
     }
 
-    public void setCivilization(Civilization civilization) {
-        this.civName = civilization.getName();
+
+    public void setCivilization(String civName) {
+        this.civName = civName;
         this.notifyObservers();
     }
     public boolean hasRuin(){
@@ -258,7 +258,6 @@ public class Tile implements Notifier {
 
     public void addImprovement(ImprovementEnum improvement) {
         this.getImprovements().add(improvement);
-        this.getCivilization().updateResources(this);
         this.notifyObservers();
     }
 
@@ -297,9 +296,12 @@ public class Tile implements Notifier {
         isRuin = ruin;
     }
 
-    public void achieveRuin(Civilization civilization) {
-        civilization.addGold(30);
+    public void achieveRuin() {
         this.setRuin(false);
         this.notifyObservers();
+    }
+
+    public String getCivName() {
+        return civName;
     }
 }

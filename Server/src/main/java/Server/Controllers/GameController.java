@@ -130,7 +130,7 @@ public class GameController {
         ArrayList<Tile> territoryTiles = game.getTileGrid().getAllTilesInRadius(tile, 1);
         String cityName = Constants.CITY_NAMES[new Random().nextInt(Constants.CITY_NAMES.length)];
         City city = new City(cityName, territoryTiles, civ.getName(), tile, isCapital);
-        for (Tile neighbor : territoryTiles) neighbor.setCivilization(civ);
+        for (Tile neighbor : territoryTiles) neighbor.setCivilization(civ.getName());
         tile.setCity(city);
         civ.addCity(city);
         GameController.deleteUnit(unit);

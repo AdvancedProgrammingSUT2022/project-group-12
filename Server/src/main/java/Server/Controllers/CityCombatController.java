@@ -136,7 +136,7 @@ public class CityCombatController extends CombatController {
 
     private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
         for (Tile tile : city.getTiles()) {
-            tile.setCivilization(civ);
+            tile.setCivilization(civ.getName());
         }
     }
 
