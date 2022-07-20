@@ -297,7 +297,7 @@ public class Game {
         } else {
             unit = tile.getCombatUnit() != null ? tile.getCombatUnit() : tile.getNonCombatUnit();
         }
-        if (unit == null || GameController.getCivByName(unit.getCivName()).equals(currentCivilization)) {
+        if (unit == null || GameController.getCivByName(unit.getCivName()) != (currentCivilization)) {
             throw new CommandException(CommandResponse.UNIT_DOES_NOT_EXISTS);
         } else {
             return unit;

@@ -1,7 +1,7 @@
 open module Shared {
     requires javafx.controls;
     requires annotations;
-//    opens Project.Models;
+    requires com.google.gson;
     exports Project.Models to Server, Client;
     exports Project.Utils;
     exports Project.Models.Cities;
@@ -11,6 +11,4 @@ open module Shared {
     exports Project.Models.Buildings;
     exports Project.Models.Units to Server, Client;
     exports Project.Models.Notifications to Server, Client;
-//    opens Project.Models.Notifications;
-//    opens Project.Utils to com.google.gson;
 }

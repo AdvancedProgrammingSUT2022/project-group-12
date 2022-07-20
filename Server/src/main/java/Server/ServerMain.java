@@ -21,25 +21,24 @@ public class ServerMain {
             System.err.println("can't initialize server on port " + Constants.SERVER_PORT);
             System.exit(0);
         }
+             MenuStack menuStack = MenuStack.getInstance();
 
-        MenuStack menuStack = MenuStack.getInstance();
+             System.out.println("waiting for client to connect...");
+             Socket socket;
+             RequestHandler requestHandler;
+             try {
+                 socket = serverSocket.accept();
+             } catch (IOException e) {
+                 System.err.println("error occurred during wait for client");
+                 return;
+             }
+             System.out.println("client connected");
 
-        System.out.println("waiting for client to connect...");
-        Socket socket;
-        RequestHandler requestHandler;
-        try {
-            socket = serverSocket.accept();
-        } catch (IOException e) {
-            System.err.println("error occurred during wait for client");
-            return;
-        }
-        System.out.println("client connected");
+             requestHandler = new RequestHandler(socket);
+             menuStack.setCommandReceiver(requestHandler);
+             menuStack.gotoLoginMenu();
+             requestHandler.run();
 
-        requestHandler = new RequestHandler(socket);
-        menuStack.setCommandReceiver(requestHandler);
-        menuStack.gotoLoginMenu();
-        requestHandler.run();
-
-        Database.getInstance().serialize();
+             Database.getInstance().serialize();
     }
 }

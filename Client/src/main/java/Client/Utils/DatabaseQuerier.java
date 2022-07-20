@@ -243,7 +243,7 @@ public class DatabaseQuerier {
 
     public static Location getCivCameraLocation() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_CAMERA_LOCATION);
-        return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
+        return new Gson().fromJson(json, new TypeToken<Location>() {
         }.getType());
     }
     public static int getSelectedCityGold(){

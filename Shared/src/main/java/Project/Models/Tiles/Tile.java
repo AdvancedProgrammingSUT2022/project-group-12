@@ -260,8 +260,15 @@ public class Tile implements Notifier<Tile> {
 
     public ResourceEnum getVisibleResource(ArrayList<TechnologyEnum> technologies) {
         ResourceEnum resource = this.getTerrain().getResource();
-        if (resource == null || !technologies.containsAll(resource.getImprovementNeeded().getRequiredTechs())) return null;
-        else return resource;
+        ImprovementEnum improvementEnum = ImprovementEnum.FARM;
+        if (resource == null){}
+        else {
+            System.out.println("resource = " + resource);
+            System.out.println("resource.getImprovementNeeded() = " + resource.getImprovementNeeded());
+            System.out.println("resource.getType() = " + resource.getType());
+            return resource;
+        }
+        return null;
     }
 
     public void setTerrain(Terrain terrain) {
