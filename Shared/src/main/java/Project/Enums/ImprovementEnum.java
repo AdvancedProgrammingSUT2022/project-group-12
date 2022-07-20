@@ -1,4 +1,4 @@
-package Project.Models.Cities.Enums;
+package Project.Enums;
 
 import Project.Models.Terrains.Terrain;
 import Project.Utils.Constants;

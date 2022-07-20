@@ -1,4 +1,4 @@
-package Project.Models.Cities.Enums;
+package Project.Enums;
 
 public enum VisibilityEnum {
     FOG_OF_WAR,

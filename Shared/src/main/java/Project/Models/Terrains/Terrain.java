@@ -1,9 +1,9 @@
 package Project.Models.Terrains;
 
-import Project.Models.Cities.Enums.FeatureEnum;
-import Project.Models.Cities.Enums.ResourceEnum;
-import Project.Models.Cities.Enums.TerrainColor;
-import Project.Models.Cities.Enums.TerrainEnum;
+import Project.Enums.FeatureEnum;
+import Project.Enums.ResourceEnum;
+import Project.Enums.TerrainColor;
+import Project.Enums.TerrainEnum;
 
 import java.util.ArrayList;
 import java.util.Random;

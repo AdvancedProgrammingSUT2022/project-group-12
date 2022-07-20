@@ -1,8 +1,8 @@
 package Project.Models.Units;
 
-import Project.Models.Cities.Enums.ImprovementEnum;
-import Project.Models.Cities.Enums.UnitEnum;
-import Project.Models.Cities.Enums.UnitStates;
+import Project.Enums.ImprovementEnum;
+import Project.Enums.UnitEnum;
+import Project.Enums.UnitStates;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 

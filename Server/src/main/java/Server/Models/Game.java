@@ -1,9 +1,9 @@
 package Server.Models;
 
 import Client.Views.GameView;
+import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
-import Project.Models.Cities.Enums.*;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;

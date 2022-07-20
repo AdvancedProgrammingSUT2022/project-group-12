@@ -1,6 +1,6 @@
 package Project.Models.Units;
 
-import Project.Models.Cities.Enums.UnitEnum;
+import Project.Enums.UnitEnum;
 import Project.Models.Location;
 
 public abstract class CombatUnit extends Unit {

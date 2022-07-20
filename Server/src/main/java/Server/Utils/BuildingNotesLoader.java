@@ -1,6 +1,6 @@
 package Server.Utils;
 
-import Project.Models.Cities.Enums.BuildingEnum;
+import Project.Enums.BuildingEnum;
 
 import java.util.HashMap;
 

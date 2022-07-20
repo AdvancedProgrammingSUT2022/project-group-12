@@ -1,7 +1,7 @@
 package Project.Models.Tiles;
 
+import Project.Enums.*;
 import Project.Models.Cities.City;
-import Project.Models.Cities.Enums.*;
 import Project.Models.Citizen;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;

@@ -1,7 +1,7 @@
 package Server.Controllers;
 
-import Project.Models.Cities.Enums.CityTypeEnum;
-import Project.Models.Cities.Enums.CombatTypeEnum;
+import Project.Enums.CityTypeEnum;
+import Project.Enums.CombatTypeEnum;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;

@@ -6,7 +6,7 @@ module Shared {
     exports Project.Models to Server, Client;
     exports Project.Utils;
     exports Project.Models.Cities;
-    exports Project.Models.Cities.Enums;
+    exports Project.Enums;
     exports Project.Models.Tiles;
     exports Project.Models.Buildings;
     exports Project.Models.Units;

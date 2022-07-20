@@ -1,6 +1,6 @@
 package Server.Controllers;
 
-import Project.Models.Cities.Enums.UnitEnum;
+import Project.Enums.UnitEnum;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;

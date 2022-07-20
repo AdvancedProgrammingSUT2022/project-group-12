@@ -2,7 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
-import Project.Models.Cities.Enums.TechnologyEnum;
+import Project.Enums.TechnologyEnum;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

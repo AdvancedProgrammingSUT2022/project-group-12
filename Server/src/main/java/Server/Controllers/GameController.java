@@ -1,9 +1,10 @@
 package Server.Controllers;
 
+import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
-import Project.Models.*;
-import Project.Models.Cities.Enums.*;
+import Project.Models.Citizen;
+import Project.Models.Location;
 import Project.Models.Notifications.DeclareWar;
 import Project.Models.Notifications.Demand;
 import Project.Models.Notifications.Peace;
@@ -18,6 +19,7 @@ import Project.Utils.Constants;
 import Server.Models.Civilization;
 import Server.Models.Game;
 import Server.Utils.CommandException;
+
 import java.util.*;
 
 

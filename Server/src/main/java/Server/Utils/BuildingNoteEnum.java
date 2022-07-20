@@ -1,8 +1,8 @@
 package Server.Utils;
 
-import Project.Models.Cities.Enums.CombatTypeEnum;
-import Project.Models.Cities.Enums.FeatureEnum;
-import Project.Models.Cities.Enums.ResourceEnum;
+import Project.Enums.CombatTypeEnum;
+import Project.Enums.FeatureEnum;
+import Project.Enums.ResourceEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Production;

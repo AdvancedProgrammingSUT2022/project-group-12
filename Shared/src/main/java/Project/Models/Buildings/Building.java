@@ -1,7 +1,7 @@
 package Project.Models.Buildings;
 
-import Project.Models.Cities.Enums.BuildingEnum;
-import Project.Models.Cities.Enums.TechnologyEnum;
+import Project.Enums.BuildingEnum;
+import Project.Enums.TechnologyEnum;
 import Project.Models.Cities.City;
 import Project.Models.Production;
 

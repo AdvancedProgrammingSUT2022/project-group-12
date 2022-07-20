@@ -1,7 +1,7 @@
 package Project.Models.Cities;
 
+import Project.Enums.*;
 import Project.Models.Buildings.Building;
-import Project.Models.Cities.Enums.*;
 import Project.Models.Citizen;
 import Project.Models.Location;
 import Project.Models.Production;
@@ -11,7 +11,10 @@ import Project.Utils.Constants;
 import Project.Utils.ServerMethod;
 import Server.Utils.CommandException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.exp;
 

@@ -1,7 +1,7 @@
 package Server.Controllers;
 
-import Project.Models.Cities.Enums.TechnologyEnum;
-import Project.Models.Cities.Enums.UnitEnum;
+import Project.Enums.TechnologyEnum;
+import Project.Enums.UnitEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;

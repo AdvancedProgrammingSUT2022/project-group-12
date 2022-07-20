@@ -1,4 +1,4 @@
-package Project.Models.Cities.Enums;
+package Project.Enums;
 
 public enum ResourceEnum {
     RESET("rst", ResourceTypeEnum.STRATEGIC, 0, 0, 0, ImprovementEnum.RESET),

@@ -1,10 +1,10 @@
 package Client.Views;
 
 import Client.App;
-import Project.Models.Cities.Enums.ResourceEnum;
-import Project.Models.Cities.Enums.TechnologyEnum;
-import Project.Models.Cities.Enums.TerrainEnum;
-import Project.Models.Cities.Enums.UnitEnum;
+import Project.Enums.ResourceEnum;
+import Project.Enums.TechnologyEnum;
+import Project.Enums.TerrainEnum;
+import Project.Enums.UnitEnum;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;

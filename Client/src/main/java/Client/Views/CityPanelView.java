@@ -2,9 +2,9 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
-import Project.Models.Cities.Enums.BuildingEnum;
-import Project.Models.Cities.Enums.TechnologyEnum;
-import Project.Models.Cities.Enums.UnitEnum;
+import Project.Enums.BuildingEnum;
+import Project.Enums.TechnologyEnum;
+import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Production;

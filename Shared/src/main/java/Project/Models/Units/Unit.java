@@ -1,14 +1,13 @@
 package Project.Models.Units;
 
-import Project.Models.Cities.Enums.CombatTypeEnum;
-import Project.Models.Cities.Enums.FeatureEnum;
-import Project.Models.Cities.Enums.UnitEnum;
-import Project.Models.Cities.Enums.UnitStates;
+import Project.Enums.CombatTypeEnum;
+import Project.Enums.FeatureEnum;
+import Project.Enums.UnitEnum;
+import Project.Enums.UnitStates;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
-
 import Project.Utils.Constants;
 import Project.Utils.ServerMethod;
 import Server.Controllers.GameController;

@@ -1,4 +1,4 @@
-package Project.Models.Cities.Enums;
+package Project.Enums;
 
 public enum TerrainColor {
     RESET("\033[0m"),

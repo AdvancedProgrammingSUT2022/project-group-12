@@ -1,6 +1,6 @@
 package Project.Models;
 
-import Project.Models.Cities.Enums.AvatarURLEnum;
+import Project.Enums.AvatarURLEnum;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package Project.Models.Notifications;
 
-import Project.Models.Cities.Enums.ResourceEnum;
+import Project.Enums.ResourceEnum;
 import Project.Server.Controllers.GameController;
 import Project.Server.Models.Civilization;
 import Project.Server.Utils.CommandException;
