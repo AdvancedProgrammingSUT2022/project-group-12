@@ -2,7 +2,6 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestHandler;
-import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
@@ -99,8 +98,14 @@ public class UnitPanelView implements ViewController {
     private Button initClearLandButton() {
         Button button = new Button("clear land");
         button.setOnAction(actionEvent -> {
-            Tile tile = unit.getTile();
-            tile.clearLand();
+            String command = "unit clear land"; // todo: implement on server
+            CommandResponse response = RequestHandler.getInstance().handle(command);
+            if( !response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            } else {
+                MenuStack.getInstance().showSuccess(response.getMessage());
+            }
             back();
         });
         return button;

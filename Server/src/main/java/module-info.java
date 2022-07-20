@@ -3,6 +3,7 @@ module Server {
     requires com.google.gson;
     requires javafx.fxml;
     requires xstream;
+    requires annotations;
     opens Server.Models to Shared, com.google.gson, xstream;
     opens Server.Controllers to Shared, javafx.fxml,javafx.graphics;
     opens Server.Views to Shared;

@@ -8,11 +8,9 @@ import Project.Models.Terrains.Terrain;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
-import Project.Utils.CommandResponse;
 import Project.Utils.Notifier;
 import Project.Utils.NotifierUtil;
 import Project.Utils.TileObserver;
-import Server.Utils.CommandException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +131,7 @@ public class Tile implements Notifier {
         return combatUnit;
     }
 
-    private void setCombatUnit(CombatUnit combatUnit) {
+    public void setCombatUnit(CombatUnit combatUnit) {
         this.combatUnit = combatUnit;
         this.notifyObservers();
     }
@@ -142,25 +140,10 @@ public class Tile implements Notifier {
         return nonCombatUnit;
     }
 
-    private void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
+    public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
         this.nonCombatUnit = nonCombatUnit;
         this.notifyObservers();
     }
-
-    // @NotNull reminds not to set tile units to null, directly
-    public void placeUnit(Unit unit) throws CommandException {
-        if (unit == null) throw new RuntimeException();
-        if (unit instanceof CombatUnit combatUnit) {
-            if (this.getCombatUnit() != null)
-                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, this.getCombatUnit().getUnitType().name());
-            this.setCombatUnit(combatUnit);
-        } else if (unit instanceof NonCombatUnit nonCombatUnit) {
-            if (this.getNonCombatUnit() != null)
-                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, this.getNonCombatUnit().getUnitType().name());
-            this.setNonCombatUnit(nonCombatUnit);
-        }
-    }
-
 
     public void setCivilization(String civName) {
         this.civName = civName;

@@ -584,7 +584,8 @@ public class GameMenu extends Menu {
             case "buy" -> cityBuy(command);
             case "attack" -> cityAttack(command);
             case "queue" -> cityQueue(command);
-            case "info" -> answer(this.selectedCity.getInfo());
+            // not required in graphics
+//            case "info" -> answer(this.selectedCity.getInfo());
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -962,7 +963,7 @@ public class GameMenu extends Menu {
     }
 
     private boolean isCurrentTileHaveRuin(Location location) {
-        if(selectedUnit.getTile().hasRuin()){
+        if(GameController.getGameTile(selectedUnit.getLocation()).hasRuin()){
             return true;
         }
         return false;

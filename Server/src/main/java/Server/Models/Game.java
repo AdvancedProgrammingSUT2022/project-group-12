@@ -79,8 +79,8 @@ public class Game {
             CombatUnit warrior = new NonRangedUnit(UnitEnum.WARRIOR, civ.getName(), settlerTile.getLocation());
 
             try {
-                settlerTile.placeUnit(settler);
-                settlerTile.placeUnit(warrior);
+                GameController.placeUnit(settler, settlerTile);
+                GameController.placeUnit(warrior, settlerTile);
             } catch (CommandException e) { // never
                 System.out.println("error in placing initial units at game class");
             }
@@ -228,7 +228,7 @@ public class Game {
         if(production instanceof Unit unit){
             Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
             try {
-                GameController.getGameTile(city.getLocation()).placeUnit(unit);
+                GameController.placeUnit(unit, GameController.getGameTile(city.getLocation()));
                 cityCiv.getUnits().add(unit);
             } catch (CommandException e) {
                 // we should guarantee emptiness of the tile at the last turn

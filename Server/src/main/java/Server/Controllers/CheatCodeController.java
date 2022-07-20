@@ -43,7 +43,7 @@ public class CheatCodeController {
         }
         Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civilization.getName(), location);
         civilization.addUnit(newUnit);
-        tile.placeUnit(newUnit);
+        GameController.placeUnit(newUnit, tile);
     }
 
     public void finishProducts(City city) throws CommandException {
@@ -71,7 +71,7 @@ public class CheatCodeController {
             throw new CommandException(CommandResponse.CANNOT_SPAWN_ON_TILE, tile.getTerrain().getTerrainType().name());
         }
         Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civName, location);
-        tile.placeUnit(newUnit);
+        GameController.placeUnit(newUnit, tile);
     }
 
     public void increaseBeaker(int amount) {

@@ -19,6 +19,7 @@ import Project.Utils.Constants;
 import Server.Models.Civilization;
 import Server.Models.Game;
 import Server.Utils.CommandException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -416,7 +417,21 @@ public class GameController {
         Tile tile = GameController.getGameTile(city.getLocation());
         Unit unit = Unit.constructUnitFromEnum(unitEnum, civ.getName(), city.getLocation());
         civ.addUnit(unit);
-        tile.placeUnit(unit);
+        GameController.placeUnit(unit, tile);
+    }
+
+    // @NotNull reminds not to set tile units to null, directly
+    public static void placeUnit(@NotNull Unit unit, Tile tile) throws CommandException {
+        if (unit == null) throw new RuntimeException();
+        if (unit instanceof CombatUnit combatUnit) {
+            if (tile.getCombatUnit() != null)
+                throw new CommandException(CommandResponse.COMBAT_UNIT_ALREADY_ON_TILE, tile.getCombatUnit().getUnitType().name());
+            tile.setCombatUnit(combatUnit);
+        } else if (unit instanceof NonCombatUnit nonCombatUnit) {
+            if (tile.getNonCombatUnit() != null)
+                throw new CommandException(CommandResponse.NONCOMBAT_UNIT_ALREADY_ON_TILE, tile.getNonCombatUnit().getUnitType().name());
+            tile.setNonCombatUnit(nonCombatUnit);
+        }
     }
 
     public static void cityBuildUnit(City city, UnitEnum unitEnum) throws CommandException {
