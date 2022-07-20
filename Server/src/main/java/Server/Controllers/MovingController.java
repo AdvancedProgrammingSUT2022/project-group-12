@@ -44,16 +44,16 @@ public class MovingController {
                 break;
             }
             tileGrid.getTile(unit.getLocation()).transferUnitTo(unit, tileGrid.getTile(nextLocation));
-            GameController.getGame().updateRevealedTileGrid(unit.getCivilization());
-            unit.getCivilization().setCurrentSelectedGridLocation(nextLocation);
+            GameController.getGame().updateRevealedTileGrid(GameController.getCivByName(unit.getCivName()));
+            GameController.getCivByName(unit.getCivName()).setCurrentSelectedGridLocation(nextLocation);
             unit.getPathShouldCross().remove(0);
         }
     }
 
     private static boolean checkForEnemyExists(Location nextLocation, Unit unit) {
         Tile currentTile = GameController.getGameTile(nextLocation);
-        if (GameController.isEnemyCityExists(nextLocation, unit.getCivilization()) || GameController.isEnemyExists(nextLocation, unit.getCivilization())
-                || GameController.isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
+        if (GameController.isEnemyCityExists(nextLocation, GameController.getCivByName(unit.getCivName())) || GameController.isEnemyExists(nextLocation, GameController.getCivByName(unit.getCivName()))
+                || GameController.isNonCombatEnemyExists(nextLocation, GameController.getCivByName(unit.getCivName()))) {
             return true;
         } else {
             return false;
@@ -61,18 +61,18 @@ public class MovingController {
     }
 
     private static void stopMovingAndGetReadyForAttack(Location nextLocation, Unit unit) {
-        if(GameController.isEnemyCityExists(nextLocation, unit.getCivilization())){
+        if(GameController.isEnemyCityExists(nextLocation, GameController.getCivByName(unit.getCivName()))){
             unit.setAvailableMoveCount(1);
             unit.setPathShouldCross(null);
             return;
         }
-        if (GameController.isEnemyExists(nextLocation, unit.getCivilization())) {
+        if (GameController.isEnemyExists(nextLocation, GameController.getCivByName(unit.getCivName()))) {
             unit.setAvailableMoveCount(1);
             unit.setPathShouldCross(null);
             return;
         }
-        if (GameController.isNonCombatEnemyExists(nextLocation, unit.getCivilization())) {
-            CaptureTheNonCombatUnit(GameController.getGameTile(nextLocation), unit.getCivilization());
+        if (GameController.isNonCombatEnemyExists(nextLocation, GameController.getCivByName(unit.getCivName()))) {
+            CaptureTheNonCombatUnit(GameController.getGameTile(nextLocation), GameController.getCivByName(unit.getCivName()));
             return;
         }
         return;
@@ -117,9 +117,9 @@ public class MovingController {
 
     private static boolean checkForZOCOnTile(Tile tile, Unit unit) {
         ArrayList<Tile> tiles = GameController.getGame().getTileGrid().getNeighborsOf(tile);
-        Civilization unitCiv = unit.getCivilization();
+        Civilization unitCiv = GameController.getCivByName(unit.getCivName());
         for (Tile tempTile : tiles) {
-            if (tempTile.getCombatUnit() != null && tempTile.getCombatUnit().getCivilization() != unitCiv) {
+            if (tempTile.getCombatUnit() != null && tempTile.getCombatUnit().getCivName().equals(unitCiv)) {
                 return true;
             }
         }

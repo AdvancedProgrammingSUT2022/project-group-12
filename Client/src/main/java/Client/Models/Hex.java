@@ -10,7 +10,6 @@ import Client.Views.Menu;
 import Client.Views.MenuStack;
 import Project.Enums.*;
 import Project.Models.Cities.City;
-import Project.Models.Cities.Enums.*;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.CombatUnit;

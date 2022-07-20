@@ -52,7 +52,7 @@ public class UnitCombatController extends CombatController {
             if (combatUnit instanceof NonRangedUnit) {
                 combatUnitTile.transferUnitTo(combatUnit, unitEnemyTile);
                 if(unitEnemyTile.getNonCombatUnit() != null){
-                    captureTheNonCombatUnitOrKillIt(unitEnemyTile,combatUnit.getCivilization());
+                    captureTheNonCombatUnitOrKillIt(unitEnemyTile,GameController.getCivByName(combatUnit.getCivName()));
                     message.append(" noncombat unit captured or killed");
                 }
             }    // todo: refactor

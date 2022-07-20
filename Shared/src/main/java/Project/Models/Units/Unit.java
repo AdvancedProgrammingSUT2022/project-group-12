@@ -154,10 +154,7 @@ public abstract class Unit extends Production {
         this.getTile().notifyObservers();
     }
 
-    @ServerMethod
-    public Civilization getCivilization() {
-        return GameController.getGame().getCivByName(this.civName);
-    }
+
 
     public void setCiv(String civName) {
         this.civName = civName;
