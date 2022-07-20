@@ -4,6 +4,7 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
+import Project.Models.Citizen;
 import Project.Models.Location;
 import Project.Models.Notifications.Notification;
 import Project.Models.Resource;
@@ -243,6 +244,31 @@ public class DatabaseQuerier {
     public static Location getCivCameraLocation() {
         String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_CAMERA_LOCATION);
         return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
+        }.getType());
+    }
+    public static int getSelectedCityGold(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_GOLD);
+        return new Gson().fromJson(json, new TypeToken<Integer>() {
+        }.getType());
+    }
+    public static double getSelectedCityProduction(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_PRODUCTION);
+        return new Gson().fromJson(json, new TypeToken<Double>() {
+        }.getType());
+    }
+    public static int getSelectedCityFood(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_FOOD);
+        return new Gson().fromJson(json, new TypeToken<Integer>() {
+        }.getType());
+    }
+    public static int getSelectedCityNumberOfUnAssignedCitizen(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_UNASSIGNED_CITIZEN);
+        return new Gson().fromJson(json, new TypeToken<Integer>() {
+        }.getType());
+    }
+    public static ArrayList<Citizen> getSelectedCityAssignedCitizens(){
+        String json = RequestHandler.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_ASSIGNED_CITIZEN);
+        return new Gson().fromJson(json, new TypeToken<ArrayList<Citizen>>() {
         }.getType());
     }
 }

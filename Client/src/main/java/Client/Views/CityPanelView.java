@@ -90,12 +90,12 @@ public class CityPanelView implements ViewController {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
         this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
-        this.gold.setText(String.valueOf(city.calculateGold()));
-        this.food.setText(String.valueOf(city.calculateFood()));
-        this.production.setText(String.valueOf(String.format("%.2f", city.calculateProduction())));
+        this.gold.setText(String.valueOf(DatabaseQuerier.getSelectedCityGold()));
+        this.food.setText(String.valueOf(DatabaseQuerier.getSelectedCityFood()));
+        this.production.setText(String.valueOf(String.format("%.2f", DatabaseQuerier.getSelectedCityProduction())));
         this.cityName.setText(city.getName());
         this.isCapital.setText(String.valueOf(city.isCapital()));
-        this.NumberOfUnassignedCitizens.setText("Number of unassigned citizens : " + city.numberOfUnassignedCitizens());
+        this.NumberOfUnassignedCitizens.setText("Number of unassigned citizens : " + DatabaseQuerier.getSelectedCityNumberOfUnAssignedCitizen());
         initBuyTileSpinner();
         initAssignCitizenSpinner();
         initCitizenMenu();
@@ -110,7 +110,7 @@ public class CityPanelView implements ViewController {
         SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         assignCitizenXSpinner.setValueFactory(xSpinnerValueFactory);
         assignCitizenYSpinner.setValueFactory(ySpinnerValueFactory);
-        if (city.numberOfUnassignedCitizens() == 0) {
+        if (DatabaseQuerier.getSelectedCityNumberOfUnAssignedCitizen() == 0) {
             this.assignBtn.setDisable(true);
         } else {
             this.assignBtn.setDisable(false);
@@ -140,7 +140,7 @@ public class CityPanelView implements ViewController {
 
     private void initCitizenMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        for (Citizen citizen : city.getCitizens()) {
+        for (Citizen citizen : DatabaseQuerier.getSelectedCityAssignedCitizens()) {
             StringBuilder citizenInfo = new StringBuilder(citizen.toString());
             if (citizen.isLocked())
                 citizenInfo.append(" 🔒️");
@@ -193,7 +193,7 @@ public class CityPanelView implements ViewController {
 
     public void BuyTile() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        if (city.calculateGold() == 0)
+        if (DatabaseQuerier.getSelectedCityGold() == 0)
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
         CommandResponse response = RequestHandler.getInstance().handle(command);

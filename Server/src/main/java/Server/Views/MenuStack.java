@@ -139,8 +139,9 @@ public class MenuStack {
         // todo: get civ token instead of current
         return switch (query) {
             case GET_SELECTED_CITY_GOLD -> gson.toJson(CityHandler.calculateGold(GameMenu.getSelectedCity()));
+            case GET_SELECTED_CITY_ASSIGNED_CITIZEN -> gson.toJson(CityHandler.getCitizens(GameMenu.getSelectedCity()));
             case GET_SELECTED_CITY_PRODUCTION -> gson.toJson(CityHandler.calculateProduction(GameMenu.getSelectedCity()));
-            case GET_SELECTED_CITY_HAPPINESS -> gson.toJson(CityHandler.calculateCityHappiness(GameMenu.getSelectedCity()));
+            case GET_SELECTED_CITY_UNASSIGNED_CITIZEN -> gson.toJson(CityHandler.numberOfUnassignedCitizens(GameMenu.getSelectedCity()));
             case GET_SELECTED_CITY_FOOD -> gson.toJson(CityHandler.calculateFood(GameMenu.getSelectedCity()));
             case GET_ALL_USERS -> gson.toJson(Database.getInstance().getAllUsers());
             case GET_ALL_USERNAMES -> gson.toJson(Database.getInstance().getAllUsernames());
