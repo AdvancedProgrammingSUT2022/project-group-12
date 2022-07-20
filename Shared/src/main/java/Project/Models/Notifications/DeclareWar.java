@@ -1,7 +1,6 @@
 package Project.Models.Notifications;
 
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
+
 
 public class DeclareWar extends Notification{
     String hostName;
@@ -19,16 +18,28 @@ public class DeclareWar extends Notification{
     private String createMessage() {
         return hostName + " declared war to you";
     }
-    public void declareWar(){
-        Civilization hostCiv = GameController.getGame().getCivByName(hostName);
-        Civilization guestCiv = GameController.getGame().getCivByName(guestName);
-        hostCiv.declareWar(guestCiv);
-        guestCiv.declareWar(hostCiv);
+
+    public String getHostName() {
+        return hostName;
     }
-   public void seenDeclareWar(){
-       Civilization hostCiv = GameController.getGame().getCivByName(hostName);
-       Civilization guestCiv = GameController.getGame().getCivByName(guestName);
-   }
 
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
 
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

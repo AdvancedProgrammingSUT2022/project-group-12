@@ -1,9 +1,5 @@
 package Project.Models.Notifications;
 
-import Project.Enums.ResourceEnum;
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
-import Project.Server.Utils.CommandException;
 
 public class Demand extends Notification {
     String type;
@@ -23,7 +19,6 @@ public class Demand extends Notification {
     }
 
     private String createMessage() {
-        Civilization hostCiv = GameController.getGame().getCivByName(hostCivName);
         if (this.requierdGold == null) {
             return "Demand : " + resourceName + " " + hostCivName;
         } else {
@@ -31,26 +26,36 @@ public class Demand extends Notification {
         }
     }
 
-    public void acceptDemand() {
-        Civilization hostCiv = GameController.getGame().getCivByName(hostCivName);
-        Civilization guestCiv = GameController.getGame().getCivByName(guestCivName);
-        if (this.requierdGold == null) {
-            try {
-                hostCiv.addResource(ResourceEnum.getResourceEnumByName(resourceName));
-                guestCiv.removeResource(ResourceEnum.getResourceEnumByName(resourceName));
-            } catch (CommandException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            hostCiv.addGold(requierdGold);
-            guestCiv.decreaseGold(requierdGold);
-        }
-        guestCiv.removeDemand(this);
+    public String getType() {
+        return type;
     }
 
-    public void rejectDemand() {
-        Civilization guestCiv = GameController.getGame().getCivByName(guestCivName);
-        guestCiv.removeDemand(this);
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getRequierdGold() {
+        return requierdGold;
+    }
+
+    public void setRequierdGold(Integer requierdGold) {
+        this.requierdGold = requierdGold;
+    }
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    public String getHostCivName() {
+        return hostCivName;
+    }
+
+    public String getGuestCivName() {
+        return guestCivName;
     }
 
     public String getName() {

@@ -481,15 +481,15 @@ public class GameController {
         Civilization currentCiv = game.getCurrentCivilization();
         if (request.chars().allMatch(Character::isDigit)) {
                 if(rivalCiv.haveThisMoney(Integer.parseInt(request)))
-                trade = new Trade(currentCiv.getResourceByName(suggest), null, null, Integer.parseInt(request), game.getCurrentCivilization(), rivalCiv,tradeName);
+                trade = new Trade(currentCiv.getResourceByName(suggest), null, null, Integer.parseInt(request), game.getCurrentCivilization().getName(), rivalCiv.getName(),tradeName);
                 else throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         } else {
             if (suggest.chars().allMatch(Character::isDigit)) {
                 if(currentCiv.haveThisMoney(Integer.parseInt(suggest)))
-                    trade = new Trade(null, Integer.parseInt(suggest), rivalCiv.getResourceByName(request), null, game.getCurrentCivilization(), rivalCiv,tradeName);
+                    trade = new Trade(null, Integer.parseInt(suggest), rivalCiv.getResourceByName(request), null, game.getCurrentCivilization().getName(), rivalCiv.getName(),tradeName);
                 else throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
             } else {
-                trade = new Trade(currentCiv.getResourceByName(suggest), null, rivalCiv.getResourceByName(request), null, game.getCurrentCivilization(), rivalCiv,tradeName);
+                trade = new Trade(currentCiv.getResourceByName(suggest), null, rivalCiv.getResourceByName(request), null, game.getCurrentCivilization().getName(), rivalCiv.getName(),tradeName);
             }
         }
         rivalCiv.addNotification(trade);
@@ -497,11 +497,11 @@ public class GameController {
 
     public static void rejectTrade(String tradeName) throws CommandException {
         Trade trade = game.getCurrentCivilization().getTradeByName(tradeName);
-        trade.reject();
+        DiplomacyController.rejectTrade(trade);
     }
     public static void acceptTrade(String tradeName) throws CommandException {
         Trade trade = game.getCurrentCivilization().getTradeByName(tradeName);
-        trade.accept();
+        DiplomacyController.acceptTrade(trade);
     }
 
     public static void createDemand(String request,String hostCiv,String demandName) {
@@ -517,21 +517,21 @@ public class GameController {
 
     public static void acceptDemand(String demandName) {
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
-        currentCiv.getDemandByName(demandName).acceptDemand();
+        DiplomacyController.acceptDemand(currentCiv.getDemandByName(demandName));
     }
     public static void rejectDemand(String demandName) {
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
-        currentCiv.getDemandByName(demandName).rejectDemand();
+        DiplomacyController.rejectDemand(currentCiv.getDemandByName(demandName));
     }
 
     public static void declareWar(String currentCivName, String guestCivName,String name) {
         DeclareWar declareWar = new DeclareWar(currentCivName,guestCivName,name);
-        declareWar.declareWar();
+        DiplomacyController.declareWar(declareWar);
         GameController.getGame().getCivByName(guestCivName).addNotification(declareWar);
     }
 
     public static void seenDeclareWar(Civilization currentCivilization, String name) {
-        currentCivilization.getDeclareWarByName(name).seenDeclareWar();
+        DiplomacyController.seenDeclareWar(currentCivilization.getDeclareWarByName(name));
     }
     public static void createPeace(String currentCivName, String guestCivName,String name) {
         Peace peace = new Peace(currentCivName,guestCivName,name);
@@ -540,13 +540,13 @@ public class GameController {
     public static void acceptPeace(String demandName) {
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
         Peace peace = currentCiv.getPeaceByName(demandName);
-        peace.peace();
+        DiplomacyController.makePeace(peace);
         currentCiv.removeNotification(peace);
     }
     public static void rejectPeace(String demandName) {
         Civilization currentCiv = GameController.getGame().getCurrentCivilization();
         Peace peace = currentCiv.getPeaceByName(demandName);
-        peace.rejectPeace();
+        DiplomacyController.rejectPeace(peace);
         currentCiv.removeNotification(peace);
     }
 }

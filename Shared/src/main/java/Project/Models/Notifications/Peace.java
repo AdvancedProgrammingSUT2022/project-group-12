@@ -1,7 +1,6 @@
 package Project.Models.Notifications;
 
-import Project.Server.Controllers.GameController;
-import Project.Server.Models.Civilization;
+
 
 public class Peace extends Notification{
     String hostName;
@@ -21,18 +20,19 @@ public class Peace extends Notification{
     }
 
 
-    public void peace(){
-        Civilization hostCiv = GameController.getGame().getCivByName(hostName);
-        Civilization guestCiv = GameController.getGame().getCivByName(guestName);
-        hostCiv.peace(guestCiv);
-        guestCiv.peace(hostCiv);
+    public String getHostName() {
+        return hostName;
     }
 
-    public void rejectPeace(){
-        Civilization hostCiv = GameController.getGame().getCivByName(hostName);
-        Civilization guestCiv = GameController.getGame().getCivByName(guestName);
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
+    public String getGuestName() {
+        return guestName;
+    }
 
-
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
 }
