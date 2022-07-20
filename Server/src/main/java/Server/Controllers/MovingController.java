@@ -8,9 +8,10 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandResponse;
+import Project.Utils.Pair;
 import Server.Models.Civilization;
 import Server.Utils.CommandException;
-import javafx.util.Pair;
+
 import java.util.*;
 
 public class MovingController {
@@ -131,9 +132,9 @@ public class MovingController {
         HashMap<Tile, Tile> parent = new HashMap<>();
         HashMap<Tile, Integer> distance = new HashMap<>();
         Comparator<Pair<Integer, Tile>> comparator = (a, b) -> {
-            Integer r1 = a.getValue().getLocation().getRow(), c1 = a.getValue().getLocation().getCol();
-            Integer r2 = b.getValue().getLocation().getRow(), c2 = b.getValue().getLocation().getCol();
-            int comp1 = a.getKey().compareTo(b.getKey());
+            Integer r1 = a.getSecond().getLocation().getRow(), c1 = a.getSecond().getLocation().getCol();
+            Integer r2 = b.getSecond().getLocation().getRow(), c2 = b.getSecond().getLocation().getCol();
+            int comp1 = a.getFirst().compareTo(b.getFirst());
             int comp2 = r1.compareTo(r2);
             int comp3 = c1.compareTo(c2);
             return comp1 != 0 ? comp1 : comp2 != 0 ? comp2 : comp3;
@@ -143,7 +144,7 @@ public class MovingController {
         heap.add(new Pair<>(0, sourceTile));
         Tile p = null;
         while (!heap.isEmpty()) {
-            Tile first = heap.pollFirst().getValue();
+            Tile first = heap.pollFirst().getSecond();
             if (first.getLocation().equals(target)) {
                 p = first;
                 break;
