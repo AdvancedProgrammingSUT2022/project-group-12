@@ -175,9 +175,9 @@ public class GameController {
         }
         unitTile.setDamaged(true);
         unit.decreaseAvailableMoveCount(1);
-        int gold = Math.min(unitTile.getCivilization().getGold(), 10);
+        int gold = Math.min(GameController.getCivByName(unitTile.getCivName()).calculateCivilizationGold(), 10);
         unit.getCivilization().addGold(gold);
-        unitTile.getCivilization().addGold(-gold);
+        GameController.getCivByName(unitTile.getCivName()).addGold(-gold);
     }
 
     public static void fortifyHealUnit(Unit unit) throws CommandException {

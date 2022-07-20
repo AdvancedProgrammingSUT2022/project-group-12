@@ -159,11 +159,6 @@ public class Tile implements Notifier {
         }
     }
 
-    @ServerMethod
-    public Civilization getCivilization() {
-        return this.civName == null ? null : GameController.getGame().getCivByName(this.civName);
-    }
-
 
     public void setCivilization(String civName) {
         this.civName = civName;

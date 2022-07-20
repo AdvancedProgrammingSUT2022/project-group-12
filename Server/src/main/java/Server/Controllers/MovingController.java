@@ -11,7 +11,6 @@ import Project.Utils.CommandResponse;
 import Server.Models.Civilization;
 import Server.Utils.CommandException;
 import javafx.util.Pair;
-
 import java.util.*;
 
 public class MovingController {
