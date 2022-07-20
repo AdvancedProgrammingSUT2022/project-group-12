@@ -4,8 +4,6 @@ import Project.Enums.TerrainEnum;
 import Project.Enums.VisibilityEnum;
 import Project.Models.Location;
 import Project.Models.Terrains.Terrain;
-import Project.Server.Utils.CommandException;
-import Project.Utils.CommandResponse;
 
 import java.util.*;
 
@@ -143,12 +141,6 @@ public class TileGrid {
             return tiles[row][col];
         } else {
             return null;
-        }
-    }
-
-    public void assertLocationValid(Location location) throws CommandException {
-        if (!isLocationValid(location)) {
-            throw new CommandException(CommandResponse.INVALID_POSITION);
         }
     }
 

@@ -2,9 +2,11 @@ package Server.Controllers;
 
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.Notifications.Notification;
 import Project.Models.Units.Unit;
 import Server.Models.Civilization;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,7 +95,13 @@ public class CivilizationController {
     }
 
     public String notificationHistory() {
-        return this.civilization.getNotifs().isEmpty() ? "no notification for now" : this.civilization.getNotifs().toString();
+        ArrayList<Notification> notifications = this.civilization.getNotifications();
+        if (notifications.isEmpty()) return "no notification for now";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Notification notification : notifications) {
+            stringBuilder.append(notification.toString());
+        }
+        return stringBuilder.toString();
     }
 
     public String militaryOverview() {

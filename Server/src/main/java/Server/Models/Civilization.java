@@ -29,14 +29,12 @@ public class Civilization {
     private final String name;
     private final TerrainColor color;
     private final ArrayList<City> cities;
-    private final ArrayList<String> notifs;
     private final TileGrid revealedTileGrid;
     private final ArrayList<Unit> units;
     private final HashMap<UnitEnum, Integer> unitCountByCategory;
     private final ArrayList<TechnologyEnum> technologies = new ArrayList<>(List.of(TechnologyEnum.RESET));
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> inWarWith;
-    private final ArrayList<Civilization> isInEconomicRelation;
     private final int production;
     private final CivilizationController controller = new CivilizationController(this);
     private final ArrayList<Resource> resources;
@@ -65,9 +63,7 @@ public class Civilization {
         this.name = user.getUsername();
         this.revealedTileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
         this.cities = new ArrayList<>();
-        this.notifs = new ArrayList<>();
         this.researchingTechnologies = new HashMap<>();
-        this.isInEconomicRelation = new ArrayList<>();
         this.happinessFromCheat = 0;
         this.goldFromCheat = 0;
         this.beaker = calculateScience();
@@ -183,18 +179,6 @@ public class Civilization {
         if (!researchingTechnologies.containsKey(technology)) {
             this.researchingTechnologies.put(technology, 0);
         }
-    }
-
-    public StringBuilder getNotifs() {
-        StringBuilder notificationList = new StringBuilder();
-        for (String message : this.notifs) {
-            notificationList.append(message).append("\n");
-        }
-        return notificationList;
-    }
-
-    public void sendMessage(String message) {
-        this.notifs.add(message);
     }
 
     public void addCity(City city) {
@@ -319,23 +303,11 @@ public class Civilization {
 
     public int calculateSuccess() {
         return gold + cities.size() + units.size() + technologies.size() + happiness
-                + isInEconomicRelation.size() - inWarWith.size() + beaker + this.getOwnedTiles().size();
+                 - inWarWith.size() + beaker + this.getOwnedTiles().size();
     }
 
     public boolean isInWarWith(Civilization civilization) {
         return this.inWarWith.contains(civilization);
-    }
-
-    public boolean isFriendWith(Civilization civilization) {
-        return this.isInEconomicRelation.contains(civilization);
-    }
-
-    public void goToWarWith(Civilization civilization) {
-        this.inWarWith.add(civilization);
-    }
-
-    public void endWarWith(Civilization civilization) {
-        this.inWarWith.remove(civilization);
     }
 
     public int getHappiness() {
@@ -440,10 +412,6 @@ public class Civilization {
         return color;
     }
 
-    public ArrayList<Civilization> economicRelations() {
-        return this.isInEconomicRelation;
-    }
-
     public int getHappinessFromCheat() {
         return happinessFromCheat;
     }
@@ -466,10 +434,6 @@ public class Civilization {
 
     public void setCheatBeaker(int cheatBeaker) {
         this.cheatBeaker = cheatBeaker;
-    }
-
-    public ArrayList<Civilization> getIsInEconomicRelation() {
-        return isInEconomicRelation;
     }
 
     public User getUser() {

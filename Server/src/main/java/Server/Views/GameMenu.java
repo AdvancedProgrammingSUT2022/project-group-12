@@ -765,7 +765,9 @@ public class GameMenu extends Menu {
     private void setSelectedUnit(Command command, Boolean isCombatUnit) {
         try {
             Location location = command.getLocationOption("position");
-            GameController.getGame().getTileGrid().assertLocationValid(location);
+            if (!GameController.getGame().getTileGrid().isLocationValid(location)) {
+                throw new CommandException(CommandResponse.INVALID_POSITION);
+            }
             selectedUnit = GameController.getGame().getSelectedUnit(GameController.getGame().getCurrentCivilization(), location, isCombatUnit);
             setCamera(location);
         } catch (CommandException e) {
