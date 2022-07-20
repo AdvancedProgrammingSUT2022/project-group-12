@@ -8,15 +8,12 @@ import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
-import Project.Utils.ServerMethod;
 import Server.Utils.CommandException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import static java.lang.Math.exp;
 
 public class City {
     private final ArrayList<Location> tilesLocations;
@@ -97,13 +94,11 @@ public class City {
     public int calculateDamage(double strengthDiff) {
         Random random = new Random();
         double random_number = (double) random.nextInt(75, 125) / 100;
-        return (int) (25 * exp(strengthDiff / (25.0 * random_number)));
+        return (int) (25 * Math.exp(strengthDiff / (25.0 * random_number)));
     }
 
     public Tile getTile() {
-        //todo never used why ?
-//        return GameController.getGameTile(this.location);
-        return null;
+        return GameController.getGameTile(this.location);
     }
 
     public ArrayList<Citizen> getCitizens() {
@@ -117,9 +112,7 @@ public class City {
     }
 
     public ArrayList<Tile> getTiles() {
-        // todo : never use why ?
-//        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
-        return null;
+        return new ArrayList<>(tilesLocations.stream().map(GameController::getGameTile).toList());
     }
 
 
@@ -289,14 +282,17 @@ public class City {
     }
 
     private double checkForHappinessState() {
-        //todo : how we can be aware of happiness type of civilization ? change logic !
+//        this.getCivilization().updateHappinessState(this.getCivilization().calculateHappiness());
+//        if (this.getCivilization().getHappinessType() != HappinessTypeEnum.HAPPY) {
+//            return 2.0 / 3;
+//        }
         return 1;
     }
 
     public void killCitizen() {
+        this.citizensCount--;
         Collections.shuffle(this.getTiles());
-        for (Tile tile :
-                this.getTiles()) {
+        for (Tile tile : this.getTiles()) {
             if (tile.getCitizen() != null && tile != this.getTile()) {
                 tile.setCitizen(null);
                 return;
@@ -531,19 +527,16 @@ public class City {
         this.production = production;
     }
 
-    @ServerMethod
-    //todo : how we can do that ??
-    public String getCivilization() {
-        return this.civName;
-    }
-
-    public void setCivilization(String civName) {
-        this.civName = civName;
-    }
-
     public Location getLocation() {
         return this.location;
     }
 
 
+    public String getCivName() {
+        return civName;
+    }
+
+    public void setCivName(String civName) {
+        this.civName = civName;
+    }
 }
