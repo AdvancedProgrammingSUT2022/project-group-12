@@ -285,5 +285,4 @@ class MyJsonDeserializer<T> implements JsonDeserializer<T> {
         }
         return var3.deserialize(var1,clazz);
     }
-
 }
