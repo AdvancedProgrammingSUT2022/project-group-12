@@ -98,10 +98,11 @@ public class StartGameView implements ViewController {
     }
 
     public void acceptClick() {
-        StringBuilder command = new StringBuilder("play game -w " + currentWidthSize + " -h " + currentHeightSize);
+        StringBuilder command = new StringBuilder("play game -w " + currentWidthSize + " -h " + currentHeightSize + " ");
         for (int i = 0; i < selectedUsernames.size(); ++i) {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }
+        System.out.println("command = " + command);
         CommandResponse response = RequestSender.getInstance().send(command.toString());
 //        MainMenuController.startNewGame(selectedUsernames);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));

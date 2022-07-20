@@ -31,7 +31,7 @@ public class Game {
     private final ClientHandler clientHandler = new ClientHandler();
     private int gameTurn = -1;
 
-    public Game(ArrayList<User> users,int width,int height) {
+    public Game(ArrayList<User> users,int height,int width) {
         this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(height, width);

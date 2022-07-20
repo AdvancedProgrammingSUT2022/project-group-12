@@ -31,9 +31,7 @@ public class App extends Application {
     }
 
     public static void setRoot(Pane root) {
-        System.out.println("root = " + root);
         App.scene.setRoot(root);
-        System.out.println("root = " + root);
     }
 
     @Override

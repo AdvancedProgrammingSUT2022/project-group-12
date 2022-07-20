@@ -22,7 +22,9 @@ public class MainMenuController {
                 users.add(user);
             }
         }
-        Game game = new Game(users,width,height);
+        System.out.println("height = " + height);
+        System.out.println("width = " + width);
+        Game game = new Game(users,height,width);
         database.addGame(game);
         GameController.setGame(game);
         return game;
