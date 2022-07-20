@@ -5,10 +5,9 @@ import Project.Models.Location;
 
 public class NonRangedUnit extends CombatUnit {
 
-     String type;
     public NonRangedUnit(UnitEnum type, String civ, Location location) {
         super(type, civ, location);
-        this.type = this.getClass().getName();
+        super.type = this.getClass().getName();
     }
 
     private void horseman() {

@@ -195,7 +195,8 @@ public class MovingController {
         }
     }
 
-    public interface ReachableTiles {
+    public interface
+    ReachableTiles {
         boolean isReachable(Tile tile);
     }
 }

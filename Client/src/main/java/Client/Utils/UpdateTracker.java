@@ -19,6 +19,7 @@ public class UpdateTracker implements Runnable {
     public void run() {
         while (true) {
             String update = this.connection.listen();
+            System.out.println("update = " + update);
             Tile tile = CustomGson.getInstance().fromJson(update, Tile.class);
             Location location = tile.getLocation();
             GameView.updateTile(location, tile);
