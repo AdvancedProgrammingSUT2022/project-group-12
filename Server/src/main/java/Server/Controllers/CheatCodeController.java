@@ -47,7 +47,7 @@ public class CheatCodeController {
     }
 
     public void finishProducts(City city) throws CommandException {
-        ArrayList<Production> productions = city.finishProductsAndReturnsIt(SourceHandler.calculateProduction(city));
+        ArrayList<Production> productions = city.finishProductsAndReturnIt();
         Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
         addProductsToCity(city, productions, cityCiv);
     }

@@ -178,8 +178,15 @@ public class Game {
 
     private void checkForKillingCitizen(Civilization civ) {
         for (City city : civ.getCities()) {
-            if (SourceHandler.calculateFood(city) < 0 && city.getCitizens().size() > 0) {
-                SourceHandler.killCitizen(city);
+            if (SourceHandler.calculateFood(city) < 0 && city.getCitizensCount() > 0) {
+                ArrayList<Location> tilesLocations = city.getTilesLocations()
+                for (Location location : tilesLocations) {
+                    Tile tile = GameController.getGameTile(location);
+                    if (tile.getCitizen() != null && location != city.getLocation()) {
+                        tile.setCitizen(null);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -199,7 +206,7 @@ public class Game {
         for (City city : civ.getCities()) {
             SourceHandler.checkCitizenBirth(city);
             Production production = city.advanceProductionQueue(SourceHandler.calculateProduction(city));
-            if(production != null) {
+            if (production != null) {
                 addProductionOfProductionQueueToCity(city, production);
             }
         }
@@ -218,12 +225,18 @@ public class Game {
     }
 
     private void addProductionOfProductionQueueToCity(City city, Production production) {
-            if(production instanceof Unit unit){
-                Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
+        if(production instanceof Unit unit){
+            Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
+            try {
+                GameController.getGameTile(city.getLocation()).placeUnit(unit);
                 cityCiv.getUnits().add(unit);
-            } else if(production instanceof Building building){
-                city.getBuildings().add(building);
+            } catch (CommandException e) {
+                // we should guarantee emptiness of the tile at the last turn
+                throw new RuntimeException(e);
             }
+        } else if(production instanceof Building building){
+            city.getBuildings().add(building);
+        }
     }
 
     private boolean checkForEnemy(ArrayList<Tile> tiles, Civilization unitCiv) {

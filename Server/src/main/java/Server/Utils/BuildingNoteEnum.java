@@ -18,7 +18,7 @@ public enum BuildingNoteEnum {
     }),
     WALLS((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f)),
     WATER_MILLS((BuildingNotes<City>) city -> {
-        if (city.getTile().hasRiver()) {
+        if (GameController.getGameTile(city.getLocation()).hasRiver()) {
             city.setFoodFromBuildings(city.getFoodFromBuildings() + 2);
         }
     }),

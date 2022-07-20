@@ -1,22 +1,16 @@
 package Project.Models.Cities;
 
-import Project.Enums.*;
+import Project.Enums.CityTypeEnum;
+import Project.Enums.TerrainEnum;
 import Project.Models.Buildings.Building;
-import Project.Models.Citizen;
 import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
-import Project.Utils.ServerMethod;
-import Server.Utils.CommandException;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
-
-import static java.lang.Math.exp;
 
 public class City {
     private final ArrayList<Location> tilesLocations;
@@ -103,58 +97,20 @@ public class City {
         return GameController.getGameTile(this.location);
     }
 
-
-
-
-
-
-
-    public ArrayList<Production> finishProductsAndReturnsIt(double productionCity) throws CommandException {
-        if (productionQueue.isEmpty()) {
-            return new ArrayList<>();
-        }
-        ArrayList<Production> productions = new ArrayList<>();
-        int size = productionQueue.size();
-        while (!productionQueue.isEmpty()) {
-            Production product = productionQueue.get(0);
-            advanceProductionQueue(productionCity);
-            if (productionQueue.size() < size) {
-                if (product instanceof Unit unit) {
-                    productions.add(unit);
-                } else if (product instanceof Building building){
-                    productions.add(building);
-                }
-                size = productionQueue.size();
-            }
-        }
+    public ArrayList<Production> finishProductsAndReturnIt() {
+        ArrayList<Production> productions = new ArrayList<>(this.productionQueue);
+        this.productionQueue.clear();
         return productions;
     }
 
-
-    public Production advanceProductionQueue(double productionCity) {
+    public Production advanceProductionQueue(double productionOfCity) {
         // productionQueue cannot be empty (Game.endCurrentTurn guarantee)
-        productionQueue.get(0).decreaseRemainedProduction(productionCity);
+        productionQueue.get(0).decreaseRemainedProduction(productionOfCity);
         if (productionQueue.get(0).getRemainedProduction() <= 0) {
             Production production = productionQueue.remove(0);
-            if (production instanceof Building building) {
-                return building;
-            } else if (production instanceof Unit unit) {
-                //todo : how we can add unit to civilization ? by returns it
-                // this.getCivilization().addUnit(unit);
-                try {
-                this.getTile().placeUnit(unit);
-                } catch (CommandException e) {
-                    // we should guarantee emptiness of the tile at the last turn
-                    throw new RuntimeException(e);
-                }
-                return unit;
-            }
-        }
-        return null;
+            return production;
+        } else return null;
     }
-
-
-
 
     public String getQueueInfo() {
         if (this.getProductionQueue().isEmpty()) return "queue is empty";

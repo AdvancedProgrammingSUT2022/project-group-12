@@ -403,7 +403,6 @@ public class GameController {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
         civ.addGold(-building.getCost());
-        Tile tile = selectedCity.getTile();
         Building buildingClass = new Building(building);
         selectedCity.addBuilding(buildingClass);
     }
@@ -415,7 +414,7 @@ public class GameController {
             throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
         }
         civ.addGold(-unitEnum.calculateGoldCost());
-        Tile tile = city.getTile();
+        Tile tile = GameController.getGameTile(city.getLocation());
         Unit unit = Unit.constructUnitFromEnum(unitEnum, civ.getName(), city.getLocation());
         civ.addUnit(unit);
         tile.placeUnit(unit);

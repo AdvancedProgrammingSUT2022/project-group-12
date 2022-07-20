@@ -83,7 +83,7 @@ public class CityCombatController extends CombatController {
             switch (message) {
                 case "Annexed" -> {
                     city.setCityState(CityTypeEnum.ANNEXED);
-                    makeCityAnnexed(city, cityTile, civ);
+                    makeCityAnnexed(city, civ);
                     break GetMessageLoop;
                 }
                 case "Destroy" -> {
@@ -91,7 +91,7 @@ public class CityCombatController extends CombatController {
                         message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
                         continue GetMessageLoop;
                     }
-                    destroyCity(city, cityTile, civ);
+                    destroyCity(city);
                     break GetMessageLoop;
                 }
                 default -> {
@@ -103,22 +103,16 @@ public class CityCombatController extends CombatController {
         return "wow you have captured the city";
     }
 
-    private static void destroyCity(City city, Tile cityTile, Civilization civ) {
-        city.setCivName(civ.getName());
-        Random random = new Random();
-        city.getBuildings().removeAll(city.getBuildings());
-        for (Tile tile :
-                SourceHandler.getCityTiles(city)) {
-            if (tile.getCitizen() != null) {
-                tile.setCitizen(null);
-            }
-            tile.getImprovements().removeAll(tile.getImprovements());
+    private static void destroyCity(City city) {
+        city.getBuildings().clear();
+        for (Tile tile : SourceHandler.getCityTiles(city)) {
+            tile.setCitizen(null);
+            tile.getImprovements().clear();
         }
-        setNewCivForCityTiles(city, cityTile, null);
-        city.getTile().setCity(null);
+        setNewCivForCityTiles(city, null);
     }
 
-    private static void makeCityAnnexed(City city, Tile cityTile, Civilization civ) {
+    private static void makeCityAnnexed(City city, Civilization civ) {
         city.setCivName(civ.getName());
         Random random = new Random();
         int length = city.getBuildings().size();
@@ -126,15 +120,15 @@ public class CityCombatController extends CombatController {
             if (city.getBuildings().get(i).getType().isCombatBuilding()) {
                 city.getBuildings().remove(city.getBuildings().get(i));
             } else {
-                if (random.nextInt(3) > 2) {
+                if (random.nextInt(3) < 2) {
                     city.getBuildings().remove(city.getBuildings().get(i));
                 }
             }
         }
-        setNewCivForCityTiles(city, cityTile, civ);
+        setNewCivForCityTiles(city, civ);
     }
 
-    private static void setNewCivForCityTiles(City city, Tile cityTile, Civilization civ) {
+    private static void setNewCivForCityTiles(City city, Civilization civ) {
         for (Tile tile : SourceHandler.getCityTiles(city)) {
             tile.setCivilization(civ.getName());
         }
@@ -146,11 +140,11 @@ public class CityCombatController extends CombatController {
         double enemyUnitStrength = enemyCity.calculateCombatStrength();
         double strengthDiff = strengthRangedUnit - enemyUnitStrength;
         enemyCity.decreaseHealth(enemyCity.calculateDamage(strengthDiff));
-        String response = checkForKill(city, enemyCity, city.getTile(), enemyCity.getTile());
+        String response = checkForKill(city, enemyCity);
         return response;
     }
 
-    private static String checkForKill(City city, City enemyCity, Tile enemyCityTile, Tile cityTile) throws CommandException {
+    private static String checkForKill(City city, City enemyCity) throws CommandException {
         if (enemyCity.getHealth() <= 0) {
             enemyCity.setHealth(1);
             throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_CITY);

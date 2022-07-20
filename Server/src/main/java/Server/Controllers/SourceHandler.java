@@ -12,7 +12,6 @@ import Project.Models.Units.Unit;
 import Project.Utils.Constants;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SourceHandler {
@@ -138,17 +137,6 @@ public class SourceHandler {
     private static double checkForHappinessState() {
         //todo : how we can be aware of happiness type of civilization ? change logic !
         return 1;
-    }
-
-    public static void killCitizen(City city) {
-        Collections.shuffle(getCityTiles(city));
-        for (Tile tile :
-                getCityTiles(city)) {
-            if (tile.getCitizen() != null && tile != city.getTile()) {
-                tile.setCitizen(null);
-                return;
-            }
-        }
     }
 
     public static void checkCitizenBirth(City city) {
