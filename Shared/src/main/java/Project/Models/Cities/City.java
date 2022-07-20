@@ -28,7 +28,6 @@ public class City {
     private int gold;
     private int goldFromBuildings;
     private int goldRatioFromBuildings;
-    private double production;
     private double productionFromBuildings;
     private int food;
     private int health;
@@ -44,7 +43,6 @@ public class City {
         this.tilesLocations = new ArrayList<>(tiles.stream().map(Tile::getLocation).toList());
         if (!this.tilesLocations.contains(tile.getLocation())) this.tilesLocations.add(tile.getLocation());
         this.gold = 100;
-        this.production = 1 + tile.calculateSources("production");
         this.health = Constants.CITY_FULL_HEALTH;
         this.combatStrength = 10;
         this.isCapital = isCapital;
@@ -320,13 +318,6 @@ public class City {
         return productionQueue;
     }
 
-    public double getProduction() {
-        return production;
-    }
-
-    public void setProduction(double production) {
-        this.production = production;
-    }
 
     public Location getLocation() {
         return this.location;
