@@ -10,6 +10,6 @@ module Shared {
     exports Project.Models.Tiles;
     exports Project.Models.Buildings;
     exports Project.Models.Units;
-    exports Project.Models.Notifications to Server;
+    exports Project.Models.Notifications to Server, Client;
     opens Project.Models.Notifications;
 }
