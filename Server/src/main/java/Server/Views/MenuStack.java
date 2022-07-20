@@ -1,6 +1,5 @@
 package Server.Views;
 
-import Client.Views.WinCityDialog;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Location;
@@ -17,7 +16,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -107,17 +105,19 @@ public class MenuStack {
     }
 
     public String getOptionForAttack(String message) {
-        System.out.println();
-        WinCityDialog dialog = new WinCityDialog(message);
-        Optional<String> answer = dialog.showAndWait();
-        return answer.get();
+//        System.out.println();
+//        WinCityDialog dialog = new WinCityDialog(message);
+//        Optional<String> answer = dialog.showAndWait();
+//        return answer.get();
+        return "";
     }
 
     public String getOptionForAttack() {
-        System.out.println();
-        WinCityDialog dialog = new WinCityDialog();
-        Optional<String> answer = dialog.showAndWait();
-        return answer.get();
+//        System.out.println();
+//        WinCityDialog dialog = new WinCityDialog();
+//        Optional<String> answer = dialog.showAndWait();
+//        return answer.get();
+        return "";
     }
 
 
@@ -139,7 +139,7 @@ public class MenuStack {
         // todo: get civ token instead of current
         return switch (query) {
             case GET_SELECTED_CITY_GOLD -> gson.toJson(CityHandler.calculateGold(GameMenu.getSelectedCity()));
-            case GET_SELECTED_CITY_ASSIGNED_CITIZEN -> gson.toJson(CityHandler.getCitizens(GameMenu.getSelectedCity()));
+            case GET_SELECTED_CITY_ASSIGNED_CITIZEN -> gson.toJson(CityHandler.getAssignedCitizens(GameMenu.getSelectedCity()));
             case GET_SELECTED_CITY_PRODUCTION -> gson.toJson(CityHandler.calculateProduction(GameMenu.getSelectedCity()));
             case GET_SELECTED_CITY_UNASSIGNED_CITIZEN -> gson.toJson(CityHandler.numberOfUnassignedCitizens(GameMenu.getSelectedCity()));
             case GET_SELECTED_CITY_FOOD -> gson.toJson(CityHandler.calculateFood(GameMenu.getSelectedCity()));
