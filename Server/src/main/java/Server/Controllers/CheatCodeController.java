@@ -41,7 +41,7 @@ public class CheatCodeController {
         if (!tile.getTerrain().getTerrainType().isReachable()) {
             throw new CommandException(CommandResponse.CANNOT_SPAWN_ON_TILE, tile.getTerrain().getTerrainType().name());
         }
-        Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civilization, location);
+        Unit newUnit = Unit.constructUnitFromEnum(unitEnum, civilization.getName(), location);
         civilization.addUnit(newUnit);
         tile.placeUnit(newUnit);
     }
