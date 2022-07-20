@@ -1,10 +1,7 @@
 package Client.Views;
 
 import Client.App;
-import Project.Enums.ResourceEnum;
-import Project.Enums.TechnologyEnum;
-import Project.Enums.TerrainEnum;
-import Project.Enums.UnitEnum;
+import Project.Enums.*;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;
@@ -15,7 +12,8 @@ public class ImageLoader {
     private static final HashMap<UnitEnum, Image> unitImages = new HashMap<>();
     private static final HashMap<ResourceEnum,Image> resourceImages = new HashMap<>();
     private static final HashMap<TerrainEnum,Image> terrainImages = new HashMap<>();
-    static HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
+    private static final HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
+    private static final HashMap<ImprovementEnum, Image> improvementImages = new HashMap<>();
 
     static {
         for (TechnologyEnum technologyEnum:
@@ -37,6 +35,9 @@ public class ImageLoader {
         for (UnitEnum unitEnum : UnitEnum.values()) {
             unitImages.put(unitEnum,new Image(App.class.getResource("/images/units/Units/" + unitEnum.name().toLowerCase() + ".png").toExternalForm()));
         }
+        for (ImprovementEnum improvementEnum : ImprovementEnum.values()) {
+            improvementImages.put(improvementEnum, new Image(App.class.getResource("/images/improvements/" + improvementEnum.name().toLowerCase() + ".png").toExternalForm()));
+        }
     }
 
     public static HashMap<ResourceEnum, Image> getResourceImages() {
@@ -53,5 +54,9 @@ public class ImageLoader {
 
     public static HashMap<TechnologyEnum, Image> getResearchImages() {
         return researchImages;
+    }
+
+    public static HashMap<ImprovementEnum, Image> getImprovementImages() {
+        return improvementImages;
     }
 }

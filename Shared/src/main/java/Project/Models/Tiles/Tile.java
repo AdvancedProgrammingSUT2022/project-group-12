@@ -30,7 +30,7 @@ public class Tile implements Notifier<Tile> {
     private Citizen citizen = null;
     private boolean isRuin;
     private String civName = null;
-    private City city;
+    private transient City city;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;
@@ -260,10 +260,7 @@ public class Tile implements Notifier<Tile> {
 
     public ResourceEnum getVisibleResource(ArrayList<TechnologyEnum> technologies) {
         ResourceEnum resource = this.getTerrain().getResource();
-        if (resource == null) return null;
-        System.out.println(resource);
-        System.out.println(resource.getImprovementNeeded());
-        if (!technologies.containsAll(resource.getImprovementNeeded().getRequiredTechs())) return null;
+        if (resource == null || !technologies.containsAll(resource.getImprovementNeeded().getRequiredTechs())) return null;
         else return resource;
     }
 

@@ -60,6 +60,7 @@ public class Hex implements Observer<Tile> {
     private final ColorAdjust groupColorAdjust = new ColorAdjust();
     private final ImageView resourceImageView;
     private final ImageView ruinImageView;
+    private final ImageView improvementImageView;
 
     public Hex(int i, int j) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -107,6 +108,9 @@ public class Hex implements Observer<Tile> {
         this.resourceImageView = new ImageView();
         this.resourceImageView.setLayoutX(this.getCenterX() - resourceImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
         this.resourceImageView.setLayoutY(this.getCenterY());
+        this.improvementImageView = new ImageView();
+        this.improvementImageView.setLayoutX(this.getCenterX() - improvementImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
+        this.improvementImageView.setLayoutY(this.getCenterY() + multiply);
         this.group.setEffect(this.groupColorAdjust);
     }
 
@@ -220,6 +224,7 @@ public class Hex implements Observer<Tile> {
         ArrayList<TechnologyEnum> technologies = DatabaseQuerier.getTechnologies();
         ResourceEnum resource = tile.getVisibleResource(technologies);
         if (resource != null) this.addResourceToGroup(resource);
+        if (!tile.getImprovements().isEmpty()) this.addImprovementToGroup(tile.getImprovements().get(0));
         if (tile.getCity() != null) this.addCityToGroup(city);
         if (nonCombatUnit != null) this.addUnitToGroup(nonCombatUnit);
         if (combatUnit != null) this.addUnitToGroup(combatUnit);
@@ -234,6 +239,11 @@ public class Hex implements Observer<Tile> {
     private void addResourceToGroup(ResourceEnum resource) {
         this.resourceImageView.setImage(ImageLoader.getResourceImages().get(resource));
         this.group.getChildren().add(this.resourceImageView);
+    }
+
+    private void addImprovementToGroup(ImprovementEnum improvement) {
+        this.improvementImageView.setImage(ImageLoader.getImprovementImages().get(improvement));
+        this.group.getChildren().add(this.improvementImageView);
     }
 
     private void addCityToGroup(City city) {
