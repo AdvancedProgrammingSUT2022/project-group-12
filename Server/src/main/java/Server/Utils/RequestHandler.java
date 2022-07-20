@@ -18,14 +18,18 @@ public class RequestHandler {
         Request request = new Gson().fromJson(json, Request.class);
         if (request.getRequestType() == RequestType.RUN_SERVERVIEW_COMMAND) {
             String command = request.getParameter("command");
+            System.out.println("command received: " + command);
             try {
                 MenuStack.getInstance().runCommand(command);
             } catch (ResponseException e) {
                 CommandResponse commandResponse = e.getResponse();
                 if (commandResponse.isOK()) commandResponse.setMessage(e.getSuccessMessage());
+                System.out.println("Response = " + commandResponse);
                 Response response = new Response(commandResponse);
                 this.connection.send(new Gson().toJson(response));
+                return;
             }
+            System.out.println("command ran without Good Exception!");
         } else if (request.getRequestType() == RequestType.QUERY_DATABASE) {
             DatabaseQueryType queryType = request.getQueryType();
             String[] queryParams = request.getQueryParams();

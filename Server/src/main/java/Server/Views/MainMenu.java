@@ -1,7 +1,6 @@
 package Server.Views;
 
 import Project.Utils.CommandResponse;
-import Project.Utils.Constants;
 import Server.Controllers.GameController;
 import Server.Controllers.MainMenuController;
 import Server.Models.Game;
@@ -23,6 +22,7 @@ public class MainMenu extends Menu {
             case "menu exit" -> MenuStack.getInstance().popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
+        answer(CommandResponse.OK);
     }
 
     private void playGame(Command command) {

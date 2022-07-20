@@ -19,7 +19,7 @@ public class Menu {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/Project/fxml/" + fxmlName + ".fxml"));
         try {
             Pane root = fxmlLoader.load();
-=           ViewController controller = fxmlLoader.getController();
+            ViewController controller = fxmlLoader.getController();
             controller.loadEachTime();
             return new Menu(root, controller);
         } catch (IOException e) {
