@@ -16,7 +16,7 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.Constants;
-import Project.Utils.TileObserver;
+import Project.Utils.Observer;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -33,7 +33,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Hex implements TileObserver {
+public class Hex implements Observer<Tile> {
 
     private static final Image cityImage = new Image(App.getResourcePath("/images/resources/City center.png"));
     private static final Image ruinImage = new Image(App.getResourcePath("/images/resources/City ruins.png"));

@@ -1,6 +1,5 @@
 package Server.Models;
 
-import Client.Views.GameView;
 import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
@@ -30,7 +29,6 @@ public class Game {
     private final TileGrid tileGrid;
     private final ArrayList<User> users;
     private final ClientHandler clientHandler = new ClientHandler();
-    private GameView panes;
     private int gameTurn = -1;
 
     public Game(ArrayList<User> users) {
@@ -124,14 +122,6 @@ public class Game {
                 revealTileFor(civilization, neighbor);
             }
         }
-    }
-
-    public GameView getPage() {
-        return this.panes;
-    }
-
-    public void setPage(GameView gameView) {
-        panes = gameView;
     }
 
     public void revealTileFor(Civilization civilization, Tile tile) {

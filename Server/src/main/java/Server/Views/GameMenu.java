@@ -949,10 +949,10 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             getUnitFuncs().unitMoveTo(selectedUnit, location);
-            setCamera(this.selectedUnit.getLocation());
+            setCamera(selectedUnit.getLocation());
             if (isCurrentTileHaveRuin(location)){
                 GameController.getGameTile(selectedUnit.getLocation()).achieveRuin();
-                selectedUnit.getCivilization().addGold(Constants.GOLD_PRIZE_RUIN);
+                GameController.getCivByName(selectedUnit.getCivName()).addGold(Constants.GOLD_PRIZE_RUIN);
                 answer("unit moved to " + location + " successfully and ruin is achieved and added 30 gold to your civilization");
                 return;
             }

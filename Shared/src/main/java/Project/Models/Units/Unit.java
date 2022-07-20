@@ -9,15 +9,17 @@ import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Utils.Constants;
-import Project.Utils.ServerMethod;
-import Server.Controllers.GameController;
+import Project.Utils.Notifier;
+import Project.Utils.NotifierUtil;
+import Project.Utils.Observer;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import static java.lang.Math.exp;
 
-public abstract class Unit extends Production {
+public abstract class Unit extends Production implements Notifier<Unit> {
+    private NotifierUtil<Unit> notifierUtil = null;
     protected UnitEnum unitType;
     protected double availableMoveCount;
     protected Location location;
@@ -37,16 +39,33 @@ public abstract class Unit extends Production {
     }
 
     // todoLater: integrate unit newing with Civ class
+    // todo: and add notifier of server side
     public static Unit constructUnitFromEnum(UnitEnum unitEnum, String civ, Location location) {
+        Unit unit;
         if (unitEnum.isACombatUnit()) {
             if (unitEnum.isRangedUnit()) {
-                return new RangedUnit(unitEnum, civ, location);
+                unit = new RangedUnit(unitEnum, civ, location);
             } else {
-                return new NonRangedUnit(unitEnum, civ, location);
+                unit = new NonRangedUnit(unitEnum, civ, location);
             }
         } else {
-            return new NonCombatUnit(unitEnum, civ, location);
+            unit = new NonCombatUnit(unitEnum, civ, location);
         }
+        return unit;
+    }
+
+    public void initializeNotifier() {
+        this.notifierUtil = new NotifierUtil<>(this);
+    }
+
+    @Override
+    public void addObserver(Observer<Unit> observer) {
+        this.notifierUtil.addObserver(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        if (notifierUtil != null) this.notifierUtil.notifyObservers();
     }
 
     protected static double getTerrainFeaturesEffect(Tile tile) {
@@ -70,18 +89,13 @@ public abstract class Unit extends Production {
         return (int) Math.ceil(25 * exp(strengthDiff / (25.0 * random_number)));
     }
 
-    @ServerMethod
-    public Tile getTile() {
-        return GameController.getGameTile(this.location);
-    }
-
     public int getHealth() {
         return health;
     }
 
     public void setHealth(int health) {
         this.health = health;
-        this.getTile().notifyObservers();
+        this.notifyObservers();
     }
 
     public double calculateCombatStrength(Unit unit, Tile itsTile, String combatstrengh, Unit enemyUnit) {
@@ -107,7 +121,7 @@ public abstract class Unit extends Production {
 
     public void setUnitType(UnitEnum unitType) {
         this.unitType = unitType;
-        this.getTile().notifyObservers();
+        this.notifyObservers();
     }
 
     public ArrayList<Tile> getPathShouldCross() {
@@ -128,7 +142,7 @@ public abstract class Unit extends Production {
 
     public void setAvailableMoveCount(double availableMoveCount) {
         this.availableMoveCount = availableMoveCount;
-        this.getTile().notifyObservers();
+        this.notifyObservers();
     }
 
     public void decreaseAvailableMoveCount(double value) {
@@ -141,7 +155,7 @@ public abstract class Unit extends Production {
 
     public void setLocation(Location location) {
         this.location = location;
-//        this.getTile().notifyObservers(); not required
+//        this.notifyObservers(); not required
     }
 
     public UnitStates getState() {
@@ -150,14 +164,14 @@ public abstract class Unit extends Production {
 
     public void setState(UnitStates state) {
         this.state = state;
-        this.getTile().notifyObservers();
+        this.notifyObservers();
     }
 
 
 
     public void setCiv(String civName) {
         this.civName = civName;
-        this.getTile().notifyObservers();
+        this.notifyObservers();
     }
 
     @Override

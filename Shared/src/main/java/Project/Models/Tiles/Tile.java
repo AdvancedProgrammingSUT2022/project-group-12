@@ -10,14 +10,14 @@ import Project.Models.Units.NonCombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.Notifier;
 import Project.Utils.NotifierUtil;
-import Project.Utils.TileObserver;
+import Project.Utils.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile implements Notifier {
+public class Tile implements Notifier<Tile> {
     private final Location location;
-    private transient NotifierUtil notifierUtil = null;
+    private transient NotifierUtil<Tile> notifierUtil = null;
     protected ArrayList<ImprovementEnum> improvements = new ArrayList<>();
     private Terrain terrain;
     private CombatUnit combatUnit;
@@ -62,12 +62,12 @@ public class Tile implements Notifier {
     }
 
     @Override
-    public void addObserver(TileObserver observer) {
+    public void addObserver(Observer<Tile> observer) {
         this.notifierUtil.addObserver(observer);
     }
 
     public void initializeNotifier() {
-        this.notifierUtil = new NotifierUtil(this);
+        this.notifierUtil = new NotifierUtil<>(this);
     }
 
     @Override
