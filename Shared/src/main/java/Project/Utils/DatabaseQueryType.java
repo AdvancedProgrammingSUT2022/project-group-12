@@ -1,7 +1,6 @@
 package Project.Utils;
 
-import Server.Controllers.CityHandler;
-import Server.Views.GameMenu;
+
 
 public enum DatabaseQueryType {
     GET_ALL_USERNAMES,/*("SELECT username FROM users")*/
