@@ -74,9 +74,7 @@ public class City {
 
 
 
-    public Tile getTile() {
-        return GameController.getGameTile(this.location);
-    }
+
 
     public ArrayList<Production> finishProductsAndReturnIt() {
         ArrayList<Production> productions = new ArrayList<>(this.productionQueue);

@@ -158,7 +158,7 @@ public class CityHandler {
         Collections.shuffle(getCityTiles(city));
         for (Tile tile :
                 getCityTiles(city)) {
-            if (tile.getCitizen() != null && tile != city.getTile()) {
+            if (tile.getCitizen() != null && tile != getCityTile(city)) {
                 tile.setCitizen(null);
                 return;
             }
