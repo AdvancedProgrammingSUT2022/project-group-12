@@ -1,9 +1,6 @@
 package Server.Controllers;
 
-import Project.Enums.BuildingEnum;
-import Project.Enums.CityTypeEnum;
-import Project.Enums.ResourceEnum;
-import Project.Enums.UnitEnum;
+import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
@@ -12,9 +9,11 @@ import Project.Models.Units.Unit;
 import Project.Utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
-public class SourceHandler {
+public class CityHandler {
 
 
     public static double calculateCityHappiness(City city) {
@@ -41,6 +40,22 @@ public class SourceHandler {
             }
         }
         return false;
+    }
+    public static double calculateCombatStrength(City city) {
+        return AffectCityFeatures(city);
+    }
+
+    private static double AffectCityFeatures(City city) {
+        double combatStrength = 10;
+        combatStrength += city.getCitizensCount();
+        combatStrength += city.getCombatStrengthFromBuildings();
+        if (getCityTile(city).getTerrain().getTerrainType() == TerrainEnum.HILL) {
+            combatStrength *= (4.0 / 3.0);
+        }
+        if (getCityTile(city).getCombatUnit() != null) {
+            combatStrength *= (5.0 / 4.0);
+        }
+        return combatStrength;
     }
 
     public static double calculateProduction(City city) {
@@ -139,6 +154,17 @@ public class SourceHandler {
         return 1;
     }
 
+    public static void killCitizen(City city) {
+        Collections.shuffle(getCityTiles(city));
+        for (Tile tile :
+                getCityTiles(city)) {
+            if (tile.getCitizen() != null && tile != city.getTile()) {
+                tile.setCitizen(null);
+                return;
+            }
+        }
+    }
+
     public static void checkCitizenBirth(City city) {
         if (city.getProductionQueue().size() != 0 && city.getProductionQueue().get(0) instanceof Unit unit && unit.getUnitType() == UnitEnum.SETTLER) {
             return;
@@ -162,10 +188,19 @@ public class SourceHandler {
         }
         return citizens;
     }
-    
-    
-    
-    
-    
-    
+    public static Tile getCityTile(City city) {
+        return GameController.getGameTile(city.getLocation());
+    }
+    public static int calculateDamage(double strengthDiff) {
+        Random random = new Random();
+        double random_number = (double) random.nextInt(75, 125) / 100;
+        return (int) (25 * Math.exp(strengthDiff / (25.0 * random_number)));
+    }
+
+
+
+
+
+
+
 }

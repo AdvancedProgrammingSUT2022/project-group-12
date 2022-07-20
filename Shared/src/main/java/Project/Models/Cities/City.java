@@ -70,28 +70,9 @@ public class City {
         this.remainedFoodForCitizen = 0;
     }
 
-    public double calculateCombatStrength() {
-        return AffectCityFeatures(this);
-    }
 
-    private double AffectCityFeatures(City city) {
-        this.combatStrength = 10;
-        this.combatStrength += citizensCount;
-        this.combatStrength += combatStrengthFromBuildings;
-        if (city.getTile().getTerrain().getTerrainType() == TerrainEnum.HILL) {
-            this.combatStrength *= (4.0 / 3.0);
-        }
-        if (city.getTile().getCombatUnit() != null) {
-            this.combatStrength *= (5.0 / 4.0);
-        }
-        return this.combatStrength;
-    }
 
-    public int calculateDamage(double strengthDiff) {
-        Random random = new Random();
-        double random_number = (double) random.nextInt(75, 125) / 100;
-        return (int) (25 * Math.exp(strengthDiff / (25.0 * random_number)));
-    }
+
 
     public Tile getTile() {
         return GameController.getGameTile(this.location);

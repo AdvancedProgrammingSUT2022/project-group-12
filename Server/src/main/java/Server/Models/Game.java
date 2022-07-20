@@ -16,7 +16,7 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.GameController;
-import Server.Controllers.SourceHandler;
+import Server.Controllers.CityHandler;
 import Server.Utils.ClientHandler;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
@@ -178,7 +178,7 @@ public class Game {
 
     private void checkForKillingCitizen(Civilization civ) {
         for (City city : civ.getCities()) {
-            if (SourceHandler.calculateFood(city) < 0 && city.getCitizensCount() > 0) {
+            if (CityHandler.calculateFood(city) < 0 && city.getCitizensCount() > 0) {
                 ArrayList<Location> tilesLocations = city.getTilesLocations()
                 for (Location location : tilesLocations) {
                     Tile tile = GameController.getGameTile(location);
@@ -204,8 +204,8 @@ public class Game {
         civ.advanceResearchTech();
         civ.advanceWorkerWorks();
         for (City city : civ.getCities()) {
-            SourceHandler.checkCitizenBirth(city);
-            Production production = city.advanceProductionQueue(SourceHandler.calculateProduction(city));
+            CityHandler.checkCitizenBirth(city);
+            Production production = city.advanceProductionQueue(CityHandler.calculateProduction(city));
             if (production != null) {
                 addProductionOfProductionQueueToCity(city, production);
             }

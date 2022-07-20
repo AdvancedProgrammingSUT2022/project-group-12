@@ -221,7 +221,7 @@ public class GameController {
         }
 //        message.append("city combat unit : " + city.getCombatUnit() + '\n');
 //        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
-        for (Tile cityTile : SourceHandler.getCityTiles(city)) {
+        for (Tile cityTile : CityHandler.getCityTiles(city)) {
             if (cityTile.getCitizen() != null) {
                 message.append("citizen is in tile with position " + cityTile.getLocation().getRow() + " " + cityTile.getLocation().getCol() + '\n');
             }
@@ -354,14 +354,14 @@ public class GameController {
             throw new CommandException(CommandResponse.NO_UNASSIGNED_CITIZEN);
         }
         Tile tile = GameController.getGameTile(location);
-        if (!SourceHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!CityHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() != null) throw new CommandException(CommandResponse.CITIZEN_ALREADY_WORKING_ON_TILE);
         tile.setCitizen(new Citizen(city, tile.getLocation()));
     }
 
     public static void cityUnassignCitizen(City city, Location location) throws CommandException {
         Tile tile = GameController.getGameTile(location);
-        if (!SourceHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!CityHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         city.getCitizens().remove(tile.getCitizen());
         tile.setCitizen(null);
@@ -369,7 +369,7 @@ public class GameController {
 
     public static void cityCitizenSetLock(City city, Location location, boolean lock) throws CommandException {
         Tile tile = GameController.getGameTile(location);
-        if (!SourceHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
+        if (!CityHandler.getCityTiles(city).contains(tile)) throw new CommandException(CommandResponse.NOT_YOUR_TERRITORY);
         if (tile.getCitizen() == null) throw new CommandException(CommandResponse.NO_CITIZEN_ON_TILE);
         tile.getCitizen().setLock(lock);
     }
@@ -383,7 +383,7 @@ public class GameController {
         if (tile.getCity() != null) throw new CommandException(CommandResponse.ALREADY_FOR_A_CITY);
         boolean isNeighbor = false;
         for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
-            if (SourceHandler.getCityTiles(city).contains(neighbor)) {
+            if (CityHandler.getCityTiles(city).contains(neighbor)) {
                 isNeighbor = true;
                 break;
             }
