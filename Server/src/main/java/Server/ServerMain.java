@@ -26,7 +26,7 @@ public class ServerMain {
                     Socket socket;
                     try {
                         socket = serverSocket.accept();
-//                        socketOfTracker = serverSocketOfTracker.accept();
+                        socketOfTracker = serverSocketOfTracker.accept();
                     } catch (IOException e) {
                         System.err.println("error occurred during wait for clients");
                         e.printStackTrace();

@@ -8,11 +8,9 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -24,36 +22,71 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
 
-public class RemoveProductionDialog extends Dialog<StringProperty> {
-    static StringProperty result;
+public class RemoveProductionDialog extends Dialog<String> {
+    static String result = null;
 
     RemoveProductionDialog(ArrayList<Production> productions) {
         buildUI(productions);
-        this.setResultConverter(new Callback<ButtonType, StringProperty>() {
+        this.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        this.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        Button button = (Button) this.getDialogPane().lookupButton(ButtonType.OK);
+        this.setResultConverter(new Callback<ButtonType, String>() {
             @Override
-            public StringProperty call(ButtonType buttonType) {
-                return result;
+            public String call(ButtonType buttonType) {
+                if (buttonType == ButtonType.CANCEL) {
+                    return "no unit selected";
+                }
+                //never
+                return null;
             }
         });
+        button.setVisible(false);
     }
 
     private void buildUI(ArrayList<Production> productions) {
         BorderPane borderPane = new BorderPane();
-        VBox vBox = new VBox(); vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(10);
+        borderPane.setPrefSize(200, 200);
+        borderPane.setPadding(new Insets(10));
+        Text headerText = new Text("List of production Queue : ");
+        borderPane.setTop(headerText);
+        ScrollPane productionsScrollPane = new ScrollPane();
+        VBox productionBox = new VBox();
+        productionBox.setAlignment(Pos.CENTER);
+        productionBox.setSpacing(10);
+        System.out.println("productions.size() = " + productions.size());
         int i = 1;
         for (Production pro :
                 productions) {
-            vBox.getChildren().add(new ProductionHBox(pro, i));
+            ProductionHBox productionHBox = new ProductionHBox(pro, i);
+            int finalI = i;
+            productionHBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    result = String.valueOf(finalI);
+                    Button button = (Button) RemoveProductionDialog.this.getDialogPane().lookupButton(ButtonType.OK);
+                    RemoveProductionDialog.this.setResultConverter(new Callback<ButtonType, String>() {
+                        @Override
+                        public String call(ButtonType buttonType) {
+                            return result;
+                        }
+                    });
+                    button.fire();
+                }
+            });
+            productionBox.getChildren().add(productionHBox);
             ++i;
         }
-        Text text = new Text();
-        text.textProperty().bind(result);
-        borderPane.setCenter(vBox);
+        productionsScrollPane.setPrefSize(80, 160);
+        productionsScrollPane.setContent(productionBox);
+        productionsScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        productionsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        borderPane.setCenter(productionsScrollPane);
         this.getDialogPane().setContent(borderPane);
     }
 }
+
 class ProductionHBox extends HBox {
+    int index;
 
     String message = null;
 
@@ -63,6 +96,7 @@ class ProductionHBox extends HBox {
         } else if (product instanceof Building building) {
             initializeMessage(building.getBuildingType().name().toLowerCase(), (int) building.getRemainedProduction(), index);
         }
+        this.index = index;
         this.setAlignment(Pos.CENTER);
         this.getChildren().add(new Text(message));
         this.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -77,16 +111,14 @@ class ProductionHBox extends HBox {
                 ProductionHBox.this.setStyle("-fx-border-color: transparent;");
             }
         });
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                RemoveProductionDialog.result = new SimpleStringProperty(String.valueOf(index));
-            }
-        });
     }
 
     public void initializeMessage(String type, double remainsProduct, int index) {
-        message = index + "  " + new DecimalFormat("0.00").format(remainsProduct) + " ----------- " + remainsProduct;
+        message = index + " " + type +   " --- remains production : " + new DecimalFormat("0.00").format(remainsProduct);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
 

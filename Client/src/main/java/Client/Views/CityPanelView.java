@@ -9,6 +9,7 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Production;
 import Project.Utils.CommandResponse;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class CityPanelView implements ViewController {
     public Button addProductionBtn;
@@ -52,8 +54,6 @@ public class CityPanelView implements ViewController {
     @FXML
     private MenuButton buildingMenu;
     private BuildingEnum selectedBuilding;
-    @FXML
-    private MenuButton productionMenu;
     private Production selectedProduction;
     @FXML
     private Button lockUnlockBtn;
@@ -113,6 +113,8 @@ public class CityPanelView implements ViewController {
     private void initAssignCitizenSpinner() {
         SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         SpinnerValueFactory<Integer> ySpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
+        xSpinnerValueFactory.setValue(city.getLocation().getRow());
+        ySpinnerValueFactory.setValue(city.getLocation().getCol());
         assignCitizenXSpinner.setValueFactory(xSpinnerValueFactory);
         assignCitizenYSpinner.setValueFactory(ySpinnerValueFactory);
         if (DatabaseQuerier.getSelectedCityNumberOfUnAssignedCitizen() == 0) {
@@ -136,10 +138,10 @@ public class CityPanelView implements ViewController {
         for (Production p : city.getProductionQueue()) {
             MenuItem item = new MenuItem(p.toString());
             item.setOnAction(actionEvent -> {
-                productionMenu.setText(p.toString());
+                productionsMenu.setText(p.toString());
                 selectedProduction = p;
             });
-            productionMenu.getItems().add(item);
+            productionsMenu.getItems().add(item);
         }
     }
     public String capitalizeFirstString(String str){
@@ -178,7 +180,7 @@ public class CityPanelView implements ViewController {
 
     private void initBuyTileSpinner() {
         locationXValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
-        locationXValueFactory.setValue(locationX);
+        locationXValueFactory.setValue(city.getLocation().getRow());
         buyTileLocationXSpinner.setValueFactory(locationXValueFactory);
         buyTileLocationXSpinner.valueProperty().addListener((observableValue, integer, t0) -> {
             locationX = buyTileLocationXSpinner.getValue();
@@ -190,7 +192,7 @@ public class CityPanelView implements ViewController {
         });
 
         locationYValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
-        locationYValueFactory.setValue(locationY);
+        locationYValueFactory.setValue(city.getLocation().getCol());
         buyTileLocationYSpinner.setValueFactory(locationYValueFactory);
         buyTileLocationYSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
             locationY = buyTileLocationYSpinner.getValue();
@@ -380,11 +382,12 @@ public class CityPanelView implements ViewController {
     }
     public void addToProductionQueue() {
         String command;
+        if(selectedProudtionName == null) return;
         if(BuildingEnum.getBuildingEnumByName(selectedProudtionName.toUpperCase()) == null)
         {
             command = "city build unit -u " + selectedProudtionName;
         } else {
-            command = "city build unit -n " + selectedProudtionName;
+            command = "city build building -n " + selectedProudtionName;
         }
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
@@ -394,5 +397,32 @@ public class CityPanelView implements ViewController {
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();
+    }
+
+    public void removeFromProductionQueue() {
+        Optional<String> dialogOutput = new RemoveProductionDialog(DatabaseQuerier.getSelectedCityProductionQueue()).showAndWait();
+        String result = extractNumber(dialogOutput.get().toString().toCharArray());
+        if(!result.equals("")){
+            int resultNumber = Integer.parseInt(result);
+            String command = "city queue remove -n " + (resultNumber);
+            CommandResponse response = RequestSender.getInstance().sendCommand(command);
+            if( !response.isOK()){
+                MenuStack.getInstance().showError(response.toString());
+                return;
+            } else {
+                MenuStack.getInstance().showSuccess("production removed successfully");
+            }
+            back();
+        }
+    }
+    public String extractNumber(char[] chars){
+        StringBuilder extractNumber = new StringBuilder("");
+        for (char ch:
+             chars) {
+            if(Character.isDigit(ch)) {
+                extractNumber.append(ch);
+            }
+        }
+        return extractNumber.toString();
     }
 }

@@ -3,7 +3,7 @@ package Project.Models;
 import Project.Models.Cities.City;
 
 public class Citizen {
-    private final City city;
+    private final transient City city;
     private boolean locked = false;
     private Location location;
 

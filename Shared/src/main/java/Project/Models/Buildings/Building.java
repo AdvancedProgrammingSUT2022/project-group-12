@@ -14,7 +14,6 @@ public class Building extends Production {
     private final List<TechnologyEnum> requiredTechs;
     private final List<BuildingEnum> requiredBuildings;
     private final BuildingEnum buildingType;
-    String type;
 
     public Building(BuildingEnum type) {
         super(type.getCost());
@@ -23,7 +22,7 @@ public class Building extends Production {
         this.requiredTechs = type.getRequiredTechs();
         this.requiredBuildings = type.getRequiredBuildings();
         this.buildingType = type;
-        this.type = this.getClass().getName();
+        super.type = this.getClass().getName();
     }
 
     public int getCost() {
