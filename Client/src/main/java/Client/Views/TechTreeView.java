@@ -55,7 +55,8 @@ public class TechTreeView implements ViewController {
     }
 
     private HBox drawTree() {
-        ArrayList<TechnologyEnum> technologies = DatabaseQuerier.getTechnologies();
+        ArrayList<TechnologyEnum> technologies = DatabaseQuerier.getCurrentTechnologies();
+        System.out.println(technologies);
         int x = 60;
         HBox hBox = new HBox();
         hBox.setSpacing(10);
@@ -81,13 +82,16 @@ public class TechTreeView implements ViewController {
             }
             circle.setOnMouseEntered(mouseEvent -> {
                 circle.setCursor(Cursor.HAND);
-                circle.setEffect(new DropShadow());
             });
             circle.setOnMouseExited(mouseEvent -> circle.setEffect(null));
             Text text = new Text(tech.getValue().name());
             text.setFill(Color.RED);
             names.put(tech.getValue().name(), text);
             vBox.getChildren().add(text);
+            if(technologies.contains(tech)) {
+                circle.setStroke(Color.YELLOW);
+                circle.setStrokeWidth(10);
+            }
             vBox.getChildren().add(circle);
             for (TechnologyEnum leadingTechnology : tech.getValue().leadsToTech()) {
                 Circle leadingCircle = new Circle(30);

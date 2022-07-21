@@ -9,7 +9,6 @@ import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Production;
 import Project.Utils.CommandResponse;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -261,7 +260,7 @@ public class CityPanelView implements ViewController {
     private void initializeBuildingMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         // todo: check is ok? bug?
-        ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getTechnologies();
+        ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getCurrentTechnologies();
         for (BuildingEnum buildingEnum : BuildingEnum.values()) {
             MenuItem item = new MenuItem(buildingEnum.name() + " " + buildingEnum.requiredTechName());
             item.setOnAction(actionEvent -> {
@@ -289,7 +288,7 @@ public class CityPanelView implements ViewController {
 
     private void initializeUnitMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getTechnologies();
+        ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getCurrentTechnologies();
         for (UnitEnum unitEnum : DatabaseQuerier.getUnitEnums()) {
             MenuItem item = new MenuItem(unitEnum.name());
             item.setOnAction(actionEvent -> {

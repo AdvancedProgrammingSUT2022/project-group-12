@@ -152,6 +152,7 @@ public class MenuStack {
             case GET_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getTechnologies());
             case GET_RESEARCHING_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnologies());
             case GET_RESEARCHING_TECHNOLOGY -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
+            case GET_CURRENT_CIV_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getTechnologies());
             case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
             case GET_TILE_GRID -> gson.toJson(GameController.getGame().getCurrentCivilization().getRevealedTileGrid());
             case GET_CIV_CAMERA_LOCATION -> gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());

@@ -196,8 +196,8 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, City.class);
     }
 
-    public static ArrayList<TechnologyEnum> getTechnologies() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TECHNOLOGIES);
+    public static ArrayList<TechnologyEnum> getCurrentTechnologies() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENT_CIV_TECHNOLOGIES);
         return new Gson().fromJson(json, new TypeToken<ArrayList<TechnologyEnum>>() {
         }.getType());
     }

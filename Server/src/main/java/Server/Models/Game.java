@@ -151,6 +151,8 @@ public class Game {
 
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
             throw new CommandException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
+        } else {
+            civ.advanceResearchTech();
         }
         checkForKillingCitizen(civ);
         /***
@@ -160,6 +162,8 @@ public class Game {
         return response.toString();
 
     }
+
+
 
 
     private void checkForKillingCitizen(Civilization civ) {
