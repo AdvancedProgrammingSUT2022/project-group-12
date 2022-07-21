@@ -32,6 +32,7 @@ public class RequestSender {
         String responseJson = connection.listen();
         Response response = new Gson().fromJson(responseJson, Response.class);
         CommandResponse commandResponse = response.getCommandResponse();
+        if(commandResponse.isOK()) commandResponse.setMessage(response.getParameters().get("successMessage"));
         this.responseParameterCache = response.getParameters();
 //            if(e.getResponse().isOK()){
 //                e.getResponse().setMessage(e.getSuccessMessage());

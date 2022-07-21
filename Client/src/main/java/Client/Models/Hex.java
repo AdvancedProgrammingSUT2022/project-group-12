@@ -249,6 +249,7 @@ public class Hex implements Observer<Tile> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 SelectHandler.sendSelectCityRequest(city);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
+                MenuStack.getInstance().getCookies().setCity(city);
             }
         });
     }

@@ -8,6 +8,7 @@ import Project.Models.Units.Unit;
 public class Cookies {
     private String token = null;
     private String currentGameId = null;
+    private City city;
     private Unit selectedUnit = null;
     private Tile selectedTile = null;
     private City selectedCity = null;
@@ -64,5 +65,9 @@ public class Cookies {
 
     public void setSelectedTile(Tile selectedTile) {
         this.selectedTile = selectedTile;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }

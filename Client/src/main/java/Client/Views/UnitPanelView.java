@@ -124,6 +124,7 @@ public class UnitPanelView implements ViewController {
                 MenuStack.getInstance().showError(response.toString());
                 return;
             } else {
+                System.out.println("response.getMessage() = " + response.getMessage());
                 MenuStack.getInstance().showSuccess(response.getMessage());
             }
             back();
@@ -174,12 +175,12 @@ public class UnitPanelView implements ViewController {
         int locationY = ySpinner.getValue();
         String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestSender.getInstance().send(command);
-        if( !response.isOK()){
+        if(!response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
         } else if (RequestSender.getInstance().getParameter("foundRuin") != null) {
             MenuStack.getInstance().showSuccess(response.getMessage());
-        }
+        } 
        back();
     }
 
