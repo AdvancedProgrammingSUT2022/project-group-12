@@ -11,6 +11,11 @@ public abstract class Menu {
 
     private boolean showName = true;
     private boolean isFirstRun = true;
+    protected MenuStack menuStack;
+
+    public void setMenuStack(MenuStack menuStack) {
+        this.menuStack = menuStack;
+    }
 
     public void run() {
         if (showName) {
@@ -23,7 +28,7 @@ public abstract class Menu {
             this.isFirstRun = false;
             this.firstRun();
         }
-        Scanner scanner = MenuStack.getInstance().getScanner();
+        Scanner scanner = this.menuStack.getScanner();
         String line = scanner.nextLine().trim();
         if (line.isEmpty()) return;
         try {

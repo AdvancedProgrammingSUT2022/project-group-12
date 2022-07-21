@@ -15,7 +15,7 @@ public class LoginMenu extends Menu {
             case "user create" -> createUser(command);
             case "user login" -> loginUser(command);
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> this.menuStack.popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -59,7 +59,7 @@ public class LoginMenu extends Menu {
             answer(e);
             return;
         }
-        MenuStack.getInstance().pushMenu(new MainMenu());
+        this.menuStack.pushMenu(new MainMenu());
         answer("user logged in successfully");
     }
 }

@@ -1,16 +1,16 @@
 package Client.Views;
 
 import Client.App;
-import Client.Models.*;
-import Project.Models.*;
-import Project.Utils.*;
+import Client.Models.Cookies;
+import Project.Models.User;
+import Project.Utils.CommandResponse;
 
 import java.util.ArrayList;
 
 public class MenuStack {
     private static final MenuStack instance = new MenuStack();
     private final ArrayList<Menu> menus = new ArrayList<>();
-    private User currentUser;
+    private User user;
     private final Cookies cookies = new Cookies();
 
     public static MenuStack getInstance() {
@@ -18,11 +18,11 @@ public class MenuStack {
     }
 
     public User getUser() {
-        return this.currentUser;
+        return this.user;
     }
 
     public void setUser(User currentUser) {
-        this.currentUser = currentUser;
+        this.user = currentUser;
     }
 
     public void pushMenu(Menu menu) {

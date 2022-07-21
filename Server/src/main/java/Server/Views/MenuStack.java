@@ -19,27 +19,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MenuStack {
-    private static MenuStack instance = null;
     private final ArrayList<Menu> menus = new ArrayList<>();
-    private final LoginMenu loginMenu = new LoginMenu();
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
     private Scanner scanner;
-    private User currentUser;
+    private final User user;
     private HashMap<String, String> responseParameters = new HashMap<>();
     private RequestHandler requestHandler = null;
+    private boolean valid = true;
 
-    public MenuStack() {
-
-    }
-
-    public static MenuStack getInstance() {
-        if (instance == null) setInstance(new MenuStack());
-        return instance;
-    }
-
-    private static void setInstance(MenuStack instance) {
-        MenuStack.instance = instance;
+    public MenuStack(User user) {
+        this.user = user;
     }
 
     public Scanner getScanner() {
@@ -51,21 +41,8 @@ public class MenuStack {
         if (this.scanner == null) this.scanner = scanner;
     }
 
-    public void setNullScanner() {
-        this.scanner = null;
-    }
-
     public boolean isEmpty() {
         return this.getMenus().isEmpty();
-    }
-
-    public void gotoLoginMenu() {
-        this.currentUser = null;
-        if (this.menus.isEmpty()) {
-            this.pushMenu(this.loginMenu);
-        } else {
-            this.popMenu();
-        }
     }
 
     public CommandResponse runCommand(String line) {
@@ -73,14 +50,11 @@ public class MenuStack {
     }
 
     public User getUser() {
-        return this.currentUser;
-    }
-
-    public void setUser(User currentUser) {
-        this.currentUser = currentUser;
+        return this.user;
     }
 
     public void pushMenu(Menu menu) {
+        menu.setMenuStack(this);
         if (this.getTopMenu() != null) this.getTopMenu().resetShowName();
         this.getMenus().add(menu);
     }
@@ -195,5 +169,13 @@ public class MenuStack {
 
     public RequestHandler getCommandReceiver() {
         return requestHandler;
+    }
+
+    public void invalidate() {
+        this.valid = false;
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 }

@@ -17,10 +17,10 @@ public class MainMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
-            case "logout" -> MenuStack.getInstance().gotoLoginMenu();
-            case "goto profile menu" -> MenuStack.getInstance().gotoProfileMenu();
+            case "logout" -> this.menuStack.invalidate();
+            case "goto profile menu" -> this.menuStack.gotoProfileMenu();
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> this.menuStack.popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }
@@ -62,7 +62,7 @@ public class MainMenu extends Menu {
             answer(e);
             return;
         }
-        MenuStack.getInstance().pushMenu(new GameMenu());
+        this.menuStack.pushMenu(new GameMenu());
         answer("game started");
     }
 

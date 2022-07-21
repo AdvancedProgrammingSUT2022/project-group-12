@@ -15,7 +15,7 @@ public class ProfileMenu extends Menu {
             case "change nickname" -> this.changeNickname(command);
             case "change password" -> this.changePassword(command);
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> this.menuStack.popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
     }

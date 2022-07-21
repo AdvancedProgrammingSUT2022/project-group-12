@@ -89,7 +89,8 @@ public enum CommandResponse {
     WORKER_IS_ALREADY_WORKING("worker is already working"),
     NO_BUILDING_WITH_THIS_NAME("there is no building with this name"), NO_RESOURCE_WITH_THIS_NAME("No resource with this name exists"),
     NO_TRADE_WITH_THIS_NAME("No trade with this name"),
-    NO_UNIT_SELECTED("no unit selected");
+    NO_UNIT_SELECTED("no unit selected"),
+    INVALID_TOKEN("request token is invalid");
 
     private String message;
     private final String itemMessage;

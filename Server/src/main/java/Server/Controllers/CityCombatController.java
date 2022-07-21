@@ -1,6 +1,5 @@
 package Server.Controllers;
 
-import Project.Enums.CityTypeEnum;
 import Project.Enums.CombatTypeEnum;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
@@ -13,8 +12,6 @@ import Project.Utils.Constants;
 import Server.Models.Civilization;
 import Server.Models.Game;
 import Server.Utils.CommandException;
-import Server.Views.GameMenu;
-import Server.Views.MenuStack;
 
 import java.util.Random;
 
@@ -77,29 +74,31 @@ public class CityCombatController extends CombatController {
 
     // todo: integrate with view
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-          String message = MenuStack.getInstance().getOptionForAttack();
-        GetMessageLoop:
-        while (true) {
-            switch (message) {
-                case "Annexed" -> {
-                    city.setCityState(CityTypeEnum.ANNEXED);
-                    makeCityAnnexed(city, civ);
-                    break GetMessageLoop;
-                }
-                case "Destroy" -> {
-                    if (city.isCapital()) {
-                        message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
-                        continue GetMessageLoop;
-                    }
-                    destroyCity(city);
-                    break GetMessageLoop;
-                }
-                default -> {
-                    GameMenu.printError(CommandResponse.INVALID_COMMAND);
-                    message = MenuStack.getInstance().getOptionForAttack();
-                }
-            }
-        }
+        // todo: use a new method for this
+
+//          String message = MenuStack.getInstance().getOptionForAttack();
+//        GetMessageLoop:
+//        while (true) {
+//            switch (message) {
+//                case "Annexed" -> {
+//                    city.setCityState(CityTypeEnum.ANNEXED);
+//                    makeCityAnnexed(city, civ);
+//                    break GetMessageLoop;
+//                }
+//                case "Destroy" -> {
+//                    if (city.isCapital()) {
+//                        message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
+//                        continue GetMessageLoop;
+//                    }
+//                    destroyCity(city);
+//                    break GetMessageLoop;
+//                }
+//                default -> {
+//                    GameMenu.printError(CommandResponse.INVALID_COMMAND);
+//                    message = MenuStack.getInstance().getOptionForAttack();
+//                }
+//            }
+//        }
         return "wow you have captured the city";
     }
 

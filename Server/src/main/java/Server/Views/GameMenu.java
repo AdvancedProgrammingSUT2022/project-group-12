@@ -73,7 +73,7 @@ public class GameMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "show current menu" -> answer(this.getName());
-            case "menu exit" -> MenuStack.getInstance().popMenu();
+            case "menu exit" -> this.menuStack.popMenu();
             default -> this.findCategory(command);
         }
     }
@@ -551,7 +551,7 @@ public class GameMenu extends Menu {
     }
 
     private void endGame() {
-        MenuStack.getInstance().popMenu();
+        this.menuStack.popMenu();
         answer("game ended successfully");
     }
 
@@ -1018,9 +1018,10 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String ans = CombatController.AttackUnit(selectedUnit, location);
-            MenuStack.getInstance().clearResponseParameters();
-            MenuStack.getInstance().addResponseParameters("unitDamage", "?");
-            MenuStack.getInstance().addResponseParameters("enemyDamage", "?");
+            // todo: is it OK?
+            this.menuStack.clearResponseParameters();
+            this.menuStack.addResponseParameters("unitDamage", "?");
+            this.menuStack.addResponseParameters("enemyDamage", "?");
             answer(ans);
 //            answer("unit attack successful");
         } catch (CommandException e) {

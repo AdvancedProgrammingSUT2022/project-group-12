@@ -58,11 +58,16 @@ public class RequestHandler {
                 }
             }
             case RUN_SERVERVIEW_COMMAND -> {
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
+                if (menuStack == null) {
+                    this.sendCommandResponse(CommandResponse.INVALID_TOKEN);
+                    break;
+                }
                 String command = request.getParameter("command");
                 System.out.println("command received: " + command);
                 CommandResponse commandResponse = CommandResponse.OK;
                 try {
-                    MenuStack.getInstance().runCommand(command);
+                    menuStack.runCommand(command);
                 } catch (ResponseException e) {
                     commandResponse = e.getResponse();
                     if (commandResponse.isOK()) {
@@ -73,9 +78,14 @@ public class RequestHandler {
                 this.sendCommandResponse(commandResponse);
             }
             case QUERY_DATABASE -> {
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
+                if (menuStack == null) {
+                    this.sendCommandResponse(CommandResponse.INVALID_TOKEN);
+                    break;
+                }
                 DatabaseQueryType queryType = request.getQueryType();
                 String[] queryParams = request.getQueryParams();
-                String databaseResponse = MenuStack.getInstance().databaseQuery(queryType, queryParams);
+                String databaseResponse = menuStack.databaseQuery(queryType, queryParams);
                 this.connection.send(databaseResponse);
             }
         }
