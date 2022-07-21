@@ -1,8 +1,9 @@
 package Client;
 
-import Client.Utils.*;
-import Client.Views.*;
-import Project.Utils.*;
+import Client.Utils.RequestSender;
+import Client.Views.Menu;
+import Client.Views.MenuStack;
+import Project.Utils.Constants;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -18,20 +19,14 @@ public class App extends Application {
 
     public static void main(String[] args) {
         Socket socket;
-        Socket socketOfTracker;
         try {
             socket = new Socket(Constants.SERVER_HOST, Constants.SERVER_PORT);
-            socketOfTracker = new Socket(Constants.SERVER_HOST, Constants.SERVER_PORT_TRACKER);
             System.out.println("connected to server at " + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT);
         } catch (IOException e) {
             System.out.println("can't connect to server at " + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT);
             return;
         }
 
-        UpdateTracker updateTracker = new UpdateTracker(socketOfTracker);
-        Thread thread = new Thread(updateTracker);
-        thread.setDaemon(true);
-        thread.start();
         RequestSender.initialize(socket);
         launch(args);
     }

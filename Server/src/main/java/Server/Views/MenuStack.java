@@ -12,7 +12,7 @@ import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
 import Server.Models.Database;
-import Server.Utils.RequestHandler;
+import Server.Utils.UpdateNotifier;
 import com.google.gson.Gson;
 
 import java.util.*;
@@ -25,7 +25,7 @@ public class MenuStack {
     private Scanner scanner;
     private final User user;
     private HashMap<String, String> responseParameters = new HashMap<>();
-    private RequestHandler requestHandler = null;
+    private UpdateNotifier updateNotifier = null;
     private boolean valid = true;
 
     public MenuStack(User user) {
@@ -161,14 +161,6 @@ public class MenuStack {
                                                     .map(Enum::name).collect(Collectors.toList())) ;
             case GET_INVITED_GAMES_NAMES -> gson.toJson(new ArrayList<String>(List.of("ali")));
         };
-        }
-
-    public void setCommandReceiver(RequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
-    }
-
-    public RequestHandler getCommandReceiver() {
-        return requestHandler;
     }
 
     public void invalidate() {
@@ -177,5 +169,13 @@ public class MenuStack {
 
     public boolean isValid() {
         return valid;
+    }
+
+    public UpdateNotifier getUpdateNotifier() {
+        return updateNotifier;
+    }
+
+    public void setUpdateNotifier(UpdateNotifier updateNotifier) {
+        this.updateNotifier = updateNotifier;
     }
 }

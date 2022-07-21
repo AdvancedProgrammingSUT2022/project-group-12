@@ -4,13 +4,12 @@ import Project.Models.Tiles.Tile;
 import Project.Utils.Connection;
 import Project.Utils.CustomGson;
 import Project.Utils.Observer;
-import Server.ServerMain;
 
-public class ClientHandler implements Observer<Tile> {
+public class UpdateNotifier implements Observer<Tile> {
     private final Connection connection;
 
-    public ClientHandler() {
-        this.connection = new Connection(ServerMain.socketOfTracker);
+    public UpdateNotifier(Connection connection) {
+        this.connection = connection;
     }
 
     @Override

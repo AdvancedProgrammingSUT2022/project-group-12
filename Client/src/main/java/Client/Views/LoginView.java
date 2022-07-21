@@ -2,6 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
+import Client.Utils.UpdateTracker;
 import Project.Utils.CommandResponse;
 import Project.Utils.Request;
 import Project.Utils.RequestType;
@@ -152,6 +153,12 @@ public class LoginView implements ViewController {
                 String loginToken = RequestSender.getInstance().getParameter("loginToken");
                 MenuStack.getInstance().getCookies().setLoginToken(loginToken);
                 MenuStack.getInstance().setUser(DatabaseQuerier.getUser(username.getText()));
+
+                UpdateTracker updateTracker = new UpdateTracker();
+                Thread thread = new Thread(updateTracker);
+                thread.setDaemon(true);
+                thread.start();
+
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
             }
             case PASSWORD_DOES_NOT_MATCH -> {

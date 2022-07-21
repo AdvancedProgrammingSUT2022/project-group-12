@@ -58,6 +58,11 @@ public class MainMenu extends Menu {
             Game game = MainMenuController.startNewGame(usernames,width,height);
             Database.getInstance().addGame(game);
             GameController.setGame(game);
+            if (this.menuStack.getUpdateNotifier() != null) {
+                game.bindUserCivUpdatesTo(this.menuStack.getUser(), this.menuStack.getUpdateNotifier());
+            } else {
+                System.err.println("WARNING: no UpdateNotifier was bound by the client, updates will not be sent");
+            }
         } catch (CommandException e) {
             answer(e);
             return;

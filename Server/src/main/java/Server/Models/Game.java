@@ -17,9 +17,9 @@ import Project.Utils.Constants;
 import Project.Utils.TokenGenerator;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
-import Server.Utils.ClientHandler;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
+import Server.Utils.UpdateNotifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +30,6 @@ public class Game {
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
     private final ArrayList<User> users;
-    private final ClientHandler clientHandler = new ClientHandler();
     private int gameTurn = -1;
 
     public Game(ArrayList<User> users,int height,int width) {
@@ -54,11 +53,6 @@ public class Game {
             TerrainColor color = colors.get(index % colors.size());
             Civilization civ = new Civilization(users.get(index), color, height, width);
             civilizations.add(civ);
-
-            for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
-                tile.initializeNotifier();
-                tile.addObserver(this.clientHandler);
-            }
 
             Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
             //test
@@ -94,6 +88,14 @@ public class Game {
             }
             ruinTile.setRuin(true);
             System.out.println("ruin at " + ruinTile.getLocation());
+        }
+    }
+
+    public void bindUserCivUpdatesTo(User user, UpdateNotifier updateNotifier) {
+        Civilization civ = this.civilizations.get(this.users.indexOf(user));
+        for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
+            tile.initializeNotifier();
+            tile.addObserver(updateNotifier);
         }
     }
 

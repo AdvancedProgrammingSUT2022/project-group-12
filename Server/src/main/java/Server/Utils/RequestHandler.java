@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 
 import java.net.Socket;
 
-public class RequestHandler {
+public class RequestHandler implements Runnable {
     private final Connection connection;
 
     public RequestHandler(Socket socket) {
@@ -30,7 +30,9 @@ public class RequestHandler {
 
     public void handleRequest() {
         String json = this.connection.listen();
+//        System.out.println("json: " + json);
         Request request = new Gson().fromJson(json, Request.class);
+        System.out.println("ReqType = " + request.getRequestType());
         switch (request.getRequestType()) {
             case CREATE_USER -> {
                 String username = request.getParameter("username");
@@ -56,6 +58,15 @@ public class RequestHandler {
                 } catch (CommandException e) {
                     this.sendCommandResponse(e.getResponse());
                 }
+            }
+            case SET_SOCKET_FOR_UPDATE_TRACKER -> {
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
+                if (menuStack == null) {
+                    this.sendCommandResponse(CommandResponse.INVALID_TOKEN);
+                    break;
+                }
+                menuStack.setUpdateNotifier(new UpdateNotifier(this.connection));
+                this.sendCommandResponse(CommandResponse.OK);
             }
             case RUN_SERVERVIEW_COMMAND -> {
                 MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
