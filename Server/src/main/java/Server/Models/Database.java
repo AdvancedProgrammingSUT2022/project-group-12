@@ -2,7 +2,6 @@ package Server.Models;
 
 import Project.Models.User;
 import Server.Controllers.GameController;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -19,17 +18,23 @@ import java.util.List;
 
 public class Database {
     private static Database instance = null;
-    private final Gson gson;
     private final HashMap<String, User> users;
-    private final ArrayList<Game> games;
+    private final HashMap<String, Game> games;
 
     private Database() {
-        this.gson = new Gson();
         this.users = new HashMap<>();
-        this.games = new ArrayList<>();
+        this.games = new HashMap<>();
         for (int i = 1; i < 10; ++i) {
             this.addUser(new User(String.valueOf(i), String.valueOf(i), "nick" + i));
         }
+    }
+
+    public ArrayList<String> getGamesTokens() {
+        return new ArrayList<>(games.keySet());
+    }
+
+    public ArrayList<String> getInvitedGamesFor(User user) {
+        return new ArrayList<>(games.values().stream().filter(game -> game.getUsers().contains(user)).map(Game::getToken).toList());
     }
 
     public static Database getInstance() {
@@ -48,7 +53,7 @@ public class Database {
     }
 
     public void addGame(Game game) {
-        games.add(game);
+        games.put(game.getToken(), game);
     }
 
     public void addUser(User user) {
@@ -150,4 +155,5 @@ public class Database {
     public boolean checkPassword(String username, String password) {
         return this.users.get(username).passwordMatchCheck(password);
     }
+
 }

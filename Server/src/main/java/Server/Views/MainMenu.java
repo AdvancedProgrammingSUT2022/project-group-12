@@ -3,6 +3,7 @@ package Server.Views;
 import Project.Utils.CommandResponse;
 import Server.Controllers.GameController;
 import Server.Controllers.MainMenuController;
+import Server.Models.Database;
 import Server.Models.Game;
 import Server.Utils.Command;
 import Server.Utils.CommandException;
@@ -56,6 +57,7 @@ public class MainMenu extends Menu {
         }
         try {
             Game game = MainMenuController.startNewGame(usernames,width,height);
+            Database.getInstance().addGame(game);
             GameController.setGame(game);
         } catch (CommandException e) {
             answer(e);

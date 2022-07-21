@@ -1047,7 +1047,6 @@ public class GameMenu extends Menu {
             }
         }
         showTheMap();
-        answer("map showed");
     }
 
     public static Unit getSelectedUnit() {
