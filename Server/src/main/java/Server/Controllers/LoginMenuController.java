@@ -5,7 +5,6 @@ import Project.Utils.CommandResponse;
 import Server.Models.Database;
 import Server.Utils.CommandException;
 import Server.Utils.InputRegex;
-import Server.Views.MenuStack;
 
 public class LoginMenuController {
     public static void createUser(String username, String nickname, String password) throws CommandException {
@@ -29,7 +28,7 @@ public class LoginMenuController {
                 password.length() >= 8;
     }
 
-    public static void loginUser(String username, String password) throws CommandException {
+    public static User loginUser(String username, String password) throws CommandException {
         Database database = Database.getInstance();
         User user;
         if (!database.checkForUsername(username)) {
@@ -37,7 +36,7 @@ public class LoginMenuController {
         } else if (!(user = database.getUser(username)).passwordMatchCheck(password)) {
             throw new CommandException(CommandResponse.PASSWORD_DOES_NOT_MATCH);
         } else {
-            MenuStack.getInstance().setUser(user);
+            return user;
         }
     }
 }

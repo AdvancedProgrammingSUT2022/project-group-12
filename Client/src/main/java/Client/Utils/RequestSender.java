@@ -26,14 +26,14 @@ public class RequestSender {
 
     public CommandResponse send(String line) {
         System.out.println("Request: " + line);
-        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getToken());
+        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getLoginToken());
         request.addParameter("command", line);
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
         Response response = new Gson().fromJson(responseJson, Response.class);
         CommandResponse commandResponse = response.getCommandResponse();
-        if(commandResponse.isOK()) commandResponse.setMessage(response.getParameters().get("successMessage"));
-        this.responseParameterCache = response.getParameters();
+        if(commandResponse.isOK()) commandResponse.setMessage(response.getParameter("successMessage"));
+        this.responseParameterCache = response.getParametersMap();
 //            if(e.getResponse().isOK()){
 //                e.getResponse().setMessage(e.getSuccessMessage());
 //            }
@@ -47,7 +47,7 @@ public class RequestSender {
     }
 
     public String databaseQuery(DatabaseQueryType query, String... params) {
-        Request request = new Request(RequestType.QUERY_DATABASE, MenuStack.getInstance().getCookies().getToken());
+        Request request = new Request(RequestType.QUERY_DATABASE, MenuStack.getInstance().getCookies().getLoginToken());
         request.setQueryType(query);
         request.setQueryParams(params);
         connection.send(new Gson().toJson(request));

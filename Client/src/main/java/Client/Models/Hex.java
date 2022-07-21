@@ -186,6 +186,7 @@ public class Hex implements Observer<Tile> {
         unitGroup.setOnMouseClicked((mouseEvent) -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 SelectHandler.sendSelectUnitRequest(unit);
+                MenuStack.getInstance().getCookies().setSelectedUnit(unit);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
             }
         });
@@ -248,8 +249,8 @@ public class Hex implements Observer<Tile> {
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 SelectHandler.sendSelectCityRequest(city);
+                MenuStack.getInstance().getCookies().setSelectedCity(city);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
-                MenuStack.getInstance().getCookies().setCity(city);
             }
         });
     }

@@ -14,7 +14,15 @@ public class Response {
         return commandResponse;
     }
 
-    public HashMap<String, String> getParameters() {
+    public void addParameter(String key, String value) {
+        this.parameters.put(key, value);
+    }
+
+    public HashMap<String, String> getParametersMap() {
         return parameters;
+    }
+
+    public String getParameter(String key) {
+        return parameters.get(key);
     }
 }
