@@ -251,6 +251,10 @@ public class UnitPanelView implements ViewController {
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
+        if (response == CommandResponse.CITY_CAPTURED) {
+            // dialog
+
+        }
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;

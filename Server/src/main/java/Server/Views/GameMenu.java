@@ -1018,6 +1018,9 @@ public class GameMenu extends Menu {
             command.assertOptions(List.of("position"));
             Location location = command.getLocationOption("position");
             String ans = CombatController.AttackUnit(selectedUnit, location);
+            if (ans.equals("city captured")) {
+                answer(CommandResponse.CITY_CAPTURED);
+            }
             // todo: is it OK?
             this.menuStack.clearResponseParameters();
             this.menuStack.addResponseParameters("unitDamage", "?");

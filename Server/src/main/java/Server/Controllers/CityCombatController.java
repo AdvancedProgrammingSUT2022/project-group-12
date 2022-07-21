@@ -32,7 +32,7 @@ public class CityCombatController extends CombatController {
                 return affectNonRangeAttackToCity(nonRangedUnit, enemyCity, currentTile, enemyTile);
             }
         }
-        return null;
+        return null; // never
     }
 
 
@@ -66,7 +66,7 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
-                return captureTheCity(GameController.getCivByName(unit.getCivName()), unit, city, cityTile, GameController.game.getCivByName(city.getCivName()));
+                return "city captured";
             }
         }
         return "both are damaged !!";
@@ -76,29 +76,29 @@ public class CityCombatController extends CombatController {
     private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
         // todo: use a new method for this
 
-//          String message = MenuStack.getInstance().getOptionForAttack();
-//        GetMessageLoop:
-//        while (true) {
-//            switch (message) {
-//                case "Annexed" -> {
-//                    city.setCityState(CityTypeEnum.ANNEXED);
-//                    makeCityAnnexed(city, civ);
-//                    break GetMessageLoop;
-//                }
-//                case "Destroy" -> {
-//                    if (city.isCapital()) {
-//                        message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
-//                        continue GetMessageLoop;
-//                    }
-//                    destroyCity(city);
-//                    break GetMessageLoop;
-//                }
-//                default -> {
-//                    GameMenu.printError(CommandResponse.INVALID_COMMAND);
-//                    message = MenuStack.getInstance().getOptionForAttack();
-//                }
-//            }
-//        }
+          String message = MenuStack.getInstance().getOptionForAttack();
+        GetMessageLoop:
+        while (true) {
+            switch (message) {
+                case "Annexed" -> {
+                    city.setCityState(CityTypeEnum.ANNEXED);
+                    makeCityAnnexed(city, civ);
+                    break GetMessageLoop;
+                }
+                case "Destroy" -> {
+                    if (city.isCapital()) {
+                        message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
+                        continue GetMessageLoop;
+                    }
+                    destroyCity(city);
+                    break GetMessageLoop;
+                }
+                default -> {
+                    GameMenu.printError(CommandResponse.INVALID_COMMAND);
+                    message = MenuStack.getInstance().getOptionForAttack();
+                }
+            }
+        }
         return "wow you have captured the city";
     }
 
@@ -180,8 +180,7 @@ public class CityCombatController extends CombatController {
             nonRangedUnit.setAvailableMoveCount(0);
         }
         nonRangedUnit.setAvailableMoveCount(0);
-        String response = checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
-        return response;
+        return checkForKill(nonRangedUnit, city, nonRangedTile, cityTile);
     }
 
 }
