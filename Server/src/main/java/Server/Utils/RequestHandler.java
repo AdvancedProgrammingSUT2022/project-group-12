@@ -24,18 +24,14 @@ public class RequestHandler {
                 MenuStack.getInstance().runCommand(command);
             } catch (ResponseException e) {
                 commandResponse = e.getResponse();
-
                 if (commandResponse.isOK()){
-                    System.out.println("e.getSuccessMessage() = " + e.getSuccessMessage());
-                    System.out.println("e.getResponse() = " + e.getResponse().isOK());
                     commandResponse.setMessage(e.getSuccessMessage());
-                    System.out.println("e.getResponse() = " + e.getResponse());
                 }
-                System.out.println("e.getSuccessMessage() = " + e.getSuccessMessage());
             }
             System.err.println("command ran without answer!");
             System.out.println("Response = " + commandResponse);
             Response response = new Response(commandResponse);
+            if(commandResponse.isOK()) response.getParameters().put("successMessage",commandResponse.getMessage());
             this.connection.send(new Gson().toJson(response));
         } else if (request.getRequestType() == RequestType.QUERY_DATABASE) {
             DatabaseQueryType queryType = request.getQueryType();
