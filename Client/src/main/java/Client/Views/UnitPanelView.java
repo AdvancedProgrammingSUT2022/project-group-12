@@ -2,14 +2,13 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
+import Project.Enums.BuildingEnum;
+import Project.Models.Production;
 import Project.Models.Units.Unit;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -17,6 +16,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 public class UnitPanelView implements ViewController {
+
     int TILEGRID_WIDTH;
     int TILEGRID_HEIGHT;
 
@@ -76,6 +76,8 @@ public class UnitPanelView implements ViewController {
         combatStrength.setText(String.valueOf(unit.getUnitType().getCombatStrength()));
         unitState.setText(unit.getState().toString());
     }
+
+
 
     private void initializeSpinners() {
         initButtonBox();
@@ -303,7 +305,6 @@ public class UnitPanelView implements ViewController {
     }
 
     public void buildImprovement() {
-        Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit build improvement";
         CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){

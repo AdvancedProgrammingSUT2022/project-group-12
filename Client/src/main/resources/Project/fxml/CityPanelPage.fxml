@@ -78,7 +78,6 @@
                <Button fx:id="UnAssignCitizen" mnemonicParsing="false" onAction="#unAssign" prefHeight="24.0" prefWidth="80.0" text="Unassign" />
             </children>
          </HBox>
-
         </HBox>
       <HBox alignment="CENTER" prefHeight="24.0" prefWidth="528.0" spacing="10.0">
          <Button fx:id="assignBtn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#assignBtnAction" prefHeight="24.0" prefWidth="102.0" text="Assign " />
@@ -87,20 +86,17 @@
            <Spinner fx:id="assignCitizenXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" />
            <Spinner fx:id="assignCitizenYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="y" />
         </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="60.0">
-
-            <MenuButton fx:id="productionMenu" mnemonicParsing="false" text="Production Menu">
-                <items>
-
-                </items>
-            </MenuButton>
-         <HBox prefHeight="24.0" prefWidth="306.0" style="-fx-spacing: 20;">
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
             <children>
-                  <Button fx:id="addQueueProduction" mnemonicParsing="false" onAction="#speedUp" text="Add to Queue" />
-               <Button fx:id="removeFromQueueProduction" mnemonicParsing="false" text="Remove From Queue" />
+                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="348.0" style="-fx-spacing: 20;">
+                    <children>
+                        <Button fx:id="removeProduction" mnemonicParsing="false" text="Remove Production" />
+                        <Button fx:id="addProductionBtn" onAction="#addToProductionQueue" mnemonicParsing="false" prefHeight="24.0" prefWidth="132.0" text="Add Prouduction" />
+                    </children>
+                </HBox>
+                <MenuButton fx:id="productionsMenu" mnemonicParsing="false" text="Productions">
+                </MenuButton>
             </children>
-         </HBox>
-
         </HBox>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="507.0" prefWidth="583.0" spacing="100.0">
          <children>

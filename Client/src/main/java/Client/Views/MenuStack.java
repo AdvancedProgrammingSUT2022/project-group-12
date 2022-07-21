@@ -1,9 +1,9 @@
 package Client.Views;
 
 import Client.App;
-import Client.Models.Cookies;
-import Project.Models.User;
-import Project.Utils.CommandResponse;
+import Client.Models.*;
+import Project.Models.*;
+import Project.Utils.*;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,8 @@
 package Client;
 
-import Client.Utils.RequestSender;
-import Client.Utils.UpdateTracker;
-import Client.Views.Menu;
-import Client.Views.MenuStack;
-import Project.Utils.Constants;
+import Client.Utils.*;
+import Client.Views.*;
+import Project.Utils.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

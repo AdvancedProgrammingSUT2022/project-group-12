@@ -3,16 +3,13 @@ package Client.Utils;
 import Project.Enums.BuildingEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.*;
 import Project.Models.Cities.City;
-import Project.Models.Citizen;
-import Project.Models.Location;
 import Project.Models.Notifications.Notification;
-import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
-import Project.Models.User;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Notifier;
 import com.google.gson.*;
@@ -271,6 +268,21 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, new TypeToken<ArrayList<Citizen>>() {
         }.getType());
     }
+    public static ArrayList<Production> getSelectedCityProductionQueue(){
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_PRODUCTION_QUEUE);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Production.class, new MyJsonDeserializer<>());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(json, new TypeToken<ArrayList<Production>>() {
+        }.getType());
+    }
+    public static ArrayList<String> getCurrentCivAvailableProductions(){
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_AVAILABLE_BUILDINGS_NAME);
+        String json2 = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_AVAILABLE_UNITS_NAME);
+        ArrayList<String> productsName = new ArrayList<>(new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType()));
+        productsName.addAll(new Gson().fromJson(json2,new TypeToken<ArrayList<String>>(){}.getType()));
+        return productsName;
+    }
 }
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override
@@ -285,4 +297,5 @@ class MyJsonDeserializer<T> implements JsonDeserializer<T> {
         }
         return var3.deserialize(var1,clazz);
     }
+
 }
