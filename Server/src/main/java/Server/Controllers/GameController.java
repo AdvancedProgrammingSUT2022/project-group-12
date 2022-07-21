@@ -218,7 +218,7 @@ public class GameController {
         StringBuilder message = new StringBuilder();
         message.append("city citizens : " + city.getCitizensCount() + "\n");
         for (Building building : city.getBuildings()) {
-            message.append("city building : " + building.getType().toString().toLowerCase() + '\n');
+            message.append("city building : " + building.getBuildingType().toString().toLowerCase() + '\n');
         }
 //        message.append("city combat unit : " + city.getCombatUnit() + '\n');
 //        message.append("city nonCombat unit : " + city.getNonCombatUnit() + '\n');
@@ -393,15 +393,11 @@ public class GameController {
 
     public static void cityBuildBuilding(City selectedCity, BuildingEnum building) throws CommandException {
         Civilization civ = GameController.getGame().getCivByName(selectedCity.getCivName());
-        if (civ.calculateCivilizationGold() < building.getCost()) {
-            throw new CommandException(CommandResponse.NOT_ENOUGH_GOLD);
-        }
         if (!civ.hasRequierdTech(building.getRequiredTechs())) {
             throw new CommandException(CommandResponse.DO_NOT_HAVE_REQUIRED_TECHNOLOGY);
         }
-        civ.addGold(-building.getCost());
         Building buildingClass = new Building(building);
-        selectedCity.addBuilding(buildingClass);
+        selectedCity.addToProductionQueue(buildingClass);
     }
 
 

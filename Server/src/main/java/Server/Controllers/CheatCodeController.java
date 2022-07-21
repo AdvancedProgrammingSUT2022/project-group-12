@@ -117,6 +117,6 @@ public class CheatCodeController {
 
     public void addBuilding(Building building, City city) {
         city.getBuildings().add(building);
-        BuildingNotesLoader.getBuildingNotes().get(building.getType()).note(city);
+        BuildingNotesLoader.getBuildingNotes().get(building.getBuildingType()).note(city);
     }
 }

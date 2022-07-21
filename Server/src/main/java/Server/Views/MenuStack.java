@@ -15,9 +15,7 @@ import Server.Models.Database;
 import Server.Utils.RequestHandler;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MenuStack {
@@ -183,6 +181,10 @@ public class MenuStack {
             case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
             case GET_TILE_GRID -> gson.toJson(GameController.getGame().getCurrentCivilization().getRevealedTileGrid());
             case GET_CIV_CAMERA_LOCATION -> gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
+            case GET_SELECTED_CITY_PRODUCTION_QUEUE -> gson.toJson(GameMenu.getSelectedCity().getProductionQueue());
+            case GET_AVAILABLE_BUILDINGS_NAME -> gson.toJson(Arrays.stream(BuildingEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(e.getRequiredTechs())).map(Enum::name).collect(Collectors.toList())) ;
+            case GET_AVAILABLE_UNITS_NAME -> gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(Collections.singletonList(e.getRequiredTech())) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
+                                                    .map(Enum::name).collect(Collectors.toList())) ;
         };
         }
 

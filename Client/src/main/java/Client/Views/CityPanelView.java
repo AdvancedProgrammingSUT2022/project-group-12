@@ -19,6 +19,10 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class CityPanelView implements ViewController {
+    public Button addProductionBtn;
+    public Button removeProduction;
+    public MenuButton productionsMenu;
+    String selectedProudtionName;
     int TILEGRID_WIDTH;
     int TILEGRID_HEIGHT;
     @FXML
@@ -87,6 +91,7 @@ public class CityPanelView implements ViewController {
 
     public void initialize() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
+        initializeProductionMenu();
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
         this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
@@ -137,6 +142,10 @@ public class CityPanelView implements ViewController {
             productionMenu.getItems().add(item);
         }
     }
+    public String capitalizeFirstString(String str){
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
 
     private void initCitizenMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
@@ -152,6 +161,18 @@ public class CityPanelView implements ViewController {
                 citizenSelectMenu.setText(citizenInfo.toString());
             });
             citizenSelectMenu.getItems().add(item);
+        }
+    }
+    private void initializeProductionMenu() {
+        for (String name:
+                DatabaseQuerier.getCurrentCivAvailableProductions()) {
+            MenuItem menuItem = new MenuItem(capitalizeFirstString(name.toLowerCase()));
+            menuItem.setOnAction(actionEvent -> {
+                selectedProudtionName = menuItem.getText();
+                productionsMenu.setText(selectedProudtionName);
+                addProductionBtn.setDisable(false);
+            });
+            productionsMenu.getItems().add(menuItem);
         }
     }
 
@@ -348,6 +369,23 @@ public class CityPanelView implements ViewController {
         int locationX = (int) attackXSpinner.getValue();
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
+        CommandResponse response = RequestSender.getInstance().send(command);
+        if( !response.isOK()){
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
+        }
+        back();
+    }
+    public void addToProductionQueue() {
+        String command;
+        if(BuildingEnum.getBuildingEnumByName(selectedProudtionName.toUpperCase()) == null)
+        {
+            command = "city build unit -u " + selectedProudtionName;
+        } else {
+            command = "city build unit -n " + selectedProudtionName;
+        }
         CommandResponse response = RequestSender.getInstance().send(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());

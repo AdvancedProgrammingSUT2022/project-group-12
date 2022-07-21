@@ -117,7 +117,7 @@ public class CityCombatController extends CombatController {
         Random random = new Random();
         int length = city.getBuildings().size();
         for (int i = length - 1; i >= 0; i--) {
-            if (city.getBuildings().get(i).getType().isCombatBuilding()) {
+            if (city.getBuildings().get(i).getBuildingType().isCombatBuilding()) {
                 city.getBuildings().remove(city.getBuildings().get(i));
             } else {
                 if (random.nextInt(3) < 2) {

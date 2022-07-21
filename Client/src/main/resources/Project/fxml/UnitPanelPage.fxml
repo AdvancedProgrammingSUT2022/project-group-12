@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.UnitPanelView">
     <VBox layoutX="-3.0" layoutY="14.0" prefHeight="355.0" prefWidth="590.0">
 
@@ -79,7 +86,7 @@
             </children>
         </HBox>
         <ScrollPane prefHeight="136.0" prefWidth="592.0" style="-fx-padding: 5;" vbarPolicy="NEVER">
-            <HBox fx:id="buttonBox" alignment="CENTER" prefHeight="52.0"  spacing="10.0">
+            <HBox fx:id="buttonBox" alignment="CENTER" prefHeight="52.0" spacing="10.0">
                 <Button mnemonicParsing="false" onAction="#buildImprovement" prefHeight="24.0" prefWidth="152.0" text="Build Improvement" />
                 <Button fx:id="pillageBtn" mnemonicParsing="false" onAction="#pillage" text="Pillage" />
                 <Button mnemonicParsing="false" onAction="#sleep" text="Sleep" />

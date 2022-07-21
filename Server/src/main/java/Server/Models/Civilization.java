@@ -6,6 +6,7 @@ import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Notifications.*;
+import Project.Models.Production;
 import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -23,6 +24,7 @@ import Server.Utils.CommandException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Civilization {
     private final User user;
@@ -208,7 +210,7 @@ public class Civilization {
 
     private void applyCityBuildingNotes(City city) {
         for (BuildingEnum bu:
-                city.getBuildings().stream().map(Building::getType).toList()) {
+                city.getBuildings().stream().map(Building::getBuildingType).toList()) {
             BuildingNotesLoader.getBuildingNotes().get(bu).note(city);
         }
     }
@@ -296,6 +298,14 @@ public class Civilization {
             }
         }
         return null;
+    }
+
+
+    private boolean hasRequierdResource(ResourceEnum requiredResource) {
+        if(this.resources.stream().map(Resource::getResourceEnum).toList().contains(requiredResource) || requiredResource == ResourceEnum.RESET){
+            return true;
+        }
+        return false;
     }
 
     public int calculateCivilizationFood() {
@@ -496,7 +506,7 @@ public class Civilization {
         for (Resource resource :
                 resources) {
             //todo check
-            if (resource.getResourceEnum() == resourceEnum) {
+            if (resource.getResourceEnum() == resourceEnum || resourceEnum == ResourceEnum.RESET) {
                 return true;
             }
         }

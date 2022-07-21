@@ -33,7 +33,7 @@ public class CityHandler {
 
     private static boolean haveCourtHouse(City city) {
         for (Building building : city.getBuildings()) {
-            if (building.getType() == BuildingEnum.COURT_HOUSE) {
+            if (building.getBuildingType() == BuildingEnum.COURT_HOUSE) {
                 return true;
             }
         }
