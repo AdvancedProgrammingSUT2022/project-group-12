@@ -2,7 +2,6 @@ package Client.Models;
 
 
 import Client.App;
-import Client.Utils.RequestSender;
 import Client.Utils.SelectHandler;
 import Client.Views.GameView;
 import Client.Views.ImageLoader;
@@ -248,8 +247,7 @@ public class Hex implements Observer<Tile> {
         this.group.getChildren().add(this.cityImageView);
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                String command = "select city " + " -p " + city.getLocation().getRow() + " " + city.getLocation().getCol();
-                RequestSender.getInstance().send(command);
+                SelectHandler.sendSelectCityRequest(city);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
             }
         });

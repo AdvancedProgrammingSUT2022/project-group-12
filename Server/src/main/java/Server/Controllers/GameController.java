@@ -444,7 +444,7 @@ public class GameController {
             throw new CommandException(CommandResponse.INVALID_POSITION);
         }
         City city = GameController.getGameTile(location).getCity();
-        if (city == null || GameController.getGame().getCivByName(city.getName()) != civ) {
+        if (city == null || GameController.getGame().getCivByName(city.getCivName()) != civ) {
             throw new CommandException(CommandResponse.CITY_DOES_NOT_EXISTS);
         }
         return city;

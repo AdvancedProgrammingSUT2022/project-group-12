@@ -31,7 +31,7 @@ public class Tile implements Notifier<Tile> {
     private Citizen citizen = null;
     private boolean isRuin;
     private String civName = null;
-    private transient City city;
+    private City city;
 
     public Tile(Terrain terrain, Location tileLocation, String color) {
         this.location = tileLocation;

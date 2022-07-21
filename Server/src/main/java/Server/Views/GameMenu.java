@@ -784,13 +784,13 @@ public class GameMenu extends Menu {
             command.abbreviate("position", 'p');
             Civilization civ = GameController.getGame().getCurrentCivilization();
             if (command.getOption("position") != null) {
-                this.selectedCity = GameController.selectCityByPosition(civ, command.getLocationOption("position"));
+                selectedCity = GameController.selectCityByPosition(civ, command.getLocationOption("position"));
             } else if (command.getOption("name") != null) {
-                this.selectedCity = GameController.selectCityByName(civ, command.getOption("name"));
+                selectedCity = GameController.selectCityByName(civ, command.getOption("name"));
             } else {
                 answer(new CommandException(CommandResponse.MISSING_REQUIRED_OPTION, "name/position"));
             }
-            setCamera(this.selectedCity.getLocation());
+            setCamera(selectedCity.getLocation());
         } catch (CommandException e) {
             answer(e);
             return;

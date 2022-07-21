@@ -1,6 +1,5 @@
 package Client.Models;
 
-import Client.Utils.DatabaseQuerier;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
@@ -11,6 +10,7 @@ public class Cookies {
     private String currentGameId = null;
     private Unit selectedUnit = null;
     private Tile selectedTile = null;
+    private City selectedCity = null;
     private Location selectedTileLocation = null;
     private final SettingOptions settingOptions = new SettingOptions();
 
@@ -28,15 +28,12 @@ public class Cookies {
     }
 
     public City getSelectedCity() {
-        return DatabaseQuerier.getSelectedCity();
+        return this.selectedCity;
     }
-
-
 
     public Tile getSelectedTile() {
-        return DatabaseQuerier.getTileByLocation(String.valueOf(selectedTileLocation.getRow()),String.valueOf(selectedTileLocation.getCol()));
+        return this.selectedTile;
     }
-
 
     public String getCurrentGameId() {
         return currentGameId;
@@ -56,5 +53,17 @@ public class Cookies {
 
     public SettingOptions getSettingOptions() {
         return settingOptions;
+    }
+
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
+    }
+
+    public Unit getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void setSelectedTile(Tile selectedTile) {
+        this.selectedTile = selectedTile;
     }
 }
