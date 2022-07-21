@@ -1,7 +1,6 @@
 package Client.Models;
 
 import Project.Models.Cities.City;
-import Project.Models.Location;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 
@@ -11,7 +10,6 @@ public class Cookies {
     private Unit selectedUnit = null;
     private Tile selectedTile = null;
     private City selectedCity = null;
-    private Location selectedTileLocation = null;
     private final SettingOptions settingOptions = new SettingOptions();
 
     public String getLoginToken() {
@@ -40,14 +38,6 @@ public class Cookies {
 
     public void setCurrentGameId(String currentGameId) {
         this.currentGameId = currentGameId;
-    }
-
-    public Location getSelectedTileLocation() {
-        return selectedTileLocation;
-    }
-
-    public void setSelectedTileLocation(Location selectedTileLocation) {
-        this.selectedTileLocation = selectedTileLocation;
     }
 
     public SettingOptions getSettingOptions() {

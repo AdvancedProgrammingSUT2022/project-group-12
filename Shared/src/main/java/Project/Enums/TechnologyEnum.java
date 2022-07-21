@@ -1,6 +1,8 @@
 package Project.Enums;
 
 
+import Project.Utils.Observer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -58,6 +60,7 @@ public enum TechnologyEnum {
 
     private final int cost;
     private final ArrayList<TechnologyEnum> prerequisiteTechs;
+    private  Observer<Object> updateNotifier;
 
     TechnologyEnum(int cost, ArrayList<TechnologyEnum> prerequisiteTechs) {
         this.cost = cost;
@@ -101,5 +104,16 @@ public enum TechnologyEnum {
             if (!tech.name().equals("RESET"))
                 techMap.put(tech.name(), tech);
         return techMap;
+    }
+
+    public void setUpdateNotifier(Observer<Object> updateNotifier) {
+        this.updateNotifier = updateNotifier;
+    }
+
+    public Observer<Object> getUpdateNotifier() {
+        return updateNotifier;
+    }
+    public void notifyObservers(){
+        this.updateNotifier.getNotified(this);
     }
 }

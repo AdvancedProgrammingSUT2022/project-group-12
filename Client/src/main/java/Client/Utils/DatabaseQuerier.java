@@ -3,8 +3,8 @@ package Client.Utils;
 import Project.Enums.BuildingEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.*;
 import Project.Models.Cities.City;
+import Project.Models.*;
 import Project.Models.Notifications.Notification;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -190,8 +190,8 @@ public class DatabaseQuerier {
         return gson.fromJson(json, Unit.class);
     }
 
-    public static Tile getTileByLocation(String row, String col) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION, row, col);
+    public static Tile getTileByLocation(Location location) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_BY_LOCATION, String.valueOf(location.getRow()), String.valueOf(location.getCol()));
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());

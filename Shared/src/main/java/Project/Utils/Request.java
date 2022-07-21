@@ -1,5 +1,7 @@
 package Project.Utils;
 
+import Project.Models.Tiles.Tile;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ public class Request {
     private final String token;
     private DatabaseQueryType queryType;
     private String[] queryParams;
+    private Tile requestTile;
 
     public Request(RequestType requestType, String token) {
         this.requestType = requestType;
@@ -45,5 +48,13 @@ public class Request {
 
     public void setQueryType(DatabaseQueryType queryType) {
         this.queryType = queryType;
+    }
+
+    public void setRequestTile(Tile requestTile) {
+        this.requestTile = requestTile;
+    }
+
+    public Tile getRequestTile() {
+        return requestTile;
     }
 }

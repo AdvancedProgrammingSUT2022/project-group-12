@@ -20,6 +20,7 @@ import Server.Controllers.CivilizationController;
 import Server.Controllers.GameController;
 import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
+import Server.Utils.UpdateNotifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,8 +89,8 @@ public class Civilization {
 
     }
 
-    public void advanceResearchTech() {
-        if (this.researchingTechnology == null) return;
+    public void advanceResearchTech(UpdateNotifier updateNotifier) {
+        if (this.researchingTechnology == null) /* never */ return;
 
         this.beaker = calculateScience();
         int temp = researchingTechnologies.get(researchingTechnology) + this.beaker;
@@ -97,6 +98,7 @@ public class Civilization {
         researchingTechnologies.put(researchingTechnology, temp);
         this.beaker = 0;
         if (researchingTechnologies.get(researchingTechnology) >= researchingTechnology.getCost()) {
+            updateNotifier.sendAddTechnologyMessage(researchingTechnology.name());
             this.addTechnology(researchingTechnology);
             researchingTechnologies.remove(researchingTechnology);
             setResearchingTechnology(null);

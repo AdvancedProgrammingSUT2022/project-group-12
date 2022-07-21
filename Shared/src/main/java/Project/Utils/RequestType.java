@@ -2,6 +2,8 @@ package Project.Utils;
 
 public enum RequestType {
     RUN_SERVERVIEW_COMMAND,
+    SHOW_NEW_TECHNOLOGY_ACHIEVED,
+    UPDATE_TILE,
     CREATE_USER,
     LOGIN_USER,
     SET_SOCKET_FOR_UPDATE_TRACKER,

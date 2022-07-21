@@ -45,7 +45,7 @@ public class GameMenu extends Menu {
 
     private void startNewTurn() {
         try {
-            GameController.getGame().startNewTurn();
+            GameController.getGame().startNewTurn(this.menuStack.getUpdateNotifier());
         } catch (GameException e) { // game ended
             endGame();
         }
@@ -1059,5 +1059,6 @@ public class GameMenu extends Menu {
     public static City getSelectedCity(){
         return selectedCity;
     }
+
 
 }
