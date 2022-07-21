@@ -283,6 +283,10 @@ public class DatabaseQuerier {
         productsName.addAll(new Gson().fromJson(json2,new TypeToken<ArrayList<String>>(){}.getType()));
         return productsName;
     }
+    public static ArrayList<String> getInvitedGames(){
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_INVITED_GAMES_NAMES);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
 }
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override

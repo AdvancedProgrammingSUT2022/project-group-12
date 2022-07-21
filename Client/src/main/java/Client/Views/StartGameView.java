@@ -30,6 +30,7 @@ public class StartGameView implements ViewController {
     private ChoiceBox<String> userSelect;
     private SpinnerValueFactory<Integer> widthValueFactory;
     private SpinnerValueFactory<Integer> heightValueFactory;
+    private String invitedGamesName;
 
     public void initialize() {
         initializeSpinners();
@@ -45,11 +46,13 @@ public class StartGameView implements ViewController {
 
     private void initializeInvitedGame() {
         for (String gameName :
-               new ArrayList<String>() ) {
+               DatabaseQuerier.getInvitedGames() ) {
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
-                //set game
+                this.invitedGamesName = gameName;
+                invitedGames.setText(gameName);
             });
+            invitedGames.getItems().add(menuItem);
         }
     }
 

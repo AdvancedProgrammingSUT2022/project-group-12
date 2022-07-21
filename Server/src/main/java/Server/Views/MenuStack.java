@@ -185,6 +185,7 @@ public class MenuStack {
             case GET_AVAILABLE_BUILDINGS_NAME -> gson.toJson(Arrays.stream(BuildingEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(e.getRequiredTechs())).map(Enum::name).collect(Collectors.toList())) ;
             case GET_AVAILABLE_UNITS_NAME -> gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(Collections.singletonList(e.getRequiredTech())) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
                                                     .map(Enum::name).collect(Collectors.toList())) ;
+            case GET_INVITED_GAMES_NAMES -> gson.toJson(Database.getInstance().getInvitedGamesFor());
         };
         }
 
