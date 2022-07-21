@@ -10,9 +10,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class StartGameView implements ViewController {
     private final ArrayList<String> users = new ArrayList<>();
+    @FXML
+    private Spinner<Integer> playerCount;
     @FXML
     private MenuButton invitedGames;
     @FXML
@@ -31,22 +34,25 @@ public class StartGameView implements ViewController {
     private SpinnerValueFactory<Integer> widthValueFactory;
     private SpinnerValueFactory<Integer> heightValueFactory;
     private String invitedGamesName;
+    private int currentPlayerCount;
+    private SpinnerValueFactory<Integer> countValueFactory;
+    private ArrayList<String> allUsernames;
 
     public void initialize() {
-        initializeSpinners();
-        loadInvitedGameItems();
         selectedUsernames = new ArrayList<>();
         selectedUsernames.add(MenuStack.getInstance().getUser().getUsername());
-        ArrayList<String> usernames = DatabaseQuerier.getAllUsernames();
-        usernames.remove(MenuStack.getInstance().getUser().getUsername());
+        allUsernames = DatabaseQuerier.getAllUsernames();
+        allUsernames.remove(MenuStack.getInstance().getUser().getUsername());
         userSelect.getItems().removeAll(userSelect.getItems());
-        userSelect.getItems().addAll(usernames);
+        userSelect.getItems().addAll(allUsernames);
         userSelect.setOnAction(this::getUser);
+        initializeSpinners();
+        loadInvitedGameItems();
     }
 
     public void loadInvitedGameItems() {
         invitedGames.getItems().clear();
-        for (String gameName : DatabaseQuerier.getInvitedGames() ) {
+        for (String gameName : DatabaseQuerier.getInvitedGames()) {
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
                 this.invitedGamesName = gameName;
@@ -59,10 +65,13 @@ public class StartGameView implements ViewController {
     private void initializeSpinners() {
         currentWidthSize = 10;
         currentHeightSize = 10;
+        currentPlayerCount = 0;
         widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
         widthValueFactory.setValue(currentWidthSize);
         heightValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
         heightValueFactory.setValue(currentHeightSize);
+        countValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, allUsernames.size());
+        countValueFactory.setValue(currentPlayerCount);
         gridSizeWidth.setValueFactory(widthValueFactory);
         gridSizeWidth.valueProperty().addListener((observableValue, integer, t1) -> {
             currentWidthSize = gridSizeWidth.getValue();
@@ -71,7 +80,15 @@ public class StartGameView implements ViewController {
         gridSizeHeight.valueProperty().addListener((observableValue, integer, t1) -> {
             currentHeightSize = gridSizeHeight.getValue();
         });
-
+        playerCount.setValueFactory(countValueFactory);
+        playerCount.valueProperty().addListener((observableValue, integer, t1) -> {
+            currentPlayerCount = playerCount.getValue();
+            int i = new Random().nextInt(0, allUsernames.size() - 1);
+            while (selectedUsernames.contains(allUsernames.get(i))) {
+                i = new Random().nextInt(0, allUsernames.size() - 1);
+            }
+            userSelect.setValue(allUsernames.get(i));
+        });
     }
 
     private void getUser(ActionEvent event) {

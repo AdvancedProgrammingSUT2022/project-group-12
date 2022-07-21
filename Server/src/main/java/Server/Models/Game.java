@@ -159,7 +159,6 @@ public class Game {
          */
         civ.setGold(civ.calculateCivilizationGold());
         return response.toString();
-
     }
 
 

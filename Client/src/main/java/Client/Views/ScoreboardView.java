@@ -2,10 +2,12 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Project.Models.User;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -40,6 +42,8 @@ public class ScoreboardView implements ViewController {
                 ImageView avatar = new ImageView(AvatarView.getAvatarImage(user.getAvatarURL()));
                 avatar.setFitHeight(15);
                 avatar.setFitWidth(15);
+                avatar.setOnMouseClicked(mouseEvent -> DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
+                        user.getUsername()));
                 hBox.getChildren().add(avatar);
             }
 
@@ -63,7 +67,8 @@ public class ScoreboardView implements ViewController {
             hBox.getChildren().add(loginDate);
 
             double opacity = 0.5;
-            if (i == -1 || user.getUsername().equals(MenuStack.getInstance().getUser().getUsername())) opacity = 0.9;
+            if (i == -1 || user.getUsername().equals(MenuStack.getInstance().getUser().getUsername()))
+                opacity = 0.9;
 
             String color = "255, 255, 255";
             if (i == 0) color = "255, 215, 0";
