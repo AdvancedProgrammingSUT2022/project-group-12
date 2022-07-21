@@ -88,6 +88,16 @@ public class DatabaseQuerier {
         }.getType());
     }
 
+    public static void sendFriendRequest(String sender, String receiver) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_FRIEND_REQUEST,sender,receiver);
+    }
+    public static void acceptFriendRequest(String sender, String receiver) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.ACCEPT_FRIEND_REQUEST,sender,receiver);
+    }
+    public static void denyFriendRequest(String sender, String receiver) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.DENY_FRIEND_REQUEST,sender,receiver);
+    }
+
     public static int getFoodOfCurrentCiv() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_FOOD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
@@ -196,8 +206,8 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, City.class);
     }
 
-    public static ArrayList<TechnologyEnum> getTechnologies() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TECHNOLOGIES);
+    public static ArrayList<TechnologyEnum> getCurrentTechnologies() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENT_CIV_TECHNOLOGIES);
         return new Gson().fromJson(json, new TypeToken<ArrayList<TechnologyEnum>>() {
         }.getType());
     }

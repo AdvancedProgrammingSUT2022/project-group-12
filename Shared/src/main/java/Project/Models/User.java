@@ -10,7 +10,10 @@ import java.util.Random;
 
 public class User {
     private final String username;
+    private final ArrayList<String> friends;
     private transient final HashMap<String, Chat> chats;
+    private final ArrayList<String> friendRequest;
+    private final ArrayList<String> waitingOnFriendRequest;
     private String imageUrl;
     private String nickname;
     private String password;
@@ -20,12 +23,53 @@ public class User {
     private transient Chat currentChat;
 
     public User(String username, String password, String nickname) {
+        this.friends = new ArrayList<>();
+        this.friendRequest = new ArrayList<>();
+        this.waitingOnFriendRequest = new ArrayList<>();
         this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.chats = new HashMap<>();
         this.score = 0;
         this.imageUrl = assignRandomAvatar();
+    }
+
+    public ArrayList<String> getFriendRequest() {
+        return friendRequest;
+    }
+
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+
+    public void addFriend(String username) {
+        if (!this.friends.contains(username))
+            this.friends.add(username);
+    }
+
+    public void addToWaitingOnFriendRequest(String username) {
+        if (!this.waitingOnFriendRequest.contains(username))
+            this.waitingOnFriendRequest.add(username);
+    }
+
+    public void acceptFriend(String username) {
+        friendRequest.remove(username);
+        waitingOnFriendRequest.remove(username);
+        addFriend(username);
+    }
+
+    public void denyFriend(String username) {
+        getFriendRequest().remove(username);
+        waitingOnFriendRequest.remove(username);
+    }
+
+    public ArrayList<String> getWaitingOnFriendRequest() {
+        return waitingOnFriendRequest;
+    }
+
+    public void sendFriendRequest(String username) {
+        if (!this.friendRequest.contains(username))
+            this.friendRequest.add(username);
     }
 
     private String assignRandomAvatar() {

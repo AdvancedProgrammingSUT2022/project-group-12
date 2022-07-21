@@ -82,7 +82,7 @@ public class GameView implements ViewController {
                 tile.addObserver(hex);
             }
         }
-        this.technologies = DatabaseQuerier.getTechnologies();
+        this.technologies = DatabaseQuerier.getCurrentTechnologies();
         this.reloadTileGridFromServer();
         setCameraOnCivSelectedLocation();
     }
@@ -148,7 +148,7 @@ public class GameView implements ViewController {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else MenuStack.getInstance().showSuccess(response.getMessage());
-        this.technologies = DatabaseQuerier.getTechnologies();
+        this.technologies = DatabaseQuerier.getCurrentTechnologies();
         this.reloadTileGridFromServer();
         setCameraOnCivSelectedLocation();
     }

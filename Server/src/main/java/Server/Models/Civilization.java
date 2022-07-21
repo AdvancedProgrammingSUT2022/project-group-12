@@ -96,11 +96,20 @@ public class Civilization {
         researchingTechnologies.remove(researchingTechnology);
         researchingTechnologies.put(researchingTechnology, temp);
         this.beaker = 0;
-
         if (researchingTechnologies.get(researchingTechnology) >= researchingTechnology.getCost()) {
             this.addTechnology(researchingTechnology);
             researchingTechnologies.remove(researchingTechnology);
             setResearchingTechnology(null);
+            updateResearchingTechnology(researchingTechnology);
+        }
+    }
+
+    private void updateResearchingTechnology(TechnologyEnum researchingTechnology) {
+        for (TechnologyEnum te:
+             TechnologyEnum.values()) {
+            if(!this.technologies.contains(te) && !this.researchingTechnologies.containsKey(te) && this.technologies.containsAll(te.getPrerequisiteTechs())){
+                this.researchingTechnologies.put(te,te.getCost());
+            }
         }
     }
 

@@ -1,7 +1,9 @@
 package Client.Views;
 
+import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -190,5 +192,10 @@ public class ProfileView implements ViewController {
             changingPass.getChildren().remove(changingPass.getChildren().size() - 1);
         while (currentLevel != 1 && changingNickname.getChildren().size() > 1)
             changingNickname.getChildren().remove(changingNickname.getChildren().size() - 1);
+    }
+
+    public void gotoFriendsPage() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("FriendsPage"));
+
     }
 }
