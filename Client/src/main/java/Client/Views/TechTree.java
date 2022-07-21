@@ -8,23 +8,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class TechTree implements ViewController {
-
-
     @FXML
     private ScrollPane techTreeScrollPane;
     @FXML
     private Button backToPanel;
-
 
     public void initialize(){
        ImageView node = new ImageView(new Image(App.class.getResource("/images/technologies/techTree2.jpg").toExternalForm()));
        techTreeScrollPane.setContent(node);
     }
 
-
     public void backToPanel() {
        MenuStack.getInstance().popMenu();
     }
-
 
 }

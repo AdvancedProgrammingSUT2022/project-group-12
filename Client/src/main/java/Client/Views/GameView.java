@@ -18,11 +18,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
 public class GameView implements ViewController {
+    @FXML
+    private Rectangle myRect;
+    @FXML
+    private Pane mainPane;
+    @FXML
+    private Pane coverPane;
     @FXML
     private ImageView happinessImg;
     @FXML
@@ -168,4 +175,5 @@ public class GameView implements ViewController {
     public ArrayList<TechnologyEnum> getTechnologies() {
         return technologies;
     }
+
 }

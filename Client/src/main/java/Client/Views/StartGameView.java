@@ -44,7 +44,7 @@ public class StartGameView implements ViewController {
         userSelect.setOnAction(this::getUser);
     }
 
-    private void initializeInvitedGame() {
+    public void initializeInvitedGame() {
         for (String gameName :
                DatabaseQuerier.getInvitedGames() ) {
             MenuItem menuItem = new MenuItem(gameName);
@@ -123,5 +123,9 @@ public class StartGameView implements ViewController {
 
     public void backClick() {
         MenuStack.getInstance().popMenu();
+    }
+
+    public void startNewGame() {
+
     }
 }

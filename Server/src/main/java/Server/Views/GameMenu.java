@@ -511,7 +511,7 @@ public class GameMenu extends Menu {
     }
 
     private void cheatIncreaseProduction(Command command) {
-        if (this.selectedCity == null) {
+        if (selectedCity == null) {
             answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
@@ -519,15 +519,15 @@ public class GameMenu extends Menu {
             command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
-            CheatCodeController.getInstance().increaseProduction(this.selectedCity, amount);
-            answer(amount + " production added to " + this.selectedCity.getName() + " successfully");
+            CheatCodeController.getInstance().increaseProduction(selectedCity, amount);
+            answer(amount + " production added to " + selectedCity.getName() + " successfully");
         } catch (CommandException e) {
             answer(e);
         }
     }
 
     private void cheatIncreaseFood(Command command) {
-        if (this.selectedCity == null) {
+        if (selectedCity == null) {
             answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
@@ -535,8 +535,8 @@ public class GameMenu extends Menu {
             command.abbreviate("amount", 'a');
             command.assertOptions(List.of("amount"));
             int amount = command.getIntOption("amount");
-            CheatCodeController.getInstance().increaseFood(this.selectedCity, amount);
-            answer(amount + " food added to " + this.selectedCity.getName() + " successfully");
+            CheatCodeController.getInstance().increaseFood(selectedCity, amount);
+            answer(amount + " food added to " + selectedCity.getName() + " successfully");
         } catch (CommandException e) {
             answer(e);
         }
@@ -559,14 +559,14 @@ public class GameMenu extends Menu {
         String message;
         try {
             message = GameController.getGame().endCurrentTurn();
-            this.selectedCity = null;
-            this.selectedUnit = null;
+            selectedCity = null;
+            selectedUnit = null;
         } catch (CommandException e) {
             answer(e);
             return;
         }
-        this.selectedUnit = null;
-        this.selectedCity = null;
+        selectedUnit = null;
+        selectedCity = null;
         System.out.println("end of turn"); // todo: convert to answer() or not?
         System.out.println("------------------------------");
         this.startNewTurn();
@@ -574,7 +574,7 @@ public class GameMenu extends Menu {
     }
 
     private void city(Command command) {
-        if (this.selectedCity == null) {
+        if (selectedCity == null) {
             answer(new CommandException(CommandResponse.CITY_NOT_SELECTED));
             return;
         }
@@ -605,7 +605,7 @@ public class GameMenu extends Menu {
             if (command.getOption("number") != null) {
                 index = command.getIntOption("number") - 1;
             }
-            this.getSelectedCity().removeFromProductionQueue(index);
+            getSelectedCity().removeFromProductionQueue(index);
             System.out.println("production number " + (index + 1) + " removed successfully");
         } catch (CommandException e) {
             throw new RuntimeException(e);
@@ -613,7 +613,7 @@ public class GameMenu extends Menu {
     }
 
     private void cityQueueShow() {
-        answer(this.getSelectedCity().getQueueInfo());
+        answer(getSelectedCity().getQueueInfo());
     }
 
 
@@ -632,7 +632,7 @@ public class GameMenu extends Menu {
             String buildingName = command.getOption("name");
             BuildingEnum building = BuildingEnum.valueOf(buildingName.toUpperCase());
             GameController.cityBuildBuilding(selectedCity, building);
-            answer(building + " added to production queue of " + this.selectedCity.getName());
+            answer(building + " added to production queue of " + selectedCity.getName());
         } catch (CommandException e) {
             answer(e);
         } catch (IllegalArgumentException e) {

@@ -81,7 +81,8 @@ public class City {
     }
 
     public String getQueueInfo() {
-        if (this.getProductionQueue().isEmpty()) return "queue is empty";
+        if (this.getProductionQueue().isEmpty())
+            return "queue is empty";
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < this.getProductionQueue().size(); i++) {
             Production production = this.getProductionQueue().get(i);
@@ -113,16 +114,16 @@ public class City {
         return goldRatioFromBuildings;
     }
 
+    public void setGoldRatioFromBuildings(int goldRatioFromBuildings) {
+        this.goldRatioFromBuildings = goldRatioFromBuildings;
+    }
+
     public int getGoldFromBuildings() {
         return goldFromBuildings;
     }
 
     public void setGoldFromBuildings(int goldFromBuildings) {
         this.goldFromBuildings = goldFromBuildings;
-    }
-
-    public void setGoldRatioFromBuildings(int goldRatioFromBuildings) {
-        this.goldRatioFromBuildings = goldRatioFromBuildings;
     }
 
     public int getRange() {
@@ -222,6 +223,10 @@ public class City {
         return localHappiness;
     }
 
+    public void setLocalHappiness(double localHappiness) {
+        this.localHappiness = localHappiness;
+    }
+
     public int getFoodFromCheat() {
         return foodFromCheat;
     }
@@ -250,27 +255,12 @@ public class City {
         this.health -= value;
     }
 
-
     public int getHealth() {
         return this.health;
     }
 
     public void setHealth(int health) {
         this.health = health;
-    }
-
-
-
-    public void setLocalHappiness(double localHappiness) {
-        this.localHappiness = localHappiness;
-    }
-
-    public void setRemainedFoodForCitizen(int remainedFoodForCitizen) {
-        this.remainedFoodForCitizen = remainedFoodForCitizen;
-    }
-
-    public void setCivName(String civName) {
-        this.civName = civName;
     }
 
     public ArrayList<Location> getTilesLocations() {
@@ -281,8 +271,16 @@ public class City {
         return remainedFoodForCitizen;
     }
 
+    public void setRemainedFoodForCitizen(int remainedFoodForCitizen) {
+        this.remainedFoodForCitizen = remainedFoodForCitizen;
+    }
+
     public String getCivName() {
         return civName;
+    }
+
+    public void setCivName(String civName) {
+        this.civName = civName;
     }
 
     public void addToProductionQueue(Production production) {
@@ -309,7 +307,6 @@ public class City {
     public Location getLocation() {
         return this.location;
     }
-
 
 
 }

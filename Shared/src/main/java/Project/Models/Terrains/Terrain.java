@@ -15,11 +15,10 @@ public class Terrain {
     private final int goldCount;
     private final int combatModifier;
     private final int movementCost;
+    private final TerrainColor color;
     //test
     //making it not final
     private ResourceEnum resource;
-    private final TerrainColor color;
-
     private ArrayList<FeatureEnum> features;
 
     public Terrain(TerrainEnum type) {
@@ -117,6 +116,10 @@ public class Terrain {
         return this.resource;
     }
 
+    public void setResource(ResourceEnum resource) {
+        this.resource = resource;
+    }
+
     public ArrayList<FeatureEnum> getFeatures() {
         return this.features;
     }
@@ -133,7 +136,6 @@ public class Terrain {
         }
     }
 
-
     public int getCombatModifier() {
         return this.combatModifier;
     }
@@ -143,14 +145,13 @@ public class Terrain {
     }
 
     public void clearLands() {
-        if (this.features.contains(FeatureEnum.JUNGLE)) {
-            // todo: check
-//            this.features = new ArrayList<>() {{
-//                add(TerrainEnum.DESERT);
-//            }};
-        } else {
+        if (this.features.contains(FeatureEnum.JUNGLE))
+            this.features = new ArrayList<>() {{
+                add(FeatureEnum.FOREST);
+            }};
+        else
             this.features = new ArrayList<>();
-        }
+
     }
 
     public boolean isRoughTerrain() {
@@ -163,10 +164,6 @@ public class Terrain {
             }
         }
         return false;
-    }
-
-    public void setResource(ResourceEnum resource) {
-        this.resource = resource;
     }
 }
 
