@@ -2,6 +2,7 @@ package Client.Models;
 
 
 import Client.App;
+import Client.Utils.DatabaseQuerier;
 import Client.Utils.SelectHandler;
 import Client.Views.GameView;
 import Client.Views.ImageLoader;
@@ -89,7 +90,8 @@ public class Hex implements Observer<Tile> {
 //        this.group.setOnMouseClicked(mouseEvent -> System.out.println(i + " " + j));
         this.group.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                MenuStack.getInstance().getCookies().setSelectedTileLocation(new Location(i, j));
+                Tile tile = DatabaseQuerier.getTileByLocation(new Location(i, j));
+                MenuStack.getInstance().getCookies().setSelectedTile(tile);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TilePanelPage"));
             }
         });
