@@ -1,20 +1,19 @@
 package Project.Utils;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 public class Connection {
     private final Socket socket;
-    private final DataOutputStream dataOutputStream;
-    private final DataInputStream dataInputStream;
+    private final BufferedWriter bufferedWriter;
+    private final BufferedReader bufferedReader;
 
     public Connection(Socket socket) {
+
         try {
             this.socket = socket;
-            this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            this.dataInputStream = new DataInputStream(socket.getInputStream());
+            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -22,7 +21,7 @@ public class Connection {
 
     public String listen() {
         try {
-            return this.dataInputStream.readUTF();
+            return this.bufferedReader.readLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -30,8 +29,8 @@ public class Connection {
 
     public void send(String message) {
         try {
-            this.dataOutputStream.writeUTF(message);
-            this.dataOutputStream.flush();
+            this.bufferedWriter.write(message + '\n');
+            this.bufferedWriter.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -39,8 +38,8 @@ public class Connection {
 
     public void closeSocket() {
         try {
-            this.dataOutputStream.close();
-            this.dataInputStream.close();
+            this.bufferedWriter.close();
+            this.bufferedReader.close();
             this.socket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

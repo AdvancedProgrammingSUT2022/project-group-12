@@ -65,7 +65,8 @@ public abstract class Unit extends Production implements Notifier<Unit> {
 
     @Override
     public void notifyObservers() {
-        if (notifierUtil != null) this.notifierUtil.notifyObservers();
+        // todo: not required now
+//        if (notifierUtil != null) this.notifierUtil.notifyObservers();
     }
 
     protected static double getTerrainFeaturesEffect(Tile tile) {

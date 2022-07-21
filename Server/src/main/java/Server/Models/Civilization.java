@@ -52,7 +52,7 @@ public class Civilization {
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
 
-    public Civilization(User user, TerrainColor color) {
+    public Civilization(User user, TerrainColor color, int tileGridHeight, int tileGridWidth) {
         this.color = color;
         this.researchingTechnology = null;
         this.user = user;
@@ -61,7 +61,7 @@ public class Civilization {
         this.production = 0;
         this.inWarWith = new ArrayList<>();
         this.name = user.getUsername();
-        this.revealedTileGrid = new TileGrid(Constants.TILEGRID_HEIGHT, Constants.TILEGRID_WIDTH);
+        this.revealedTileGrid = new TileGrid(tileGridHeight, tileGridWidth);
         this.cities = new ArrayList<>();
         this.researchingTechnologies = new HashMap<>();
         this.happinessFromCheat = 0;
@@ -74,6 +74,12 @@ public class Civilization {
         this.resources = new ArrayList<>();
         this.notifications = new ArrayList<>();
         this.calculateHappiness();
+    }
+
+    public void createAddAndPlaceUnit(UnitEnum unitEnum, Location location) throws CommandException {
+        Unit unit = Unit.constructUnitFromEnum(unitEnum, this.getName(), location);
+        this.addUnit(unit);
+        GameController.placeUnit(unit, GameController.getGameTile(location));
     }
 
     public void updateHappinessState(double happiness) {

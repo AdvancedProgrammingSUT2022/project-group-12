@@ -49,7 +49,7 @@ public class Game {
         List<TerrainColor> colors = List.of(TerrainColor.GREEN_BOLD, TerrainColor.RED_BOLD, TerrainColor.YELLOW_BOLD, TerrainColor.CYAN_BOLD, TerrainColor.WHITE_BOLD);
         for (int index = 0; index < users.size(); index++) {
             TerrainColor color = colors.get(index % colors.size());
-            Civilization civ = new Civilization(users.get(index), color);
+            Civilization civ = new Civilization(users.get(index), color, height, width);
             civilizations.add(civ);
 
             for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
@@ -57,19 +57,10 @@ public class Game {
                 tile.addObserver(this.clientHandler);
             }
 
-            // for easier testing
-            Tile settlerTile;
-
-//            if (users.size() == 1) {
-//                settlerTile = this.getTileGrid().getTile(new Location(3, 1));
-//                if (settlerTile.getTerrain().getTerrainType() == TerrainEnum.MOUNTAIN) {
-//                    throw new RuntimeException("settler was on MOUNTAIN!, restart the game...");
-//                }
-//            } else {
-                settlerTile = availableTiles.get(availableTiles.size() - 1);
+            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
             //test
-            settlerTile.setRuin(true);
-//            }
+//            settlerTile.setRuin(true);
+
             for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
 
@@ -86,8 +77,8 @@ public class Game {
             civ.addUnit(warrior);
             updateRevealedTileGrid(civ);
             //test
-            civ.addResource(ResourceEnum.IRON);
-            civ.addResource(ResourceEnum.BANANA);
+//            civ.addResource(ResourceEnum.IRON);
+//            civ.addResource(ResourceEnum.BANANA);
             civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
             civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
         }
