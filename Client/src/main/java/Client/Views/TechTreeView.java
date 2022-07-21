@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -88,9 +89,10 @@ public class TechTreeView implements ViewController {
             text.setFill(Color.RED);
             names.put(tech.getValue().name(), text);
             vBox.getChildren().add(text);
-            if(technologies.contains(tech)) {
+            if(technologies.contains(tech.getValue())) {
                 circle.setStroke(Color.YELLOW);
                 circle.setStrokeWidth(10);
+                circle.setStrokeType(StrokeType.OUTSIDE);
             }
             vBox.getChildren().add(circle);
             for (TechnologyEnum leadingTechnology : tech.getValue().leadsToTech()) {
