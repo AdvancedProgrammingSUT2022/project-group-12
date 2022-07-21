@@ -4,7 +4,6 @@ package Server;
 import Project.Utils.Constants;
 import Server.Models.Database;
 import Server.Utils.RequestHandler;
-import Server.Views.MenuStack;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,31 +20,37 @@ public class ServerMain {
              ServerSocket serverSocketOfTracker = new ServerSocket(Constants.SERVER_PORT_TRACKER)) {
             System.out.println("server initialized successfully on ports " + Constants.SERVER_PORT + " and " + Constants.SERVER_PORT_TRACKER);
 
-            MenuStack menuStack = MenuStack.getInstance();
-            menuStack.gotoLoginMenu();
-            requestHandler.run();
+//            Thread thread = new Thread(() -> {
+            System.out.println("server is running (clients can start game) ...");
+            while (true) {
+                    Socket socket;
+                    try {
+                        socket = serverSocket.accept();
+//                        socketOfTracker = serverSocketOfTracker.accept();
+                    } catch (IOException e) {
+                        System.err.println("error occurred during wait for clients");
+                        e.printStackTrace();
+                        return;
+                    }
+                    System.out.println("client connected");
+                    RequestHandler requestHandler = new RequestHandler(socket);
+                    requestHandler.run();
+                }
+//            });
+
+//            thread.start();
+//            System.out.println("server is running (clients can start game) ...");
+
+//            MenuStack menuStack = MenuStack.getInstance();
+//            menuStack.gotoLoginMenu();
 
         } catch (IOException e) {
             System.err.println("can't initialize server on port " + Constants.SERVER_PORT + " or " + Constants.SERVER_PORT_TRACKER);
             return;
+        } finally {
+            Database.getInstance().serialize();
         }
 
-        System.out.println("waiting for client to connect...");
-        Socket socket;
-        RequestHandler requestHandler;
-        try {
-            socket = serverSocket.accept();
-            socketOfTracker = serverSocketOfTracker.accept();
-        } catch (IOException e) {
-            System.err.println("error occurred during wait for client");
-            return;
-        }
-        System.out.println("client connected");
-
-        requestHandler = new RequestHandler(socket);
-        menuStack.setCommandReceiver(requestHandler);
-
-
-        Database.getInstance().serialize();
+//        menuStack.setCommandReceiver(requestHandler);
     }
 }
