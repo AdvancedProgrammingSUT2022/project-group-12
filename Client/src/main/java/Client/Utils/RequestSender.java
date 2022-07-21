@@ -26,7 +26,7 @@ public class RequestSender {
 
     public CommandResponse send(String line) {
         System.out.println("Request: " + line);
-        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getLoginToken());
+        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getToken());
         request.addParameter("command", line);
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
@@ -46,7 +46,7 @@ public class RequestSender {
     }
 
     public String databaseQuery(DatabaseQueryType query, String... params) {
-        Request request = new Request(RequestType.QUERY_DATABASE, MenuStack.getInstance().getCookies().getLoginToken());
+        Request request = new Request(RequestType.QUERY_DATABASE, MenuStack.getInstance().getCookies().getToken());
         request.setQueryType(query);
         request.setQueryParams(params);
         connection.send(new Gson().toJson(request));

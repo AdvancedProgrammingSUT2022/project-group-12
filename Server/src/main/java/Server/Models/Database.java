@@ -1,6 +1,7 @@
 package Server.Models;
 
 import Project.Models.User;
+import Project.Utils.TokenGenerator;
 import Server.Controllers.GameController;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
@@ -20,6 +21,7 @@ public class Database {
     private static Database instance = null;
     private final HashMap<String, User> users;
     private final HashMap<String, Game> games;
+    private final HashMap<String, User> tokenTable = new HashMap<>();
 
     private Database() {
         this.users = new HashMap<>();
@@ -27,6 +29,16 @@ public class Database {
         for (int i = 1; i < 10; ++i) {
             this.addUser(new User(String.valueOf(i), String.valueOf(i), "nick" + i));
         }
+    }
+
+    public String receiveTokenFor(User user) {
+        String token = TokenGenerator.generate(8);
+        tokenTable.put(token, user);
+        return token;
+    }
+
+    public User getUserByToken(String token) {
+        return tokenTable.get(token);
     }
 
     public ArrayList<String> getGamesTokens() {

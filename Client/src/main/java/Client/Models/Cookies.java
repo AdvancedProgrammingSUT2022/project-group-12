@@ -6,7 +6,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
 
 public class Cookies {
-    private String loginToken = null;
+    private String token = null;
     private String currentGameId = null;
     private Unit selectedUnit = null;
     private Tile selectedTile = null;
@@ -14,14 +14,13 @@ public class Cookies {
     private Location selectedTileLocation = null;
     private final SettingOptions settingOptions = new SettingOptions();
 
-    public String getLoginToken() {
+    public String getToken() {
         return "???";
     }
 
-    public void setLoginToken(String loginToken) {
-        this.loginToken = loginToken;
+    public void setToken(String token) {
+        this.token = token;
     }
-
 
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;

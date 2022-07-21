@@ -14,19 +14,21 @@ public class ServerMain {
     public static Socket socketOfTracker;
 
     public static void main(String[] args) {
+
         Database.getInstance().deserialize();
 
-        ServerSocket serverSocket;
-        ServerSocket serverSocketOfTracker;
-        try {
-            serverSocket = new ServerSocket(Constants.SERVER_PORT);
-            serverSocketOfTracker = new ServerSocket(Constants.SERVER_PORT_TRACKER);
-            System.out.println("server initialized successfully on port " + Constants.SERVER_PORT);
+        try (ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT);
+             ServerSocket serverSocketOfTracker = new ServerSocket(Constants.SERVER_PORT_TRACKER)) {
+            System.out.println("server initialized successfully on ports " + Constants.SERVER_PORT + " and " + Constants.SERVER_PORT_TRACKER);
+
+            MenuStack menuStack = MenuStack.getInstance();
+            menuStack.gotoLoginMenu();
+            requestHandler.run();
+
         } catch (IOException e) {
-            System.err.println("can't initialize server on port " + Constants.SERVER_PORT);
+            System.err.println("can't initialize server on port " + Constants.SERVER_PORT + " or " + Constants.SERVER_PORT_TRACKER);
             return;
         }
-        MenuStack menuStack = MenuStack.getInstance();
 
         System.out.println("waiting for client to connect...");
         Socket socket;
@@ -42,8 +44,7 @@ public class ServerMain {
 
         requestHandler = new RequestHandler(socket);
         menuStack.setCommandReceiver(requestHandler);
-        menuStack.gotoLoginMenu();
-        requestHandler.run();
+
 
         Database.getInstance().serialize();
     }

@@ -145,6 +145,8 @@ public class LoginView implements ViewController {
         CommandResponse response = RequestSender.getInstance().send(command);
         switch (response) {
             case OK -> {
+                String loginToken = RequestSender.getInstance().getParameter("loginToken");
+                MenuStack.getInstance().getCookies().setToken(loginToken);
                 MenuStack.getInstance().setUser(DatabaseQuerier.getUser(username.getText()));
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainPage"));
             }
