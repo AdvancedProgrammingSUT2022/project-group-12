@@ -1,15 +1,12 @@
 package Project.Utils;
 
 import Project.Models.Notifications.Notification;
+import Project.Models.Production;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import com.google.gson.*;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Map;
 
 public class CustomGson {
     private static final Gson instance;
@@ -20,6 +17,7 @@ public class CustomGson {
         gsonBuilder.registerTypeAdapter(CombatUnit.class, new MyJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(Notifier.class,new MyJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(Notification.class,new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Production.class,new MyJsonDeserializer<>());
         instance = gsonBuilder.create();
     }
 
@@ -45,4 +43,5 @@ class MyJsonDeserializer<T> implements JsonDeserializer<T> {
         }
         return var3.deserialize(var1,clazz);
     }
+
 }

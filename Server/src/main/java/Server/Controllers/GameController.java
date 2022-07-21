@@ -80,12 +80,12 @@ public class GameController {
 
     public static boolean isEnemyExists(Location location, Civilization civilization) {
         CombatUnit enemyUnit = GameController.getGameTile(location).getCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivName().equals(civilization.getName());
+        return enemyUnit != null && !enemyUnit.getCivName().equals(civilization.getName());
     }
 
     public static boolean isNonCombatEnemyExists(Location location, Civilization civilization) {
         NonCombatUnit enemyUnit = GameController.getGameTile(location).getNonCombatUnit();
-        return enemyUnit != null && enemyUnit.getCivName().equals(civilization.getName());
+        return enemyUnit != null && !enemyUnit.getCivName().equals(civilization.getName());
     }
 
     public static boolean isAttackableEnemyOn(Location location, Civilization civilization, City city) {

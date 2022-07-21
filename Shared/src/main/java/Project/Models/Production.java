@@ -4,6 +4,7 @@ import Project.Models.Cities.City;
 
 public abstract class Production {
     private double remainedProduction;
+    protected String type;
 
     public Production(int remainedProduction) {
         this.remainedProduction = remainedProduction;

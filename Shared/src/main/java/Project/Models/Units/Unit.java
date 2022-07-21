@@ -35,6 +35,7 @@ public abstract class Unit extends Production implements Notifier<Unit> {
         this.pathShouldCross = new ArrayList<>();
 //        this.resetMovementCount();
         this.location = location;
+        super.type = this.getClass().getName();
         state = UnitStates.AWAKE;
     }
 

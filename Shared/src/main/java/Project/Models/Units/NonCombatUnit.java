@@ -9,11 +9,10 @@ import Project.Models.Tiles.Tile;
 public class NonCombatUnit extends Unit {
     private ImprovementEnum currentBuildingImprovement = null;
     private int remainingTime;
-    String type;
 
     public NonCombatUnit(UnitEnum type, String civilizationName, Location location) {
         super(type, civilizationName, location);
-        this.type = this.getClass().getName();
+        super.type = this.getClass().getName();
     }
 
 
