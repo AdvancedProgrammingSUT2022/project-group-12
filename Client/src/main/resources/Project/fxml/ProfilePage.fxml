@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="@../css/styles.css"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="Client.Views.ProfileView"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.ProfileView">
     <top>
         <VBox alignment="CENTER">
-            <Label text="Profile Menu"/>
+            <Label text="Profile Menu" />
             <HBox>
-                <Text fx:id="username" styleClass="userStyle" text="userID"/>
+                <Text fx:id="username" styleClass="userStyle" text="userID" />
             </HBox>
         </VBox>
     </top>
     <center>
         <VBox fx:id="box" alignment="CENTER" maxWidth="230" spacing="10">
             <VBox fx:id="rmAccount" alignment="CENTER" spacing="10">
-                <Button fx:id="removeAccount" onMouseClicked="#removeAccountClick" text="Remove Account"/>
+                <Button fx:id="removeAccount" onMouseClicked="#removeAccountClick" text="Remove Account" />
             </VBox>
             <VBox fx:id="changingNickname" alignment="CENTER" spacing="10">
-                <Button fx:id="changeUsername" onMouseClicked="#changeUsernameClick" text="Change Nickname"/>
+                <Button fx:id="changeUsername" onMouseClicked="#changeUsernameClick" text="Change Nickname" />
             </VBox>
             <VBox fx:id="changingPass" alignment="CENTER" spacing="10">
-                <Button fx:id="changePassword" onMouseClicked="#changePasswordClick" text="Change Password"/>
+                <Button fx:id="changePassword" onMouseClicked="#changePasswordClick" text="Change Password" />
             </VBox>
-            <Button onMouseClicked="#selectAvatarClick" text="Select Avatar"/>
+            <Button onMouseClicked="#selectAvatarClick" text="Select Avatar" />
+         <Button mnemonicParsing="false" onAction="#gotoFriendsPage" text="Friends" />
         </VBox>
     </center>
     <bottom>
         <VBox alignment="CENTER_RIGHT">
             <HBox alignment="BOTTOM_RIGHT" spacing="400">
-                <Button maxWidth="100" onMouseClicked="#backClick" styleClass="primaryButton" text="BACK"/>
-                <Button onMouseClicked="#exitClick" styleClass="exitButton" text="Exit"/>
+                <Button maxWidth="100" onMouseClicked="#backClick" styleClass="primaryButton" text="BACK" />
+                <Button onMouseClicked="#exitClick" styleClass="exitButton" text="Exit" />
             </HBox>
-            <Text/>
-            <Text/>
+            <Text />
+            <Text />
         </VBox>
     </bottom>
     <right>
-        <ImageView fx:id="userAvatar" fitHeight="142.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true"
-                   BorderPane.alignment="CENTER"/>
+        <ImageView fx:id="userAvatar" fitHeight="142.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
     </right>
 </BorderPane>

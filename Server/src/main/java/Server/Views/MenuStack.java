@@ -22,8 +22,8 @@ public class MenuStack {
     private final ArrayList<Menu> menus = new ArrayList<>();
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
-    private Scanner scanner;
     private final User user;
+    private Scanner scanner;
     private HashMap<String, String> responseParameters = new HashMap<>();
     private UpdateNotifier updateNotifier = null;
     private boolean valid = true;
@@ -33,7 +33,7 @@ public class MenuStack {
     }
 
     public Scanner getScanner() {
-        if(scanner == null) scanner = new Scanner(System.in);
+        if (scanner == null) scanner = new Scanner(System.in);
         return scanner;
     }
 
@@ -108,57 +108,103 @@ public class MenuStack {
         this.responseParameters.put(key, value);
     }
 
-    public String databaseQuery(DatabaseQueryType query, String[] params)  {
+    public String databaseQuery(DatabaseQueryType query, String[] params) {
 
         Gson gson = new Gson();
         // todo: get civ token instead of current
         return switch (query) {
             case GET_SELECTED_CITY_GOLD -> gson.toJson(CityHandler.calculateGold(GameMenu.getSelectedCity()));
-            case GET_SELECTED_CITY_ASSIGNED_CITIZEN -> gson.toJson(CityHandler.getAssignedCitizens(GameMenu.getSelectedCity()));
-            case GET_SELECTED_CITY_PRODUCTION -> gson.toJson(CityHandler.calculateProduction(GameMenu.getSelectedCity()));
-            case GET_SELECTED_CITY_UNASSIGNED_CITIZEN -> gson.toJson(CityHandler.numberOfUnassignedCitizens(GameMenu.getSelectedCity()));
+            case GET_SELECTED_CITY_ASSIGNED_CITIZEN ->
+                    gson.toJson(CityHandler.getAssignedCitizens(GameMenu.getSelectedCity()));
+            case GET_SELECTED_CITY_PRODUCTION ->
+                    gson.toJson(CityHandler.calculateProduction(GameMenu.getSelectedCity()));
+            case GET_SELECTED_CITY_UNASSIGNED_CITIZEN ->
+                    gson.toJson(CityHandler.numberOfUnassignedCitizens(GameMenu.getSelectedCity()));
             case GET_SELECTED_CITY_FOOD -> gson.toJson(CityHandler.calculateFood(GameMenu.getSelectedCity()));
             case GET_ALL_USERS -> gson.toJson(Database.getInstance().getAllUsers());
             case GET_ALL_USERNAMES -> gson.toJson(Database.getInstance().getAllUsernames());
             case GET_USER_BY_USERNAME -> gson.toJson(Database.getInstance().getUser(params[0]));
-            case GET_CIV_TILES_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
+            case GET_CIV_TILES_LOCATIONS ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getOwnedTiles().stream().map(Tile::getLocation).toList());
             case GET_CIV_RESOURCES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResources());
             case GET_CIV_UNITS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits());
-            case GET_CURRENTCIV_UNITS_NAMES -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(e -> e.getUnitType().name()).collect(Collectors.toList()));
-            case GET_CURRENTCIV_UNITS_LOCATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(Unit::getLocation).collect(Collectors.toList()));
+            case GET_CURRENTCIV_UNITS_NAMES ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(e -> e.getUnitType().name()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_UNITS_LOCATIONS ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(Unit::getLocation).collect(Collectors.toList()));
             case GET_TILEGRID_SIZE -> {
                 HashMap<String, Integer> hashMap = new HashMap<>();
                 hashMap.put("Height", GameController.getGame().getTileGrid().getHeight());
                 hashMap.put("Width", GameController.getGame().getTileGrid().getWidth());
                 yield gson.toJson(hashMap);
             }
+            case ACCEPT_FRIEND_REQUEST -> {
+                User sender = Database.getInstance().getUser(params[0]);
+                User receiver = Database.getInstance().getUser(params[1]);
+                sender.acceptFriend(receiver.getUsername());
+                receiver.acceptFriend(sender.getUsername());
+                yield gson.toJson(Database.getInstance().getAllUsernames());
+            }
+            case DENY_FRIEND_REQUEST -> {
+                User sender = Database.getInstance().getUser(params[0]);
+                User receiver = Database.getInstance().getUser(params[1]);
+                sender.denyFriend(receiver.getUsername());
+                receiver.denyFriend(sender.getUsername());
+                yield gson.toJson(Database.getInstance().getAllUsernames());
+
+            }
+            case SEND_FRIEND_REQUEST -> {
+                User sender = Database.getInstance().getUser(params[0]);
+                User receiver = Database.getInstance().getUser(params[1]);
+                sender.addToWaitingOnFriendRequest(receiver.getUsername());
+                receiver.sendFriendRequest(sender.getUsername());
+                yield gson.toJson(Database.getInstance().getAllUsernames());
+            }
             case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
-            case GET_ALL_BUILDING_ENUMS ->  gson.toJson(BuildingEnum.values());
-            case GET_CURRENTCIV_HAPPINESS ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateHappiness());
-            case GET_CURRENTCIV_FOOD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationFood());
-            case GET_CURRENTCIV_GOLD ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationGold());
-            case GET_CURRENTCIV_SCIENCE ->  gson.toJson(GameController.getGame().getCurrentCivilization().calculateScience());
-            case GET_CURRENTCIV_INWARWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(GameController.getGame().getCurrentCivilization()::isInWarWith).map(Civilization::getName).filter(name -> !(name.equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
-            case GET_CURRENTCIV_INPEACEWITH -> gson.toJson(GameController.getGame().getCivilizations().stream().filter( c -> !(GameController.getGame().getCurrentCivilization().isInWarWith(c))).map(Civilization::getName).filter(name -> !(name.equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
-            case GET_NEIGHBORS_CURRENTCIV_NAMES -> gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(GameController.getGame().getCurrentCivilization().getName()))).map(Civilization::getName).collect(Collectors.toList()));
-            case GET_CIV_GOLD_BY_NAME  -> gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
-            case GET_CIV_RESOURCES_BY_NAME -> gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
-            case GET_CURRENTCIV_NOTIFICATIONS -> gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
-            case GET_CURRENTCIV_CITIES_NAMES ->  gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map( city -> city.getName()).collect(Collectors.toList()));
-            case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
+            case GET_ALL_BUILDING_ENUMS -> gson.toJson(BuildingEnum.values());
+            case GET_CURRENTCIV_HAPPINESS ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().calculateHappiness());
+            case GET_CURRENTCIV_FOOD ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationFood());
+            case GET_CURRENTCIV_GOLD ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().calculateCivilizationGold());
+            case GET_CURRENTCIV_SCIENCE ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().calculateScience());
+            case GET_CURRENTCIV_INWARWITH ->
+                    gson.toJson(GameController.getGame().getCivilizations().stream().filter(GameController.getGame().getCurrentCivilization()::isInWarWith).map(Civilization::getName).filter(name -> !(name.equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
+            case GET_CURRENTCIV_INPEACEWITH ->
+                    gson.toJson(GameController.getGame().getCivilizations().stream().filter(c -> !(GameController.getGame().getCurrentCivilization().isInWarWith(c))).map(Civilization::getName).filter(name -> !(name.equals(GameController.getGame().getCurrentCivilization().getName()))).collect(Collectors.toList()));
+            case GET_NEIGHBORS_CURRENTCIV_NAMES ->
+                    gson.toJson(GameController.getGame().getCivilizations().stream().filter(x -> !(x.getName().equals(GameController.getGame().getCurrentCivilization().getName()))).map(Civilization::getName).collect(Collectors.toList()));
+            case GET_CIV_GOLD_BY_NAME ->
+                    gson.toJson(GameController.getGame().getCivByName(params[0]).calculateCivilizationGold());
+            case GET_CIV_RESOURCES_BY_NAME ->
+                    gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
+            case GET_CURRENTCIV_NOTIFICATIONS ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
+            case GET_CURRENTCIV_CITIES_NAMES ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map(city -> city.getName()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
             case GET_SELECTED_UNIT -> gson.toJson(GameMenu.getSelectedUnit());
             case GET_SELECTED_CITY -> gson.toJson(GameMenu.getSelectedCity());
-            case GET_TILE_BY_LOCATION -> gson.toJson(GameController.getGameTile(new Location(Integer.parseInt(params[0]), Integer.parseInt(params[1]))));
+            case GET_TILE_BY_LOCATION ->
+                    gson.toJson(GameController.getGameTile(new Location(Integer.parseInt(params[0]), Integer.parseInt(params[1]))));
             case GET_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getTechnologies());
-            case GET_RESEARCHING_TECHNOLOGIES -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnologies());
-            case GET_RESEARCHING_TECHNOLOGY -> gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
+            case GET_RESEARCHING_TECHNOLOGIES ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnologies());
+            case GET_RESEARCHING_TECHNOLOGY ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
             case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
             case GET_TILE_GRID -> gson.toJson(GameController.getGame().getCurrentCivilization().getRevealedTileGrid());
-            case GET_CIV_CAMERA_LOCATION -> gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
+            case GET_CIV_CAMERA_LOCATION ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
             case GET_SELECTED_CITY_PRODUCTION_QUEUE -> gson.toJson(GameMenu.getSelectedCity().getProductionQueue());
-            case GET_AVAILABLE_BUILDINGS_NAME -> gson.toJson(Arrays.stream(BuildingEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(e.getRequiredTechs())).map(Enum::name).collect(Collectors.toList())) ;
-            case GET_AVAILABLE_UNITS_NAME -> gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(Collections.singletonList(e.getRequiredTech())) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
-                                                    .map(Enum::name).collect(Collectors.toList())) ;
+            case GET_AVAILABLE_BUILDINGS_NAME ->
+                    gson.toJson(Arrays.stream(BuildingEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(e.getRequiredTechs())).map(Enum::name).collect(Collectors.toList()));
+            case GET_AVAILABLE_UNITS_NAME ->
+                    gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(Collections.singletonList(e.getRequiredTech())) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
+                            .map(Enum::name).collect(Collectors.toList()));
             case GET_INVITED_GAMES_NAMES -> gson.toJson(new ArrayList<String>(List.of("ali")));
         };
     }
