@@ -124,6 +124,7 @@ public class UnitPanelView implements ViewController {
                 MenuStack.getInstance().showError(response.toString());
                 return;
             } else {
+                System.out.println("response.getMessage() = " + response.getMessage());
                 MenuStack.getInstance().showSuccess(response.getMessage());
             }
             back();

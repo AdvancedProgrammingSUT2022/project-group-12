@@ -120,7 +120,7 @@ public class GameController {
     public static City foundCity(Unit unit) throws CommandException {
         Location location = unit.getLocation();
         Civilization civ = GameController.getCivByName(unit.getCivName());
-        Tile tile = getGame().getTileGrid().getTile(location);
+        Tile tile = getGameTile(location);
         if (unit.getUnitType() != UnitEnum.SETTLER) {
             throw new CommandException(CommandResponse.ONLY_SETTLERS_CAN_FOUND_CITY);
         }

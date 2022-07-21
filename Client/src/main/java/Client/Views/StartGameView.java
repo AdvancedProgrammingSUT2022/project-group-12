@@ -5,10 +5,7 @@ import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -16,6 +13,8 @@ import java.util.ArrayList;
 
 public class StartGameView implements ViewController {
     private final ArrayList<String> users = new ArrayList<>();
+    @FXML
+    private MenuButton invitedGames;
     @FXML
     private Spinner<Integer> gridSizeHeight;
     @FXML
@@ -34,6 +33,7 @@ public class StartGameView implements ViewController {
 
     public void initialize() {
         initializeSpinners();
+        initializeInvitedGame();
         selectedUsernames = new ArrayList<>();
         selectedUsernames.add(MenuStack.getInstance().getUser().getUsername());
         ArrayList<String> usernames = DatabaseQuerier.getAllUsernames();
@@ -41,6 +41,16 @@ public class StartGameView implements ViewController {
         userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(usernames);
         userSelect.setOnAction(this::getUser);
+    }
+
+    private void initializeInvitedGame() {
+        for (String gameName :
+               new ArrayList<String>() ) {
+            MenuItem menuItem = new MenuItem(gameName);
+            menuItem.setOnAction(actionEvent -> {
+                //set game
+            });
+        }
     }
 
     private void initializeSpinners() {

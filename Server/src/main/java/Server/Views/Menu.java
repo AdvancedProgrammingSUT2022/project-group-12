@@ -59,7 +59,7 @@ public abstract class Menu {
     }
 
     protected void answer(Object message) {
-        System.out.println(message);
+        System.out.println("message : " + message);
         if (message instanceof CommandException commandException) {
             throw new ResponseException(commandException.getResponse());
         } else if (message instanceof String string){
