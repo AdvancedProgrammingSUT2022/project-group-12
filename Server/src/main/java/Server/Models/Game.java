@@ -20,6 +20,7 @@ import Server.Controllers.GameController;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
 import Server.Utils.UpdateNotifier;
+import Server.Views.MenuStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -151,8 +152,6 @@ public class Game {
 
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
             throw new CommandException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
-        } else {
-            civ.advanceResearchTech();
         }
         checkForKillingCitizen(civ);
         /***
@@ -185,13 +184,12 @@ public class Game {
         return civilizations.get(this.gameTurn % civilizations.size());
     }
 
-    public void startNewTurn() throws GameException {
-
+    public void startNewTurn(UpdateNotifier updateNotifier) throws GameException {
         this.gameTurn++;
         Civilization civ = this.getCurrentCivilization();
         civ.applyNotes();
         updateRevealedTileGrid(civ);
-        civ.advanceResearchTech();
+        civ.advanceResearchTech(updateNotifier);
         civ.advanceWorkerWorks();
         for (City city : civ.getCities()) {
             CityHandler.checkCitizenBirth(city);

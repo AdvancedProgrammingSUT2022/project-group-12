@@ -23,15 +23,20 @@ public class UpdateTracker implements Runnable {
         }
         Connection connection = new Connection(socket);
 
-        Request request = new Request(RequestType.SET_SOCKET_FOR_UPDATE_TRACKER, MenuStack.getInstance().getCookies().getLoginToken());
-        new Connection(socket).send(CustomGson.getInstance().toJson(request));
+        Request socketRequest = new Request(RequestType.SET_SOCKET_FOR_UPDATE_TRACKER, MenuStack.getInstance().getCookies().getLoginToken());
+        new Connection(socket).send(CustomGson.getInstance().toJson(socketRequest));
 
         System.out.println("updater bound with server successfully");
         while (true) {
             String update = connection.listen();
-            Tile tile = CustomGson.getInstance().fromJson(update, Tile.class);
-            Location location = tile.getLocation();
-            Platform.runLater(() -> GameView.updateTile(location, tile));
+            Request request  = CustomGson.getInstance().fromJson(update, Request.class);
+            if(request.getRequestType() == RequestType.UPDATE_TILE) {
+                Location location = request.getRequestTile().getLocation();
+                Platform.runLater(() -> GameView.updateTile(location, request.getRequestTile()));
+            } else if(request.getRequestType() == RequestType.SHOW_NEW_TECHNOLOGY_ACHIEVED){
+                String techName = request.getParameter("TechName");
+                Platform.runLater(() -> MenuStack.getInstance().showSuccess(techName + " discovered successfully"));
+            }
         }
     }
 }
