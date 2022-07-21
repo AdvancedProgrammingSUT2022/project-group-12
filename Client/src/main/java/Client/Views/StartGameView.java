@@ -82,6 +82,8 @@ public class StartGameView implements ViewController {
         });
         playerCount.setValueFactory(countValueFactory);
         playerCount.valueProperty().addListener((observableValue, integer, t1) -> {
+            if (userSelect.getItems().size() == 0)
+                return;
             currentPlayerCount = playerCount.getValue();
             int i = new Random().nextInt(0, allUsernames.size() - 1);
             while (selectedUsernames.contains(allUsernames.get(i))) {
