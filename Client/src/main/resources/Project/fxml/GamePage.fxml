@@ -79,10 +79,10 @@
                 </children>
             </HBox>
         </Pane>
-        <Pane visible="false" fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-background-radius: 10;">
+        <Pane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-background-radius: 10;">
             <Rectangle style="-fx-background-color: rgba(0, 0, 0, 0.5); -fx-background-radius: 10;"/>
         </Pane>
-        <Button fx:id="btn" layoutY="50" onMouseClicked="#initializeGameMap" prefHeight="24.0" prefWidth="242.0"/>
+<!--        <Button fx:id="btn" layoutY="50" onMouseClicked="#initializeGameMap" prefHeight="24.0" prefWidth="242.0"/>-->
     </StackPane>
 </Pane>
 

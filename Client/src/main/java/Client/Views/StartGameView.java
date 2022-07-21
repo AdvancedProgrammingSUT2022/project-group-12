@@ -34,7 +34,7 @@ public class StartGameView implements ViewController {
 
     public void initialize() {
         initializeSpinners();
-        initializeInvitedGame();
+        loadInvitedGameItems();
         selectedUsernames = new ArrayList<>();
         selectedUsernames.add(MenuStack.getInstance().getUser().getUsername());
         ArrayList<String> usernames = DatabaseQuerier.getAllUsernames();
@@ -44,9 +44,9 @@ public class StartGameView implements ViewController {
         userSelect.setOnAction(this::getUser);
     }
 
-    public void initializeInvitedGame() {
-        for (String gameName :
-               DatabaseQuerier.getInvitedGames() ) {
+    public void loadInvitedGameItems() {
+        invitedGames.getItems().clear();
+        for (String gameName : DatabaseQuerier.getInvitedGames() ) {
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
                 this.invitedGamesName = gameName;
@@ -110,14 +110,13 @@ public class StartGameView implements ViewController {
         System.exit(0);
     }
 
-    public void acceptClick() {
+    public void createNewGame() {
         StringBuilder command = new StringBuilder("play game -w " + currentWidthSize + " -h " + currentHeightSize + " ");
         for (int i = 0; i < selectedUsernames.size(); ++i) {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }
         System.out.println("command = " + command);
         CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
-//        MainMenuController.startNewGame(selectedUsernames);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 
@@ -125,7 +124,10 @@ public class StartGameView implements ViewController {
         MenuStack.getInstance().popMenu();
     }
 
-    public void startNewGame() {
-
+    public void startInvitedGame() {
+        StringBuilder command = new StringBuilder("enter game -t " + this.invitedGamesName);
+        System.out.println("command = " + command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 }

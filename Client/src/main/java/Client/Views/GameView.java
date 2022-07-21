@@ -78,6 +78,10 @@ public class GameView implements ViewController {
         instance = this;
     }
 
+    public void changeCoverVisibility(boolean visible) {
+        this.coverPane.setVisible(visible);
+    }
+
     public void initializeGameMap() {
         btn.setVisible(false);
         for (int i = 0; i < this.tileGrid.getHeight(); i++) {

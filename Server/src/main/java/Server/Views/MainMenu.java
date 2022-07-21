@@ -17,12 +17,18 @@ public class MainMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
+            case "enter game" -> this.enterGame(command);
             case "logout" -> this.menuStack.invalidate();
             case "goto profile menu" -> this.menuStack.gotoProfileMenu();
             case "show current menu" -> answer(this.getName());
             case "menu exit" -> this.menuStack.popMenu();
             default -> answer(CommandResponse.INVALID_COMMAND);
         }
+    }
+
+    private void enterGame(Command command) {
+        this.menuStack.pushMenu(new GameMenu());
+        answer("game started");
     }
 
     private void playGame(Command command) {
