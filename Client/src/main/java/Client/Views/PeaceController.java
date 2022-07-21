@@ -36,7 +36,7 @@ public class PeaceController implements ViewController{
             return;
         }
         String command = "peace create -c " + this.selectedCivName + " -n " + new Random().nextInt();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

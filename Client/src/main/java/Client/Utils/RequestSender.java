@@ -24,10 +24,7 @@ public class RequestSender {
         connection = new Connection(socket);
     }
 
-    public CommandResponse send(String line) {
-        System.out.println("Request: " + line);
-        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getLoginToken());
-        request.addParameter("command", line);
+    public CommandResponse sendRequest(Request request) {
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
         Response response = new Gson().fromJson(responseJson, Response.class);
@@ -40,6 +37,13 @@ public class RequestSender {
 //            return e.getResponse();
 //        return null;
         return commandResponse;
+    }
+
+    public CommandResponse sendCommand(String line) {
+        System.out.println("Request: " + line);
+        Request request = new Request(RequestType.RUN_SERVERVIEW_COMMAND, MenuStack.getInstance().getCookies().getLoginToken());
+        request.addParameter("command", line);
+        return this.sendRequest(request);
     }
 
     public String getParameter(String key) {

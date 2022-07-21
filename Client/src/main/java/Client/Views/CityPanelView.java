@@ -217,7 +217,7 @@ public class CityPanelView implements ViewController {
         if (DatabaseQuerier.getSelectedCityGold() == 0)
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -245,7 +245,7 @@ public class CityPanelView implements ViewController {
         } else {
             command = "city citizen lock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         }
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -310,7 +310,7 @@ public class CityPanelView implements ViewController {
             return;
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         String command = "city build building -n " + selectedBuilding.name();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -327,7 +327,7 @@ public class CityPanelView implements ViewController {
             return;
         }
         String command = "city buy unit -u " + selectedUnit.name();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -339,7 +339,7 @@ public class CityPanelView implements ViewController {
 
     public void assignBtnAction(ActionEvent actionEvent) {
         String command = "city citizen assign -p " + assignCitizenXSpinner.getValue() + " " + assignCitizenYSpinner.getValue();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -354,7 +354,7 @@ public class CityPanelView implements ViewController {
             return;
         }
         String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -369,7 +369,7 @@ public class CityPanelView implements ViewController {
         int locationX = (int) attackXSpinner.getValue();
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -386,7 +386,7 @@ public class CityPanelView implements ViewController {
         } else {
             command = "city build unit -n " + selectedProudtionName;
         }
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if( !response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;

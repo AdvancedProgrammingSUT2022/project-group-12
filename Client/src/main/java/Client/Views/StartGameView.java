@@ -116,7 +116,7 @@ public class StartGameView implements ViewController {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }
         System.out.println("command = " + command);
-        CommandResponse response = RequestSender.getInstance().send(command.toString());
+        CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
 //        MainMenuController.startNewGame(selectedUsernames);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }

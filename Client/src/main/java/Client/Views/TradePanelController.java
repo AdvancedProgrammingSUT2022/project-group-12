@@ -145,7 +145,7 @@ public class TradePanelController implements ViewController {
         if(required == null || suggest == null) return;
         String command = "trade create -s " + suggest + " -r " + required + " -c " + selectedCivName + " -n " +  new Random().nextInt(2009);
         System.out.println("command = " + command);
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if(!response.isOK()){
             MenuStack.getInstance().showError(response.toString());
             return;

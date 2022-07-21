@@ -112,7 +112,7 @@ public class TradeTabPaneController implements ViewController {
         if (request == null) return;
         String command = "demand create -r " + request + " -n " + selectedCivName + " -d " + new Random().nextInt(3000);
         System.out.println("command = " + command);
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

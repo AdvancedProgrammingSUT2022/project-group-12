@@ -16,7 +16,7 @@ public class MainMenuView implements ViewController {
 
     public void logout() {
         String command = "logout";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -26,7 +26,7 @@ public class MainMenuView implements ViewController {
 
     public void gotoProfileMenu() {
         String command = "goto profile menu";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ProfilePage"));
     }
 

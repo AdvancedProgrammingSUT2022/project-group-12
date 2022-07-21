@@ -297,7 +297,7 @@ public class CheatSheetView implements ViewController {
 
     public void increaseGold() {
         String command = "cheat increase gold -a " + goldAmount;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -311,7 +311,7 @@ public class CheatSheetView implements ViewController {
         foodForCity = null;
         foodForCitySelect.setText("City");
         String command = "cheat increase food -a " + foodAmount;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -327,7 +327,7 @@ public class CheatSheetView implements ViewController {
             return;
         }
         String command = "cheat spawn unit -u " + selectedUnitEnum.name() + " -p " + locationSpawnX + " " + locationSpawnY;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -344,7 +344,7 @@ public class CheatSheetView implements ViewController {
     public void revealTile() {
 
         String command = "cheat map reveal -p " + locationTileX + " " + locationTileY;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -362,7 +362,7 @@ public class CheatSheetView implements ViewController {
             return;
         }
         String command = "cheat increase production -a " + productIncreaseAmount;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -377,7 +377,7 @@ public class CheatSheetView implements ViewController {
 
     public void teleport() {
         String command = "cheat teleport -p " + locationTeleportX + " " + locationTeleportY;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -397,7 +397,7 @@ public class CheatSheetView implements ViewController {
             return;
         }
         String command = "cheat finish products";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -411,7 +411,7 @@ public class CheatSheetView implements ViewController {
 
     public void increaseHappiness() {
         String command = "cheat increase happiness -a " + happinessAmount;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -424,7 +424,7 @@ public class CheatSheetView implements ViewController {
 
     public void increaseBeaker() {
         String command = "cheat increase science -a " + beakerAmount;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -437,7 +437,7 @@ public class CheatSheetView implements ViewController {
 
     public void increaseMovement() {
         String command = "cheat increase movement -a " + movementIncreaseAmount;
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         System.out.println(response.toString());
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
@@ -453,7 +453,7 @@ public class CheatSheetView implements ViewController {
 
     public void healCity() {
         String command = "cheat heal city";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -468,7 +468,7 @@ public class CheatSheetView implements ViewController {
 
     public void healUnit() {
         String command = "cheat heal unit";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -482,7 +482,7 @@ public class CheatSheetView implements ViewController {
 
     public void addTechs() {
         String command = "cheat unlock technologies";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
@@ -501,7 +501,7 @@ public class CheatSheetView implements ViewController {
         }
 
         String command = "cheat build -n " + buildingEnum.name();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

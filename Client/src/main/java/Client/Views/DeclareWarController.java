@@ -37,7 +37,7 @@ public class DeclareWarController implements ViewController {
             return;
         }
         String command = "declare war create -c " + this.selectedCivName + " -n " + new Random().nextInt();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

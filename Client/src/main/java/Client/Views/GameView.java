@@ -59,7 +59,7 @@ public class GameView implements ViewController {
 
     public void initialize() {
         String command = "map show"; // dummy command to initialize logic GameMenu
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
         goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
         happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
@@ -119,7 +119,7 @@ public class GameView implements ViewController {
 
     public void backToMenu() {
         String command = "end game";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         MenuStack.getInstance().popMenu();
     }
 
@@ -143,7 +143,7 @@ public class GameView implements ViewController {
     public void NextTurn() {
 
         String command = "end turn";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;

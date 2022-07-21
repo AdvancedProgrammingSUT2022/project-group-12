@@ -3,6 +3,8 @@ package Client.Views;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
+import Project.Utils.Request;
+import Project.Utils.RequestType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -141,8 +143,10 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
-        String command = "user login -u " + username.getText() + " -p " + password.getText();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        Request request = new Request(RequestType.LOGIN_USER, null);
+        request.addParameter("username", username.getText());
+        request.addParameter("password", password.getText());
+        CommandResponse response = RequestSender.getInstance().sendRequest(request);
         switch (response) {
             case OK -> {
                 String loginToken = RequestSender.getInstance().getParameter("loginToken");
@@ -174,8 +178,11 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
-        String command = "user create -u " + username.getText() + " -p " + password.getText() + " -n " + nickname.getText();
-        CommandResponse response = RequestSender.getInstance().send(command);
+        Request request = new Request(RequestType.CREATE_USER, null);
+        request.addParameter("username", username.getText());
+        request.addParameter("nickname", nickname.getText());
+        request.addParameter("password", password.getText());
+        CommandResponse response = RequestSender.getInstance().sendRequest(request);
         switch (response) {
             case OK -> {
                 username.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");

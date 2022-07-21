@@ -69,7 +69,7 @@ public class CivilizationPanelView implements ViewController {
 
     private void initUnitMenu() {
         String command = "info units";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         ArrayList<String> unitNames = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsNames());
         ArrayList<Location> unitLocations = new ArrayList<>(DatabaseQuerier.getCurrentCivUnitsLocation());
         for (int i = 0; i < unitLocations.size(); i++) {
@@ -80,7 +80,7 @@ public class CivilizationPanelView implements ViewController {
 
     private void initWarMenu() {
         String command = "info military";
-        CommandResponse response = RequestSender.getInstance().send(command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         for (String otherCivilizationsName : DatabaseQuerier.getCurrentCivInWarWith()) {
             MenuItem item = new MenuItem(otherCivilizationsName);
             warMenu.getItems().add(item);
