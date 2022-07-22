@@ -1,9 +1,6 @@
 package Server.Models;
 
-import Project.Enums.TerrainColor;
-import Project.Enums.UnitEnum;
-import Project.Enums.UnitStates;
-import Project.Enums.VisibilityEnum;
+import Project.Enums.*;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -78,7 +75,7 @@ public class Game {
             //test
 //            civ.addResource(ResourceEnum.IRON);
 //            civ.addResource(ResourceEnum.BANANA);
-//            civ.getResearchingTechnologies().put(TechnologyEnum.POTTERY,TechnologyEnum.POTTERY.getCost());
+            civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE, TechnologyEnum.AGRICULTURE.getCost());
 //            civ.addTechnology(TechnologyEnum.AGRICULTURE);
 //            civ.setResearchingTechnology(TechnologyEnum.POTTERY);
             civ.setCurrentSelectedGridLocation(initialTile.getLocation());
@@ -148,11 +145,9 @@ public class Game {
         for (City city : civ.getCities()) {
             if (CityHandler.numberOfUnassignedCitizens(city) > 0) {
                 throw new CommandException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
+            } else if (city.getProductionQueue().isEmpty()) {
+                throw new CommandException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }
-            //not important
-            /*else if (city.getProductionQueue().isEmpty()) {
-                throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
-            }*/
         }
         response.append("Your turn ended successfully");
 

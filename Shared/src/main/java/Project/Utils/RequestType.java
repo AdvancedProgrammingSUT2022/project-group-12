@@ -8,5 +8,6 @@ public enum RequestType {
     LOGIN_USER,
     SET_SOCKET_FOR_UPDATE_TRACKER,
     ALLOW_PLAY_TURN,
+    RELOAD_TILEGRID,
     QUERY_DATABASE
 }

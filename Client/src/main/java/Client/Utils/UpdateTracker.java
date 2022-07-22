@@ -41,6 +41,11 @@ public class UpdateTracker implements Runnable {
                     GameView.reloadHexGrid();
                     GameView.changeCoverVisibility(false);
                 });
+            } else if(request.getRequestType() == RequestType.RELOAD_TILEGRID){
+                Platform.runLater(() -> {
+                    GameView.reloadTechnologies();
+                    GameView.reloadHexGrid();
+                });
             }
         }
     }
