@@ -1,7 +1,6 @@
 package Server.Views;
 
 import Project.Utils.CommandResponse;
-import Server.Controllers.GameController;
 import Server.Controllers.MainMenuController;
 import Server.Models.Database;
 import Server.Models.Game;
@@ -31,18 +30,23 @@ public class MainMenu extends Menu {
         this.menuStack.invalidate();
     }
 
+    private void gotoNewGameMenu() {
+        this.menuStack.pushMenu(new GameMenu());
+
+    }
+
     private void enterGame(Command command) {
         try {
-            command.abbreviate("name",'t');
-            String gameToken = command.getOption("name");
+            command.abbreviate("token",'t');
+            String gameToken = command.getOption("token");
             Game game = Database.getInstance().getGameByToken(gameToken);
             MainMenuController.enterNewGame(game);
-            this.menuStack.pushMenu(new GameMenu());
-            answer("game started");
+            MainMenuController.bindUpdateNotifier(game, this.menuStack);
+            this.gotoNewGameMenu();
+            answer("entered the game");
         } catch (CommandException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private void playGame(Command command) {
@@ -76,21 +80,13 @@ public class MainMenu extends Menu {
         }
         try {
             Game game = MainMenuController.startNewGame(usernames,width,height,this.menuStack.getUser());
-            Database.getInstance().addGame(game);
-            System.out.println("hello");
-            GameController.setGame(game);
-            System.out.println("by");
-            if (this.menuStack.getUpdateNotifier() != null) {
-                game.bindUserCivUpdatesTo(this.menuStack.getUser(), this.menuStack.getUpdateNotifier());
-            } else {
-                System.err.println("WARNING: no UpdateNotifier was bound by the client, updates will not be sent");
-            }
+            MainMenuController.bindUpdateNotifier(game, this.menuStack);
         } catch (CommandException e) {
             answer(e);
             return;
         }
-        this.menuStack.pushMenu(new GameMenu());
-        answer("game started");
+        this.gotoNewGameMenu();
+        answer("new game started");
     }
 
 }
