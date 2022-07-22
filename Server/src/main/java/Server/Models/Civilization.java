@@ -37,7 +37,6 @@ public class Civilization {
     private final HashMap<TechnologyEnum, Integer> researchingTechnologies;
     private final ArrayList<Civilization> inWarWith;
     private final int production;
-    private final CivilizationController controller = new CivilizationController(this);
     private final ArrayList<Resource> resources;
     private final ArrayList<Notification> notifications;
     private int gold;
@@ -482,9 +481,7 @@ public class Civilization {
         this.beakerRatioFromBuildings = beakerRationFromBuildings;
     }
 
-    public CivilizationController getController() {
-        return controller;
-    }
+
 
     public void addTechnology(TechnologyEnum technology) {
         this.technologies.add(technology);

@@ -105,7 +105,12 @@ public class Database {
 //        deserializeUsers();
     }
 
+    public static void setInstance(Database instance) {
+        Database.instance = instance;
+    }
+
     public void deserializeUsers() {
+
         ArrayList<User> copiedUsers = new ArrayList<>();
         try {
             File file = new File(Game.class.getResource("/database/users.xml").toExternalForm());

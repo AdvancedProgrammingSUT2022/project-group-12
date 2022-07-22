@@ -66,9 +66,11 @@ public class MainMenu extends Menu {
             usernames.add(username);
         }
         try {
-            Game game = MainMenuController.startNewGame(usernames,width,height);
+            Game game = MainMenuController.startNewGame(usernames,width,height,this.menuStack.getUser());
             Database.getInstance().addGame(game);
+            System.out.println("hello");
             GameController.setGame(game);
+            System.out.println("by");
             if (this.menuStack.getUpdateNotifier() != null) {
                 game.bindUserCivUpdatesTo(this.menuStack.getUser(), this.menuStack.getUpdateNotifier());
             } else {

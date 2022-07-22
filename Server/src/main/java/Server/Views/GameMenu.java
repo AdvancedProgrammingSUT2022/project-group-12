@@ -727,18 +727,18 @@ public class GameMenu extends Menu {
     private void info(Command command) {
         Civilization civ = GameController.getGame().getCurrentCivilization();
         switch (command.getSubCategory()) {
-            case "research" -> answer(civ.getController().researchPanel());
-            case "units" -> answer(civ.getController().unitsPanel());
-            case "cities" -> answer(civ.getController().citiesPanel());
-//            case "diplomacy" -> answer(civ.getController());
-//            case "victory" -> answer(civ.getController());
-            case "demographics" -> answer(civ.getController().demographicPanel());
-            case "notifications" -> answer(civ.getController().notificationHistory());
-            case "military" -> answer(civ.getController().militaryOverview());
-            case "economic" -> answer(civ.getController().economicOverview());
-//            case "diplomatic" -> answer(civ.getController());
-//            case "deals" -> answer(civ.getController());
-            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
+//            case "research" -> answer(civ.getController().researchPanel());
+//            case "units" -> answer(civ.getController().unitsPanel());
+//            case "cities" -> answer(civ.getController().citiesPanel());
+////            case "diplomacy" -> answer(civ.getController());
+////            case "victory" -> answer(civ.getController());
+//            case "demographics" -> answer(civ.getController().demographicPanel());
+//            case "notifications" -> answer(civ.getController().notificationHistory());
+//            case "military" -> answer(civ.getController().militaryOverview());
+//            case "economic" -> answer(civ.getController().economicOverview());
+////            case "diplomatic" -> answer(civ.getController());
+////            case "deals" -> answer(civ.getController());
+//            default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
         }
     }
 
