@@ -1,6 +1,9 @@
 package Server.Models;
 
-import Project.Enums.*;
+import Project.Enums.TerrainColor;
+import Project.Enums.UnitEnum;
+import Project.Enums.UnitStates;
+import Project.Enums.VisibilityEnum;
 import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
@@ -75,7 +78,9 @@ public class Game {
             //test
 //            civ.addResource(ResourceEnum.IRON);
 //            civ.addResource(ResourceEnum.BANANA);
-            civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
+//            civ.getResearchingTechnologies().put(TechnologyEnum.POTTERY,TechnologyEnum.POTTERY.getCost());
+//            civ.addTechnology(TechnologyEnum.AGRICULTURE);
+//            civ.setResearchingTechnology(TechnologyEnum.POTTERY);
             civ.setCurrentSelectedGridLocation(initialTile.getLocation());
         }
 

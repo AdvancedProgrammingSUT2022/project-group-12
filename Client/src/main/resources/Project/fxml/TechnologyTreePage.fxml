@@ -6,7 +6,8 @@
 <Pane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="Client.Views.TechnologyTreeView"
-      prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:black">
+      prefHeight="400.0" prefWidth="600.0"
+      fx:id="pane">
 
     <ScrollPane fx:id="scrollPane" prefHeight="360" prefWidth="600">
         <AnchorPane fx:id="anchorPane" prefHeight="1500" prefWidth="2000" style="-fx-background-color:black">
