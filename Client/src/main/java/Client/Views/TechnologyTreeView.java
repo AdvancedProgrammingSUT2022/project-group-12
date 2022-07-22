@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +30,7 @@ public class TechnologyTreeView implements ViewController {
     public AnchorPane anchorPane;
     @FXML
     public Pane pane;
+    private TextField navigateTextField;
     private final List<List<TechnologyEnum>> techLevels = new ArrayList<>();
     private final List<TechnologyEnum> mark = new ArrayList<>();
     private final Map<TechnologyEnum, Node> techItems = new HashMap<>();
@@ -69,17 +71,59 @@ public class TechnologyTreeView implements ViewController {
     }
 
     public void initialize() {
-        drawButtons();
+        drawControls();
         drawTechTree();
+        drawHelps();
     }
 
-    private void drawButtons() {
-        Button button = new Button();
-        button.setText("back");
-        button.setLayoutX(100);
-        button.setLayoutY(370);
-        button.setOnMouseClicked(mouseEvent -> back());
-        pane.getChildren().add(button);
+    private void drawControls() {
+        Button backButton = new Button();
+        backButton.setText("back");
+        backButton.setLayoutX(100);
+        backButton.setLayoutY(370);
+        backButton.setOnMouseClicked(mouseEvent -> back());
+        pane.getChildren().add(backButton);
+
+        navigateTextField = new TextField();
+        navigateTextField.setLayoutX(300);
+        navigateTextField.setLayoutY(370);
+        pane.getChildren().add(navigateTextField);
+
+        Button navigateButton = new Button();
+        navigateButton.setText("navigate");
+        navigateButton.setLayoutX(500);
+        navigateButton.setLayoutY(370);
+        navigateButton.setOnMouseClicked(mouseEvent -> navigateToTech());
+        pane.getChildren().add(navigateButton);
+    }
+
+    private void navigateToTech() {
+        String text = navigateTextField.getText();
+        TechnologyEnum tech;
+        try {
+            tech = TechnologyEnum.valueOf(text.toUpperCase().replace(' ', '_'));
+            navigateTextField.setStyle("-fx-border-radius: 0;");
+        } catch (IllegalArgumentException e) {
+            navigateTextField.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            return;
+        }
+        Node item = techItems.get(tech);
+        scrollPane.setVvalue(item.getTranslateY() / anchorPane.getLayoutBounds().getHeight() * 1.3);
+        scrollPane.setHvalue(item.getTranslateX() / anchorPane.getLayoutBounds().getWidth() * 1.2);
+    }
+
+    private Text createText(String string, String color, int x, int y) {
+        Text text = new Text(string);
+        text.setStyle("-fx-fill:" + color);
+        text.setLayoutX(x);
+        text.setLayoutY(y);
+        return text;
+    }
+
+    private void drawHelps() {
+        pane.getChildren().add(createText("Researched", "green", 5, 305));
+        pane.getChildren().add(createText("Researchable", "yellow", 5, 320));
+        pane.getChildren().add(createText("Researching", "orange", 5, 335));
     }
 
     private void drawTechTree() {
