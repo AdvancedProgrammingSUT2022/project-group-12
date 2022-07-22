@@ -7,6 +7,7 @@ import Server.Models.Database;
 import Server.Views.MenuStack;
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class RequestHandler implements Runnable {
@@ -28,8 +29,9 @@ public class RequestHandler implements Runnable {
         this.connection.send(new Gson().toJson(response));
     }
 
-    public void handleRequest() {
+    public void handleRequest() throws IOException {
         String json = this.connection.listen();
+        if (json == null) throw new IOException();
 //        System.out.println("json: " + json);
         Request request = new Gson().fromJson(json, Request.class);
         System.out.println("ReqType = " + request.getRequestType());
@@ -104,7 +106,13 @@ public class RequestHandler implements Runnable {
 
     public void run() {
         while (true) {
-            this.handleRequest();
+            try {
+                this.handleRequest();
+            } catch (IOException e) {
+                System.out.println("a client socket disconnected");
+                this.connection.closeSocket();
+                break;
+            }
         }
     }
 }
