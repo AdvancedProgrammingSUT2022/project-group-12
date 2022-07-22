@@ -4,24 +4,17 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Server.Models.Database;
 import Server.Models.Game;
-import Server.Utils.Command;
 import Server.Utils.CommandException;
-import Server.Views.Menu;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
+import Server.Views.MenuStack;
 
-import java.io.*;
 import java.util.ArrayList;
 
-public class MainMenuController extends Menu {
+public class MainMenuController {
 
     public static Game startNewGame(ArrayList<String> usernames, int width, int height,User currentUser) throws CommandException {
-//        System.out.println(usernames);
         ArrayList<User> users = new ArrayList<>();
-        Database database = Database.getInstance();
         for (String username : usernames) {
-            User user = database.getUser(username);
+            User user = Database.getInstance().getUser(username);
             if (user == null) {
                 throw new CommandException(CommandResponse.USER_DOES_NOT_EXISTS, username);
             } else {
@@ -29,17 +22,21 @@ public class MainMenuController extends Menu {
             }
         }
         Game game = new Game(users, height, width);
-        database.addGame(game);
+        Database.getInstance().addGame(game);
         System.out.println("game.getUsers().contains() = " + game.getUsers().contains(currentUser));
         GameController.setGame(game);
         return game;
     }
+
     public static void enterNewGame(Game game){
         GameController.setGame(game);
     }
 
-    @Override
-    protected void handleCommand(Command command) {
-
+    public static void bindUpdateNotifier(Game game, MenuStack userMenuStack) {
+        if (userMenuStack.getUpdateNotifier() != null) {
+            game.bindUserCivUpdatesTo(userMenuStack.getUser(), userMenuStack.getUpdateNotifier());
+        } else {
+            System.err.println("WARNING: no UpdateNotifier was bound by the client, updates will not be sent");
+        }
     }
 }
