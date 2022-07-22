@@ -124,7 +124,6 @@ public class User {
     public void startChat(Chat newChat) {
         if (chats.containsKey(newChat.getName()))
             return;
-
         chats.put(newChat.getName(), newChat);
     }
 

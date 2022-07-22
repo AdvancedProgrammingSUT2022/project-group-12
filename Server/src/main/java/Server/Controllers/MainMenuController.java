@@ -42,4 +42,5 @@ public class MainMenuController extends Menu {
     protected void handleCommand(Command command) {
 
     }
+
 }
