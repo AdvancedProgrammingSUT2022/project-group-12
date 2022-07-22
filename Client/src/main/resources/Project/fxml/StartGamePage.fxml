@@ -24,7 +24,7 @@
    <Text layoutX="34.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
    <Text layoutX="32.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
    <Button layoutX="43.0" layoutY="317.0" mnemonicParsing="false" onAction="#startInvitedGame" text="Start Invited Game" />
-   <Button layoutX="319.0" layoutY="317.0" mnemonicParsing="false" onAction="#loadInvitedGameItems" text="Reload Invited Games" />
+   <Button layoutX="319.0" layoutY="317.0" mnemonicParsing="false" onAction="#startInvitedGame" text="Reload Invited Games" />
    <Spinner fx:id="playerCount" layoutX="388.0" layoutY="42.0" />
    <Text layoutX="404.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of players" />
 

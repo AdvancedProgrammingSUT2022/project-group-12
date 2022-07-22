@@ -11,30 +11,31 @@ public class DataBaseSerialization {
         return instance;
     }
     static DataBaseSerialization instance;
-    ObjectInputStream objectInputStream;
-    ObjectOutputStream objectOutputStream;
+    XStream xStream;
+    File dataBaseFile;
     public DataBaseSerialization(XStream xStream, String filePath){
-        try {
             xStream.addPermission(AnyTypePermission.ANY);
-            objectInputStream = xStream.createObjectInputStream(new FileInputStream(filePath));
-            objectOutputStream = xStream.createObjectOutputStream(new FileOutputStream(filePath));
+            this.dataBaseFile = new File(filePath);
+            this.xStream = xStream;
             instance = this;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
     public void serializeDataBase(){
         try {
+            ObjectOutputStream objectOutputStream = xStream.createObjectOutputStream(new FileOutputStream(this.dataBaseFile));
             objectOutputStream.writeObject(Database.getInstance());
+            objectOutputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public void deserializeDataBase(){
         try {
+         if(dataBaseFile.length() < 5) return;
+         ObjectInputStream objectInputStream = xStream.createObjectInputStream(new FileInputStream(this.dataBaseFile));
          Database.setInstance((Database) objectInputStream.readObject());
+         objectInputStream.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Database.setInstance(new Database());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

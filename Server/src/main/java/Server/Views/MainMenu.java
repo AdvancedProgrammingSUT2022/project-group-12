@@ -32,8 +32,17 @@ public class MainMenu extends Menu {
     }
 
     private void enterGame(Command command) {
-        this.menuStack.pushMenu(new GameMenu());
-        answer("game started");
+        try {
+            command.abbreviate("name",'t');
+            String gameToken = command.getOption("name");
+            Game game = Database.getInstance().getGameByToken(gameToken);
+            MainMenuController.enterNewGame(game);
+            this.menuStack.pushMenu(new GameMenu());
+            answer("game started");
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void playGame(Command command) {

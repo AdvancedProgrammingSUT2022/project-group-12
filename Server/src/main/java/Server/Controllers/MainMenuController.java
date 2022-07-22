@@ -29,28 +29,13 @@ public class MainMenuController extends Menu {
             }
         }
         Game game = new Game(users, height, width);
+        database.addGame(game);
         System.out.println("game.getUsers().contains() = " + game.getUsers().contains(currentUser));
-        File file = new File("temp.txt");
-        XStream xStream = new XStream(new StaxDriver());
-        xStream.addPermission(AnyTypePermission.ANY);
-        ObjectOutputStream objectOutputStream = null;
-        ObjectInputStream objectInputStream = null;
-        Game game1;
-        try {
-            objectOutputStream = xStream.createObjectOutputStream(new FileOutputStream(file));
-            objectOutputStream.writeObject(game);
-            objectInputStream = xStream.createObjectInputStream(new FileInputStream(file));
-            game1 = (Game) objectInputStream.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(game1.toString());
-        database.addGame(game1);
-        System.out.println("game1.getUsers().contains() = " + game1.getUsers().contains(currentUser));
-        GameController.setGame(game1);
-        return game1;
+        GameController.setGame(game);
+        return game;
+    }
+    public static void enterNewGame(Game game){
+        GameController.setGame(game);
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Database {
     private static Database instance = null;
@@ -26,7 +27,7 @@ public class Database {
     private final HashMap<String, User> token2userTable = new HashMap<>();
     private final HashMap<User, String> user2tokenTable = new HashMap<>();
 
-    private Database() {
+    public Database() {
         this.users = new HashMap<>();
         this.games = new HashMap<>();
         for (int i = 1; i < 10; ++i) {
@@ -57,13 +58,20 @@ public class Database {
     public User getUserByToken(String token) {
         return token2userTable.get(token);
     }
+    public Game getGameByToken(String token){
+        return games.get(token);
+    }
 
     public ArrayList<String> getGamesTokens() {
         return new ArrayList<>(games.keySet());
     }
 
     public ArrayList<String> getInvitedGamesFor(User user) {
-        return new ArrayList<>(games.values().stream().filter(game -> game.getUsers().contains(user)).map(Game::getToken).toList());
+        System.out.println(user.getUsername());
+        System.out.println(games.values().stream().map(Game::getUsers).map(users1 -> users1.stream().map(User::getUsername).collect(Collectors.toList())).collect(Collectors.toList()));
+        ArrayList<String> arrayList = new ArrayList<>(games.values().stream().filter(game -> game.getUsers().stream().map(User::getUsername).toList().contains(user.getUsername())).map(Game::getToken).toList());
+        System.out.println(arrayList);
+        return arrayList;
     }
 
     public static Database getInstance() {
@@ -188,5 +196,9 @@ public class Database {
 
     public boolean checkPassword(String username, String password) {
         return this.users.get(username).passwordMatchCheck(password);
+    }
+    public void logoutUsers(){
+        this.token2userTable.clear();
+        this.user2tokenTable.clear();
     }
 }

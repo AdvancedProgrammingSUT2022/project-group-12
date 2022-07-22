@@ -53,6 +53,7 @@ public class StartGameView implements ViewController {
     public void loadInvitedGameItems() {
         invitedGames.getItems().clear();
         for (String gameName : DatabaseQuerier.getInvitedGames()) {
+            System.out.println(gameName);
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
                 this.invitedGamesName = gameName;
