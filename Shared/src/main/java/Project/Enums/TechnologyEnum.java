@@ -4,6 +4,7 @@ package Project.Enums;
 import Project.Utils.Observer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -35,7 +36,6 @@ public enum TechnologyEnum {
     METAL_CASTING(240, new ArrayList<>(List.of(IRON_WORKING))),
     PHYSICS(440, new ArrayList<>(List.of(IRON_WORKING))),
     STEEL(440, new ArrayList<>(List.of(METAL_CASTING))),
-    TECHNO(250, new ArrayList<>(List.of(CALENDAR, PHILOSOPHY))),
     ACOUSTICS(650, new ArrayList<>(List.of(EDUCATION))),
     ARCHAEOLOGY(1300, new ArrayList<>(List.of(ACOUSTICS))),
     BANKING(650, new ArrayList<>(List.of(EDUCATION, CHIVALRY))),
@@ -65,23 +65,20 @@ public enum TechnologyEnum {
     TechnologyEnum(int cost, ArrayList<TechnologyEnum> prerequisiteTechs) {
         this.cost = cost;
         this.prerequisiteTechs = prerequisiteTechs;
-        String name = "/images/technologies/" + this.name().toLowerCase() + ".png";
+//        String name = "/images/technologies/" + this.name().toLowerCase() + ".png";
     }
 
     public ArrayList<TechnologyEnum> getPrerequisiteTechs() {
         return prerequisiteTechs;
     }
 
+    public ArrayList<TechnologyEnum> getLeadsToTechs() {
+        return new ArrayList<>(Arrays.stream(TechnologyEnum.values()).filter(tech -> tech.getPrerequisiteTechs().contains(this)).toList());
+    }
+
 
     public int getCost() {
         return this.cost;
-    }
-
-    public boolean containsAllPreRequisite(ArrayList<TechnologyEnum> civTechs) {
-        for (TechnologyEnum tech : prerequisiteTechs)
-            if (!civTechs.contains(tech))
-                return false;
-        return true;
     }
 
     public ArrayList<TechnologyEnum> leadsToTech() {

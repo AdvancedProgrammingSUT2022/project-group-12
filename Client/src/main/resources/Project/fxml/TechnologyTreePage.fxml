@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <Pane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="Client.Views.TechnologyTreeView"
-      prefHeight="400.0" prefWidth="600.0">
+      prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:black">
 
-    <ScrollPane prefHeight="Infinity" prefWidth="Infinity">
+    <ScrollPane fx:id="scrollPane" prefHeight="360" prefWidth="600">
+        <AnchorPane fx:id="anchorPane" prefHeight="1500" prefWidth="2000" style="-fx-background-color:black">
 
+        </AnchorPane>
     </ScrollPane>
 
 </Pane>
