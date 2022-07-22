@@ -1,4 +1,4 @@
-package Server.Utils;
+package Project.Utils;
 
 public class NameAndToken {
     String token;

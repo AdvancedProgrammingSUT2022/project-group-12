@@ -2,7 +2,9 @@ package Server.Views;
 
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.Chat;
 import Project.Models.Location;
+import Project.Models.Message;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.Unit;
@@ -10,6 +12,7 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Pair;
+import Server.Controllers.ChatController;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
@@ -208,6 +211,25 @@ public class MenuStack {
             case GET_INVITED_GAMES_NAMES -> gson.toJson(Database.getInstance().getInvitedGamesFor(this.getUser()));
             case GET_IS_PLAYING_ALLOWED -> gson.toJson(GameController.getGame().getCurrentCivilization().civUser() == Database.getInstance().getUserByToken(params[0]));
             case GET_IS_USERNAME_ONLINE -> gson.toJson(Database.getInstance().isUsernameOnline(params[0]));
+            case GET_CHAT_BY_NAME -> {
+                Chat chat = Database.getInstance().getChats().stream().filter(e -> e.getUsernames().contains(user.getUsername())).filter(e -> e.getName().equals(params[0])).toList().get(0);
+                yield gson.toJson(chat);
+            }
+            case GET_USER_CHATS_NAMES ->  gson.toJson(Database.getInstance().getChats().stream().filter(e -> e.getUsernames().contains(user.getUsername())).map(Chat::getName).collect(Collectors.toList()));
+            case SEND_MESSAGE -> {
+                Message message = gson.fromJson(params[0],Message.class);
+                System.out.println(message.getDetailedMessage());
+                ChatController.sendMessage(Database.getInstance().getChatByToken(params[1]),message);
+                yield null;
+            }
+            case SEND_CHAT_TO_CREATE -> {
+                ChatController.createNewChat(new Gson().fromJson(params[0],Chat.class));
+                yield null;
+            }
+            case UPDATE_CHAT -> {
+                ChatController.updateChat(new Gson().fromJson(params[0],Chat.class));
+                yield null;
+            }
         };
     }
 

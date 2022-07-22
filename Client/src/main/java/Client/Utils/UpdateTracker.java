@@ -1,5 +1,8 @@
 package Client.Utils;
 
+import Client.Models.Cookies;
+import Client.Views.ChatSelectView;
+import Client.Views.ChatView;
 import Client.Views.GameView;
 import Client.Views.MenuStack;
 import Project.Models.Location;
@@ -8,6 +11,7 @@ import javafx.application.Platform;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class UpdateTracker implements Runnable {
     @Override
@@ -41,6 +45,12 @@ public class UpdateTracker implements Runnable {
                     GameView.reloadHexGrid();
                     GameView.changeCoverVisibility(false);
                 });
+            } else if (request.getRequestType() == RequestType.UPDATE_CHAT) {
+                if(MenuStack.getInstance().getTopMenu().getController() instanceof ChatView chatView) {
+                   Platform.runLater(() -> chatView.updateChat(request.getRequestChat()));
+                } else if (MenuStack.getInstance().getTopMenu().getController() instanceof ChatSelectView chatSelectView) {
+                   Platform.runLater(() -> chatSelectView.updateChats(request.getRequestChat().getName()));
+                }
             }
         }
     }

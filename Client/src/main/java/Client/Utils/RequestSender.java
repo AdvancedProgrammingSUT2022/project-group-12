@@ -29,6 +29,7 @@ public class RequestSender {
     }
 
     public CommandResponse sendRequest(Request request) {
+        System.out.println();
         connection.send(new Gson().toJson(request));
         String responseJson = connection.listen();
         Response response = new Gson().fromJson(responseJson, Response.class);

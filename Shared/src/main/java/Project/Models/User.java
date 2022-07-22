@@ -12,7 +12,7 @@ import java.util.Random;
 public class User {
     private final String username;
     private final ArrayList<String> friends;
-   // private transient final HashMap<String, Chat> chats;
+   // private transient final HashMap<String, Chat> chats = new HashMap<>();
     private final ArrayList<String> friendRequest;
     private final ArrayList<String> waitingOnFriendRequest;
     private String imageUrl;
@@ -121,23 +121,21 @@ public class User {
 //        Database.getInstance().serialize();
     }
 
-    public void startChat(Chat newChat) {
-        if (chats.containsKey(newChat.getName()))
-            return;
-        chats.put(newChat.getName(), newChat);
-    }
+//    public void startChat(Chat newChat) {
+//        if (chats.containsKey(newChat.getName()))
+//            return;
+//        chats.put(newChat.getName(), newChat);
+//    }
 
-    public void setCurrentChat(String name) {
-        this.currentChat = chats.get(name);
-    }
+//    public void setCurrentChat(String name) {
+//        this.currentChat = chats.get(name);
+//    }
 
-    public Chat getChat() {
-        return this.currentChat;
-    }
 
-    public ArrayList<String> previousChats() {
-        return new ArrayList<>(chats.keySet());
-    }
+
+//    public ArrayList<String> previousChats() {
+//        return new ArrayList<>(chats.keySet());
+//    }
 
     public void changeNickname(String newNickname) {
         this.nickname = newNickname;
@@ -170,19 +168,18 @@ public class User {
         return lastWinDate;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", chats=" + chats +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", password='" + password + '\'' +
-                ", score=" + score +
-                ", lastWinDate=" + lastWinDate +
-                ", lastLoginDate=" + lastLoginDate +
-                ", currentChat=" + currentChat +
-                '}';
-    }
+//    public String toString() {
+//        return "User{" +
+//                "username='" + username + '\'' +
+//                ", chats=" + chats +
+//                ", imageUrl='" + imageUrl + '\'' +
+//                ", nickname='" + nickname + '\'' +
+//                ", password='" + password + '\'' +
+//                ", score=" + score +
+//                ", lastWinDate=" + lastWinDate +
+//                ", lastLoginDate=" + lastLoginDate +
+//                ", currentChat=" + currentChat +
+//                '}';
+//    }
 
 }

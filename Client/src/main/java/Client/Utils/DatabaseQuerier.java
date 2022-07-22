@@ -309,7 +309,30 @@ public class DatabaseQuerier {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_IS_USERNAME_ONLINE, username);
         return new Gson().fromJson(json,new TypeToken<Boolean>(){}.getType());
     }
+
+    public static ArrayList<String> getPreviousChatsUser() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_USER_CHATS_NAMES);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+
+    public static void startChat(Chat newChat) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_CHAT_TO_CREATE,new Gson().toJson(newChat));
+    }
+
+    public static void sendMessage(Message newMessage,String chatToken) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_MESSAGE,new Gson().toJson(newMessage),chatToken);
+    }
+
+    public static Chat getChatByName(String name) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CHAT_BY_NAME,name);
+        return new Gson().fromJson(json,Chat.class);
+    }
+
+    public static void sendUpdateChatRequest(Chat currentChat) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT,new Gson().toJson(currentChat));
+    }
 }
+
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override
     public T deserialize(JsonElement var1, Type var2, JsonDeserializationContext var3) throws JsonParseException {

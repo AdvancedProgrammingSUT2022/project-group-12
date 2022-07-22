@@ -1,8 +1,17 @@
 package Client.Models;
 
+import Client.Utils.DatabaseQuerier;
+import Client.Views.ChatView;
+import Client.Views.MenuStack;
+import Client.Views.ViewController;
+import Project.Models.Chat;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
+import Project.Utils.NameAndToken;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Cookies {
     private String loginToken = null;
@@ -10,6 +19,7 @@ public class Cookies {
     private Unit selectedUnit = null;
     private Tile selectedTile = null;
     private City selectedCity = null;
+    private Chat currentChat;
     private final SettingOptions settingOptions = new SettingOptions();
 
     public String getLoginToken() {
@@ -56,4 +66,24 @@ public class Cookies {
         this.selectedTile = selectedTile;
     }
 
+    public void updateChat(Chat requestChat) {
+        ViewController viewController = MenuStack.getInstance().getTopMenu().getController();
+        if(viewController instanceof ChatView chatView){
+            chatView.updateChat(requestChat);
+        }
+    }
+
+    public Chat getCurrentChat() {
+        return currentChat;
+    }
+
+
+    public void setCurrentChat(String name) {
+        Chat chat = DatabaseQuerier.getChatByName(name);
+        this.currentChat = chat;
+    }
+
+    public void setCurrentChat(Chat currentChat) {
+        this.currentChat = currentChat;
+    }
 }

@@ -6,7 +6,7 @@ import Project.Utils.CommandResponse;
 import Project.Utils.TokenGenerator;
 import Server.Controllers.GameController;
 import Server.Utils.CommandException;
-import Server.Utils.NameAndToken;
+import Project.Utils.NameAndToken;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -25,7 +25,7 @@ public class Database {
     private static Database instance = null;
     private final HashMap<String, User> users;
     private final HashMap<String, Game> games;
-    private final HashMap<NameAndToken, Chat> chats = new HashMap<>();
+    private final ArrayList<Chat> chats = new ArrayList<>();
     private final HashMap<String, User> token2userTable = new HashMap<>();
     private final HashMap<User, String> user2tokenTable = new HashMap<>();
 
@@ -204,7 +204,7 @@ public class Database {
         return null;
     }
 
-    public HashMap<NameAndToken, Chat> getChats() {
+    public ArrayList<Chat> getChats() {
         return chats;
     }
 
@@ -214,5 +214,21 @@ public class Database {
     public void logoutUsers(){
         this.token2userTable.clear();
         this.user2tokenTable.clear();
+    }
+    public ArrayList<User> getOnlineUser(){
+        return new ArrayList<User>(token2userTable.values());
+    }
+    public boolean isOnline(User user){
+        return token2userTable.values().contains(user);
+    }
+
+    public Chat getChatByToken(String token) {
+        for (Chat chat:
+             chats) {
+            if(chat.getToken().equals(token)){
+                return chat;
+            }
+        }
+        return null;
     }
 }

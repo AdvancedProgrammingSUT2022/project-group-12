@@ -32,8 +32,8 @@ public class UpdateNotifier implements Observer<Tile> {
         Request request = new Request(RequestType.ALLOW_PLAY_TURN, null);
         this.sendRequest(request);
     }
-    public void sendNewChatRequest(Chat chat){
-        Request request = new Request(RequestType.CREATE_CHAT,null);
+    public void sendUpdateChatRequest(Chat chat){
+        Request request = new Request(RequestType.UPDATE_CHAT,null);
         request.setRequestChat(chat);
         this.sendRequest(request);
     }

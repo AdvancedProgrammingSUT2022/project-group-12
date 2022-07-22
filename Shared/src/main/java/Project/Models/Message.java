@@ -8,7 +8,7 @@ import java.util.Date;
 public class Message {
     private final String from;
     private final AvatarURLEnum avatarURL;
-    Text text;
+    String detailedMessage;
     private String message;
     Boolean isSeen;
     Boolean isFirstTime;
@@ -19,8 +19,7 @@ public class Message {
         this.avatarURL = avatarURL;
         isSeen = false;
         isFirstTime = false;
-        text = new Text("  " + from + " : " + message + " " + getCurrentDate());
-        text.setWrappingWidth(500);
+        this.detailedMessage = "  " + from + " : " + message + " " + getCurrentDate();
     }
 
     public void checkSeen(String username) {
@@ -39,11 +38,11 @@ public class Message {
     }
 
     public Text getText() {
-        return text;
+        return new Text(detailedMessage);
     }
 
     public void editMessage(String message) {
-        this.text.setText(from + " : " + message + " " + getCurrentDate() + " edited");
+        this.detailedMessage = from + " : " + message + " " + getCurrentDate() + " edited";
         this.message = message;
     }
 
@@ -54,6 +53,10 @@ public class Message {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getDetailedMessage() {
+        return detailedMessage;
     }
 
     public AvatarURLEnum getAvatarURL() {
