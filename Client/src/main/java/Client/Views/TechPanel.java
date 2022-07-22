@@ -147,7 +147,7 @@ public class TechPanel implements ViewController {
 
 
     private ImageView getTechImageView(TechnologyEnum technologyEnum) {
-        ImageView imageView = new ImageView(ImageLoader.getResearchImages().get(technologyEnum));
+        ImageView imageView = new ImageView(ImageLoader.getTechnologyImages().get(technologyEnum));
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
         return imageView;

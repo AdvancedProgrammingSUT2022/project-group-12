@@ -52,7 +52,7 @@ public class ImageLoader {
         return unitImages;
     }
 
-    public static HashMap<TechnologyEnum, Image> getResearchImages() {
+    public static HashMap<TechnologyEnum, Image> getTechnologyImages() {
         return researchImages;
     }
 

@@ -80,7 +80,7 @@
         </Pane>
         <BorderPane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5);" >
             <center>
-                <Text text = "please wait until your turn..." style="-fx-font-size: 30"/>
+                <Text text = "please wait until your turn..." style="-fx-font-size:30; -fx-fill:white"/>
             </center>
         </BorderPane>
     </StackPane>

@@ -67,7 +67,7 @@ public class TechTreeView implements ViewController {
             VBox vBox = new VBox();
             vBox.setSpacing(10);
             Circle circle = new Circle(60);
-            circle.setFill(new ImagePattern(ImageLoader.getResearchImages().get(tech.getValue())));
+            circle.setFill(new ImagePattern(ImageLoader.getTechnologyImages().get(tech.getValue())));
             // todo: fix
 //            if (!hasCity || !tech.getValue().containsAllPreRequisite(technologies)
 //                    || technologies.contains(tech.getValue()))
@@ -105,7 +105,7 @@ public class TechTreeView implements ViewController {
                     // todo : show name
                 });
                 leadingCircle.setOnMouseExited(mouseEvent -> leadingCircle.setEffect(null));
-                leadingCircle.setFill(new ImagePattern(ImageLoader.getResearchImages().get(leadingTechnology)));
+                leadingCircle.setFill(new ImagePattern(ImageLoader.getTechnologyImages().get(leadingTechnology)));
                 vBox.getChildren().add(leadingCircle);
             }
             vBox.setAlignment(Pos.TOP_CENTER);

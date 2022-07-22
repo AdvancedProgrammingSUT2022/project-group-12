@@ -24,7 +24,7 @@ public enum BuildingEnum {
     GARDEN(120, 2, new ArrayList<>(List.of(TechnologyEnum.THEOLOGY)), new ArrayList<>(List.of()), false),
     MARKET(120, 0, new ArrayList<>(List.of(TechnologyEnum.CURRENCY)), new ArrayList<>(List.of()), false),
     MINT(120, 0, new ArrayList<>(List.of(TechnologyEnum.CURRENCY)), new ArrayList<>(List.of()), false),
-    MONASTERY(120, 2, new ArrayList<>(List.of(TechnologyEnum.TECHNO)), new ArrayList<>(List.of()), true),
+    MONASTERY(120, 2, new ArrayList<>(List.of(TechnologyEnum.THEOLOGY)), new ArrayList<>(List.of()), true),
     UNIVERSITY(200, 3, new ArrayList<>(List.of(TechnologyEnum.EDUCATION)), new ArrayList<>(List.of(BuildingEnum.LIBRARY)), false),
     WORKSHOP(100, 2, new ArrayList<>(List.of(TechnologyEnum.METAL_CASTING)), new ArrayList<>(List.of()), false),
     BANK(200, 0, new ArrayList<>(List.of(TechnologyEnum.BANKING)), new ArrayList<>(List.of(BuildingEnum.MARKET)), false),
