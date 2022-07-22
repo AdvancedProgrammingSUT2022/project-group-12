@@ -37,6 +37,11 @@ public class UpdateNotifier implements Observer<Tile> {
         request.setRequestChat(chat);
         this.sendRequest(request);
     }
+
+    public void sendReloadTileGrid() {
+        Request request = new Request(RequestType.RELOAD_TILEGRID, null);
+        this.sendRequest(request);
+    }
 }
 
 

@@ -51,6 +51,11 @@ public class UpdateTracker implements Runnable {
                 } else if (MenuStack.getInstance().getTopMenu().getController() instanceof ChatSelectView chatSelectView) {
                    Platform.runLater(() -> chatSelectView.updateChats(request.getRequestChat().getName()));
                 }
+            } else if(request.getRequestType() == RequestType.RELOAD_TILEGRID){
+                Platform.runLater(() -> {
+                    GameView.reloadTechnologies();
+                    GameView.reloadHexGrid();
+                });
             }
         }
     }

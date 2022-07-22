@@ -329,6 +329,7 @@ public class GameMenu extends Menu {
 
     private void cheatUnlockTechnologies() {
         CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
+        this.menuStack.getUpdateNotifier().sendReloadTileGrid();
         answer("all technologies unlocked for you");
     }
 

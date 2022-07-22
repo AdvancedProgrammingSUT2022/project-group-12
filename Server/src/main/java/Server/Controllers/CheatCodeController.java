@@ -110,6 +110,7 @@ public class CheatCodeController {
     }
 
     public void unlockTechnologies(Civilization civ) {
+        civ.getResearchingTechnologies().clear();
         for (TechnologyEnum technology : TechnologyEnum.values()) {
             civ.addTechnology(technology);
         }
