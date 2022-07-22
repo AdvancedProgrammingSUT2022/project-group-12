@@ -67,11 +67,7 @@ public class Database {
     }
 
     public ArrayList<String> getInvitedGamesFor(User user) {
-        System.out.println(user.getUsername());
-        System.out.println(games.values().stream().map(Game::getUsers).map(users1 -> users1.stream().map(User::getUsername).collect(Collectors.toList())).collect(Collectors.toList()));
-        ArrayList<String> arrayList = new ArrayList<>(games.values().stream().filter(game -> game.getUsers().stream().map(User::getUsername).toList().contains(user.getUsername())).map(Game::getToken).toList());
-        System.out.println(arrayList);
-        return arrayList;
+        return new ArrayList<>(games.values().stream().filter(game -> game.getUsers().stream().map(User::getUsername).toList().contains(user.getUsername())).map(Game::getToken).toList());
     }
 
     public static Database getInstance() {
