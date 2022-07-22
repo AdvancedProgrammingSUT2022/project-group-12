@@ -304,6 +304,11 @@ public class DatabaseQuerier {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_IS_PLAYING_ALLOWED, loginToken);
         return new Gson().fromJson(json,new TypeToken<Boolean>(){}.getType());
     }
+
+    public static boolean getIsUsernameOnline(String username) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_IS_USERNAME_ONLINE, username);
+        return new Gson().fromJson(json,new TypeToken<Boolean>(){}.getType());
+    }
 }
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {
     @Override

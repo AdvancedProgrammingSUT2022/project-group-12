@@ -23,7 +23,8 @@ public class Database {
     private static Database instance = null;
     private final HashMap<String, User> users;
     private final HashMap<String, Game> games;
-    private final HashMap<String, User> tokenTable = new HashMap<>();
+    private final HashMap<String, User> token2userTable = new HashMap<>();
+    private final HashMap<User, String> user2tokenTable = new HashMap<>();
 
     private Database() {
         this.users = new HashMap<>();
@@ -34,25 +35,27 @@ public class Database {
     }
 
     public String receiveTokenFor(User user) throws CommandException {
-        if (tokenTable.containsValue(user)) {
+        if (token2userTable.containsValue(user)) {
             throw new CommandException(CommandResponse.USER_ALREADY_LOGGED_IN);
         }
         String token = TokenGenerator.generate(8);
-        tokenTable.put(token, user);
+        token2userTable.put(token, user);
+        user2tokenTable.put(user, token);
         return token;
     }
 
     public void invalidateTokenFor(User user) {
-        for (var entry : tokenTable.entrySet()) {
-            if (entry.getValue() == user) {
-                tokenTable.remove(entry.getKey());
-                break;
-            }
-        }
+        String token = user2tokenTable.get(user);
+        token2userTable.remove(token);
+        user2tokenTable.remove(user);
+    }
+
+    public boolean isUsernameOnline(String username) {
+        return user2tokenTable.containsKey(this.getUser(username));
     }
 
     public User getUserByToken(String token) {
-        return tokenTable.get(token);
+        return token2userTable.get(token);
     }
 
     public ArrayList<String> getGamesTokens() {

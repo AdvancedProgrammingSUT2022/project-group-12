@@ -207,6 +207,7 @@ public class MenuStack {
                             .map(Enum::name).collect(Collectors.toList()));
             case GET_INVITED_GAMES_NAMES -> gson.toJson(Database.getInstance().getInvitedGamesFor(this.getUser()));
             case GET_IS_PLAYING_ALLOWED -> gson.toJson(GameController.getGame().getCurrentCivilization().civUser() == Database.getInstance().getUserByToken(params[0]));
+            case GET_IS_USERNAME_ONLINE -> gson.toJson(Database.getInstance().isUsernameOnline(params[0]));
         };
     }
 
