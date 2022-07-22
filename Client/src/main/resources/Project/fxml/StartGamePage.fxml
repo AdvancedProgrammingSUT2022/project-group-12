@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.StartGameView">
     <ChoiceBox fx:id="userSelect" layoutX="254.0" layoutY="90.0" prefWidth="150.0" styleClass="choiceBox" />
     <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: " />
@@ -16,15 +16,16 @@
         <MenuButton fx:id="invitedGames" mnemonicParsing="false" text="Games invited">
         </MenuButton>
     </VBox>
-    <ScrollPane hbarPolicy="NEVER" layoutX="213.0" layoutY="129.0" prefHeight="200.0" prefWidth="175.0"
-                style="-fx-background-color: transparent;">
-        <VBox fx:id="userBox1" prefHeight="185.0" prefWidth="152.0" spacing="2"/>
+    <ScrollPane hbarPolicy="NEVER" layoutX="213.0" layoutY="129.0" prefHeight="200.0" prefWidth="175.0" style="-fx-background-color: transparent;">
+        <VBox fx:id="userBox1" prefHeight="185.0" prefWidth="152.0" spacing="2" />
     </ScrollPane>
-   <Spinner fx:id="gridSizeWidth" layoutX="244.0" layoutY="21.0" />
-   <Spinner fx:id="gridSizeHeight" layoutX="244.0" layoutY="54.0" />
-   <Text layoutX="101.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
-   <Text layoutX="98.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
-   <Button layoutX="43.0" layoutY="317.0" mnemonicParsing="false" text="Start Invited Game" onAction="#startInvitedGame"/>
-   <Button layoutX="319.0" layoutY="317.0" mnemonicParsing="false" text="Reload Invited Games" onAction="#loadInvitedGameItems" />
+   <Spinner fx:id="gridSizeWidth" layoutX="137.0" layoutY="21.0" />
+   <Spinner fx:id="gridSizeHeight" layoutX="137.0" layoutY="54.0" />
+   <Text layoutX="34.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
+   <Text layoutX="32.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
+   <Button layoutX="43.0" layoutY="317.0" mnemonicParsing="false" onAction="#startInvitedGame" text="Start Invited Game" />
+   <Button layoutX="319.0" layoutY="317.0" mnemonicParsing="false" onAction="#loadInvitedGameItems" text="Reload Invited Games" />
+   <Spinner fx:id="playerCount" layoutX="388.0" layoutY="42.0" />
+   <Text layoutX="404.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of players" />
 
 </AnchorPane>
