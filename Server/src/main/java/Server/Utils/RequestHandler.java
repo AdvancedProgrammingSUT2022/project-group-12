@@ -12,6 +12,7 @@ import java.net.Socket;
 
 public class RequestHandler implements Runnable {
     private final Connection connection;
+    private String connectedToken = null;
 
     public RequestHandler(Socket socket) {
         this.connection = new Connection(socket);
@@ -53,6 +54,7 @@ public class RequestHandler implements Runnable {
                 try {
                     User user = LoginMenuController.loginUser(username, password);
                     String token = Database.getInstance().receiveTokenFor(user);
+                    this.connectedToken = token;
                     MenuStackManager.getInstance().addMenuStackFor(token, user);
                     Response response = new Response(CommandResponse.OK);
                     response.addParameter("loginToken", token);
@@ -110,6 +112,9 @@ public class RequestHandler implements Runnable {
                 this.handleRequest();
             } catch (IOException e) {
                 System.out.println("a client socket disconnected");
+                if (this.connectedToken != null) {
+                    Database.getInstance().invalidateToken(this.connectedToken);
+                }
                 this.connection.closeSocket();
                 break;
             }

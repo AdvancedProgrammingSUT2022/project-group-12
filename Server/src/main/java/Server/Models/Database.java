@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Database {
     private static Database instance = null;
@@ -47,8 +46,21 @@ public class Database {
 
     public void invalidateTokenFor(User user) {
         String token = user2tokenTable.get(user);
+        if (token != null) {
+            deleteFromTokens(token, user);
+        }
+    }
+
+    private void deleteFromTokens(String token, User user) {
         token2userTable.remove(token);
         user2tokenTable.remove(user);
+    }
+
+    public void invalidateToken(String token) {
+        User user = this.getUserByToken(token);
+        if (user != null) {
+            deleteFromTokens(token, user);
+        }
     }
 
     public boolean isUsernameOnline(String username) {
