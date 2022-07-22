@@ -1,5 +1,6 @@
 package Project.Utils;
 
+import Project.Models.Chat;
 import Project.Models.Tiles.Tile;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class Request {
     private DatabaseQueryType queryType;
     private String[] queryParams;
     private Tile requestTile;
+    private Chat requestChat;
 
     public Request(RequestType requestType, String token) {
         this.requestType = requestType;
@@ -56,5 +58,13 @@ public class Request {
 
     public Tile getRequestTile() {
         return requestTile;
+    }
+
+    public void setRequestChat(Chat requestChat) {
+        this.requestChat = requestChat;
+    }
+
+    public Chat getRequestChat() {
+        return requestChat;
     }
 }

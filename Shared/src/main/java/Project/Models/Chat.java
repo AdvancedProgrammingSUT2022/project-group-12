@@ -1,8 +1,11 @@
 package Project.Models;
 
+import Project.Utils.Notifier;
+import Project.Utils.Observer;
+
 import java.util.ArrayList;
 
-public class Chat {
+public class Chat implements Notifier<> {
     private final String name;
     private final ArrayList<Message> messages;
     private final ArrayList<User> users;

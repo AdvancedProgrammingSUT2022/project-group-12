@@ -1,5 +1,6 @@
 package Server.Utils;
 
+import Project.Models.Chat;
 import Project.Models.Tiles.Tile;
 import Project.Utils.*;
 
@@ -29,6 +30,11 @@ public class UpdateNotifier implements Observer<Tile> {
 
     public void sendAllowToPlay() {
         Request request = new Request(RequestType.ALLOW_PLAY_TURN, null);
+        this.sendRequest(request);
+    }
+    public void sendNewChatRequest(Chat chat){
+        Request request = new Request(RequestType.CREATE_CHAT,null);
+        request.setRequestChat(chat);
         this.sendRequest(request);
     }
 }
