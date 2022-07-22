@@ -2,16 +2,20 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.FriendsView">
     <children>
-        <VBox fx:id="usersBox" layoutX="200.0" layoutY="136.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
-        <MenuButton fx:id="userSelect" layoutX="18.0" layoutY="89.0" prefWidth="150.0" text="select a user" />
-        <TextField fx:id="typeUser" alignment="CENTER" layoutX="185.0" layoutY="89.0" promptText="type a username" />
-        <MenuButton fx:id="friendRequests" contentDisplay="CENTER" layoutX="400.0" layoutY="89.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="171.0" text="Friend Requests" textAlignment="CENTER">
+        <VBox fx:id="friendsBox" layoutX="200.0" layoutY="136.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" />
+        <MenuButton fx:id="addToFriendsMenu" layoutX="18.0" layoutY="89.0" prefWidth="150.0" text="select a user" />
+        <TextField fx:id="typeFriendNameField" alignment="CENTER" layoutX="185.0" layoutY="89.0" promptText="type a username" />
+        <MenuButton fx:id="receivedFriendRequests" contentDisplay="CENTER" layoutX="400.0" layoutY="89.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="171.0" text="Friend Requests" textAlignment="CENTER">
         </MenuButton>
-        <HBox fx:id="friendAccept" layoutX="386.0" layoutY="127.0" prefHeight="100.0" prefWidth="200.0" />
+        <HBox fx:id="friendAcceptBox" layoutX="386.0" layoutY="127.0" prefHeight="100.0" prefWidth="200.0" />
       <Button layoutX="53.0" layoutY="32.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Button layoutX="169.0" layoutY="32.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+      <Text layoutX="236.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Friends" />
+      <Text layoutX="66.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests" />
+      <VBox fx:id="requestsBox" layoutX="46.0" layoutY="145.0" prefHeight="200.0" prefWidth="100.0" />
     </children>
 </AnchorPane>
