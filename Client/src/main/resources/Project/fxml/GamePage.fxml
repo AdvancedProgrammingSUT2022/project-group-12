@@ -26,11 +26,11 @@
                 <Menu/>
                 <Menu mnemonicParsing="false" text="Panels">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoTradePanel" text="goto Trade Panel"/>
-                        <MenuItem onAction="#researchInfo" text="Research Panel"/>
-                        <MenuItem onAction="#gotoCheatSelectPage" text="goto cheat sheet"/>
-                        <MenuItem onAction="#gotoCivPanel" text="Civilization Info"/>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoNotificationPanel" text="goto Notification Panel"/>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoTradePanel" text="Trade Panel"/>
+                        <MenuItem onAction="#gotoReseachPanel" text="Research Panel"/>
+                        <MenuItem onAction="#gotoCheatSheetPanel" text="CheatSheet Panel"/>
+                        <MenuItem onAction="#gotoCivPanel" text="Civilization Panel"/>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoNotifications" text="Notifications"/>
                     </items>
                 </Menu>
                 <Menu onAction="#backToMenu" text="Back">

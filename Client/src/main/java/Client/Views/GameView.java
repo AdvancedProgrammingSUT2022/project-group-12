@@ -75,7 +75,7 @@ public class GameView implements ViewController {
         instance = this;
         initializeGameMap();
         if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
-//            changeCoverVisibility(false);
+            changeCoverVisibility(false);
         }
     }
 
@@ -116,7 +116,7 @@ public class GameView implements ViewController {
     }
 
 
-    public void gotoCheatSelectPage() {
+    public void gotoCheatSheetPanel() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CheatSheetPage"));
     }
 
@@ -136,7 +136,7 @@ public class GameView implements ViewController {
         // todo : check for thread
     }
 
-    public void researchInfo() {
+    public void gotoReseachPanel() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("technologyMenu"));
     }
 
@@ -167,7 +167,7 @@ public class GameView implements ViewController {
         if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);
     }
 
-    public void gotoNotificationPanel() {
+    public void gotoNotifications() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("NotificationPanel"));
     }
 

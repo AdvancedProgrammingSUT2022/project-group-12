@@ -171,6 +171,6 @@ public class TechPanel implements ViewController {
     }
 
     public void gotoTechTree(ActionEvent actionEvent) {
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TechTreePage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("TechnologyTreePage"));
     }
 }
