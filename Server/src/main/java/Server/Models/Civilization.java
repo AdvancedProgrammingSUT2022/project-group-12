@@ -6,7 +6,6 @@ import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Notifications.*;
-import Project.Models.Production;
 import Project.Models.Resource;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -25,7 +24,6 @@ import Server.Utils.UpdateNotifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Civilization {
     private final User user;
@@ -54,6 +52,7 @@ public class Civilization {
     private TechnologyEnum researchingTechnology;
     private City capital = null;
     private Location currentSelectedGridLocation = new Location(0, 0);
+    private Location initialLocation;
 
     public Civilization(User user, TerrainColor color, int tileGridHeight, int tileGridWidth) {
         this.color = color;
@@ -647,5 +646,13 @@ public class Civilization {
             }
         }
         return null;
+    }
+
+    public Location getInitialLocation() {
+        return this.initialLocation;
+    }
+
+    public void setInitialLocation(Location initialLocation) {
+        this.initialLocation = initialLocation;
     }
 }

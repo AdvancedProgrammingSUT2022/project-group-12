@@ -20,7 +20,6 @@ import Server.Controllers.GameController;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
 import Server.Utils.UpdateNotifier;
-import Server.Views.MenuStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,19 +54,20 @@ public class Game {
             Civilization civ = new Civilization(users.get(index), color, height, width);
             civilizations.add(civ);
 
-            Tile settlerTile = availableTiles.get(availableTiles.size() - 1);
+            Tile initialTile = availableTiles.get(availableTiles.size() - 1);
             //test
-//            settlerTile.setRuin(true);
+//            initialTile.setRuin(true);
+            civ.setInitialLocation(initialTile.getLocation());
 
-            for (Tile tile : this.tileGrid.getAllTilesInRadius(settlerTile, Constants.INITIAL_SETTLERS_DISTANCE))
+            for (Tile tile : this.tileGrid.getAllTilesInRadius(initialTile, Constants.INITIAL_SETTLERS_DISTANCE))
                 availableTiles.remove(tile);
 
-            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ.getName(), settlerTile.getLocation());
-            CombatUnit warrior = new NonRangedUnit(UnitEnum.WARRIOR, civ.getName(), settlerTile.getLocation());
+            NonCombatUnit settler = new NonCombatUnit(UnitEnum.SETTLER, civ.getName(), initialTile.getLocation());
+            CombatUnit warrior = new NonRangedUnit(UnitEnum.WARRIOR, civ.getName(), initialTile.getLocation());
 
             try {
-                GameController.placeUnit(settler, settlerTile);
-                GameController.placeUnit(warrior, settlerTile);
+                GameController.placeUnit(settler, initialTile);
+                GameController.placeUnit(warrior, initialTile);
             } catch (CommandException e) { // never
                 System.out.println("error in placing initial units at game class");
             }
@@ -78,7 +78,7 @@ public class Game {
 //            civ.addResource(ResourceEnum.IRON);
 //            civ.addResource(ResourceEnum.BANANA);
             civ.getResearchingTechnologies().put(TechnologyEnum.AGRICULTURE,TechnologyEnum.AGRICULTURE.getCost());
-            civ.setCurrentSelectedGridLocation(settlerTile.getLocation());
+            civ.setCurrentSelectedGridLocation(initialTile.getLocation());
         }
 
         int ruinCount = (int) (tileGrid.getHeight() * tileGrid.getWidth() * Constants.RUIN_PROBABILITY);
@@ -92,8 +92,12 @@ public class Game {
         }
     }
 
+    public Civilization getCivOfUser(User user) {
+        return this.civilizations.get(this.users.indexOf(user));
+    }
+
     public void bindUserCivUpdatesTo(User user, UpdateNotifier updateNotifier) {
-        Civilization civ = this.civilizations.get(this.users.indexOf(user));
+        Civilization civ = this.getCivOfUser(user);
         for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
             tile.initializeNotifier();
             tile.addObserver(updateNotifier);
@@ -128,7 +132,7 @@ public class Game {
 
     public String endCurrentTurn() throws CommandException {
         Civilization civ = GameController.getGame().getCurrentCivilization();
-        StringBuilder response = new StringBuilder("");
+        StringBuilder response = new StringBuilder();
         updateRevealedTileGrid(civ);
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
@@ -147,7 +151,7 @@ public class Game {
                 throw new GameException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
             }*/
         }
-        response.append("citizen all are assigned");
+        response.append("Your turn ended successfully");
 
 
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {

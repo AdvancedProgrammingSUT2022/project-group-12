@@ -7,6 +7,7 @@ import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
 import Project.Models.Location;
 import Project.Models.Units.Unit;
+import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.CheatCodeController;
@@ -16,9 +17,7 @@ import Server.Controllers.UnitCombatController;
 import Server.Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Server.Models.Civilization;
-import Server.Utils.Command;
-import Server.Utils.CommandException;
-import Server.Utils.GameException;
+import Server.Utils.*;
 
 import java.util.List;
 
@@ -40,6 +39,10 @@ public class GameMenu extends Menu {
 
     @Override
     public void firstRun() {
+
+    }
+
+    public void initializeGameTurns() {
         this.startNewTurn();
     }
 
@@ -94,6 +97,7 @@ public class GameMenu extends Menu {
 //            System.out.println("this.getSelectedCity().getCivilization().calculateScience() = " + this.getSelectedCity().getCivilization().calculateScience());
 //        }
         switch (command.getCategory()) {
+            case "init" -> this.initializeGameTurns();
             case "info" -> this.info(command);
             case "trade" -> this.trade(command);
             case "demand" -> this.demand(command);
@@ -570,6 +574,9 @@ public class GameMenu extends Menu {
         System.out.println("end of turn"); // todo: convert to answer() or not?
         System.out.println("------------------------------");
         this.startNewTurn();
+        User currentUser = GameController.getGame().getCurrentCivilization().getUser();
+        UpdateNotifier userUpdateNotifier = MenuStackManager.getInstance().getMenuStackOfUser(currentUser).getUpdateNotifier();
+        userUpdateNotifier.sendAllowToPlay();
         answer(message);
     }
 

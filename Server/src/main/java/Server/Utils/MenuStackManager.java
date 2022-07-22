@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 public class MenuStackManager {
     private static final MenuStackManager instance = new MenuStackManager();
-    private final HashMap<String, MenuStack> menuStacksMap = new HashMap<>();
+    private final HashMap<User, MenuStack> menuStacksMap = new HashMap<>();
+    private final HashMap<String, User> userMap = new HashMap<>();
 
     public static MenuStackManager getInstance() {
         return instance;
@@ -16,15 +17,21 @@ public class MenuStackManager {
     public void addMenuStackFor(String token, User user) {
         MenuStack menuStack = new MenuStack(user);
         menuStack.gotoMainMenu();
-        this.menuStacksMap.put(token, menuStack);
+        this.userMap.put(token, user);
+        this.menuStacksMap.put(user, menuStack);
     }
 
-    public MenuStack getMenuStackOf(String token) {
-        MenuStack menuStack = this.menuStacksMap.get(token);
+    public MenuStack getMenuStackOfUser(User user) {
+        return this.menuStacksMap.get(user);
+    }
+
+    public MenuStack getMenuStackByToken(String token) {
+        MenuStack menuStack = this.getMenuStackOfUser(this.userMap.get(token));
         if (menuStack == null) return null;
         if (menuStack.isValid()) return menuStack;
         else {
-            this.menuStacksMap.remove(token);
+            this.menuStacksMap.remove(userMap.get(token));
+            this.userMap.remove(token);
             return null;
         }
     }

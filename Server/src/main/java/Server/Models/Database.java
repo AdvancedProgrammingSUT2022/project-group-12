@@ -1,8 +1,10 @@
 package Server.Models;
 
 import Project.Models.User;
+import Project.Utils.CommandResponse;
 import Project.Utils.TokenGenerator;
 import Server.Controllers.GameController;
+import Server.Utils.CommandException;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -31,10 +33,22 @@ public class Database {
         }
     }
 
-    public String receiveTokenFor(User user) {
+    public String receiveTokenFor(User user) throws CommandException {
+        if (tokenTable.containsValue(user)) {
+            throw new CommandException(CommandResponse.USER_ALREADY_LOGGED_IN);
+        }
         String token = TokenGenerator.generate(8);
         tokenTable.put(token, user);
         return token;
+    }
+
+    public void invalidateTokenFor(User user) {
+        for (var entry : tokenTable.entrySet()) {
+            if (entry.getValue() == user) {
+                tokenTable.remove(entry.getKey());
+                break;
+            }
+        }
     }
 
     public User getUserByToken(String token) {
@@ -167,5 +181,4 @@ public class Database {
     public boolean checkPassword(String username, String password) {
         return this.users.get(username).passwordMatchCheck(password);
     }
-
 }

@@ -4,6 +4,7 @@ import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
 import Client.Utils.UpdateTracker;
 import Project.Utils.CommandResponse;
+import Project.Utils.Constants;
 import Project.Utils.Request;
 import Project.Utils.RequestType;
 import javafx.event.ActionEvent;
@@ -18,6 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
+import java.io.IOException;
+import java.net.Socket;
 
 //todo : improve line 80
 public class LoginView implements ViewController {
@@ -144,6 +148,9 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
+        if (!RequestSender.getInstance().isInitialized()) {
+            if (!connectToServer()) return;
+        }
         Request request = new Request(RequestType.LOGIN_USER, null);
         request.addParameter("username", username.getText());
         request.addParameter("password", password.getText());
@@ -177,6 +184,11 @@ public class LoginView implements ViewController {
                 usernameDoesNotExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
                 usernameBox.getChildren().add(usernameDoesNotExists);
             }
+            case USER_ALREADY_LOGGED_IN -> {
+                Text usernameDoesNotExists = new Text(response.getMessage());
+                usernameDoesNotExists.setStyle("-fx-fill: #ff0066; -fx-font-size: 10");
+                usernameBox.getChildren().add(usernameDoesNotExists);
+            }
             default -> throw new RuntimeException();
         }
     }
@@ -185,6 +197,9 @@ public class LoginView implements ViewController {
         removeAdditional();
         if (emptyUsernameAndOrPassword())
             return;
+        if (!RequestSender.getInstance().isInitialized()) {
+            if (!connectToServer()) return;
+        }
         Request request = new Request(RequestType.CREATE_USER, null);
         request.addParameter("username", username.getText());
         request.addParameter("nickname", nickname.getText());
@@ -212,6 +227,21 @@ public class LoginView implements ViewController {
             }
             default -> throw new RuntimeException();
         }
+    }
+
+    private boolean connectToServer() {
+        Socket socket;
+        try {
+            socket = new Socket(Constants.SERVER_HOST, Constants.SERVER_PORT);
+            System.out.println("connected to server at " + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT);
+        } catch (IOException e) {
+            Text errorText = new Text("can't connect to server at " + Constants.SERVER_HOST + ":" + Constants.SERVER_PORT);
+            errorText.setStyle("-fx-fill: #ff0066; -fx-font-size: 12; -fx-font-weight: 900");
+            usernameBox.getChildren().add(errorText);
+            return false;
+        }
+        RequestSender.getInstance().initialize(socket);
+        return true;
     }
 
     private boolean emptyUsernameAndOrPassword() {

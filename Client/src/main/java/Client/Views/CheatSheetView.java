@@ -105,8 +105,8 @@ public class CheatSheetView implements ViewController {
     private String increasingMovementUnitName;
 
     public void initialize() {
-        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
-        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
+        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().getFirst();
+        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().getSecond();
 //        System.out.println(pane.getStylesheets());
         initSpinners();
         initMenus();

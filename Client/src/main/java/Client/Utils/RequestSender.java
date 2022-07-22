@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class RequestSender {
     private static final RequestSender instance = new RequestSender();
-    private static Connection connection = null;
+    private Connection connection = null;
     private HashMap<String, String> responseParameterCache = null;
 
     private RequestSender() {
@@ -20,8 +20,12 @@ public class RequestSender {
         return instance;
     }
 
-    public static void initialize(Socket socket) {
+    public void initialize(Socket socket) {
         connection = new Connection(socket);
+    }
+
+    public boolean isInitialized() {
+        return connection != null;
     }
 
     public CommandResponse sendRequest(Request request) {

@@ -30,7 +30,7 @@ public class StartGameView implements ViewController {
     private ChoiceBox<String> userSelect;
     private SpinnerValueFactory<Integer> widthValueFactory;
     private SpinnerValueFactory<Integer> heightValueFactory;
-    private String invitedGamesName;
+    private String invitedGamesName = null;
 
     public void initialize() {
         initializeSpinners();
@@ -116,7 +116,8 @@ public class StartGameView implements ViewController {
             command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
         }
         System.out.println("command = " + command);
-        CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
+        RequestSender.getInstance().sendCommand(command.toString());
+        RequestSender.getInstance().sendCommand("init");
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 
@@ -125,6 +126,7 @@ public class StartGameView implements ViewController {
     }
 
     public void startInvitedGame() {
+        if (this.invitedGamesName == null) return;
         StringBuilder command = new StringBuilder("enter game -t " + this.invitedGamesName);
         System.out.println("command = " + command);
         CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());

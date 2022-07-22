@@ -91,7 +91,8 @@ public enum CommandResponse {
     NO_TRADE_WITH_THIS_NAME("No trade with this name"),
     NO_UNIT_SELECTED("no unit selected"),
     INVALID_TOKEN("request token is invalid"),
-    CITY_CAPTURED("city captured");
+    CITY_CAPTURED("city captured"),
+    USER_ALREADY_LOGGED_IN("user has already logged in!");
 
     private String message;
     private final String itemMessage;

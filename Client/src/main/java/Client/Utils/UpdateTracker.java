@@ -3,7 +3,6 @@ package Client.Utils;
 import Client.Views.GameView;
 import Client.Views.MenuStack;
 import Project.Models.Location;
-import Project.Models.Tiles.Tile;
 import Project.Utils.*;
 import javafx.application.Platform;
 
@@ -36,6 +35,12 @@ public class UpdateTracker implements Runnable {
             } else if(request.getRequestType() == RequestType.SHOW_NEW_TECHNOLOGY_ACHIEVED){
                 String techName = request.getParameter("TechName");
                 Platform.runLater(() -> MenuStack.getInstance().showSuccess(techName + " discovered successfully"));
+            } else if(request.getRequestType() == RequestType.ALLOW_PLAY_TURN){
+                Platform.runLater(() -> {
+                    GameView.reloadTechnologies();
+                    GameView.reloadHexGrid();
+                    GameView.changeCoverVisibility(false);
+                });
             }
         }
     }

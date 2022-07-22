@@ -91,8 +91,8 @@ public class CityPanelView implements ViewController {
     public void initialize() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         initializeProductionMenu();
-        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
-        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
+        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().getFirst();
+        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().getSecond();
         this.populationSize.setText(String.valueOf(city.getCitizensCount()));
         this.gold.setText(String.valueOf(DatabaseQuerier.getSelectedCityGold()));
         this.food.setText(String.valueOf(DatabaseQuerier.getSelectedCityFood()));

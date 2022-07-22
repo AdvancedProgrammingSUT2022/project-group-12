@@ -61,8 +61,8 @@ public class UnitPanelView implements ViewController {
     private Button createCityBtn;
 
     public void initialize() {
-        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().get("Height");
-        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().get("Width");
+        this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().getFirst();
+        this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().getSecond();
         unit = DatabaseQuerier.getSelectedUnit();
         System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
         initializeSpinners();

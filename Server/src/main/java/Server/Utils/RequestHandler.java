@@ -60,7 +60,7 @@ public class RequestHandler implements Runnable {
                 }
             }
             case SET_SOCKET_FOR_UPDATE_TRACKER -> {
-                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackByToken(request.getToken());
                 if (menuStack == null) {
                     this.sendCommandResponse(CommandResponse.INVALID_TOKEN);
                     break;
@@ -69,7 +69,7 @@ public class RequestHandler implements Runnable {
                 this.sendCommandResponse(CommandResponse.OK);
             }
             case RUN_SERVERVIEW_COMMAND -> {
-                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackByToken(request.getToken());
                 if (menuStack == null) {
                     this.sendCommandResponse(CommandResponse.INVALID_TOKEN);
                     break;
@@ -89,7 +89,7 @@ public class RequestHandler implements Runnable {
                 this.sendCommandResponse(commandResponse);
             }
             case QUERY_DATABASE -> {
-                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOf(request.getToken());
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackByToken(request.getToken());
                 if (menuStack == null) {
                     this.sendCommandResponse(CommandResponse.INVALID_TOKEN);
                     break;

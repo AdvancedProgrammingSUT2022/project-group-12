@@ -4,10 +4,12 @@ import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Location;
 import Project.Models.Tiles.Tile;
+import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
+import Project.Utils.Pair;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
@@ -133,10 +135,8 @@ public class MenuStack {
             case GET_CURRENTCIV_UNITS_LOCATIONS ->
                     gson.toJson(GameController.getGame().getCurrentCivilization().getUnits().stream().map(Unit::getLocation).collect(Collectors.toList()));
             case GET_TILEGRID_SIZE -> {
-                HashMap<String, Integer> hashMap = new HashMap<>();
-                hashMap.put("Height", GameController.getGame().getTileGrid().getHeight());
-                hashMap.put("Width", GameController.getGame().getTileGrid().getWidth());
-                yield gson.toJson(hashMap);
+                TileGrid tileGrid = GameController.getGame().getTileGrid();
+                yield gson.toJson(new Pair<>(tileGrid.getHeight(), tileGrid.getWidth()));
             }
             case ACCEPT_FRIEND_REQUEST -> {
                 User sender = Database.getInstance().getUser(params[0]);
@@ -196,9 +196,9 @@ public class MenuStack {
             case GET_RESEARCHING_TECHNOLOGY ->
                     gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
             case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
-            case GET_TILE_GRID -> gson.toJson(GameController.getGame().getCurrentCivilization().getRevealedTileGrid());
-            case GET_CIV_CAMERA_LOCATION ->
-                    gson.toJson(GameController.getGame().getCurrentCivilization().getCurrentSelectedGridLocation());
+            case GET_TILE_GRID_OF -> gson.toJson(GameController.getGame().getCivOfUser(Database.getInstance().getUserByToken(params[0])).getRevealedTileGrid());
+            case GET_CIV_INITIAL_LOCATION ->
+                    gson.toJson(GameController.getGame().getCivOfUser(Database.getInstance().getUserByToken(params[0])).getInitialLocation());
             case GET_SELECTED_CITY_PRODUCTION_QUEUE -> gson.toJson(GameMenu.getSelectedCity().getProductionQueue());
             case GET_AVAILABLE_BUILDINGS_NAME ->
                     gson.toJson(Arrays.stream(BuildingEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(e.getRequiredTechs())).map(Enum::name).collect(Collectors.toList()));
@@ -206,6 +206,7 @@ public class MenuStack {
                     gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(Collections.singletonList(e.getRequiredTech())) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
                             .map(Enum::name).collect(Collectors.toList()));
             case GET_INVITED_GAMES_NAMES -> gson.toJson(Database.getInstance().getInvitedGamesFor(this.getUser()));
+            case GET_IS_PLAYING_ALLOWED -> gson.toJson(GameController.getGame().getCurrentCivilization().civUser() == Database.getInstance().getUserByToken(params[0]));
         };
     }
 

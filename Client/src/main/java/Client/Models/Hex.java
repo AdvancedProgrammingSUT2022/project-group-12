@@ -222,7 +222,7 @@ public class Hex implements Observer<Tile> {
 
         this.group.getChildren().clear();
         this.group.getChildren().add(this.polygon);
-        ResourceEnum resource = tile.getVisibleResource(GameView.instance.getTechnologies());
+        ResourceEnum resource = tile.getVisibleResource(GameView.getTechnologies());
         if (resource != null) this.addResourceToGroup(resource);
         if (!tile.getImprovements().isEmpty()) this.addImprovementToGroup(tile.getImprovements().get(0));
         if (tile.getCity() != null) this.addCityToGroup(city);

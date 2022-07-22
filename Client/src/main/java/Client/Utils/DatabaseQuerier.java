@@ -12,6 +12,7 @@ import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Notifier;
+import Project.Utils.Pair;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -63,9 +64,9 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, typeToken.getType());
     }
 
-    public static HashMap<String, Integer> getTileGridSize() {
+    public static Pair<Integer, Integer> getTileGridSize() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILEGRID_SIZE);
-        return new Gson().fromJson(json, new TypeToken<HashMap<String, Integer>>() {
+        return new Gson().fromJson(json, new TypeToken<Pair<Integer, Integer>>() {
         }.getType());
 
     }
@@ -229,8 +230,8 @@ public class DatabaseQuerier {
         }.getType());
     }
 
-    public static TileGrid getTileGrid() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID);
+    public static TileGrid getTileGridByToken(String loginToken) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_TILE_GRID_OF, loginToken);
 //        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());
@@ -249,8 +250,8 @@ public class DatabaseQuerier {
         }.getType());
     }
 
-    public static Location getCivCameraLocation() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_CAMERA_LOCATION);
+    public static Location getCivInitialLocation(String loginToken) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_INITIAL_LOCATION, loginToken);
         return new Gson().fromJson(json, new TypeToken<Location>() {
         }.getType());
     }
@@ -297,6 +298,11 @@ public class DatabaseQuerier {
     public static ArrayList<String> getInvitedGames(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_INVITED_GAMES_NAMES);
         return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+
+    public static boolean getIsPlayingAllowedFor(String loginToken) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_IS_PLAYING_ALLOWED, loginToken);
+        return new Gson().fromJson(json,new TypeToken<Boolean>(){}.getType());
     }
 }
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {

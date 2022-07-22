@@ -9,11 +9,11 @@
     <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: " />
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit" textAlignment="CENTER" />
     <Button layoutX="29.0" layoutY="362.0" onMouseClicked="#backClick" styleClass="smallerButton" text="Back" textAlignment="CENTER" />
-    <Button fx:id="acceptButton" layoutX="189.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#createNewGame" text="Accept And Proceed" />
+    <Button fx:id="acceptButton" layoutX="189.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#createNewGame" text="Create New Game" />
     <VBox alignment="CENTER" layoutX="51.0" layoutY="133.0" prefHeight="118.0" prefWidth="100.0"
           style="-fx-spacing: 25;">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Invited Game"/>
-        <MenuButton fx:id="invitedGames" mnemonicParsing="false" text="Game invited">
+        <MenuButton fx:id="invitedGames" mnemonicParsing="false" text="Games invited">
         </MenuButton>
     </VBox>
     <ScrollPane hbarPolicy="NEVER" layoutX="213.0" layoutY="129.0" prefHeight="200.0" prefWidth="175.0"

@@ -7,5 +7,6 @@ public enum RequestType {
     CREATE_USER,
     LOGIN_USER,
     SET_SOCKET_FOR_UPDATE_TRACKER,
+    ALLOW_PLAY_TURN,
     QUERY_DATABASE
 }
