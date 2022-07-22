@@ -43,8 +43,6 @@ public class Game {
             if (tile.getTerrain().getTerrainType().isReachable()) {
                 availableTiles.add(tile);
             }
-//            tile.initializeNotifier();
-//            tile.addObserver(this.clientHandler);
         }
         Collections.shuffle(availableTiles);
 
@@ -158,9 +156,6 @@ public class Game {
             throw new CommandException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
         checkForKillingCitizen(civ);
-        /***
-         * add gold
-         */
         civ.setGold(civ.calculateCivilizationGold());
         return response.toString();
     }
@@ -245,9 +240,7 @@ public class Game {
         }
     }
 
-    private void checkForMultipleMoves(Unit unit, StringBuilder response) throws CommandException {
-//        System.out.println("reached here");
-//        System.out.println("unit.getPathShouldCross().size() = " + unit.getPathShouldCross().size());
+    private void checkForMultipleMoves(Unit unit, StringBuilder response) {
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross() != null && unit.getPathShouldCross().size() > 0) {
             if(GameController.getGameTile(unit.getLocation()).isARuin()){
                 GameController.getGameTile(unit.getLocation()).achieveRuin();

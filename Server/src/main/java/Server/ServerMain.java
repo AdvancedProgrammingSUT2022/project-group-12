@@ -18,7 +18,6 @@ public class ServerMain {
         try (ServerSocket serverSocket = new ServerSocket(Constants.SERVER_PORT)) {
             System.out.println("server initialized successfully on port " + Constants.SERVER_PORT);
 
-//            Thread thread = new Thread(() -> {
             System.out.println("server is running (client sockets can connect) ...");
             while (true) {
                 Socket socket;
@@ -33,10 +32,6 @@ public class ServerMain {
                 RequestHandler requestHandler = new RequestHandler(socket);
                 new Thread(requestHandler).start();
             }
-//            });
-
-//            thread.start();
-//            System.out.println("server is running (clients can start game) ...");
 
         } catch (IOException e) {
             System.err.println("can't initialize server on port " + Constants.SERVER_PORT);
