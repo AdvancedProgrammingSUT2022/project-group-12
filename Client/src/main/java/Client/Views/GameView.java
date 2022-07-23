@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class GameView implements ViewController {
+    private static GameView instance;
     @FXML
     private Rectangle myRect;
     @FXML
@@ -61,7 +62,26 @@ public class GameView implements ViewController {
     private TileGrid tileGrid;
     private HexGrid hexGrid;
     private ArrayList<TechnologyEnum> technologies;
-    private static GameView instance;
+
+    public static void changeCoverVisibility(boolean visible) {
+        if (instance != null) instance.coverPane.setVisible(visible);
+    }
+
+    public static void reloadHexGrid() {
+        instance.reloadTileGridFromServer();
+    }
+
+    public static void reloadTechnologies() {
+        instance.technologies = DatabaseQuerier.getCurrentTechnologies();
+    }
+
+    public static void updateTile(Location location, Tile newTile) {
+        if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);
+    }
+
+    public static ArrayList<TechnologyEnum> getTechnologies() {
+        return instance.technologies;
+    }
 
     public void initialize() {
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
@@ -78,10 +98,6 @@ public class GameView implements ViewController {
         if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
             changeCoverVisibility(false);
         }
-    }
-
-    public static void changeCoverVisibility(boolean visible) {
-        if (instance != null) instance.coverPane.setVisible(visible);
     }
 
     public void initializeGameMap() {
@@ -116,7 +132,6 @@ public class GameView implements ViewController {
         }
     }
 
-
     public void gotoCheatSheetPanel() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CheatSheetPage"));
     }
@@ -124,7 +139,6 @@ public class GameView implements ViewController {
     public void gotoTradePanel() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("DemandAndTradePanel"));
     }
-
 
     public void backToMenu() {
         String command = "end game";
@@ -145,14 +159,6 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CivilizationPanelPage"));
     }
 
-    public static void reloadHexGrid() {
-        instance.reloadTileGridFromServer();
-    }
-
-    public static void reloadTechnologies() {
-        instance.technologies = DatabaseQuerier.getCurrentTechnologies();
-    }
-
     public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
@@ -164,10 +170,6 @@ public class GameView implements ViewController {
         }
     }
 
-    public static void updateTile(Location location, Tile newTile) {
-        if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);
-    }
-
     public void gotoNotifications() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("NotificationPanel"));
     }
@@ -176,11 +178,11 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GameSettingPage"));
     }
 
-    public static ArrayList<TechnologyEnum> getTechnologies() {
-        return instance.technologies;
-    }
-
     public void gotoUnitsPanel() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitsPanelPage"));
+    }
+
+    public void gotoCitiesPanel() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CitiesPanelPage"));
     }
 }
