@@ -29,9 +29,8 @@ public class MainMenu extends Menu {
         MainMenuController.logout(this.menuStack);
     }
 
-    private void gotoNewGameMenu() {
-        this.menuStack.pushMenu(new GameMenu());
-
+    private void enterNewGameMenu(String gameToken) {
+        this.menuStack.pushMenu(new GameMenu(gameToken));
     }
 
     private void enterGame(Command command) {
@@ -41,7 +40,7 @@ public class MainMenu extends Menu {
             Game game = Database.getInstance().getGameByToken(gameToken);
             MainMenuController.enterNewGame(game);
             MainMenuController.bindUpdateNotifier(game, this.menuStack);
-            this.gotoNewGameMenu();
+            this.enterNewGameMenu(game.getToken());
             answer("entered the game");
         } catch (CommandException e) {
             throw new RuntimeException(e);
@@ -80,11 +79,11 @@ public class MainMenu extends Menu {
         try {
             Game game = MainMenuController.startNewGame(usernames,width,height,this.menuStack.getUser());
             MainMenuController.bindUpdateNotifier(game, this.menuStack);
+            this.enterNewGameMenu(game.getToken());
         } catch (CommandException e) {
             answer(e);
             return;
         }
-        this.gotoNewGameMenu();
         answer("new game started");
     }
 

@@ -38,6 +38,10 @@ public class RequestHandler implements Runnable {
 //        System.out.println("json: " + json);
         Request request = new Gson().fromJson(json, Request.class);
         System.out.println("ReqType = " + request.getRequestType());
+        answerRequest(request);
+    }
+
+    private synchronized void answerRequest(Request request) {
         switch (request.getRequestType()) {
             case CREATE_USER -> {
                 String username = request.getParameter("username");
@@ -109,6 +113,7 @@ public class RequestHandler implements Runnable {
             }
         }
     }
+
     public void run() {
         while (true) {
             try {
