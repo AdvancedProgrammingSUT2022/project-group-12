@@ -345,7 +345,7 @@ public class DatabaseQuerier {
     }
 
     public static ArrayList<String> getOpenGamesNames() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAMES_NAMES);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_OPEN_GAMES_TOKENS);
         return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
     }
 
@@ -375,6 +375,19 @@ public class DatabaseQuerier {
 
     public static void leaveFromRoom(String userToken, String roomToken) {
         RequestSender.getInstance().databaseQuery(DatabaseQueryType.LEAVE_ROOM, userToken, roomToken);
+    }
+
+    public static void joinToGame(String userToken, String roomToken) {
+        RequestSender.getInstance().databaseQuery(DatabaseQueryType.JOIN_ROOM, userToken, roomToken);
+    }
+
+    public static ArrayList<String> getRunningGamesNames() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAMES_TOKENS);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+
+    public static void startGame(String gameToken) {
+        RequestSender.getInstance().databaseQuery(DatabaseQueryType.START_GAME, gameToken);
     }
 }
 

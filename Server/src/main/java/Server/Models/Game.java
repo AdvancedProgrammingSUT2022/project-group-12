@@ -14,7 +14,6 @@ import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
-import Project.Utils.TokenGenerator;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Controllers.MainMenuController;
@@ -34,9 +33,9 @@ public class Game {
     private final ArrayList<User> users;
     private int gameTurn = -1;
 
-    public Game(ArrayList<User> users,int height,int width) {
-        this.token = TokenGenerator.generate(Constants.TOKEN_LENGTH);
-        this.name = this.token;
+    public Game(String token, String name, ArrayList<User> users,int height,int width) {
+        this.token = token;
+        this.name = name.isBlank() ? token : name;
         this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(height, width);

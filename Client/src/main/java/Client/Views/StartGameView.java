@@ -2,6 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
+import Project.Models.OpenGame;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import javafx.fxml.FXML;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 
 public class StartGameView implements ViewController {
     private final ArrayList<String> users = new ArrayList<>();
-    private final String resumeGamesName = null;
     private @FXML MenuButton openGamesList;
     private @FXML MenuButton myGamesList;
     private @FXML MenuButton runningGamesList;
@@ -30,21 +30,39 @@ public class StartGameView implements ViewController {
     private SpinnerValueFactory<Integer> heightValueFactory;
     private SpinnerValueFactory<Integer> countValueFactory;
     private String openGamesNames = null;
+    private String resumeGamesName = null;
     private String liveGamesName = null;
 
     public void initialize() {
         initializeSpinners();
-        loadInvitedGameItems();
-        loadLiveGamesItems();
+        reloadGamesLists();
+        joinButton.setDisable(true);
+        resumeButton.setDisable(true);
+        showButton.setDisable(true);
     }
 
-    public void loadInvitedGameItems() {
+    public void loadOpenGameItems() {
         openGamesList.getItems().clear();
         for (String gameName : DatabaseQuerier.getOpenGamesNames()) {
 //            System.out.println(gameName);
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
                 this.openGamesNames = gameName;
+                this.joinButton.setDisable(false);
+                openGamesList.setText(gameName);
+            });
+            openGamesList.getItems().add(menuItem);
+        }
+    }
+
+    public void loadResumeGameItems() {
+        runningGamesList.getItems().clear();
+        for (String gameName : DatabaseQuerier.getRunningGamesNames()) {
+//            System.out.println(gameName);
+            MenuItem menuItem = new MenuItem(gameName);
+            menuItem.setOnAction(actionEvent -> {
+                this.openGamesNames = gameName;
+                this.joinButton.setDisable(false);
                 openGamesList.setText(gameName);
             });
             openGamesList.getItems().add(menuItem);
@@ -58,6 +76,7 @@ public class StartGameView implements ViewController {
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
                 this.liveGamesName = gameName;
+                this.showButton.setDisable(false);
                 runningGamesList.setText(gameName);
             });
             runningGamesList.getItems().add(menuItem);
@@ -91,8 +110,9 @@ public class StartGameView implements ViewController {
         playerCount.setValueFactory(countValueFactory);
     }
 
-    public void reloadGames() {
-        loadInvitedGameItems();
+    public void reloadGamesLists() {
+        loadOpenGameItems();
+        loadResumeGameItems();
         loadLiveGamesItems();
     }
 
@@ -121,7 +141,9 @@ public class StartGameView implements ViewController {
 
     public void joinGame() {
         if (this.openGamesNames == null) return;
-//        StringBuilder command = new StringBuilder("enter game -t " + this.openGamesNames);
+        OpenGame selectedOpenGame = DatabaseQuerier.getOpenGameByToken(this.openGamesNames);
+        if (selectedOpenGame.getPlayers().size() + 1 > selectedOpenGame.getPlayerLimit()) return;
+        DatabaseQuerier.joinToGame(MenuStack.getInstance().getCookies().getLoginToken(), openGamesNames);
         gotoRoom(openGamesNames);
     }
 

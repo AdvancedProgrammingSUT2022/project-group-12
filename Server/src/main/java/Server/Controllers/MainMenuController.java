@@ -2,7 +2,6 @@ package Server.Controllers;
 
 import Project.Models.OpenGame;
 import Project.Models.User;
-import Project.Utils.CommandResponse;
 import Project.Utils.RequestType;
 import Server.Models.Database;
 import Server.Models.Game;
@@ -14,21 +13,23 @@ import java.util.ArrayList;
 
 public class MainMenuController {
 
+    // replaced with Database Query
     public static Game startNewGame(ArrayList<String> usernames, int width, int height,User currentUser) throws CommandException {
-        ArrayList<User> users = new ArrayList<>();
-        for (String username : usernames) {
-            User user = Database.getInstance().getUser(username);
-            if (user == null) {
-                throw new CommandException(CommandResponse.USER_DOES_NOT_EXISTS, username);
-            } else {
-                users.add(user);
-            }
-        }
-        Game game = new Game(users, height, width);
-        Database.getInstance().addGame(game);
-        System.out.println("game.getUsers().contains() = " + game.getUsers().contains(currentUser));
-        GameController.setGame(game);
-        return game;
+        return null;
+//        ArrayList<User> users = new ArrayList<>();
+//        for (String username : usernames) {
+//            User user = Database.getInstance().getUser(username);
+//            if (user == null) {
+//                throw new CommandException(CommandResponse.USER_DOES_NOT_EXISTS, username);
+//            } else {
+//                users.add(user);
+//            }
+//        }
+//        Game game = new Game(users, height, width);
+//        Database.getInstance().addGame(game);
+//        System.out.println("game.getUsers().contains() = " + game.getUsers().contains(currentUser));
+//        GameController.setGame(game);
+//        return game;
     }
 
     public static void bindUpdateNotifier(Game game, MenuStack userMenuStack, boolean isShow) {
@@ -55,11 +56,21 @@ public class MainMenuController {
     }
 
     public static void reloadRoomForPlayers(OpenGame room) {
-
+        for (User player : room.getPlayers()) {
+            MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOfUser(player);
+            menuStack.getUpdateNotifier().sendSimpleRequest(RequestType.RELOAD_ROOM_PLAYERS);
+        }
     }
 
-    public static void leaveRoom(String loginToken, String roomToken) {
-        Database.getInstance().removeFromAnyRoom(Database.getInstance().getUserByToken(loginToken));
-        MainMenuController.reloadRoomForPlayers(Database.getInstance().getOpenGameByToken(roomToken));
+    public static void leaveRoom(String userToken, String roomToken) {
+        OpenGame room = Database.getInstance().getOpenGameByToken(roomToken);
+        room.removePlayer(Database.getInstance().getUserByToken(userToken));
+        MainMenuController.reloadRoomForPlayers(room);
+    }
+
+    public static void joinRoom(String userToken, String gameToken) {
+        OpenGame room = Database.getInstance().getOpenGameByToken(gameToken);
+        room.addPlayer(Database.getInstance().getUserByToken(userToken));
+        MainMenuController.reloadRoomForPlayers(room);
     }
 }

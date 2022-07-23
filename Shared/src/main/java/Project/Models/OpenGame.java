@@ -51,4 +51,12 @@ public class OpenGame {
     public ArrayList<User> getPlayers() {
         return players;
     }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }

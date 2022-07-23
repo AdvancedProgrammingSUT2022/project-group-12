@@ -84,8 +84,8 @@ public class Database {
         return games.get(token);
     }
 
-    public ArrayList<String> getGamesTokens() {
-        return new ArrayList<>(games.keySet());
+    public ArrayList<String> getAllOpenGamesTokens() {
+        return new ArrayList<>(openGamesMap.keySet());
     }
 
     public ArrayList<String> getInvitedGamesFor(User user) {
@@ -272,5 +272,13 @@ public class Database {
                 MainMenuController.reloadRoomForPlayers(room);
             }
         }
+    }
+
+    public ArrayList<String> getRunningGamesTokens() {
+        return new ArrayList<>(games.keySet());
+    }
+
+    public void removeOpenGame(OpenGame openGame) {
+        openGamesMap.remove(openGame.getToken());
     }
 }

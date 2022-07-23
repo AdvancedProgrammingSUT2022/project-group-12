@@ -2,6 +2,7 @@ package Client.Utils;
 
 import Client.Views.*;
 import Project.Models.Location;
+import Project.Models.OpenGame;
 import Project.Utils.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -70,6 +71,16 @@ public class UpdateTracker implements Runnable {
                 if(MenuStack.getInstance().getTopMenu().getController() instanceof PublicChatView publicChatView) {
                     Platform.runLater(() -> publicChatView.updateChat(request.getRequestChat()));
                 }
+            } else if (request.getRequestType() == RequestType.RELOAD_ROOM_PLAYERS) {
+                Menu menu = MenuStack.getInstance().getTopMenu();
+                if (menu.getController() instanceof GameRoomView gameRoomView) {
+                    OpenGame newRoom = DatabaseQuerier.getOpenGameByToken(gameRoomView.getOpenGame().getToken());
+                    Platform.runLater(() -> gameRoomView.updateOpenGame(newRoom));
+                }
+            } else if (request.getRequestType() == RequestType.GOTO_GAME_PAGE) {
+                Platform.runLater(() -> {
+                    MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
+                });
             }
         }
     }

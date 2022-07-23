@@ -2,16 +2,14 @@ package Server.Views;
 
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Chat;
-import Project.Models.Location;
-import Project.Models.Message;
+import Project.Models.*;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.Unit;
-import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Pair;
+import Project.Utils.RequestType;
 import Server.Controllers.ChatController;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
@@ -19,6 +17,7 @@ import Server.Controllers.MainMenuController;
 import Server.Models.Civilization;
 import Server.Models.Database;
 import Server.Models.Game;
+import Server.Utils.MenuStackManager;
 import Server.Utils.UpdateNotifier;
 import com.google.gson.Gson;
 
@@ -236,7 +235,7 @@ public class MenuStack {
                 ChatController.updateChat(gson.fromJson(params[0],Chat.class));
                 yield null;
             }
-            case GET_RUNNING_GAMES_NAMES -> gson.toJson(Database.getInstance().getGamesTokens());
+            case GET_OPEN_GAMES_TOKENS -> gson.toJson(Database.getInstance().getAllOpenGamesTokens());
             case GET_ORIGINAL_TILE_GRID -> gson.toJson(GameController.getGame().getTileGrid());
             case GET_CIVS_SCORES -> gson.toJson(GameController.getGame().getCivNamesAndScore());
             case GET_CURRENT_YEAR -> gson.toJson(GameController.getGame().getCurrentYear());
@@ -258,6 +257,28 @@ public class MenuStack {
             case GET_OPENGAME_BY_TOKEN -> gson.toJson(Database.getInstance().getOpenGameByToken(params[0]));
             case LEAVE_ROOM -> {
                 MainMenuController.leaveRoom(params[0], params[1]);
+                yield null;
+            }
+            case JOIN_ROOM -> {
+                MainMenuController.joinRoom(params[0], params[1]);
+                yield null;
+            }
+            case GET_RUNNING_GAMES_TOKENS -> gson.toJson(Database.getInstance().getRunningGamesTokens());
+            case START_GAME -> {
+//                System.out.println("T " + params[0]);
+                OpenGame openGame = Database.getInstance().getOpenGameByToken(params[0]);
+                Game game = new Game(openGame.getToken(), openGame.getName(), openGame.getPlayers(), openGame.getHeight(), openGame.getWidth());
+                Database.getInstance().addGame(game);
+                Database.getInstance().removeOpenGame(openGame);
+                for (User player : game.getUsers()) {
+                    MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOfUser(player);
+                    ((MainMenu) menuStack.getTopMenu()).bindAndEnterNewGame(game);
+                }
+                ((GameMenu) this.getTopMenu()).initializeGameTurns();
+                for (User player : game.getUsers()) {
+                    MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOfUser(player);
+                    menuStack.getUpdateNotifier().sendSimpleRequest(RequestType.GOTO_GAME_PAGE);
+                }
                 yield null;
             }
         };

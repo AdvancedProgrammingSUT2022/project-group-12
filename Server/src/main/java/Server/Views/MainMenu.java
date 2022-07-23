@@ -1,6 +1,7 @@
 package Server.Views;
 
 import Project.Utils.CommandResponse;
+import Server.Controllers.GameController;
 import Server.Controllers.MainMenuController;
 import Server.Models.Database;
 import Server.Models.Game;
@@ -100,6 +101,12 @@ public class MainMenu extends Menu {
             return;
         }
         answer("new game started");
+    }
+
+    public void bindAndEnterNewGame(Game game) {
+        MainMenuController.bindUpdateNotifier(game, this.menuStack, false);
+        this.enterNewGameMenu(game.getToken());
+        GameController.setGame(game);
     }
 
 }
