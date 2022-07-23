@@ -25,6 +25,7 @@ import Server.Utils.UpdateNotifier;
 import Server.Views.MenuStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game {
     private final String token;
@@ -161,13 +162,19 @@ public class Game {
         civ.setGold(civ.calculateCivilizationGold());
         System.out.println(isCurrentCivDefeatOthers());
         System.out.println(new Date());
-        if (isCurrentCivDefeatOthers()) {
-            handleEndOfGame(getCurrentCivilization());
-        }
-        if (this.gameTurn / civilizations.size() > 25) {
+//        if (isCurrentCivDefeatOthers()) {
+//            updateCivsScore();
+//            setWinDateForWinnerCiv(this.getCurrentCivilization());
+//            endGameNotifyUsers();
+//            removeGameFromDataBase();
+//            throw new CommandException(CommandResponse.END_OF_GAME);
+//        }
+        System.out.println("game turn divide civilization size " + (this.gameTurn / civilizations.size()) );
+        if ((this.gameTurn / civilizations.size()) > Constants.GAME_LENGTH) {
             Civilization winnerCivilization = this.civilizations.get(0);
             updateCivsScore();
-            for (Civilization civ1 : civilizations) {
+            for (Civilization civ1 :
+                    civilizations) {
                 if (civ1.calculateSuccess() > winnerCivilization.calculateSuccess()) {
                     winnerCivilization = civ1;
                 }

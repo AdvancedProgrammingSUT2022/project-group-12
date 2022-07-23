@@ -20,6 +20,7 @@ public class Cookies {
     private Tile selectedTile = null;
     private City selectedCity = null;
     private Chat currentChat;
+    private Chat publicChat;
     private final SettingOptions settingOptions = new SettingOptions();
 
     public String getLoginToken() {
@@ -85,5 +86,13 @@ public class Cookies {
 
     public void setCurrentChat(Chat currentChat) {
         this.currentChat = currentChat;
+    }
+
+    public void setPublicChat(Chat publicChat) {
+        this.publicChat = publicChat;
+    }
+
+    public Chat getPublicChat() {
+        return publicChat;
     }
 }

@@ -11,7 +11,7 @@ public class Chat  {
     private final String token;
     private final String name;
     private final ArrayList<Message> messages;
-    private final ArrayList<User> users;
+    private  ArrayList<User> users;
 
 
     public Chat(ArrayList<User> usersInChat, NameAndToken nameAndToken) {
@@ -61,4 +61,7 @@ public class Chat  {
         return token;
     }
 
+   public void addUser(User user){
+        this.users.add(user);
+   }
 }

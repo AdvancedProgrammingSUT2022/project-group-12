@@ -2,6 +2,7 @@ package Server.Utils;
 
 import Project.Models.User;
 import Project.Utils.*;
+import Server.Controllers.ChatController;
 import Server.Controllers.LoginMenuController;
 import Server.Controllers.MainMenuController;
 import Server.Models.Database;
@@ -48,7 +49,8 @@ public class RequestHandler implements Runnable {
                 String nickname = request.getParameter("nickname");
                 String password = request.getParameter("password");
                 try {
-                    LoginMenuController.createUser(username, nickname, password);
+                    User newUser = LoginMenuController.createUser(username, nickname, password);
+                    ChatController.addUserToPublicChat(newUser);
                     this.sendCommandResponse(CommandResponse.OK);
                 } catch (CommandException e) {
                     this.sendCommandResponse(e.getResponse());

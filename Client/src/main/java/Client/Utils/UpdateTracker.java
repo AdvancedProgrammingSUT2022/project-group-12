@@ -1,10 +1,6 @@
 package Client.Utils;
 
-import Client.Views.ChatSelectView;
-import Client.Views.ChatView;
-import Client.Views.GameView;
-import Client.Views.MenuStack;
-import Client.Views.ScoreboardView;
+import Client.Views.*;
 import Project.Models.Location;
 import Project.Utils.*;
 import com.google.gson.Gson;
@@ -69,6 +65,10 @@ public class UpdateTracker implements Runnable {
             } else if(request.getRequestType() == RequestType.UPDATE_YEAR){
                 if(MenuStack.getInstance().getTopMenu().getController() instanceof GameView gameView) {
                     Platform.runLater(() -> gameView.reloadDate(request.getParameter("currentDate")));
+                }
+            } else if(request.getRequestType() == RequestType.UPDATE_PUBLIC_CHAT){
+                if(MenuStack.getInstance().getTopMenu().getController() instanceof PublicChatView publicChatView) {
+                    Platform.runLater(() -> publicChatView.updateChat(request.getRequestChat()));
                 }
             }
         }
