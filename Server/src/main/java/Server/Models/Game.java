@@ -33,7 +33,7 @@ public class Game {
     private final ArrayList<User> users;
     private int gameTurn = -1;
 
-    public Game(ArrayList<User> users, int height, int width) {
+    public Game(ArrayList<User> users,int height,int width) {
         this.token = TokenGenerator.generate(Constants.TOKEN_LENGTH);
         this.users = users;
         this.civilizations = new ArrayList<>();
@@ -94,12 +94,12 @@ public class Game {
     }
 
     public Civilization getCivOfUser(User user) {
-        return this.civilizations.get(this.users.indexOf(user));
+        int index = this.users.indexOf(user);
+        return index == -1 ? null : this.civilizations.get(index);
     }
 
-    public void bindUserCivUpdatesTo(User user, UpdateNotifier updateNotifier) {
-        Civilization civ = this.getCivOfUser(user);
-        for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
+    public void bindTileUpdatesTo(User user, UpdateNotifier updateNotifier, boolean isShow) {
+        for (Tile tile : (isShow ? getTileGrid() : this.getCivOfUser(user).getRevealedTileGrid()).getTilesFlatten()) {
             tile.initializeNotifier();
             tile.addObserver(updateNotifier);
         }
@@ -137,7 +137,7 @@ public class Game {
         updateRevealedTileGrid(civ);
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
-                checkForMultipleMoves(unit, response);
+                checkForMultipleMoves(unit,response);
                 // please don't erase this!
 //                checkForMovementCost(unit);
             }
@@ -285,7 +285,7 @@ public class Game {
                 // we should guarantee emptiness of the tile at the last turn
                 throw new RuntimeException(e);
             }
-        } else if (production instanceof Building building) {
+        } else if(production instanceof Building building){
             city.getBuildings().add(building);
         }
     }

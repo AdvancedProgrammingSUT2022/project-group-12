@@ -17,6 +17,7 @@ public class MainMenu extends Menu {
         switch (command.getType()) {
             case "play game" -> this.playGame(command);
             case "enter game" -> this.enterGame(command);
+            case "show game" -> this.showGame(command);
             case "logout" -> this.logout();
             case "goto profile menu" -> this.menuStack.gotoProfileMenu();
             case "show current menu" -> answer(this.getName());
@@ -25,13 +26,27 @@ public class MainMenu extends Menu {
         }
     }
 
+    private void showGame(Command command) {
+        try {
+            command.abbreviate("token",'t');
+            String gameToken = command.getOption("token");
+            Game game = Database.getInstance().getGameByToken(gameToken);
+            MainMenuController.bindUpdateNotifier(game, this.menuStack, true);
+            this.enterNewGameMenu(game.getToken());
+            answer("entered the show");
+        } catch (CommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void logout() {
         MainMenuController.logout(this.menuStack);
     }
 
-    private void gotoNewGameMenu() {
-        this.menuStack.pushMenu(new GameMenu());
-
+    private void enterNewGameMenu(String gameToken) {
+        Game game = Database.getInstance().getGameByToken(gameToken);
+        this.menuStack.setCurrentGame(game);
+        this.menuStack.pushMenu(new GameMenu(game));
     }
 
     private void enterGame(Command command) {
@@ -39,9 +54,8 @@ public class MainMenu extends Menu {
             command.abbreviate("token",'t');
             String gameToken = command.getOption("token");
             Game game = Database.getInstance().getGameByToken(gameToken);
-            MainMenuController.enterNewGame(game);
-            MainMenuController.bindUpdateNotifier(game, this.menuStack);
-            this.gotoNewGameMenu();
+            MainMenuController.bindUpdateNotifier(game, this.menuStack, false);
+            this.enterNewGameMenu(game.getToken());
             answer("entered the game");
         } catch (CommandException e) {
             throw new RuntimeException(e);
@@ -79,12 +93,12 @@ public class MainMenu extends Menu {
         }
         try {
             Game game = MainMenuController.startNewGame(usernames,width,height,this.menuStack.getUser());
-            MainMenuController.bindUpdateNotifier(game, this.menuStack);
+            MainMenuController.bindUpdateNotifier(game, this.menuStack, false);
+            this.enterNewGameMenu(game.getToken());
         } catch (CommandException e) {
             answer(e);
             return;
         }
-        this.gotoNewGameMenu();
         answer("new game started");
     }
 

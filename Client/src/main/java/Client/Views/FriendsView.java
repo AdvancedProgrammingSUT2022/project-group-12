@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -48,9 +49,9 @@ public class FriendsView implements ViewController {
         requestsBox.getChildren().removeAll(requestsBox.getChildren());
         selectedUser = DatabaseQuerier.getUser(selectedUser.getUsername());
         for (String name : selectedUser.getWaitingOnFriendRequest()) {
-            Text username = new Text(name);
-            requestsBox.getChildren().add(username);
+            requestsBox.getChildren().add(createFriendBox(DatabaseQuerier.getUser(name)));
         }
+        requestsBox.setSpacing(10);
     }
 
     private void startTyping(ActionEvent event) {
@@ -67,8 +68,7 @@ public class FriendsView implements ViewController {
 
     private void initUserBox() {
         for (String username : selectedUser.getFriends()) {
-            Text friend = new Text(username);
-            friendsBox.getChildren().add(friend);
+            friendsBox.getChildren().add(createFriendBox(DatabaseQuerier.getUser(username)));
         }
     }
 
@@ -77,13 +77,29 @@ public class FriendsView implements ViewController {
             MenuItem item = new MenuItem(request);
             item.setOnAction(event -> {
                 selectedItem = item;
-                friendAcceptBox.getChildren().add(new Text(request));
+                friendAcceptBox.getChildren().add(createFriendBox(DatabaseQuerier.getUser(request)));
                 friendAcceptBox.getChildren().add(acceptBtn(request));
                 friendAcceptBox.getChildren().add(denialBtn(request));
                 friendAcceptBox.setSpacing(10);
             });
             receivedFriendRequests.getItems().add(item);
         }
+    }
+
+    private HBox createFriendBox(User user) {
+        HBox hBox = new HBox();
+        ImageView avatar = new ImageView(AvatarView.getAvatarImage(user.getAvatarURL()));
+        avatar.setFitHeight(15);
+        avatar.setFitWidth(15);
+        avatar.setOnMouseClicked(mouseEvent -> DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
+                user.getUsername()));
+        hBox.getChildren().add(avatar);
+        Text username = new Text(user.getUsername());
+        hBox.getChildren().add(username);
+        hBox.setSpacing(10);
+        hBox.setOnMouseEntered(mouseEvent -> hBox.setCursor(Cursor.HAND));
+        hBox.setOnMouseClicked(mouseEvent -> new UserDialog(user).showAndWait());
+        return hBox;
     }
 
     private Button acceptBtn(String username) {

@@ -19,7 +19,6 @@ import Server.Models.Civilization;
 import Server.Models.Database;
 import Server.Utils.UpdateNotifier;
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,6 +28,7 @@ public class MenuStack {
     private final MainMenu mainMenu = new MainMenu();
     private final ProfileMenu profileMenu = new ProfileMenu();
     private final User user;
+    private Game currentGame;
     private Scanner scanner;
     private HashMap<String, String> responseParameters = new HashMap<>();
     private UpdateNotifier updateNotifier = null;
@@ -115,7 +115,7 @@ public class MenuStack {
     }
 
     public String databaseQuery(DatabaseQueryType query, String[] params) {
-
+        GameController.setGame(this.currentGame);
         Gson gson = new Gson();
         // todo: get civ token instead of current
         return switch (query) {
@@ -200,7 +200,10 @@ public class MenuStack {
             case GET_RESEARCHING_TECHNOLOGY ->
                     gson.toJson(GameController.getGame().getCurrentCivilization().getResearchingTechnology());
             case GET_CURRENTCIV_NAME -> gson.toJson(GameController.getGame().getCurrentCivilization().getName());
-            case GET_TILE_GRID_OF -> gson.toJson(GameController.getGame().getCivOfUser(Database.getInstance().getUserByToken(params[0])).getRevealedTileGrid());
+            case GET_TILE_GRID_OF -> {
+                Civilization civOfUser = GameController.getGame().getCivOfUser(Database.getInstance().getUserByToken(params[0]));
+                yield gson.toJson((civOfUser == null) ? GameController.getGame().getTileGrid() : civOfUser.getRevealedTileGrid());
+            }
             case GET_CIV_INITIAL_LOCATION ->
                     gson.toJson(GameController.getGame().getCivOfUser(Database.getInstance().getUserByToken(params[0])).getInitialLocation());
             case GET_SELECTED_CITY_PRODUCTION_QUEUE -> gson.toJson(GameMenu.getSelectedCity().getProductionQueue());
@@ -231,6 +234,8 @@ public class MenuStack {
                 ChatController.updateChat(gson.fromJson(params[0],Chat.class));
                 yield null;
             }
+            case GET_RUNNING_GAMES_NAMES -> gson.toJson(Database.getInstance().getGamesTokens());
+            case GET_ORIGINAL_TILE_GRID -> gson.toJson(GameController.getGame().getTileGrid());
             case GET_CIVS_SCORES -> {
                yield gson.toJson(GameController.getGame().getCivNamesAndScore());
             }
@@ -252,5 +257,9 @@ public class MenuStack {
 
     public void setUpdateNotifier(UpdateNotifier updateNotifier) {
         this.updateNotifier = updateNotifier;
+    }
+
+    public void setCurrentGame(Game currentGame) {
+        this.currentGame = currentGame;
     }
 }

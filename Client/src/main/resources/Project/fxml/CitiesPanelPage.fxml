@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            stylesheets="@../css/CheatSheet.css"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Client.Views.CitiesPanelView"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <ScrollPane layoutX="69.0" layoutY="63.0" prefHeight="309.0" prefWidth="217.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <VBox fx:id="availableCities" layoutX="50.0" prefHeight="200.0" prefWidth="100.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <Text fx:id="selectedCity" layoutX="436.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Unit" />
+        <Button layoutX="421.0" layoutY="113.0" mnemonicParsing="false" onAction="#gotoCityPage" text="Goto Unit Page"/>
+    </children>
+
+</AnchorPane>

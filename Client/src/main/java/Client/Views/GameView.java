@@ -23,6 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameView implements ViewController {
+    private static GameView instance;
+    public MenuItem goldCount;
+    public MenuItem happinessCount;
+    public MenuItem beakerCount;
+    @FXML
+    public Pane hexPaneCover;
     @FXML
     private Text turnNumbers;
     @FXML
@@ -31,7 +37,6 @@ public class GameView implements ViewController {
     private Pane mainPane;
     @FXML
     private Pane coverPane;
-
     @FXML
     private ImageView happinessImg;
     @FXML
@@ -62,7 +67,15 @@ public class GameView implements ViewController {
     private TileGrid tileGrid;
     private HexGrid hexGrid;
     private ArrayList<TechnologyEnum> technologies;
-    private static GameView instance;
+    private static boolean isShow = false;
+
+    public static void setShow(boolean isShow) {
+        GameView.isShow = isShow;
+    }
+
+    public static ArrayList<TechnologyEnum> getTechnologies() {
+        return instance.technologies;
+    }
 
     public void initialize() {
         turnNumbers.setText("Current Year : " + DatabaseQuerier.getCurrentYear());
@@ -77,8 +90,14 @@ public class GameView implements ViewController {
         this.hexGrid = new HexGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
         instance = this;
         initializeGameMap();
-        if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
+        if (isShow) {
+            instance.hexPaneCover.setVisible(true);
+            instance.menuBar.setVisible(false);
             changeCoverVisibility(false);
+        } else {
+            if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
+                changeCoverVisibility(false);
+            }
         }
     }
 
@@ -99,8 +118,15 @@ public class GameView implements ViewController {
         reloadTechnologies();
         reloadHexGrid();
 
-        Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
-        this.setFocusOnLocation(cameraLocation);
+        if (!isShow) {
+            Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
+            this.setFocusOnLocation(cameraLocation);
+        }
+        scrollPane.setOnKeyPressed(keyEvent -> {
+            System.out.println(keyEvent.getCode().getName());
+            if (keyEvent.getCode().getName().equals("C"))
+                gotoCheatSheetPanel();
+        });
     }
 
     public void setFocusOnLocation(Location location) {
@@ -109,8 +135,7 @@ public class GameView implements ViewController {
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
     }
 
-    public void reloadTileGridFromServer() {
-        TileGrid newTileGrid = DatabaseQuerier.getTileGridByToken(MenuStack.getInstance().getCookies().getLoginToken());
+    public void copyTileGridFrom(TileGrid newTileGrid) {
         for (int i = 0; i < newTileGrid.getHeight(); i++) {
             for (int j = 0; j < newTileGrid.getWidth(); j++) {
                 this.tileGrid.getTile(i, j).copyPropertiesFrom(newTileGrid.getTile(i, j));
@@ -148,7 +173,8 @@ public class GameView implements ViewController {
     }
 
     public static void reloadHexGrid() {
-        instance.reloadTileGridFromServer();
+        TileGrid newTileGrid = DatabaseQuerier.getTileGridByToken(MenuStack.getInstance().getCookies().getLoginToken());
+        instance.copyTileGridFrom(newTileGrid);
     }
 
     public static void reloadTechnologies() {
@@ -189,8 +215,21 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GameSettingPage"));
     }
 
-    public static ArrayList<TechnologyEnum> getTechnologies() {
-        return instance.technologies;
+    public void gotoUnitsPanel() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitsPanelPage"));
+    }
+
+    public void gotoCitiesPanel() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CitiesPanelPage"));
+    }
+
+    public void calculateHappiness() {
+        happinessCount.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
+    }
+
+    public void calculateBeaker() {
+        beakerCount.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
+
     }
 
     public void endGame(HashMap<String,Integer> civsScore){
@@ -200,4 +239,7 @@ public class GameView implements ViewController {
         backToMenu();
     }
 
+    public void calculateGold() {
+        goldCount.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
+    }
 }
