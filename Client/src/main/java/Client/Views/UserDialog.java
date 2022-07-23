@@ -47,6 +47,6 @@ public class UserDialog extends Dialog<String> {
         vBox.getChildren().add(hBox);
         vBox.getChildren().add(score);
         this.getDialogPane().setContent(vBox);
-        this.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        this.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
     }
 }
