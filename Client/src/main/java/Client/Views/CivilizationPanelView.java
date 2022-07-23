@@ -45,7 +45,7 @@ public class CivilizationPanelView implements ViewController {
         beaker.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
         //todo : cities
-        cityCount.setText(String.valueOf(DatabaseQuerier.getCurrentCivCitiesNames().size()));
+        cityCount.setText(String.valueOf(DatabaseQuerier.getCurrentCivCities().size()));
         food.setText(String.valueOf(DatabaseQuerier.getFoodOfCurrentCiv()));
     }
 

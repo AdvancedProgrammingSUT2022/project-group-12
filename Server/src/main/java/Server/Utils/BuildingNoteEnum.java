@@ -18,7 +18,7 @@ public enum BuildingNoteEnum {
     MONUMENT((BuildingNotes<City>) city -> {
     }),
     WALLS((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 5.0f)),
-    WATER_MILLS((BuildingNotes<City>) city -> {
+    WATER_MILL((BuildingNotes<City>) city -> {
         if (GameController.getGameTile(city.getLocation()).hasRiver()) {
             city.setFoodFromBuildings(city.getFoodFromBuildings() + 2);
         }
@@ -29,7 +29,7 @@ public enum BuildingNoteEnum {
     CIRCUS((BuildingNotes<City>) city -> {System.out.println("hello note " + city); city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 3.0);
         }),
     COLOSSEUM((BuildingNotes<City>) city -> city.setHappinessFromBuildings(city.getHappinessFromBuildings() + 4.0)),
-    COURTHOUSE((BuildingNotes<City>) city -> {
+    COURT_HOUSE((BuildingNotes<City>) city -> {
 
     }),
     STABLE((BuildingNotes<City>) city -> { // todo: fix
@@ -41,7 +41,7 @@ public enum BuildingNoteEnum {
     TEMPLE((BuildingNotes<City>) city -> {
     }),
     CASTLE((BuildingNotes<City>) city -> city.setCombatStrengthFromBuildings(city.getCombatStrengthFromBuildings() + 7.5)),
-    FORGE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + (city.getProductionFromBuildings() * 15.0 / 100.0))),
+    FORAGE((BuildingNotes<City>) city -> city.setProductionFromBuildings(city.getProductionFromBuildings() + (city.getProductionFromBuildings() * 15.0 / 100.0))),
     GARDEN(o -> {
     }),
     MARKET((BuildingNotes<City>) city -> city.setGoldRatioFromBuildings(city.getGoldRatioFromBuildings() + city.getGoldRatioFromBuildings() / 4)),

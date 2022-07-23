@@ -3,8 +3,8 @@ package Client.Utils;
 import Project.Enums.BuildingEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
-import Project.Models.Cities.City;
 import Project.Models.*;
+import Project.Models.Cities.City;
 import Project.Models.Notifications.Notification;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
@@ -160,9 +160,9 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, typeToken.getType());
     }
 
-    public static ArrayList<String> getCurrentCivCitiesNames() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES_NAMES);
-        TypeToken<ArrayList<String>> typeToken = new TypeToken<>() {
+    public static ArrayList<City> getCurrentCivCities() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENTCIV_CITIES);
+        TypeToken<ArrayList<City>> typeToken = new TypeToken<>() {
         };
         return new Gson().fromJson(json, typeToken.getType());
     }

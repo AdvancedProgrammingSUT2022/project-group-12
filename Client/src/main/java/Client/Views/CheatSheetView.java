@@ -2,6 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
+import Client.Utils.SelectHandler;
 import Project.Enums.BuildingEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.Cities.City;
@@ -131,8 +132,8 @@ public class CheatSheetView implements ViewController {
     }
 
     private void initCityMenus() {
-        //todo : get Current Civilizations Cities;
-        for (String name : DatabaseQuerier.getCurrentCivCitiesNames()) {
+        for (City city : DatabaseQuerier.getCurrentCivCities()) {
+            String name = city.getName();
             MenuItem foodItem = new MenuItem(name);
             MenuItem productionIncreaseItem = new MenuItem(name);
             MenuItem productionFinishingItem = new MenuItem(name);
@@ -140,23 +141,20 @@ public class CheatSheetView implements ViewController {
             MenuItem buildingCity = new MenuItem(name);
             foodItem.setOnAction(actionEvent -> {
                 foodForCityName = name;
-                // todo fix
-//                SelectHandler.sendSelectCityRequestByName(name);
+                SelectHandler.sendSelectCityRequest(city);
                 foodForCitySelect.setText(name);
             });
             foodForCitySelect.getItems().add(foodItem);
             finishProductionCity.getItems().add(productionFinishingItem);
             cityHealItem.setOnAction(actionEvent -> {
                 healingCityName = name;
-                // todo fix
-//                SelectHandler.sendSelectCityRequestByName(name);
+                SelectHandler.sendSelectCityRequest(city);
                 cityHealing.setText(name);
             });
             cityHealing.getItems().add(cityHealItem);
             buildingCity.setOnAction(actionEvent -> {
                 cityForBuildingName = name;
-                // todo fix
-//                SelectHandler.sendSelectCityRequestByName(name);
+                SelectHandler.sendSelectCityRequest(city);
                 cityForBuildingsMenu.setText(name);
             });
             cityForBuildingsMenu.getItems().add(buildingCity);
@@ -499,7 +497,6 @@ public class CheatSheetView implements ViewController {
                 MenuStack.getInstance().showError("No building is selected");
                 return;
         }
-
         String command = "cheat build -n " + buildingEnum.name();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if ( !response.isOK()) {

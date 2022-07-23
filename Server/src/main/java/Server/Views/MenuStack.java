@@ -185,8 +185,8 @@ public class MenuStack {
                     gson.toJson(GameController.getGame().getCivByName(params[0]).getResources());
             case GET_CURRENTCIV_NOTIFICATIONS ->
                     gson.toJson(GameController.getGame().getCurrentCivilization().getNotifications());
-            case GET_CURRENTCIV_CITIES_NAMES ->
-                    gson.toJson(GameController.getGame().getCurrentCivilization().getCities().stream().map(city -> city.getName()).collect(Collectors.toList()));
+            case GET_CURRENTCIV_CITIES ->
+                    gson.toJson(GameController.getGame().getCurrentCivilization().getCities());
             case GET_CURRENTCIV_CITIES_LOCATION_BY_NAME ->
                     gson.toJson(GameController.getGame().getCurrentCivilization().getCityByName(params[0]).getLocation());
             case GET_SELECTED_UNIT -> gson.toJson(GameMenu.getSelectedUnit());
