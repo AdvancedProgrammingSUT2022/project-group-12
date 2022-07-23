@@ -8,8 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class EndGameDialog extends Dialog<String> {
 
@@ -24,14 +23,27 @@ public class EndGameDialog extends Dialog<String> {
         vBox.setSpacing(10);
         vBox.setAlignment(Pos.CENTER);
         vBox.setAlignment(Pos.CENTER);
+        ArrayList<Map.Entry<String,Integer>> sorted = new ArrayList<>(civsScore.entrySet());
+        Collections.sort(sorted,getEntryComparator());
         borderPane.setCenter(vBox);
-        for (Map.Entry<String, Integer> entry:
-                civsScore.entrySet()) {
-            HBox hBox = new HBox(new Text(entry.getKey() + " ------- " + entry.getValue())); hBox.setAlignment(Pos.CENTER);
+        for (int i = sorted.size() - 1; i >= 0 ; i--) {
+            HBox hBox = new HBox(new Text(sorted.get(i).getKey() + " ------- " + sorted.get(i).getValue())); hBox.setAlignment(Pos.CENTER);
             vBox.getChildren().add(hBox);
         }
-        vBox.getChildren().add(new Text("The Winner is " + civsScore.keySet().stream().findFirst().get()));
+        vBox.getChildren().add(new Text("The Winner is " + sorted.get(sorted.size() - 1)));
         this.getDialogPane().setContent(borderPane);
         this.getDialogPane().getButtonTypes().add(ButtonType.OK);
+    }
+
+    private Comparator<Map.Entry<String, Integer>> getEntryComparator() {
+        return new Comparator<Map.Entry<String, Integer>>() {
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                if (o1.getValue() > o2.getValue()) {
+                    return 1;
+                }
+                return -1;
+            }
+        };
     }
 }

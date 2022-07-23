@@ -163,13 +163,13 @@ public class Game {
         civ.setGold(civ.calculateCivilizationGold());
         System.out.println(isCurrentCivDefeatOthers());
         System.out.println(new Date());
-//        if (isCurrentCivDefeatOthers()) {
-//            updateCivsScore();
-//            setWinDateForWinnerCiv(this.getCurrentCivilization());
-//            endGameNotifyUsers();
-//            removeGameFromDataBase();
-//            throw new CommandException(CommandResponse.END_OF_GAME);
-//        }
+        if (isCurrentCivDefeatOthers()) {
+            updateCivsScore();
+            setWinDateForWinnerCiv(this.getCurrentCivilization());
+            endGameNotifyUsers();
+            removeGameFromDataBase();
+            throw new CommandException(CommandResponse.END_OF_GAME);
+        }
         System.out.println("game turn divide civilization size " + (this.gameTurn / civilizations.size()) );
         if ((this.gameTurn / civilizations.size()) > Constants.GAME_LENGTH) {
             Civilization winnerCivilization = this.civilizations.get(0);
@@ -219,7 +219,7 @@ public class Game {
             civsScores.put(civ.getName(), civ.calculateSuccess());
         }
         for (MenuStack menuStack :
-                this.users.stream().filter(e -> !e.equals(getCurrentCivilization().getUser())).map(e -> MenuStackManager.getInstance().getMenuStackOfUser(e)).toList()) {
+                this.users.stream().map(e -> MenuStackManager.getInstance().getMenuStackOfUser(e)).toList()) {
             menuStack.getUpdateNotifier().sendEndGameMessage(civsScores);
         }
     }
@@ -395,21 +395,25 @@ public class Game {
         return token;
     }
 
-    public ArrayList<Civilization> getCivilizationsSortedByScore() {
-        Collections.sort(this.civilizations, (o1, o2) -> {
-            if (o1.calculateSuccess() > o2.calculateSuccess()) {
-                return -1;
-            }
-            return 1;
-        });
-        return this.civilizations;
+    public ArrayList<Civilization>  getCivilizationsSortedByScore() {
+     Collections.sort(this.civilizations , new Comparator<Civilization>() {
+           @Override
+           public int compare(Civilization o1, Civilization o2) {
+               if(o1.calculateSuccess() > o2.calculateSuccess()) {
+                   return 1;
+               } else {
+                   return -1;
+               }
+           }
+       });
+     return this.civilizations;
     }
 
     public HashMap<String, Integer> getCivNamesAndScore() {
         HashMap<String, Integer> civsScore = new HashMap<>();
-        for (Civilization civ :
-                this.getCivilizationsSortedByScore()) {
-            civsScore.put(civ.getName(), civ.calculateSuccess());
+        ArrayList<Civilization> civilizationsSortedByScore = this.getCivilizationsSortedByScore();
+        for (int i = civilizationsSortedByScore.size() - 1; i >= 0 ; i--) {
+            civsScore.put(civilizationsSortedByScore.get(i).getName(), civilizationsSortedByScore.get(i).calculateSuccess());
         }
         return civsScore;
     }

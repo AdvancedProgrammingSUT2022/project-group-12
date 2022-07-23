@@ -19,8 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class GameView implements ViewController {
     private static GameView instance;
@@ -163,21 +162,20 @@ public class GameView implements ViewController {
     public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
+        if(response == null) {
+            System.out.println("response is null be care full");
+            return;
+        }
         if (!response.isOK()) {
-            if(response == CommandResponse.END_OF_GAME){
-                System.out.println("hello");
-                HashMap<String,Integer> civsScore = new HashMap<>(DatabaseQuerier.getCivsByName());
-                EndGameDialog dialog = new EndGameDialog(civsScore);
-                dialog.showAndWait();
-                backToMenu();
-                return;
-            }
+            if(response == CommandResponse.END_OF_GAME) return;
             MenuStack.getInstance().showError(response.toString());
         } else {
             changeCoverVisibility(true);
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
     }
+
+
 
     public static void updateTile(Location location, Tile newTile) {
         if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);

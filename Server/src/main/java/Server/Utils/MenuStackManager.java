@@ -44,4 +44,12 @@ public class MenuStackManager {
     public void removeMenuStackOf(User user) {
         this.menuStacksMap.remove(user);
     }
+
+    public HashMap<User, MenuStack> getMenuStacksMap() {
+        return menuStacksMap;
+    }
+
+    public HashMap<String, User> getUserMap() {
+        return userMap;
+    }
 }
