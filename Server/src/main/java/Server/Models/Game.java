@@ -25,9 +25,9 @@ import Server.Utils.UpdateNotifier;
 import Server.Views.MenuStack;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {
+    private final String name;
     private final String token;
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
@@ -36,6 +36,7 @@ public class Game {
 
     public Game(ArrayList<User> users,int height,int width) {
         this.token = TokenGenerator.generate(Constants.TOKEN_LENGTH);
+        this.name = this.token;
         this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(height, width);

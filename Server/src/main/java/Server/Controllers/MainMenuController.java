@@ -1,5 +1,6 @@
 package Server.Controllers;
 
+import Project.Models.OpenGame;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.RequestType;
@@ -47,8 +48,18 @@ public class MainMenuController {
     public static void logout(MenuStack menuStack) {
         System.out.println("logout ran for " + menuStack.getUser().getUsername());
         Database.getInstance().invalidateTokenFor(menuStack.getUser());
+        Database.getInstance().removeFromAnyRoom(menuStack.getUser());
         MenuStackManager.getInstance().removeMenuStackOf(menuStack.getUser());
         MainMenuController.reloadClientScoreboards();
         menuStack.invalidate();
+    }
+
+    public static void reloadRoomForPlayers(OpenGame room) {
+
+    }
+
+    public static void leaveRoom(String loginToken, String roomToken) {
+        Database.getInstance().removeFromAnyRoom(Database.getInstance().getUserByToken(loginToken));
+        MainMenuController.reloadRoomForPlayers(Database.getInstance().getOpenGameByToken(roomToken));
     }
 }

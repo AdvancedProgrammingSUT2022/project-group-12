@@ -12,7 +12,7 @@
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Join an open game" />
         <MenuButton fx:id="openGamesList" mnemonicParsing="false" text="Open games">
         </MenuButton>
-      <Button fx:id="joinButton" mnemonicParsing="false" onAction="#startInvitedGame" text="Join Game" />
+      <Button fx:id="joinButton" mnemonicParsing="false" onAction="#joinGame" text="Join Game" />
     </VBox>
     <VBox alignment="CENTER" layoutX="405.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="See live game shows" />
@@ -31,7 +31,7 @@
       <children>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resume your games" />
          <MenuButton fx:id="myGamesList" mnemonicParsing="false" text="My games" />
-         <Button fx:id="resumeButton" mnemonicParsing="false" onAction="#showLiveGame" text="Go to the game" />
+         <Button fx:id="resumeButton" mnemonicParsing="false" onAction="#resumeGame" text="Go to the game" />
       </children>
    </VBox>
    <Text layoutX="242.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new game" />

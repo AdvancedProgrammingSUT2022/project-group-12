@@ -15,6 +15,7 @@ import Project.Utils.Pair;
 import Server.Controllers.ChatController;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
+import Server.Controllers.MainMenuController;
 import Server.Models.Civilization;
 import Server.Models.Database;
 import Server.Models.Game;
@@ -237,14 +238,26 @@ public class MenuStack {
             }
             case GET_RUNNING_GAMES_NAMES -> gson.toJson(Database.getInstance().getGamesTokens());
             case GET_ORIGINAL_TILE_GRID -> gson.toJson(GameController.getGame().getTileGrid());
-            case GET_CIVS_SCORES -> {
-               yield gson.toJson(GameController.getGame().getCivNamesAndScore());
-            }
+            case GET_CIVS_SCORES -> gson.toJson(GameController.getGame().getCivNamesAndScore());
             case GET_CURRENT_YEAR -> gson.toJson(GameController.getGame().getCurrentYear());
             case GET_PUBLIC_CHAT -> gson.toJson(Database.getInstance().getPublicChat());
             case SEND_PUBLIC_CHAT_UPDATE -> {
                 System.out.println("server recieved chat and get");
                 ChatController.updatePublicChat(gson.fromJson(params[0],Chat.class));
+                yield null;
+            }
+            case CREATE_GAME -> {
+                String adminToken = params[0];
+                String name = params[1];
+                int height = Integer.parseInt(params[2]);
+                int width = Integer.parseInt(params[3]);
+                int playerLimit = Integer.parseInt(params[4]);
+                String token = Database.getInstance().createOpenGame(adminToken, name, height, width, playerLimit);
+                yield gson.toJson(token);
+            }
+            case GET_OPENGAME_BY_TOKEN -> gson.toJson(Database.getInstance().getOpenGameByToken(params[0]));
+            case LEAVE_ROOM -> {
+                MainMenuController.leaveRoom(params[0], params[1]);
                 yield null;
             }
         };

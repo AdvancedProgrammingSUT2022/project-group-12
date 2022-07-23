@@ -362,6 +362,20 @@ public class DatabaseQuerier {
     public static void sendUpdatePublicChatRequest(Chat publicChat) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_PUBLIC_CHAT_UPDATE,new Gson().toJson(publicChat));
     }
+
+    public static String createGame(String loginToken, String name, int height, int width, int playerLimit) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.CREATE_GAME, loginToken, name, String.valueOf(height), String.valueOf(width), String.valueOf(playerLimit));
+        return CustomGson.getInstance().fromJson(json, new TypeToken<String>(){}.getType());
+    }
+
+    public static OpenGame getOpenGameByToken(String token) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_OPENGAME_BY_TOKEN, token);
+        return CustomGson.getInstance().fromJson(json, new TypeToken<OpenGame>(){}.getType());
+    }
+
+    public static void leaveFromRoom(String userToken, String roomToken) {
+        RequestSender.getInstance().databaseQuery(DatabaseQueryType.LEAVE_ROOM, userToken, roomToken);
+    }
 }
 
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {

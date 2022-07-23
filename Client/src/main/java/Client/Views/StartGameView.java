@@ -29,7 +29,7 @@ public class StartGameView implements ViewController {
     private SpinnerValueFactory<Integer> widthValueFactory;
     private SpinnerValueFactory<Integer> heightValueFactory;
     private SpinnerValueFactory<Integer> countValueFactory;
-    private String invitedGamesName = null;
+    private String openGamesNames = null;
     private String liveGamesName = null;
 
     public void initialize() {
@@ -44,7 +44,7 @@ public class StartGameView implements ViewController {
 //            System.out.println(gameName);
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
-                this.invitedGamesName = gameName;
+                this.openGamesNames = gameName;
                 openGamesList.setText(gameName);
             });
             openGamesList.getItems().add(menuItem);
@@ -65,15 +65,21 @@ public class StartGameView implements ViewController {
     }
 
     private void initializeSpinners() {
-        currentWidthSize = 10;
-        currentHeightSize = 10;
-        currentPlayerCount = 0;
+        currentWidthSize = 20;
+        currentHeightSize = 20;
+        currentPlayerCount = 2;
         widthValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
         widthValueFactory.setValue(currentWidthSize);
         heightValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(10, 999);
         heightValueFactory.setValue(currentHeightSize);
-        countValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Constants.GAME_MAX_PLAYERS);
+        countValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, Constants.GAME_MAX_PLAYERS);
         countValueFactory.setValue(currentPlayerCount);
+        countValueFactory.valueProperty().addListener((observableValue, integer, t1) -> {
+            currentHeightSize = observableValue.getValue() * 10;
+            currentWidthSize = observableValue.getValue() * 10;
+            widthValueFactory.setValue(currentWidthSize);
+            heightValueFactory.setValue(currentHeightSize);
+        });
         gridSizeWidth.setValueFactory(widthValueFactory);
         gridSizeWidth.valueProperty().addListener((observableValue, integer, t1) -> {
             currentWidthSize = gridSizeWidth.getValue();
@@ -95,29 +101,37 @@ public class StartGameView implements ViewController {
     }
 
     public void createNewGame() {
-//        StringBuilder command = new StringBuilder("start game -w " + currentWidthSize + " -h " + currentHeightSize + " ");
-//        for (int i = 0; i < selectedUsernames.size(); ++i) {
-//            command.append(" --player").append(i + 1).append(" ").append(selectedUsernames.get(i));
-//        }
-        StringBuilder command = new StringBuilder("start game -w " + currentWidthSize + " -h " + currentHeightSize + " ");
-        RequestSender.getInstance().sendCommand(command.toString());
-        RequestSender.getInstance().sendCommand("init");
+        String name = gameNameField.getText();
+        int height = heightValueFactory.getValue();
+        int width = widthValueFactory.getValue();
+        int playerLimit = countValueFactory.getValue();
+        String token = DatabaseQuerier.createGame(MenuStack.getInstance().getCookies().getLoginToken(), name, height, width, playerLimit);
+        this.gotoRoom(token);
+    }
+
+    private void gotoRoom(String token) {
+        MenuStack.getInstance().getCookies().setOpenRoom(DatabaseQuerier.getOpenGameByToken(token));
         GameView.setShow(false);
-        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GameRoomPage"));
     }
 
     public void backClick() {
         MenuStack.getInstance().popMenu();
     }
 
-    public void startInvitedGame() {
-        if (this.invitedGamesName == null) return;
-        StringBuilder command = new StringBuilder("enter game -t " + this.invitedGamesName);
+    public void joinGame() {
+        if (this.openGamesNames == null) return;
+//        StringBuilder command = new StringBuilder("enter game -t " + this.openGamesNames);
+        gotoRoom(openGamesNames);
+    }
+
+    public void resumeGame() {
+        if (this.resumeGamesName == null) return;
+        StringBuilder command = new StringBuilder("resume game -t " + this.openGamesNames);
         CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
         GameView.setShow(false);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
-
 
     public void showLiveGame() {
         if (this.liveGamesName == null) return;

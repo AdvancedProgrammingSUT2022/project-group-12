@@ -1,12 +1,14 @@
 package Server.Models;
 
 import Project.Models.Chat;
+import Project.Models.OpenGame;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
+import Project.Utils.NameAndToken;
 import Project.Utils.TokenGenerator;
 import Server.Controllers.GameController;
+import Server.Controllers.MainMenuController;
 import Server.Utils.CommandException;
-import Project.Utils.NameAndToken;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -29,6 +31,7 @@ public class Database {
     private final ArrayList<Chat> chats = new ArrayList<>();
     private final HashMap<String, User> token2userTable = new HashMap<>();
     private final HashMap<User, String> user2tokenTable = new HashMap<>();
+    private final HashMap<String, OpenGame> openGamesMap = new HashMap<>();
     private Chat publicChat;
 
     public Database() {
@@ -250,5 +253,24 @@ public class Database {
 
     public Chat getPublicChat() {
         return publicChat;
+    }
+
+    public String createOpenGame(String adminToken, String name, int height, int width, int playerLimit) {
+        OpenGame openGame = new OpenGame(name, Database.getInstance().getUserByToken(adminToken), height, width, playerLimit);
+        this.openGamesMap.put(openGame.getToken(), openGame);
+        return openGame.getToken();
+    }
+
+    public OpenGame getOpenGameByToken(String token) {
+        return openGamesMap.get(token);
+    }
+
+    public void removeFromAnyRoom(User user) {
+        for (OpenGame room : this.openGamesMap.values()) {
+            if (room.getPlayers().contains(user)) {
+                room.removePlayer(user);
+                MainMenuController.reloadRoomForPlayers(room);
+            }
+        }
     }
 }

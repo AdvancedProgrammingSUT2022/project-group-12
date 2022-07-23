@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.GameRoomView">
+   <children>
+      <VBox fx:id="playersList" layoutX="54.0" layoutY="110.0" prefHeight="200.0" prefWidth="149.0" />
+      <Text layoutX="33.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of Game:" />
+      <Text layoutX="287.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin of Game:" />
+      <Text fx:id="gameNameText" layoutX="150.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name" />
+      <Text fx:id="adminNameText" layoutX="414.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="admin" />
+      <Button fx:id="startButton" layoutX="356.0" layoutY="255.0" mnemonicParsing="false" onAction="#startGame" text="Start Game" />
+      <Button fx:id="chatButton" layoutX="356.0" layoutY="296.0" mnemonicParsing="false" onAction="#openChatRoom" text="Open Chat Room" />
+      <Text layoutX="54.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players:  limit =" />
+      <Text fx:id="limitText" layoutX="169.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="limit" />
+      <Button fx:id="leaveButton" layoutX="356.0" layoutY="335.0" mnemonicParsing="false" onAction="#leaveGame" text="Leave Game" />
+   </children>
+</AnchorPane>

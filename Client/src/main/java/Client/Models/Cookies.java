@@ -6,12 +6,9 @@ import Client.Views.MenuStack;
 import Client.Views.ViewController;
 import Project.Models.Chat;
 import Project.Models.Cities.City;
+import Project.Models.OpenGame;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
-import Project.Utils.NameAndToken;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Cookies {
     private String loginToken = null;
@@ -21,6 +18,7 @@ public class Cookies {
     private City selectedCity = null;
     private Chat currentChat;
     private Chat publicChat;
+    private OpenGame openRoom;
     private final SettingOptions settingOptions = new SettingOptions();
 
     public String getLoginToken() {
@@ -94,5 +92,13 @@ public class Cookies {
 
     public Chat getPublicChat() {
         return publicChat;
+    }
+
+    public OpenGame getOpenRoom() {
+        return openRoom;
+    }
+
+    public void setOpenRoom(OpenGame openRoom) {
+        this.openRoom = openRoom;
     }
 }
