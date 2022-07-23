@@ -17,6 +17,7 @@ import Project.Utils.Constants;
 import Project.Utils.TokenGenerator;
 import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
+import Server.Controllers.MainMenuController;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
 import Server.Utils.MenuStackManager;
@@ -24,7 +25,6 @@ import Server.Utils.UpdateNotifier;
 import Server.Views.MenuStack;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {
     private final String token;
@@ -162,29 +162,28 @@ public class Game {
         System.out.println(isCurrentCivDefeatOthers());
         System.out.println(new Date());
         if (isCurrentCivDefeatOthers()) {
-            updateCivsScore();
-            setWinDateForWinnerCiv(this.getCurrentCivilization());
-            endGameNotifyUsers();
-            removeGameFromDataBase();
-            throw new CommandException(CommandResponse.END_OF_GAME);
+            handleEndOfGame(getCurrentCivilization());
         }
         if (this.gameTurn / civilizations.size() > 25) {
             Civilization winnerCivilization = this.civilizations.get(0);
             updateCivsScore();
-            for (Civilization civ1 :
-                    civilizations) {
+            for (Civilization civ1 : civilizations) {
                 if (civ1.calculateSuccess() > winnerCivilization.calculateSuccess()) {
                     winnerCivilization = civ1;
                 }
             }
-            setWinDateForWinnerCiv(winnerCivilization);
-            this.endGameNotifyUsers();
-            endGameNotifyUsers();
-            removeGameFromDataBase();
-            throw new CommandException(CommandResponse.END_OF_GAME);
+            handleEndOfGame(winnerCivilization);
         }
         updateYear();
         return response.toString();
+    }
+
+    private void handleEndOfGame(Civilization winnerCiv) throws CommandException {
+        updateCivsScore();
+        setWinDateForWinnerCiv(winnerCiv);
+        endGameNotifyUsers();
+        removeGameFromDataBase();
+        throw new CommandException(CommandResponse.END_OF_GAME);
     }
 
     private void removeGameFromDataBase() {
@@ -193,6 +192,7 @@ public class Game {
 
     private void setWinDateForWinnerCiv(Civilization winnerCivilization) {
         winnerCivilization.getUser().setLastWinDate(new Date());
+        MainMenuController.reloadClientScoreboards();
     }
 
     private void updateCivsScore() {
