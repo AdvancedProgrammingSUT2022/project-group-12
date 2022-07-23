@@ -27,13 +27,8 @@ public class UpdateNotifier implements Observer<Tile> {
         this.sendRequest(request);
     }
 
-    public void sendAllowToPlay() {
-        Request request = new Request(RequestType.ALLOW_PLAY_TURN, null);
-        this.sendRequest(request);
-    }
-
-    public void sendReloadTileGrid() {
-        Request request = new Request(RequestType.RELOAD_TILEGRID, null);
+    public void sendSimpleRequest(RequestType requestType) {
+        Request request = new Request(requestType, null);
         this.sendRequest(request);
     }
 }

@@ -3,12 +3,14 @@ package Server.Utils;
 import Project.Models.User;
 import Project.Utils.*;
 import Server.Controllers.LoginMenuController;
+import Server.Controllers.MainMenuController;
 import Server.Models.Database;
 import Server.Views.MenuStack;
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 
 public class RequestHandler implements Runnable {
     private final Connection connection;
@@ -56,6 +58,8 @@ public class RequestHandler implements Runnable {
                     String token = Database.getInstance().receiveTokenFor(user);
                     this.connectedToken = token;
                     MenuStackManager.getInstance().addMenuStackFor(token, user);
+                    user.setLastLoginDate(new Date(System.currentTimeMillis()));
+                    MainMenuController.reloadClientScoreboards();
                     Response response = new Response(CommandResponse.OK);
                     response.addParameter("loginToken", token);
                     this.sendResponse(response);
@@ -113,7 +117,8 @@ public class RequestHandler implements Runnable {
             } catch (IOException e) {
                 System.out.println("a client socket disconnected");
                 if (this.connectedToken != null) {
-                    Database.getInstance().invalidateToken(this.connectedToken);
+                    MenuStack menuStack = MenuStackManager.getInstance().getMenuStackByToken(this.connectedToken);
+                    MainMenuController.logout(menuStack);
                 }
                 this.connection.closeSocket();
                 break;

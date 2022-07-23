@@ -26,8 +26,7 @@ public class MainMenu extends Menu {
     }
 
     private void logout() {
-        Database.getInstance().invalidateTokenFor(this.menuStack.getUser());
-        this.menuStack.invalidate();
+        MainMenuController.logout(this.menuStack);
     }
 
     private void gotoNewGameMenu() {

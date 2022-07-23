@@ -2,12 +2,10 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Project.Models.User;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -19,10 +17,19 @@ import java.util.ArrayList;
 public class ScoreboardView implements ViewController {
     @FXML
     private ScrollPane pane;
+    private static ScoreboardView instance = null;
+
+    public static void reload() {
+        if (instance != null) instance.loadItems();
+    }
 
     public void initialize() {
+        loadItems();
+        instance = this;
+    }
+
+    public void loadItems() {
         VBox vBox = new VBox();
-//        vBox.setSpacing(10);
         vBox.setLayoutY(100);
         ArrayList<User> users = DatabaseQuerier.getAllUsers();
         users.sort(User::comparator);
@@ -65,7 +72,10 @@ public class ScoreboardView implements ViewController {
             loginDate.setTextAlignment(TextAlignment.CENTER);
             loginDate.setWrappingWidth(150);
             hBox.getChildren().add(loginDate);
-
+            if (i >= 0) {
+                boolean online = DatabaseQuerier.getIsUsernameOnline(user.getUsername());
+                loginDate.setStyle("-fx-fill:" + (online ? "green" : "black"));
+            }
             double opacity = 0.5;
             if (i == -1 || user.getUsername().equals(MenuStack.getInstance().getUser().getUsername()))
                 opacity = 0.9;
@@ -77,8 +87,6 @@ public class ScoreboardView implements ViewController {
             hBox.setStyle("-fx-background-color: rgba(" + color + ", " + opacity + ");");
             vBox.getChildren().add(hBox);
         }
-//        usersBox.setStyle("-fx-background-color: transparent;");
-//        pane.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         pane.setContent(vBox);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }

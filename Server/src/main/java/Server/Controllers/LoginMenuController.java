@@ -29,11 +29,10 @@ public class LoginMenuController {
     }
 
     public static User loginUser(String username, String password) throws CommandException {
-        Database database = Database.getInstance();
         User user;
-        if (!database.checkForUsername(username)) {
+        if (!Database.getInstance().checkForUsername(username)) {
             throw new CommandException(CommandResponse.USER_DOES_NOT_EXISTS);
-        } else if (!(user = database.getUser(username)).passwordMatchCheck(password)) {
+        } else if (!(user = Database.getInstance().getUser(username)).passwordMatchCheck(password)) {
             throw new CommandException(CommandResponse.PASSWORD_DOES_NOT_MATCH);
         } else {
             return user;

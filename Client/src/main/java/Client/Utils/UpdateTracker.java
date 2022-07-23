@@ -2,6 +2,7 @@ package Client.Utils;
 
 import Client.Views.GameView;
 import Client.Views.MenuStack;
+import Client.Views.ScoreboardView;
 import Project.Models.Location;
 import Project.Utils.*;
 import javafx.application.Platform;
@@ -46,6 +47,9 @@ public class UpdateTracker implements Runnable {
                     GameView.reloadTechnologies();
                     GameView.reloadHexGrid();
                 });
+            } else if(request.getRequestType() == RequestType.RELOAD_SCOREBOARD){
+                System.out.println("score rel");
+                Platform.runLater(ScoreboardView::reload);
             }
         }
     }

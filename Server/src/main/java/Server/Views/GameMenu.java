@@ -10,6 +10,7 @@ import Project.Models.Units.Unit;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
+import Project.Utils.RequestType;
 import Server.Controllers.CheatCodeController;
 import Server.Controllers.CombatController;
 import Server.Controllers.GameController;
@@ -329,7 +330,7 @@ public class GameMenu extends Menu {
 
     private void cheatUnlockTechnologies() {
         CheatCodeController.getInstance().unlockTechnologies(GameController.getGame().getCurrentCivilization());
-        this.menuStack.getUpdateNotifier().sendReloadTileGrid();
+        this.menuStack.getUpdateNotifier().sendSimpleRequest(RequestType.RELOAD_TILEGRID);
         answer("all technologies unlocked for you");
     }
 
@@ -577,7 +578,7 @@ public class GameMenu extends Menu {
         this.startNewTurn();
         User currentUser = GameController.getGame().getCurrentCivilization().getUser();
         UpdateNotifier userUpdateNotifier = MenuStackManager.getInstance().getMenuStackOfUser(currentUser).getUpdateNotifier();
-        userUpdateNotifier.sendAllowToPlay();
+        userUpdateNotifier.sendSimpleRequest(RequestType.ALLOW_PLAY_TURN);
         answer(message);
     }
 

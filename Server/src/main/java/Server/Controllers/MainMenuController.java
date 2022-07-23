@@ -2,9 +2,11 @@ package Server.Controllers;
 
 import Project.Models.User;
 import Project.Utils.CommandResponse;
+import Project.Utils.RequestType;
 import Server.Models.Database;
 import Server.Models.Game;
 import Server.Utils.CommandException;
+import Server.Utils.MenuStackManager;
 import Server.Views.MenuStack;
 
 import java.util.ArrayList;
@@ -38,5 +40,18 @@ public class MainMenuController {
         } else {
             System.err.println("WARNING: no UpdateNotifier was bound by the client, updates will not be sent");
         }
+    }
+
+    public static void reloadClientScoreboards() {
+        for (var menuStack : MenuStackManager.getInstance().getAllMenuStacks()) {
+            if (menuStack.getUpdateNotifier() != null) menuStack.getUpdateNotifier().sendSimpleRequest(RequestType.RELOAD_SCOREBOARD);
+        }
+    }
+
+    public static void logout(MenuStack menuStack) {
+        System.out.println("logout ran for " + menuStack.getUser().getUsername());
+        Database.getInstance().invalidateTokenFor(menuStack.getUser());
+        MainMenuController.reloadClientScoreboards();
+        menuStack.invalidate();
     }
 }

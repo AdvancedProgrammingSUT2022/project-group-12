@@ -3,6 +3,7 @@ package Server.Utils;
 import Project.Models.User;
 import Server.Views.MenuStack;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class MenuStackManager {
@@ -34,5 +35,9 @@ public class MenuStackManager {
             this.userMap.remove(token);
             return null;
         }
+    }
+
+    public Collection<MenuStack> getAllMenuStacks() {
+        return this.menuStacksMap.values();
     }
 }

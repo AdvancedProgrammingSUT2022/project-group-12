@@ -18,8 +18,8 @@ public class User {
     private String nickname;
     private String password;
     private int score;
-    private Date lastWinDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
-    private Date lastLoginDate = new Date(new Random().nextLong(0, System.currentTimeMillis())); // todo: update
+    private Date lastWinDate = null;
+    private Date lastLoginDate = null;
     private transient Chat currentChat;
 
     public User(String username, String password, String nickname) {
@@ -171,6 +171,14 @@ public class User {
         return lastWinDate;
     }
 
+    public void setLastWinDate(Date lastWinDate) {
+        this.lastWinDate = lastWinDate;
+    }
+
+    public void setLastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -185,5 +193,7 @@ public class User {
                 ", currentChat=" + currentChat +
                 '}';
     }
+
+
 
 }
