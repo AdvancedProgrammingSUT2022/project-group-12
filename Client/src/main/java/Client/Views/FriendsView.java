@@ -36,7 +36,7 @@ public class FriendsView implements ViewController {
     private MenuItem selectedItem;
 
     public void initialize() {
-        selectedUser = MenuStack.getInstance().getUser();
+        selectedUser = DatabaseQuerier.getUser(MenuStack.getInstance().getUser().getUsername());
         users = DatabaseQuerier.getAllUsers();
         typeFriendNameField.setOnAction(this::startTyping);
         initUserSelect();
@@ -108,7 +108,7 @@ public class FriendsView implements ViewController {
         button.setOnMouseEntered(actionEvent -> button.setCursor(Cursor.HAND));
         button.setOnMouseClicked(actionEvent -> {
             DatabaseQuerier.acceptFriendRequest(selectedUser.getUsername(), username);
-            friendsBox.getChildren().add(new Text(username));
+            friendsBox.getChildren().add(createFriendBox(DatabaseQuerier.getUser(username)));
             receivedFriendRequests.getItems().remove(selectedItem);
             friendAcceptBox.getChildren().removeAll(friendAcceptBox.getChildren());
         });
