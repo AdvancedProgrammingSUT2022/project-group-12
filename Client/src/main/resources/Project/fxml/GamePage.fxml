@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css"
@@ -11,19 +10,15 @@
         <Pane fx:id="mainPane">
 
             <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
-                <Menu/>
+                <Menu text="Gold" onAction="#calculateGold">
+                    <MenuItem fx:id="goldCount"/>
+                </Menu>
+                <Menu text="Beaker" onAction="#calculateBeaker">
+                    <MenuItem fx:id="beakerCount"/>
+                </Menu>
+                <Menu text="Happiness" onAction="#calculateHappiness">
+                    <MenuItem fx:id="happinessCount"/>
+                </Menu>
                 <Menu mnemonicParsing="false" text="Panels">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#gotoTradePanel" text="Trade Panel"/>
@@ -31,6 +26,9 @@
                         <MenuItem onAction="#gotoCheatSheetPanel" text="CheatSheet Panel"/>
                         <MenuItem onAction="#gotoCivPanel" text="Civilization Panel"/>
                         <MenuItem mnemonicParsing="false" onAction="#gotoNotifications" text="Notifications"/>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoUnitsPanel" text="NextTurn"/>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoCitiesPanel" text="NextTurn"/>
+
                     </items>
                 </Menu>
                 <Menu onAction="#backToMenu" text="Back">
@@ -47,17 +45,6 @@
                         <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn"/>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Units Panel">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoUnitsPanel" text="NextTurn"/>
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Cities Panel">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoCitiesPanel" text="NextTurn"/>
-                    </items>
-                </Menu>
-
             </MenuBar>
             <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0"
                         style="-fx-background-color: transparent;">
@@ -66,9 +53,9 @@
             </ScrollPane>
             <Pane fx:id="selectionPane" visible="false"/>
         </Pane>
-        <BorderPane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5);" >
+        <BorderPane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
             <center>
-                <Text text = "please wait until your turn..." style="-fx-font-size:30; -fx-fill:white"/>
+                <Text text="please wait until your turn..." style="-fx-font-size:30; -fx-fill:white"/>
             </center>
         </BorderPane>
     </StackPane>

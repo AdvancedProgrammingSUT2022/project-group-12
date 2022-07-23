@@ -1,6 +1,5 @@
 package Client.Views;
 
-import Client.App;
 import Client.Models.Hex;
 import Client.Models.HexGrid;
 import Client.Utils.DatabaseQuerier;
@@ -11,21 +10,22 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
-import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
 public class GameView implements ViewController {
     private static GameView instance;
+    public MenuItem goldCount;
+    public MenuItem happinessCount;
+    public MenuItem beakerCount;
     @FXML
     private Rectangle myRect;
     @FXML
@@ -33,19 +33,7 @@ public class GameView implements ViewController {
     @FXML
     private Pane coverPane;
     @FXML
-    private ImageView happinessImg;
-    @FXML
-    private ImageView goldImg;
-    @FXML
-    private ImageView beakerImg;
-    @FXML
     private MenuItem nextTurn;
-    @FXML
-    private Text happiness;
-    @FXML
-    private Text gold;
-    @FXML
-    private Text beaker;
     @FXML
     private Pane selectionPane;
     @FXML
@@ -84,12 +72,6 @@ public class GameView implements ViewController {
     }
 
     public void initialize() {
-        gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
-        goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
-        happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
-        happinessImg.setImage(new Image(App.class.getResource("/images/emojis/happiness.png").toExternalForm()));
-        beaker.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
-        beakerImg.setImage(new Image(App.class.getResource("/images/emojis/beaker.png").toExternalForm()));
         Pair<Integer, Integer> tileGridSize = DatabaseQuerier.getTileGridSize();
         this.tileGrid = new TileGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
         this.hexGrid = new HexGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
@@ -115,6 +97,14 @@ public class GameView implements ViewController {
 
         Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
         this.setFocusOnLocation(cameraLocation);
+        scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                System.out.println(keyEvent.getCode().getName());
+                if (keyEvent.getCode().getName().equals("C"))
+                    gotoCheatSheetPanel();
+            }
+        });
     }
 
     public void setFocusOnLocation(Location location) {
@@ -148,7 +138,6 @@ public class GameView implements ViewController {
 
     public void exit() {
         System.exit(0);
-        // todo : check for thread
     }
 
     public void gotoReseachPanel() {
@@ -184,5 +173,18 @@ public class GameView implements ViewController {
 
     public void gotoCitiesPanel() {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CitiesPanelPage"));
+    }
+
+    public void calculateHappiness() {
+        happinessCount.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
+    }
+
+    public void calculateBeaker() {
+        beakerCount.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
+
+    }
+
+    public void calculateGold() {
+        goldCount.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
     }
 }
