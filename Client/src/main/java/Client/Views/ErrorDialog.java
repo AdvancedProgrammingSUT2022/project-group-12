@@ -13,7 +13,6 @@ public class ErrorDialog extends Dialog<String> {
     ErrorDialog(String message,String type){
         this.errorMessage = message;
         buildUI(type);
-
     }
 
     private void buildUI(String type) {

@@ -68,8 +68,7 @@ public class FriendsView implements ViewController {
 
     private void initUserBox() {
         for (String username : selectedUser.getFriends()) {
-            Text friend = new Text(username);
-            friendsBox.getChildren().add(friend);
+            friendsBox.getChildren().add(createFriendBox(DatabaseQuerier.getUser(username)));
         }
     }
 
@@ -98,6 +97,8 @@ public class FriendsView implements ViewController {
         Text username = new Text(user.getUsername());
         hBox.getChildren().add(username);
         hBox.setSpacing(10);
+        hBox.setOnMouseEntered(mouseEvent -> hBox.setCursor(Cursor.HAND));
+        hBox.setOnMouseClicked(mouseEvent -> new UserDialog(user).showAndWait());
         return hBox;
     }
 
