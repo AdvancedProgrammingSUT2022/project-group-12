@@ -14,6 +14,7 @@ public class ImageLoader {
     private static final HashMap<TerrainEnum,Image> terrainImages = new HashMap<>();
     private static final HashMap<TechnologyEnum, Image> researchImages = new HashMap<>();
     private static final HashMap<ImprovementEnum, Image> improvementImages = new HashMap<>();
+    private static final HashMap<FeatureEnum, Image> featureImages = new HashMap<>();
 
     static {
         for (TechnologyEnum technologyEnum:
@@ -22,7 +23,7 @@ public class ImageLoader {
         }
         for (TerrainEnum terrainEnum:
                 TerrainEnum.values()) {
-            if (!terrainEnum.name().equals("UNKNOWN")) {
+            if (!terrainEnum.name().equals("UNKNOWN")) {    
                 terrainImages.put(terrainEnum,new Image(App.class.getResource("/images/resources/" + terrainEnum.name().toLowerCase() + ".png").toExternalForm()));
             } else {
                 terrainImages.put(terrainEnum , new Image(App.class.getResource("/images/resources/fogOfWarIcon.png").toExternalForm()));
@@ -37,6 +38,9 @@ public class ImageLoader {
         }
         for (ImprovementEnum improvementEnum : ImprovementEnum.values()) {
             improvementImages.put(improvementEnum, new Image(App.class.getResource("/images/improvements/" + improvementEnum.name().toLowerCase() + ".png").toExternalForm()));
+        }
+        for (FeatureEnum featureEnum : FeatureEnum.values()) {
+            featureImages.put(featureEnum, new Image(App.class.getResource("/images/features/" + featureEnum.name().toLowerCase() + ".png").toExternalForm()));
         }
     }
 
@@ -58,5 +62,9 @@ public class ImageLoader {
 
     public static HashMap<ImprovementEnum, Image> getImprovementImages() {
         return improvementImages;
+    }
+
+    public static HashMap<FeatureEnum, Image> getFeatureImages() {
+        return featureImages;
     }
 }

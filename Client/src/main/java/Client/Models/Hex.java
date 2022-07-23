@@ -60,6 +60,7 @@ public class Hex implements Observer<Tile> {
     private final ImageView resourceImageView;
     private final ImageView ruinImageView;
     private final ImageView improvementImageView;
+    private final ImageView featureImageView;
 
     public Hex(int i, int j) {
         int multiply = Constants.HEX_SIZE_MULTIPLY;
@@ -111,6 +112,9 @@ public class Hex implements Observer<Tile> {
         this.improvementImageView = new ImageView();
         this.improvementImageView.setLayoutX(this.getCenterX() - improvementImageView.getBoundsInLocal().getWidth() / 2 - this.multiply * 7);
         this.improvementImageView.setLayoutY(this.getCenterY() + multiply);
+        this.featureImageView = new ImageView();
+        this.featureImageView.setLayoutX(this.getCenterX() - featureImageView.getBoundsInLocal().getWidth() / 2 + this.multiply * 3);
+        this.featureImageView.setLayoutY(this.getCenterY() + multiply);
         this.group.setEffect(this.groupColorAdjust);
     }
 
@@ -224,6 +228,7 @@ public class Hex implements Observer<Tile> {
         this.group.getChildren().add(this.polygon);
         ResourceEnum resource = tile.getVisibleResource(GameView.getTechnologies());
         if (resource != null) this.addResourceToGroup(resource);
+        if (!tile.getTerrain().getFeatures().isEmpty()) this.addFeatureToGroup(tile.getTerrain().getFeatures().get(0));
         if (!tile.getImprovements().isEmpty()) this.addImprovementToGroup(tile.getImprovements().get(0));
         if (tile.getCity() != null) this.addCityToGroup(city);
         if (nonCombatUnit != null) this.addUnitToGroup(nonCombatUnit);
@@ -244,6 +249,11 @@ public class Hex implements Observer<Tile> {
     private void addImprovementToGroup(ImprovementEnum improvement) {
         this.improvementImageView.setImage(ImageLoader.getImprovementImages().get(improvement));
         this.group.getChildren().add(this.improvementImageView);
+    }
+
+    private void addFeatureToGroup(FeatureEnum feature) {
+        this.featureImageView.setImage(ImageLoader.getFeatureImages().get(feature));
+        this.group.getChildren().add(this.featureImageView);
     }
 
     private void addCityToGroup(City city) {

@@ -126,7 +126,7 @@ public class Terrain {
 
     private void setFeatures(ArrayList<FeatureEnum> possibleTerrainFeatures) {
         if (possibleTerrainFeatures.isEmpty()) return;
-        int chooseRandom = new Random().nextInt(possibleTerrainFeatures.size());
+        int chooseRandom = new Random().nextInt(2);
         for (int i = 0; i < chooseRandom; i++) {
             FeatureEnum feature = possibleTerrainFeatures.get(new Random().nextInt(possibleTerrainFeatures.size()));
             while (this.features.contains(feature)) {
