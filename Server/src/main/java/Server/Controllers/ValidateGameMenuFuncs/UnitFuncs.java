@@ -41,7 +41,7 @@ public class UnitFuncs {
     public void unitMoveTo(Unit unit, Location location) throws CommandException {
         Civilization currentCivilization = GameController.getGame().getCurrentCivilization();
         Location currentGridLocation = currentCivilization.getCurrentGridLocation();
-        Tile currentTile = currentCivilization.getRevealedTileGrid().getTile(currentGridLocation);
+        Tile currentTile = GameController.getGameTile(currentGridLocation);
         validateTileForMovingUnit(location, unit);
         MovingController.moveUnit(location, currentTile, unit);
 

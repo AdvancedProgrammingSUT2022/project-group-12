@@ -69,7 +69,7 @@ public class Tile implements Notifier<Tile> {
     }
 
     public void initializeNotifier() {
-        this.notifierUtil = new NotifierUtil<>(this);
+        if (notifierUtil == null) this.notifierUtil = new NotifierUtil<>(this);
     }
 
     @Override
