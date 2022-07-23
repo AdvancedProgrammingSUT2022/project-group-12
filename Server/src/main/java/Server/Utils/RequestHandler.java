@@ -99,6 +99,7 @@ public class RequestHandler implements Runnable {
                 }
                 System.err.println("command ran without answer!");
                 this.sendCommandResponse(commandResponse);
+                menuStack.getUpdateNotifier().sendSimpleRequest(RequestType.RELOAD_TILEGRID);
             }
             case QUERY_DATABASE -> {
                 MenuStack menuStack = MenuStackManager.getInstance().getMenuStackByToken(request.getToken());

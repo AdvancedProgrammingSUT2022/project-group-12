@@ -19,7 +19,10 @@ import Server.Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Server.Models.Civilization;
 import Server.Models.Game;
-import Server.Utils.*;
+import Server.Utils.Command;
+import Server.Utils.CommandException;
+import Server.Utils.GameException;
+import Server.Utils.MenuStackManager;
 
 import java.util.List;
 
@@ -581,8 +584,9 @@ public class GameMenu extends Menu {
         System.out.println("------------------------------");
         this.startNewTurn();
         User currentUser = GameController.getGame().getCurrentCivilization().getUser();
-        UpdateNotifier userUpdateNotifier = MenuStackManager.getInstance().getMenuStackOfUser(currentUser).getUpdateNotifier();
-        userUpdateNotifier.sendSimpleRequest(RequestType.ALLOW_PLAY_TURN);
+        MenuStack nextMenuStack = MenuStackManager.getInstance().getMenuStackOfUser(currentUser);
+        if (nextMenuStack != null)
+            nextMenuStack.getUpdateNotifier().sendSimpleRequest(RequestType.ALLOW_PLAY_TURN);
         answer(message);
     }
 
