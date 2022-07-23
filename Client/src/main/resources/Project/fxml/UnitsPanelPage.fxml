@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.UnitsPanelView">
+    <children>
+        <ScrollPane layoutX="69.0" layoutY="63.0" prefHeight="309.0" prefWidth="217.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <VBox fx:id="availableUnits" layoutX="50.0" prefHeight="200.0" prefWidth="100.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <Text fx:id="selectedUnit" layoutX="436.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Unit" />
+        <Button layoutX="421.0" layoutY="113.0" mnemonicParsing="false" onAction="#gotoUnitPage" text="Goto Unit Page"/>
+    </children>
+</AnchorPane>

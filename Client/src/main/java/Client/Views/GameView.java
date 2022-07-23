@@ -11,6 +11,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -179,4 +180,7 @@ public class GameView implements ViewController {
         return instance.technologies;
     }
 
+    public void gotoUnitsPanel() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitsPanelPage"));
+    }
 }
