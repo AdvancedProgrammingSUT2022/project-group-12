@@ -10,17 +10,12 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -31,8 +26,6 @@ public class GameView implements ViewController {
     public MenuItem beakerCount;
     @FXML
     public Pane hexPaneCover;
-    @FXML
-    public Pane statusBar;
     @FXML
     private Rectangle myRect;
     @FXML
@@ -56,11 +49,14 @@ public class GameView implements ViewController {
     private TileGrid tileGrid;
     private HexGrid hexGrid;
     private ArrayList<TechnologyEnum> technologies;
-    private static GameView instance;
     private static boolean isShow = false;
 
     public static void setShow(boolean isShow) {
         GameView.isShow = isShow;
+    }
+
+    public static ArrayList<TechnologyEnum> getTechnologies() {
+        return instance.technologies;
     }
 
     public void initialize() {
@@ -69,14 +65,14 @@ public class GameView implements ViewController {
         this.hexGrid = new HexGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
         instance = this;
         initializeGameMap();
-        if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
-            changeCoverVisibility(false);
-        }
         if (isShow) {
             instance.hexPaneCover.setVisible(true);
             instance.menuBar.setVisible(false);
-            instance.statusBar.setVisible(false);
             changeCoverVisibility(false);
+        } else {
+            if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
+                changeCoverVisibility(false);
+            }
         }
     }
 
@@ -101,15 +97,10 @@ public class GameView implements ViewController {
             Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
             this.setFocusOnLocation(cameraLocation);
         }
-        Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
-        this.setFocusOnLocation(cameraLocation);
-        scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                System.out.println(keyEvent.getCode().getName());
-                if (keyEvent.getCode().getName().equals("C"))
-                    gotoCheatSheetPanel();
-            }
+        scrollPane.setOnKeyPressed(keyEvent -> {
+            System.out.println(keyEvent.getCode().getName());
+            if (keyEvent.getCode().getName().equals("C"))
+                gotoCheatSheetPanel();
         });
     }
 
