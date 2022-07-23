@@ -23,7 +23,7 @@
                 <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome"/>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-                <Button mnemonicParsing="false" onAction="#gotoSelectGame" text="Start a Game"/>
+                <Button mnemonicParsing="false" onAction="#gotoSelectGame" text="Game Lobby"/>
                 <Button mnemonicParsing="false" onAction="#gotoChatMenu" text="Chat Menu"/>
                 <Button mnemonicParsing="false" onAction="#gotoProfileMenu" text="Profile Menu"/>
                 <Button mnemonicParsing="false" onAction="#gotoScoreboard" text="Scoreboard"/>

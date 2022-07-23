@@ -343,7 +343,7 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json,Integer.class);
     }
 
-    public static ArrayList<String> getRunningGamesNames() {
+    public static ArrayList<String> getOpenGamesNames() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAMES_NAMES);
         return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
     }

@@ -15,7 +15,7 @@ public class MainMenu extends Menu {
     @Override
     protected void handleCommand(Command command) {
         switch (command.getType()) {
-            case "play game" -> this.playGame(command);
+            case "start game" -> this.playGame(command);
             case "enter game" -> this.enterGame(command);
             case "show game" -> this.showGame(command);
             case "logout" -> this.logout();

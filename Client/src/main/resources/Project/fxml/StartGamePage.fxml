@@ -4,35 +4,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.StartGameView">
-    <ChoiceBox fx:id="userSelect" layoutX="254.0" layoutY="90.0" prefWidth="150.0" styleClass="choiceBox" />
-    <Text layoutX="93.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select users: " />
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.StartGameView">
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit" textAlignment="CENTER" />
     <Button layoutX="29.0" layoutY="362.0" onMouseClicked="#backClick" styleClass="smallerButton" text="Back" textAlignment="CENTER" />
-    <Button fx:id="acceptButton" layoutX="189.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#createNewGame" text="Create New Game" />
-    <VBox alignment="CENTER" layoutX="51.0" layoutY="133.0" prefHeight="118.0" prefWidth="100.0"
-          style="-fx-spacing: 10;">
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Invited Game"/>
-        <MenuButton fx:id="invitedGames" mnemonicParsing="false" text="Games invited">
+    <Button fx:id="createButton" layoutX="184.0" layoutY="152.0" mnemonicParsing="false" onMouseClicked="#createNewGame" text="Create New Game" />
+    <VBox alignment="CENTER" layoutX="46.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Join an open game" />
+        <MenuButton fx:id="openGamesList" mnemonicParsing="false" text="Open games">
         </MenuButton>
+      <Button fx:id="joinButton" mnemonicParsing="false" onAction="#startInvitedGame" text="Join Game" />
     </VBox>
-    <VBox alignment="CENTER" layoutX="400.0" layoutY="133.0" prefHeight="118.0" prefWidth="100.0"
-          style="-fx-spacing: 10;">
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Live Game Show"/>
-        <MenuButton fx:id="liveGames" mnemonicParsing="false" text="Running games">
+    <VBox alignment="CENTER" layoutX="405.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="See live game shows" />
+        <MenuButton fx:id="runningGamesList" mnemonicParsing="false" text="Running games">
         </MenuButton>
+      <Button fx:id="showButton" mnemonicParsing="false" onAction="#showLiveGame" text="Start Live Show" />
     </VBox>
-    <ScrollPane hbarPolicy="NEVER" layoutX="213.0" layoutY="129.0" prefHeight="200.0" prefWidth="175.0" style="-fx-background-color: transparent;">
-        <VBox fx:id="userBox1" prefHeight="185.0" prefWidth="152.0" spacing="2" />
-    </ScrollPane>
-   <Spinner fx:id="gridSizeWidth" layoutX="137.0" layoutY="21.0" />
-   <Spinner fx:id="gridSizeHeight" layoutX="137.0" layoutY="54.0" />
-   <Text layoutX="34.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
-   <Text layoutX="32.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
-   <Button layoutX="43.0" layoutY="280.0" mnemonicParsing="false" onAction="#showLiveGame" text="Start Live Game Show" />
-   <Button layoutX="43.0" layoutY="317.0" mnemonicParsing="false" onAction="#startInvitedGame" text="Start Invited Game" />
-   <Button layoutX="319.0" layoutY="317.0" mnemonicParsing="false" onAction="#reloadGames" text="Reload" />
-   <Spinner fx:id="playerCount" layoutX="388.0" layoutY="42.0" />
-   <Text layoutX="404.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of players" />
+   <Spinner fx:id="gridSizeWidth" layoutX="417.0" layoutY="78.0" />
+   <Spinner fx:id="gridSizeHeight" layoutX="417.0" layoutY="111.0" />
+   <Text layoutX="314.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
+   <Text layoutX="312.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
+   <Button layoutX="185.0" layoutY="347.0" mnemonicParsing="false" onAction="#reloadGames" text="Reload Game Lists" />
+   <Spinner fx:id="playerCount" layoutX="137.0" layoutY="77.0" />
+   <Text layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of players:" />
+   <VBox alignment="CENTER" layoutX="234.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
+      <children>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Resume your games" />
+         <MenuButton fx:id="myGamesList" mnemonicParsing="false" text="My games" />
+         <Button fx:id="resumeButton" mnemonicParsing="false" onAction="#showLiveGame" text="Go to the game" />
+      </children>
+   </VBox>
+   <Text layoutX="242.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new game" />
+   <Text layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of game:" />
+   <TextField fx:id="gameNameField" layoutX="103.0" layoutY="105.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="132.0" />
 
 </AnchorPane>

@@ -13,8 +13,9 @@ public class Constants {
     public static final int DEFUALT_BEAKER_PER_TURN = 2;
     public static final int GOLD_PRIZE_RUIN = 30;
     public static final int TOKEN_LENGTH = 8;
-    public static int TILEGRID_HEIGHT = 10;
-    public static  int TILEGRID_WIDTH = 10;
+    public static final int GAME_MAX_PLAYERS = 8;
+    public static final int TILEGRID_HEIGHT = 10;
+    public static final int TILEGRID_WIDTH = 10;
     public static final int TERMINAL_HEIGHT = 30;
     public static final int TERMINAL_WIDTH = 120;
     public static final int CITY_DISTANCE = 4;
