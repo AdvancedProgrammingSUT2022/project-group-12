@@ -46,7 +46,8 @@ public class FriendsView implements ViewController {
 
     private void initRequestBox() {
         requestsBox.getChildren().removeAll(requestsBox.getChildren());
-        for (String name : selectedUser.getWaitingOnFriendRequest()){
+        selectedUser = DatabaseQuerier.getUser(selectedUser.getUsername());
+        for (String name : selectedUser.getWaitingOnFriendRequest()) {
             Text username = new Text(name);
             requestsBox.getChildren().add(username);
         }
@@ -76,10 +77,10 @@ public class FriendsView implements ViewController {
             MenuItem item = new MenuItem(request);
             item.setOnAction(event -> {
                 selectedItem = item;
-                friendsBox.getChildren().add(new Text(request));
-                friendsBox.getChildren().add(acceptBtn(request));
-                friendsBox.getChildren().add(denialBtn(request));
-                friendsBox.setSpacing(10);
+                friendAcceptBox.getChildren().add(new Text(request));
+                friendAcceptBox.getChildren().add(acceptBtn(request));
+                friendAcceptBox.getChildren().add(denialBtn(request));
+                friendAcceptBox.setSpacing(10);
             });
             receivedFriendRequests.getItems().add(item);
         }
