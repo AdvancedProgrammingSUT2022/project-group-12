@@ -40,7 +40,6 @@ public abstract class Unit extends Production implements Notifier<Unit> {
     }
 
     // todoLater: integrate unit newing with Civ class
-    // todo: and add notifier of server side
     public static Unit constructUnitFromEnum(UnitEnum unitEnum, String civ, Location location) {
         Unit unit;
         if (unitEnum.isACombatUnit()) {
@@ -66,8 +65,7 @@ public abstract class Unit extends Production implements Notifier<Unit> {
 
     @Override
     public void notifyObservers() {
-        // todo: not required now
-//        if (notifierUtil != null) this.notifierUtil.notifyObservers();
+        if (notifierUtil != null) this.notifierUtil.notifyObservers();
     }
 
     protected static double getTerrainFeaturesEffect(Tile tile) {

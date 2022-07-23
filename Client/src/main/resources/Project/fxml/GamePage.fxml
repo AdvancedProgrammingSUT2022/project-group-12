@@ -48,8 +48,11 @@
             </MenuBar>
             <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0"
                         style="-fx-background-color: transparent;">
-                <Pane fx:id="hexPane">
-                </Pane>
+                <StackPane>
+                    <Pane fx:id="hexPane"/>
+                    <Pane visible="false" fx:id="hexPaneCover"/>
+                </StackPane>
+
             </ScrollPane>
             <Pane fx:id="selectionPane" visible="false"/>
         </Pane>

@@ -30,13 +30,9 @@ public class MainMenuController {
         return game;
     }
 
-    public static void enterNewGame(Game game){
-        GameController.setGame(game);
-    }
-
-    public static void bindUpdateNotifier(Game game, MenuStack userMenuStack) {
+    public static void bindUpdateNotifier(Game game, MenuStack userMenuStack, boolean isShow) {
         if (userMenuStack.getUpdateNotifier() != null) {
-            game.bindUserCivUpdatesTo(userMenuStack.getUser(), userMenuStack.getUpdateNotifier());
+            game.bindTileUpdatesTo(userMenuStack.getUser(), userMenuStack.getUpdateNotifier(), isShow);
         } else {
             System.err.println("WARNING: no UpdateNotifier was bound by the client, updates will not be sent");
         }

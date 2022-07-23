@@ -15,6 +15,8 @@ import java.util.Random;
 public class StartGameView implements ViewController {
     private final ArrayList<String> users = new ArrayList<>();
     @FXML
+    public MenuButton liveGames;
+    @FXML
     private Spinner<Integer> playerCount;
     @FXML
     private MenuButton invitedGames;
@@ -37,6 +39,7 @@ public class StartGameView implements ViewController {
     private int currentPlayerCount;
     private SpinnerValueFactory<Integer> countValueFactory;
     private ArrayList<String> allUsernames;
+    private String liveGamesName = null;
 
     public void initialize() {
         selectedUsernames = new ArrayList<>();
@@ -48,18 +51,32 @@ public class StartGameView implements ViewController {
         userSelect.setOnAction(this::getUser);
         initializeSpinners();
         loadInvitedGameItems();
+        loadLiveGamesItems();
     }
 
     public void loadInvitedGameItems() {
         invitedGames.getItems().clear();
-        for (String gameName : DatabaseQuerier.getInvitedGames()) {
-            System.out.println(gameName);
+        for (String gameName : DatabaseQuerier.getInvitedGamesNames()) {
+//            System.out.println(gameName);
             MenuItem menuItem = new MenuItem(gameName);
             menuItem.setOnAction(actionEvent -> {
                 this.invitedGamesName = gameName;
                 invitedGames.setText(gameName);
             });
             invitedGames.getItems().add(menuItem);
+        }
+    }
+
+    public void loadLiveGamesItems() {
+        liveGames.getItems().clear();
+        for (String gameName : DatabaseQuerier.getRunningGamesNames()) {
+//            System.out.println(gameName);
+            MenuItem menuItem = new MenuItem(gameName);
+            menuItem.setOnAction(actionEvent -> {
+                this.liveGamesName = gameName;
+                liveGames.setText(gameName);
+            });
+            liveGames.getItems().add(menuItem);
         }
     }
 
@@ -138,6 +155,7 @@ public class StartGameView implements ViewController {
         System.out.println("command = " + command);
         RequestSender.getInstance().sendCommand(command.toString());
         RequestSender.getInstance().sendCommand("init");
+        GameView.setShow(false);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 
@@ -150,6 +168,21 @@ public class StartGameView implements ViewController {
         StringBuilder command = new StringBuilder("enter game -t " + this.invitedGamesName);
         System.out.println("command = " + command);
         CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
+        GameView.setShow(false);
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
+    }
+
+    public void reloadGames() {
+        loadInvitedGameItems();
+        loadLiveGamesItems();
+    }
+
+    public void showLiveGame() {
+        if (this.liveGamesName == null) return;
+        StringBuilder command = new StringBuilder("show game -t " + this.liveGamesName);
+        System.out.println("command = " + command);
+        CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
+        GameView.setShow(true);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 }

@@ -10,6 +10,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
+import Project.Utils.CustomGson;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Notifier;
 import Project.Utils.Pair;
@@ -90,15 +91,13 @@ public class DatabaseQuerier {
     }
 
     public static void sendFriendRequest(String sender, String receiver) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_FRIEND_REQUEST, sender, receiver);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_FRIEND_REQUEST,sender,receiver);
     }
-
     public static void acceptFriendRequest(String sender, String receiver) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.ACCEPT_FRIEND_REQUEST, sender, receiver);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.ACCEPT_FRIEND_REQUEST,sender,receiver);
     }
-
     public static void denyFriendRequest(String sender, String receiver) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.DENY_FRIEND_REQUEST, sender, receiver);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.DENY_FRIEND_REQUEST,sender,receiver);
     }
 
     public static int getFoodOfCurrentCiv() {
@@ -239,7 +238,7 @@ public class DatabaseQuerier {
         gsonBuilder.registerTypeAdapter(Unit.class, new MyJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(Notifier.class, new MyJsonDeserializer<>());
         gsonBuilder.registerTypeAdapter(CombatUnit.class, new MyJsonDeserializer<>());
-        gsonBuilder.registerTypeAdapter(Production.class, new MyJsonDeserializer<>());
+        gsonBuilder.registerTypeAdapter(Production.class,new MyJsonDeserializer<>());
         Gson gson = gsonBuilder.create();
         TypeToken<TileGrid> typeToken = new TypeToken<>() {
         };
@@ -257,38 +256,32 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json, new TypeToken<Location>() {
         }.getType());
     }
-
-    public static int getSelectedCityGold() {
+    public static int getSelectedCityGold(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_GOLD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
-
-    public static double getSelectedCityProduction() {
+    public static double getSelectedCityProduction(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_PRODUCTION);
         return new Gson().fromJson(json, new TypeToken<Double>() {
         }.getType());
     }
-
-    public static int getSelectedCityFood() {
+    public static int getSelectedCityFood(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_FOOD);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
-
-    public static int getSelectedCityNumberOfUnAssignedCitizen() {
+    public static int getSelectedCityNumberOfUnAssignedCitizen(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_UNASSIGNED_CITIZEN);
         return new Gson().fromJson(json, new TypeToken<Integer>() {
         }.getType());
     }
-
-    public static ArrayList<Citizen> getSelectedCityAssignedCitizens() {
+    public static ArrayList<Citizen> getSelectedCityAssignedCitizens(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_ASSIGNED_CITIZEN);
         return new Gson().fromJson(json, new TypeToken<ArrayList<Citizen>>() {
         }.getType());
     }
-
-    public static ArrayList<Production> getSelectedCityProductionQueue() {
+    public static ArrayList<Production> getSelectedCityProductionQueue(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_SELECTED_CITY_PRODUCTION_QUEUE);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Production.class, new MyJsonDeserializer<>());
@@ -296,56 +289,58 @@ public class DatabaseQuerier {
         return gson.fromJson(json, new TypeToken<ArrayList<Production>>() {
         }.getType());
     }
-
-    public static ArrayList<String> getCurrentCivAvailableProductions() {
+    public static ArrayList<String> getCurrentCivAvailableProductions(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_AVAILABLE_BUILDINGS_NAME);
         String json2 = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_AVAILABLE_UNITS_NAME);
-        ArrayList<String> productsName = new ArrayList<>(new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
-        }.getType()));
-        productsName.addAll(new Gson().fromJson(json2, new TypeToken<ArrayList<String>>() {
-        }.getType()));
+        ArrayList<String> productsName = new ArrayList<>(new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType()));
+        productsName.addAll(new Gson().fromJson(json2,new TypeToken<ArrayList<String>>(){}.getType()));
         return productsName;
     }
-
-    public static ArrayList<String> getInvitedGames() {
+    public static ArrayList<String> getInvitedGamesNames(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_INVITED_GAMES_NAMES);
-        return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
-        }.getType());
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
     }
 
     public static boolean getIsPlayingAllowedFor(String loginToken) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_IS_PLAYING_ALLOWED, loginToken);
-        return new Gson().fromJson(json, new TypeToken<Boolean>() {
-        }.getType());
+        return new Gson().fromJson(json,new TypeToken<Boolean>(){}.getType());
     }
 
     public static boolean getIsUsernameOnline(String username) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_IS_USERNAME_ONLINE, username);
-        return new Gson().fromJson(json, new TypeToken<Boolean>() {
-        }.getType());
+        return new Gson().fromJson(json,new TypeToken<Boolean>(){}.getType());
     }
 
     public static ArrayList<String> getPreviousChatsUser() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_USER_CHATS_NAMES);
-        return new Gson().fromJson(json, new TypeToken<ArrayList<String>>() {
-        }.getType());
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
     }
 
     public static void startChat(Chat newChat) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_CHAT_TO_CREATE, new Gson().toJson(newChat));
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_CHAT_TO_CREATE,new Gson().toJson(newChat));
     }
 
-    public static void sendMessage(Message newMessage, String chatToken) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_MESSAGE, new Gson().toJson(newMessage), chatToken);
+    public static void sendMessage(Message newMessage,String chatToken) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_MESSAGE,new Gson().toJson(newMessage),chatToken);
     }
 
     public static Chat getChatByName(String name) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CHAT_BY_NAME, name);
-        return new Gson().fromJson(json, Chat.class);
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CHAT_BY_NAME,name);
+        return new Gson().fromJson(json,Chat.class);
     }
 
     public static void sendUpdateChatRequest(Chat currentChat) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT, new Gson().toJson(currentChat));
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT,new Gson().toJson(currentChat));
+    }
+
+    public static ArrayList<String> getRunningGamesNames() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAMES_NAMES);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+
+    public static TileGrid getOriginalTileGrid() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ORIGINAL_TILE_GRID);
+        return CustomGson.getInstance().fromJson(json, new TypeToken<TileGrid>(){}.getType());
     }
 }
 
@@ -360,7 +355,7 @@ class MyJsonDeserializer<T> implements JsonDeserializer<T> {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return var3.deserialize(var1, clazz);
+        return var3.deserialize(var1,clazz);
     }
 
 }

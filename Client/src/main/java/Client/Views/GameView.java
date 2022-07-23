@@ -10,12 +10,10 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -26,6 +24,8 @@ public class GameView implements ViewController {
     public MenuItem goldCount;
     public MenuItem happinessCount;
     public MenuItem beakerCount;
+    @FXML
+    public Pane hexPaneCover;
     @FXML
     private Rectangle myRect;
     @FXML
@@ -46,25 +46,13 @@ public class GameView implements ViewController {
     private ScrollPane scrollPane;
     @FXML
     private Pane hexPane;
-    @FXML
     private TileGrid tileGrid;
     private HexGrid hexGrid;
     private ArrayList<TechnologyEnum> technologies;
+    private static boolean isShow = false;
 
-    public static void changeCoverVisibility(boolean visible) {
-        if (instance != null) instance.coverPane.setVisible(visible);
-    }
-
-    public static void reloadHexGrid() {
-        instance.reloadTileGridFromServer();
-    }
-
-    public static void reloadTechnologies() {
-        instance.technologies = DatabaseQuerier.getCurrentTechnologies();
-    }
-
-    public static void updateTile(Location location, Tile newTile) {
-        if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);
+    public static void setShow(boolean isShow) {
+        GameView.isShow = isShow;
     }
 
     public static ArrayList<TechnologyEnum> getTechnologies() {
@@ -77,9 +65,19 @@ public class GameView implements ViewController {
         this.hexGrid = new HexGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
         instance = this;
         initializeGameMap();
-        if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
+        if (isShow) {
+            instance.hexPaneCover.setVisible(true);
+            instance.menuBar.setVisible(false);
             changeCoverVisibility(false);
+        } else {
+            if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
+                changeCoverVisibility(false);
+            }
         }
+    }
+
+    public static void changeCoverVisibility(boolean visible) {
+        if (instance != null) instance.coverPane.setVisible(visible);
     }
 
     public void initializeGameMap() {
@@ -95,15 +93,14 @@ public class GameView implements ViewController {
         reloadTechnologies();
         reloadHexGrid();
 
-        Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
-        this.setFocusOnLocation(cameraLocation);
-        scrollPane.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                System.out.println(keyEvent.getCode().getName());
-                if (keyEvent.getCode().getName().equals("C"))
-                    gotoCheatSheetPanel();
-            }
+        if (!isShow) {
+            Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
+            this.setFocusOnLocation(cameraLocation);
+        }
+        scrollPane.setOnKeyPressed(keyEvent -> {
+            System.out.println(keyEvent.getCode().getName());
+            if (keyEvent.getCode().getName().equals("C"))
+                gotoCheatSheetPanel();
         });
     }
 
@@ -113,8 +110,7 @@ public class GameView implements ViewController {
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
     }
 
-    public void reloadTileGridFromServer() {
-        TileGrid newTileGrid = DatabaseQuerier.getTileGridByToken(MenuStack.getInstance().getCookies().getLoginToken());
+    public void copyTileGridFrom(TileGrid newTileGrid) {
         for (int i = 0; i < newTileGrid.getHeight(); i++) {
             for (int j = 0; j < newTileGrid.getWidth(); j++) {
                 this.tileGrid.getTile(i, j).copyPropertiesFrom(newTileGrid.getTile(i, j));
@@ -148,6 +144,15 @@ public class GameView implements ViewController {
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CivilizationPanelPage"));
     }
 
+    public static void reloadHexGrid() {
+        TileGrid newTileGrid = DatabaseQuerier.getTileGridByToken(MenuStack.getInstance().getCookies().getLoginToken());
+        instance.copyTileGridFrom(newTileGrid);
+    }
+
+    public static void reloadTechnologies() {
+        instance.technologies = DatabaseQuerier.getCurrentTechnologies();
+    }
+
     public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
@@ -157,6 +162,10 @@ public class GameView implements ViewController {
             changeCoverVisibility(true);
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
+    }
+
+    public static void updateTile(Location location, Tile newTile) {
+        if (instance != null) instance.tileGrid.getTile(location).copyPropertiesFrom(newTile);
     }
 
     public void gotoNotifications() {
