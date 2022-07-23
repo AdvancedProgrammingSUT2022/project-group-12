@@ -47,6 +47,7 @@ public class MainMenuController {
     public static void logout(MenuStack menuStack) {
         System.out.println("logout ran for " + menuStack.getUser().getUsername());
         Database.getInstance().invalidateTokenFor(menuStack.getUser());
+        MenuStackManager.getInstance().removeMenuStackOf(menuStack.getUser());
         MainMenuController.reloadClientScoreboards();
         menuStack.invalidate();
     }

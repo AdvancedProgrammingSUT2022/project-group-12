@@ -40,4 +40,8 @@ public class MenuStackManager {
     public Collection<MenuStack> getAllMenuStacks() {
         return this.menuStacksMap.values();
     }
+
+    public void removeMenuStackOf(User user) {
+        this.menuStacksMap.remove(user);
+    }
 }
