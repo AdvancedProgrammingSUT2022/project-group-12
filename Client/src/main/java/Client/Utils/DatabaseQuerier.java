@@ -10,6 +10,7 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.CombatUnit;
 import Project.Models.Units.Unit;
+import Project.Utils.CustomGson;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Notifier;
 import Project.Utils.Pair;
@@ -295,7 +296,7 @@ public class DatabaseQuerier {
         productsName.addAll(new Gson().fromJson(json2,new TypeToken<ArrayList<String>>(){}.getType()));
         return productsName;
     }
-    public static ArrayList<String> getInvitedGames(){
+    public static ArrayList<String> getInvitedGamesNames(){
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_INVITED_GAMES_NAMES);
         return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
     }
@@ -330,6 +331,16 @@ public class DatabaseQuerier {
 
     public static void sendUpdateChatRequest(Chat currentChat) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT,new Gson().toJson(currentChat));
+    }
+
+    public static ArrayList<String> getRunningGamesNames() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAMES_NAMES);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
+    }
+
+    public static TileGrid getOriginalTileGrid() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ORIGINAL_TILE_GRID);
+        return CustomGson.getInstance().fromJson(json, new TypeToken<TileGrid>(){}.getType());
     }
 }
 

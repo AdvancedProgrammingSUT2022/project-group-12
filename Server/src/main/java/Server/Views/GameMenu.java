@@ -18,21 +18,21 @@ import Server.Controllers.UnitCombatController;
 import Server.Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Server.Models.Civilization;
-import Server.Models.Database;
+import Server.Models.Game;
 import Server.Utils.*;
 
 import java.util.List;
 
 public class GameMenu extends Menu {
 
-    private final String gameToken;
+    private final Game game;
     private final MapFuncs mapFuncs;
     private final UnitFuncs unitFuncs;
     private static Unit selectedUnit;
     private static City selectedCity;
 
-    public GameMenu(String gameToken) {
-        this.gameToken = gameToken;
+    public GameMenu(Game game) {
+        this.game = game;
         this.mapFuncs = new MapFuncs();
         this.unitFuncs = new UnitFuncs();
     }
@@ -78,7 +78,7 @@ public class GameMenu extends Menu {
 
     @Override
     protected void handleCommand(Command command) {
-        GameController.setGame(Database.getInstance().getGameByToken(this.gameToken));
+        GameController.setGame(this.game);
         switch (command.getType()) {
             case "show current menu" -> answer(this.getName());
             case "menu exit" -> this.menuStack.popMenu();

@@ -15,7 +15,6 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Server.Controllers.CityHandler;
-import Server.Controllers.CivilizationController;
 import Server.Controllers.GameController;
 import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
@@ -81,10 +80,6 @@ public class Civilization {
         Unit unit = Unit.constructUnitFromEnum(unitEnum, this.getName(), location);
         this.addUnit(unit);
         GameController.placeUnit(unit, GameController.getGameTile(location));
-    }
-
-    public void updateHappinessState(double happiness) {
-
     }
 
     public void advanceResearchTech(UpdateNotifier updateNotifier) {

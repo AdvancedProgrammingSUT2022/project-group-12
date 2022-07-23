@@ -93,12 +93,12 @@ public class Game {
     }
 
     public Civilization getCivOfUser(User user) {
-        return this.civilizations.get(this.users.indexOf(user));
+        int index = this.users.indexOf(user);
+        return index == -1 ? null : this.civilizations.get(index);
     }
 
-    public void bindUserCivUpdatesTo(User user, UpdateNotifier updateNotifier) {
-        Civilization civ = this.getCivOfUser(user);
-        for (Tile tile : civ.getRevealedTileGrid().getTilesFlatten()) {
+    public void bindTileUpdatesTo(User user, UpdateNotifier updateNotifier, boolean isShow) {
+        for (Tile tile : (isShow ? getTileGrid() : this.getCivOfUser(user).getRevealedTileGrid()).getTilesFlatten()) {
             tile.initializeNotifier();
             tile.addObserver(updateNotifier);
         }
@@ -314,4 +314,5 @@ public class Game {
     public String getToken() {
         return token;
     }
+
 }

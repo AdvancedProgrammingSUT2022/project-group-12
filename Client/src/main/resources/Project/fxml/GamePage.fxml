@@ -51,36 +51,45 @@
             </MenuBar>
             <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0"
                         style="-fx-background-color: transparent;">
-                <Pane fx:id="hexPane">
-                </Pane>
+                <StackPane>
+                    <Pane fx:id="hexPane"/>
+                    <Pane visible="false" fx:id="hexPaneCover"/>
+                </StackPane>
+
             </ScrollPane>
             <Pane fx:id="selectionPane" visible="false"/>
-            <HBox alignment="CENTER" layoutX="10.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
-                <children>
-                    <ImageView fx:id="happinessImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
-                               preserveRatio="true"
-                               x="5.0"/>
-                    <Text fx:id="happiness" fill="GOLD" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-                </children>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="100.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
-                <children>
-                    <ImageView fx:id="beakerImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
-                               x="5.0"/>
-                    <Text fx:id="beaker" fill="#ff6682" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-                </children>
-            </HBox>
-            <HBox alignment="CENTER" layoutX="180.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
-                <children>
-                    <ImageView fx:id="goldImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"
-                               x="5.0"/>
-                    <Text fx:id="gold" fill="GOLD" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
-                </children>
-            </HBox>
+            <Pane fx:id="statusBar">
+                <HBox alignment="CENTER" layoutX="10.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0" spacing="15.0">
+                    <children>
+                        <ImageView fx:id="happinessImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                   preserveRatio="true"
+                                   x="5.0"/>
+                        <Text fx:id="happiness" fill="GOLD" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="100.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0"
+                      spacing="15.0">
+                    <children>
+                        <ImageView fx:id="beakerImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                   preserveRatio="true"
+                                   x="5.0"/>
+                        <Text fx:id="beaker" fill="#ff6682" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="180.0" layoutY="3.0" prefHeight="25.0" prefWidth="60.0"
+                      spacing="15.0">
+                    <children>
+                        <ImageView fx:id="goldImg" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true"
+                                   preserveRatio="true"
+                                   x="5.0"/>
+                        <Text fx:id="gold" fill="GOLD" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+                    </children>
+                </HBox>
+            </Pane>
         </Pane>
-        <BorderPane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5);" >
+        <BorderPane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
             <center>
-                <Text text = "please wait until your turn..." style="-fx-font-size:30; -fx-fill:white"/>
+                <Text text="please wait until your turn..." style="-fx-font-size:30; -fx-fill:white"/>
             </center>
         </BorderPane>
     </StackPane>

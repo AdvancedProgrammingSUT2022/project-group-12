@@ -25,6 +25,10 @@ import java.util.ArrayList;
 
 public class GameView implements ViewController {
     @FXML
+    public Pane hexPaneCover;
+    @FXML
+    public Pane statusBar;
+    @FXML
     private Rectangle myRect;
     @FXML
     private Pane mainPane;
@@ -61,6 +65,11 @@ public class GameView implements ViewController {
     private HexGrid hexGrid;
     private ArrayList<TechnologyEnum> technologies;
     private static GameView instance;
+    private static boolean isShow = false;
+
+    public static void setShow(boolean isShow) {
+        GameView.isShow = isShow;
+    }
 
     public void initialize() {
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
@@ -75,6 +84,12 @@ public class GameView implements ViewController {
         instance = this;
         initializeGameMap();
         if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
+            changeCoverVisibility(false);
+        }
+        if (isShow) {
+            instance.hexPaneCover.setVisible(true);
+            instance.menuBar.setVisible(false);
+            instance.statusBar.setVisible(false);
             changeCoverVisibility(false);
         }
     }
@@ -96,8 +111,10 @@ public class GameView implements ViewController {
         reloadTechnologies();
         reloadHexGrid();
 
-        Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
-        this.setFocusOnLocation(cameraLocation);
+        if (!isShow) {
+            Location cameraLocation = DatabaseQuerier.getCivInitialLocation(MenuStack.getInstance().getCookies().getLoginToken());
+            this.setFocusOnLocation(cameraLocation);
+        }
     }
 
     public void setFocusOnLocation(Location location) {
@@ -106,8 +123,7 @@ public class GameView implements ViewController {
         scrollPane.setHvalue(hex.getCenterX() / hexPane.getBoundsInLocal().getWidth());
     }
 
-    public void reloadTileGridFromServer() {
-        TileGrid newTileGrid = DatabaseQuerier.getTileGridByToken(MenuStack.getInstance().getCookies().getLoginToken());
+    public void copyTileGridFrom(TileGrid newTileGrid) {
         for (int i = 0; i < newTileGrid.getHeight(); i++) {
             for (int j = 0; j < newTileGrid.getWidth(); j++) {
                 this.tileGrid.getTile(i, j).copyPropertiesFrom(newTileGrid.getTile(i, j));
@@ -145,7 +161,8 @@ public class GameView implements ViewController {
     }
 
     public static void reloadHexGrid() {
-        instance.reloadTileGridFromServer();
+        TileGrid newTileGrid = DatabaseQuerier.getTileGridByToken(MenuStack.getInstance().getCookies().getLoginToken());
+        instance.copyTileGridFrom(newTileGrid);
     }
 
     public static void reloadTechnologies() {
