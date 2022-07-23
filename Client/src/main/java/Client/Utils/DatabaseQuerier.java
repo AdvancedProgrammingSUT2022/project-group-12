@@ -321,6 +321,7 @@ public class DatabaseQuerier {
     }
 
     public static void sendMessage(Message newMessage,String chatToken) {
+        System.out.println("send to menustack");
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_MESSAGE,new Gson().toJson(newMessage),chatToken);
     }
 
@@ -351,6 +352,15 @@ public class DatabaseQuerier {
     public static TileGrid getOriginalTileGrid() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ORIGINAL_TILE_GRID);
         return CustomGson.getInstance().fromJson(json, new TypeToken<TileGrid>(){}.getType());
+    }
+
+    public static Chat getPublicChat() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_PUBLIC_CHAT);
+        return CustomGson.getInstance().fromJson(json, new TypeToken<Chat>(){}.getType());
+    }
+
+    public static void sendUpdatePublicChatRequest(Chat publicChat) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_PUBLIC_CHAT_UPDATE,new Gson().toJson(publicChat));
     }
 }
 

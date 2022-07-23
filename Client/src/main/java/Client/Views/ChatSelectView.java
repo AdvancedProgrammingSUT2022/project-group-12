@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 
 public class ChatSelectView implements ViewController {
     private final ArrayList<String> users = new ArrayList<>();
+    @FXML
+    private Button enterPublicChat;
     @FXML
     private Button acceptButton;
     @FXML
@@ -144,5 +147,9 @@ public class ChatSelectView implements ViewController {
             chatSelect.getItems().clear();
             chatSelect.getItems().addAll(this.userChats);
         }
+    }
+
+    public void enterPublicChat() {
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("PublicChat"));
     }
 }

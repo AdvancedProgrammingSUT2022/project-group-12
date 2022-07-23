@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Database {
     private final ArrayList<Chat> chats = new ArrayList<>();
     private final HashMap<String, User> token2userTable = new HashMap<>();
     private final HashMap<User, String> user2tokenTable = new HashMap<>();
+    private Chat publicChat;
 
     public Database() {
         this.users = new HashMap<>();
@@ -35,6 +37,8 @@ public class Database {
         for (int i = 1; i < 10; ++i) {
             this.addUser(new User(String.valueOf(i), String.valueOf(i), "nick" + i));
         }
+        publicChat = new Chat(new ArrayList<>(users.values()),new NameAndToken(TokenGenerator.generate(8),"Public Chat"));
+        System.out.println("public chat usernames " + Arrays.toString(publicChat.getUsernames().toArray()));
     }
 
     public String receiveTokenFor(User user) throws CommandException {
@@ -234,5 +238,17 @@ public class Database {
 
     public HashMap<String, Game> getGames() {
         return games;
+    }
+
+    public void setPublicChat(Chat publicChat) {
+        if(publicChat == null) publicChat = new Chat(new ArrayList<>(users.values()),new NameAndToken(TokenGenerator.generate(8),"Public Chat"));
+        this.publicChat = publicChat;
+    }
+    public void addUserToPublicChat(User user){
+        publicChat.addUser(user);
+    }
+
+    public Chat getPublicChat() {
+        return publicChat;
     }
 }

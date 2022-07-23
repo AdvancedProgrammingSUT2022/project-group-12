@@ -53,6 +53,12 @@ public class UpdateNotifier implements Observer<Tile> {
         request.addParameter("currentDate", String.valueOf(currentYear));
         this.sendRequest(request);
     }
+
+    public void sendUpdatePublicChatRequest(Chat chat) {
+        Request request = new Request(RequestType.UPDATE_PUBLIC_CHAT,null);
+        request.setRequestChat(chat);
+        this.sendRequest(request);
+    }
 }
 
 

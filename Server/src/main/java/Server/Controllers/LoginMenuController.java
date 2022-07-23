@@ -7,7 +7,7 @@ import Server.Utils.CommandException;
 import Server.Utils.InputRegex;
 
 public class LoginMenuController {
-    public static void createUser(String username, String nickname, String password) throws CommandException {
+    public static User createUser(String username, String nickname, String password) throws CommandException {
         Database database = Database.getInstance();
         if (database.checkForUsername(username)) {
             throw new CommandException(CommandResponse.USERNAME_ALREADY_EXISTS);
@@ -16,7 +16,9 @@ public class LoginMenuController {
         } else if (!weakPassword(password)) {
             throw new CommandException(CommandResponse.WEAK_PASSWORD);
         } else {
-            Database.getInstance().addUser(new User(username, password, nickname));
+            User newUser = new User(username, password, nickname);
+            Database.getInstance().addUser(newUser);
+            return newUser;
         }
     }
 

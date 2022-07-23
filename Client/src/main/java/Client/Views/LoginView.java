@@ -225,7 +225,9 @@ public class LoginView implements ViewController {
                 usernameBox.getChildren().add(usernameExists);
                 username.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
             }
-            default -> throw new RuntimeException();
+            default -> {
+                MenuStack.getInstance().showError(response.getMessage());
+            }
         }
     }
 

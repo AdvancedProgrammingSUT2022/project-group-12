@@ -16,7 +16,8 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class ChatView implements ViewController {
+public class PublicChatView implements ViewController {
+
     public ScrollPane pane;
     @FXML
     Button deleteButton;
@@ -33,14 +34,14 @@ public class ChatView implements ViewController {
 
     public void initialize() {
         try {
-            if (MenuStack.getInstance().getCookies().getCurrentChat().getMessages() != null) {
-                ArrayList<Message> messages = MenuStack.getInstance().getCookies().getCurrentChat().getMessages();
+            MenuStack.getInstance().getCookies().setPublicChat(DatabaseQuerier.getPublicChat());
+            if (MenuStack.getInstance().getCookies().getPublicChat().getMessages() != null) {
+                ArrayList<Message> messages = MenuStack.getInstance().getCookies().getPublicChat().getMessages();
                 for (Message message : messages) {
                     message.checkSeen(MenuStack.getInstance().getUser().getUsername());
                     chatBox.getChildren().add(createMessageBox(message));
-                    System.out.println(currentEditingMessage);
                     message.getText().setOnMouseClicked(mouseEvent -> {
-                        ChatView.this.currentEditingMessage = message;
+                        PublicChatView.this.currentEditingMessage = message;
                         messageTextField.setText(message.getMessage());
                         deleteButton.setDisable(false);
                         deleteButton.setVisible(true);
@@ -59,19 +60,18 @@ public class ChatView implements ViewController {
 
     @FXML
     public void sendNewMessage() {
-        System.out.println(currentEditingMessage);
         if (currentEditingMessage == null) {
             User user = MenuStack.getInstance().getUser();
             Message newMessage = new Message(user.getUsername(), user.getAvatarURL(), messageTextField.getText());
-            System.out.println("send message");
-            DatabaseQuerier.sendMessage(newMessage, MenuStack.getInstance().getCookies().getCurrentChat().getToken());
+            MenuStack.getInstance().getCookies().getPublicChat().getMessages().add(newMessage);
+            DatabaseQuerier.sendUpdatePublicChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
             chatBox.getChildren().add(createMessageBox(newMessage));
         } else {
             System.out.println("edit");
             currentEditingMessage.editMessage(messageTextField.getText());
             currentEditingMessage = null;
             disableDeleteButton();
-            DatabaseQuerier.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getCurrentChat());
+            DatabaseQuerier.sendUpdatePublicChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
         }
         messageTextField.setText("");
     }
@@ -92,7 +92,7 @@ public class ChatView implements ViewController {
         }
         messageBox.getChildren().add(message.getText());
         messageBox.setOnMouseClicked(mouseEvent -> {
-            ChatView.this.currentEditingMessage = message;
+            PublicChatView.this.currentEditingMessage = message;
             messageTextField.setText(message.getMessage());
             deleteButton.setDisable(false);
             deleteButton.setVisible(true);
@@ -102,10 +102,10 @@ public class ChatView implements ViewController {
 
     @FXML
     public void deleteMessage() {
-        MenuStack.getInstance().getCookies().getCurrentChat().deleteMessage(currentEditingMessage);
+        MenuStack.getInstance().getCookies().getPublicChat().deleteMessage(currentEditingMessage);
         chatBox.getChildren().remove(createMessageBox(currentEditingMessage));
         disableDeleteButton();
-        DatabaseQuerier.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getCurrentChat());
+        DatabaseQuerier.sendUpdatePublicChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
         currentEditingMessage = null;
     }
 
@@ -125,22 +125,29 @@ public class ChatView implements ViewController {
     }
 
     public void updateChat(Chat updateChat) {
-            chatBox.getChildren().clear();
-            if (updateChat.getName().equals(MenuStack.getInstance().getCookies().getCurrentChat().getName())) {
-                MenuStack.getInstance().getCookies().setCurrentChat(updateChat);
-                if (MenuStack.getInstance().getCookies().getCurrentChat().getMessages() != null) {
-                    ArrayList<Message> messages = MenuStack.getInstance().getCookies().getCurrentChat().getMessages();
-                    for (Message message : messages) {
-                        message.checkSeen(MenuStack.getInstance().getUser().getUsername());
-                        message.getText().setOnMouseClicked(mouseEvent -> {
-                            ChatView.this.currentEditingMessage = message;
-                            messageTextField.setText(message.getMessage());
-                            deleteButton.setDisable(false);
-                            deleteButton.setVisible(true);
-                        });
-                        chatBox.getChildren().add(createMessageBox(message));
-                    }
+        chatBox.getChildren().clear();
+        if (updateChat.getName().equals(MenuStack.getInstance().getCookies().getPublicChat().getName())) {
+            MenuStack.getInstance().getCookies().setPublicChat(updateChat);
+            if (MenuStack.getInstance().getCookies().getPublicChat().getMessages() != null) {
+                ArrayList<Message> messages = MenuStack.getInstance().getCookies().getPublicChat().getMessages();
+                for (Message message : messages) {
+                    message.checkSeen(MenuStack.getInstance().getUser().getUsername());
+                    message.getText().setOnMouseClicked(mouseEvent -> {
+                        PublicChatView.this.currentEditingMessage = message;
+                        messageTextField.setText(message.getMessage());
+                        deleteButton.setDisable(false);
+                        deleteButton.setVisible(true);
+                    });
+                    chatBox.getChildren().add(createMessageBox(message));
                 }
             }
+        }
     }
+    
+    
+    
+    
+    
+    
+    
 }

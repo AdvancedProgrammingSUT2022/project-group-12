@@ -17,36 +17,43 @@ import java.util.stream.Collectors;
 public class ChatController {
 
 
-    public static void createNewChat(Chat chat){
+    public static void createNewChat(Chat chat) {
         Database.getInstance().getChats().add(chat);
-        notifyUsers(chat);
+        notifyUsers(chat, false);
     }
 
-    private static void notifyUsers(Chat chat) {
-     //   System.out.println("users notified");
-     //   System.out.println(Arrays.toString(chat.getUsernames().toArray()));
-        for (User user:
+    private static void notifyUsers(Chat chat, Boolean isPublicChat) {
+        //   System.out.println(Arrays.toString(chat.getUsernames().toArray()));
+        for (User user :
                 Database.getInstance().getAllUsers().stream().filter(e -> chat.getUsernames().contains(e.getUsername())).toList()) {
-           if(Database.getInstance().isOnline(user)) {
-               //print
-              // System.out.println(user.getUsername());
-               MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOfUser(user);
-               menuStack.getUpdateNotifier().sendUpdateChatRequest(chat);
-           }
+            if (Database.getInstance().isOnline(user)) {
+                MenuStack menuStack = MenuStackManager.getInstance().getMenuStackOfUser(user);
+                if (isPublicChat) menuStack.getUpdateNotifier().sendUpdatePublicChatRequest(chat);
+                else menuStack.getUpdateNotifier().sendUpdateChatRequest(chat);
+            }
         }
     }
 
-    public static void sendMessage(Chat chat , Message message){
-   //     System.out.println("send message");
+    public static void sendMessage(Chat chat, Message message) {
         Database.getInstance().getChats().get(Database.getInstance().getChats().indexOf(chat)).getMessages().add(message);
-        notifyUsers(chat);
+        notifyUsers(chat, false);
+    }
+
+    public static void addUserToPublicChat(User user) {
+        Database.getInstance().addUserToPublicChat(user);
+        notifyUsers(Database.getInstance().getPublicChat(), true);
     }
 
 
     public static void updateChat(Chat updateChat) {
-       Chat chat = Database.getInstance().getChatByToken(updateChat.getToken());
-       Database.getInstance().getChats().remove(chat);
-       Database.getInstance().getChats().add(updateChat);
-       notifyUsers(updateChat);
+        Chat chat = Database.getInstance().getChatByToken(updateChat.getToken());
+        Database.getInstance().getChats().remove(chat);
+        Database.getInstance().getChats().add(updateChat);
+        notifyUsers(updateChat, false);
+    }
+
+    public static void updatePublicChat(Chat newPublicChat) {
+        Database.getInstance().setPublicChat(newPublicChat);
+        notifyUsers(Database.getInstance().getPublicChat(), true);
     }
 }

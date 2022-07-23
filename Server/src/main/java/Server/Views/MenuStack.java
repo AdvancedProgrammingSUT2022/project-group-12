@@ -223,7 +223,7 @@ public class MenuStack {
             case GET_USER_CHATS_NAMES ->  gson.toJson(Database.getInstance().getChats().stream().filter(e -> e.getUsernames().contains(user.getUsername())).map(Chat::getName).collect(Collectors.toList()));
             case SEND_MESSAGE -> {
                 Message message = gson.fromJson(params[0],Message.class);
-                System.out.println(message.getDetailedMessage());
+                System.out.println("new message" + message.getDetailedMessage());
                 ChatController.sendMessage(Database.getInstance().getChatByToken(params[1]),message);
                 yield null;
             }
@@ -241,6 +241,12 @@ public class MenuStack {
                yield gson.toJson(GameController.getGame().getCivNamesAndScore());
             }
             case GET_CURRENT_YEAR -> gson.toJson(GameController.getGame().getCurrentYear());
+            case GET_PUBLIC_CHAT -> gson.toJson(Database.getInstance().getPublicChat());
+            case SEND_PUBLIC_CHAT_UPDATE -> {
+                System.out.println("server recieved chat and get");
+                ChatController.updatePublicChat(gson.fromJson(params[0],Chat.class));
+                yield null;
+            }
         };
     }
 
