@@ -17,6 +17,7 @@ import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Models.Civilization;
 import Server.Models.Database;
+import Server.Models.Game;
 import Server.Utils.UpdateNotifier;
 import com.google.gson.Gson;
 

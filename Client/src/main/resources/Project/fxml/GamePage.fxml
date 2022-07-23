@@ -1,66 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
-<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css"
-      xmlns="http://javafx.com/javafx/16"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.GameView">
+
+<Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.GameView">
     <StackPane>
         <Pane fx:id="mainPane">
 
             <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
-                <Menu text="Gold" onAction="#calculateGold">
-                    <MenuItem fx:id="goldCount"/>
+                <Menu onAction="#calculateGold" text="Gold">
+                    <MenuItem fx:id="goldCount" />
                 </Menu>
-                <Menu text="Beaker" onAction="#calculateBeaker">
-                    <MenuItem fx:id="beakerCount"/>
+                <Menu onAction="#calculateBeaker" text="Beaker">
+                    <MenuItem fx:id="beakerCount" />
                 </Menu>
-                <Menu text="Happiness" onAction="#calculateHappiness">
-                    <MenuItem fx:id="happinessCount"/>
+                <Menu onAction="#calculateHappiness" text="Happiness">
+                    <MenuItem fx:id="happinessCount" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Panels">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoTradePanel" text="Trade Panel"/>
-                        <MenuItem onAction="#gotoReseachPanel" text="Research Panel"/>
-                        <MenuItem onAction="#gotoCheatSheetPanel" text="CheatSheet Panel"/>
-                        <MenuItem onAction="#gotoCivPanel" text="Civilization Panel"/>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoNotifications" text="Notifications"/>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoUnitsPanel" text="NextTurn"/>
-                        <MenuItem mnemonicParsing="false" onAction="#gotoCitiesPanel" text="NextTurn"/>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoTradePanel" text="Trade Panel" />
+                        <MenuItem onAction="#gotoReseachPanel" text="Research Panel" />
+                        <MenuItem onAction="#gotoCheatSheetPanel" text="CheatSheet Panel" />
+                        <MenuItem onAction="#gotoCivPanel" text="Civilization Panel" />
+                        <MenuItem mnemonicParsing="false" onAction="#gotoNotifications" text="Notifications" />
+                        <MenuItem mnemonicParsing="false" onAction="#gotoUnitsPanel" text="NextTurn" />
+                        <MenuItem mnemonicParsing="false" onAction="#gotoCitiesPanel" text="NextTurn" />
 
                     </items>
                 </Menu>
                 <Menu onAction="#backToMenu" text="Back">
-                    <MenuItem onAction="#backToMenu" text="Back"/>
+                    <MenuItem onAction="#backToMenu" text="Back" />
                 </Menu>
                 <Menu onAction="#exit" text="Exit">
-                    <MenuItem onAction="#exit" text="Exit"/>
+                    <MenuItem onAction="#exit" text="Exit" />
                 </Menu>
                 <Menu text="Setting">
-                    <MenuItem onAction="#gotoSetting" text="Setting"/>
+                    <MenuItem onAction="#gotoSetting" text="Setting" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Next Turn">
                     <items>
-                        <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn"/>
+                        <MenuItem fx:id="nextTurn" mnemonicParsing="false" onAction="#NextTurn" text="NextTurn" />
                     </items>
                 </Menu>
             </MenuBar>
-            <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0"
-                        style="-fx-background-color: transparent;">
+            <ScrollPane fx:id="scrollPane" layoutX="-1.0" layoutY="25.0" prefHeight="374.0" prefWidth="600.0" style="-fx-background-color: transparent;">
                 <StackPane>
-                    <Pane fx:id="hexPane"/>
-                    <Pane visible="false" fx:id="hexPaneCover"/>
+                    <Pane fx:id="hexPane" />
+                    <Pane fx:id="hexPaneCover" visible="false" />
                 </StackPane>
 
             </ScrollPane>
-            <Pane fx:id="selectionPane" visible="false"/>
+         <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="129.0" style="-fx-padding: 20;" translateY="26.0">
+            <children>
+               <Text fx:id="turnNumbers" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            </children>
+         </HBox>
+            <Pane fx:id="selectionPane" visible="false" />
         </Pane>
         <BorderPane fx:id="coverPane" style="-fx-background-color: rgba(0, 0, 0, 0.5);">
             <center>
-                <Text text="please wait until your turn..." style="-fx-font-size:30; -fx-fill:white"/>
+                <Text style="-fx-font-size:30; -fx-fill:white" text="please wait until your turn..." />
             </center>
         </BorderPane>
     </StackPane>
 </Pane>
-

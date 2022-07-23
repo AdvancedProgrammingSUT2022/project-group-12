@@ -32,38 +32,20 @@ public class GameView implements ViewController {
     @FXML
     private Text turnNumbers;
     @FXML
-    private Rectangle myRect;
-    @FXML
     private Pane mainPane;
     @FXML
     private Pane coverPane;
-    @FXML
-    private ImageView happinessImg;
-    @FXML
-    private ImageView goldImg;
-    @FXML
-    private ImageView beakerImg;
+  
     @FXML
     private MenuItem nextTurn;
-    @FXML
-    private Text happiness;
-    @FXML
-    private Text gold;
-    @FXML
-    private Text beaker;
     @FXML
     private Pane selectionPane;
     @FXML
     private MenuBar menuBar;
     @FXML
-    private Menu cheat;
-    @FXML
-    private Menu info;
-    @FXML
     private ScrollPane scrollPane;
     @FXML
     private Pane hexPane;
-    @FXML
     private TileGrid tileGrid;
     private HexGrid hexGrid;
     private ArrayList<TechnologyEnum> technologies;
@@ -79,12 +61,6 @@ public class GameView implements ViewController {
 
     public void initialize() {
         turnNumbers.setText("Current Year : " + DatabaseQuerier.getCurrentYear());
-        gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
-        goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
-        happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
-        happinessImg.setImage(new Image(App.class.getResource("/images/emojis/happiness.png").toExternalForm()));
-        beaker.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
-        beakerImg.setImage(new Image(App.class.getResource("/images/emojis/beaker.png").toExternalForm()));
         Pair<Integer, Integer> tileGridSize = DatabaseQuerier.getTileGridSize();
         this.tileGrid = new TileGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
         this.hexGrid = new HexGrid(tileGridSize.getFirst(), tileGridSize.getSecond());
