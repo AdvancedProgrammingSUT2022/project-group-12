@@ -40,4 +40,12 @@ public class MenuStackManager {
     public Collection<MenuStack> getAllMenuStacks() {
         return this.menuStacksMap.values();
     }
+
+    public HashMap<User, MenuStack> getMenuStacksMap() {
+        return menuStacksMap;
+    }
+
+    public HashMap<String, User> getUserMap() {
+        return userMap;
+    }
 }

@@ -7,6 +7,7 @@ import Project.Utils.TokenGenerator;
 import Server.Controllers.GameController;
 import Server.Utils.CommandException;
 import Project.Utils.NameAndToken;
+import Server.Utils.MenuStackManager;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
@@ -55,6 +56,7 @@ public class Database {
         String token = user2tokenTable.get(user);
         if (token != null) {
             deleteFromTokens(token, user);
+            MenuStackManager.getInstance().getMenuStacksMap().remove(user);
         }
     }
 
