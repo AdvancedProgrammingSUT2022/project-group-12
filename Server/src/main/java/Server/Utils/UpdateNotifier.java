@@ -1,5 +1,6 @@
 package Server.Utils;
 
+import Project.Models.Chat;
 import Project.Models.Tiles.Tile;
 import Project.Utils.*;
 
@@ -24,6 +25,12 @@ public class UpdateNotifier implements Observer<Tile> {
     public void sendAddTechnologyMessage(String techName){
         Request request = new Request(RequestType.SHOW_NEW_TECHNOLOGY_ACHIEVED,null);
         request.addParameter("TechName",techName);
+        this.sendRequest(request);
+    }
+
+    public void sendUpdateChatRequest(Chat chat){
+        Request request = new Request(RequestType.UPDATE_CHAT,null);
+        request.setRequestChat(chat);
         this.sendRequest(request);
     }
 

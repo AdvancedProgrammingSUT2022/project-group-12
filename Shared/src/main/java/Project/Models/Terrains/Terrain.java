@@ -42,7 +42,7 @@ public class Terrain {
                 resources.addAll(feature.getPossibleResources());
             }
         }
-        if (resources.isEmpty() || random.nextInt(2) != 0) return null;
+        if (resources.isEmpty() || random.nextInt(8) != 0) return null;
         int chooseResource = random.nextInt(resources.size());
         return resources.get(chooseResource);
     }

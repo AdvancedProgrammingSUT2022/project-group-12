@@ -1,5 +1,6 @@
 package Client;
 
+import Client.Utils.RequestSender;
 import Client.Views.Menu;
 import Client.Views.MenuStack;
 import javafx.application.Application;
@@ -12,7 +13,6 @@ import java.util.Objects;
 public class App extends Application {
 
     private static Scene scene;
-
     public static void main(String[] args) {
         launch(args);
     }

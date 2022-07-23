@@ -1,15 +1,22 @@
 package Project.Models;
 
+import Project.Utils.NameAndToken;
+import Project.Utils.Notifier;
+import Project.Utils.Observer;
+
 import java.util.ArrayList;
 
-public class Chat {
+public class Chat  {
+
+    private final String token;
     private final String name;
     private final ArrayList<Message> messages;
     private final ArrayList<User> users;
 
 
-    public Chat(ArrayList<User> usersInChat, String name) {
-        this.name = name;
+    public Chat(ArrayList<User> usersInChat, NameAndToken nameAndToken) {
+        this.name = nameAndToken.getName();
+        this.token = nameAndToken.getToken();
         this.messages = new ArrayList<>();
         this.users = usersInChat;
     }
@@ -36,9 +43,9 @@ public class Chat {
         return usernames;
     }
 
-    public void sendMessage(Message message) {
-        messages.add(message);
-    }
+//    public void sendMessage(Message message) {
+//        messages.add(message);
+//    }
 
     public ArrayList<Message> getMessages() {
         return this.messages;
@@ -49,4 +56,9 @@ public class Chat {
         return "name='" + name + '\'' +
                 ", messages=" + messages ;
     }
+
+    public String getToken() {
+        return token;
+    }
+
 }

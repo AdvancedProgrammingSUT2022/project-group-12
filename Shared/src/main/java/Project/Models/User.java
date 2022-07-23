@@ -1,6 +1,7 @@
 package Project.Models;
 
 import Project.Enums.AvatarURLEnum;
+import Project.Utils.Observer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Random;
 public class User {
     private final String username;
     private final ArrayList<String> friends;
-    private transient final HashMap<String, Chat> chats;
+   // private transient final HashMap<String, Chat> chats = new HashMap<>();
     private final ArrayList<String> friendRequest;
     private final ArrayList<String> waitingOnFriendRequest;
     private String imageUrl;
@@ -29,7 +30,6 @@ public class User {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
-        this.chats = new HashMap<>();
         this.score = 0;
         this.imageUrl = assignRandomAvatar();
     }
@@ -121,24 +121,21 @@ public class User {
 //        Database.getInstance().serialize();
     }
 
-    public void startChat(Chat newChat) {
-        if (chats.containsKey(newChat.getName()))
-            return;
+//    public void startChat(Chat newChat) {
+//        if (chats.containsKey(newChat.getName()))
+//            return;
+//        chats.put(newChat.getName(), newChat);
+//    }
 
-        chats.put(newChat.getName(), newChat);
-    }
+//    public void setCurrentChat(String name) {
+//        this.currentChat = chats.get(name);
+//    }
 
-    public void setCurrentChat(String name) {
-        this.currentChat = chats.get(name);
-    }
 
-    public Chat getChat() {
-        return this.currentChat;
-    }
 
-    public ArrayList<String> previousChats() {
-        return new ArrayList<>(chats.keySet());
-    }
+//    public ArrayList<String> previousChats() {
+//        return new ArrayList<>(chats.keySet());
+//    }
 
     public void changeNickname(String newNickname) {
         this.nickname = newNickname;
@@ -179,20 +176,20 @@ public class User {
         this.lastLoginDate = lastLoginDate;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", chats=" + chats +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", password='" + password + '\'' +
-                ", score=" + score +
-                ", lastWinDate=" + lastWinDate +
-                ", lastLoginDate=" + lastLoginDate +
-                ", currentChat=" + currentChat +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "username='" + username + '\'' +
+//                ", chats=" + chats +
+//                ", imageUrl='" + imageUrl + '\'' +
+//                ", nickname='" + nickname + '\'' +
+//                ", password='" + password + '\'' +
+//                ", score=" + score +
+//                ", lastWinDate=" + lastWinDate +
+//                ", lastLoginDate=" + lastLoginDate +
+//                ", currentChat=" + currentChat +
+//                '}';
+//    }
 
 
 

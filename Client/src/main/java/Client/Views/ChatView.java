@@ -1,5 +1,7 @@
 package Client.Views;
 
+import Client.Utils.DatabaseQuerier;
+import Project.Models.Chat;
 import Project.Models.Message;
 import Project.Models.User;
 import javafx.fxml.FXML;
@@ -31,40 +33,44 @@ public class ChatView implements ViewController {
 
     public void initialize() {
         try {
-            if (MenuStack.getInstance().getUser().getChat().getMessages() != null) {
-                ArrayList<Message> messages = MenuStack.getInstance().getUser().getChat().getMessages();
+            if (MenuStack.getInstance().getCookies().getCurrentChat().getMessages() != null) {
+                ArrayList<Message> messages = MenuStack.getInstance().getCookies().getCurrentChat().getMessages();
                 for (Message message : messages) {
                     message.checkSeen(MenuStack.getInstance().getUser().getUsername());
                     chatBox.getChildren().add(createMessageBox(message));
+                    System.out.println(currentEditingMessage);
+                    message.getText().setOnMouseClicked(mouseEvent -> {
+                        ChatView.this.currentEditingMessage = message;
+                        messageTextField.setText(message.getMessage());
+                        deleteButton.setDisable(false);
+                        deleteButton.setVisible(true);
+                    });
                 }
             }
         } catch (Exception ignored) {
 
         }
-        chatBox.heightProperty().addListener((observable,oldValue, newValue) -> {
-            pane.setVvalue(1);
-        });
         chatBox.setMaxHeight(100);
         chatBox.setMaxWidth(552);
+        pane.setContent(chatBox);
+        pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
 
     @FXML
     public void sendNewMessage() {
+        System.out.println(currentEditingMessage);
         if (currentEditingMessage == null) {
             User user = MenuStack.getInstance().getUser();
             Message newMessage = new Message(user.getUsername(), user.getAvatarURL(), messageTextField.getText());
-            user.getChat().sendMessage(newMessage);
-            newMessage.getText().setOnMouseClicked(mouseEvent -> {
-                ChatView.this.currentEditingMessage = newMessage;
-                messageTextField.setText(newMessage.getMessage());
-                deleteButton.setDisable(false);
-                deleteButton.setVisible(true);
-            });
+            DatabaseQuerier.sendMessage(newMessage, MenuStack.getInstance().getCookies().getCurrentChat().getToken());
             chatBox.getChildren().add(createMessageBox(newMessage));
         } else {
+            System.out.println("edit");
             currentEditingMessage.editMessage(messageTextField.getText());
             currentEditingMessage = null;
             disableDeleteButton();
+            DatabaseQuerier.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getCurrentChat());
         }
         messageTextField.setText("");
     }
@@ -84,14 +90,21 @@ public class ChatView implements ViewController {
             message.getText().setText(message.getText().getText() + " ✓");
         }
         messageBox.getChildren().add(message.getText());
+        messageBox.setOnMouseClicked(mouseEvent -> {
+            ChatView.this.currentEditingMessage = message;
+            messageTextField.setText(message.getMessage());
+            deleteButton.setDisable(false);
+            deleteButton.setVisible(true);
+        });
         return messageBox;
     }
 
     @FXML
     public void deleteMessage() {
-        MenuStack.getInstance().getUser().getChat().deleteMessage(currentEditingMessage);
+        MenuStack.getInstance().getCookies().getCurrentChat().deleteMessage(currentEditingMessage);
         chatBox.getChildren().remove(createMessageBox(currentEditingMessage));
         disableDeleteButton();
+        DatabaseQuerier.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getCurrentChat());
         currentEditingMessage = null;
     }
 
@@ -108,5 +121,25 @@ public class ChatView implements ViewController {
         MenuStack.getInstance().popMenu();
         MenuStack.getInstance().popMenu();
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatSelectPage"));
+    }
+
+    public void updateChat(Chat updateChat) {
+            chatBox.getChildren().clear();
+            if (updateChat.getName().equals(MenuStack.getInstance().getCookies().getCurrentChat().getName())) {
+                MenuStack.getInstance().getCookies().setCurrentChat(updateChat);
+                if (MenuStack.getInstance().getCookies().getCurrentChat().getMessages() != null) {
+                    ArrayList<Message> messages = MenuStack.getInstance().getCookies().getCurrentChat().getMessages();
+                    for (Message message : messages) {
+                        message.checkSeen(MenuStack.getInstance().getUser().getUsername());
+                        message.getText().setOnMouseClicked(mouseEvent -> {
+                            ChatView.this.currentEditingMessage = message;
+                            messageTextField.setText(message.getMessage());
+                            deleteButton.setDisable(false);
+                            deleteButton.setVisible(true);
+                        });
+                        chatBox.getChildren().add(createMessageBox(message));
+                    }
+                }
+            }
     }
 }

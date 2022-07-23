@@ -3,6 +3,8 @@ package Client.Views;
 import Client.Utils.DatabaseQuerier;
 import Project.Models.Chat;
 import Project.Models.User;
+import Project.Utils.NameAndToken;
+import Project.Utils.TokenGenerator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,6 +29,7 @@ public class ChatSelectView implements ViewController {
     private VBox userBox1;
     private boolean chatSelected;
     private boolean userSelected;
+    private ArrayList<String> userChats;
     private final ArrayList<User> selectedUsers = new ArrayList<>();
     @FXML
     private ChoiceBox<String> userSelect;
@@ -35,7 +38,8 @@ public class ChatSelectView implements ViewController {
     public void initialize() {
         usernames = DatabaseQuerier.getAllUsernames();
         usernames.remove(MenuStack.getInstance().getUser().getUsername());
-        chatSelect.getItems().addAll(MenuStack.getInstance().getUser().previousChats());
+        this.userChats = new ArrayList<>(DatabaseQuerier.getPreviousChatsUser());
+        chatSelect.getItems().addAll(userChats);
         userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(usernames);
         this.chatSelected = false;
@@ -51,8 +55,8 @@ public class ChatSelectView implements ViewController {
         userSelect.getItems().removeAll(userSelect.getItems());
         userSelect.getItems().addAll(usernames);
         groupName.setText(chatSelect.getValue());
-        MenuStack.getInstance().getUser().setCurrentChat(chatSelect.getValue());
-        for (String username : MenuStack.getInstance().getUser().getChat().getUsernames()) {
+        MenuStack.getInstance().getCookies().setCurrentChat(chatSelect.getValue());
+        for (String username : MenuStack.getInstance().getCookies().getCurrentChat().getUsernames()) {
             userBox1.getChildren().add(new Text(username));
         }
     }
@@ -99,16 +103,19 @@ public class ChatSelectView implements ViewController {
             return;
         }
         User user = MenuStack.getInstance().getUser();
-        if (user.previousChats().contains(groupName.getText())) {
-            user.setCurrentChat(groupName.getText());
+        System.out.println("hello");
+        if (userChats.contains(groupName.getText())) {
+            System.out.println("sla uejpa");
+            MenuStack.getInstance().getCookies().setCurrentChat(groupName.getText());
         } else {
             selectedUsers.add(user);
-            Chat newChat = new Chat(selectedUsers, groupName.getText());
-            for (User eachUser : selectedUsers) {
-                eachUser.startChat(newChat);
-            }
-            user.setCurrentChat(groupName.getText());
+            //todo add constant
+            System.out.println("todo add constand");
+            Chat newChat = new Chat(selectedUsers,new NameAndToken(TokenGenerator.generate(8),groupName.getText()));
+            DatabaseQuerier.startChat(newChat);
+            MenuStack.getInstance().getCookies().setCurrentChat(groupName.getText());
         }
+        System.out.println("helllo");
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("MainChat"));
     }
 
@@ -118,7 +125,7 @@ public class ChatSelectView implements ViewController {
 
     public void groupNameEntered() {
         for (User user : selectedUsers) {
-            if (user.previousChats().contains(groupName.getText())) {
+            if (userChats.contains(groupName.getText())) {
                 groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
                 acceptButton.setDisable(true);
                 return;
@@ -126,9 +133,16 @@ public class ChatSelectView implements ViewController {
         }
         groupName.setStyle("-fx-border-color: none;");
         acceptButton.setDisable(false);
-        if (MenuStack.getInstance().getUser().previousChats().contains(groupName.getText())) {
+        if (userChats.contains(groupName.getText())) {
             groupName.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
             acceptButton.setDisable(true);
+        }
+    }
+    public void updateChats(String chatName){
+        if(!this.userChats.contains(chatName)) {
+            this.userChats.add(chatName);
+            chatSelect.getItems().clear();
+            chatSelect.getItems().addAll(this.userChats);
         }
     }
 }
