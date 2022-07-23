@@ -17,11 +17,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 public class UnitPanelView implements ViewController {
-
+    public Button pillageBtn;
     int TILEGRID_WIDTH;
     int TILEGRID_HEIGHT;
-
-    public Button pillageBtn;
+    @FXML
+    private Text movementPoint;
     @FXML
     private Button attackUnitBtn;
     @FXML
@@ -64,6 +64,7 @@ public class UnitPanelView implements ViewController {
         this.TILEGRID_HEIGHT = DatabaseQuerier.getTileGridSize().getFirst();
         this.TILEGRID_WIDTH = DatabaseQuerier.getTileGridSize().getSecond();
         unit = DatabaseQuerier.getSelectedUnit();
+        this.movementPoint.setText(String.valueOf(unit.getAvailableMoveCount()));
         System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
         initializeSpinners();
         name.setText(unit.getUnitType().name());
@@ -77,7 +78,6 @@ public class UnitPanelView implements ViewController {
         combatStrength.setText(String.valueOf(unit.getUnitType().getCombatStrength()));
         unitState.setText(unit.getState().toString());
     }
-
 
 
     private void initializeSpinners() {
@@ -103,7 +103,7 @@ public class UnitPanelView implements ViewController {
         button.setOnAction(actionEvent -> {
             String command = "unit clear land"; // todo: implement on server
             CommandResponse response = RequestSender.getInstance().sendCommand(command);
-            if( !response.isOK()){
+            if (!response.isOK()) {
                 MenuStack.getInstance().showError(response.toString());
                 return;
             } else {
@@ -121,7 +121,7 @@ public class UnitPanelView implements ViewController {
                 return;
             String command = "unit found city";
             CommandResponse response = RequestSender.getInstance().sendCommand(command);
-            if( !response.isOK()){
+            if (!response.isOK()) {
                 MenuStack.getInstance().showError(response.toString());
                 return;
             } else {
@@ -134,7 +134,7 @@ public class UnitPanelView implements ViewController {
 
 
     private void initializeYSpinner(Spinner<Integer> ySpinner, Button moveUnitBtn) {
-        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_HEIGHT - 1);
+        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         System.out.println("x: " + unit.getLocation().getRow());
         System.out.println("y: " + unit.getLocation().getCol());
         yValueFactory.setValue(unit.getLocation().getCol());
@@ -148,7 +148,7 @@ public class UnitPanelView implements ViewController {
     private void initializeXSpinner(Spinner<Integer> xSpinner, Button spinnerButton) {
         unit = DatabaseQuerier.getSelectedUnit();
         System.out.println("unit.getClass().getName() = " + unit.getClass().getName());
-        xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_WIDTH - 1);
+        xValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
         xValueFactory.setValue(unit.getLocation().getRow());
         xSpinner.setValueFactory(xValueFactory);
         xSpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -156,7 +156,7 @@ public class UnitPanelView implements ViewController {
             moveUnitBtn.setStyle("-fx-border-color: none;");
         });
 
-        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,  TILEGRID_HEIGHT - 1);
+        yValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_HEIGHT - 1);
         yValueFactory.setValue(unit.getLocation().getCol());
         ySpinner.setValueFactory(yValueFactory);
         ySpinner.valueProperty().addListener((observableValue, integer, t1) -> {
@@ -176,20 +176,20 @@ public class UnitPanelView implements ViewController {
         int locationY = ySpinner.getValue();
         String command = "unit move -p " + locationX + " " + locationY;
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if(!response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else if (RequestSender.getInstance().getParameter("foundRuin") != null) {
             MenuStack.getInstance().showSuccess(response.getMessage());
-        } 
-       back();
+        }
+        back();
     }
 
     public void sleep() {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit sleep";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -202,7 +202,7 @@ public class UnitPanelView implements ViewController {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit alert";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -215,7 +215,7 @@ public class UnitPanelView implements ViewController {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit fortify";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -228,7 +228,7 @@ public class UnitPanelView implements ViewController {
         unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit wake";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -255,7 +255,7 @@ public class UnitPanelView implements ViewController {
             // dialog
 
         }
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -289,7 +289,7 @@ public class UnitPanelView implements ViewController {
         Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit delete";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -298,12 +298,11 @@ public class UnitPanelView implements ViewController {
         back();
     }
 
-    public void pillage()
-    {
+    public void pillage() {
         Unit unit = DatabaseQuerier.getSelectedUnit();
         String command = "unit pillage";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if ( !response.isOK()) {
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
         } else {
             MenuStack.getInstance().showSuccess(response.getMessage());
@@ -313,7 +312,7 @@ public class UnitPanelView implements ViewController {
     public void buildImprovement() {
         String command = "unit build improvement";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
