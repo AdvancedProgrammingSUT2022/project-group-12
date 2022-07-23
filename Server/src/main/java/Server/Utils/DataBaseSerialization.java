@@ -23,6 +23,7 @@ public class DataBaseSerialization {
         try {
             ObjectOutputStream objectOutputStream = xStream.createObjectOutputStream(new FileOutputStream(this.dataBaseFile));
             objectOutputStream.writeObject(Database.getInstance());
+            objectOutputStream.flush();
             objectOutputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

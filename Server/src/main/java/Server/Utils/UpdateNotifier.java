@@ -3,6 +3,9 @@ package Server.Utils;
 import Project.Models.Chat;
 import Project.Models.Tiles.Tile;
 import Project.Utils.*;
+import com.google.gson.Gson;
+
+import java.util.HashMap;
 
 public class UpdateNotifier implements Observer<Tile> {
     private final Connection connection;
@@ -36,6 +39,18 @@ public class UpdateNotifier implements Observer<Tile> {
 
     public void sendSimpleRequest(RequestType requestType) {
         Request request = new Request(requestType, null);
+        this.sendRequest(request);
+    }
+
+    public void sendEndGameMessage(HashMap<String,Integer> civsScore) {
+        Request request = new Request(RequestType.END_GAME,null);
+        request.addParameter("civsScore",new Gson().toJson(civsScore));
+        this.sendRequest(request);
+    }
+
+    public void sendUpdateYearMessage(int currentYear) {
+        Request request = new Request(RequestType.UPDATE_YEAR,null);
+        request.addParameter("currentDate", String.valueOf(currentYear));
         this.sendRequest(request);
     }
 }

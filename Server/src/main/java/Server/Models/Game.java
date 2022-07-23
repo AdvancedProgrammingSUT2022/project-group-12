@@ -19,11 +19,12 @@ import Server.Controllers.CityHandler;
 import Server.Controllers.GameController;
 import Server.Utils.CommandException;
 import Server.Utils.GameException;
+import Server.Utils.MenuStackManager;
 import Server.Utils.UpdateNotifier;
+import Server.Views.MenuStack;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game {
     private final String token;
@@ -32,7 +33,7 @@ public class Game {
     private final ArrayList<User> users;
     private int gameTurn = -1;
 
-    public Game(ArrayList<User> users,int height,int width) {
+    public Game(ArrayList<User> users, int height, int width) {
         this.token = TokenGenerator.generate(Constants.TOKEN_LENGTH);
         this.users = users;
         this.civilizations = new ArrayList<>();
@@ -136,7 +137,7 @@ public class Game {
         updateRevealedTileGrid(civ);
         for (Unit unit : civ.getUnits()) {
             if (unit.getState() == UnitStates.AWAKE) {
-                checkForMultipleMoves(unit,response);
+                checkForMultipleMoves(unit, response);
                 // please don't erase this!
 //                checkForMovementCost(unit);
             }
@@ -153,14 +154,67 @@ public class Game {
 
 
         if (!civ.getCities().isEmpty() && civ.getResearchingTechnology() == null) {
+
             throw new CommandException(CommandResponse.NO_RESEARCHING_TECHNOLOGY);
         }
         checkForKillingCitizen(civ);
         civ.setGold(civ.calculateCivilizationGold());
+        System.out.println(isCurrentCivDefeatOthers());
+        System.out.println(new Date());
+        if (isCurrentCivDefeatOthers()) {
+            updateCivsScore();
+            setWinDateForWinnerCiv(this.getCurrentCivilization());
+            endGameNotifyUsers();
+            removeGameFromDataBase();
+            throw new CommandException(CommandResponse.END_OF_GAME);
+        }
+        if (this.gameTurn / civilizations.size() > 25) {
+            Civilization winnerCivilization = this.civilizations.get(0);
+            updateCivsScore();
+            for (Civilization civ1 :
+                    civilizations) {
+                if (civ1.calculateSuccess() > winnerCivilization.calculateSuccess()) {
+                    winnerCivilization = civ1;
+                }
+            }
+            setWinDateForWinnerCiv(winnerCivilization);
+            this.endGameNotifyUsers();
+            endGameNotifyUsers();
+            removeGameFromDataBase();
+            throw new CommandException(CommandResponse.END_OF_GAME);
+        }
+        updateYear();
         return response.toString();
     }
 
+    private void removeGameFromDataBase() {
+        Database.getInstance().getGames().remove(this.getToken());
+    }
 
+    private void setWinDateForWinnerCiv(Civilization winnerCivilization) {
+        winnerCivilization.getUser().setLastWinDate(new Date());
+    }
+
+    private void updateCivsScore() {
+        for (Civilization civ1 :
+                civilizations) {
+            if (civ1.calculateSuccess() > civ1.getUser().getScore()) {
+                civ1.getUser().setScore(civ1.calculateSuccess());
+            }
+        }
+    }
+
+    private void endGameNotifyUsers() {
+        HashMap<String, Integer> civsScores = new HashMap<>();
+        for (Civilization civ :
+                GameController.getGame().getCivilizationsSortedByScore()) {
+            civsScores.put(civ.getName(), civ.calculateSuccess());
+        }
+        for (MenuStack menuStack :
+                this.users.stream().filter(e -> !e.equals(getCurrentCivilization().getUser())).map(e -> MenuStackManager.getInstance().getMenuStackOfUser(e)).toList()) {
+            menuStack.getUpdateNotifier().sendEndGameMessage(civsScores);
+        }
+    }
 
 
     private void checkForKillingCitizen(Civilization civ) {
@@ -205,13 +259,24 @@ public class Game {
         civ.getUnits().forEach((unit) -> {
             if (unit instanceof CombatUnit) ((CombatUnit) unit).setHasAttack(false);
         });
-        if (this.gameTurn / civilizations.size() > 25) {
-            throw new GameException(CommandResponse.END_OF_GAME);
+    }
+
+    private boolean isCurrentCivDefeatOthers() {
+        if (this.getCurrentCivilization().isOwnerOfItsCapital()) {
+            for (Civilization civ :
+                    civilizations.stream().filter(e -> !e.equals(this.getCurrentCivilization())).toList()) {
+                if (civ.isOwnerOfItsCapital()) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 
     private void addProductionOfProductionQueueToCity(City city, Production production) {
-        if(production instanceof Unit unit){
+        if (production instanceof Unit unit) {
             Civilization cityCiv = GameController.getGame().getCivByName(city.getCivName());
             try {
                 GameController.placeUnit(unit, GameController.getGameTile(city.getLocation()));
@@ -220,7 +285,7 @@ public class Game {
                 // we should guarantee emptiness of the tile at the last turn
                 throw new RuntimeException(e);
             }
-        } else if(production instanceof Building building){
+        } else if (production instanceof Building building) {
             city.getBuildings().add(building);
         }
     }
@@ -242,10 +307,10 @@ public class Game {
 
     private void checkForMultipleMoves(Unit unit, StringBuilder response) {
         if (unit.getAvailableMoveCount() > 0 && unit.getPathShouldCross() != null && unit.getPathShouldCross().size() > 0) {
-            if(GameController.getGameTile(unit.getLocation()).isARuin()){
+            if (GameController.getGameTile(unit.getLocation()).isARuin()) {
                 GameController.getGameTile(unit.getLocation()).achieveRuin();
                 GameController.getCivByName(unit.getCivName()).addGold(Constants.GOLD_PRIZE_RUIN);
-                if(!response.toString().startsWith("ruin")){
+                if (!response.toString().startsWith("ruin")) {
                     response.append("ruin achieved successfully and 30 gold added to your territory");
                 }
             }
@@ -297,10 +362,17 @@ public class Game {
             return unit;
         }
     }
-    public Civilization getCivByName(String name){
-        for (Civilization civ:
-             this.getCivilizations()) {
-            if(name.equals(civ.getName())){
+    public void updateYear(){
+        for (MenuStack menuStack :
+                this.users.stream().map(e -> MenuStackManager.getInstance().getMenuStackOfUser(e)).toList()) {
+            menuStack.getUpdateNotifier().sendUpdateYearMessage(this.getCurrentYear());
+        }
+    }
+
+    public Civilization getCivByName(String name) {
+        for (Civilization civ :
+                this.getCivilizations()) {
+            if (name.equals(civ.getName())) {
                 return civ;
             }
         }
@@ -313,5 +385,27 @@ public class Game {
 
     public String getToken() {
         return token;
+    }
+
+    public ArrayList<Civilization> getCivilizationsSortedByScore() {
+        Collections.sort(this.civilizations, (o1, o2) -> {
+            if (o1.calculateSuccess() > o2.calculateSuccess()) {
+                return -1;
+            }
+            return 1;
+        });
+        return this.civilizations;
+    }
+
+    public HashMap<String, Integer> getCivNamesAndScore() {
+        HashMap<String, Integer> civsScore = new HashMap<>();
+        for (Civilization civ :
+                this.getCivilizationsSortedByScore()) {
+            civsScore.put(civ.getName(), civ.calculateSuccess());
+        }
+        return civsScore;
+    }
+    public int getCurrentYear(){
+        return (int) (( Math.floor((double) (gameTurn / civilizations.size())) + 1 ) * 10);
     }
 }

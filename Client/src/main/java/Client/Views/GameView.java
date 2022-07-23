@@ -12,9 +12,7 @@ import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -22,14 +20,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameView implements ViewController {
+    @FXML
+    private Text turnNumbers;
     @FXML
     private Rectangle myRect;
     @FXML
     private Pane mainPane;
     @FXML
     private Pane coverPane;
+
     @FXML
     private ImageView happinessImg;
     @FXML
@@ -63,6 +65,7 @@ public class GameView implements ViewController {
     private static GameView instance;
 
     public void initialize() {
+        turnNumbers.setText("Current Year : " + DatabaseQuerier.getCurrentYear());
         gold.setText(String.valueOf(DatabaseQuerier.getGoldOfCurrentCiv()));
         goldImg.setImage(new Image(App.class.getResource("/images/emojis/gold.png").toExternalForm()));
         happiness.setText(String.valueOf(DatabaseQuerier.getHappinessOfCurrentCiv()));
@@ -151,11 +154,22 @@ public class GameView implements ViewController {
     public static void reloadTechnologies() {
         instance.technologies = DatabaseQuerier.getCurrentTechnologies();
     }
+    public void reloadDate(String currentDate){
+        turnNumbers.setText("Current Year : " + DatabaseQuerier.getCurrentYear());
+    }
 
     public void NextTurn() {
         String command = "end turn";
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if (!response.isOK()) {
+            if(response == CommandResponse.END_OF_GAME){
+                System.out.println("hello");
+                HashMap<String,Integer> civsScore = new HashMap<>(DatabaseQuerier.getCivsByName());
+                EndGameDialog dialog = new EndGameDialog(civsScore);
+                dialog.showAndWait();
+                backToMenu();
+                return;
+            }
             MenuStack.getInstance().showError(response.toString());
         } else {
             changeCoverVisibility(true);
@@ -177,6 +191,13 @@ public class GameView implements ViewController {
 
     public static ArrayList<TechnologyEnum> getTechnologies() {
         return instance.technologies;
+    }
+
+    public void endGame(HashMap<String,Integer> civsScore){
+        System.out.println("end game");
+        EndGameDialog endGameDialog = new EndGameDialog(civsScore);
+        endGameDialog.showAndWait();
+        backToMenu();
     }
 
 }

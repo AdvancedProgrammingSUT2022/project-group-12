@@ -68,12 +68,14 @@ public class UnitCombatController extends CombatController {
             /*
              non combat unit has captured
              */
+            GameController.getGame().getCivByName(capturedUnit.getCivName()).getUnits().remove(capturedUnit);
             capturedUnit.setUnitType(UnitEnum.WORKER);
             capturedUnit.setCiv(civ.getName());
         } else {
             /*
              * nonCombat has killed
              */
+            GameController.getGame().getCivByName(capturedUnit.getCivName()).getUnits().remove(capturedUnit);
             tile.setUnitNull(capturedUnit);
         }
     }

@@ -21,11 +21,10 @@ import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 import Server.Utils.UpdateNotifier;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
-public class Civilization {
+public class Civilization implements Comparator {
     private final User user;
     private final String name;
     private final TerrainColor color;
@@ -50,6 +49,7 @@ public class Civilization {
     private int happinessFromCheat;
     private TechnologyEnum researchingTechnology;
     private City capital = null;
+    private Boolean hasCreateFirstCity = false;
     private Location currentSelectedGridLocation = new Location(0, 0);
     private Location initialLocation;
 
@@ -649,7 +649,34 @@ public class Civilization {
         return this.initialLocation;
     }
 
+    public void setHasCreateFirstCity(Boolean hasCreateFirstCity) {
+        this.hasCreateFirstCity = hasCreateFirstCity;
+    }
+
     public void setInitialLocation(Location initialLocation) {
         this.initialLocation = initialLocation;
+    }
+
+    public boolean isOwnerOfItsCapital() {
+        System.out.println(!hasCreateFirstCity + " " + units.size() + " " + Arrays.toString(units.toArray()));
+        if(!hasCreateFirstCity && units.size() != 0)  return true;
+        if(cities.size() == 0) return false;
+        for (City city:
+             this.cities) {
+            if(city.isCapital()){
+              return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int compare(Object o1, Object o2) {
+        if(o1 instanceof Civilization c1 && o2 instanceof Civilization c2) {
+            if (c2.calculateSuccess() > c1.calculateSuccess()) {
+                return 1;
+            }
+        }
+        return -1;
     }
 }

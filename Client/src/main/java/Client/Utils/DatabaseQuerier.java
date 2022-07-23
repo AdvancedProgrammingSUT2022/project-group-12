@@ -331,6 +331,16 @@ public class DatabaseQuerier {
     public static void sendUpdateChatRequest(Chat currentChat) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT,new Gson().toJson(currentChat));
     }
+
+    public static HashMap<String,Integer> getCivsByName() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIVS_SCORES);
+        return new Gson().fromJson(json,new TypeToken<HashMap<String,Integer>>(){}.getType());
+    }
+
+    public static Integer getCurrentYear() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CURRENT_YEAR);
+        return new Gson().fromJson(json,Integer.class);
+    }
 }
 
 class MyJsonDeserializer<T> implements JsonDeserializer<T> {

@@ -231,4 +231,8 @@ public class Database {
         }
         return null;
     }
+
+    public HashMap<String, Game> getGames() {
+        return games;
+    }
 }

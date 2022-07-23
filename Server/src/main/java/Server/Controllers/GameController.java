@@ -136,6 +136,7 @@ public class GameController {
         civ.addCity(city);
         GameController.deleteUnit(unit);
         if (isCapital) civ.setCapital(city);
+        civ.setHasCreateFirstCity(true);
         return city;
     }
 

@@ -19,6 +19,7 @@ import Server.Models.Civilization;
 import Server.Models.Database;
 import Server.Utils.UpdateNotifier;
 import com.google.gson.Gson;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -223,13 +224,17 @@ public class MenuStack {
                 yield null;
             }
             case SEND_CHAT_TO_CREATE -> {
-                ChatController.createNewChat(new Gson().fromJson(params[0],Chat.class));
+                ChatController.createNewChat(gson.fromJson(params[0],Chat.class));
                 yield null;
             }
             case UPDATE_CHAT -> {
-                ChatController.updateChat(new Gson().fromJson(params[0],Chat.class));
+                ChatController.updateChat(gson.fromJson(params[0],Chat.class));
                 yield null;
             }
+            case GET_CIVS_SCORES -> {
+               yield gson.toJson(GameController.getGame().getCivNamesAndScore());
+            }
+            case GET_CURRENT_YEAR -> gson.toJson(GameController.getGame().getCurrentYear());
         };
     }
 
