@@ -1,6 +1,8 @@
 package Client.Views;
 
+import Client.Utils.ChatController;
 import Client.Utils.DatabaseQuerier;
+import Project.Enums.ChatType;
 import Project.Models.Chat;
 import Project.Models.Message;
 import Project.Models.User;
@@ -16,7 +18,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
-public class PublicChatView implements ViewController {
+public class PublicChatView implements ViewController, ChatController {
 
     public ScrollPane pane;
     @FXML
@@ -40,12 +42,9 @@ public class PublicChatView implements ViewController {
                 for (Message message : messages) {
                     message.checkSeen(MenuStack.getInstance().getUser().getUsername());
                     chatBox.getChildren().add(createMessageBox(message));
-                    message.getText().setOnMouseClicked(mouseEvent -> {
-                        PublicChatView.this.currentEditingMessage = message;
-                        messageTextField.setText(message.getMessage());
-                        deleteButton.setDisable(false);
-                        deleteButton.setVisible(true);
-                    });
+                    if(message.getSender().equals(MenuStack.getInstance().getUser().getUsername())) {
+                        makeMessageEditable(message);
+                    }
                 }
             }
         } catch (Exception ignored) {
@@ -58,20 +57,30 @@ public class PublicChatView implements ViewController {
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
 
+    @Override
+    public void makeMessageEditable(Message message) {
+        message.getText().setOnMouseClicked(mouseEvent -> {
+            PublicChatView.this.currentEditingMessage = message;
+            messageTextField.setText(message.getMessage());
+            deleteButton.setDisable(false);
+            deleteButton.setVisible(true);
+        });
+    }
+
     @FXML
     public void sendNewMessage() {
         if (currentEditingMessage == null) {
             User user = MenuStack.getInstance().getUser();
             Message newMessage = new Message(user.getUsername(), user.getAvatarURL(), messageTextField.getText());
             MenuStack.getInstance().getCookies().getPublicChat().getMessages().add(newMessage);
-            DatabaseQuerier.sendUpdatePublicChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
+            this.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
             chatBox.getChildren().add(createMessageBox(newMessage));
         } else {
             System.out.println("edit");
             currentEditingMessage.editMessage(messageTextField.getText());
             currentEditingMessage = null;
             disableDeleteButton();
-            DatabaseQuerier.sendUpdatePublicChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
+            this.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
         }
         messageTextField.setText("");
     }
@@ -105,7 +114,7 @@ public class PublicChatView implements ViewController {
         MenuStack.getInstance().getCookies().getPublicChat().deleteMessage(currentEditingMessage);
         chatBox.getChildren().remove(createMessageBox(currentEditingMessage));
         disableDeleteButton();
-        DatabaseQuerier.sendUpdatePublicChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
+        this.sendUpdateChatRequest(MenuStack.getInstance().getCookies().getPublicChat());
         currentEditingMessage = null;
     }
 
@@ -123,7 +132,7 @@ public class PublicChatView implements ViewController {
         MenuStack.getInstance().popMenu();
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("ChatSelectPage"));
     }
-
+    @Override
     public void updateChat(Chat updateChat) {
         chatBox.getChildren().clear();
         if (updateChat.getName().equals(MenuStack.getInstance().getCookies().getPublicChat().getName())) {
@@ -132,22 +141,19 @@ public class PublicChatView implements ViewController {
                 ArrayList<Message> messages = MenuStack.getInstance().getCookies().getPublicChat().getMessages();
                 for (Message message : messages) {
                     message.checkSeen(MenuStack.getInstance().getUser().getUsername());
-                    message.getText().setOnMouseClicked(mouseEvent -> {
-                        PublicChatView.this.currentEditingMessage = message;
-                        messageTextField.setText(message.getMessage());
-                        deleteButton.setDisable(false);
-                        deleteButton.setVisible(true);
-                    });
+                    if(message.getSender().equals(MenuStack.getInstance().getUser().getUsername())) {
+                        makeMessageEditable(message);
+                    }
                     chatBox.getChildren().add(createMessageBox(message));
                 }
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
+    @Override
+    public void sendUpdateChatRequest(Chat chat) {
+         DatabaseQuerier.sendUpdateChatRequest(chat,ChatType.PUBLIC_CHAT);
+    }
+
+
 }

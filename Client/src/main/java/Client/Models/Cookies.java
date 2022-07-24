@@ -65,12 +65,6 @@ public class Cookies {
         this.selectedTile = selectedTile;
     }
 
-    public void updateChat(Chat requestChat) {
-        ViewController viewController = MenuStack.getInstance().getTopMenu().getController();
-        if(viewController instanceof ChatView chatView){
-            chatView.updateChat(requestChat);
-        }
-    }
 
     public Chat getCurrentChat() {
         return currentChat;

@@ -296,4 +296,14 @@ public class Database {
         Collections.shuffle(games);
         return new ArrayList<>(games.subList(0, Math.min(Constants.GAME_LIST_ITEM_COUNT, games.size())));
     }
+
+    public void updateLobbyChat(Chat updateChat) {
+        for (OpenGame openGame:
+             openGamesMap.values()) {
+            if(openGame.getLobbyChat().getToken().equals(updateChat.getToken())){
+                System.out.println("matched open game find");
+                openGame.setLobbyChat(updateChat);
+            }
+        }
+    }
 }

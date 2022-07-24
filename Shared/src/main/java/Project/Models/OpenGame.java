@@ -1,9 +1,11 @@
 package Project.Models;
 
 import Project.Utils.Constants;
+import Project.Utils.NameAndToken;
 import Project.Utils.TokenGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OpenGame {
     private final String name;
@@ -14,6 +16,7 @@ public class OpenGame {
     private final User admin;
     private final ArrayList<User> players = new ArrayList<>();
     private final boolean isPrivate;
+    private Chat lobbyChat;
 
     public OpenGame(String name, User admin, int height, int width, int playerLimit, boolean isPrivate) {
         this.token = TokenGenerator.generate(Constants.TOKEN_LENGTH);
@@ -24,6 +27,7 @@ public class OpenGame {
         this.admin = admin;
         this.isPrivate = isPrivate;
         this.addPlayer(admin);
+        this.lobbyChat = new Chat(new ArrayList<>(List.of(admin)),new NameAndToken(TokenGenerator.generate(8),"lobbyChat"));
     }
 
     public void addPlayer(User player) {
@@ -64,5 +68,13 @@ public class OpenGame {
 
     public boolean isPrivate() {
         return isPrivate;
+    }
+
+    public Chat getLobbyChat() {
+        return lobbyChat;
+    }
+
+    public void setLobbyChat(Chat lobbyChat) {
+        this.lobbyChat = lobbyChat;
     }
 }

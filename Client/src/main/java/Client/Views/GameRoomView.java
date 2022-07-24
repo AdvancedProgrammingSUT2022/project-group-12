@@ -1,6 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
+import Project.Enums.ChatType;
 import Project.Models.OpenGame;
 import Project.Models.User;
 import javafx.fxml.FXML;
@@ -52,12 +53,14 @@ public class GameRoomView implements ViewController {
     }
 
     public void openChatRoom() {
-
+        MenuStack.getInstance().pushMenu(Menu.loadFromFXML("LobbyChat"));
     }
 
     public void leaveGame() {
         String loginToken = MenuStack.getInstance().getCookies().getLoginToken();
         DatabaseQuerier.leaveFromRoom(loginToken, openGame.getToken());
+        openGame.getLobbyChat().removeUser(MenuStack.getInstance().getUser());
+        DatabaseQuerier.sendUpdateChatRequest(openGame.getLobbyChat(), ChatType.LOBBY_CHAT);
         MenuStack.getInstance().popMenu();
     }
 

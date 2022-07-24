@@ -81,6 +81,14 @@ public class UpdateTracker implements Runnable {
                 Platform.runLater(() -> {
                     MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
                 });
+            } else if (request.getRequestType() == RequestType.UPDATE_LOBBY_CHAT) {
+                Menu menu = MenuStack.getInstance().getTopMenu();
+                if (menu.getController() instanceof LobbyChatView lobbyChatView) {
+                    System.out.println("update chat Request : " + MenuStack.getInstance().getUser().getUsername());
+                    Platform.runLater(() -> lobbyChatView.updateChat(request.getRequestChat()));
+                } else if (menu.getController() instanceof GameRoomView gameRoomView) {
+                    MenuStack.getInstance().getCookies().getOpenRoom().setLobbyChat(request.getRequestChat());
+                }
             }
         }
     }

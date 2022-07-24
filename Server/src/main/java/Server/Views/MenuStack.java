@@ -1,6 +1,7 @@
 package Server.Views;
 
 import Project.Enums.BuildingEnum;
+import Project.Enums.ChatType;
 import Project.Enums.UnitEnum;
 import Project.Models.*;
 import Project.Models.Tiles.Tile;
@@ -222,27 +223,21 @@ public class MenuStack {
                 yield gson.toJson(chat);
             }
             case GET_USER_CHATS_NAMES ->  gson.toJson(Database.getInstance().getChats().stream().filter(e -> e.getUsernames().contains(user.getUsername())).map(Chat::getName).collect(Collectors.toList()));
-            case SEND_MESSAGE -> {
-                Message message = gson.fromJson(params[0],Message.class);
-                System.out.println("new message" + message.getDetailedMessage());
-                ChatController.sendMessage(Database.getInstance().getChatByToken(params[1]),message);
-                yield null;
-            }
             case SEND_CHAT_TO_CREATE -> {
                 ChatController.createNewChat(gson.fromJson(params[0],Chat.class));
                 yield null;
             }
             case UPDATE_CHAT -> {
-                ChatController.updateChat(gson.fromJson(params[0],Chat.class));
+                ChatController.updateChat(gson.fromJson(params[0],Chat.class),gson.fromJson(params[1], ChatType.class));
                 yield null;
             }
             case GET_ORIGINAL_TILE_GRID -> gson.toJson(GameController.getGame().getTileGrid());
             case GET_CIVS_SCORES -> gson.toJson(GameController.getGame().getCivNamesAndScore());
             case GET_CURRENT_YEAR -> gson.toJson(GameController.getGame().getCurrentYear());
             case GET_PUBLIC_CHAT -> gson.toJson(Database.getInstance().getPublicChat());
-            case SEND_PUBLIC_CHAT_UPDATE -> {
+            case SEND_PUBLIC_CHAT_UPDATE, SEND_LOBBY_CHAT_UPDATE -> {
                 System.out.println("server recieved chat and get");
-                ChatController.updatePublicChat(gson.fromJson(params[0],Chat.class));
+                ChatController.updateChat(gson.fromJson(params[0],Chat.class),gson.fromJson(params[1], ChatType.class));
                 yield null;
             }
             case CREATE_GAME -> {

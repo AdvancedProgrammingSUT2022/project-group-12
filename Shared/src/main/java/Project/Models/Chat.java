@@ -64,4 +64,12 @@ public class Chat  {
    public void addUser(User user){
         this.users.add(user);
    }
+
+    public void addMessage(Message newMessage) {
+        this.messages.add(newMessage);
+    }
+
+    public void removeUser(User user) {
+        this.users.remove(user);
+    }
 }

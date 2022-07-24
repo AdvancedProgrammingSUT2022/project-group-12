@@ -1,6 +1,7 @@
 package Client.Utils;
 
 import Project.Enums.BuildingEnum;
+import Project.Enums.ChatType;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
 import Project.Models.*;
@@ -320,19 +321,14 @@ public class DatabaseQuerier {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_CHAT_TO_CREATE,new Gson().toJson(newChat));
     }
 
-    public static void sendMessage(Message newMessage,String chatToken) {
-        System.out.println("send to menustack");
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_MESSAGE,new Gson().toJson(newMessage),chatToken);
-    }
+
 
     public static Chat getChatByName(String name) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CHAT_BY_NAME,name);
         return new Gson().fromJson(json,Chat.class);
     }
 
-    public static void sendUpdateChatRequest(Chat currentChat) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT,new Gson().toJson(currentChat));
-    }
+
 
     public static HashMap<String,Integer> getCivsByName() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIVS_SCORES);
@@ -354,9 +350,7 @@ public class DatabaseQuerier {
         return CustomGson.getInstance().fromJson(json, new TypeToken<Chat>(){}.getType());
     }
 
-    public static void sendUpdatePublicChatRequest(Chat publicChat) {
-        RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_PUBLIC_CHAT_UPDATE,new Gson().toJson(publicChat));
-    }
+
 
     public static String createGame(String loginToken, String name, int height, int width, int playerLimit, boolean isPrivate) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.CREATE_GAME, loginToken, name, String.valueOf(height), String.valueOf(width), String.valueOf(playerLimit), String.valueOf(isPrivate));
@@ -393,6 +387,20 @@ public class DatabaseQuerier {
     public static ArrayList<Pair<String, String>> getRunningGamesChoose() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAME_ITEMS_CHOOSE);
         return new Gson().fromJson(json,new TypeToken<ArrayList<Pair<String, String>>>(){}.getType());
+    }
+    public static void sendUpdateChatRequest(Chat chat, ChatType chatType){
+        switch (chatType) {
+            case NORMAL_CHAT -> {
+                String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.UPDATE_CHAT,new Gson().toJson(chat),new Gson().toJson(chatType));
+            }
+            case PUBLIC_CHAT -> {
+                RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_PUBLIC_CHAT_UPDATE,new Gson().toJson(chat),new Gson().toJson(chatType));
+            }
+            case LOBBY_CHAT -> {
+                RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_LOBBY_CHAT_UPDATE,new Gson().toJson(chat),new Gson().toJson(chatType));
+            }
+        }
+
     }
 }
 

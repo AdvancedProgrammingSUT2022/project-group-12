@@ -2,6 +2,7 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
+import Project.Enums.ChatType;
 import Project.Models.OpenGame;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
@@ -158,6 +159,8 @@ public class StartGameView implements ViewController {
             return;
         }
         DatabaseQuerier.joinToGame(MenuStack.getInstance().getCookies().getLoginToken(), openGamesNames);
+        selectedOpenGame.getLobbyChat().addUser(MenuStack.getInstance().getUser());
+        DatabaseQuerier.sendUpdateChatRequest(selectedOpenGame.getLobbyChat(), ChatType.LOBBY_CHAT);
         gotoRoom(openGamesNames);
     }
 
