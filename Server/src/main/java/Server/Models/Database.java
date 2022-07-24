@@ -260,6 +260,8 @@ public class Database {
     }
 
     public void removeFromAnyRoom(User user) {
+        if (this.openGamesMap == null)
+            return;
         for (OpenGame room : this.openGamesMap.values()) {
             if (room.getPlayers().contains(user)) {
                 room.removePlayer(user);

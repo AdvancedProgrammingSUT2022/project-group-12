@@ -32,13 +32,14 @@ public class FriendsView implements ViewController {
     @FXML
     private VBox requestsBox;
     private ArrayList<User> users;
+    private ArrayList<String> allUsernames;
     private User selectedUser;
     private MenuItem selectedItem;
 
     public void initialize() {
         selectedUser = DatabaseQuerier.getUser(MenuStack.getInstance().getUser().getUsername());
         users = DatabaseQuerier.getAllUsers();
-        typeFriendNameField.setOnAction(this::startTyping);
+        allUsernames = DatabaseQuerier.getAllUsernames();
         initUserSelect();
         initFriendRequests();
         initUserBox();
@@ -52,18 +53,6 @@ public class FriendsView implements ViewController {
             requestsBox.getChildren().add(createFriendBox(DatabaseQuerier.getUser(name)));
         }
         requestsBox.setSpacing(10);
-    }
-
-    private void startTyping(ActionEvent event) {
-        if (!users.contains(typeFriendNameField.getText())) {
-            typeFriendNameField.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
-            return;
-        }
-        typeFriendNameField.setStyle(null);
-        User user = DatabaseQuerier.getUser(typeFriendNameField.getText());
-        DatabaseQuerier.sendFriendRequest(selectedUser.getUsername(), user.getUsername());
-        user.sendFriendRequest(selectedUser.getUsername());
-        initRequestBox();
     }
 
     private void initUserBox() {
@@ -146,5 +135,18 @@ public class FriendsView implements ViewController {
 
     public void exit() {
         System.exit(0);
+    }
+
+    public void searchForFriend() {
+        String name = typeFriendNameField.getText();
+        if (!allUsernames.contains(name)) {
+            typeFriendNameField.setStyle("-fx-border-color: #ff0066; -fx-border-radius: 5; -fx-border-width: 3;");
+            return;
+        }
+        typeFriendNameField.setStyle(null);
+        User user = DatabaseQuerier.getUser(typeFriendNameField.getText());
+        DatabaseQuerier.sendFriendRequest(selectedUser.getUsername(), user.getUsername());
+        user.sendFriendRequest(selectedUser.getUsername());
+        initRequestBox();
     }
 }
