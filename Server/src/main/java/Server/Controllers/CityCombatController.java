@@ -1,5 +1,6 @@
 package Server.Controllers;
 
+import Project.Enums.CityTypeEnum;
 import Project.Enums.CombatTypeEnum;
 import Project.Models.Cities.City;
 import Project.Models.Tiles.Tile;
@@ -12,7 +13,6 @@ import Project.Utils.Constants;
 import Server.Models.Civilization;
 import Server.Models.Game;
 import Server.Utils.CommandException;
-import Server.Views.MenuStack;
 
 import java.util.Random;
 
@@ -67,43 +67,18 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
-                return "city captured";
+                if (false && cityTile.getCity().isCapital()) {
+                    makeCityAnnexed(city, GameController.getGame().getCurrentCivilization());
+                    return "enemy capital annexed successfully";
+                } else {
+                    return "city captured"; // view will prompt a dialog for annex or destroy
+                }
             }
         }
         return "both are damaged !!";
     }
 
-    // todo: integrate with view
-    private static String captureTheCity(Civilization civ, Unit unit, City city, Tile cityTile, Civilization capturedCiv) {
-        // todo: use a new method for this
-//
-//          String message = MenuStack.getInstance().getOptionForAttack();
-//        GetMessageLoop:
-//        while (true) {
-//            switch (message) {
-//                case "Annexed" -> {
-//                    city.setCityState(CityTypeEnum.ANNEXED);
-//                    makeCityAnnexed(city, civ);
-//                    break GetMessageLoop;
-//                }
-//                case "Destroy" -> {
-//                    if (city.isCapital()) {
-//                        message = MenuStack.getInstance().getOptionForAttack("you can't destroy capital");
-//                        continue GetMessageLoop;
-//                    }
-//                    destroyCity(city);
-//                    break GetMessageLoop;
-//                }
-//                default -> {
-//                    GameMenu.printError(CommandResponse.INVALID_COMMAND);
-//                    message = MenuStack.getInstance().getOptionForAttack();
-//                }
-//            }
-//        }
-        return "wow you have captured the city";
-    }
-
-    private static void destroyCity(City city) {
+    public static void destroyCity(City city) {
         city.getBuildings().clear();
         for (Tile tile : CityHandler.getCityTiles(city)) {
             tile.setCitizen(null);
@@ -112,7 +87,8 @@ public class CityCombatController extends CombatController {
         setNewCivForCityTiles(city, null);
     }
 
-    private static void makeCityAnnexed(City city, Civilization civ) {
+    public static void makeCityAnnexed(City city, Civilization civ) {
+        city.setCityState(CityTypeEnum.ANNEXED);
         city.setCivName(civ.getName());
         Random random = new Random();
         int length = city.getBuildings().size();

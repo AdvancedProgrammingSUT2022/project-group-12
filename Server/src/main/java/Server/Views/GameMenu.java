@@ -11,10 +11,7 @@ import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
 import Project.Utils.RequestType;
-import Server.Controllers.CheatCodeController;
-import Server.Controllers.CombatController;
-import Server.Controllers.GameController;
-import Server.Controllers.UnitCombatController;
+import Server.Controllers.*;
 import Server.Controllers.ValidateGameMenuFuncs.MapFuncs;
 import Server.Controllers.ValidateGameMenuFuncs.UnitFuncs;
 import Server.Models.Civilization;
@@ -601,9 +598,38 @@ public class GameMenu extends Menu {
             case "buy" -> cityBuy(command);
             case "attack" -> cityAttack(command);
             case "queue" -> cityQueue(command);
+            case "annex" -> cityAnnex(command);
+            case "destroy" -> cityDestroy(command);
             // not required in graphics
 //            case "info" -> answer(this.selectedCity.getInfo());
             default -> answer(CommandResponse.INVALID_COMMAND);
+        }
+    }
+
+    private void cityDestroy(Command command) {
+        try {
+            command.abbreviate("position", 'p');
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            City city = GameController.getGameTile(location).getCity();
+            CityCombatController.destroyCity(city);
+            answer("city made destroyed successfully");
+        } catch (CommandException e) {
+            answer(e);
+        }
+    }
+
+    private void cityAnnex(Command command) {
+        try {
+            command.abbreviate("position", 'p');
+            command.assertOptions(List.of("position"));
+            Location location = command.getLocationOption("position");
+            City city = GameController.getGameTile(location).getCity();
+            Civilization civilization = GameController.getGame().getCurrentCivilization();
+            CityCombatController.makeCityAnnexed(city, civilization);
+            answer("city made annexed successfully");
+        } catch (CommandException e) {
+            answer(e);
         }
     }
 

@@ -16,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
+import java.util.Optional;
+
 public class UnitPanelView implements ViewController {
     public Button pillageBtn;
     int TILEGRID_WIDTH;
@@ -253,7 +255,15 @@ public class UnitPanelView implements ViewController {
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if (response == CommandResponse.CITY_CAPTURED) {
             // dialog
-
+            MenuStack.getInstance().showSuccess("enemy city was captured");
+            Optional<String> optional = new WinCityDialog().showAndWait();
+            if (true) {
+                command = "city annex -p " + locationX + " " + locationY;
+                response = RequestSender.getInstance().sendCommand(command);
+            } else {
+                command = "city destroy -p " + locationX + " " + locationY;
+                response = RequestSender.getInstance().sendCommand(command);
+            }
         }
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
