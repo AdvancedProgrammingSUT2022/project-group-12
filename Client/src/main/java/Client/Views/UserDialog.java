@@ -13,12 +13,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import java.text.SimpleDateFormat;
+
 public class UserDialog extends Dialog<String> {
     private Text score;
     private Text name;
     private ImageView avatar;
     private User user;
     private boolean isOk;
+    private boolean isOnline;
+    private Text loginDate;
 
     public UserDialog(User user) {
         this.user = user;
@@ -29,9 +33,15 @@ public class UserDialog extends Dialog<String> {
         avatar = new ImageView(AvatarView.getAvatarImage(user.getAvatarURL()));
         avatar.setFitHeight(15);
         avatar.setFitWidth(15);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         avatar.setOnMouseClicked(mouseEvent -> DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
                 user.getUsername()));
-
+        loginDate = new Text("Last Login: " + (user.getLastLoginDate() == null ? "N/A" : simpleDateFormat.format(user.getLastLoginDate())));
+        loginDate.setTextAlignment(TextAlignment.CENTER);
+        loginDate.setWrappingWidth(150);
+        boolean online = DatabaseQuerier.getIsUsernameOnline(user.getUsername());
+        loginDate.setStyle("-fx-fill:" + (online ? "green" : "black"));
+        loginDate.setText((online ? "online " : "offline ") + loginDate.getText());
         name = new Text(user.getUsername());
         name.setWrappingWidth(110);
         buildUI();
@@ -49,9 +59,13 @@ public class UserDialog extends Dialog<String> {
         hBox.setSpacing(20);
         vBox.getChildren().add(hBox);
         vBox.getChildren().add(score);
+        vBox.getChildren().add(loginDate);
         this.getDialogPane().setContent(vBox);
+        Text note = new Text("For sending request click yes, and for canceling the process click no");
+        vBox.getChildren().add(note);
         this.getDialogPane().getButtonTypes().add(ButtonType.YES);
         this.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        this.setTitle("Friend Accept Page");
         Button yesBtn = (Button) getDialogPane().lookupButton(ButtonType.YES);
         Button noBtn = (Button) getDialogPane().lookupButton(ButtonType.NO);
         yesBtn.addEventFilter(ActionEvent.ACTION, event -> isOk = true);

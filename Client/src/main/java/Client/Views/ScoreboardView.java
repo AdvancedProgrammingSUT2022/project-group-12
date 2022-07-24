@@ -2,11 +2,14 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Project.Models.User;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -87,6 +90,7 @@ public class ScoreboardView implements ViewController {
             if (i > 0) {
                 Tooltip tooltip = new Tooltip("send friend request to " + user.getUsername());
                 Tooltip.install(hBox, tooltip);
+                hBox.setOnMouseEntered(mouseEvent -> hBox.setCursor(Cursor.HAND));
                 hBox.setOnMouseClicked(mouseEvent -> {
                     UserDialog dialog = new UserDialog(user);
                     dialog.showAndWait();
