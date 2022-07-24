@@ -5,6 +5,7 @@ import Client.Utils.RequestSender;
 import Project.Enums.BuildingEnum;
 import Project.Enums.TechnologyEnum;
 import Project.Enums.UnitEnum;
+import Project.Models.Buildings.Building;
 import Project.Models.Cities.City;
 import Project.Models.Citizen;
 import Project.Models.Production;
@@ -21,12 +22,17 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class CityPanelView implements ViewController {
-    public Button addProductionBtn;
-    public Button removeProduction;
-    public MenuButton productionsMenu;
     String selectedProudtionName;
     int TILEGRID_WIDTH;
     int TILEGRID_HEIGHT;
+    @FXML
+    private Button addProductionBtn;
+    @FXML
+    private Button removeProduction;
+    @FXML
+    private MenuButton productionsMenu;
+    @FXML
+    private MenuButton ownedBuildings;
     @FXML
     private HBox requirements;
     @FXML
@@ -108,7 +114,16 @@ public class CityPanelView implements ViewController {
         initProductMenu();
         initializeUnitMenu();
         initAttackSpinner();
+        initOwnedBuildings();
     }
+
+    private void initOwnedBuildings() {
+        for (Building building : DatabaseQuerier.getSelectedCity().getBuildings()) {
+            MenuItem item = new MenuItem(building.getBuildingType().name());
+            ownedBuildings.getItems().add(item);
+        }
+    }
+
 
     private void initAssignCitizenSpinner() {
         SpinnerValueFactory<Integer> xSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, TILEGRID_WIDTH - 1);
@@ -144,7 +159,8 @@ public class CityPanelView implements ViewController {
             productionsMenu.getItems().add(item);
         }
     }
-    public String capitalizeFirstString(String str){
+
+    public String capitalizeFirstString(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
@@ -165,10 +181,11 @@ public class CityPanelView implements ViewController {
             citizenSelectMenu.getItems().add(item);
         }
     }
+
     private void initializeProductionMenu() {
         ArrayList<String> productions = DatabaseQuerier.getCurrentCivAvailableProductions();
         Collections.sort(productions);
-        for (String name:
+        for (String name :
                 productions) {
             MenuItem menuItem = new MenuItem(capitalizeFirstString(name.toLowerCase()));
             menuItem.setOnAction(actionEvent -> {
@@ -222,7 +239,7 @@ public class CityPanelView implements ViewController {
             buyTileBtn.setDisable(true);
         String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -250,7 +267,7 @@ public class CityPanelView implements ViewController {
             command = "city citizen lock -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         }
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -314,7 +331,7 @@ public class CityPanelView implements ViewController {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         String command = "city build building -n " + selectedBuilding.name();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -331,7 +348,7 @@ public class CityPanelView implements ViewController {
         }
         String command = "city buy unit -u " + selectedUnit.name();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -343,7 +360,7 @@ public class CityPanelView implements ViewController {
     public void assignBtnAction(ActionEvent actionEvent) {
         String command = "city citizen assign -p " + assignCitizenXSpinner.getValue() + " " + assignCitizenYSpinner.getValue();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -358,7 +375,7 @@ public class CityPanelView implements ViewController {
         }
         String command = "city citizen unassign -p " + selectedCitizen.getLocation().getRow() + " " + selectedCitizen.getLocation().getCol();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -373,7 +390,7 @@ public class CityPanelView implements ViewController {
         int locationY = (int) attackYSpinner.getValue();
         String command = "city attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -381,17 +398,17 @@ public class CityPanelView implements ViewController {
         }
         back();
     }
+
     public void addToProductionQueue() {
         String command;
-        if(selectedProudtionName == null) return;
-        if(BuildingEnum.getBuildingEnumByName(selectedProudtionName.toUpperCase()) == null)
-        {
+        if (selectedProudtionName == null) return;
+        if (BuildingEnum.getBuildingEnumByName(selectedProudtionName.toUpperCase()) == null) {
             command = "city build unit -u " + selectedProudtionName;
         } else {
             command = "city build building -n " + selectedProudtionName;
         }
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if( !response.isOK()){
+        if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
         } else {
@@ -403,11 +420,11 @@ public class CityPanelView implements ViewController {
     public void removeFromProductionQueue() {
         Optional<String> dialogOutput = new RemoveProductionDialog(DatabaseQuerier.getSelectedCityProductionQueue()).showAndWait();
         String result = extractNumber(dialogOutput.get().toString().toCharArray());
-        if(!result.equals("")){
+        if (!result.equals("")) {
             int resultNumber = Integer.parseInt(result);
             String command = "city queue remove -n " + (resultNumber);
             CommandResponse response = RequestSender.getInstance().sendCommand(command);
-            if( !response.isOK()){
+            if (!response.isOK()) {
                 MenuStack.getInstance().showError(response.toString());
                 return;
             } else {
@@ -416,11 +433,12 @@ public class CityPanelView implements ViewController {
             back();
         }
     }
-    public String extractNumber(char[] chars){
+
+    public String extractNumber(char[] chars) {
         StringBuilder extractNumber = new StringBuilder("");
-        for (char ch:
-             chars) {
-            if(Character.isDigit(ch)) {
+        for (char ch :
+                chars) {
+            if (Character.isDigit(ch)) {
                 extractNumber.append(ch);
             }
         }
