@@ -28,13 +28,15 @@ import java.util.*;
 public class Game {
     private final String name;
     private final String token;
+    private final boolean isPrivate;
     private final ArrayList<Civilization> civilizations;
     private final TileGrid tileGrid;
     private final ArrayList<User> users;
     private int gameTurn = -1;
 
-    public Game(String token, String name, ArrayList<User> users,int height,int width) {
+    public Game(String token, String name, boolean isPrivate, ArrayList<User> users, int height, int width) {
         this.token = token;
+        this.isPrivate = isPrivate;
         this.name = name == null ? token : name;
         this.users = users;
         this.civilizations = new ArrayList<>();
@@ -163,11 +165,7 @@ public class Game {
         System.out.println(isCurrentCivDefeatOthers());
         System.out.println(new Date());
         if (isCurrentCivDefeatOthers()) {
-            updateCivsScore();
-            setWinDateForWinnerCiv(this.getCurrentCivilization());
-            endGameNotifyUsers();
-            removeGameFromDataBase();
-            throw new CommandException(CommandResponse.END_OF_GAME);
+            handleEndOfGame(this.getCurrentCivilization());
         }
         System.out.println("game turn divide civilization size " + (this.gameTurn / civilizations.size()) );
         if ((this.gameTurn / civilizations.size()) > Constants.GAME_LENGTH) {
@@ -191,7 +189,7 @@ public class Game {
         endGameNotifyUsers();
         removeGameFromDataBase();
         throw new CommandException(CommandResponse.END_OF_GAME);
-    }
+}
 
     private void removeGameFromDataBase() {
         Database.getInstance().getGames().remove(this.getToken());
@@ -422,5 +420,9 @@ public class Game {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
     }
 }

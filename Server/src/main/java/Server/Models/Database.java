@@ -249,8 +249,8 @@ public class Database {
         return publicChat;
     }
 
-    public String createOpenGame(String adminToken, String name, int height, int width, int playerLimit) {
-        OpenGame openGame = new OpenGame(name, Database.getInstance().getUserByToken(adminToken), height, width, playerLimit);
+    public String createOpenGame(String adminToken, String name, int height, int width, int playerLimit, boolean isPrivate) {
+        OpenGame openGame = new OpenGame(name, Database.getInstance().getUserByToken(adminToken), height, width, playerLimit, isPrivate);
         this.openGamesMap.put(openGame.getToken(), openGame);
         return openGame.getToken();
     }
@@ -263,6 +263,10 @@ public class Database {
         for (OpenGame room : this.openGamesMap.values()) {
             if (room.getPlayers().contains(user)) {
                 room.removePlayer(user);
+                if (room.getPlayers().size() == 0) {
+                    Database.getInstance().removeOpenGame(room);
+                    return;
+                }
                 MainMenuController.reloadRoomForPlayers(room);
             }
         }
@@ -272,8 +276,8 @@ public class Database {
         return new ArrayList<>(games.values().stream().filter(game -> game.getUsers().stream().map(User::getUsername).toList().contains(user.getUsername())).toList());
     }
 
-    public ArrayList<OpenGame> getSomeOpenGames() {
-        ArrayList<OpenGame> openGames = new ArrayList<>(openGamesMap.values());
+    public ArrayList<OpenGame> getSomePublicOpenGames() {
+        ArrayList<OpenGame> openGames = new ArrayList<>(openGamesMap.values().stream().filter(openGame -> !openGame.isPrivate()).toList());
         Collections.shuffle(openGames);
         return new ArrayList<>(openGames.subList(0, Math.min(Constants.GAME_LIST_ITEM_COUNT, openGames.size())));
     }
@@ -282,8 +286,8 @@ public class Database {
         openGamesMap.remove(openGame.getToken());
     }
 
-    public ArrayList<Game> getSomeRunningGames() {
-        ArrayList<Game> games = new ArrayList<>(this.games.values());
+    public ArrayList<Game> getSomePublicRunningGames() {
+        ArrayList<Game> games = new ArrayList<>(this.games.values().stream().filter(game -> !game.isPrivate()).toList());
         Collections.shuffle(games);
         return new ArrayList<>(games.subList(0, Math.min(Constants.GAME_LIST_ITEM_COUNT, games.size())));
     }

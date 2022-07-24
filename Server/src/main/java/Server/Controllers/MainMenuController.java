@@ -65,6 +65,10 @@ public class MainMenuController {
     public static void leaveRoom(String userToken, String roomToken) {
         OpenGame room = Database.getInstance().getOpenGameByToken(roomToken);
         room.removePlayer(Database.getInstance().getUserByToken(userToken));
+        if (room.getPlayers().size() == 0) {
+            Database.getInstance().removeOpenGame(room);
+            return;
+        }
         MainMenuController.reloadRoomForPlayers(room);
     }
 

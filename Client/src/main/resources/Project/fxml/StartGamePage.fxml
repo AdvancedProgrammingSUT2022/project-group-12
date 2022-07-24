@@ -8,11 +8,13 @@
     <Button layoutX="486.0" layoutY="362.0" onMouseClicked="#exitClick" styleClass="exitButton" text="Exit" textAlignment="CENTER" />
     <Button layoutX="29.0" layoutY="362.0" onMouseClicked="#backClick" styleClass="smallerButton" text="Back" textAlignment="CENTER" />
     <Button fx:id="createButton" layoutX="184.0" layoutY="152.0" mnemonicParsing="false" onMouseClicked="#createNewGame" text="Create New Game" />
-    <VBox alignment="CENTER" layoutX="46.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
+    <VBox alignment="CENTER" layoutX="28.0" layoutY="177.0" prefHeight="165.0" prefWidth="150.0" style="-fx-spacing: 10;">
+      <CheckBox fx:id="useTokenCheckbox" mnemonicParsing="false" text="Use token" onAction="#useTokenAction" />
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Join an open game" />
         <MenuButton fx:id="openGamesList" mnemonicParsing="false" text="Open games">
         </MenuButton>
       <Button fx:id="joinButton" mnemonicParsing="false" onAction="#joinGame" text="Join Game" />
+      <TextField fx:id="gameTokenField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="132.0" visible="false" onKeyTyped="#gameTokenTypeAction" />
     </VBox>
     <VBox alignment="CENTER" layoutX="405.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="See live game shows" />
@@ -24,7 +26,7 @@
    <Spinner fx:id="gridSizeHeight" layoutX="417.0" layoutY="111.0" />
    <Text layoutX="314.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid width:" />
    <Text layoutX="312.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grid height:" />
-   <Button layoutX="185.0" layoutY="347.0" mnemonicParsing="false" onAction="#reloadGamesLists" text="Reload Game Lists" />
+   <Button layoutX="188.0" layoutY="355.0" mnemonicParsing="false" onAction="#reloadGamesLists" text="Reload Game Lists" />
    <Spinner fx:id="playerCount" layoutX="137.0" layoutY="77.0" />
    <Text layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of players:" />
    <VBox alignment="CENTER" layoutX="234.0" layoutY="192.0" prefHeight="118.0" prefWidth="100.0" style="-fx-spacing: 10;">
@@ -37,5 +39,6 @@
    <Text layoutX="242.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create new game" />
    <Text layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name of game:" />
    <TextField fx:id="gameNameField" layoutX="103.0" layoutY="105.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="6.0" prefWidth="132.0" />
+   <CheckBox fx:id="isPrivateCheckbox" layoutX="61.0" layoutY="46.0" mnemonicParsing="false" text="Private game" onAction="#isPrivateAction" />
 
 </AnchorPane>
