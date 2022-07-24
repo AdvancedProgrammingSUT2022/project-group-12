@@ -22,14 +22,9 @@ public class ChatView implements ViewController {
     Button deleteButton;
     @FXML
     private VBox chatBox;
-
     @FXML
     private TextField messageTextField;
     private Message currentEditingMessage = null;
-
-    public void exitClick() {
-        System.exit(0);
-    }
 
     public void initialize() {
         try {

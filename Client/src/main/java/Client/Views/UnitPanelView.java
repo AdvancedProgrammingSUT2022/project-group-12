@@ -322,6 +322,13 @@ public class UnitPanelView implements ViewController {
     }
 
     public void setupUnit() {
-        //todo : setup unit
+        String command = "unit setup";
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
+        if (!response.isOK()) {
+            MenuStack.getInstance().showError(response.toString());
+            return;
+        } else {
+            MenuStack.getInstance().showSuccess(response.getMessage());
+        }
     }
 }
