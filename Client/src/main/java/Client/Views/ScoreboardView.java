@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ScoreboardView implements ViewController {
+    private static ScoreboardView instance = null;
     @FXML
     private ScrollPane pane;
-    private static ScoreboardView instance = null;
 
     public static void reload() {
         if (instance != null) instance.loadItems();
@@ -49,8 +49,6 @@ public class ScoreboardView implements ViewController {
                 ImageView avatar = new ImageView(AvatarView.getAvatarImage(user.getAvatarURL()));
                 avatar.setFitHeight(15);
                 avatar.setFitWidth(15);
-                avatar.setOnMouseClicked(mouseEvent -> DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
-                        user.getUsername()));
                 hBox.getChildren().add(avatar);
             }
 
@@ -85,6 +83,12 @@ public class ScoreboardView implements ViewController {
             else if (i == 1) color = "192, 192, 192";
             else if (i == 2) color = "210, 105, 30";
             hBox.setStyle("-fx-background-color: rgba(" + color + ", " + opacity + ");");
+            if (i > 0)
+                hBox.setOnMouseClicked(mouseEvent -> {
+                    DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
+                            user.getUsername());
+                    new UserDialog(user).showAndWait();
+                });
             vBox.getChildren().add(hBox);
         }
         pane.setContent(vBox);
