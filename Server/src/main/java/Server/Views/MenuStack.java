@@ -161,9 +161,10 @@ public class MenuStack {
             case SEND_FRIEND_REQUEST -> {
                 User sender = Database.getInstance().getUser(params[0]);
                 User receiver = Database.getInstance().getUser(params[1]);
+                if (sender == receiver) yield null;
                 sender.addToWaitingOnFriendRequest(receiver.getUsername());
                 receiver.sendFriendRequest(sender.getUsername());
-                yield gson.toJson(Database.getInstance().getAllUsernames());
+                yield null;
             }
             case GET_ALL_UNITS_ENUMS -> gson.toJson(UnitEnum.values());
             case GET_ALL_BUILDING_ENUMS -> gson.toJson(BuildingEnum.values());

@@ -91,7 +91,7 @@ public class DatabaseQuerier {
     }
 
     public static void sendFriendRequest(String sender, String receiver) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_FRIEND_REQUEST,sender,receiver);
+        RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_FRIEND_REQUEST,sender,receiver);
     }
     public static void acceptFriendRequest(String sender, String receiver) {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.ACCEPT_FRIEND_REQUEST,sender,receiver);

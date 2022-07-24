@@ -6,9 +6,11 @@ import Project.Models.Message;
 import Project.Models.User;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -77,6 +79,19 @@ public class ChatView implements ViewController {
         ImageView imageView = new ImageView(avatar);
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
+        User user = MenuStack.getInstance().getUser();
+        if (!message.getSender().equals(user.getUsername())) {
+            Tooltip tooltip = new Tooltip("send friend request to " + message.getSender());
+            Tooltip.install(imageView, tooltip);
+            imageView.setOnMouseClicked(mouseEvent -> {
+                UserDialog dialog = new UserDialog(DatabaseQuerier.getUser(message.getSender()));
+                dialog.showAndWait();
+                if (dialog.isOk()) {
+                    DatabaseQuerier.sendFriendRequest(user.getUsername(),
+                            message.getSender());
+                }
+            });
+        }
         messageBox.getChildren().add(imageView);
         messageBox.setAlignment(Pos.CENTER);
         if (message.isSeen() && !message.isFirstTime()) {
@@ -86,11 +101,12 @@ public class ChatView implements ViewController {
             message.getText().setText(message.getText().getText() + " ✓");
         }
         messageBox.getChildren().add(message.getText());
-        messageBox.setOnMouseClicked(mouseEvent -> {
+        if (user.getUsername().equals(message.getSender())) messageBox.setOnMouseClicked(mouseEvent -> {
             ChatView.this.currentEditingMessage = message;
             messageTextField.setText(message.getMessage());
             deleteButton.setDisable(false);
             deleteButton.setVisible(true);
+            messageBox.setCursor(Cursor.HAND);
         });
         return messageBox;
     }

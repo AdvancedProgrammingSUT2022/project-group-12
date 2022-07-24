@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class Database {
     private static Database instance = null;
@@ -39,7 +42,7 @@ public class Database {
             this.addUser(new User(String.valueOf(i), String.valueOf(i), "nick" + i));
         }
         publicChat = new Chat(new ArrayList<>(users.values()),new NameAndToken(TokenGenerator.generate(8),"Public Chat"));
-        System.out.println("public chat usernames " + Arrays.toString(publicChat.getUsernames().toArray()));
+//        System.out.println("public chat usernames " + Arrays.toString(publicChat.getUsernames().toArray()));
     }
 
     public String receiveTokenFor(User user) throws CommandException {
