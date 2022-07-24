@@ -41,4 +41,12 @@ public class CitiesPanelView implements ViewController {
         MenuStack.getInstance().getCookies().setSelectedCity(selected);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
     }
+
+    public void exit() {
+        System.exit(0);
+    }
+
+    public void back() {
+        MenuStack.getInstance().popMenu();
+    }
 }

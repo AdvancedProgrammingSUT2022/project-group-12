@@ -31,8 +31,8 @@
                         <MenuItem onAction="#gotoCheatSheetPanel" text="CheatSheet Panel" />
                         <MenuItem onAction="#gotoCivPanel" text="Civilization Panel" />
                         <MenuItem mnemonicParsing="false" onAction="#gotoNotifications" text="Notifications" />
-                        <MenuItem mnemonicParsing="false" onAction="#gotoUnitsPanel" text="NextTurn" />
-                        <MenuItem mnemonicParsing="false" onAction="#gotoCitiesPanel" text="NextTurn" />
+                        <MenuItem mnemonicParsing="false" onAction="#gotoUnitsPanel" text="Units Panel" />
+                        <MenuItem mnemonicParsing="false" onAction="#gotoCitiesPanel" text="Cities Panel" />
 
                     </items>
                 </Menu>
