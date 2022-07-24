@@ -5,6 +5,7 @@ import Project.Models.User;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -83,7 +84,9 @@ public class ScoreboardView implements ViewController {
             else if (i == 1) color = "192, 192, 192";
             else if (i == 2) color = "210, 105, 30";
             hBox.setStyle("-fx-background-color: rgba(" + color + ", " + opacity + ");");
-            if (i > 0)
+            if (i > 0) {
+                Tooltip tooltip = new Tooltip("send friend request to " + user.getUsername());
+                Tooltip.install(hBox, tooltip);
                 hBox.setOnMouseClicked(mouseEvent -> {
                     UserDialog dialog = new UserDialog(user);
                     dialog.showAndWait();
@@ -92,6 +95,7 @@ public class ScoreboardView implements ViewController {
                                 user.getUsername());
                     }
                 });
+            }
             vBox.getChildren().add(hBox);
         }
         pane.setContent(vBox);

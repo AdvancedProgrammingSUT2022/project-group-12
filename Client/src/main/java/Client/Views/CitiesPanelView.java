@@ -1,8 +1,8 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
+import Client.Utils.SelectHandler;
 import Project.Models.Cities.City;
-import Project.Models.Units.Unit;
 import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.layout.VBox;
@@ -37,6 +37,7 @@ public class CitiesPanelView implements ViewController {
     public void gotoCityPage(ActionEvent event) {
         if (selected == null)
             return;
+        SelectHandler.sendSelectCityRequest(selected);
         MenuStack.getInstance().getCookies().setSelectedCity(selected);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
     }

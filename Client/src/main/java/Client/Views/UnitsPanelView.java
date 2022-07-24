@@ -1,6 +1,7 @@
 package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
+import Client.Utils.SelectHandler;
 import Project.Models.Units.Unit;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -40,6 +41,7 @@ public class UnitsPanelView implements ViewController {
     public void gotoUnitPage() {
         if (selected == null)
             return;
+        SelectHandler.sendSelectUnitRequest(selected);
         MenuStack.getInstance().getCookies().setSelectedUnit(selected);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
     }
