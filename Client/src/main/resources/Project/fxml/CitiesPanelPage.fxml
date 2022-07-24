@@ -26,6 +26,8 @@
         </ScrollPane>
         <Text fx:id="selectedCity" layoutX="436.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Unit" />
         <Button layoutX="421.0" layoutY="113.0" mnemonicParsing="false" onAction="#gotoCityPage" text="Goto Unit Page"/>
+        <Button layoutX="492.0" layoutY="298.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+        <Button layoutX="489.0" layoutY="331.0" mnemonicParsing="false" onAction="#back" text="Back" />
     </children>
 
 </AnchorPane>

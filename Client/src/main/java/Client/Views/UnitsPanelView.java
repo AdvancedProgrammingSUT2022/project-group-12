@@ -3,6 +3,7 @@ package Client.Views;
 import Client.Utils.DatabaseQuerier;
 import Client.Utils.SelectHandler;
 import Project.Models.Units.Unit;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.layout.VBox;
@@ -44,5 +45,13 @@ public class UnitsPanelView implements ViewController {
         SelectHandler.sendSelectUnitRequest(selected);
         MenuStack.getInstance().getCookies().setSelectedUnit(selected);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
+    }
+
+    public void exit() {
+        System.exit(0);
+    }
+
+    public void back() {
+        MenuStack.getInstance().popMenu();
     }
 }
