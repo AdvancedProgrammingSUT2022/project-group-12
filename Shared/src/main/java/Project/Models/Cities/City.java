@@ -6,7 +6,6 @@ import Project.Models.Location;
 import Project.Models.Production;
 import Project.Models.Tiles.Tile;
 import Project.Models.Units.Unit;
-import Project.Utils.Constants;
 
 import java.util.ArrayList;
 
@@ -41,7 +40,7 @@ public class City {
         this.tilesLocations = new ArrayList<>(tiles.stream().map(Tile::getLocation).toList());
         if (!this.tilesLocations.contains(tile.getLocation())) this.tilesLocations.add(tile.getLocation());
         this.gold = 100;
-        this.health = Constants.CITY_FULL_HEALTH;
+        this.health = 10;
         this.combatStrength = 10;
         this.isCapital = isCapital;
         this.citizensCount = 1;

@@ -110,8 +110,9 @@ public class GameController {
     public static void wakeUpUnit(Unit unit) throws CommandException {
         if (unit.getState() == UnitStates.ALERT || unit.getState() == UnitStates.SLEEP || unit.getState() == UnitStates.FORTIFY) {
             unit.setState(UnitStates.AWAKE);
+        } else {
+            throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
         }
-        throw new CommandException(CommandResponse.UNIT_IS_NOT_SLEEP);
     }
 
     public static void cancelMissionUnit(Unit unit) {
@@ -378,7 +379,8 @@ public class GameController {
         }
         TileGrid tileGrid = GameController.getGame().getTileGrid();
         Tile tile = tileGrid.getTile(location);
-        if (tile.getCity() != null) throw new CommandException(CommandResponse.ALREADY_FOR_A_CITY);
+        System.out.println(city.getTilesLocations());
+        if (city.getTilesLocations().contains(location)) throw new CommandException(CommandResponse.ALREADY_FOR_A_CITY);
         boolean isNeighbor = false;
         for (Tile neighbor : tileGrid.getAllTilesInRadius(tile, 1)) {
             if (CityHandler.getCityTiles(city).contains(neighbor)) {
@@ -389,7 +391,7 @@ public class GameController {
         if (!isNeighbor) throw new CommandException(CommandResponse.NOT_ADJACENT_TO_CITY_TERRITORY);
         GameController.getGame().getCivByName((city.getCivName())).addGold(-Constants.TILE_COST);
         city.addTile(tile);
-        tile.setCity(city);
+//        tile.setCity(city);
     }
 
     public static void cityBuildBuilding(City selectedCity, BuildingEnum building) throws CommandException {

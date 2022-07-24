@@ -237,7 +237,7 @@ public class CityPanelView implements ViewController {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
         if (DatabaseQuerier.getSelectedCityGold() == 0)
             buyTileBtn.setDisable(true);
-        String command = "city buy tile -p " + this.city.getLocation().getRow() + " " + this.city.getLocation().getCol();
+        String command = "city buy tile -p " + this.locationX + " " + this.locationY;
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());

@@ -181,7 +181,7 @@ public class UnitPanelView implements ViewController {
         if (!response.isOK()) {
             MenuStack.getInstance().showError(response.toString());
             return;
-        } else if (RequestSender.getInstance().getParameter("foundRuin") != null) {
+        } else {
             MenuStack.getInstance().showSuccess(response.getMessage());
         }
         back();

@@ -147,11 +147,11 @@ public class Game {
         }
 
         for (City city : civ.getCities()) {
-            if (CityHandler.numberOfUnassignedCitizens(city) > 0) {
-                throw new CommandException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
-            } else if (city.getProductionQueue().isEmpty()) {
-                throw new CommandException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
-            }
+//            if (CityHandler.numberOfUnassignedCitizens(city) > 0) {
+//                throw new CommandException(CommandResponse.UNASSIGNED_CITIZEN, city.getName());
+//            } else if (city.getProductionQueue().isEmpty()) {
+//                throw new CommandException(CommandResponse.EMPTY_PRODUCTION_QUEUE, city.getName());
+//            }
         }
         response.append("Your turn ended successfully");
 
@@ -168,7 +168,7 @@ public class Game {
             handleEndOfGame(this.getCurrentCivilization());
         }
         System.out.println("game turn divide civilization size " + (this.gameTurn / civilizations.size()) );
-        if ((this.gameTurn / civilizations.size()) > Constants.GAME_LENGTH) {
+        if ((this.gameTurn / civilizations.size()) >= Constants.GAME_LENGTH) {
             Civilization winnerCivilization = this.civilizations.get(0);
             updateCivsScore();
             for (Civilization civ1 :
@@ -187,6 +187,11 @@ public class Game {
         updateCivsScore();
         setWinDateForWinnerCiv(winnerCiv);
         endGameNotifyUsers();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         removeGameFromDataBase();
         throw new CommandException(CommandResponse.END_OF_GAME);
 }
@@ -415,7 +420,7 @@ public class Game {
         return civsScore;
     }
     public int getCurrentYear(){
-        return (int) (( Math.floor((double) (gameTurn / civilizations.size())) + 1 ) * 10);
+        return (int) (2000 +  (( Math.floor((double) (gameTurn / civilizations.size()))) * 2));
     }
 
     public String getName() {

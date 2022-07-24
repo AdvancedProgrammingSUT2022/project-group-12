@@ -35,7 +35,6 @@ public class ProfileView implements ViewController {
     private Button passAcceptButton;
     private boolean passFieldIsOn = false;
     private boolean userFieldIsOn = false;
-    private boolean removeFieldIsOn = false;
     private boolean removingAccount = false;
     private boolean isOldPass = false;
 
@@ -90,24 +89,6 @@ public class ProfileView implements ViewController {
             passFieldIsOn = false;
             changingPass.getChildren().remove(changePass);
             changingPass.getChildren().remove(passAcceptButton);
-        }
-    }
-
-    public void removeAccountClick() {
-        removeOtherLevelBoxes(3);
-        if (!removeFieldIsOn) {
-            removeFieldIsOn = true;
-            removingAccount = true;
-            changePass = returnChangeField(false);
-            passAcceptButton = returnAcceptButton(false);
-            passAcceptButton.setPrefWidth(150);
-            rmAccount.getChildren().add(changePass);
-            rmAccount.getChildren().add(passAcceptButton);
-        } else {
-            removeFieldIsOn = false;
-            removingAccount = false;
-            rmAccount.getChildren().remove(changePass);
-            rmAccount.getChildren().remove(passAcceptButton);
         }
     }
 
@@ -172,7 +153,12 @@ public class ProfileView implements ViewController {
     private void passwordAboutToChange() {
         String command = "change password -o " + oldPass.getText() + " -n " + changePass.getText();
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        // todo: based on response
+        if (response.isOK()) {
+            command = "change password -o " + oldPass.getText() + " -n " + changePass.getText();
+            RequestSender.getInstance().sendCommand(command);
+            backClick();
+            ((MainMenuView) MenuStack.getInstance().getTopMenu().getController()).logout();
+        }
 //        if (MenuStack.getInstance().getUser().passwordMatchCheck(oldPass.getText())) {
 //            changePass.setStyle("-fx-border-color: #1aff00; -fx-border-radius: 5; -fx-border-width: 3;");
 //            MenuStack.getInstance().getUser().changePassword(changePass.getText());
