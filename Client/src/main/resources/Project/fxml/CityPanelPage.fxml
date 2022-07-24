@@ -47,7 +47,6 @@
 
             <MenuButton fx:id="buildingMenu" mnemonicParsing="false" text="Building">
                 <items>
-
                 </items>
             </MenuButton>
             <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building" />
@@ -90,8 +89,8 @@
             <children>
                 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="348.0" style="-fx-spacing: 20;">
                     <children>
-                        <Button fx:id="removeProduction"  onAction="#removeFromProductionQueue" mnemonicParsing="false" text="Remove Production" />
-                        <Button fx:id="addProductionBtn" onAction="#addToProductionQueue" mnemonicParsing="false" prefHeight="24.0" prefWidth="132.0" text="Add Prouduction" />
+                        <Button fx:id="removeProduction" mnemonicParsing="false" onAction="#removeFromProductionQueue" text="Remove Production" />
+                        <Button fx:id="addProductionBtn" mnemonicParsing="false" onAction="#addToProductionQueue" prefHeight="24.0" prefWidth="132.0" text="Add Prouduction" />
                     </children>
                 </HBox>
                 <MenuButton fx:id="productionsMenu" mnemonicParsing="false" text="Productions">
@@ -127,6 +126,5 @@
         </HBox>
 
     </VBox>
-   <AnchorPane prefHeight="200.0" prefWidth="200.0" />
 
 </AnchorPane>

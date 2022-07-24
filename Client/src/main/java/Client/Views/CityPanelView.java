@@ -101,11 +101,11 @@ public class CityPanelView implements ViewController {
         this.cityName.setText(city.getName());
         this.isCapital.setText(String.valueOf(city.isCapital()));
         this.NumberOfUnassignedCitizens.setText("Number of unassigned citizens : " + DatabaseQuerier.getSelectedCityNumberOfUnAssignedCitizen());
+        initializeBuildingMenu();
         initBuyTileSpinner();
         initAssignCitizenSpinner();
         initCitizenMenu();
         initProductMenu();
-        initializeBuildingMenu();
         initializeUnitMenu();
         initAttackSpinner();
     }
@@ -262,10 +262,9 @@ public class CityPanelView implements ViewController {
 
     private void initializeBuildingMenu() {
         city = MenuStack.getInstance().getCookies().getSelectedCity();
-        // todo: check is ok? bug?
         ArrayList<TechnologyEnum> civTechnologies = DatabaseQuerier.getCurrentTechnologies();
         for (BuildingEnum buildingEnum : BuildingEnum.values()) {
-            MenuItem item = new MenuItem(buildingEnum.name() + " " + buildingEnum.requiredTechName());
+            MenuItem item = new MenuItem(buildingEnum.name());
             item.setOnAction(actionEvent -> {
                 requirements.setVisible(true);
                 requirements.getChildren().removeAll(requirements.getChildren());
