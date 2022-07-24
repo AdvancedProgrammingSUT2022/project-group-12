@@ -54,7 +54,7 @@ public class DatabaseQuerier {
 
     public static ArrayList<Unit> getCurrentCivilizationUnits() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_UNITS);
-        return new Gson().fromJson(json, new TypeToken<ArrayList<Unit>>() {
+        return CustomGson.getInstance().fromJson(json, new TypeToken<ArrayList<Unit>>() {
         }.getType());
     }
 
