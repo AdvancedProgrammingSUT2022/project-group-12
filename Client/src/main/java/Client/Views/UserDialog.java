@@ -63,11 +63,11 @@ public class UserDialog extends Dialog<String> {
         this.getDialogPane().setContent(vBox);
         Text note = new Text("For sending request click yes, and for canceling the process click no");
         vBox.getChildren().add(note);
-        this.getDialogPane().getButtonTypes().add(ButtonType.YES);
-        this.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        this.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        this.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
         this.setTitle("Friend Accept Page");
-        Button yesBtn = (Button) getDialogPane().lookupButton(ButtonType.YES);
-        Button noBtn = (Button) getDialogPane().lookupButton(ButtonType.NO);
+        Button yesBtn = (Button) getDialogPane().lookupButton(ButtonType.OK);
+        Button noBtn = (Button) getDialogPane().lookupButton(ButtonType.CANCEL);
         yesBtn.addEventFilter(ActionEvent.ACTION, event -> isOk = true);
         noBtn.addEventFilter(ActionEvent.ACTION, event -> isOk = false);
     }
