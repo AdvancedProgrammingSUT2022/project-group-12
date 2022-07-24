@@ -2,7 +2,6 @@ package Client.Views;
 
 import Client.Utils.DatabaseQuerier;
 import Project.Models.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -121,9 +120,13 @@ public class FriendsView implements ViewController {
         for (User user : users) {
             MenuItem item = new MenuItem(user.getUsername());
             item.setOnAction(actionEvent -> {
-                addToFriendsMenu.setText(user.getUsername());
-                DatabaseQuerier.sendFriendRequest(selectedUser.getUsername(), user.getUsername());
-                initRequestBox();
+                UserDialog dialog = new UserDialog(user);
+                dialog.showAndWait();
+                if (dialog.isOk()) {
+                    addToFriendsMenu.setText(user.getUsername());
+                    DatabaseQuerier.sendFriendRequest(selectedUser.getUsername(), user.getUsername());
+                    initRequestBox();
+                }
             });
             addToFriendsMenu.getItems().add(item);
         }
@@ -144,9 +147,13 @@ public class FriendsView implements ViewController {
             return;
         }
         typeFriendNameField.setStyle(null);
-        User user = DatabaseQuerier.getUser(typeFriendNameField.getText());
-        DatabaseQuerier.sendFriendRequest(selectedUser.getUsername(), user.getUsername());
-        user.sendFriendRequest(selectedUser.getUsername());
-        initRequestBox();
+        User user = DatabaseQuerier.getUser(name);
+        UserDialog dialog = new UserDialog(user);
+        dialog.showAndWait();
+        if (dialog.isOk()) {
+            DatabaseQuerier.sendFriendRequest(selectedUser.getUsername(), user.getUsername());
+            user.sendFriendRequest(selectedUser.getUsername());
+            initRequestBox();
+        }
     }
 }

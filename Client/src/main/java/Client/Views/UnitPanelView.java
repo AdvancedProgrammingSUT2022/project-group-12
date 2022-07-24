@@ -320,4 +320,8 @@ public class UnitPanelView implements ViewController {
         }
         back();
     }
+
+    public void setupUnit() {
+        //todo : setup unit
+    }
 }

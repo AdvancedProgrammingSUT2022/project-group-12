@@ -85,9 +85,12 @@ public class ScoreboardView implements ViewController {
             hBox.setStyle("-fx-background-color: rgba(" + color + ", " + opacity + ");");
             if (i > 0)
                 hBox.setOnMouseClicked(mouseEvent -> {
-                    DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
-                            user.getUsername());
-                    new UserDialog(user).showAndWait();
+                    UserDialog dialog = new UserDialog(user);
+                    dialog.showAndWait();
+                    if (dialog.isOk()) {
+                        DatabaseQuerier.sendFriendRequest(MenuStack.getInstance().getUser().getUsername(),
+                                user.getUsername());
+                    }
                 });
             vBox.getChildren().add(hBox);
         }
