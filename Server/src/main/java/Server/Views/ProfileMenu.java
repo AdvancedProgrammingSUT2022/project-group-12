@@ -25,7 +25,7 @@ public class ProfileMenu extends Menu {
             command.abbreviate("nickname", 'n');
             command.assertOptions(List.of("nickname"));
             String nickname = command.getOption("nickname");
-            ProfileMenuController.changeNickname(null, nickname);
+            ProfileMenuController.changeNickname(this.menuStack.getUser(), nickname);
         } catch (CommandException e) {
             answer(e);
             return;
@@ -40,7 +40,7 @@ public class ProfileMenu extends Menu {
             command.assertOptions(List.of("oldPassword", "newPassword"));
             String oldPassword = command.getOption("oldPassword");
             String newPassword = command.getOption("newPassword");
-            ProfileMenuController.changePassword(null, oldPassword, newPassword);
+            ProfileMenuController.changePassword(this.menuStack.getUser(), oldPassword, newPassword);
         } catch (CommandException e) {
             answer(e);
             return;
