@@ -667,4 +667,8 @@ public class Civilization implements Comparator {
         }
         return -1;
     }
+
+    public void removeCity(City city) {
+        this.cities.remove(city);
+    }
 }

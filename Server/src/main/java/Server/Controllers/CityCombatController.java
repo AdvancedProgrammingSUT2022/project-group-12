@@ -67,6 +67,8 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
+                Civilization civ = GameController.getCivByName(city.getCivName());
+                civ.removeCity(city);
                 if (cityTile.getCity().isCapital()) {
                     return "capital captured";
                 } else {
@@ -100,6 +102,7 @@ public class CityCombatController extends CombatController {
                 }
             }
         }
+        civ.addCity(city);
         setNewCivForCityTiles(city, civ);
     }
 
