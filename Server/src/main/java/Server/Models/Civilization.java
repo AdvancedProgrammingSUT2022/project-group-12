@@ -20,7 +20,6 @@ import Server.Utils.BuildingNotesLoader;
 import Server.Utils.CommandException;
 import Server.Utils.UpdateNotifier;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Civilization implements Comparator {
@@ -505,14 +504,8 @@ public class Civilization implements Comparator {
     }
 
     public boolean containsResource(ResourceEnum resourceEnum) {
-        for (Resource resource :
-                resources) {
-            //todo check
-            if (resource.getResourceEnum() == resourceEnum || resourceEnum == ResourceEnum.RESET) {
-                return true;
-            }
-        }
-        return false;
+        if (resourceEnum == ResourceEnum.RESET) return true;
+        return resources.stream().anyMatch(resource -> resource.getResourceEnum() == resourceEnum);
     }
 
     public Resource getResourceByName(ResourceEnum resourceEnum) {

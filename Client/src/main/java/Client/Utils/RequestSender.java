@@ -2,7 +2,6 @@ package Client.Utils;
 
 import Client.Views.MenuStack;
 import Project.Utils.*;
-import com.google.gson.Gson;
 
 import java.net.Socket;
 import java.util.HashMap;
@@ -30,9 +29,9 @@ public class RequestSender {
 
     public CommandResponse sendRequest(Request request) {
         System.out.println();
-        connection.send(new Gson().toJson(request));
+        connection.send(CustomGson.getInstance().toJson(request));
         String responseJson = connection.listen();
-        Response response = new Gson().fromJson(responseJson, Response.class);
+        Response response = CustomGson.getInstance().fromJson(responseJson, Response.class);
         CommandResponse commandResponse = response.getCommandResponse();
         if(commandResponse.isOK()) commandResponse.setMessage(response.getParameter("successMessage"));
         this.responseParameterCache = response.getParametersMap();
@@ -59,7 +58,7 @@ public class RequestSender {
         Request request = new Request(RequestType.QUERY_DATABASE, MenuStack.getInstance().getCookies().getLoginToken());
         request.setQueryType(query);
         request.setQueryParams(params);
-        connection.send(new Gson().toJson(request));
+        connection.send(CustomGson.getInstance().toJson(request));
         String responseJson = connection.listen();
         System.out.println("DatabaseRequest (" + query + ")");
         return responseJson;

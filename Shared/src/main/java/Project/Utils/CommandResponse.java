@@ -92,7 +92,8 @@ public enum CommandResponse {
     NO_UNIT_SELECTED("no unit selected"),
     INVALID_TOKEN("request token is invalid"),
     CITY_CAPTURED("city captured"),
-    USER_ALREADY_LOGGED_IN("user has already logged in!");
+    USER_ALREADY_LOGGED_IN("user has already logged in!"),
+    CAPITAL_CAPTURED("enemy capital captured");
 
     private String message;
     private final String itemMessage;

@@ -4,7 +4,6 @@ import Client.Views.*;
 import Project.Models.Location;
 import Project.Models.OpenGame;
 import Project.Utils.*;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.application.Platform;
 
@@ -60,7 +59,7 @@ public class UpdateTracker implements Runnable {
                 Platform.runLater(ScoreboardView::reload);
             } else if (request.getRequestType() == RequestType.END_GAME) {
                 if(MenuStack.getInstance().getTopMenu().getController() instanceof GameView gameView) {
-                    Platform.runLater(() -> gameView.endGame(new Gson().fromJson(request.getParameter("civsScore"), new TypeToken<HashMap<String, Integer>>() {
+                    Platform.runLater(() -> gameView.endGame(CustomGson.getInstance().fromJson(request.getParameter("civsScore"), new TypeToken<HashMap<String, Integer>>() {
                     }.getType())));
                 }
             } else if(request.getRequestType() == RequestType.UPDATE_YEAR){

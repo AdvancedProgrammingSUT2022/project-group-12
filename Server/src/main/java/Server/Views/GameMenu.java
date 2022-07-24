@@ -1071,6 +1071,8 @@ public class GameMenu extends Menu {
             String ans = CombatController.AttackUnit(selectedUnit, location);
             if (ans.equals("city captured")) {
                 answer(CommandResponse.CITY_CAPTURED);
+            } else if (ans.equals("capital captured")) {
+                answer(CommandResponse.CAPITAL_CAPTURED);
             }
             // todo: is it OK?
             this.menuStack.clearResponseParameters();

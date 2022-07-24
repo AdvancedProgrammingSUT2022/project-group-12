@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 public class CityPanelView implements ViewController {
@@ -165,8 +166,10 @@ public class CityPanelView implements ViewController {
         }
     }
     private void initializeProductionMenu() {
+        ArrayList<String> productions = DatabaseQuerier.getCurrentCivAvailableProductions();
+        Collections.sort(productions);
         for (String name:
-                DatabaseQuerier.getCurrentCivAvailableProductions()) {
+                productions) {
             MenuItem menuItem = new MenuItem(capitalizeFirstString(name.toLowerCase()));
             menuItem.setOnAction(actionEvent -> {
                 selectedProudtionName = menuItem.getText();

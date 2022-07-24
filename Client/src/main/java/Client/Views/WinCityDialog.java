@@ -18,19 +18,11 @@ public class WinCityDialog extends Dialog<String> {
     ToggleButton destroy;
     ToggleButton annexed;
     String inputMessage = null;
+    boolean isCapital = false;
 
-    public WinCityDialog() {
+    public WinCityDialog(boolean isCapital) {
+        this.isCapital = isCapital;
         try {
-            buildUI();
-            setResultConverter();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public WinCityDialog(String message) {
-        try {
-            this.inputMessage = message;
             buildUI();
             setResultConverter();
         } catch (IOException e) {
@@ -53,6 +45,7 @@ public class WinCityDialog extends Dialog<String> {
         hBox.setPrefSize(179.0, 99.0);
         destroy = new ToggleButton("Destroy");
         destroy.setPrefSize(108.0, 24.0);
+        if (isCapital) destroy.setDisable(true);
         annexed = new ToggleButton("Annexed");
         annexed.setPrefSize(108.0, 24.0);
         hBox.getChildren().addAll(destroy, annexed);

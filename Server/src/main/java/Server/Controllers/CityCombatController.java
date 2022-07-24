@@ -67,9 +67,8 @@ public class CityCombatController extends CombatController {
                 throw new CommandException(CommandResponse.YOU_CANT_DESTROY_CITY_BY_RANGED_COMBAT);
             } else if (unit instanceof NonRangedUnit) {
                 unitTile.transferUnitTo(unit, cityTile);
-                if (false && cityTile.getCity().isCapital()) {
-                    makeCityAnnexed(city, GameController.getGame().getCurrentCivilization());
-                    return "enemy capital annexed successfully";
+                if (cityTile.getCity().isCapital()) {
+                    return "capital captured";
                 } else {
                     return "city captured"; // view will prompt a dialog for annex or destroy
                 }

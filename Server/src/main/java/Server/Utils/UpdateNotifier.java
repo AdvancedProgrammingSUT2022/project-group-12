@@ -4,7 +4,6 @@ import Project.Enums.ChatType;
 import Project.Models.Chat;
 import Project.Models.Tiles.Tile;
 import Project.Utils.*;
-import com.google.gson.Gson;
 
 import java.util.HashMap;
 
@@ -59,7 +58,7 @@ public class UpdateNotifier implements Observer<Tile> {
 
     public void sendEndGameMessage(HashMap<String, Integer> civsScore) {
         Request request = new Request(RequestType.END_GAME, null);
-        request.addParameter("civsScore", new Gson().toJson(civsScore));
+        request.addParameter("civsScore", CustomGson.getInstance().toJson(civsScore));
         this.sendRequest(request);
     }
 

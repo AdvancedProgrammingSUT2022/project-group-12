@@ -253,10 +253,10 @@ public class UnitPanelView implements ViewController {
         String command;
         command = "unit attack -p " + locationX + " " + locationY;
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
-        if (response == CommandResponse.CITY_CAPTURED) {
+        if (response == CommandResponse.CITY_CAPTURED || response == CommandResponse.CAPITAL_CAPTURED) {
             // dialog
             MenuStack.getInstance().showSuccess("enemy city was captured");
-            Optional<String> optional = new WinCityDialog().showAndWait();
+            Optional<String> optional = new WinCityDialog(response == CommandResponse.CAPITAL_CAPTURED).showAndWait();
             if (optional.get().equals("Annexed")) {
                 command = "capture annex -p " + locationX + " " + locationY;
                 response = RequestSender.getInstance().sendCommand(command);

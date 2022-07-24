@@ -7,7 +7,6 @@ import Server.Controllers.LoginMenuController;
 import Server.Controllers.MainMenuController;
 import Server.Models.Database;
 import Server.Views.MenuStack;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -30,14 +29,14 @@ public class RequestHandler implements Runnable {
     }
 
     private void sendResponse(Response response) {
-        this.connection.send(new Gson().toJson(response));
+        this.connection.send(CustomGson.getInstance().toJson(response));
     }
 
     public void handleRequest() throws IOException {
         String json = this.connection.listen();
         if (json == null) throw new IOException();
 //        System.out.println("json: " + json);
-        Request request = new Gson().fromJson(json, Request.class);
+        Request request = CustomGson.getInstance().fromJson(json, Request.class);
         System.out.println("ReqType = " + request.getRequestType());
         answerRequest(request);
     }
