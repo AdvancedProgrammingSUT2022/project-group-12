@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-
 <Pane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.GameView">
     <StackPane>
         <Pane fx:id="mainPane">
 
             <MenuBar fx:id="menuBar" prefHeight="27.0" prefWidth="600.0">
-                <Menu onAction="#calculateGold" text="Gold">
+                <Menu onShowing="#calculateGold" text="Gold">
                     <MenuItem fx:id="goldCount" />
                 </Menu>
-                <Menu onAction="#calculateBeaker" text="Beaker">
+                <Menu onShowing="#calculateBeaker" text="Beaker">
                     <MenuItem fx:id="beakerCount" />
                 </Menu>
-                <Menu onAction="#calculateHappiness" text="Happiness">
+                <Menu onShowing="#calculateHappiness" text="Happiness">
                     <MenuItem fx:id="happinessCount" />
                 </Menu>
                 <Menu mnemonicParsing="false" text="Panels">
