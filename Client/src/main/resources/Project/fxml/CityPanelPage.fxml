@@ -3,137 +3,160 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css"
+            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Client.Views.CityPanelView">
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/CheatSheet.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Views.CityPanelView">
+    <ScrollPane>
+        <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="378.0" prefWidth="583.0" spacing="5.0">
 
-    <VBox alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="378.0" prefWidth="583.0" spacing="5.0">
-
-        <Text fx:id="cityName" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName" />
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Population" />
-            <Text layoutX="253.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="---------------------------------------------------------------------------------------------" />
-            <Text fx:id="populationSize" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-
-        </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="68.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food" />
-            <Text layoutX="271.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------------------------------------" />
-            <Text fx:id="food" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-
-        </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="118.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gold" />
-            <Text layoutX="47.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------------------------------------" />
-            <Text fx:id="gold" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-
-        </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="26.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Capital" />
-            <Text layoutX="257.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="------------------------------------------------------------------------------------------------" />
-            <Text fx:id="isCapital" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-
-        </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="164.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Production" />
-            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-----------------------------------------------------------------------------------------------" />
-            <Text fx:id="production" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-
-        </HBox>
-      <HBox alignment="CENTER" layoutX="10.0" layoutY="115.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Buildings" />
-            <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-------------------------------------------------------------" />
-            <MenuButton mnemonicParsing="false" text="Buildings" fx:id="ownedBuildings">
-            </MenuButton>
-         </children>
-      </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="191.0" prefHeight="100.0" prefWidth="200.0" spacing="250.0">
-
-            <MenuButton fx:id="buildingMenu" mnemonicParsing="false" text="Building">
-                <items>
-                </items>
-            </MenuButton>
-            <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building" />
-
-        </HBox>
-      <HBox fx:id="requirements" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" visible="false" />
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
-
+            <Text fx:id="cityName" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName"/>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-                <Spinner fx:id="buyTileLocationXSpinner" prefHeight="24.0" prefWidth="108.0" promptText="x" />
-                <Spinner fx:id="buyTileLocationYSpinner" prefHeight="24.0" prefWidth="101.0" promptText="y" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Population"/>
+                <Text layoutX="253.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="---------------------------------------------------------------------------------------------"/>
+                <Text fx:id="populationSize" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
 
             </HBox>
-            <Button fx:id="buyTileBtn" mnemonicParsing="false" onAction="#BuyTile" text="Buy Tile" />
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="68.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-        </HBox>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food"/>
+                <Text layoutX="271.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="------------------------------------------------------------------------------------------------------"/>
+                <Text fx:id="food" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
 
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="118.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
 
-            <MenuButton fx:id="citizenSelectMenu" mnemonicParsing="false" text="Citizen" translateX="33.0">
-                <items>
-                </items>
-            </MenuButton>
-         <HBox maxWidth="-Infinity" prefHeight="24.0" prefWidth="257.0" spacing="20.0" translateX="40.0">
-            <children>
-                  <Button fx:id="lockUnlockBtn" mnemonicParsing="false" onAction="#lockOrUnlock" prefHeight="24.0" prefWidth="156.0" text="Lock / Unlock Citizen" />
-               <Button fx:id="UnAssignCitizen" mnemonicParsing="false" onAction="#unAssign" prefHeight="24.0" prefWidth="80.0" text="Unassign" />
-            </children>
-         </HBox>
-        </HBox>
-      <HBox alignment="CENTER" prefHeight="24.0" prefWidth="528.0" spacing="10.0">
-         <Button fx:id="assignBtn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#assignBtnAction" prefHeight="24.0" prefWidth="102.0" text="Assign " />
-         <Label fx:id="NumberOfUnassignedCitizens" prefHeight="16.0" prefWidth="244.0" translateX="-2.0" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gold"/>
+                <Text layoutX="47.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="------------------------------------------------------------------------------------------------------"/>
+                <Text fx:id="gold" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
 
-           <Spinner fx:id="assignCitizenXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" />
-           <Spinner fx:id="assignCitizenYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="y" />
-        </HBox>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-            <children>
-                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="348.0" style="-fx-spacing: 20;">
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="26.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Is Capital"/>
+                <Text layoutX="257.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="------------------------------------------------------------------------------------------------"/>
+                <Text fx:id="isCapital" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="164.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Production"/>
+                <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="-----------------------------------------------------------------------------------------------"/>
+                <Text fx:id="production" strokeType="OUTSIDE" strokeWidth="0.0" text="Text"/>
+
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="115.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                <children>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Buildings"/>
+                    <Text layoutX="27.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                          text="-------------------------------------------------------------"/>
+                    <MenuButton mnemonicParsing="false" text="Buildings" fx:id="ownedBuildings">
+                    </MenuButton>
+                </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="191.0" prefHeight="100.0" prefWidth="200.0"
+                  spacing="250.0">
+
+                <MenuButton fx:id="buildingMenu" mnemonicParsing="false" text="Building">
+                    <items>
+                    </items>
+                </MenuButton>
+                <Button fx:id="buyBuildingBtn" mnemonicParsing="false" onAction="#buyBuilding" text="Buy Building"/>
+
+            </HBox>
+            <HBox fx:id="requirements" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" visible="false"/>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="150.0">
+
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+
+                    <Spinner fx:id="buyTileLocationXSpinner" prefHeight="24.0" prefWidth="108.0" promptText="x"/>
+                    <Spinner fx:id="buyTileLocationYSpinner" prefHeight="24.0" prefWidth="101.0" promptText="y"/>
+
+                </HBox>
+                <Button fx:id="buyTileBtn" mnemonicParsing="false" onAction="#BuyTile" text="Buy Tile"/>
+
+            </HBox>
+
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="100.0" prefWidth="200.0"
+                  spacing="150.0">
+
+                <MenuButton fx:id="citizenSelectMenu" mnemonicParsing="false" text="Citizen" translateX="33.0">
+                    <items>
+                    </items>
+                </MenuButton>
+                <HBox maxWidth="-Infinity" prefHeight="24.0" prefWidth="257.0" spacing="20.0" translateX="40.0">
                     <children>
-                        <Button fx:id="removeProduction" mnemonicParsing="false" onAction="#removeFromProductionQueue" text="Remove Production" />
-                        <Button fx:id="addProductionBtn" mnemonicParsing="false" onAction="#addToProductionQueue" prefHeight="24.0" prefWidth="132.0" text="Add Prouduction" />
+                        <Button fx:id="lockUnlockBtn" mnemonicParsing="false" onAction="#lockOrUnlock" prefHeight="24.0"
+                                prefWidth="156.0" text="Lock / Unlock Citizen"/>
+                        <Button fx:id="UnAssignCitizen" mnemonicParsing="false" onAction="#unAssign" prefHeight="24.0"
+                                prefWidth="80.0" text="Unassign"/>
                     </children>
                 </HBox>
-                <MenuButton fx:id="productionsMenu" mnemonicParsing="false" text="Productions">
-                </MenuButton>
-            </children>
-        </HBox>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="507.0" prefWidth="583.0" spacing="100.0">
-         <children>
-            <Button fx:id="attackBtn" mnemonicParsing="false" onAction="#attackBtnAction" text="Attack" translateX="17.0" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Spinner fx:id="attackXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="x" translateX="-2.0" />
-                  <Spinner fx:id="attackYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0" promptText="y" />
-               </children>
             </HBox>
-         </children>
-      </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
+            <HBox alignment="CENTER" prefHeight="24.0" prefWidth="528.0" spacing="10.0">
+                <Button fx:id="assignBtn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false"
+                        onAction="#assignBtnAction" prefHeight="24.0" prefWidth="102.0" text="Assign "/>
+                <Label fx:id="NumberOfUnassignedCitizens" prefHeight="16.0" prefWidth="244.0" translateX="-2.0"/>
 
-            <MenuButton fx:id="unitMenu" mnemonicParsing="false" text="Unit">
-                <items>
+                <Spinner fx:id="assignCitizenXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0"
+                         promptText="x"/>
+                <Spinner fx:id="assignCitizenYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0"
+                         promptText="y"/>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                <children>
+                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0"
+                          prefWidth="348.0" style="-fx-spacing: 20;">
+                        <children>
+                            <Button fx:id="removeProduction" mnemonicParsing="false"
+                                    onAction="#removeFromProductionQueue" text="Remove Production"/>
+                            <Button fx:id="addProductionBtn" mnemonicParsing="false" onAction="#addToProductionQueue"
+                                    prefHeight="24.0" prefWidth="132.0" text="Add Prouduction"/>
+                        </children>
+                    </HBox>
+                    <MenuButton fx:id="productionsMenu" mnemonicParsing="false" text="Productions">
+                    </MenuButton>
+                </children>
+            </HBox>
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="507.0" prefWidth="583.0"
+                  spacing="100.0">
+                <children>
+                    <Button fx:id="attackBtn" mnemonicParsing="false" onAction="#attackBtnAction" text="Attack"
+                            translateX="17.0"/>
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                        <children>
+                            <Spinner fx:id="attackXSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0"
+                                     promptText="x" translateX="-2.0"/>
+                            <Spinner fx:id="attackYSpinner" maxWidth="-Infinity" prefHeight="24.0" prefWidth="70.0"
+                                     promptText="y"/>
+                        </children>
+                    </HBox>
+                </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="255.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
 
-                </items>
-            </MenuButton>
-            <Button fx:id="buyUnitBtn" mnemonicParsing="false" onAction="#buyUnit" text="Buy Unit" />
+                <MenuButton fx:id="unitMenu" mnemonicParsing="false" text="Unit">
+                    <items>
 
-        </HBox>
-        <HBox alignment="CENTER" layoutX="10.0" layoutY="346.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
+                    </items>
+                </MenuButton>
+                <Button fx:id="buyUnitBtn" mnemonicParsing="false" onAction="#buyUnit" text="Buy Unit"/>
 
-            <Button mnemonicParsing="false" onAction="#back" text="Back" />
-            <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="346.0" prefHeight="50.0" prefWidth="583.0" spacing="100.0">
 
-        </HBox>
+                <Button mnemonicParsing="false" onAction="#back" text="Back"/>
+                <Button mnemonicParsing="false" onAction="#exit" text="Exit"/>
 
-    </VBox>
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
 
 </AnchorPane>

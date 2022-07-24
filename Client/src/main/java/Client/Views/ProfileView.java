@@ -1,9 +1,7 @@
 package Client.Views;
 
-import Client.Utils.DatabaseQuerier;
 import Client.Utils.RequestSender;
 import Project.Utils.CommandResponse;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -46,6 +44,8 @@ public class ProfileView implements ViewController {
     }
 
     public void initialize() {
+        removeAccount = new Button();
+        rmAccount = new VBox();
         this.userAvatar.setImage(AvatarView.getAvatarImage(MenuStack.getInstance().getUser().getAvatarURL()));
         this.username.setText("-" + MenuStack.getInstance().getUser().getUsername());
     }
@@ -186,8 +186,6 @@ public class ProfileView implements ViewController {
     }
 
     private void removeOtherLevelBoxes(int currentLevel) {
-        while (currentLevel != 3 && rmAccount.getChildren().size() > 1)
-            rmAccount.getChildren().remove(rmAccount.getChildren().size() - 1);
         while (currentLevel != 2 && changingPass.getChildren().size() > 1)
             changingPass.getChildren().remove(changingPass.getChildren().size() - 1);
         while (currentLevel != 1 && changingNickname.getChildren().size() > 1)
