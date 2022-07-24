@@ -191,9 +191,8 @@ public class Hex implements Observer<Tile> {
         Group unitGroup = unitGroups.get(unit.getUnitType());
         unitGroup.setOnMouseClicked((mouseEvent) -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-                if (!DatabaseQuerier.getCurrentCivilizationUnits().contains(unit))
-                    return;
                 SelectHandler.sendSelectUnitRequest(unit);
+                if (DatabaseQuerier.getSelectedUnit() == null) return;
                 MenuStack.getInstance().getCookies().setSelectedUnit(unit);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("UnitPanelPage"));
             }
@@ -263,6 +262,7 @@ public class Hex implements Observer<Tile> {
         this.cityImageView.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 SelectHandler.sendSelectCityRequest(city);
+                if (DatabaseQuerier.getSelectedCity() == null) return;
                 MenuStack.getInstance().getCookies().setSelectedCity(city);
                 MenuStack.getInstance().pushMenu(Menu.loadFromFXML("CityPanelPage"));
             }

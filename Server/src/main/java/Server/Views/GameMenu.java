@@ -785,6 +785,8 @@ public class GameMenu extends Menu {
     }
 
     private void select(Command command) {
+        selectedUnit = null;
+        selectedCity = null;
         switch (command.getSubCategory()) {
             case "unit" -> this.selectUnit(command);
             case "city" -> this.selectCity(command);

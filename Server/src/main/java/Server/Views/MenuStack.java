@@ -3,10 +3,13 @@ package Server.Views;
 import Project.Enums.BuildingEnum;
 import Project.Enums.ChatType;
 import Project.Enums.UnitEnum;
-import Project.Models.*;
+import Project.Models.Chat;
+import Project.Models.Location;
+import Project.Models.OpenGame;
 import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Models.Units.Unit;
+import Project.Models.User;
 import Project.Utils.CommandResponse;
 import Project.Utils.DatabaseQueryType;
 import Project.Utils.Pair;
@@ -22,7 +25,10 @@ import Server.Utils.MenuStackManager;
 import Server.Utils.UpdateNotifier;
 import com.google.gson.Gson;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class MenuStack {
@@ -213,7 +219,7 @@ public class MenuStack {
             case GET_AVAILABLE_BUILDINGS_NAME ->
                     gson.toJson(Arrays.stream(BuildingEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(e.getRequiredTechs())).map(Enum::name).collect(Collectors.toList()));
             case GET_AVAILABLE_UNITS_NAME ->
-                    gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().hasRequierdTech(Collections.singletonList(e.getRequiredTech())) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
+                    gson.toJson(Arrays.stream(UnitEnum.values()).filter(e -> GameController.getGame().getCurrentCivilization().getTechnologies().contains(e.getRequiredTech()) && GameController.getGame().getCurrentCivilization().containsResource(e.getRequiredResource()))
                             .map(Enum::name).collect(Collectors.toList()));
             case GET_INVITED_GAMES_NAMES -> gson.toJson(Database.getInstance().getInvitedGamesFor(this.getUser()));
             case GET_IS_PLAYING_ALLOWED -> gson.toJson(GameController.getGame().getCurrentCivilization().civUser() == Database.getInstance().getUserByToken(params[0]));
