@@ -10,10 +10,13 @@ import Project.Models.Tiles.Tile;
 import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -68,11 +71,17 @@ public class GameView implements ViewController {
             instance.hexPaneCover.setVisible(true);
             instance.menuBar.setVisible(false);
             changeCoverVisibility(false);
+            Platform.runLater(mainPane::requestFocus);
+            scrollPane.setOnKeyPressed(this::keyPressed);
         } else {
             if (DatabaseQuerier.getIsPlayingAllowedFor(MenuStack.getInstance().getCookies().getLoginToken())) {
                 changeCoverVisibility(false);
             }
         }
+    }
+
+    private void keyPressed(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getCode().getName());
     }
 
     public static void changeCoverVisibility(boolean visible) {
@@ -200,7 +209,6 @@ public class GameView implements ViewController {
 
     public void calculateBeaker() {
         beakerCount.setText(String.valueOf(DatabaseQuerier.getScienceOfCurrentCiv()));
-
     }
 
     public void endGame(HashMap<String,Integer> civsScore){
