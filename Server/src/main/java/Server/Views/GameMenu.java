@@ -112,10 +112,18 @@ public class GameMenu extends Menu {
             case "unit" -> this.unit(command);
             case "map" -> this.map(command);
             case "city" -> this.city(command);
+            case "capture" -> this.capture(command);
             case "research" -> this.research(command);
             case "cheat" -> this.cheat(command);
             case "end" -> this.end(command);
             default -> answer(new CommandException(CommandResponse.INVALID_COMMAND));
+        }
+    }
+
+    private void capture(Command command) {
+        switch (command.getSubCategory()) {
+            case "annex" -> cityAnnex(command);
+            case "destroy" -> cityDestroy(command);
         }
     }
 
@@ -598,8 +606,6 @@ public class GameMenu extends Menu {
             case "buy" -> cityBuy(command);
             case "attack" -> cityAttack(command);
             case "queue" -> cityQueue(command);
-            case "annex" -> cityAnnex(command);
-            case "destroy" -> cityDestroy(command);
             // not required in graphics
 //            case "info" -> answer(this.selectedCity.getInfo());
             default -> answer(CommandResponse.INVALID_COMMAND);
