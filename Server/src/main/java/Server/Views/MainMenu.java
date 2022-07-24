@@ -17,7 +17,7 @@ public class MainMenu extends Menu {
     protected void handleCommand(Command command) {
         switch (command.getType()) {
             case "start game" -> this.playGame(command);
-            case "enter game" -> this.enterGame(command);
+            case "resume game" -> this.enterGame(command);
             case "show game" -> this.showGame(command);
             case "logout" -> this.logout();
             case "goto profile menu" -> this.menuStack.gotoProfileMenu();

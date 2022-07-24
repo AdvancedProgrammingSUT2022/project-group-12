@@ -23,11 +23,12 @@ public class GameRoomView implements ViewController {
     }
 
     public void initialize() {
-        openGame = MenuStack.getInstance().getCookies().getOpenRoom();
+        OpenGame openGame = MenuStack.getInstance().getCookies().getOpenRoom();
         this.updateOpenGame(openGame);
     }
 
     public void updateOpenGame(OpenGame openGame) {
+        this.openGame = openGame;
         this.gameNameText.setText(openGame.getName());
         this.adminNameText.setText(getTitleOfUser(openGame.getAdmin()));
         this.limitText.setText(String.valueOf(openGame.getPlayerLimit()));
@@ -46,9 +47,7 @@ public class GameRoomView implements ViewController {
     }
 
     public void startGame() {
-        System.out.println("clicked");
-//        if (openGame.getPlayers().size() < 2) return;
-        System.out.println("reached");
+        if (openGame.getPlayers().size() < 2) return;
         DatabaseQuerier.startGame(openGame.getToken());
     }
 

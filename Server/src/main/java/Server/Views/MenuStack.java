@@ -235,7 +235,6 @@ public class MenuStack {
                 ChatController.updateChat(gson.fromJson(params[0],Chat.class));
                 yield null;
             }
-            case GET_OPEN_GAMES_TOKENS -> gson.toJson(Database.getInstance().getAllOpenGamesTokens());
             case GET_ORIGINAL_TILE_GRID -> gson.toJson(GameController.getGame().getTileGrid());
             case GET_CIVS_SCORES -> gson.toJson(GameController.getGame().getCivNamesAndScore());
             case GET_CURRENT_YEAR -> gson.toJson(GameController.getGame().getCurrentYear());
@@ -263,9 +262,10 @@ public class MenuStack {
                 MainMenuController.joinRoom(params[0], params[1]);
                 yield null;
             }
-            case GET_RUNNING_GAMES_TOKENS -> gson.toJson(Database.getInstance().getRunningGamesTokens());
+            case GET_OPEN_GAME_ITEMS_CHOOSE -> gson.toJson(new ArrayList<>(Database.getInstance().getSomeOpenGames().stream().map(this::openGame2itemMapper).toList()));
+            case GET_RUNNING_GAME_ITEMS_CHOOSE -> gson.toJson(new ArrayList<>(Database.getInstance().getSomeRunningGames().stream().map(this::game2itemMapper).toList()));
+            case GET_RUNNING_GAME_ITEMS_OF_USER -> gson.toJson(new ArrayList<>(Database.getInstance().getRunningGamesOf(Database.getInstance().getUser(params[0])).stream().map(this::game2itemMapper).toList()));
             case START_GAME -> {
-//                System.out.println("T " + params[0]);
                 OpenGame openGame = Database.getInstance().getOpenGameByToken(params[0]);
                 Game game = new Game(openGame.getToken(), openGame.getName(), openGame.getPlayers(), openGame.getHeight(), openGame.getWidth());
                 Database.getInstance().addGame(game);
@@ -282,6 +282,14 @@ public class MenuStack {
                 yield null;
             }
         };
+    }
+
+    private Pair<String, String> openGame2itemMapper(OpenGame openGame) {
+        return new Pair<>(openGame.getName() + " (" + openGame.getPlayerLimit() + "x) : " + openGame.getPlayers().stream().map(User::getNickname).collect(Collectors.joining(" ")), openGame.getToken());
+    }
+
+    private Pair<String, String> game2itemMapper(Game game) {
+        return new Pair<>(game.getName() + " (" + game.getUsers().size() + "x) : " + game.getUsers().stream().map(User::getNickname).collect(Collectors.joining(" ")), game.getToken());
     }
 
     public void invalidate() {

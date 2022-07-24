@@ -344,11 +344,6 @@ public class DatabaseQuerier {
         return new Gson().fromJson(json,Integer.class);
     }
 
-    public static ArrayList<String> getOpenGamesNames() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_OPEN_GAMES_TOKENS);
-        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
-    }
-
     public static TileGrid getOriginalTileGrid() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_ORIGINAL_TILE_GRID);
         return CustomGson.getInstance().fromJson(json, new TypeToken<TileGrid>(){}.getType());
@@ -381,13 +376,23 @@ public class DatabaseQuerier {
         RequestSender.getInstance().databaseQuery(DatabaseQueryType.JOIN_ROOM, userToken, roomToken);
     }
 
-    public static ArrayList<String> getRunningGamesNames() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAMES_TOKENS);
-        return new Gson().fromJson(json,new TypeToken<ArrayList<String>>(){}.getType());
-    }
-
     public static void startGame(String gameToken) {
         RequestSender.getInstance().databaseQuery(DatabaseQueryType.START_GAME, gameToken);
+    }
+
+    public static ArrayList<Pair<String, String>> getOpenGamesItemChoose() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_OPEN_GAME_ITEMS_CHOOSE);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<Pair<String, String>>>(){}.getType());
+    }
+
+    public static ArrayList<Pair<String, String>> getRunningGamesOfUser(User user) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAME_ITEMS_OF_USER, user.getUsername());
+        return new Gson().fromJson(json,new TypeToken<ArrayList<Pair<String, String>>>(){}.getType());
+    }
+
+    public static ArrayList<Pair<String, String>> getRunningGamesChoose() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_RUNNING_GAME_ITEMS_CHOOSE);
+        return new Gson().fromJson(json,new TypeToken<ArrayList<Pair<String, String>>>(){}.getType());
     }
 }
 

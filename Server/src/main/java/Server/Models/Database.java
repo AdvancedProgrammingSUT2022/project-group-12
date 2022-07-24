@@ -4,6 +4,7 @@ import Project.Models.Chat;
 import Project.Models.OpenGame;
 import Project.Models.User;
 import Project.Utils.CommandResponse;
+import Project.Utils.Constants;
 import Project.Utils.NameAndToken;
 import Project.Utils.TokenGenerator;
 import Server.Controllers.GameController;
@@ -19,10 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Database {
     private static Database instance = null;
@@ -82,10 +80,6 @@ public class Database {
     }
     public Game getGameByToken(String token){
         return games.get(token);
-    }
-
-    public ArrayList<String> getAllOpenGamesTokens() {
-        return new ArrayList<>(openGamesMap.keySet());
     }
 
     public ArrayList<String> getInvitedGamesFor(User user) {
@@ -274,11 +268,23 @@ public class Database {
         }
     }
 
-    public ArrayList<String> getRunningGamesTokens() {
-        return new ArrayList<>(games.keySet());
+    public ArrayList<Game> getRunningGamesOf(User user) {
+        return new ArrayList<>(games.values().stream().filter(game -> game.getUsers().stream().map(User::getUsername).toList().contains(user.getUsername())).toList());
+    }
+
+    public ArrayList<OpenGame> getSomeOpenGames() {
+        ArrayList<OpenGame> openGames = new ArrayList<>(openGamesMap.values());
+        Collections.shuffle(openGames);
+        return new ArrayList<>(openGames.subList(0, Math.min(Constants.GAME_LIST_ITEM_COUNT, openGames.size())));
     }
 
     public void removeOpenGame(OpenGame openGame) {
         openGamesMap.remove(openGame.getToken());
+    }
+
+    public ArrayList<Game> getSomeRunningGames() {
+        ArrayList<Game> games = new ArrayList<>(this.games.values());
+        Collections.shuffle(games);
+        return new ArrayList<>(games.subList(0, Math.min(Constants.GAME_LIST_ITEM_COUNT, games.size())));
     }
 }

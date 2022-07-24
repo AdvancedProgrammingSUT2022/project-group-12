@@ -5,6 +5,7 @@ import Client.Utils.RequestSender;
 import Project.Models.OpenGame;
 import Project.Utils.CommandResponse;
 import Project.Utils.Constants;
+import Project.Utils.Pair;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -33,7 +34,8 @@ public class StartGameView implements ViewController {
     private String resumeGamesName = null;
     private String liveGamesName = null;
 
-    public void initialize() {
+    @Override
+    public void loadEachTime() {
         initializeSpinners();
         reloadGamesLists();
         joinButton.setDisable(true);
@@ -43,41 +45,38 @@ public class StartGameView implements ViewController {
 
     public void loadOpenGameItems() {
         openGamesList.getItems().clear();
-        for (String gameName : DatabaseQuerier.getOpenGamesNames()) {
-//            System.out.println(gameName);
-            MenuItem menuItem = new MenuItem(gameName);
+        for (Pair<String, String> item : DatabaseQuerier.getOpenGamesItemChoose()) {
+            MenuItem menuItem = new MenuItem(item.getFirst());
             menuItem.setOnAction(actionEvent -> {
-                this.openGamesNames = gameName;
+                this.openGamesNames = item.getSecond();
                 this.joinButton.setDisable(false);
-                openGamesList.setText(gameName);
+                openGamesList.setText(item.getSecond());
             });
             openGamesList.getItems().add(menuItem);
         }
     }
 
     public void loadResumeGameItems() {
-        runningGamesList.getItems().clear();
-        for (String gameName : DatabaseQuerier.getRunningGamesNames()) {
-//            System.out.println(gameName);
-            MenuItem menuItem = new MenuItem(gameName);
+        myGamesList.getItems().clear();
+        for (Pair<String, String> item : DatabaseQuerier.getRunningGamesOfUser(MenuStack.getInstance().getUser())) {
+            MenuItem menuItem = new MenuItem(item.getFirst());
             menuItem.setOnAction(actionEvent -> {
-                this.openGamesNames = gameName;
-                this.joinButton.setDisable(false);
-                openGamesList.setText(gameName);
+                this.resumeGamesName = item.getSecond();
+                this.resumeButton.setDisable(false);
+                myGamesList.setText(item.getSecond());
             });
-            openGamesList.getItems().add(menuItem);
+            myGamesList.getItems().add(menuItem);
         }
     }
 
     public void loadLiveGamesItems() {
         runningGamesList.getItems().clear();
-        for (String gameName : DatabaseQuerier.getOpenGamesNames()) {
-//            System.out.println(gameName);
-            MenuItem menuItem = new MenuItem(gameName);
+        for (Pair<String, String> item : DatabaseQuerier.getRunningGamesChoose()) {
+            MenuItem menuItem = new MenuItem(item.getFirst());
             menuItem.setOnAction(actionEvent -> {
-                this.liveGamesName = gameName;
+                this.liveGamesName = item.getSecond();
                 this.showButton.setDisable(false);
-                runningGamesList.setText(gameName);
+                runningGamesList.setText(item.getSecond());
             });
             runningGamesList.getItems().add(menuItem);
         }
@@ -142,24 +141,27 @@ public class StartGameView implements ViewController {
     public void joinGame() {
         if (this.openGamesNames == null) return;
         OpenGame selectedOpenGame = DatabaseQuerier.getOpenGameByToken(this.openGamesNames);
-        if (selectedOpenGame.getPlayers().size() + 1 > selectedOpenGame.getPlayerLimit()) return;
+        if (selectedOpenGame == null || selectedOpenGame.getPlayers().size() + 1 > selectedOpenGame.getPlayerLimit()) {
+            this.joinButton.setDisable(true);
+            reloadGamesLists();
+            return;
+        }
         DatabaseQuerier.joinToGame(MenuStack.getInstance().getCookies().getLoginToken(), openGamesNames);
         gotoRoom(openGamesNames);
     }
 
     public void resumeGame() {
         if (this.resumeGamesName == null) return;
-        StringBuilder command = new StringBuilder("resume game -t " + this.openGamesNames);
-        CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
+        String command = "resume game -t " + this.resumeGamesName;
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         GameView.setShow(false);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }
 
     public void showLiveGame() {
         if (this.liveGamesName == null) return;
-        StringBuilder command = new StringBuilder("show game -t " + this.liveGamesName);
-        System.out.println("command = " + command);
-        CommandResponse response = RequestSender.getInstance().sendCommand(command.toString());
+        String command = "show game -t " + this.liveGamesName;
+        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         GameView.setShow(true);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
     }

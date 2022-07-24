@@ -30,5 +30,5 @@ public class Constants {
     public static final String[] CITY_NAMES = {"Syria", "Spain", "China", "India", "Japan", "Egypt", "Iran", "Iraq", "Italy", "Rome"};
     public static final int UNITS_DISTANCE_VERTICALLY = 12;
     public static final int UNITS_DISTANCE_HORIZONTALLY = 9;
-
+    public static final int GAME_LIST_ITEM_COUNT = 10;
 }

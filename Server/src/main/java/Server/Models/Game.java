@@ -35,7 +35,7 @@ public class Game {
 
     public Game(String token, String name, ArrayList<User> users,int height,int width) {
         this.token = token;
-        this.name = name.isBlank() ? token : name;
+        this.name = name == null ? token : name;
         this.users = users;
         this.civilizations = new ArrayList<>();
         this.tileGrid = TileGrid.generateRandomTileGrid(height, width);
@@ -418,5 +418,9 @@ public class Game {
     }
     public int getCurrentYear(){
         return (int) (( Math.floor((double) (gameTurn / civilizations.size())) + 1 ) * 10);
+    }
+
+    public String getName() {
+        return name;
     }
 }
