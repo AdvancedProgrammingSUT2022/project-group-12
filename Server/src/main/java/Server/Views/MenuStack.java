@@ -250,7 +250,8 @@ public class MenuStack {
                 int height = Integer.parseInt(params[2]);
                 int width = Integer.parseInt(params[3]);
                 int playerLimit = Integer.parseInt(params[4]);
-                String token = Database.getInstance().createOpenGame(adminToken, name, height, width, playerLimit);
+                boolean isPrivate = Boolean.parseBoolean(params[5]);
+                String token = Database.getInstance().createOpenGame(adminToken, name, height, width, playerLimit, isPrivate);
                 yield gson.toJson(token);
             }
             case GET_OPENGAME_BY_TOKEN -> gson.toJson(Database.getInstance().getOpenGameByToken(params[0]));
@@ -262,12 +263,12 @@ public class MenuStack {
                 MainMenuController.joinRoom(params[0], params[1]);
                 yield null;
             }
-            case GET_OPEN_GAME_ITEMS_CHOOSE -> gson.toJson(new ArrayList<>(Database.getInstance().getSomeOpenGames().stream().map(this::openGame2itemMapper).toList()));
-            case GET_RUNNING_GAME_ITEMS_CHOOSE -> gson.toJson(new ArrayList<>(Database.getInstance().getSomeRunningGames().stream().map(this::game2itemMapper).toList()));
+            case GET_PUBLIC_OPENGAME_ITEMS_CHOOSE -> gson.toJson(new ArrayList<>(Database.getInstance().getSomePublicOpenGames().stream().map(this::openGame2itemMapper).toList()));
+            case GET_RUNNING_GAME_ITEMS_CHOOSE -> gson.toJson(new ArrayList<>(Database.getInstance().getSomePublicRunningGames().stream().map(this::game2itemMapper).toList()));
             case GET_RUNNING_GAME_ITEMS_OF_USER -> gson.toJson(new ArrayList<>(Database.getInstance().getRunningGamesOf(Database.getInstance().getUser(params[0])).stream().map(this::game2itemMapper).toList()));
             case START_GAME -> {
                 OpenGame openGame = Database.getInstance().getOpenGameByToken(params[0]);
-                Game game = new Game(openGame.getToken(), openGame.getName(), openGame.getPlayers(), openGame.getHeight(), openGame.getWidth());
+                Game game = new Game(openGame.getToken(), openGame.getName(), openGame.isPrivate(), openGame.getPlayers(), openGame.getHeight(), openGame.getWidth());
                 Database.getInstance().addGame(game);
                 Database.getInstance().removeOpenGame(openGame);
                 for (User player : game.getUsers()) {

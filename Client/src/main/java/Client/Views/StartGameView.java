@@ -9,10 +9,10 @@ import Project.Utils.Pair;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.util.ArrayList;
-
 public class StartGameView implements ViewController {
-    private final ArrayList<String> users = new ArrayList<>();
+    private @FXML CheckBox isPrivateCheckbox;
+    private @FXML TextField gameTokenField;
+    private @FXML CheckBox useTokenCheckbox;
     private @FXML MenuButton openGamesList;
     private @FXML MenuButton myGamesList;
     private @FXML MenuButton runningGamesList;
@@ -38,14 +38,11 @@ public class StartGameView implements ViewController {
     public void loadEachTime() {
         initializeSpinners();
         reloadGamesLists();
-        joinButton.setDisable(true);
-        resumeButton.setDisable(true);
-        showButton.setDisable(true);
     }
 
     public void loadOpenGameItems() {
         openGamesList.getItems().clear();
-        for (Pair<String, String> item : DatabaseQuerier.getOpenGamesItemChoose()) {
+        for (Pair<String, String> item : DatabaseQuerier.getPublicOpenGamesItemChoose()) {
             MenuItem menuItem = new MenuItem(item.getFirst());
             menuItem.setOnAction(actionEvent -> {
                 this.openGamesNames = item.getSecond();
@@ -110,6 +107,15 @@ public class StartGameView implements ViewController {
     }
 
     public void reloadGamesLists() {
+        openGamesList.setText("Open games");
+        myGamesList.setText("My games");
+        runningGamesList.setText("Running games");
+        joinButton.setDisable(true);
+        resumeButton.setDisable(true);
+        showButton.setDisable(true);
+        openGamesNames = null;
+        resumeGamesName = null;
+        liveGamesName = null;
         loadOpenGameItems();
         loadResumeGameItems();
         loadLiveGamesItems();
@@ -124,7 +130,9 @@ public class StartGameView implements ViewController {
         int height = heightValueFactory.getValue();
         int width = widthValueFactory.getValue();
         int playerLimit = countValueFactory.getValue();
-        String token = DatabaseQuerier.createGame(MenuStack.getInstance().getCookies().getLoginToken(), name, height, width, playerLimit);
+        boolean isPrivate = isPrivateCheckbox.isSelected();
+        if (isPrivate || name.isBlank()) name = null;
+        String token = DatabaseQuerier.createGame(MenuStack.getInstance().getCookies().getLoginToken(), name, height, width, playerLimit, isPrivate);
         this.gotoRoom(token);
     }
 
@@ -139,6 +147,9 @@ public class StartGameView implements ViewController {
     }
 
     public void joinGame() {
+        if (this.useTokenCheckbox.isSelected()) {
+            this.openGamesNames = gameTokenField.getText();
+        }
         if (this.openGamesNames == null) return;
         OpenGame selectedOpenGame = DatabaseQuerier.getOpenGameByToken(this.openGamesNames);
         if (selectedOpenGame == null || selectedOpenGame.getPlayers().size() + 1 > selectedOpenGame.getPlayerLimit()) {
@@ -164,5 +175,24 @@ public class StartGameView implements ViewController {
         CommandResponse response = RequestSender.getInstance().sendCommand(command);
         GameView.setShow(true);
         MenuStack.getInstance().pushMenu(Menu.loadFromFXML("GamePage"));
+    }
+
+    public void useTokenAction() {
+        gameTokenField.setVisible(useTokenCheckbox.isSelected());
+        openGamesList.setDisable(useTokenCheckbox.isSelected());
+    }
+
+    public void gameTokenTypeAction() {
+        String token = gameTokenField.getText();
+        if (token.length() == Constants.TOKEN_LENGTH) {
+            OpenGame openGame = DatabaseQuerier.getOpenGameByToken(token);
+            joinButton.setDisable(openGame == null);
+        } else {
+            joinButton.setDisable(true);
+        }
+    }
+
+    public void isPrivateAction() {
+        gameNameField.setDisable(isPrivateCheckbox.isSelected());
     }
 }

@@ -54,7 +54,7 @@ public class DatabaseQuerier {
 
     public static ArrayList<Unit> getCurrentCivilizationUnits() {
         String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_CIV_UNITS);
-        return new Gson().fromJson(json, new TypeToken<ArrayList<Unit>>() {
+        return CustomGson.getInstance().fromJson(json, new TypeToken<ArrayList<Unit>>() {
         }.getType());
     }
 
@@ -355,11 +355,11 @@ public class DatabaseQuerier {
     }
 
     public static void sendUpdatePublicChatRequest(Chat publicChat) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_PUBLIC_CHAT_UPDATE,new Gson().toJson(publicChat));
+        RequestSender.getInstance().databaseQuery(DatabaseQueryType.SEND_PUBLIC_CHAT_UPDATE,new Gson().toJson(publicChat));
     }
 
-    public static String createGame(String loginToken, String name, int height, int width, int playerLimit) {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.CREATE_GAME, loginToken, name, String.valueOf(height), String.valueOf(width), String.valueOf(playerLimit));
+    public static String createGame(String loginToken, String name, int height, int width, int playerLimit, boolean isPrivate) {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.CREATE_GAME, loginToken, name, String.valueOf(height), String.valueOf(width), String.valueOf(playerLimit), String.valueOf(isPrivate));
         return CustomGson.getInstance().fromJson(json, new TypeToken<String>(){}.getType());
     }
 
@@ -380,8 +380,8 @@ public class DatabaseQuerier {
         RequestSender.getInstance().databaseQuery(DatabaseQueryType.START_GAME, gameToken);
     }
 
-    public static ArrayList<Pair<String, String>> getOpenGamesItemChoose() {
-        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_OPEN_GAME_ITEMS_CHOOSE);
+    public static ArrayList<Pair<String, String>> getPublicOpenGamesItemChoose() {
+        String json = RequestSender.getInstance().databaseQuery(DatabaseQueryType.GET_PUBLIC_OPENGAME_ITEMS_CHOOSE);
         return new Gson().fromJson(json,new TypeToken<ArrayList<Pair<String, String>>>(){}.getType());
     }
 

@@ -13,14 +13,16 @@ public class OpenGame {
     private final int width;
     private final User admin;
     private final ArrayList<User> players = new ArrayList<>();
+    private final boolean isPrivate;
 
-    public OpenGame(String name, User admin, int height, int width, int playerLimit) {
+    public OpenGame(String name, User admin, int height, int width, int playerLimit, boolean isPrivate) {
         this.token = TokenGenerator.generate(Constants.TOKEN_LENGTH);
-        this.name = name.isBlank() ? token : name;
+        this.name = name == null ? token : name;
         this.height = height;
         this.width = width;
         this.playerLimit = playerLimit;
         this.admin = admin;
+        this.isPrivate = isPrivate;
         this.addPlayer(admin);
     }
 
@@ -58,5 +60,9 @@ public class OpenGame {
 
     public int getWidth() {
         return width;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
     }
 }

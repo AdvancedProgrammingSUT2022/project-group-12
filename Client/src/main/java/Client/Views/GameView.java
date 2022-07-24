@@ -1,6 +1,5 @@
 package Client.Views;
 
-import Client.App;
 import Client.Models.Hex;
 import Client.Models.HexGrid;
 import Client.Utils.DatabaseQuerier;
@@ -12,14 +11,14 @@ import Project.Models.Tiles.TileGrid;
 import Project.Utils.CommandResponse;
 import Project.Utils.Pair;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameView implements ViewController {
     private static GameView instance;
@@ -129,8 +128,6 @@ public class GameView implements ViewController {
 
 
     public void backToMenu() {
-        String command = "end game";
-        CommandResponse response = RequestSender.getInstance().sendCommand(command);
         MenuStack.getInstance().popMenu();
     }
 
